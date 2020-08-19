@@ -1,8 +1,13 @@
-rm baserom.o
-cd asm
-../../wla-dx/build/binaries/wla-z80 -o baserom.o baserom.asm
+rm -f baserom.o
+../wla-dx/build/binaries/wla-z80 -o baserom.o asm/baserom.asm -I asm
 
-rm ../outrom.sms
-../../wla-dx/build/binaries/wlalink -d -r -v -s baserom.link ../outrom.sms
+rm -f outrom.sms
+../wla-dx/build/binaries/wlalink -d -r asm/baserom.link outrom.sms
 
 cd ..
+
+if cmp -l baserom.sms outrom.sms; then
+    echo "Success!"
+else
+    echo "Diff :/"
+fi
