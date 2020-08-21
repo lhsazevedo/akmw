@@ -1,0 +1,6 @@
+#!/bin/bash
+
+SCRIPTPATH=`dirname "$0"`
+REALSCRIPTPATH=`realpath $SCRIPTPATH`
+
+docker run -it -v $REALSCRIPTPATH:/app akmw-devcontainer:latest
