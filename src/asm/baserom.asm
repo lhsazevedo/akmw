@@ -644,7 +644,7 @@ _LABEL_3C4_:
 	ld (hl), a
 	ret
 
-_LABEL_3CF_:
+takeMoney:
 	ld a, (v_inputFlags)
 	and $20
 	ret nz
@@ -7436,7 +7436,7 @@ _LABEL_3C48_:
 	ret z
 	push hl
 	ld l, $00
-	call _LABEL_3CF_
+	call takeMoney
 	ld a, $8E
 	ld (v_soundControl), a
 	pop hl
@@ -11047,7 +11047,7 @@ _LABEL_5A31_:
 	call _LABEL_7CC2_
 	jp c, +
 	ld l, (ix+22)
-	call _LABEL_3CF_
+	call takeMoney
 	ld a, $8E
 	ld (v_soundControl), a
 	jp _LABEL_278A_
