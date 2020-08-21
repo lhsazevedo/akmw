@@ -1,0 +1,9 @@
+2d = Kaicho (Moster Bird) Left
+33 = Kaicho (Moster BIrd) Right
+
+2e = Whale sine Left
+2f = Whale straight left
+30 = fish?
+31 = Kaicho ?
+32 = Kaicho ?
+35 = Whale sine Right
