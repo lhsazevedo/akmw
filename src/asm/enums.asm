@@ -1,10 +1,10 @@
 .enum $C000 export
 _RAM_C000_ dsb $4
-VDPRegisterOneValue db
-_RAM_C005_ db
+_RAM_C004_ db
+v_inputFlags db
 _RAM_C006_ db
 _RAM_C007_ db
-interruptFlags db
+_RAM_C008_ db
 _RAM_C009_ dw
 .ende
 
@@ -13,62 +13,47 @@ _RAM_C00E_ dw
 .ende
 
 .enum $C011 export
-textBoxMessage db
+_RAM_C011_ db
 .ende
 
 .enum $C014 export
 _RAM_C014_ db
 shouldDisplayMapOpening db
-nextDemo db
+_RAM_C016_ db
 .ende
 
 .enum $C01F export
-GameState db
+v_gameState db
 _RAM_C020_ dsb $3
-level dw
+_RAM_C023_ dw
 _RAM_C025_ db
 .ende
 
 .enum $C030 export
-MoneyByte1 db
-MoneyByte2 db
+_RAM_C030_ db
+_RAM_C031_ db
 .ende
 
 .enum $C038 export
 _RAM_C038_ dw
 _RAM_C03A_ dw
-loadingMapState db
-shouldUpdateMapNametable db
-nextNametableUpdateTimer db
-startCurrentLevelTimer db
+_RAM_C03C_ db
+_RAM_C03D_ db
+_RAM_C03E_ db
+_RAM_C03F_ db
 .ende
 
-; .STRUCT Inventory
-; hasMagicCapsuleA db
-; hasMagicCapsuleB db
-; hasTelepathyBall db
-; hasCaneofFlight db
-; hasTeleportPowder db
-; hasMoonstoneMedallion db
-; hasLettertoNibana db
-; hasPowerBracelet db
-; hasHirottaStone db
-; hasSunstoneMedallion  db
-; .ENDST
-
-; inventory INSTANCEOF Inventory
-
 .enum $C046 export
-inventory.hasMagicCapsuleA db
-hasMagicCapsuleB db
-hasTelepathyBall db
-hasCaneofFlight db
-hasTeleportPowder db
-hasMoonstoneMedallion db
-hasLettertoNibana db
-hasPowerBracelet db
-hasHirottaStone db
-hasSunstoneMedallion db
+_RAM_C046_ db
+_RAM_C047_ db
+_RAM_C048_ db
+_RAM_C049_ db
+_RAM_C04A_ db
+_RAM_C04B_ db
+_RAM_C04C_ db
+_RAM_C04D_ db
+_RAM_C04E_ db
+_RAM_C04F_ db
 .ende
 
 .enum $C051 export
@@ -76,11 +61,11 @@ _RAM_C051_ db
 .ende
 
 .enum $C053 export
-inventoryItemSelectionState db
+_RAM_C053_ db
 _RAM_C054_ db
-shopFlags db
-invetorySelectedItemIndex db
-itemBeingBoughtIndex db
+_RAM_C055_ db
+_RAM_C056_ db
+_RAM_C057_ db
 _RAM_C058_ dw
 _RAM_C05A_ dw
 _RAM_C05C_ db
@@ -137,7 +122,7 @@ _RAM_C092_ db
 _RAM_C093_ db
 _RAM_C094_ db
 _RAM_C095_ db
-resetButtonState db
+v_resetButtonState db
 .ende
 
 .enum $C0A0 export
@@ -172,8 +157,8 @@ _RAM_C0B9_ db
 _RAM_C0BA_ db
 _RAM_C0BB_ db
 _RAM_C0BC_ db
-VerticalScrollByteOne db
-VerticalScrollByteTwo dw
+_RAM_C0BD_ db
+_RAM_C0BE_ dw
 .ende
 
 .enum $C0C1 export
