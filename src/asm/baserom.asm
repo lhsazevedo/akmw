@@ -7175,6 +7175,12 @@ _LABEL_3A7E_:
 	ret
 
 +:
+	.IFDEF _REV1
+		ld a, d
+		add a, (ix+14)
+		cp $BF
+		ret nc
+	.ENDIF
 	ld a, (_RAM_C31D_)
 	call _LABEL_3A41_
 	ret nc
