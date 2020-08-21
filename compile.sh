@@ -37,8 +37,8 @@ mkdir -p tmp build
 rm -f tmp/* 
 
 echo Compiling
-wla-z80 -i -Isrc/asm -D _REV0 -o tmp/baserom_rev0.o src/asm/baserom.asm 
-wla-z80 -i -Isrc/asm -D _REV1 -o tmp/baserom_rev1.o src/asm/baserom.asm
+wla-z80 -i -I./src/ -D _REV0 -o tmp/baserom_rev0.o src/asm/baserom.asm 
+wla-z80 -i -I./src/ -D _REV1 -o tmp/baserom_rev1.o src/asm/baserom.asm
 
 echo Creating link files
 # Make link file
