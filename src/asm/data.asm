@@ -2265,7 +2265,7 @@ _DATA_BE87_:
 
 ; Data from C000 to C47F (1152 bytes)
 _DATA_C000_:
-.incbin "baserom_DATA_C000_.inc"
+.incbin "src/graphics/boxes.bin"
 
 ; Pointer Table from C480 to C4A1 (17 entries, indexed by v_level)
 _DATA_C480_:
