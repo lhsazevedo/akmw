@@ -1,6 +1,6 @@
 .INCDIR "src/data"
 
-; 1st entry of Pointer Table from 98DD (indexed by _RAM_C110_)
+; 1st entry of Pointer Table from 98DD (indexed by v_soundControl)
 ; Data from 9ECD to 9ED0 (4 bytes)
 _DATA_9ECD_:
 .db $04 $80 $80 $04
@@ -25,7 +25,7 @@ _DATA_9EF2_:
 .db $B0 $0C $80 $04 $E2 $E3 $04 $EA $91 $A2 $EA $91 $A2 $EA $91 $A2
 .db $80 $02 $E1 $0B $E4 $02 $01 $80 $8D $80 $8D $80 $8D $08 $E2
 
-; 2nd entry of Pointer Table from 98DD (indexed by _RAM_C110_)
+; 2nd entry of Pointer Table from 98DD (indexed by v_soundControl)
 ; Data from 9F81 to 9F84 (4 bytes)
 _DATA_9F81_:
 .db $04 $80 $80 $04
@@ -48,7 +48,7 @@ _DATA_9FA6_:
 _DATA_9FB9_:
 .incbin "baserom_DATA_9FB9_.inc"
 
-; 3rd entry of Pointer Table from 98DD (indexed by _RAM_C110_)
+; 3rd entry of Pointer Table from 98DD (indexed by v_soundControl)
 ; Data from A3BD to A3C0 (4 bytes)
 _DATA_A3BD_:
 .db $04 $80 $80 $08
@@ -90,7 +90,7 @@ _DATA_A3E2_:
 .db $A5 $E1 $09 $E4 $01 $02 $E1 $09 $E4 $02 $01 $80 $E1 $0B $E4 $02
 .db $8D $80 $E1 $0D $E4 $02 $8D $02 $E5 $52 $A5
 
-; 4th entry of Pointer Table from 98DD (indexed by _RAM_C110_)
+; 4th entry of Pointer Table from 98DD (indexed by v_soundControl)
 ; Data from A57D to A580 (4 bytes)
 _DATA_A57D_:
 .db $04 $80 $80 $07
@@ -134,7 +134,7 @@ _DATA_A5A2_:
 .db $A3 $02 $A0 $01 $A2 $A0 $02 $A2 $80 $08 $E5 $A0 $A6 $E3 $04 $EA
 .db $79 $A2 $E5 $51 $A7
 
-; 5th entry of Pointer Table from 98DD (indexed by _RAM_C110_)
+; 5th entry of Pointer Table from 98DD (indexed by v_soundControl)
 ; Data from A757 to A75A (4 bytes)
 _DATA_A757_:
 .db $04 $80 $80 $04
@@ -173,7 +173,7 @@ _DATA_A77C_:
 .db $08 $EA $79 $A2 $EA $AD $A3 $EA $79 $A2 $E4 $02 $E1 $0B $04 $04
 .db $08 $E5 $A5 $A8
 
-; 6th entry of Pointer Table from 98DD (indexed by _RAM_C110_)
+; 6th entry of Pointer Table from 98DD (indexed by v_soundControl)
 ; Data from A8E0 to A8E3 (4 bytes)
 _DATA_A8E0_:
 .db $03 $80 $80 $04
@@ -193,7 +193,7 @@ _DATA_A905_:
 .db $02 $E2 $98 $02 $04 $02 $9A $04 $9B $9D $02 $80 $98 $80 $9D $04
 .db $80 $E2
 
-; 7th entry of Pointer Table from 98DD (indexed by _RAM_C110_)
+; 7th entry of Pointer Table from 98DD (indexed by v_soundControl)
 ; Data from A937 to A93A (4 bytes)
 _DATA_A937_:
 .db $04 $80 $80 $04
@@ -233,7 +233,7 @@ _DATA_A95C_:
 .db $01 $E1 $0B $E4 $02 $03 $01 $E1 $09 $E4 $01 $8D $03 $01 $E1 $0B
 .db $E4 $02 $04 $04 $E2
 
-; 8th entry of Pointer Table from 98DD (indexed by _RAM_C110_)
+; 8th entry of Pointer Table from 98DD (indexed by v_soundControl)
 ; Data from AAD1 to AAD4 (4 bytes)
 _DATA_AAD1_:
 .db $04 $80 $80 $08
@@ -271,7 +271,7 @@ _DATA_AAF6_:
 .db $9E $80 $9D $80 $A2 $80 $A2 $80 $A0 $08 $E5 $DF $AB $E3 $04 $EA
 .db $EE $A2 $EC $00 $0A $45 $AC $EA $91 $A2 $EA $06 $A3 $E5 $45 $AC
 
-; 9th entry of Pointer Table from 98DD (indexed by _RAM_C110_)
+; 9th entry of Pointer Table from 98DD (indexed by v_soundControl)
 ; Data from AC56 to AC59 (4 bytes)
 _DATA_AC56_:
 .db $03 $A0 $80 $04
@@ -288,7 +288,7 @@ _DATA_AC56_:
 _DATA_AC72_:
 .db $A5 $A2 $03 $80 $80 $02 $EE $FE $EC $00 $08 $72 $AC $F0 $80
 
-; 10th entry of Pointer Table from 98DD (indexed by _RAM_C110_)
+; 10th entry of Pointer Table from 98DD (indexed by v_soundControl)
 ; Data from AC81 to AC84 (4 bytes)
 _DATA_AC81_:
 .db $01 $A8 $C0 $01
@@ -304,7 +304,7 @@ _DATA_AC81_:
 _DATA_AC8B_:
 .db $01 $80 $00 $F0 $04 $01 $40 $00 $D0 $06 $00 $D0 $01 $40 $03 $E2
 
-; 11th entry of Pointer Table from 98DD (indexed by _RAM_C110_)
+; 11th entry of Pointer Table from 98DD (indexed by v_soundControl)
 ; Data from AC9B to AC9E (4 bytes)
 _DATA_AC9B_:
 .db $01 $A8 $E0 $01
@@ -320,7 +320,7 @@ _DATA_AC9B_:
 _DATA_ACA5_:
 .db $E3 $07 $00 $10 $00 $30 $04 $00 $17 $00 $10 $06 $E2
 
-; 12th entry of Pointer Table from 98DD (indexed by _RAM_C110_)
+; 12th entry of Pointer Table from 98DD (indexed by v_soundControl)
 ; Data from ACB2 to ACB5 (4 bytes)
 _DATA_ACB2_:
 .db $01 $80 $E0 $01
@@ -336,7 +336,7 @@ _DATA_ACB2_:
 _DATA_ACBC_:
 .db $E3 $07 $A0 $03 $80 $02 $9B $04 $80 $05 $99 $02 $E2
 
-; 13th entry of Pointer Table from 98DD (indexed by _RAM_C110_)
+; 13th entry of Pointer Table from 98DD (indexed by v_soundControl)
 ; Data from ACC9 to ACCC (4 bytes)
 _DATA_ACC9_:
 .db $02 $80 $A0 $01
@@ -352,7 +352,7 @@ _DATA_ACC9_:
 _DATA_ACDC_:
 .db $A5 $01 $9B $05 $E2
 
-; 14th entry of Pointer Table from 98DD (indexed by _RAM_C110_)
+; 14th entry of Pointer Table from 98DD (indexed by v_soundControl)
 ; Data from ACE1 to ACE4 (4 bytes)
 _DATA_ACE1_:
 .db $02 $88 $A0 $01
@@ -368,7 +368,7 @@ _DATA_ACE1_:
 _DATA_ACF4_:
 .db $00 $1A $06 $00 $09 $15 $E2 $00 $1E $06 $00 $11 $15 $E2
 
-; 15th entry of Pointer Table from 98DD (indexed by _RAM_C110_)
+; 15th entry of Pointer Table from 98DD (indexed by v_soundControl)
 ; Data from AD02 to AD05 (4 bytes)
 _DATA_AD02_:
 .db $02 $80 $A0 $03
@@ -384,7 +384,7 @@ _DATA_AD02_:
 _DATA_AD15_:
 .db $99 $02 $9D $9F $9D $9B $A0 $0E $E2
 
-; 16th entry of Pointer Table from 98DD (indexed by _RAM_C110_)
+; 16th entry of Pointer Table from 98DD (indexed by v_soundControl)
 ; Data from AD1E to AD21 (4 bytes)
 _DATA_AD1E_:
 .db $01 $A0 $C0 $04
@@ -400,7 +400,7 @@ _DATA_AD1E_:
 _DATA_AD28_:
 .db $A5 $99 $06 $E2
 
-; 17th entry of Pointer Table from 98DD (indexed by _RAM_C110_)
+; 17th entry of Pointer Table from 98DD (indexed by v_soundControl)
 ; Data from AD2C to AD2F (4 bytes)
 _DATA_AD2C_:
 .db $01 $A8 $C0 $01
@@ -416,7 +416,7 @@ _DATA_AD2C_:
 _DATA_AD36_:
 .db $01 $56 $00 $D0 $07 $00 $90 $00 $40 $02 $00 $A8 $00 $50 $1A $E2
 
-; 18th entry of Pointer Table from 98DD (indexed by _RAM_C110_)
+; 18th entry of Pointer Table from 98DD (indexed by v_soundControl)
 ; Data from AD46 to AD49 (4 bytes)
 _DATA_AD46_:
 .db $02 $A8 $A0 $01
@@ -435,7 +435,7 @@ _DATA_AD59_:
 .db $03 $00 $04 $06 $00 $00 $00 $00 $04 $00 $10 $00 $18 $14 $00 $00
 .db $00 $00 $1E $E2
 
-; 19th entry of Pointer Table from 98DD (indexed by _RAM_C110_)
+; 19th entry of Pointer Table from 98DD (indexed by v_soundControl)
 ; Data from AD8D to AD90 (4 bytes)
 _DATA_AD8D_:
 .db $01 $A8 $C0 $01
@@ -451,7 +451,7 @@ _DATA_AD8D_:
 _DATA_AD97_:
 .db $01 $46 $01 $C0 $0D $00 $52 $00 $F0 $06 $00 $C0 $00 $F0 $08 $E2
 
-; 20th entry of Pointer Table from 98DD (indexed by _RAM_C110_)
+; 20th entry of Pointer Table from 98DD (indexed by v_soundControl)
 ; Data from ADA7 to ADAA (4 bytes)
 _DATA_ADA7_:
 .db $01 $80 $C0 $01
@@ -468,7 +468,7 @@ _DATA_ADB1_:
 .db $99 $01 $9D $A0 $A3 $EE $01 $EC $00 $03 $B1 $AD $99 $01 $9D $A0
 .db $A3 $EE $FF $EC $00 $03 $BD $AD $E5 $B1 $AD
 
-; 21st entry of Pointer Table from 98DD (indexed by _RAM_C110_)
+; 21st entry of Pointer Table from 98DD (indexed by v_soundControl)
 ; Data from ADCC to ADCF (4 bytes)
 _DATA_ADCC_:
 .db $02 $A8 $A0 $02
@@ -491,7 +491,7 @@ _DATA_ADDF_:
 .db $00 $E0 $00 $90 $04 $00 $00 $00 $00 $02 $03 $20 $03 $40 $04 $00
 .db $00 $00 $00 $02 $03 $00 $03 $A0 $08 $E2
 
-; 22nd entry of Pointer Table from 98DD (indexed by _RAM_C110_)
+; 22nd entry of Pointer Table from 98DD (indexed by v_soundControl)
 ; Data from AE59 to AE5C (4 bytes)
 _DATA_AE59_:
 .db $01 $A8 $C0 $02
@@ -508,7 +508,7 @@ _DATA_AE63_:
 .db $00 $60 $01 $40 $05 $01 $40 $00 $B0 $07 $00 $B0 $01 $40 $07 $01
 .db $80 $00 $90 $07 $00 $F2 $00 $C0 $07 $E5 $68 $AE
 
-; 23rd entry of Pointer Table from 98DD (indexed by _RAM_C110_)
+; 23rd entry of Pointer Table from 98DD (indexed by v_soundControl)
 ; Data from AE7F to AE82 (4 bytes)
 _DATA_AE7F_:
 .db $01 $A8 $C0 $02
@@ -525,7 +525,7 @@ _DATA_AE89_:
 .db $01 $B0 $01 $10 $04 $00 $00 $00 $00 $01 $01 $40 $00 $C0 $04 $01
 .db $20 $00 $A0 $04 $01 $00 $00 $80 $05 $E2
 
-; 24th entry of Pointer Table from 98DD (indexed by _RAM_C110_)
+; 24th entry of Pointer Table from 98DD (indexed by v_soundControl)
 ; Data from AEA3 to AEA6 (4 bytes)
 _DATA_AEA3_:
 .db $01 $A8 $C0 $01
@@ -541,7 +541,7 @@ _DATA_AEA3_:
 _DATA_AEAD_:
 .db $00 $1E $00 $1A $05 $E2
 
-; 25th entry of Pointer Table from 98DD (indexed by _RAM_C110_)
+; 25th entry of Pointer Table from 98DD (indexed by v_soundControl)
 ; Data from AEB3 to AEB6 (4 bytes)
 _DATA_AEB3_:
 .db $01 $A8 $E0 $01
@@ -557,7 +557,7 @@ _DATA_AEB3_:
 _DATA_AEBD_:
 .db $E3 $07 $00 $40 $00 $FF $0A $E4 $07 $01 $00 $01 $70 $04 $E2
 
-; 26th entry of Pointer Table from 98DD (indexed by _RAM_C110_)
+; 26th entry of Pointer Table from 98DD (indexed by v_soundControl)
 ; Data from AECC to AECF (4 bytes)
 _DATA_AECC_:
 .db $01 $88 $C0 $01
@@ -573,7 +573,7 @@ _DATA_AECC_:
 _DATA_AED6_:
 .db $03 $F0 $01 $03 $E0 $02 $00 $00 $05 $03 $80 $02 $E2
 
-; 27th entry of Pointer Table from 98DD (indexed by _RAM_C110_)
+; 27th entry of Pointer Table from 98DD (indexed by v_soundControl)
 ; Data from AEE3 to AEE6 (4 bytes)
 _DATA_AEE3_:
 .db $02 $A0 $A0 $04
@@ -589,7 +589,7 @@ _DATA_AEE3_:
 _DATA_AEF6_:
 .db $B1 $99 $30 $E2
 
-; 28th entry of Pointer Table from 98DD (indexed by _RAM_C110_)
+; 28th entry of Pointer Table from 98DD (indexed by v_soundControl)
 ; Data from AEFA to AEFD (4 bytes)
 _DATA_AEFA_:
 .db $01 $A8 $C0 $01
@@ -605,7 +605,7 @@ _DATA_AEFA_:
 _DATA_AF04_:
 .db $02 $00 $01 $60 $03 $00 $00 $00 $00 $01 $00 $C2 $01 $B0 $09 $E2
 
-; 29th entry of Pointer Table from 98DD (indexed by _RAM_C110_)
+; 29th entry of Pointer Table from 98DD (indexed by v_soundControl)
 ; Data from AF14 to AF17 (4 bytes)
 _DATA_AF14_:
 .db $01 $A8 $C0 $01
@@ -622,7 +622,7 @@ _DATA_AF1E_:
 .db $00 $80 $00 $D0 $14 $01 $20 $00 $F0 $18 $00 $C0 $01 $20 $06 $EC
 .db $00 $03 $23 $AF $E5 $1E $AF $E2
 
-; 30th entry of Pointer Table from 98DD (indexed by _RAM_C110_)
+; 30th entry of Pointer Table from 98DD (indexed by v_soundControl)
 ; Data from AF36 to AF39 (4 bytes)
 _DATA_AF36_:
 .db $02 $A8 $A0 $02
@@ -640,7 +640,7 @@ _DATA_AF49_:
 .db $E3 $07 $00 $04 $00 $10 $02 $00 $40 $00 $80 $04 $E4 $00 $00 $80
 .db $01 $D0 $10 $E2
 
-; 31st entry of Pointer Table from 98DD (indexed by _RAM_C110_)
+; 31st entry of Pointer Table from 98DD (indexed by v_soundControl)
 ; Data from AF6D to AF70 (4 bytes)
 _DATA_AF6D_:
 .db $01 $80 $E0 $01
@@ -656,7 +656,7 @@ _DATA_AF6D_:
 _DATA_AF77_:
 .db $E3 $04 $8D $5A $00 $00 $00 $00 $14 $E5 $77 $AF $E2
 
-; 32nd entry of Pointer Table from 98DD (indexed by _RAM_C110_)
+; 32nd entry of Pointer Table from 98DD (indexed by v_soundControl)
 ; Data from AF84 to AF87 (4 bytes)
 _DATA_AF84_:
 .db $02 $A8 $A0 $01
@@ -674,7 +674,7 @@ _DATA_AF97_:
 .db $10 $E2 $E3 $07 $00 $F0 $00 $40 $03 $00 $E0 $01 $E0 $05 $E4 $07
 .db $01 $E0 $01 $EF $10 $E2
 
-; 33rd entry of Pointer Table from 98DD (indexed by _RAM_C110_)
+; 33rd entry of Pointer Table from 98DD (indexed by v_soundControl)
 ; Data from AFBD to AFC0 (4 bytes)
 _DATA_AFBD_:
 .db $01 $80 $C0 $04
@@ -690,7 +690,7 @@ _DATA_AFBD_:
 _DATA_AFC7_:
 .db $A5 $02 $E2
 
-; 34th entry of Pointer Table from 98DD (indexed by _RAM_C110_)
+; 34th entry of Pointer Table from 98DD (indexed by v_soundControl)
 ; Data from AFCA to AFCD (4 bytes)
 _DATA_AFCA_:
 .db $02 $A8 $A0 $01
@@ -706,7 +706,7 @@ _DATA_AFCA_:
 _DATA_AFDD_:
 .db $02 $F0 $02 $A0 $20 $E2 $03 $F0 $03 $5F $20 $E2
 
-; 35th entry of Pointer Table from 98DD (indexed by _RAM_C110_)
+; 35th entry of Pointer Table from 98DD (indexed by v_soundControl)
 ; Data from AFE9 to AFEC (4 bytes)
 _DATA_AFE9_:
 .db $02 $A8 $A0 $01
@@ -725,7 +725,7 @@ _DATA_AFFC_:
 .db $02 $00 $10 $00 $08 $03 $00 $00 $00 $00 $02 $00 $12 $00 $10 $05
 .db $E4 $07 $00 $14 $00 $14 $06 $E2
 
-; 36th entry of Pointer Table from 98DD (indexed by _RAM_C110_)
+; 36th entry of Pointer Table from 98DD (indexed by v_soundControl)
 ; Data from B034 to B037 (4 bytes)
 _DATA_B034_:
 .db $01 $A8 $E0 $01
@@ -741,7 +741,7 @@ _DATA_B034_:
 _DATA_B03E_:
 .db $E3 $07 $00 $A0 $00 $10 $06 $E4 $00 $00 $D0 $00 $10 $19 $E2
 
-; 37th entry of Pointer Table from 98DD (indexed by _RAM_C110_)
+; 37th entry of Pointer Table from 98DD (indexed by v_soundControl)
 ; Data from B04D to B050 (4 bytes)
 _DATA_B04D_:
 .db $01 $A8 $C0 $01
@@ -757,7 +757,7 @@ _DATA_B04D_:
 _DATA_B057_:
 .db $02 $00 $01 $90 $02 $01 $00 $00 $10 $03 $E2
 
-; 38th entry of Pointer Table from 98DD (indexed by _RAM_C110_)
+; 38th entry of Pointer Table from 98DD (indexed by v_soundControl)
 ; Data from B062 to B065 (4 bytes)
 _DATA_B062_:
 .db $01 $88 $C0 $01
@@ -773,7 +773,7 @@ _DATA_B062_:
 _DATA_B06C_:
 .db $00 $E0 $04 $00 $00 $02 $00 $80 $04 $E2
 
-; 39th entry of Pointer Table from 98DD (indexed by _RAM_C110_)
+; 39th entry of Pointer Table from 98DD (indexed by v_soundControl)
 ; Data from B076 to B079 (4 bytes)
 _DATA_B076_:
 .db $01 $A8 $C0 $01
@@ -789,7 +789,7 @@ _DATA_B076_:
 _DATA_B080_:
 .db $00 $80 $00 $40 $02 $00 $20 $00 $10 $01 $00 $E0 $00 $50 $06 $E2
 
-; 40th entry of Pointer Table from 98DD (indexed by _RAM_C110_)
+; 40th entry of Pointer Table from 98DD (indexed by v_soundControl)
 ; Data from B090 to B093 (4 bytes)
 _DATA_B090_:
 .db $01 $A8 $C0 $01
@@ -805,7 +805,7 @@ _DATA_B090_:
 _DATA_B09A_:
 .db $01 $00 $00 $90 $05 $00 $D0 $00 $60 $03 $00 $D0 $00 $40 $04 $E2
 
-; 41st entry of Pointer Table from 98DD (indexed by _RAM_C110_)
+; 41st entry of Pointer Table from 98DD (indexed by v_soundControl)
 ; Data from B0AA to B0AD (4 bytes)
 _DATA_B0AA_:
 .db $01 $88 $C0 $01
@@ -821,7 +821,7 @@ _DATA_B0AA_:
 _DATA_B0B4_:
 .db $01 $00 $03 $00 $00 $02 $00 $80 $03 $E2
 
-; 42nd entry of Pointer Table from 98DD (indexed by _RAM_C110_)
+; 42nd entry of Pointer Table from 98DD (indexed by v_soundControl)
 ; Data from B0BE to B0C1 (4 bytes)
 _DATA_B0BE_:
 .db $01 $A8 $C0 $01
@@ -838,7 +838,7 @@ _DATA_B0C8_:
 .db $01 $D0 $01 $30 $06 $E4 $00 $01 $00 $00 $B0 $03 $00 $B0 $01 $00
 .db $06 $E5 $C8 $B0 $E2
 
-; 43rd entry of Pointer Table from 98DD (indexed by _RAM_C110_)
+; 43rd entry of Pointer Table from 98DD (indexed by v_soundControl)
 ; Data from B0DD to B0E0 (4 bytes)
 _DATA_B0DD_:
 .db $01 $88 $C0 $01
@@ -854,7 +854,7 @@ _DATA_B0DD_:
 _DATA_B0E7_:
 .db $02 $00 $03 $00 $00 $02 $01 $00 $05 $E5 $E7 $B0 $E2
 
-; 44th entry of Pointer Table from 98DD (indexed by _RAM_C110_)
+; 44th entry of Pointer Table from 98DD (indexed by v_soundControl)
 ; Data from B0F4 to B0F7 (4 bytes)
 _DATA_B0F4_:
 .db $01 $A8 $C0 $02
@@ -871,7 +871,7 @@ _DATA_B0FE_:
 .db $02 $30 $01 $80 $08 $01 $20 $00 $80 $05 $02 $00 $02 $80 $06 $01
 .db $80 $01 $10 $06 $01 $C0 $01 $F0 $05 $01 $E0 $02 $10 $08 $E2
 
-; 45th entry of Pointer Table from 98DD (indexed by _RAM_C110_)
+; 45th entry of Pointer Table from 98DD (indexed by v_soundControl)
 ; Data from B11D to B120 (4 bytes)
 _DATA_B11D_:
 .db $01 $A8 $C0 $01
@@ -891,7 +891,7 @@ _DATA_B127_:
 .db $F0 $03 $00 $00 $00 $00 $02 $01 $20 $01 $30 $02 $01 $50 $01 $A0
 .db $06 $00 $00 $00 $00 $14 $F0 $10
 
-; 46th entry of Pointer Table from 98DD (indexed by _RAM_C110_)
+; 46th entry of Pointer Table from 98DD (indexed by v_soundControl)
 ; Data from B16F to B172 (4 bytes)
 _DATA_B16F_:
 .db $01 $A8 $C0 $01
@@ -907,7 +907,7 @@ _DATA_B16F_:
 _DATA_B179_:
 .db $01 $00 $00 $D0 $02 $00 $70 $00 $C0 $06 $01 $20 $01 $50 $03 $E2
 
-; 47th entry of Pointer Table from 98DD (indexed by _RAM_C110_)
+; 47th entry of Pointer Table from 98DD (indexed by v_soundControl)
 ; Data from B189 to B18C (4 bytes)
 _DATA_B189_:
 .db $03 $80 $80 $06
@@ -926,7 +926,7 @@ _DATA_B1A5_:
 .db $9D $03 $9B $01 $99 $03 $94 $01 $99 $04 $94 $E4 $05 $94 $08 $E2
 .db $8D $03 $01 $88 $03 $91 $01 $88 $04 $8D $E4 $06 $91 $08 $E2
 
-; 48th entry of Pointer Table from 98DD (indexed by _RAM_C110_)
+; 48th entry of Pointer Table from 98DD (indexed by v_soundControl)
 ; Data from B1D4 to B1D7 (4 bytes)
 _DATA_B1D4_:
 .db $04 $80 $80 $06
@@ -1150,104 +1150,104 @@ _DATA_B385_:
 .db $7C $FC $E0 $F8 $7C $1C $FC $F8 $7C $FC $C0 $F8 $F8 $C0 $FC $7C
 .db $7C $FC $C0 $DC $DC $CC $FC $7C $38 $38 $7C $5C $5C $CE $BE $BE
 
-; Pointer Table from B505 to B526 (17 entries, indexed by _RAM_C023_)
+; Pointer Table from B505 to B526 (17 entries, indexed by v_level)
 _DATA_B505_:
 .dw _DATA_B527_ _DATA_B53F_ _DATA_B563_ _DATA_B579_ _DATA_B583_ _DATA_B5AB_ _DATA_B5BD_ _DATA_B5CF_
 .dw _DATA_B5E7_ _DATA_B60F_ _DATA_B62D_ _DATA_B655_ _DATA_B65B_ _DATA_B66B_ _DATA_B66F_ _DATA_B685_
 .dw _DATA_B6D9_
 
-; 1st entry of Pointer Table from B505 (indexed by _RAM_C023_)
-; Pointer Table from B527 to B53E (12 entries, indexed by _RAM_C065_)
+; 1st entry of Pointer Table from B505 (indexed by v_level)
+; Pointer Table from B527 to B53E (12 entries, indexed by v_entityIndex)
 _DATA_B527_:
 .dw _DATA_B6ED_ _DATA_B6EE_ _DATA_B6F3_ _DATA_B6FC_ _DATA_B705_ _DATA_B70E_ _DATA_B713_ _DATA_B71C_
 .dw _DATA_B725_ _DATA_B726_ _DATA_B733_ _DATA_B73C_
 
-; 2nd entry of Pointer Table from B505 (indexed by _RAM_C023_)
-; Pointer Table from B53F to B562 (18 entries, indexed by _RAM_C065_)
+; 2nd entry of Pointer Table from B505 (indexed by v_level)
+; Pointer Table from B53F to B562 (18 entries, indexed by v_entityIndex)
 _DATA_B53F_:
 .dw _DATA_B74E_ _DATA_B74F_ _DATA_B754_ _DATA_B75D_ _DATA_B76A_ _DATA_B777_ _DATA_B77C_ _DATA_B785_
 .dw _DATA_B792_ _DATA_B79F_ _DATA_B7AC_ _DATA_B7B5_ _DATA_B7BE_ _DATA_B7C7_ _DATA_B7D0_ _DATA_B7DD_
 .dw _DATA_B7E6_ _DATA_B7EB_
 
-; 3rd entry of Pointer Table from B505 (indexed by _RAM_C023_)
-; Pointer Table from B563 to B578 (11 entries, indexed by _RAM_C065_)
+; 3rd entry of Pointer Table from B505 (indexed by v_level)
+; Pointer Table from B563 to B578 (11 entries, indexed by v_entityIndex)
 _DATA_B563_:
 .dw _DATA_B7F1_ _DATA_B7F2_ _DATA_B7F5_ _DATA_B802_ _DATA_B803_ _DATA_B806_ _DATA_B814_ _DATA_B81D_
 .dw _DATA_B82F_ _DATA_B830_ _DATA_B85E_
 
-; 4th entry of Pointer Table from B505 (indexed by _RAM_C023_)
-; Pointer Table from B579 to B582 (5 entries, indexed by _RAM_C065_)
+; 4th entry of Pointer Table from B505 (indexed by v_level)
+; Pointer Table from B579 to B582 (5 entries, indexed by v_entityIndex)
 _DATA_B579_:
 .dw _DATA_B874_ _DATA_B875_ _DATA_B87A_ _DATA_B87F_ _DATA_B88C_
 
-; 5th entry of Pointer Table from B505 (indexed by _RAM_C023_)
-; Pointer Table from B583 to B5AA (20 entries, indexed by _RAM_C065_)
+; 5th entry of Pointer Table from B505 (indexed by v_level)
+; Pointer Table from B583 to B5AA (20 entries, indexed by v_entityIndex)
 _DATA_B583_:
 .dw _DATA_B896_ _DATA_B89F_ _DATA_B8A8_ _DATA_B8B1_ _DATA_B896_ _DATA_B89F_ _DATA_B8A8_ _DATA_B8B1_
 .dw _DATA_B896_ _DATA_B89F_ _DATA_B8A8_ _DATA_B8B1_ _DATA_B896_ _DATA_B89F_ _DATA_B8A8_ _DATA_B8B6_
 .dw _DATA_B8BC_ _DATA_B8C5_ _DATA_B8D2_ _DATA_B8DF_
 
-; 6th entry of Pointer Table from B505 (indexed by _RAM_C023_)
-; Pointer Table from B5AB to B5BC (9 entries, indexed by _RAM_C065_)
+; 6th entry of Pointer Table from B505 (indexed by v_level)
+; Pointer Table from B5AB to B5BC (9 entries, indexed by v_entityIndex)
 _DATA_B5AB_:
 .dw _DATA_B8F1_ _DATA_B8F2_ _DATA_B8F7_ _DATA_B900_ _DATA_B905_ _DATA_B90E_ _DATA_B91B_ _DATA_B928_
 .dw _DATA_B935_
 
-; 7th entry of Pointer Table from B505 (indexed by _RAM_C023_)
-; Pointer Table from B5BD to B5CE (9 entries, indexed by _RAM_C065_)
+; 7th entry of Pointer Table from B505 (indexed by v_level)
+; Pointer Table from B5BD to B5CE (9 entries, indexed by v_entityIndex)
 _DATA_B5BD_:
 .dw _DATA_B93E_ _DATA_B93F_ _DATA_B948_ _DATA_B955_ _DATA_B972_ _DATA_B97B_ _DATA_B98B_ _DATA_B990_
 .dw _DATA_B99D_
 
-; 8th entry of Pointer Table from B505 (indexed by _RAM_C023_)
-; Pointer Table from B5CF to B5E6 (12 entries, indexed by _RAM_C065_)
+; 8th entry of Pointer Table from B505 (indexed by v_level)
+; Pointer Table from B5CF to B5E6 (12 entries, indexed by v_entityIndex)
 _DATA_B5CF_:
 .dw _DATA_B9A3_ _DATA_B9A4_ _DATA_B9A9_ _DATA_B9AE_ _DATA_B9B3_ _DATA_B9B8_ _DATA_B9C1_ _DATA_B9CA_
 .dw _DATA_B9CB_ _DATA_B9D0_ _DATA_B9D5_ _DATA_B9DA_
 
-; 9th entry of Pointer Table from B505 (indexed by _RAM_C023_)
-; Pointer Table from B5E7 to B60E (20 entries, indexed by _RAM_C065_)
+; 9th entry of Pointer Table from B505 (indexed by v_level)
+; Pointer Table from B5E7 to B60E (20 entries, indexed by v_entityIndex)
 _DATA_B5E7_:
 .dw _DATA_B9E3_ _DATA_B9E4_ _DATA_B9ED_ _DATA_B9F6_ _DATA_BA03_ _DATA_BA08_ _DATA_BA11_ _DATA_BA1A_
 .dw _DATA_BA23_ _DATA_BA28_ _DATA_BA2D_ _DATA_BA36_ _DATA_BA3F_ _DATA_BA44_ _DATA_BA51_ _DATA_BA56_
 .dw _DATA_BA5C_ _DATA_BA69_ _DATA_BA6E_ _DATA_BA7B_
 
-; 10th entry of Pointer Table from B505 (indexed by _RAM_C023_)
-; Pointer Table from B60F to B62C (15 entries, indexed by _RAM_C065_)
+; 10th entry of Pointer Table from B505 (indexed by v_level)
+; Pointer Table from B60F to B62C (15 entries, indexed by v_entityIndex)
 _DATA_B60F_:
 .dw _DATA_BA85_ _DATA_BA86_ _DATA_BA8F_ _DATA_BA98_ _DATA_BAA9_ _DATA_BAAE_ _DATA_BAB3_ _DATA_BAC0_
 .dw _DATA_BACD_ _DATA_BADA_ _DATA_BAE3_ _DATA_BAEC_ _DATA_BAF5_ _DATA_BB06_ _DATA_BB17_
 
-; 11th entry of Pointer Table from B505 (indexed by _RAM_C023_)
-; Pointer Table from B62D to B654 (20 entries, indexed by _RAM_C065_)
+; 11th entry of Pointer Table from B505 (indexed by v_level)
+; Pointer Table from B62D to B654 (20 entries, indexed by v_entityIndex)
 _DATA_B62D_:
 .dw _DATA_BCDB_ _DATA_BC1C_ _DATA_BC21_ _DATA_BC2E_ _DATA_BC43_ _DATA_BCDB_ _DATA_BC52_ _DATA_BC5B_
 .dw _DATA_BC64_ _DATA_BC71_ _DATA_BCDB_ _DATA_BC76_ _DATA_BC8B_ _DATA_BC98_ _DATA_BCA5_ _DATA_BCDB_
 .dw _DATA_BCAB_ _DATA_BCBC_ _DATA_BCC1_ _DATA_BCCA_
 
-; 12th entry of Pointer Table from B505 (indexed by _RAM_C023_)
-; Pointer Table from B655 to B65A (3 entries, indexed by _RAM_C065_)
+; 12th entry of Pointer Table from B505 (indexed by v_level)
+; Pointer Table from B655 to B65A (3 entries, indexed by v_entityIndex)
 _DATA_B655_:
 .dw _DATA_BB1D_ _DATA_BB1E_ _DATA_BB2B_
 
-; 13th entry of Pointer Table from B505 (indexed by _RAM_C023_)
-; Pointer Table from B65B to B66A (8 entries, indexed by _RAM_C065_)
+; 13th entry of Pointer Table from B505 (indexed by v_level)
+; Pointer Table from B65B to B66A (8 entries, indexed by v_entityIndex)
 _DATA_B65B_:
 .dw _DATA_BB31_ _DATA_BB3F_ _DATA_BB4C_ _DATA_BB61_ _DATA_BB6E_ _DATA_BB7F_ _DATA_BB88_ _DATA_BB91_
 
-; 14th entry of Pointer Table from B505 (indexed by _RAM_C023_)
-; Pointer Table from B66B to B66E (2 entries, indexed by _RAM_C065_)
+; 14th entry of Pointer Table from B505 (indexed by v_level)
+; Pointer Table from B66B to B66E (2 entries, indexed by v_entityIndex)
 _DATA_B66B_:
 .dw _DATA_BB92_ _DATA_BB93_
 
-; 15th entry of Pointer Table from B505 (indexed by _RAM_C023_)
-; Pointer Table from B66F to B684 (11 entries, indexed by _RAM_C065_)
+; 15th entry of Pointer Table from B505 (indexed by v_level)
+; Pointer Table from B66F to B684 (11 entries, indexed by v_entityIndex)
 _DATA_B66F_:
 .dw _DATA_BB9D_ _DATA_BB9D_ _DATA_BB9E_ _DATA_BBA7_ _DATA_BBB4_ _DATA_BBC5_ _DATA_BBD2_ _DATA_BBDF_
 .dw _DATA_BBE8_ _DATA_BBF1_ _DATA_BBFA_
 
-; 16th entry of Pointer Table from B505 (indexed by _RAM_C023_)
-; Pointer Table from B685 to B6D8 (42 entries, indexed by _RAM_C065_)
+; 16th entry of Pointer Table from B505 (indexed by v_level)
+; Pointer Table from B685 to B6D8 (42 entries, indexed by v_entityIndex)
 _DATA_B685_:
 .dw _DATA_BE87_ _DATA_BE87_ _DATA_BCDC_ _DATA_BCE9_ _DATA_BD0B_ _DATA_BD27_ _DATA_BD3C_ _DATA_BE87_
 .dw _DATA_BD41_ _DATA_BD46_ _DATA_BD59_ _DATA_BD70_ _DATA_BD84_ _DATA_BD95_ _DATA_BE87_ _DATA_BE87_
@@ -1256,1005 +1256,1005 @@ _DATA_B685_:
 .dw _DATA_BE23_ _DATA_BE34_ _DATA_BE87_ _DATA_BE87_ _DATA_BE40_ _DATA_BE5A_ _DATA_BE67_ _DATA_BE74_
 .dw _DATA_BE79_ _DATA_BE7E_
 
-; 17th entry of Pointer Table from B505 (indexed by _RAM_C023_)
-; Pointer Table from B6D9 to B6EC (10 entries, indexed by _RAM_C065_)
+; 17th entry of Pointer Table from B505 (indexed by v_level)
+; Pointer Table from B6D9 to B6EC (10 entries, indexed by v_entityIndex)
 _DATA_B6D9_:
 .dw _DATA_BC00_ _DATA_BC01_ _DATA_BC1B_ _DATA_BC1B_ _DATA_BC00_ _DATA_BC01_ _DATA_BC1B_ _DATA_BC1B_
 .dw _DATA_BC1B_ _DATA_BC1B_
 
-; 1st entry of Pointer Table from B527 (indexed by _RAM_C065_)
+; 1st entry of Pointer Table from B527 (indexed by v_entityIndex)
 ; Data from B6ED to B6ED (1 bytes)
 _DATA_B6ED_:
 .db $00
 
-; 2nd entry of Pointer Table from B527 (indexed by _RAM_C065_)
+; 2nd entry of Pointer Table from B527 (indexed by v_entityIndex)
 ; Data from B6EE to B6F2 (5 bytes)
 _DATA_B6EE_:
 .db $01 $2D $78 $68 $00
 
-; 3rd entry of Pointer Table from B527 (indexed by _RAM_C065_)
+; 3rd entry of Pointer Table from B527 (indexed by v_entityIndex)
 ; Data from B6F3 to B6FB (9 bytes)
 _DATA_B6F3_:
 .db $02 $2D $20 $88 $00 $2D $98 $40 $00
 
-; 4th entry of Pointer Table from B527 (indexed by _RAM_C065_)
+; 4th entry of Pointer Table from B527 (indexed by v_entityIndex)
 ; Data from B6FC to B704 (9 bytes)
 _DATA_B6FC_:
 .db $02 $2D $10 $88 $00 $2D $A0 $60 $00
 
-; 5th entry of Pointer Table from B527 (indexed by _RAM_C065_)
+; 5th entry of Pointer Table from B527 (indexed by v_entityIndex)
 ; Data from B705 to B70D (9 bytes)
 _DATA_B705_:
 .db $02 $2D $20 $D0 $00 $2D $70 $88 $00
 
-; 6th entry of Pointer Table from B527 (indexed by _RAM_C065_)
+; 6th entry of Pointer Table from B527 (indexed by v_entityIndex)
 ; Data from B70E to B712 (5 bytes)
 _DATA_B70E_:
 .db $01 $2D $40 $50 $00
 
-; 7th entry of Pointer Table from B527 (indexed by _RAM_C065_)
+; 7th entry of Pointer Table from B527 (indexed by v_entityIndex)
 ; Data from B713 to B71B (9 bytes)
 _DATA_B713_:
 .db $02 $2D $20 $D0 $00 $2D $90 $30 $00
 
-; 8th entry of Pointer Table from B527 (indexed by _RAM_C065_)
+; 8th entry of Pointer Table from B527 (indexed by v_entityIndex)
 ; Data from B71C to B724 (9 bytes)
 _DATA_B71C_:
 .db $02 $2D $70 $28 $00 $2D $98 $B0 $00
 
-; 9th entry of Pointer Table from B527 (indexed by _RAM_C065_)
+; 9th entry of Pointer Table from B527 (indexed by v_entityIndex)
 ; Data from B725 to B725 (1 bytes)
 _DATA_B725_:
 .db $00
 
-; 10th entry of Pointer Table from B527 (indexed by _RAM_C065_)
+; 10th entry of Pointer Table from B527 (indexed by v_entityIndex)
 ; Data from B726 to B732 (13 bytes)
 _DATA_B726_:
 .db $03 $30 $68 $38 $00 $30 $50 $80 $00 $30 $78 $E0 $00
 
-; 11th entry of Pointer Table from B527 (indexed by _RAM_C065_)
+; 11th entry of Pointer Table from B527 (indexed by v_entityIndex)
 ; Data from B733 to B73B (9 bytes)
 _DATA_B733_:
 .db $02 $30 $30 $A0 $00 $30 $80 $90 $00
 
-; 12th entry of Pointer Table from B527 (indexed by _RAM_C065_)
+; 12th entry of Pointer Table from B527 (indexed by v_entityIndex)
 ; Data from B73C to B74D (18 bytes)
 _DATA_B73C_:
 .db $84 $44 $30 $E0 $00 $03 $2E $28 $A0 $00 $30 $68 $80 $00 $23 $80
 .db $30 $00
 
-; 1st entry of Pointer Table from B53F (indexed by _RAM_C065_)
+; 1st entry of Pointer Table from B53F (indexed by v_entityIndex)
 ; Data from B74E to B74E (1 bytes)
 _DATA_B74E_:
 .db $00
 
-; 2nd entry of Pointer Table from B53F (indexed by _RAM_C065_)
+; 2nd entry of Pointer Table from B53F (indexed by v_entityIndex)
 ; Data from B74F to B753 (5 bytes)
 _DATA_B74F_:
 .db $01 $3E $90 $B0 $00
 
-; 3rd entry of Pointer Table from B53F (indexed by _RAM_C065_)
+; 3rd entry of Pointer Table from B53F (indexed by v_entityIndex)
 ; Data from B754 to B75C (9 bytes)
 _DATA_B754_:
 .db $02 $3E $90 $70 $00 $3E $90 $D0 $00
 
-; 4th entry of Pointer Table from B53F (indexed by _RAM_C065_)
+; 4th entry of Pointer Table from B53F (indexed by v_entityIndex)
 ; Data from B75D to B769 (13 bytes)
 _DATA_B75D_:
 .db $03 $2F $70 $40 $00 $2F $40 $78 $00 $2F $70 $B0 $00
 
-; 5th entry of Pointer Table from B53F (indexed by _RAM_C065_)
+; 5th entry of Pointer Table from B53F (indexed by v_entityIndex)
 ; Data from B76A to B776 (13 bytes)
 _DATA_B76A_:
 .db $03 $2F $70 $40 $00 $2F $40 $78 $00 $2F $70 $B0 $00
 
-; 6th entry of Pointer Table from B53F (indexed by _RAM_C065_)
+; 6th entry of Pointer Table from B53F (indexed by v_entityIndex)
 ; Data from B777 to B77B (5 bytes)
 _DATA_B777_:
 .db $01 $3E $90 $60 $00
 
-; 7th entry of Pointer Table from B53F (indexed by _RAM_C065_)
+; 7th entry of Pointer Table from B53F (indexed by v_entityIndex)
 ; Data from B77C to B784 (9 bytes)
 _DATA_B77C_:
 .db $02 $3E $90 $40 $00 $3E $90 $80 $00
 
-; 8th entry of Pointer Table from B53F (indexed by _RAM_C065_)
+; 8th entry of Pointer Table from B53F (indexed by v_entityIndex)
 ; Data from B785 to B791 (13 bytes)
 _DATA_B785_:
 .db $03 $2F $70 $40 $00 $2F $40 $78 $00 $2F $70 $B0 $00
 
-; 9th entry of Pointer Table from B53F (indexed by _RAM_C065_)
+; 9th entry of Pointer Table from B53F (indexed by v_entityIndex)
 ; Data from B792 to B79E (13 bytes)
 _DATA_B792_:
 .db $03 $2F $70 $40 $00 $2F $40 $78 $00 $2F $70 $B0 $00
 
-; 10th entry of Pointer Table from B53F (indexed by _RAM_C065_)
+; 10th entry of Pointer Table from B53F (indexed by v_entityIndex)
 ; Data from B79F to B7AB (13 bytes)
 _DATA_B79F_:
 .db $03 $3E $90 $40 $00 $3E $90 $70 $00 $2F $90 $C0 $00
 
-; 11th entry of Pointer Table from B53F (indexed by _RAM_C065_)
+; 11th entry of Pointer Table from B53F (indexed by v_entityIndex)
 ; Data from B7AC to B7B4 (9 bytes)
 _DATA_B7AC_:
 .db $02 $3E $90 $70 $00 $3E $90 $C0 $00
 
-; 12th entry of Pointer Table from B53F (indexed by _RAM_C065_)
+; 12th entry of Pointer Table from B53F (indexed by v_entityIndex)
 ; Data from B7B5 to B7BD (9 bytes)
 _DATA_B7B5_:
 .db $02 $2F $90 $40 $00 $2F $90 $80 $00
 
-; 13th entry of Pointer Table from B53F (indexed by _RAM_C065_)
+; 13th entry of Pointer Table from B53F (indexed by v_entityIndex)
 ; Data from B7BE to B7C6 (9 bytes)
 _DATA_B7BE_:
 .db $02 $3E $90 $50 $00 $2F $90 $A0 $00
 
-; 14th entry of Pointer Table from B53F (indexed by _RAM_C065_)
+; 14th entry of Pointer Table from B53F (indexed by v_entityIndex)
 ; Data from B7C7 to B7CF (9 bytes)
 _DATA_B7C7_:
 .db $02 $2F $90 $88 $00 $2F $90 $B8 $00
 
-; 15th entry of Pointer Table from B53F (indexed by _RAM_C065_)
+; 15th entry of Pointer Table from B53F (indexed by v_entityIndex)
 ; Data from B7D0 to B7DC (13 bytes)
 _DATA_B7D0_:
 .db $03 $2F $70 $40 $00 $2F $40 $78 $00 $2F $70 $B0 $00
 
-; 16th entry of Pointer Table from B53F (indexed by _RAM_C065_)
+; 16th entry of Pointer Table from B53F (indexed by v_entityIndex)
 ; Data from B7DD to B7E5 (9 bytes)
 _DATA_B7DD_:
 .db $02 $3E $90 $50 $00 $2F $90 $80 $00
 
-; 17th entry of Pointer Table from B53F (indexed by _RAM_C065_)
+; 17th entry of Pointer Table from B53F (indexed by v_entityIndex)
 ; Data from B7E6 to B7EA (5 bytes)
 _DATA_B7E6_:
 .db $01 $3E $90 $80 $00
 
-; 18th entry of Pointer Table from B53F (indexed by _RAM_C065_)
+; 18th entry of Pointer Table from B53F (indexed by v_entityIndex)
 ; Data from B7EB to B7F0 (6 bytes)
 _DATA_B7EB_:
 .db $84 $1D $80 $B0 $02 $00
 
-; 1st entry of Pointer Table from B563 (indexed by _RAM_C065_)
+; 1st entry of Pointer Table from B563 (indexed by v_entityIndex)
 ; Data from B7F1 to B7F1 (1 bytes)
 _DATA_B7F1_:
 .db $00
 
-; 2nd entry of Pointer Table from B563 (indexed by _RAM_C065_)
+; 2nd entry of Pointer Table from B563 (indexed by v_entityIndex)
 ; Data from B7F2 to B7F4 (3 bytes)
 _DATA_B7F2_:
 .db $82 $01 $00
 
-; 3rd entry of Pointer Table from B563 (indexed by _RAM_C065_)
+; 3rd entry of Pointer Table from B563 (indexed by v_entityIndex)
 ; Data from B7F5 to B801 (13 bytes)
 _DATA_B7F5_:
 .db $03 $31 $28 $90 $00 $31 $20 $70 $00 $30 $70 $A0 $00
 
-; 4th entry of Pointer Table from B563 (indexed by _RAM_C065_)
+; 4th entry of Pointer Table from B563 (indexed by v_entityIndex)
 ; Data from B802 to B802 (1 bytes)
 _DATA_B802_:
 .db $00
 
-; 5th entry of Pointer Table from B563 (indexed by _RAM_C065_)
+; 5th entry of Pointer Table from B563 (indexed by v_entityIndex)
 ; Data from B803 to B805 (3 bytes)
 _DATA_B803_:
 .db $82 $02 $00
 
-; 6th entry of Pointer Table from B563 (indexed by _RAM_C065_)
+; 6th entry of Pointer Table from B563 (indexed by v_entityIndex)
 ; Data from B806 to B813 (14 bytes)
 _DATA_B806_:
 .db $84 $44 $30 $D0 $00 $02 $30 $90 $A0 $00 $2E $30 $B0 $00
 
-; 7th entry of Pointer Table from B563 (indexed by _RAM_C065_)
+; 7th entry of Pointer Table from B563 (indexed by v_entityIndex)
 ; Data from B814 to B81C (9 bytes)
 _DATA_B814_:
 .db $02 $30 $10 $B0 $00 $30 $90 $80 $00
 
-; 8th entry of Pointer Table from B563 (indexed by _RAM_C065_)
+; 8th entry of Pointer Table from B563 (indexed by v_entityIndex)
 ; Data from B81D to B82E (18 bytes)
 _DATA_B81D_:
 .db $81 $4C $00 $F0 $00 $03 $30 $90 $80 $00 $2E $48 $80 $00 $2E $68
 .db $B0 $00
 
-; 9th entry of Pointer Table from B563 (indexed by _RAM_C065_)
+; 9th entry of Pointer Table from B563 (indexed by v_entityIndex)
 ; Data from B82F to B82F (1 bytes)
 _DATA_B82F_:
 .db $00
 
-; 10th entry of Pointer Table from B563 (indexed by _RAM_C065_)
+; 10th entry of Pointer Table from B563 (indexed by v_entityIndex)
 ; Data from B830 to B85D (46 bytes)
 _DATA_B830_:
 .db $88 $16 $07 $10 $CA $03 $14 $CA $03 $18 $CA $03 $1C $CA $03 $28
 .db $CA $03 $2C $CA $03 $30 $CA $03 $81 $4B $78 $C0 $00 $04 $2D $20
 .db $90 $00 $2D $58 $70 $00 $3E $98 $60 $00 $3E $98 $F0 $00
 
-; 11th entry of Pointer Table from B563 (indexed by _RAM_C065_)
+; 11th entry of Pointer Table from B563 (indexed by v_entityIndex)
 ; Data from B85E to B873 (22 bytes)
 _DATA_B85E_:
 .db $84 $44 $30 $E0 $00 $04 $3E $98 $30 $00 $3E $98 $D0 $00 $3E $20
 .db $70 $00 $52 $20 $70 $05
 
-; 1st entry of Pointer Table from B579 (indexed by _RAM_C065_)
+; 1st entry of Pointer Table from B579 (indexed by v_entityIndex)
 ; Data from B874 to B874 (1 bytes)
 _DATA_B874_:
 .db $00
 
-; 2nd entry of Pointer Table from B579 (indexed by _RAM_C065_)
+; 2nd entry of Pointer Table from B579 (indexed by v_entityIndex)
 ; Data from B875 to B879 (5 bytes)
 _DATA_B875_:
 .db $01 $2C $A8 $A8 $00
 
-; 3rd entry of Pointer Table from B579 (indexed by _RAM_C065_)
+; 3rd entry of Pointer Table from B579 (indexed by v_entityIndex)
 ; Data from B87A to B87E (5 bytes)
 _DATA_B87A_:
 .db $01 $3E $98 $E0 $00
 
-; 4th entry of Pointer Table from B579 (indexed by _RAM_C065_)
+; 4th entry of Pointer Table from B579 (indexed by v_entityIndex)
 ; Data from B87F to B88B (13 bytes)
 _DATA_B87F_:
 .db $03 $3E $98 $30 $00 $3E $40 $B0 $00 $2D $70 $D8 $00
 
-; 5th entry of Pointer Table from B579 (indexed by _RAM_C065_)
+; 5th entry of Pointer Table from B579 (indexed by v_entityIndex)
 ; Data from B88C to B895 (10 bytes)
 _DATA_B88C_:
 .db $84 $44 $70 $C0 $00 $01 $45 $88 $98 $00
 
-; 1st entry of Pointer Table from B583 (indexed by _RAM_C065_)
+; 1st entry of Pointer Table from B583 (indexed by v_entityIndex)
 ; Data from B896 to B89E (9 bytes)
 _DATA_B896_:
 .db $02 $2D $38 $A0 $00 $42 $BF $D0 $00
 
-; 2nd entry of Pointer Table from B583 (indexed by _RAM_C065_)
+; 2nd entry of Pointer Table from B583 (indexed by v_entityIndex)
 ; Data from B89F to B8A7 (9 bytes)
 _DATA_B89F_:
 .db $02 $2D $60 $B0 $00 $42 $BF $70 $00
 
-; 3rd entry of Pointer Table from B583 (indexed by _RAM_C065_)
+; 3rd entry of Pointer Table from B583 (indexed by v_entityIndex)
 ; Data from B8A8 to B8B0 (9 bytes)
 _DATA_B8A8_:
 .db $02 $2D $18 $60 $00 $42 $BF $B0 $00
 
-; 4th entry of Pointer Table from B583 (indexed by _RAM_C065_)
+; 4th entry of Pointer Table from B583 (indexed by v_entityIndex)
 ; Data from B8B1 to B8B5 (5 bytes)
 _DATA_B8B1_:
 .db $01 $42 $BF $B0 $00
 
-; 16th entry of Pointer Table from B583 (indexed by _RAM_C065_)
+; 16th entry of Pointer Table from B583 (indexed by v_entityIndex)
 ; Data from B8B6 to B8BB (6 bytes)
 _DATA_B8B6_:
 .db $84 $44 $20 $70 $00 $00
 
-; 17th entry of Pointer Table from B583 (indexed by _RAM_C065_)
+; 17th entry of Pointer Table from B583 (indexed by v_entityIndex)
 ; Data from B8BC to B8C4 (9 bytes)
 _DATA_B8BC_:
 .db $01 $30 $88 $50 $00 $30 $30 $80 $00
 
-; 18th entry of Pointer Table from B583 (indexed by _RAM_C065_)
+; 18th entry of Pointer Table from B583 (indexed by v_entityIndex)
 ; Data from B8C5 to B8D1 (13 bytes)
 _DATA_B8C5_:
 .db $03 $30 $68 $88 $00 $30 $28 $C8 $00 $30 $18 $38 $00
 
-; 19th entry of Pointer Table from B583 (indexed by _RAM_C065_)
+; 19th entry of Pointer Table from B583 (indexed by v_entityIndex)
 ; Data from B8D2 to B8DE (13 bytes)
 _DATA_B8D2_:
 .db $03 $30 $70 $A8 $00 $30 $30 $58 $00 $30 $88 $70 $00
 
-; 20th entry of Pointer Table from B583 (indexed by _RAM_C065_)
+; 20th entry of Pointer Table from B583 (indexed by v_entityIndex)
 ; Data from B8DF to B8F0 (18 bytes)
 _DATA_B8DF_:
 .db $84 $44 $20 $C0 $00 $03 $2E $28 $C0 $00 $30 $78 $98 $00 $30 $58
 .db $40 $00
 
-; 1st entry of Pointer Table from B5AB (indexed by _RAM_C065_)
+; 1st entry of Pointer Table from B5AB (indexed by v_entityIndex)
 ; Data from B8F1 to B8F1 (1 bytes)
 _DATA_B8F1_:
 .db $00
 
-; 2nd entry of Pointer Table from B5AB (indexed by _RAM_C065_)
+; 2nd entry of Pointer Table from B5AB (indexed by v_entityIndex)
 ; Data from B8F2 to B8F6 (5 bytes)
 _DATA_B8F2_:
 .db $01 $55 $90 $90 $00
 
-; 3rd entry of Pointer Table from B5AB (indexed by _RAM_C065_)
+; 3rd entry of Pointer Table from B5AB (indexed by v_entityIndex)
 ; Data from B8F7 to B8FF (9 bytes)
 _DATA_B8F7_:
 .db $02 $55 $90 $A0 $00 $3E $60 $A0 $00
 
-; 4th entry of Pointer Table from B5AB (indexed by _RAM_C065_)
+; 4th entry of Pointer Table from B5AB (indexed by v_entityIndex)
 ; Data from B900 to B904 (5 bytes)
 _DATA_B900_:
 .db $01 $3E $90 $D0 $00
 
-; 5th entry of Pointer Table from B5AB (indexed by _RAM_C065_)
+; 5th entry of Pointer Table from B5AB (indexed by v_entityIndex)
 ; Data from B905 to B90D (9 bytes)
 _DATA_B905_:
 .db $02 $55 $50 $B0 $00 $3E $90 $C0 $00
 
-; 6th entry of Pointer Table from B5AB (indexed by _RAM_C065_)
+; 6th entry of Pointer Table from B5AB (indexed by v_entityIndex)
 ; Data from B90E to B91A (13 bytes)
 _DATA_B90E_:
 .db $03 $55 $90 $70 $00 $55 $40 $A0 $00 $3D $78 $E0 $00
 
-; 7th entry of Pointer Table from B5AB (indexed by _RAM_C065_)
+; 7th entry of Pointer Table from B5AB (indexed by v_entityIndex)
 ; Data from B91B to B927 (13 bytes)
 _DATA_B91B_:
 .db $03 $55 $40 $E0 $00 $3E $90 $A0 $00 $3D $70 $90 $00
 
-; 8th entry of Pointer Table from B5AB (indexed by _RAM_C065_)
+; 8th entry of Pointer Table from B5AB (indexed by v_entityIndex)
 ; Data from B928 to B934 (13 bytes)
 _DATA_B928_:
 .db $03 $55 $90 $60 $00 $55 $90 $80 $00 $55 $90 $A0 $00
 
-; 9th entry of Pointer Table from B5AB (indexed by _RAM_C065_)
+; 9th entry of Pointer Table from B5AB (indexed by v_entityIndex)
 ; Data from B935 to B93D (9 bytes)
 _DATA_B935_:
 .db $02 $46 $88 $D0 $01 $50 $C0 $C1 $00
 
-; 1st entry of Pointer Table from B5BD (indexed by _RAM_C065_)
+; 1st entry of Pointer Table from B5BD (indexed by v_entityIndex)
 ; Data from B93E to B93E (1 bytes)
 _DATA_B93E_:
 .db $00
 
-; 2nd entry of Pointer Table from B5BD (indexed by _RAM_C065_)
+; 2nd entry of Pointer Table from B5BD (indexed by v_entityIndex)
 ; Data from B93F to B947 (9 bytes)
 _DATA_B93F_:
 .db $02 $54 $40 $60 $00 $20 $68 $B8 $00
 
-; 3rd entry of Pointer Table from B5BD (indexed by _RAM_C065_)
+; 3rd entry of Pointer Table from B5BD (indexed by v_entityIndex)
 ; Data from B948 to B954 (13 bytes)
 _DATA_B948_:
 .db $03 $3E $90 $18 $00 $54 $40 $B0 $00 $63 $30 $F0 $00
 
-; 4th entry of Pointer Table from B5BD (indexed by _RAM_C065_)
+; 4th entry of Pointer Table from B5BD (indexed by v_entityIndex)
 ; Data from B955 to B971 (29 bytes)
 _DATA_B955_:
 .db $88 $0D $04 $A0 $CC $00 $A4 $CC $00 $20 $CD $00 $24 $CD $00 $81
 .db $4B $A0 $60 $02 $02 $52 $A0 $30 $01 $20 $88 $E0 $00
 
-; 5th entry of Pointer Table from B5BD (indexed by _RAM_C065_)
+; 5th entry of Pointer Table from B5BD (indexed by v_entityIndex)
 ; Data from B972 to B97A (9 bytes)
 _DATA_B972_:
 .db $02 $3D $60 $78 $00 $3E $90 $60 $00
 
-; 6th entry of Pointer Table from B5BD (indexed by _RAM_C065_)
+; 6th entry of Pointer Table from B5BD (indexed by v_entityIndex)
 ; Data from B97B to B98A (16 bytes)
 _DATA_B97B_:
 .db $88 $04 $01 $38 $CA $00 $81 $4B $58 $B4 $02 $01 $54 $50 $B0 $00
 
-; 7th entry of Pointer Table from B5BD (indexed by _RAM_C065_)
+; 7th entry of Pointer Table from B5BD (indexed by v_entityIndex)
 ; Data from B98B to B98F (5 bytes)
 _DATA_B98B_:
 .db $01 $3E $50 $40 $00
 
-; 8th entry of Pointer Table from B5BD (indexed by _RAM_C065_)
+; 8th entry of Pointer Table from B5BD (indexed by v_entityIndex)
 ; Data from B990 to B99C (13 bytes)
 _DATA_B990_:
 .db $03 $3E $90 $10 $00 $20 $60 $90 $00 $3E $90 $B0 $00
 
-; 9th entry of Pointer Table from B5BD (indexed by _RAM_C065_)
+; 9th entry of Pointer Table from B5BD (indexed by v_entityIndex)
 ; Data from B99D to B9A2 (6 bytes)
 _DATA_B99D_:
 .db $84 $1E $80 $B0 $04 $00
 
-; 1st entry of Pointer Table from B5CF (indexed by _RAM_C065_)
+; 1st entry of Pointer Table from B5CF (indexed by v_entityIndex)
 ; Data from B9A3 to B9A3 (1 bytes)
 _DATA_B9A3_:
 .db $00
 
-; 2nd entry of Pointer Table from B5CF (indexed by _RAM_C065_)
+; 2nd entry of Pointer Table from B5CF (indexed by v_entityIndex)
 ; Data from B9A4 to B9A8 (5 bytes)
 _DATA_B9A4_:
 .db $01 $20 $48 $90 $00
 
-; 3rd entry of Pointer Table from B5CF (indexed by _RAM_C065_)
+; 3rd entry of Pointer Table from B5CF (indexed by v_entityIndex)
 ; Data from B9A9 to B9AD (5 bytes)
 _DATA_B9A9_:
 .db $01 $20 $40 $80 $00
 
-; 4th entry of Pointer Table from B5CF (indexed by _RAM_C065_)
+; 4th entry of Pointer Table from B5CF (indexed by v_entityIndex)
 ; Data from B9AE to B9B2 (5 bytes)
 _DATA_B9AE_:
 .db $01 $2A $10 $55 $00
 
-; 5th entry of Pointer Table from B5CF (indexed by _RAM_C065_)
+; 5th entry of Pointer Table from B5CF (indexed by v_entityIndex)
 ; Data from B9B3 to B9B7 (5 bytes)
 _DATA_B9B3_:
 .db $01 $20 $38 $B0 $00
 
-; 6th entry of Pointer Table from B5CF (indexed by _RAM_C065_)
+; 6th entry of Pointer Table from B5CF (indexed by v_entityIndex)
 ; Data from B9B8 to B9C0 (9 bytes)
 _DATA_B9B8_:
 .db $02 $20 $70 $60 $00 $20 $28 $C0 $00
 
-; 7th entry of Pointer Table from B5CF (indexed by _RAM_C065_)
+; 7th entry of Pointer Table from B5CF (indexed by v_entityIndex)
 ; Data from B9C1 to B9C9 (9 bytes)
 _DATA_B9C1_:
 .db $02 $20 $80 $A0 $00 $2A $10 $5B $00
 
-; 8th entry of Pointer Table from B5CF (indexed by _RAM_C065_)
+; 8th entry of Pointer Table from B5CF (indexed by v_entityIndex)
 ; Data from B9CA to B9CA (1 bytes)
 _DATA_B9CA_:
 .db $00
 
-; 9th entry of Pointer Table from B5CF (indexed by _RAM_C065_)
+; 9th entry of Pointer Table from B5CF (indexed by v_entityIndex)
 ; Data from B9CB to B9CF (5 bytes)
 _DATA_B9CB_:
 .db $01 $20 $20 $B0 $00
 
-; 10th entry of Pointer Table from B5CF (indexed by _RAM_C065_)
+; 10th entry of Pointer Table from B5CF (indexed by v_entityIndex)
 ; Data from B9D0 to B9D4 (5 bytes)
 _DATA_B9D0_:
 .db $01 $2A $20 $28 $00
 
-; 11th entry of Pointer Table from B5CF (indexed by _RAM_C065_)
+; 11th entry of Pointer Table from B5CF (indexed by v_entityIndex)
 ; Data from B9D5 to B9D9 (5 bytes)
 _DATA_B9D5_:
 .db $01 $2A $10 $23 $00
 
-; 12th entry of Pointer Table from B5CF (indexed by _RAM_C065_)
+; 12th entry of Pointer Table from B5CF (indexed by v_entityIndex)
 ; Data from B9DA to B9E2 (9 bytes)
 _DATA_B9DA_:
 .db $02 $25 $70 $D0 $00 $2A $10 $48 $00
 
-; 1st entry of Pointer Table from B5E7 (indexed by _RAM_C065_)
+; 1st entry of Pointer Table from B5E7 (indexed by v_entityIndex)
 ; Data from B9E3 to B9E3 (1 bytes)
 _DATA_B9E3_:
 .db $00
 
-; 2nd entry of Pointer Table from B5E7 (indexed by _RAM_C065_)
+; 2nd entry of Pointer Table from B5E7 (indexed by v_entityIndex)
 ; Data from B9E4 to B9EC (9 bytes)
 _DATA_B9E4_:
 .db $01 $2D $40 $B0 $00 $42 $BF $E0 $00
 
-; 3rd entry of Pointer Table from B5E7 (indexed by _RAM_C065_)
+; 3rd entry of Pointer Table from B5E7 (indexed by v_entityIndex)
 ; Data from B9ED to B9F5 (9 bytes)
 _DATA_B9ED_:
 .db $02 $42 $BF $80 $00 $2D $50 $C0 $00
 
-; 4th entry of Pointer Table from B5E7 (indexed by _RAM_C065_)
+; 4th entry of Pointer Table from B5E7 (indexed by v_entityIndex)
 ; Data from B9F6 to BA02 (13 bytes)
 _DATA_B9F6_:
 .db $03 $2D $60 $80 $00 $2D $40 $A0 $00 $42 $BF $D0 $00
 
-; 5th entry of Pointer Table from B5E7 (indexed by _RAM_C065_)
+; 5th entry of Pointer Table from B5E7 (indexed by v_entityIndex)
 ; Data from BA03 to BA07 (5 bytes)
 _DATA_BA03_:
 .db $01 $2D $30 $B0 $00
 
-; 6th entry of Pointer Table from B5E7 (indexed by _RAM_C065_)
+; 6th entry of Pointer Table from B5E7 (indexed by v_entityIndex)
 ; Data from BA08 to BA10 (9 bytes)
 _DATA_BA08_:
 .db $01 $2D $50 $90 $00 $42 $BF $A0 $00
 
-; 7th entry of Pointer Table from B5E7 (indexed by _RAM_C065_)
+; 7th entry of Pointer Table from B5E7 (indexed by v_entityIndex)
 ; Data from BA11 to BA19 (9 bytes)
 _DATA_BA11_:
 .db $02 $42 $BF $90 $00 $2D $60 $A0 $00
 
-; 8th entry of Pointer Table from B5E7 (indexed by _RAM_C065_)
+; 8th entry of Pointer Table from B5E7 (indexed by v_entityIndex)
 ; Data from BA1A to BA22 (9 bytes)
 _DATA_BA1A_:
 .db $02 $2D $50 $B0 $00 $42 $BF $90 $00
 
-; 9th entry of Pointer Table from B5E7 (indexed by _RAM_C065_)
+; 9th entry of Pointer Table from B5E7 (indexed by v_entityIndex)
 ; Data from BA23 to BA27 (5 bytes)
 _DATA_BA23_:
 .db $01 $2D $50 $80 $00
 
-; 10th entry of Pointer Table from B5E7 (indexed by _RAM_C065_)
+; 10th entry of Pointer Table from B5E7 (indexed by v_entityIndex)
 ; Data from BA28 to BA2C (5 bytes)
 _DATA_BA28_:
 .db $01 $2D $48 $70 $00
 
-; 11th entry of Pointer Table from B5E7 (indexed by _RAM_C065_)
+; 11th entry of Pointer Table from B5E7 (indexed by v_entityIndex)
 ; Data from BA2D to BA35 (9 bytes)
 _DATA_BA2D_:
 .db $02 $42 $BF $A0 $00 $2D $40 $B0 $00
 
-; 12th entry of Pointer Table from B5E7 (indexed by _RAM_C065_)
+; 12th entry of Pointer Table from B5E7 (indexed by v_entityIndex)
 ; Data from BA36 to BA3E (9 bytes)
 _DATA_BA36_:
 .db $01 $2D $60 $80 $00 $42 $BF $70 $00
 
-; 13th entry of Pointer Table from B5E7 (indexed by _RAM_C065_)
+; 13th entry of Pointer Table from B5E7 (indexed by v_entityIndex)
 ; Data from BA3F to BA43 (5 bytes)
 _DATA_BA3F_:
 .db $01 $2D $40 $B0 $00
 
-; 14th entry of Pointer Table from B5E7 (indexed by _RAM_C065_)
+; 14th entry of Pointer Table from B5E7 (indexed by v_entityIndex)
 ; Data from BA44 to BA50 (13 bytes)
 _DATA_BA44_:
 .db $02 $2D $70 $A0 $00 $42 $BF $B0 $00 $42 $BF $80 $00
 
-; 15th entry of Pointer Table from B5E7 (indexed by _RAM_C065_)
+; 15th entry of Pointer Table from B5E7 (indexed by v_entityIndex)
 ; Data from BA51 to BA55 (5 bytes)
 _DATA_BA51_:
 .db $01 $2D $40 $B0 $00
 
-; 16th entry of Pointer Table from B5E7 (indexed by _RAM_C065_)
+; 16th entry of Pointer Table from B5E7 (indexed by v_entityIndex)
 ; Data from BA56 to BA5B (6 bytes)
 _DATA_BA56_:
 .db $84 $44 $70 $A0 $00 $00
 
-; 17th entry of Pointer Table from B5E7 (indexed by _RAM_C065_)
+; 17th entry of Pointer Table from B5E7 (indexed by v_entityIndex)
 ; Data from BA5C to BA68 (13 bytes)
 _DATA_BA5C_:
 .db $03 $30 $30 $B8 $00 $30 $80 $B8 $00 $30 $50 $60 $00
 
-; 18th entry of Pointer Table from B5E7 (indexed by _RAM_C065_)
+; 18th entry of Pointer Table from B5E7 (indexed by v_entityIndex)
 ; Data from BA69 to BA6D (5 bytes)
 _DATA_BA69_:
 .db $01 $30 $A0 $70 $00
 
-; 19th entry of Pointer Table from B5E7 (indexed by _RAM_C065_)
+; 19th entry of Pointer Table from B5E7 (indexed by v_entityIndex)
 ; Data from BA6E to BA7A (13 bytes)
 _DATA_BA6E_:
 .db $03 $30 $40 $30 $00 $30 $60 $10 $00 $23 $78 $7C $00
 
-; 20th entry of Pointer Table from B5E7 (indexed by _RAM_C065_)
+; 20th entry of Pointer Table from B5E7 (indexed by v_entityIndex)
 ; Data from BA7B to BA84 (10 bytes)
 _DATA_BA7B_:
 .db $84 $44 $50 $A0 $00 $01 $23 $60 $88 $00
 
-; 1st entry of Pointer Table from B60F (indexed by _RAM_C065_)
+; 1st entry of Pointer Table from B60F (indexed by v_entityIndex)
 ; Data from BA85 to BA85 (1 bytes)
 _DATA_BA85_:
 .db $00
 
-; 2nd entry of Pointer Table from B60F (indexed by _RAM_C065_)
+; 2nd entry of Pointer Table from B60F (indexed by v_entityIndex)
 ; Data from BA86 to BA8E (9 bytes)
 _DATA_BA86_:
 .db $02 $3E $50 $88 $00 $3E $50 $C0 $00
 
-; 3rd entry of Pointer Table from B60F (indexed by _RAM_C065_)
+; 3rd entry of Pointer Table from B60F (indexed by v_entityIndex)
 ; Data from BA8F to BA97 (9 bytes)
 _DATA_BA8F_:
 .db $02 $2C $A0 $30 $00 $2C $A0 $90 $00
 
-; 4th entry of Pointer Table from B60F (indexed by _RAM_C065_)
+; 4th entry of Pointer Table from B60F (indexed by v_entityIndex)
 ; Data from BA98 to BAA8 (17 bytes)
 _DATA_BA98_:
 .db $04 $40 $10 $C0 $00 $2C $A0 $38 $00 $2C $A0 $80 $00 $2C $A0 $C8
 .db $00
 
-; 5th entry of Pointer Table from B60F (indexed by _RAM_C065_)
+; 5th entry of Pointer Table from B60F (indexed by v_entityIndex)
 ; Data from BAA9 to BAAD (5 bytes)
 _DATA_BAA9_:
 .db $01 $40 $10 $38 $00
 
-; 6th entry of Pointer Table from B60F (indexed by _RAM_C065_)
+; 6th entry of Pointer Table from B60F (indexed by v_entityIndex)
 ; Data from BAAE to BAB2 (5 bytes)
 _DATA_BAAE_:
 .db $01 $3E $90 $E0 $00
 
-; 7th entry of Pointer Table from B60F (indexed by _RAM_C065_)
+; 7th entry of Pointer Table from B60F (indexed by v_entityIndex)
 ; Data from BAB3 to BABF (13 bytes)
 _DATA_BAB3_:
 .db $03 $40 $20 $80 $00 $3E $90 $30 $00 $3E $90 $C0 $00
 
-; 8th entry of Pointer Table from B60F (indexed by _RAM_C065_)
+; 8th entry of Pointer Table from B60F (indexed by v_entityIndex)
 ; Data from BAC0 to BACC (13 bytes)
 _DATA_BAC0_:
 .db $03 $40 $20 $C0 $00 $3E $90 $60 $00 $3E $90 $C0 $00
 
-; 9th entry of Pointer Table from B60F (indexed by _RAM_C065_)
+; 9th entry of Pointer Table from B60F (indexed by v_entityIndex)
 ; Data from BACD to BAD9 (13 bytes)
 _DATA_BACD_:
 .db $03 $40 $10 $A0 $00 $57 $80 $30 $00 $57 $90 $C0 $00
 
-; 10th entry of Pointer Table from B60F (indexed by _RAM_C065_)
+; 10th entry of Pointer Table from B60F (indexed by v_entityIndex)
 ; Data from BADA to BAE2 (9 bytes)
 _DATA_BADA_:
 .db $02 $40 $20 $B0 $00 $3D $78 $70 $00
 
-; 11th entry of Pointer Table from B60F (indexed by _RAM_C065_)
+; 11th entry of Pointer Table from B60F (indexed by v_entityIndex)
 ; Data from BAE3 to BAEB (9 bytes)
 _DATA_BAE3_:
 .db $02 $57 $90 $40 $00 $3D $78 $A0 $00
 
-; 12th entry of Pointer Table from B60F (indexed by _RAM_C065_)
+; 12th entry of Pointer Table from B60F (indexed by v_entityIndex)
 ; Data from BAEC to BAF4 (9 bytes)
 _DATA_BAEC_:
 .db $02 $3D $78 $80 $00 $3D $78 $C0 $00
 
-; 13th entry of Pointer Table from B60F (indexed by _RAM_C065_)
+; 13th entry of Pointer Table from B60F (indexed by v_entityIndex)
 ; Data from BAF5 to BB05 (17 bytes)
 _DATA_BAF5_:
 .db $04 $40 $10 $20 $00 $57 $80 $60 $00 $3D $58 $A0 $00 $57 $60 $E0
 .db $00
 
-; 14th entry of Pointer Table from B60F (indexed by _RAM_C065_)
+; 14th entry of Pointer Table from B60F (indexed by v_entityIndex)
 ; Data from BB06 to BB16 (17 bytes)
 _DATA_BB06_:
 .db $04 $40 $20 $C0 $00 $3D $38 $28 $00 $3D $40 $80 $00 $3D $50 $B0
 .db $00
 
-; 15th entry of Pointer Table from B60F (indexed by _RAM_C065_)
+; 15th entry of Pointer Table from B60F (indexed by v_entityIndex)
 ; Data from BB17 to BB1C (6 bytes)
 _DATA_BB17_:
 .db $84 $1F $80 $B0 $06 $00
 
-; 1st entry of Pointer Table from B655 (indexed by _RAM_C065_)
+; 1st entry of Pointer Table from B655 (indexed by v_entityIndex)
 ; Data from BB1D to BB1D (1 bytes)
 _DATA_BB1D_:
 .db $00
 
-; 2nd entry of Pointer Table from B655 (indexed by _RAM_C065_)
+; 2nd entry of Pointer Table from B655 (indexed by v_entityIndex)
 ; Data from BB1E to BB2A (13 bytes)
 _DATA_BB1E_:
 .db $03 $3E $90 $40 $00 $3E $90 $70 $00 $3D $58 $C0 $00
 
-; 3rd entry of Pointer Table from B655 (indexed by _RAM_C065_)
+; 3rd entry of Pointer Table from B655 (indexed by v_entityIndex)
 ; Data from BB2B to BB30 (6 bytes)
 _DATA_BB2B_:
 .db $84 $1E $80 $C0 $05 $00
 
-; 1st entry of Pointer Table from B65B (indexed by _RAM_C065_)
+; 1st entry of Pointer Table from B65B (indexed by v_entityIndex)
 ; Data from BB31 to BB3E (14 bytes)
 _DATA_BB31_:
 .db $84 $44 $70 $10 $00 $02 $33 $20 $60 $00 $2C $A0 $B0 $00
 
-; 2nd entry of Pointer Table from B65B (indexed by _RAM_C065_)
+; 2nd entry of Pointer Table from B65B (indexed by v_entityIndex)
 ; Data from BB3F to BB4B (13 bytes)
 _DATA_BB3F_:
 .db $03 $33 $18 $40 $00 $33 $40 $68 $00 $33 $60 $90 $00
 
-; 3rd entry of Pointer Table from B65B (indexed by _RAM_C065_)
+; 3rd entry of Pointer Table from B65B (indexed by v_entityIndex)
 ; Data from BB4C to BB60 (21 bytes)
 _DATA_BB4C_:
 .db $05 $33 $20 $40 $00 $33 $50 $B0 $00 $2C $A0 $40 $00 $2C $A0 $78
 .db $00 $2C $A0 $B0 $00
 
-; 4th entry of Pointer Table from B65B (indexed by _RAM_C065_)
+; 4th entry of Pointer Table from B65B (indexed by v_entityIndex)
 ; Data from BB61 to BB6D (13 bytes)
 _DATA_BB61_:
 .db $03 $33 $28 $80 $00 $2C $A0 $A0 $00 $2C $A0 $48 $00
 
-; 5th entry of Pointer Table from B65B (indexed by _RAM_C065_)
+; 5th entry of Pointer Table from B65B (indexed by v_entityIndex)
 ; Data from BB6E to BB7E (17 bytes)
 _DATA_BB6E_:
 .db $04 $33 $20 $D0 $00 $33 $50 $80 $00 $2C $A0 $48 $00 $2C $A0 $A8
 .db $00
 
-; 6th entry of Pointer Table from B65B (indexed by _RAM_C065_)
+; 6th entry of Pointer Table from B65B (indexed by v_entityIndex)
 ; Data from BB7F to BB87 (9 bytes)
 _DATA_BB7F_:
 .db $02 $2C $A0 $B0 $00 $2C $A0 $60 $00
 
-; 7th entry of Pointer Table from B65B (indexed by _RAM_C065_)
+; 7th entry of Pointer Table from B65B (indexed by v_entityIndex)
 ; Data from BB88 to BB90 (9 bytes)
 _DATA_BB88_:
 .db $02 $2C $A0 $A0 $00 $2C $A0 $48 $00
 
-; 8th entry of Pointer Table from B65B (indexed by _RAM_C065_)
+; 8th entry of Pointer Table from B65B (indexed by v_entityIndex)
 ; Data from BB91 to BB91 (1 bytes)
 _DATA_BB91_:
 .db $00
 
-; 1st entry of Pointer Table from B66B (indexed by _RAM_C065_)
+; 1st entry of Pointer Table from B66B (indexed by v_entityIndex)
 ; Data from BB92 to BB92 (1 bytes)
 _DATA_BB92_:
 .db $00
 
-; 2nd entry of Pointer Table from B66B (indexed by _RAM_C065_)
+; 2nd entry of Pointer Table from B66B (indexed by v_entityIndex)
 ; Data from BB93 to BB9C (10 bytes)
 _DATA_BB93_:
 .db $84 $44 $90 $C0 $00 $01 $53 $90 $C0 $00
 
-; 1st entry of Pointer Table from B66F (indexed by _RAM_C065_)
+; 1st entry of Pointer Table from B66F (indexed by v_entityIndex)
 ; Data from BB9D to BB9D (1 bytes)
 _DATA_BB9D_:
 .db $00
 
-; 3rd entry of Pointer Table from B66F (indexed by _RAM_C065_)
+; 3rd entry of Pointer Table from B66F (indexed by v_entityIndex)
 ; Data from BB9E to BBA6 (9 bytes)
 _DATA_BB9E_:
 .db $02 $3E $90 $50 $00 $3E $90 $A0 $00
 
-; 4th entry of Pointer Table from B66F (indexed by _RAM_C065_)
+; 4th entry of Pointer Table from B66F (indexed by v_entityIndex)
 ; Data from BBA7 to BBB3 (13 bytes)
 _DATA_BBA7_:
 .db $03 $2F $70 $20 $00 $3E $50 $60 $00 $3E $80 $90 $00
 
-; 5th entry of Pointer Table from B66F (indexed by _RAM_C065_)
+; 5th entry of Pointer Table from B66F (indexed by v_entityIndex)
 ; Data from BBB4 to BBC4 (17 bytes)
 _DATA_BBB4_:
 .db $04 $3E $90 $20 $00 $3E $90 $70 $00 $2F $90 $B0 $00 $2C $A0 $D0
 .db $00
 
-; 6th entry of Pointer Table from B66F (indexed by _RAM_C065_)
+; 6th entry of Pointer Table from B66F (indexed by v_entityIndex)
 ; Data from BBC5 to BBD1 (13 bytes)
 _DATA_BBC5_:
 .db $03 $3E $90 $78 $00 $2C $A0 $A0 $00 $3E $90 $E0 $00
 
-; 7th entry of Pointer Table from B66F (indexed by _RAM_C065_)
+; 7th entry of Pointer Table from B66F (indexed by v_entityIndex)
 ; Data from BBD2 to BBDE (13 bytes)
 _DATA_BBD2_:
 .db $03 $3E $90 $60 $00 $3E $90 $A0 $00 $2F $60 $F0 $00
 
-; 8th entry of Pointer Table from B66F (indexed by _RAM_C065_)
+; 8th entry of Pointer Table from B66F (indexed by v_entityIndex)
 ; Data from BBDF to BBE7 (9 bytes)
 _DATA_BBDF_:
 .db $02 $3E $40 $80 $00 $3E $90 $60 $00
 
-; 9th entry of Pointer Table from B66F (indexed by _RAM_C065_)
+; 9th entry of Pointer Table from B66F (indexed by v_entityIndex)
 ; Data from BBE8 to BBF0 (9 bytes)
 _DATA_BBE8_:
 .db $02 $3E $90 $60 $00 $2C $A0 $B0 $00
 
-; 10th entry of Pointer Table from B66F (indexed by _RAM_C065_)
+; 10th entry of Pointer Table from B66F (indexed by v_entityIndex)
 ; Data from BBF1 to BBF9 (9 bytes)
 _DATA_BBF1_:
 .db $02 $2F $50 $B0 $00 $3E $90 $20 $00
 
-; 11th entry of Pointer Table from B66F (indexed by _RAM_C065_)
+; 11th entry of Pointer Table from B66F (indexed by v_entityIndex)
 ; Data from BBFA to BBFF (6 bytes)
 _DATA_BBFA_:
 .db $84 $1F $80 $B0 $07 $00
 
-; 1st entry of Pointer Table from B6D9 (indexed by _RAM_C065_)
+; 1st entry of Pointer Table from B6D9 (indexed by v_entityIndex)
 ; Data from BC00 to BC00 (1 bytes)
 _DATA_BC00_:
 .db $00
 
-; 2nd entry of Pointer Table from B6D9 (indexed by _RAM_C065_)
+; 2nd entry of Pointer Table from B6D9 (indexed by v_entityIndex)
 ; Data from BC01 to BC1A (26 bytes)
 _DATA_BC01_:
 .db $81 $4C $B8 $8C $00 $05 $23 $B8 $82 $00 $30 $10 $B0 $00 $30 $38
 .db $C8 $00 $30 $70 $80 $00 $30 $50 $48 $00
 
-; 3rd entry of Pointer Table from B6D9 (indexed by _RAM_C065_)
+; 3rd entry of Pointer Table from B6D9 (indexed by v_entityIndex)
 ; Data from BC1B to BC1B (1 bytes)
 _DATA_BC1B_:
 .db $00
 
-; 2nd entry of Pointer Table from B62D (indexed by _RAM_C065_)
+; 2nd entry of Pointer Table from B62D (indexed by v_entityIndex)
 ; Data from BC1C to BC20 (5 bytes)
 _DATA_BC1C_:
 .db $01 $2F $40 $70 $00
 
-; 3rd entry of Pointer Table from B62D (indexed by _RAM_C065_)
+; 3rd entry of Pointer Table from B62D (indexed by v_entityIndex)
 ; Data from BC21 to BC2D (13 bytes)
 _DATA_BC21_:
 .db $03 $3E $40 $80 $00 $20 $20 $80 $00 $20 $70 $50 $00
 
-; 4th entry of Pointer Table from B62D (indexed by _RAM_C065_)
+; 4th entry of Pointer Table from B62D (indexed by v_entityIndex)
 ; Data from BC2E to BC42 (21 bytes)
 _DATA_BC2E_:
 .db $05 $52 $50 $E0 $05 $3E $30 $60 $01 $3E $30 $B0 $01 $20 $78 $60
 .db $00 $20 $78 $B0 $00
 
-; 5th entry of Pointer Table from B62D (indexed by _RAM_C065_)
+; 5th entry of Pointer Table from B62D (indexed by v_entityIndex)
 ; Data from BC43 to BC51 (15 bytes)
 _DATA_BC43_:
 .db $81 $4B $20 $1D $01 $81 $4B $30 $3C $01 $01 $51 $90 $48 $01
 
-; 7th entry of Pointer Table from B62D (indexed by _RAM_C065_)
+; 7th entry of Pointer Table from B62D (indexed by v_entityIndex)
 ; Data from BC52 to BC5A (9 bytes)
 _DATA_BC52_:
 .db $02 $3E $A0 $A0 $01 $20 $18 $90 $00
 
-; 8th entry of Pointer Table from B62D (indexed by _RAM_C065_)
+; 8th entry of Pointer Table from B62D (indexed by v_entityIndex)
 ; Data from BC5B to BC63 (9 bytes)
 _DATA_BC5B_:
 .db $02 $20 $20 $18 $00 $52 $30 $10 $02
 
-; 9th entry of Pointer Table from B62D (indexed by _RAM_C065_)
+; 9th entry of Pointer Table from B62D (indexed by v_entityIndex)
 ; Data from BC64 to BC70 (13 bytes)
 _DATA_BC64_:
 .db $03 $16 $20 $20 $03 $3E $A0 $28 $01 $3E $A0 $80 $00
 
-; 10th entry of Pointer Table from B62D (indexed by _RAM_C065_)
+; 10th entry of Pointer Table from B62D (indexed by v_entityIndex)
 ; Data from BC71 to BC75 (5 bytes)
 _DATA_BC71_:
 .db $01 $20 $18 $C0 $00
 
-; 12th entry of Pointer Table from B62D (indexed by _RAM_C065_)
+; 12th entry of Pointer Table from B62D (indexed by v_entityIndex)
 ; Data from BC76 to BC8A (21 bytes)
 _DATA_BC76_:
 .db $05 $10 $38 $20 $01 $10 $58 $40 $20 $10 $78 $60 $3F $10 $58 $80
 .db $22 $10 $38 $A0 $05
 
-; 13th entry of Pointer Table from B62D (indexed by _RAM_C065_)
+; 13th entry of Pointer Table from B62D (indexed by v_entityIndex)
 ; Data from BC8B to BC97 (13 bytes)
 _DATA_BC8B_:
 .db $03 $3E $A0 $D8 $01 $3E $A0 $60 $01 $3E $A0 $A0 $01
 
-; 14th entry of Pointer Table from B62D (indexed by _RAM_C065_)
+; 14th entry of Pointer Table from B62D (indexed by v_entityIndex)
 ; Data from BC98 to BCA4 (13 bytes)
 _DATA_BC98_:
 .db $03 $3E $A0 $D8 $01 $3E $A0 $60 $01 $3E $A0 $A0 $01
 
-; 15th entry of Pointer Table from B62D (indexed by _RAM_C065_)
+; 15th entry of Pointer Table from B62D (indexed by v_entityIndex)
 ; Data from BCA5 to BCAA (6 bytes)
 _DATA_BCA5_:
 .db $84 $1D $90 $C0 $03 $00
 
-; 17th entry of Pointer Table from B62D (indexed by _RAM_C065_)
+; 17th entry of Pointer Table from B62D (indexed by v_entityIndex)
 ; Data from BCAB to BCBB (17 bytes)
 _DATA_BCAB_:
 .db $04 $57 $50 $50 $00 $57 $50 $A0 $00 $57 $A0 $20 $00 $52 $90 $80
 .db $01
 
-; 18th entry of Pointer Table from B62D (indexed by _RAM_C065_)
+; 18th entry of Pointer Table from B62D (indexed by v_entityIndex)
 ; Data from BCBC to BCC0 (5 bytes)
 _DATA_BCBC_:
 .db $01 $3E $A0 $70 $00
 
-; 19th entry of Pointer Table from B62D (indexed by _RAM_C065_)
+; 19th entry of Pointer Table from B62D (indexed by v_entityIndex)
 ; Data from BCC1 to BCC9 (9 bytes)
 _DATA_BCC1_:
 .db $02 $11 $28 $58 $3C $11 $28 $A8 $79
 
-; 20th entry of Pointer Table from B62D (indexed by _RAM_C065_)
+; 20th entry of Pointer Table from B62D (indexed by v_entityIndex)
 ; Data from BCCA to BCDA (17 bytes)
 _DATA_BCCA_:
 .db $04 $3E $80 $40 $01 $3E $50 $80 $01 $3E $20 $50 $01 $3E $80 $A0
 .db $01
 
-; 1st entry of Pointer Table from B62D (indexed by _RAM_C065_)
+; 1st entry of Pointer Table from B62D (indexed by v_entityIndex)
 ; Data from BCDB to BCDB (1 bytes)
 _DATA_BCDB_:
 .db $00
 
-; 3rd entry of Pointer Table from B685 (indexed by _RAM_C065_)
+; 3rd entry of Pointer Table from B685 (indexed by v_entityIndex)
 ; Data from BCDC to BCE8 (13 bytes)
 _DATA_BCDC_:
 .db $03 $2F $A0 $80 $00 $2F $A0 $60 $00 $2F $50 $A0 $00
 
-; 4th entry of Pointer Table from B685 (indexed by _RAM_C065_)
+; 4th entry of Pointer Table from B685 (indexed by v_entityIndex)
 ; Data from BCE9 to BD0A (34 bytes)
 _DATA_BCE9_:
 .db $88 $0A $03 $84 $CB $51 $04 $CC $52 $84 $CC $52 $81 $4B $90 $04
 .db $00 $04 $12 $28 $24 $B6 $12 $28 $B4 $79 $13 $38 $34 $F0 $17 $90
 .db $28 $03
 
-; 5th entry of Pointer Table from B685 (indexed by _RAM_C065_)
+; 5th entry of Pointer Table from B685 (indexed by v_entityIndex)
 ; Data from BD0B to BD26 (28 bytes)
 _DATA_BD0B_:
 .db $88 $04 $01 $88 $CE $00 $81 $4B $14 $F4 $00 $04 $2F $A0 $48 $00
 .db $3E $A0 $80 $00 $3E $60 $80 $00 $3E $20 $90 $00
 
-; 6th entry of Pointer Table from B685 (indexed by _RAM_C065_)
+; 6th entry of Pointer Table from B685 (indexed by v_entityIndex)
 ; Data from BD27 to BD3B (21 bytes)
 _DATA_BD27_:
 .db $05 $3E $70 $D0 $01 $3E $70 $90 $01 $57 $30 $D8 $01 $2F $40 $B0
 .db $00 $3E $70 $B0 $01
 
-; 7th entry of Pointer Table from B685 (indexed by _RAM_C065_)
+; 7th entry of Pointer Table from B685 (indexed by v_entityIndex)
 ; Data from BD3C to BD40 (5 bytes)
 _DATA_BD3C_:
 .db $01 $51 $98 $A0 $00
 
-; 9th entry of Pointer Table from B685 (indexed by _RAM_C065_)
+; 9th entry of Pointer Table from B685 (indexed by v_entityIndex)
 ; Data from BD41 to BD45 (5 bytes)
 _DATA_BD41_:
 .db $01 $16 $90 $7C $06
 
-; 10th entry of Pointer Table from B685 (indexed by _RAM_C065_)
+; 10th entry of Pointer Table from B685 (indexed by v_entityIndex)
 ; Data from BD46 to BD58 (19 bytes)
 _DATA_BD46_:
 .db $88 $07 $02 $B0 $CC $00 $30 $CD $00 $81 $4B $74 $0C $00 $01 $15
 .db $20 $14 $16
 
-; 11th entry of Pointer Table from B685 (indexed by _RAM_C065_)
+; 11th entry of Pointer Table from B685 (indexed by v_entityIndex)
 ; Data from BD59 to BD6F (23 bytes)
 _DATA_BD59_:
 .db $88 $07 $02 $38 $CC $00 $B8 $CC $00 $81 $4B $A0 $64 $00 $02 $54
 .db $40 $98 $00 $3E $90 $C0 $00
 
-; 12th entry of Pointer Table from B685 (indexed by _RAM_C065_)
+; 12th entry of Pointer Table from B685 (indexed by v_entityIndex)
 ; Data from BD70 to BD83 (20 bytes)
 _DATA_BD70_:
 .db $88 $04 $01 $08 $C8 $50 $81 $4B $24 $24 $02 $02 $16 $90 $7C $06
 .db $52 $40 $80 $07
 
-; 13th entry of Pointer Table from B685 (indexed by _RAM_C065_)
+; 13th entry of Pointer Table from B685 (indexed by v_entityIndex)
 ; Data from BD84 to BD94 (17 bytes)
 _DATA_BD84_:
 .db $04 $3E $A0 $60 $00 $2F $50 $C0 $00 $3E $A0 $90 $01 $3E $A0 $C0
 .db $01
 
-; 14th entry of Pointer Table from B685 (indexed by _RAM_C065_)
+; 14th entry of Pointer Table from B685 (indexed by v_entityIndex)
 ; Data from BD95 to BD9A (6 bytes)
 _DATA_BD95_:
 .db $84 $1C $98 $C0 $01 $00
 
-; 17th entry of Pointer Table from B685 (indexed by _RAM_C065_)
+; 17th entry of Pointer Table from B685 (indexed by v_entityIndex)
 ; Data from BD9B to BDAF (21 bytes)
 _DATA_BD9B_:
 .db $05 $16 $50 $CC $04 $57 $A0 $60 $00 $57 $A0 $A0 $00 $57 $A0 $D0
 .db $00 $57 $50 $A0 $00
 
-; 18th entry of Pointer Table from B685 (indexed by _RAM_C065_)
+; 18th entry of Pointer Table from B685 (indexed by v_entityIndex)
 ; Data from BDB0 to BDBF (16 bytes)
 _DATA_BDB0_:
 .db $88 $04 $01 $A0 $CA $10 $81 $4B $24 $F4 $00 $01 $57 $A0 $10 $00
 
-; 20th entry of Pointer Table from B685 (indexed by _RAM_C065_)
+; 20th entry of Pointer Table from B685 (indexed by v_entityIndex)
 ; Data from BDC0 to BDCC (13 bytes)
 _DATA_BDC0_:
 .db $03 $12 $28 $44 $3C $12 $28 $D4 $79 $13 $38 $54 $F2
 
-; 21st entry of Pointer Table from B685 (indexed by _RAM_C065_)
+; 21st entry of Pointer Table from B685 (indexed by v_entityIndex)
 ; Data from BDCD to BDDD (17 bytes)
 _DATA_BDCD_:
 .db $04 $57 $A0 $90 $00 $57 $A0 $70 $00 $3E $50 $50 $01 $52 $40 $D0
 .db $05
 
-; 24th entry of Pointer Table from B685 (indexed by _RAM_C065_)
+; 24th entry of Pointer Table from B685 (indexed by v_entityIndex)
 ; Data from BDDE to BDE6 (9 bytes)
 _DATA_BDDE_:
 .db $02 $3E $A0 $60 $01 $16 $70 $68 $04
 
-; 25th entry of Pointer Table from B685 (indexed by _RAM_C065_)
+; 25th entry of Pointer Table from B685 (indexed by v_entityIndex)
 ; Data from BDE7 to BDFA (20 bytes)
 _DATA_BDE7_:
 .db $88 $04 $01 $90 $C8 $00 $81 $4B $90 $A4 $00 $02 $16 $90 $28 $04
 .db $57 $A0 $70 $00
 
-; 26th entry of Pointer Table from B685 (indexed by _RAM_C065_)
+; 26th entry of Pointer Table from B685 (indexed by v_entityIndex)
 ; Data from BDFB to BE0B (17 bytes)
 _DATA_BDFB_:
 .db $04 $2C $68 $50 $00 $2C $48 $80 $00 $2C $88 $A0 $00 $2C $58 $D0
 .db $00
 
-; 27th entry of Pointer Table from B685 (indexed by _RAM_C065_)
+; 27th entry of Pointer Table from B685 (indexed by v_entityIndex)
 ; Data from BE0C to BE18 (13 bytes)
 _DATA_BE0C_:
 .db $03 $2C $A8 $20 $00 $2C $58 $50 $00 $2C $78 $90 $00
 
-; 30th entry of Pointer Table from B685 (indexed by _RAM_C065_)
+; 30th entry of Pointer Table from B685 (indexed by v_entityIndex)
 ; Data from BE19 to BE1D (5 bytes)
 _DATA_BE19_:
 .db $01 $57 $60 $C0 $00
 
-; 31st entry of Pointer Table from B685 (indexed by _RAM_C065_)
+; 31st entry of Pointer Table from B685 (indexed by v_entityIndex)
 ; Data from BE1E to BE22 (5 bytes)
 _DATA_BE1E_:
 .db $01 $3E $60 $C0 $01
 
-; 33rd entry of Pointer Table from B685 (indexed by _RAM_C065_)
+; 33rd entry of Pointer Table from B685 (indexed by v_entityIndex)
 ; Data from BE23 to BE33 (17 bytes)
 _DATA_BE23_:
 .db $04 $2C $60 $C8 $00 $2C $60 $90 $00 $2C $60 $48 $00 $2C $60 $18
 .db $00
 
-; 34th entry of Pointer Table from B685 (indexed by _RAM_C065_)
+; 34th entry of Pointer Table from B685 (indexed by v_entityIndex)
 ; Data from BE34 to BE3F (12 bytes)
 _DATA_BE34_:
 .db $88 $04 $01 $94 $C9 $10 $81 $4B $64 $F4 $00 $00
 
-; 37th entry of Pointer Table from B685 (indexed by _RAM_C065_)
+; 37th entry of Pointer Table from B685 (indexed by v_entityIndex)
 ; Data from BE40 to BE59 (26 bytes)
 _DATA_BE40_:
 .db $88 $07 $02 $80 $C8 $00 $00 $C9 $00 $04 $3E $A0 $80 $00 $2F $30
 .db $70 $00 $2F $60 $A0 $00 $2F $80 $B0 $00
 
-; 38th entry of Pointer Table from B685 (indexed by _RAM_C065_)
+; 38th entry of Pointer Table from B685 (indexed by v_entityIndex)
 ; Data from BE5A to BE66 (13 bytes)
 _DATA_BE5A_:
 .db $03 $3E $70 $98 $00 $16 $20 $B8 $02 $3E $60 $50 $00
 
-; 39th entry of Pointer Table from B685 (indexed by _RAM_C065_)
+; 39th entry of Pointer Table from B685 (indexed by v_entityIndex)
 ; Data from BE67 to BE73 (13 bytes)
 _DATA_BE67_:
 .db $03 $3E $30 $78 $00 $3E $A0 $40 $01 $3E $A0 $B0 $01
 
-; 40th entry of Pointer Table from B685 (indexed by _RAM_C065_)
+; 40th entry of Pointer Table from B685 (indexed by v_entityIndex)
 ; Data from BE74 to BE78 (5 bytes)
 _DATA_BE74_:
 .db $01 $15 $20 $20 $18
 
-; 41st entry of Pointer Table from B685 (indexed by _RAM_C065_)
+; 41st entry of Pointer Table from B685 (indexed by v_entityIndex)
 ; Data from BE79 to BE7D (5 bytes)
 _DATA_BE79_:
 .db $01 $2F $80 $B0 $00
 
-; 42nd entry of Pointer Table from B685 (indexed by _RAM_C065_)
+; 42nd entry of Pointer Table from B685 (indexed by v_entityIndex)
 ; Data from BE7E to BE86 (9 bytes)
 _DATA_BE7E_:
 .db $02 $3E $80 $68 $01 $3E $A0 $A0 $00
 
-; 1st entry of Pointer Table from B685 (indexed by _RAM_C065_)
+; 1st entry of Pointer Table from B685 (indexed by v_entityIndex)
 ; Data from BE87 to BFFF (377 bytes)
 _DATA_BE87_:
 .db $00
@@ -2267,7 +2267,7 @@ _DATA_BE87_:
 _DATA_C000_:
 .incbin "baserom_DATA_C000_.inc"
 
-; Pointer Table from C480 to C4A1 (17 entries, indexed by _RAM_C023_)
+; Pointer Table from C480 to C4A1 (17 entries, indexed by v_level)
 _DATA_C480_:
 .dw _DATA_CECE_ _DATA_D158_ _DATA_D317_ _DATA_D56A_ _DATA_CECE_ _DATA_DB82_ _DATA_DF1D_ _DATA_E24C_
 .dw _DATA_CECE_ _DATA_D158_ _DATA_EA05_ _DATA_DB82_ _DATA_D158_ _DATA_F49B_ _DATA_D158_ _DATA_EE33_
@@ -2309,7 +2309,7 @@ _DATA_CE65_:
 .db $04 $02 $02 $03 $01 $03 $80 $02 $40 $83 $20 $18 $07 $03 $01 $02
 .db $02 $83 $04 $18 $E0 $00 $20 $00 $00
 
-; 1st entry of Pointer Table from C480 (indexed by _RAM_C023_)
+; 1st entry of Pointer Table from C480 (indexed by v_level)
 ; Data from CECE to D157 (650 bytes)
 _DATA_CECE_:
 .db $84 $00 $07 $1F $3F $04 $7F $88 $00 $F0 $FC $FC $FE $C6 $FA $FE
@@ -2354,7 +2354,7 @@ _DATA_CECE_:
 .db $02 $7F $86 $17 $BF $7F $7F $FF $7F $0A $FF $81 $17 $04 $FF $89
 .db $FE $FF $FF $FC $FB $FF $EF $BF $1F $00
 
-; 2nd entry of Pointer Table from C480 (indexed by _RAM_C023_)
+; 2nd entry of Pointer Table from C480 (indexed by v_level)
 ; Data from D158 to D316 (447 bytes)
 _DATA_D158_:
 .db $83 $1F $3F $7F $05 $FF $83 $F8 $FC $FE $09 $FF $02 $7F $82 $3F
@@ -2386,7 +2386,7 @@ _DATA_D158_:
 .db $34 $22 $56 $6A $76 $3C $1C $00 $B6 $67 $49 $EC $36 $E3 $DB $57
 .db $05 $00 $83 $04 $33 $68 $03 $00 $85 $08 $B4 $67 $CA $31 $00
 
-; 3rd entry of Pointer Table from C480 (indexed by _RAM_C023_)
+; 3rd entry of Pointer Table from C480 (indexed by v_level)
 ; Data from D317 to D569 (595 bytes)
 _DATA_D317_:
 .db $02 $00 $8F $03 $06 $0E $38 $F8 $8C $30 $F8 $1C $14 $26 $02 $02
@@ -2428,12 +2428,12 @@ _DATA_D317_:
 .db $F0 $08 $00 $02 $E0 $02 $C0 $03 $80 $09 $00 $00 $7F $FF $7F $FF
 .db $02 $FF $00
 
-; 4th entry of Pointer Table from C480 (indexed by _RAM_C023_)
+; 4th entry of Pointer Table from C480 (indexed by v_level)
 ; Data from D56A to DB81 (1560 bytes)
 _DATA_D56A_:
 .incbin "baserom_DATA_D56A_.inc"
 
-; 6th entry of Pointer Table from C480 (indexed by _RAM_C023_)
+; 6th entry of Pointer Table from C480 (indexed by v_level)
 ; Data from DB82 to DF1C (923 bytes)
 _DATA_DB82_:
 .db $02 $00 $88 $01 $07 $1F $3F $7F $FF $07 $3F $16 $FF $81 $80 $06
@@ -2495,7 +2495,7 @@ _DATA_DB82_:
 .db $00 $98 $3F $7F $FF $FC $FE $F8 $FD $DF $F7 $FB $F8 $F6 $ED $FF
 .db $7F $3F $CF $DF $1F $6F $B7 $FF $FE $FC $00
 
-; 7th entry of Pointer Table from C480 (indexed by _RAM_C023_)
+; 7th entry of Pointer Table from C480 (indexed by v_level)
 ; Data from DF1D to E24B (815 bytes)
 _DATA_DF1D_:
 .db $82 $0F $3F $02 $7F $04 $FF $97 $E0 $F0 $F0 $F8 $FA $F8 $E6 $D6
@@ -2550,17 +2550,17 @@ _DATA_DF1D_:
 .db $00 $E0 $F0 $58 $E8 $F0 $AC $0C $FE $FF $4B $FE $C0 $3F $FF $78
 .db $06 $00 $84 $07 $0E $0C $1C $06 $FF $82 $30 $38 $2E $FF $00
 
-; 8th entry of Pointer Table from C480 (indexed by _RAM_C023_)
+; 8th entry of Pointer Table from C480 (indexed by v_level)
 ; Data from E24C to EA04 (1977 bytes)
 _DATA_E24C_:
 .incbin "baserom_DATA_E24C_.inc"
 
-; 11th entry of Pointer Table from C480 (indexed by _RAM_C023_)
+; 11th entry of Pointer Table from C480 (indexed by v_level)
 ; Data from EA05 to EE32 (1070 bytes)
 _DATA_EA05_:
 .incbin "baserom_DATA_EA05_.inc"
 
-; 16th entry of Pointer Table from C480 (indexed by _RAM_C023_)
+; 16th entry of Pointer Table from C480 (indexed by v_level)
 ; Data from EE33 to F116 (740 bytes)
 _DATA_EE33_:
 .db $9D $00 $7F $7F $7E $7D $7B $75 $6E $00 $FE $FE $7E $BE $DE $AE
@@ -2611,7 +2611,7 @@ _DATA_EE33_:
 .db $03 $CF $85 $FF $EF $6D $EF $FF $03 $CF $84 $0F $87 $8B $CF $03
 .db $EF $81 $FF $00
 
-; 17th entry of Pointer Table from C480 (indexed by _RAM_C023_)
+; 17th entry of Pointer Table from C480 (indexed by v_level)
 ; Data from F117 to F49A (900 bytes)
 _DATA_F117_:
 .db $02 $00 $8F $03 $06 $0E $38 $F8 $8C $30 $F8 $1C $14 $26 $02 $02
@@ -2672,7 +2672,7 @@ _DATA_F117_:
 .db $4F $02 $2F $02 $4F $02 $2F $05 $FE $83 $F6 $F2 $FC $05 $7F $83
 .db $6F $4F $1F $00
 
-; 14th entry of Pointer Table from C480 (indexed by _RAM_C023_)
+; 14th entry of Pointer Table from C480 (indexed by v_level)
 ; Data from F49B to F75B (705 bytes)
 _DATA_F49B_:
 .db $02 $BF $81 $FF $02 $5F $02 $2F $85 $3F $5F $BF $BF $7F $03 $BF
@@ -2882,7 +2882,7 @@ _DATA_FC69_:
 .BANK 4
 .ORG $0000
 
-; Pointer Table from 10000 to 1005F (48 entries, indexed by _RAM_C200_)
+; Pointer Table from 10000 to 1005F (48 entries, indexed by v_alexTilesIndex)
 _DATA_10000_:
 .dw _DATA_10060_ _DATA_1006B_ _DATA_10078_ _DATA_10085_ _DATA_10090_ _DATA_1009D_ _DATA_100AA_ _DATA_100B7_
 .dw _DATA_100C4_ _DATA_100D3_ _DATA_100E2_ _DATA_100ED_ _DATA_100F8_ _DATA_10103_ _DATA_1010E_ _DATA_1011B_
@@ -2891,7 +2891,7 @@ _DATA_10000_:
 .dw _DATA_10248_ _DATA_10261_ _DATA_10278_ _DATA_10291_ _DATA_102A8_ _DATA_102C1_ _DATA_102CE_ _DATA_102DB_
 .dw _DATA_102DB_ _DATA_102E6_ _DATA_102F3_ _DATA_10300_ _DATA_1030D_ _DATA_1031A_ _DATA_10327_ _DATA_10334_
 
-; 1st entry of Pointer Table from 10000 (indexed by _RAM_C200_)
+; 1st entry of Pointer Table from 10000 (indexed by v_alexTilesIndex)
 ; Data from 10060 to 10060 (1 bytes)
 _DATA_10060_:
 .db $05
@@ -2899,7 +2899,7 @@ _DATA_10060_:
 ; Pointer Table from 10061 to 1006A (5 entries, indexed by unknown)
 .dw _DATA_10341_ _DATA_10359_ _DATA_10371_ _DATA_10389_ _DATA_103A1_
 
-; 2nd entry of Pointer Table from 10000 (indexed by _RAM_C200_)
+; 2nd entry of Pointer Table from 10000 (indexed by v_alexTilesIndex)
 ; Data from 1006B to 1006B (1 bytes)
 _DATA_1006B_:
 .db $06
@@ -2907,7 +2907,7 @@ _DATA_1006B_:
 ; Pointer Table from 1006C to 10077 (6 entries, indexed by unknown)
 .dw _DATA_10341_ _DATA_10359_ _DATA_103B9_ _DATA_103D1_ _DATA_103E9_ _DATA_10401_
 
-; 3rd entry of Pointer Table from 10000 (indexed by _RAM_C200_)
+; 3rd entry of Pointer Table from 10000 (indexed by v_alexTilesIndex)
 ; Data from 10078 to 10078 (1 bytes)
 _DATA_10078_:
 .db $06
@@ -2915,7 +2915,7 @@ _DATA_10078_:
 ; Pointer Table from 10079 to 10084 (6 entries, indexed by unknown)
 .dw _DATA_10341_ _DATA_10359_ _DATA_10419_ _DATA_10431_ _DATA_10449_ _DATA_10461_
 
-; 4th entry of Pointer Table from 10000 (indexed by _RAM_C200_)
+; 4th entry of Pointer Table from 10000 (indexed by v_alexTilesIndex)
 ; Data from 10085 to 10085 (1 bytes)
 _DATA_10085_:
 .db $05
@@ -2923,7 +2923,7 @@ _DATA_10085_:
 ; Pointer Table from 10086 to 1008F (5 entries, indexed by unknown)
 .dw _DATA_10479_ _DATA_10491_ _DATA_104A9_ _DATA_104C1_ _DATA_104D9_
 
-; 5th entry of Pointer Table from 10000 (indexed by _RAM_C200_)
+; 5th entry of Pointer Table from 10000 (indexed by v_alexTilesIndex)
 ; Data from 10090 to 10090 (1 bytes)
 _DATA_10090_:
 .db $06
@@ -2931,7 +2931,7 @@ _DATA_10090_:
 ; Pointer Table from 10091 to 1009C (6 entries, indexed by unknown)
 .dw _DATA_10479_ _DATA_10491_ _DATA_104F1_ _DATA_10509_ _DATA_10521_ _DATA_10539_
 
-; 6th entry of Pointer Table from 10000 (indexed by _RAM_C200_)
+; 6th entry of Pointer Table from 10000 (indexed by v_alexTilesIndex)
 ; Data from 1009D to 1009D (1 bytes)
 _DATA_1009D_:
 .db $06
@@ -2939,7 +2939,7 @@ _DATA_1009D_:
 ; Pointer Table from 1009E to 100A9 (6 entries, indexed by unknown)
 .dw _DATA_10479_ _DATA_10491_ _DATA_10551_ _DATA_10569_ _DATA_10581_ _DATA_10599_
 
-; 7th entry of Pointer Table from 10000 (indexed by _RAM_C200_)
+; 7th entry of Pointer Table from 10000 (indexed by v_alexTilesIndex)
 ; Data from 100AA to 100AA (1 bytes)
 _DATA_100AA_:
 .db $06
@@ -2947,7 +2947,7 @@ _DATA_100AA_:
 ; Pointer Table from 100AB to 100B6 (6 entries, indexed by unknown)
 .dw _DATA_10341_ _DATA_10359_ _DATA_105B1_ _DATA_105C9_ _DATA_105E1_ _DATA_105F9_
 
-; 8th entry of Pointer Table from 10000 (indexed by _RAM_C200_)
+; 8th entry of Pointer Table from 10000 (indexed by v_alexTilesIndex)
 ; Data from 100B7 to 100B7 (1 bytes)
 _DATA_100B7_:
 .db $06
@@ -2955,7 +2955,7 @@ _DATA_100B7_:
 ; Pointer Table from 100B8 to 100C3 (6 entries, indexed by unknown)
 .dw _DATA_10479_ _DATA_10491_ _DATA_10611_ _DATA_10629_ _DATA_10641_ _DATA_10659_
 
-; 9th entry of Pointer Table from 10000 (indexed by _RAM_C200_)
+; 9th entry of Pointer Table from 10000 (indexed by v_alexTilesIndex)
 ; Data from 100C4 to 100C4 (1 bytes)
 _DATA_100C4_:
 .db $07
@@ -2963,7 +2963,7 @@ _DATA_100C4_:
 ; Pointer Table from 100C5 to 100D2 (7 entries, indexed by unknown)
 .dw _DATA_10341_ _DATA_10359_ _DATA_10671_ _DATA_10689_ _DATA_106A1_ _DATA_106B9_ _DATA_106D1_
 
-; 10th entry of Pointer Table from 10000 (indexed by _RAM_C200_)
+; 10th entry of Pointer Table from 10000 (indexed by v_alexTilesIndex)
 ; Data from 100D3 to 100D3 (1 bytes)
 _DATA_100D3_:
 .db $07
@@ -2971,7 +2971,7 @@ _DATA_100D3_:
 ; Pointer Table from 100D4 to 100E1 (7 entries, indexed by unknown)
 .dw _DATA_10479_ _DATA_10491_ _DATA_106E9_ _DATA_10701_ _DATA_10719_ _DATA_10731_ _DATA_10749_
 
-; 11th entry of Pointer Table from 10000 (indexed by _RAM_C200_)
+; 11th entry of Pointer Table from 10000 (indexed by v_alexTilesIndex)
 ; Data from 100E2 to 100E2 (1 bytes)
 _DATA_100E2_:
 .db $05
@@ -2979,7 +2979,7 @@ _DATA_100E2_:
 ; Pointer Table from 100E3 to 100EC (5 entries, indexed by unknown)
 .dw _DATA_10341_ _DATA_10359_ _DATA_10761_ _DATA_10779_ _DATA_10791_
 
-; 12th entry of Pointer Table from 10000 (indexed by _RAM_C200_)
+; 12th entry of Pointer Table from 10000 (indexed by v_alexTilesIndex)
 ; Data from 100ED to 100ED (1 bytes)
 _DATA_100ED_:
 .db $05
@@ -2987,7 +2987,7 @@ _DATA_100ED_:
 ; Pointer Table from 100EE to 100F7 (5 entries, indexed by unknown)
 .dw _DATA_10341_ _DATA_10359_ _DATA_10761_ _DATA_107A9_ _DATA_107C1_
 
-; 13th entry of Pointer Table from 10000 (indexed by _RAM_C200_)
+; 13th entry of Pointer Table from 10000 (indexed by v_alexTilesIndex)
 ; Data from 100F8 to 100F8 (1 bytes)
 _DATA_100F8_:
 .db $05
@@ -2995,7 +2995,7 @@ _DATA_100F8_:
 ; Pointer Table from 100F9 to 10102 (5 entries, indexed by unknown)
 .dw _DATA_10479_ _DATA_10491_ _DATA_107D9_ _DATA_107F1_ _DATA_10809_
 
-; 14th entry of Pointer Table from 10000 (indexed by _RAM_C200_)
+; 14th entry of Pointer Table from 10000 (indexed by v_alexTilesIndex)
 ; Data from 10103 to 10103 (1 bytes)
 _DATA_10103_:
 .db $05
@@ -3003,7 +3003,7 @@ _DATA_10103_:
 ; Pointer Table from 10104 to 1010D (5 entries, indexed by unknown)
 .dw _DATA_10479_ _DATA_10491_ _DATA_10821_ _DATA_10839_ _DATA_10809_
 
-; 15th entry of Pointer Table from 10000 (indexed by _RAM_C200_)
+; 15th entry of Pointer Table from 10000 (indexed by v_alexTilesIndex)
 ; Data from 1010E to 1010E (1 bytes)
 _DATA_1010E_:
 .db $06
@@ -3011,7 +3011,7 @@ _DATA_1010E_:
 ; Pointer Table from 1010F to 1011A (6 entries, indexed by unknown)
 .dw _DATA_10341_ _DATA_10359_ _DATA_10671_ _DATA_10851_ _DATA_10869_ _DATA_10791_
 
-; 16th entry of Pointer Table from 10000 (indexed by _RAM_C200_)
+; 16th entry of Pointer Table from 10000 (indexed by v_alexTilesIndex)
 ; Data from 1011B to 1011B (1 bytes)
 _DATA_1011B_:
 .db $06
@@ -3019,7 +3019,7 @@ _DATA_1011B_:
 ; Pointer Table from 1011C to 10127 (6 entries, indexed by unknown)
 .dw _DATA_10479_ _DATA_10491_ _DATA_107D9_ _DATA_10881_ _DATA_10899_ _DATA_10719_
 
-; 17th entry of Pointer Table from 10000 (indexed by _RAM_C200_)
+; 17th entry of Pointer Table from 10000 (indexed by v_alexTilesIndex)
 ; Data from 10128 to 10128 (1 bytes)
 _DATA_10128_:
 .db $06
@@ -3027,7 +3027,7 @@ _DATA_10128_:
 ; Pointer Table from 10129 to 10134 (6 entries, indexed by unknown)
 .dw _DATA_109A1_ _DATA_109B9_ _DATA_109D1_ _DATA_109E9_ _DATA_10731_ _DATA_10A01_
 
-; 18th entry of Pointer Table from 10000 (indexed by _RAM_C200_)
+; 18th entry of Pointer Table from 10000 (indexed by v_alexTilesIndex)
 ; Data from 10135 to 10135 (1 bytes)
 _DATA_10135_:
 .db $06
@@ -3035,7 +3035,7 @@ _DATA_10135_:
 ; Pointer Table from 10136 to 10141 (6 entries, indexed by unknown)
 .dw _DATA_109A1_ _DATA_10A19_ _DATA_10A31_ _DATA_10A49_ _DATA_10A61_ _DATA_10A79_
 
-; 19th entry of Pointer Table from 10000 (indexed by _RAM_C200_)
+; 19th entry of Pointer Table from 10000 (indexed by v_alexTilesIndex)
 ; Data from 10142 to 10142 (1 bytes)
 _DATA_10142_:
 .db $0A
@@ -3044,7 +3044,7 @@ _DATA_10142_:
 .dw _DATA_10479_ _DATA_10491_ _DATA_106E9_ _DATA_10701_ _DATA_10731_ _DATA_10749_ _DATA_10A91_ _DATA_10AA9_
 .dw _DATA_10AC1_ _DATA_10AD9_
 
-; 20th entry of Pointer Table from 10000 (indexed by _RAM_C200_)
+; 20th entry of Pointer Table from 10000 (indexed by v_alexTilesIndex)
 ; Data from 10157 to 10157 (1 bytes)
 _DATA_10157_:
 .db $0A
@@ -3053,7 +3053,7 @@ _DATA_10157_:
 .dw _DATA_10479_ _DATA_10491_ _DATA_106E9_ _DATA_10701_ _DATA_10731_ _DATA_10749_ _DATA_10AF1_ _DATA_10B09_
 .dw _DATA_10B21_ _DATA_10B39_
 
-; 21st entry of Pointer Table from 10000 (indexed by _RAM_C200_)
+; 21st entry of Pointer Table from 10000 (indexed by v_alexTilesIndex)
 ; Data from 1016C to 1016C (1 bytes)
 _DATA_1016C_:
 .db $0A
@@ -3062,7 +3062,7 @@ _DATA_1016C_:
 .dw _DATA_10479_ _DATA_10491_ _DATA_106E9_ _DATA_10701_ _DATA_10731_ _DATA_10749_ _DATA_10B51_ _DATA_10B69_
 .dw _DATA_10B81_ _DATA_10B99_
 
-; 22nd entry of Pointer Table from 10000 (indexed by _RAM_C200_)
+; 22nd entry of Pointer Table from 10000 (indexed by v_alexTilesIndex)
 ; Data from 10181 to 10181 (1 bytes)
 _DATA_10181_:
 .db $06
@@ -3070,7 +3070,7 @@ _DATA_10181_:
 ; Pointer Table from 10182 to 1018D (6 entries, indexed by unknown)
 .dw _DATA_10341_ _DATA_10359_ _DATA_10BB1_ _DATA_10BC9_ _DATA_10BE1_ _DATA_10BF9_
 
-; 23rd entry of Pointer Table from 10000 (indexed by _RAM_C200_)
+; 23rd entry of Pointer Table from 10000 (indexed by v_alexTilesIndex)
 ; Data from 1018E to 1018E (1 bytes)
 _DATA_1018E_:
 .db $06
@@ -3078,7 +3078,7 @@ _DATA_1018E_:
 ; Pointer Table from 1018F to 1019A (6 entries, indexed by unknown)
 .dw _DATA_10479_ _DATA_10491_ _DATA_10C11_ _DATA_10C29_ _DATA_10C41_ _DATA_10C59_
 
-; 24th entry of Pointer Table from 10000 (indexed by _RAM_C200_)
+; 24th entry of Pointer Table from 10000 (indexed by v_alexTilesIndex)
 ; Data from 1019B to 1019B (1 bytes)
 _DATA_1019B_:
 .db $08
@@ -3086,7 +3086,7 @@ _DATA_1019B_:
 ; Pointer Table from 1019C to 101AB (8 entries, indexed by unknown)
 .dw _DATA_10479_ _DATA_10491_ _DATA_10C71_ _DATA_10C89_ _DATA_10CA1_ _DATA_10CB9_ _DATA_10CD1_ _DATA_10CE9_
 
-; 25th entry of Pointer Table from 10000 (indexed by _RAM_C200_)
+; 25th entry of Pointer Table from 10000 (indexed by v_alexTilesIndex)
 ; Data from 101AC to 101AC (1 bytes)
 _DATA_101AC_:
 .db $08
@@ -3094,7 +3094,7 @@ _DATA_101AC_:
 ; Pointer Table from 101AD to 101BC (8 entries, indexed by unknown)
 .dw _DATA_10479_ _DATA_10491_ _DATA_10C71_ _DATA_10C89_ _DATA_10CA1_ _DATA_10D01_ _DATA_10CD1_ _DATA_10D19_
 
-; 26th entry of Pointer Table from 10000 (indexed by _RAM_C200_)
+; 26th entry of Pointer Table from 10000 (indexed by v_alexTilesIndex)
 ; Data from 101BD to 101BD (1 bytes)
 _DATA_101BD_:
 .db $08
@@ -3102,7 +3102,7 @@ _DATA_101BD_:
 ; Pointer Table from 101BE to 101CD (8 entries, indexed by unknown)
 .dw _DATA_10D31_ _DATA_10D49_ _DATA_10D61_ _DATA_10D79_ _DATA_10D91_ _DATA_10DA9_ _DATA_10DC1_ _DATA_10DD9_
 
-; 27th entry of Pointer Table from 10000 (indexed by _RAM_C200_)
+; 27th entry of Pointer Table from 10000 (indexed by v_alexTilesIndex)
 ; Data from 101CE to 101CE (1 bytes)
 _DATA_101CE_:
 .db $08
@@ -3110,7 +3110,7 @@ _DATA_101CE_:
 ; Pointer Table from 101CF to 101DE (8 entries, indexed by unknown)
 .dw _DATA_10479_ _DATA_10491_ _DATA_11679_ _DATA_11691_ _DATA_116A9_ _DATA_116C1_ _DATA_116D9_ _DATA_116F1_
 
-; 28th entry of Pointer Table from 10000 (indexed by _RAM_C200_)
+; 28th entry of Pointer Table from 10000 (indexed by v_alexTilesIndex)
 ; Data from 101DF to 101DF (1 bytes)
 _DATA_101DF_:
 .db $08
@@ -3118,7 +3118,7 @@ _DATA_101DF_:
 ; Pointer Table from 101E0 to 101EF (8 entries, indexed by unknown)
 .dw _DATA_10479_ _DATA_10491_ _DATA_11679_ _DATA_11691_ _DATA_116A9_ _DATA_11709_ _DATA_11721_ _DATA_11739_
 
-; 29th entry of Pointer Table from 10000 (indexed by _RAM_C200_)
+; 29th entry of Pointer Table from 10000 (indexed by v_alexTilesIndex)
 ; Data from 101F0 to 101F0 (1 bytes)
 _DATA_101F0_:
 .db $08
@@ -3126,7 +3126,7 @@ _DATA_101F0_:
 ; Pointer Table from 101F1 to 10200 (8 entries, indexed by unknown)
 .dw _DATA_10479_ _DATA_10491_ _DATA_11679_ _DATA_11691_ _DATA_116A9_ _DATA_11751_ _DATA_11769_ _DATA_11781_
 
-; 30th entry of Pointer Table from 10000 (indexed by _RAM_C200_)
+; 30th entry of Pointer Table from 10000 (indexed by v_alexTilesIndex)
 ; Data from 10201 to 10201 (1 bytes)
 _DATA_10201_:
 .db $0B
@@ -3135,7 +3135,7 @@ _DATA_10201_:
 .dw _DATA_11079_ _DATA_11091_ _DATA_110A9_ _DATA_110C1_ _DATA_110D9_ _DATA_110F1_ _DATA_11109_ _DATA_11121_
 .dw _DATA_11139_ _DATA_11151_ _DATA_11169_
 
-; 31st entry of Pointer Table from 10000 (indexed by _RAM_C200_)
+; 31st entry of Pointer Table from 10000 (indexed by v_alexTilesIndex)
 ; Data from 10218 to 10218 (1 bytes)
 _DATA_10218_:
 .db $0C
@@ -3144,7 +3144,7 @@ _DATA_10218_:
 .dw _DATA_11181_ _DATA_11199_ _DATA_111B1_ _DATA_110C1_ _DATA_110D9_ _DATA_110F1_ _DATA_11109_ _DATA_111C9_
 .dw _DATA_11139_ _DATA_111E1_ _DATA_111F9_ _DATA_11211_
 
-; 32nd entry of Pointer Table from 10000 (indexed by _RAM_C200_)
+; 32nd entry of Pointer Table from 10000 (indexed by v_alexTilesIndex)
 ; Data from 10231 to 10231 (1 bytes)
 _DATA_10231_:
 .db $0B
@@ -3153,7 +3153,7 @@ _DATA_10231_:
 .dw _DATA_11229_ _DATA_11241_ _DATA_111B1_ _DATA_110C1_ _DATA_110D9_ _DATA_110F1_ _DATA_11109_ _DATA_11259_
 .dw _DATA_11139_ _DATA_111E1_ _DATA_11271_
 
-; 33rd entry of Pointer Table from 10000 (indexed by _RAM_C200_)
+; 33rd entry of Pointer Table from 10000 (indexed by v_alexTilesIndex)
 ; Data from 10248 to 10248 (1 bytes)
 _DATA_10248_:
 .db $0C
@@ -3162,7 +3162,7 @@ _DATA_10248_:
 .dw _DATA_11181_ _DATA_11199_ _DATA_111B1_ _DATA_110C1_ _DATA_110D9_ _DATA_110F1_ _DATA_11109_ _DATA_11289_
 .dw _DATA_112A1_ _DATA_111E1_ _DATA_112B9_ _DATA_112D1_
 
-; 34th entry of Pointer Table from 10000 (indexed by _RAM_C200_)
+; 34th entry of Pointer Table from 10000 (indexed by v_alexTilesIndex)
 ; Data from 10261 to 10261 (1 bytes)
 _DATA_10261_:
 .db $0B
@@ -3171,7 +3171,7 @@ _DATA_10261_:
 .dw _DATA_112E9_ _DATA_11301_ _DATA_11319_ _DATA_11331_ _DATA_11349_ _DATA_11361_ _DATA_11379_ _DATA_11391_
 .dw _DATA_113A9_ _DATA_113C1_ _DATA_113D9_
 
-; 35th entry of Pointer Table from 10000 (indexed by _RAM_C200_)
+; 35th entry of Pointer Table from 10000 (indexed by v_alexTilesIndex)
 ; Data from 10278 to 10278 (1 bytes)
 _DATA_10278_:
 .db $0C
@@ -3180,7 +3180,7 @@ _DATA_10278_:
 .dw _DATA_113F1_ _DATA_11409_ _DATA_11421_ _DATA_11331_ _DATA_11349_ _DATA_11361_ _DATA_11379_ _DATA_11439_
 .dw _DATA_113A9_ _DATA_11451_ _DATA_11469_ _DATA_112D1_
 
-; 36th entry of Pointer Table from 10000 (indexed by _RAM_C200_)
+; 36th entry of Pointer Table from 10000 (indexed by v_alexTilesIndex)
 ; Data from 10291 to 10291 (1 bytes)
 _DATA_10291_:
 .db $0B
@@ -3189,7 +3189,7 @@ _DATA_10291_:
 .dw _DATA_11481_ _DATA_11499_ _DATA_11421_ _DATA_11331_ _DATA_11349_ _DATA_11361_ _DATA_11379_ _DATA_114B1_
 .dw _DATA_113A9_ _DATA_114C9_ _DATA_114E1_
 
-; 37th entry of Pointer Table from 10000 (indexed by _RAM_C200_)
+; 37th entry of Pointer Table from 10000 (indexed by v_alexTilesIndex)
 ; Data from 102A8 to 102A8 (1 bytes)
 _DATA_102A8_:
 .db $0C
@@ -3198,7 +3198,7 @@ _DATA_102A8_:
 .dw _DATA_113F1_ _DATA_11409_ _DATA_11421_ _DATA_11331_ _DATA_11349_ _DATA_11361_ _DATA_114F9_ _DATA_11511_
 .dw _DATA_113A9_ _DATA_11529_ _DATA_11541_ _DATA_112D1_
 
-; 38th entry of Pointer Table from 10000 (indexed by _RAM_C200_)
+; 38th entry of Pointer Table from 10000 (indexed by v_alexTilesIndex)
 ; Data from 102C1 to 102C1 (1 bytes)
 _DATA_102C1_:
 .db $06
@@ -3206,7 +3206,7 @@ _DATA_102C1_:
 ; Pointer Table from 102C2 to 102CD (6 entries, indexed by unknown)
 .dw _DATA_108B1_ _DATA_108C9_ _DATA_10DF1_ _DATA_10E09_ _DATA_10E21_ _DATA_10E39_
 
-; 39th entry of Pointer Table from 10000 (indexed by _RAM_C200_)
+; 39th entry of Pointer Table from 10000 (indexed by v_alexTilesIndex)
 ; Data from 102CE to 102CE (1 bytes)
 _DATA_102CE_:
 .db $06
@@ -3214,7 +3214,7 @@ _DATA_102CE_:
 ; Pointer Table from 102CF to 102DA (6 entries, indexed by unknown)
 .dw _DATA_109A1_ _DATA_109B9_ _DATA_10E51_ _DATA_10E69_ _DATA_10E81_ _DATA_10E99_
 
-; 40th entry of Pointer Table from 10000 (indexed by _RAM_C200_)
+; 40th entry of Pointer Table from 10000 (indexed by v_alexTilesIndex)
 ; Data from 102DB to 102DB (1 bytes)
 _DATA_102DB_:
 .db $05
@@ -3222,7 +3222,7 @@ _DATA_102DB_:
 ; Pointer Table from 102DC to 102E5 (5 entries, indexed by unknown)
 .dw _DATA_10EB1_ _DATA_10EC9_ _DATA_10EE1_ _DATA_10EF9_ _DATA_10F11_
 
-; 42nd entry of Pointer Table from 10000 (indexed by _RAM_C200_)
+; 42nd entry of Pointer Table from 10000 (indexed by v_alexTilesIndex)
 ; Data from 102E6 to 102E6 (1 bytes)
 _DATA_102E6_:
 .db $06
@@ -3230,7 +3230,7 @@ _DATA_102E6_:
 ; Pointer Table from 102E7 to 102F2 (6 entries, indexed by unknown)
 .dw _DATA_10F29_ _DATA_10F41_ _DATA_10F59_ _DATA_10F71_ _DATA_10F89_ _DATA_10FA1_
 
-; 43rd entry of Pointer Table from 10000 (indexed by _RAM_C200_)
+; 43rd entry of Pointer Table from 10000 (indexed by v_alexTilesIndex)
 ; Data from 102F3 to 102F3 (1 bytes)
 _DATA_102F3_:
 .db $06
@@ -3238,7 +3238,7 @@ _DATA_102F3_:
 ; Pointer Table from 102F4 to 102FF (6 entries, indexed by unknown)
 .dw _DATA_10F29_ _DATA_10F41_ _DATA_10FB9_ _DATA_10FD1_ _DATA_10FE9_ _DATA_11001_
 
-; 44th entry of Pointer Table from 10000 (indexed by _RAM_C200_)
+; 44th entry of Pointer Table from 10000 (indexed by v_alexTilesIndex)
 ; Data from 10300 to 10300 (1 bytes)
 _DATA_10300_:
 .db $06
@@ -3246,7 +3246,7 @@ _DATA_10300_:
 ; Pointer Table from 10301 to 1030C (6 entries, indexed by unknown)
 .dw _DATA_10F29_ _DATA_10F41_ _DATA_11019_ _DATA_11031_ _DATA_11049_ _DATA_11061_
 
-; 45th entry of Pointer Table from 10000 (indexed by _RAM_C200_)
+; 45th entry of Pointer Table from 10000 (indexed by v_alexTilesIndex)
 ; Data from 1030D to 1030D (1 bytes)
 _DATA_1030D_:
 .db $06
@@ -3254,7 +3254,7 @@ _DATA_1030D_:
 ; Pointer Table from 1030E to 10319 (6 entries, indexed by unknown)
 .dw _DATA_11559_ _DATA_11571_ _DATA_11589_ _DATA_115A1_ _DATA_115B9_ _DATA_115D1_
 
-; 46th entry of Pointer Table from 10000 (indexed by _RAM_C200_)
+; 46th entry of Pointer Table from 10000 (indexed by v_alexTilesIndex)
 ; Data from 1031A to 1031A (1 bytes)
 _DATA_1031A_:
 .db $06
@@ -3262,7 +3262,7 @@ _DATA_1031A_:
 ; Pointer Table from 1031B to 10326 (6 entries, indexed by unknown)
 .dw _DATA_11799_ _DATA_117B1_ _DATA_117C9_ _DATA_117E1_ _DATA_117F9_ _DATA_11811_
 
-; 47th entry of Pointer Table from 10000 (indexed by _RAM_C200_)
+; 47th entry of Pointer Table from 10000 (indexed by v_alexTilesIndex)
 ; Data from 10327 to 10327 (1 bytes)
 _DATA_10327_:
 .db $06
@@ -3270,7 +3270,7 @@ _DATA_10327_:
 ; Pointer Table from 10328 to 10333 (6 entries, indexed by unknown)
 .dw _DATA_11799_ _DATA_117B1_ _DATA_11829_ _DATA_11841_ _DATA_11859_ _DATA_11871_
 
-; 48th entry of Pointer Table from 10000 (indexed by _RAM_C200_)
+; 48th entry of Pointer Table from 10000 (indexed by v_alexTilesIndex)
 ; Data from 10334 to 10334 (1 bytes)
 _DATA_10334_:
 .db $06
@@ -6535,14 +6535,14 @@ _DATA_14D25_:
 _DATA_14D2D_:
 .db $73 $80 $00 $06 $8B $80 $73 $80
 
-; 1st entry of Pointer Table from A80 (indexed by _RAM_C016_)
+; 1st entry of Pointer Table from A80 (indexed by v_nextDemoIndex)
 ; Data from 14D35 to 14D5A (38 bytes)
 _DATA_14D35_:
 .db $11 $00 $B4 $08 $0B $18 $82 $08 $0C $18 $34 $08 $13 $18 $2B $08
 .db $0A $18 $7B $08 $13 $18 $AD $08 $0F $18 $31 $08 $0C $18 $77 $08
 .db $0C $18 $17 $10 $00 $00
 
-; 2nd entry of Pointer Table from A80 (indexed by _RAM_C016_)
+; 2nd entry of Pointer Table from A80 (indexed by v_nextDemoIndex)
 ; Data from 14D5B to 14E3A (224 bytes)
 _DATA_14D5B_:
 .db $1C $00 $02 $08 $20 $0A $0D $02 $03 $12 $07 $02 $13 $06 $0A $02
@@ -6560,7 +6560,7 @@ _DATA_14D5B_:
 .db $1E $08 $1A $09 $0B $08 $4A $0A $1A $02 $0B $00 $0F $01 $08 $00
 .db $08 $02 $14 $06 $08 $02 $05 $00 $18 $08 $01 $00 $11 $02 $00 $00
 
-; 3rd entry of Pointer Table from A80 (indexed by _RAM_C016_)
+; 3rd entry of Pointer Table from A80 (indexed by v_nextDemoIndex)
 ; Data from 14E3B to 14F6A (304 bytes)
 _DATA_14E3B_:
 .db $16 $00 $24 $08 $14 $18 $15 $08 $0D $18 $05 $08 $15 $00 $10 $08
@@ -6583,7 +6583,7 @@ _DATA_14E3B_:
 .db $04 $09 $04 $29 $04 $28 $04 $20 $10 $00 $0F $10 $02 $14 $04 $10
 .db $04 $00 $09 $10 $0E $14 $05 $04 $10 $00 $07 $08 $15 $18 $00 $00
 
-; 4th entry of Pointer Table from A80 (indexed by _RAM_C016_)
+; 4th entry of Pointer Table from A80 (indexed by v_nextDemoIndex)
 ; Data from 14F6B to 1508D (291 bytes)
 _DATA_14F6B_:
 .db $12 $00 $05 $0A $02 $1A $1C $0A $01 $02 $02 $1A $07 $0A $02 $1A
@@ -9459,7 +9459,7 @@ _DATA_1BE35_:
 _DATA_1BE3D_:
 .db $F8 $08 $F9 $E8 $FA $08 $FB $E8
 
-; 1st entry of Pointer Table from 1F89 (indexed by _RAM_C023_)
+; 1st entry of Pointer Table from 1F89 (indexed by v_level)
 ; Data from 1BE45 to 1BE46 (2 bytes)
 _DATA_1BE45_:
 .db $94 $CA
@@ -9470,7 +9470,7 @@ _DATA_1BE45_:
 ; Pointer Table from 1BE4B to 1BE50 (3 entries, indexed by unknown)
 .dw _DATA_1BED5_ _RAM_CAA4_ _DATA_1BE9F_
 
-; 3rd entry of Pointer Table from 1F89 (indexed by _RAM_C023_)
+; 3rd entry of Pointer Table from 1F89 (indexed by v_level)
 ; Data from 1BE51 to 1BE52 (2 bytes)
 _DATA_1BE51_:
 .db $94 $CA
@@ -9481,7 +9481,7 @@ _DATA_1BE51_:
 ; Pointer Table from 1BE57 to 1BE5C (3 entries, indexed by unknown)
 .dw _DATA_1BEB1_ _RAM_CAA4_ _DATA_1BF0B_
 
-; 7th entry of Pointer Table from 1F89 (indexed by _RAM_C023_)
+; 7th entry of Pointer Table from 1F89 (indexed by v_level)
 ; Data from 1BE5D to 1BE5E (2 bytes)
 _DATA_1BE5D_:
 .db $94 $CA
@@ -9492,7 +9492,7 @@ _DATA_1BE5D_:
 ; Pointer Table from 1BE63 to 1BE68 (3 entries, indexed by unknown)
 .dw _DATA_1BEB1_ _RAM_CAA4_ _DATA_1BE8D_
 
-; 9th entry of Pointer Table from 1F89 (indexed by _RAM_C023_)
+; 9th entry of Pointer Table from 1F89 (indexed by v_level)
 ; Data from 1BE69 to 1BE6A (2 bytes)
 _DATA_1BE69_:
 .db $94 $CA
@@ -9503,7 +9503,7 @@ _DATA_1BE69_:
 ; Pointer Table from 1BE6F to 1BE74 (3 entries, indexed by unknown)
 .dw _DATA_1BEC3_ _RAM_CAA4_ _DATA_1BE9F_
 
-; 11th entry of Pointer Table from 1F89 (indexed by _RAM_C023_)
+; 11th entry of Pointer Table from 1F89 (indexed by v_level)
 ; Data from 1BE75 to 1BE76 (2 bytes)
 _DATA_1BE75_:
 .db $94 $CA
@@ -9514,7 +9514,7 @@ _DATA_1BE75_:
 ; Pointer Table from 1BE7B to 1BE80 (3 entries, indexed by unknown)
 .dw _DATA_1BEC3_ _RAM_CAA4_ _DATA_1BF0B_
 
-; 15th entry of Pointer Table from 1F89 (indexed by _RAM_C023_)
+; 15th entry of Pointer Table from 1F89 (indexed by v_level)
 ; Data from 1BE81 to 1BE82 (2 bytes)
 _DATA_1BE81_:
 .db $94 $CA
@@ -9576,7 +9576,7 @@ _DATA_1BF1D_:
 .db $6F $BF $7E $BF $7E $BF $8D $BF $8D $BF $8D $BF $8D $BF $9C $BF
 .db $9C $BF $9C $BF
 
-; 1st entry of Pointer Table from 1FAB (indexed by _RAM_C023_)
+; 1st entry of Pointer Table from 1FAB (indexed by v_level)
 ; Data from 1BF51 to 1BF51 (1 bytes)
 _DATA_1BF51_:
 .db $07
@@ -9587,7 +9587,7 @@ _DATA_1BF51_:
 ; Data from 1BF5A to 1BF5F (6 bytes)
 .db $CA $02 $DA $D7 $A4 $CA
 
-; 3rd entry of Pointer Table from 1FAB (indexed by _RAM_C023_)
+; 3rd entry of Pointer Table from 1FAB (indexed by v_level)
 ; Data from 1BF60 to 1BF60 (1 bytes)
 _DATA_1BF60_:
 .db $09
@@ -9595,7 +9595,7 @@ _DATA_1BF60_:
 ; Pointer Table from 1BF61 to 1BF6E (7 entries, indexed by unknown)
 .dw _RAM_D7D0_ _RAM_CA94_ _RAM_D503_ _DATA_19CD7_ _DATA_8CA_ _RAM_D7DA_ _RAM_CAA4_
 
-; 7th entry of Pointer Table from 1FAB (indexed by _RAM_C023_)
+; 7th entry of Pointer Table from 1FAB (indexed by v_level)
 ; Data from 1BF6F to 1BF6F (1 bytes)
 _DATA_1BF6F_:
 .db $07
@@ -9606,7 +9606,7 @@ _DATA_1BF6F_:
 ; Data from 1BF78 to 1BF7D (6 bytes)
 .db $CA $01 $DA $D7 $A4 $CA
 
-; 9th entry of Pointer Table from 1FAB (indexed by _RAM_C023_)
+; 9th entry of Pointer Table from 1FAB (indexed by v_level)
 ; Data from 1BF7E to 1BF7E (1 bytes)
 _DATA_1BF7E_:
 .db $09
@@ -9617,7 +9617,7 @@ _DATA_1BF7E_:
 ; Data from 1BF87 to 1BF8C (6 bytes)
 .db $CA $02 $DA $D7 $A4 $CA
 
-; 11th entry of Pointer Table from 1FAB (indexed by _RAM_C023_)
+; 11th entry of Pointer Table from 1FAB (indexed by v_level)
 ; Data from 1BF8D to 1BF8D (1 bytes)
 _DATA_1BF8D_:
 .db $03
@@ -9625,7 +9625,7 @@ _DATA_1BF8D_:
 ; Pointer Table from 1BF8E to 1BF9B (7 entries, indexed by unknown)
 .dw _RAM_D7D0_ _RAM_CA94_ _RAM_D504_ _DATA_19CD7_ _DATA_8CA_ _RAM_D7DA_ _RAM_CAA4_
 
-; 15th entry of Pointer Table from 1FAB (indexed by _RAM_C023_)
+; 15th entry of Pointer Table from 1FAB (indexed by v_level)
 ; Data from 1BF9C to 1BF9C (1 bytes)
 _DATA_1BF9C_:
 .db $07
@@ -10414,7 +10414,7 @@ _DATA_1F0A9_:
 .db $30 $C0 $C0 $00 $30 $C0 $C0 $00 $30 $C0 $C0 $00 $20 $C0 $C0 $00
 .db $00 $80 $80 $00
 
-; 1st entry of Pointer Table from 7F50 (indexed by _RAM_C011_)
+; 1st entry of Pointer Table from 7F50 (indexed by v_messageToShowInTheTextBoxIndex)
 ; Data from 1F109 to 1F154 (76 bytes)
 _DATA_1F109_:
 .db $9C $20 $B0 $84 $80 $B0 $9A $60 $B0 $83 $C0 $B0 $19 $20 $E7 $D5
@@ -10423,7 +10423,7 @@ _DATA_1F109_:
 .db $18 $20 $D8 $D5 $B0 $E4 $D8 $D9 $DE $D7 $E3 $B0 $E4 $D8 $D1 $E4
 .db $B0 $E9 $DF $E5 $B0 $DC $D9 $DB $D5 $BE $00 $00
 
-; 2nd entry of Pointer Table from 7F50 (indexed by _RAM_C011_)
+; 2nd entry of Pointer Table from 7F50 (indexed by v_messageToShowInTheTextBoxIndex)
 ; Data from 1F155 to 1F19C (72 bytes)
 _DATA_1F155_:
 .db $9A $20 $B0 $84 $80 $B0 $98 $60 $B0 $83 $C0 $B0 $17 $20 $E9 $DF
@@ -10433,13 +10433,13 @@ _DATA_1F155_:
 .dsb 12, $B0
 .db $00 $00
 
-; 3rd entry of Pointer Table from 7F50 (indexed by _RAM_C011_)
+; 3rd entry of Pointer Table from 7F50 (indexed by v_messageToShowInTheTextBoxIndex)
 ; Data from 1F19D to 1F1B7 (27 bytes)
 _DATA_1F19D_:
 .db $8D $20 $B0 $02 $80 $B0 $B0 $8B $60 $B0 $01 $C0 $B0 $0A $20 $E4
 .db $D8 $D1 $DE $DB $B0 $E9 $DF $E5 $BE $00 $00
 
-; 6th entry of Pointer Table from 7F50 (indexed by _RAM_C011_)
+; 6th entry of Pointer Table from 7F50 (indexed by v_messageToShowInTheTextBoxIndex)
 ; Data from 1F1B8 to 1F271 (186 bytes)
 _DATA_1F1B8_:
 .db $9D $20 $B0 $8A $80 $B0 $9B $60 $B0 $89 $C0 $B0 $1A $20 $D9 $B7
@@ -10457,7 +10457,7 @@ _DATA_1F1B8_:
 .dsb 9, $B0
 .db $00 $00
 
-; 5th entry of Pointer Table from 7F50 (indexed by _RAM_C011_)
+; 5th entry of Pointer Table from 7F50 (indexed by v_messageToShowInTheTextBoxIndex)
 ; Data from 1F272 to 1F32B (186 bytes)
 _DATA_1F272_:
 .db $9D $20 $B0 $8A $80 $B0 $9B $60 $B0 $89 $C0 $B0 $1A $20 $D9 $B7
@@ -10474,7 +10474,7 @@ _DATA_1F272_:
 .dsb 9, $B0
 .db $00 $00
 
-; 4th entry of Pointer Table from 7F50 (indexed by _RAM_C011_)
+; 4th entry of Pointer Table from 7F50 (indexed by v_messageToShowInTheTextBoxIndex)
 ; Data from 1F32C to 1F3E5 (186 bytes)
 _DATA_1F32C_:
 .db $9D $20 $B0 $8A $80 $B0 $9B $60 $B0 $89 $C0 $B0 $1A $20 $D9 $B7
@@ -10492,7 +10492,7 @@ _DATA_1F32C_:
 .dsb 9, $B0
 .db $00 $00
 
-; 7th entry of Pointer Table from 7F50 (indexed by _RAM_C011_)
+; 7th entry of Pointer Table from 7F50 (indexed by v_messageToShowInTheTextBoxIndex)
 ; Data from 1F3E6 to 1F473 (142 bytes)
 _DATA_1F3E6_:
 .db $9B $20 $B0 $88 $80 $B0 $99 $60 $B0 $87 $C0 $B0 $18 $20 $E9 $DF
@@ -10506,21 +10506,21 @@ _DATA_1F3E6_:
 .dsb 12, $B0
 .db $00 $00
 
-; 8th entry of Pointer Table from 7F50 (indexed by _RAM_C011_)
+; 8th entry of Pointer Table from 7F50 (indexed by v_messageToShowInTheTextBoxIndex)
 ; Data from 1F474 to 1F496 (35 bytes)
 _DATA_1F474_:
 .db $95 $20 $B0 $02 $80 $B0 $B0 $93 $60 $B0 $01 $C0 $B0 $12 $20 $D9
 .db $B0 $E7 $D9 $DE $BE $B0 $E9 $DF $E5 $B0 $D7 $DF $E4 $B0 $D9 $E4
 .db $BE $00 $00
 
-; 9th entry of Pointer Table from 7F50 (indexed by _RAM_C011_)
+; 9th entry of Pointer Table from 7F50 (indexed by v_messageToShowInTheTextBoxIndex)
 ; Data from 1F497 to 1F4B7 (33 bytes)
 _DATA_1F497_:
 .db $93 $20 $B0 $02 $80 $B0 $B0 $91 $60 $B0 $01 $C0 $B0 $10 $20 $D4
 .db $D1 $E2 $DE $B0 $D9 $E4 $BE $B0 $D9 $B0 $DC $DF $E3 $D5 $BE $00
 .db $00
 
-; 10th entry of Pointer Table from 7F50 (indexed by _RAM_C011_)
+; 10th entry of Pointer Table from 7F50 (indexed by v_messageToShowInTheTextBoxIndex)
 ; Data from 1F4B8 to 1F4F9 (66 bytes)
 _DATA_1F4B8_:
 .db $97 $20 $B0 $84 $80 $B0 $95 $60 $B0 $83 $C0 $B0 $14 $20 $D9 $E4
@@ -10529,7 +10529,7 @@ _DATA_1F4B8_:
 .db $E3 $E5 $E2 $D5 $B0 $DC $E5 $D3 $DB $D5 $D4 $B0 $DF $E5 $E4 $BE
 .db $00 $00
 
-; 11th entry of Pointer Table from 7F50 (indexed by _RAM_C011_)
+; 11th entry of Pointer Table from 7F50 (indexed by v_messageToShowInTheTextBoxIndex)
 ; Data from 1F4FA to 1F568 (111 bytes)
 _DATA_1F4FA_:
 .db $9C $20 $B0 $86 $80 $B0 $9A $60 $B0 $85 $C0 $B0 $19 $20 $E7 $D5
@@ -10542,7 +10542,7 @@ _DATA_1F4FA_:
 .dsb 11, $B0
 .db $00 $00
 
-; 12th entry of Pointer Table from 7F50 (indexed by _RAM_C011_)
+; 12th entry of Pointer Table from 7F50 (indexed by v_messageToShowInTheTextBoxIndex)
 ; Data from 1F569 to 1F663 (251 bytes)
 _DATA_1F569_:
 .db $9C $20 $B0 $8E $80 $B0 $9A $60 $B0 $8D $C0 $B0 $19 $20 $D9 $E4
@@ -10562,7 +10562,7 @@ _DATA_1F569_:
 .db $20 $E5 $E2 $DE $B0 $D9 $DE $E4 $DF $B0 $D1 $B0 $E3 $E4 $DF $DE
 .db $D5 $BE $B0 $B0 $B0 $B0 $B0 $B0 $B0 $00 $00
 
-; 13th entry of Pointer Table from 7F50 (indexed by _RAM_C011_)
+; 13th entry of Pointer Table from 7F50 (indexed by v_messageToShowInTheTextBoxIndex)
 ; Data from 1F664 to 1F7DB (376 bytes)
 _DATA_1F664_:
 .db $9E $20 $B0 $94 $80 $B0 $9C $60 $B0 $93 $C0 $B0 $1B $20 $E7 $D5
@@ -10591,7 +10591,7 @@ _DATA_1F664_:
 .dsb 9, $B0
 .db $00 $00
 
-; 14th entry of Pointer Table from 7F50 (indexed by _RAM_C011_)
+; 14th entry of Pointer Table from 7F50 (indexed by v_messageToShowInTheTextBoxIndex)
 ; Data from 1F7DC to 1F8E4 (265 bytes)
 _DATA_1F7DC_:
 .db $9E $20 $B0 $8E $80 $B0 $9C $60 $B0 $8D $C0 $B0 $1B $20 $E0 $E2
@@ -10612,7 +10612,7 @@ _DATA_1F7DC_:
 .db $D3 $D1 $DE $B0 $D3 $DF $DD $D5 $B0 $E4 $DF $B0 $D8 $D9 $E3 $B0
 .db $E2 $D5 $E3 $D3 $E5 $D5 $BE $00 $00
 
-; 15th entry of Pointer Table from 7F50 (indexed by _RAM_C011_)
+; 15th entry of Pointer Table from 7F50 (indexed by v_messageToShowInTheTextBoxIndex)
 ; Data from 1F8E5 to 1FA5C (376 bytes)
 _DATA_1F8E5_:
 .db $9E $20 $B0 $94 $80 $B0 $9C $60 $B0 $93 $C0 $B0 $1B $20 $E4 $D8
@@ -10641,7 +10641,7 @@ _DATA_1F8E5_:
 .dsb 10, $B0
 .db $00 $00
 
-; 16th entry of Pointer Table from 7F50 (indexed by _RAM_C011_)
+; 16th entry of Pointer Table from 7F50 (indexed by v_messageToShowInTheTextBoxIndex)
 ; Data from 1FA5D to 1FB40 (228 bytes)
 _DATA_1FA5D_:
 .db $9E $20 $B0 $8C $80 $B0 $9C $60 $B0 $8B $C0 $B0 $1B $20 $DF $D8
@@ -10660,7 +10660,7 @@ _DATA_1FA5D_:
 .db $D2 $B0 $E7 $D9 $E4 $D8 $B0 $E9 $DF $E5 $BE $B0 $B0 $B0 $B0 $B0
 .db $B0 $B0 $00 $00
 
-; 17th entry of Pointer Table from 7F50 (indexed by _RAM_C011_)
+; 17th entry of Pointer Table from 7F50 (indexed by v_messageToShowInTheTextBoxIndex)
 ; Data from 1FB41 to 1FB88 (72 bytes)
 _DATA_1FB41_:
 .db $9A $20 $B0 $84 $80 $B0 $98 $60 $B0 $83 $C0 $B0 $17 $20 $D9 $B0
@@ -10669,7 +10669,7 @@ _DATA_1FB41_:
 .db $DF $E5 $BC $B0 $E3 $DF $B0 $E0 $DC $D5 $D1 $E3 $D5 $B0 $DC $D5
 .db $D1 $E6 $D5 $BE $B0 $B0 $00 $00
 
-; 18th entry of Pointer Table from 7F50 (indexed by _RAM_C011_)
+; 18th entry of Pointer Table from 7F50 (indexed by v_messageToShowInTheTextBoxIndex)
 ; Data from 1FB89 to 1FC47 (191 bytes)
 _DATA_1FB89_:
 .db $9E $20 $B0 $8A $80 $B0 $9C $60 $B0 $89 $C0 $B0 $1B $20 $E4 $D8
@@ -10685,7 +10685,7 @@ _DATA_1FB89_:
 .db $E0 $1A $20 $DF $E7 $D5 $E2 $D6 $E5 $DC $B0 $E7 $D5 $D1 $E0 $DF
 .db $DE $BC $E4 $D8 $D5 $B2 $D3 $E2 $DF $E7 $DE $BE $B2 $00 $00
 
-; 21st entry of Pointer Table from 7F50 (indexed by _RAM_C011_)
+; 21st entry of Pointer Table from 7F50 (indexed by v_messageToShowInTheTextBoxIndex)
 ; Data from 1FC48 to 1FC83 (60 bytes)
 _DATA_1FC48_:
 .db $94 $20 $B0 $84 $80 $B0 $92 $60 $B0 $83 $C0 $B0 $11 $20 $E9 $DF
@@ -10693,103 +10693,103 @@ _DATA_1FC48_:
 .db $80 $B0 $90 $60 $B0 $01 $80 $E4 $10 $20 $D8 $D5 $B0 $D9 $DE $D5
 .db $E6 $D9 $E4 $D1 $D2 $DC $D5 $B1 $B0 $B0 $00 $00
 
-; 22nd entry of Pointer Table from 7F50 (indexed by _RAM_C011_)
+; 22nd entry of Pointer Table from 7F50 (indexed by v_messageToShowInTheTextBoxIndex)
 ; Data from 1FC84 to 1FC9D (26 bytes)
 _DATA_1FC84_:
 .db $8C $20 $B0 $02 $80 $B0 $B0 $8A $60 $B0 $01 $C0 $B0 $09 $20 $E3
 .db $DF $DC $D4 $B0 $DF $E5 $E4 $BE $00 $00
 
-; 1st entry of Pointer Table from 1112 (indexed by _RAM_C023_)
+; 1st entry of Pointer Table from 1112 (indexed by v_level)
 ; Data from 1FC9E to 1FCBD (32 bytes)
 _DATA_1FC9E_:
 .db $30 $3F $37 $3B $0F $0B $00 $2F $06 $0B $01 $3E $38 $0C $08 $3C
 .db $30 $3F $05 $0B $03 $02 $00 $30 $3C $0C $0F $08 $3A $36 $03 $0A
 
-; 15th entry of Pointer Table from 1112 (indexed by _RAM_C023_)
+; 15th entry of Pointer Table from 1112 (indexed by v_level)
 ; Data from 1FCBE to 1FCDD (32 bytes)
 _DATA_1FCBE_:
 .db $30 $3F $37 $3B $0F $0B $00 $06 $25 $2A $01 $2F $38 $0C $08 $3C
 .db $30 $3F $05 $0B $03 $02 $00 $30 $3C $0C $0F $08 $3A $36 $03 $0A
 
-; 3rd entry of Pointer Table from 1112 (indexed by _RAM_C023_)
+; 3rd entry of Pointer Table from 1112 (indexed by v_level)
 ; Data from 1FCDE to 1FCFD (32 bytes)
 _DATA_1FCDE_:
 .db $30 $3F $37 $3B $0F $0B $00 $2F $06 $0B $01 $3E $38 $0C $08 $3C
 .db $38 $3F $05 $0B $03 $02 $00 $30 $3C $0C $0F $08 $3A $36 $03 $0A
 
-; 4th entry of Pointer Table from 1112 (indexed by _RAM_C023_)
+; 4th entry of Pointer Table from 1112 (indexed by v_level)
 ; Data from 1FCFE to 1FD1D (32 bytes)
 _DATA_1FCFE_:
 .db $30 $3F $06 $01 $0F $0B $00 $2A $25 $3C $02 $03 $38 $0C $08 $00
 .db $30 $3F $05 $0B $03 $02 $00 $30 $3C $0C $0F $08 $3A $36 $03 $0A
 
-; 5th entry of Pointer Table from 1112 (indexed by _RAM_C023_)
+; 5th entry of Pointer Table from 1112 (indexed by v_level)
 ; Data from 1FD1E to 1FD3D (32 bytes)
 _DATA_1FD1E_:
 .db $30 $3F $03 $03 $0F $0B $00 $2F $06 $0B $01 $3E $38 $0C $08 $3C
 .db $38 $3F $05 $0B $03 $02 $00 $30 $3C $0C $0F $08 $3A $36 $03 $0A
 
-; 6th entry of Pointer Table from 1112 (indexed by _RAM_C023_)
+; 6th entry of Pointer Table from 1112 (indexed by v_level)
 ; Data from 1FD3E to 1FD5D (32 bytes)
 _DATA_1FD3E_:
 .db $30 $3F $37 $3B $0F $0B $00 $06 $25 $2A $01 $2F $38 $0C $08 $3C
 .db $30 $3F $05 $0B $03 $02 $00 $30 $3C $0C $0F $08 $3A $36 $03 $0A
 
-; 7th entry of Pointer Table from 1112 (indexed by _RAM_C023_)
+; 7th entry of Pointer Table from 1112 (indexed by v_level)
 ; Data from 1FD5E to 1FD7D (32 bytes)
 _DATA_1FD5E_:
 .db $01 $3F $37 $3B $0F $0B $00 $2F $06 $0B $30 $3E $38 $03 $02 $01
 .db $01 $3F $05 $0B $03 $02 $00 $30 $3C $0C $0F $08 $3A $36 $03 $0A
 
-; 8th entry of Pointer Table from 1112 (indexed by _RAM_C023_)
+; 8th entry of Pointer Table from 1112 (indexed by v_level)
 ; Data from 1FD7E to 1FD9D (32 bytes)
 _DATA_1FD7E_:
 .db $30 $3F $37 $3B $0F $0B $00 $06 $25 $04 $01 $2F $38 $0C $08 $04
 .db $04 $3F $05 $0B $03 $02 $00 $30 $3C $0C $0F $08 $3A $36 $03 $0A
 
-; 11th entry of Pointer Table from 1112 (indexed by _RAM_C023_)
+; 11th entry of Pointer Table from 1112 (indexed by v_level)
 ; Data from 1FD9E to 1FDBD (32 bytes)
 _DATA_1FD9E_:
 .db $25 $3F $37 $3B $0F $0B $00 $2F $30 $3E $20 $34 $38 $06 $01 $05
 .db $25 $3F $05 $0B $03 $02 $00 $30 $3C $0C $0F $08 $3A $36 $03 $0A
 
-; 9th entry of Pointer Table from 1112 (indexed by _RAM_C023_)
+; 9th entry of Pointer Table from 1112 (indexed by v_level)
 ; Data from 1FDBE to 1FDDD (32 bytes)
 _DATA_1FDBE_:
 .db $30 $3F $37 $03 $0F $0B $00 $2F $06 $0B $01 $3E $38 $0C $08 $3C
 .db $30 $3F $05 $0B $03 $02 $00 $30 $06 $0C $0F $08 $3A $36 $03 $0A
 
-; 10th entry of Pointer Table from 1112 (indexed by _RAM_C023_)
+; 10th entry of Pointer Table from 1112 (indexed by v_level)
 ; Data from 1FDDE to 1FDFD (32 bytes)
 _DATA_1FDDE_:
 .db $30 $3F $37 $3B $0F $0B $00 $06 $25 $2A $01 $2F $38 $0C $08 $3C
 .db $30 $3F $05 $0B $03 $02 $00 $30 $3C $0C $0F $08 $3A $36 $03 $0A
 
-; 12th entry of Pointer Table from 1112 (indexed by _RAM_C023_)
+; 12th entry of Pointer Table from 1112 (indexed by v_level)
 ; Data from 1FDFE to 1FE1D (32 bytes)
 _DATA_1FDFE_:
 .db $30 $3F $37 $3B $0F $0B $00 $06 $25 $2A $01 $2F $38 $0C $08 $3C
 .db $30 $3F $05 $0B $03 $02 $00 $30 $3C $0C $0F $08 $3A $36 $03 $0A
 
-; 2nd entry of Pointer Table from 1112 (indexed by _RAM_C023_)
+; 2nd entry of Pointer Table from 1112 (indexed by v_level)
 ; Data from 1FE1E to 1FE3D (32 bytes)
 _DATA_1FE1E_:
 .db $30 $3F $03 $03 $0F $0B $00 $06 $25 $2A $01 $2F $38 $0C $08 $3C
 .db $30 $3F $05 $0B $03 $02 $00 $30 $3C $0C $0F $08 $3A $36 $03 $0A
 
-; 14th entry of Pointer Table from 1112 (indexed by _RAM_C023_)
+; 14th entry of Pointer Table from 1112 (indexed by v_level)
 ; Data from 1FE3E to 1FE5D (32 bytes)
 _DATA_1FE3E_:
 .db $25 $3F $37 $3B $0F $0B $00 $2F $30 $0F $02 $07 $0B $06 $01 $3C
 .db $25 $3F $05 $0B $03 $02 $00 $30 $3C $0C $0F $08 $3A $36 $03 $0A
 
-; 16th entry of Pointer Table from 1112 (indexed by _RAM_C023_)
+; 16th entry of Pointer Table from 1112 (indexed by v_level)
 ; Data from 1FE5E to 1FE7D (32 bytes)
 _DATA_1FE5E_:
 .db $20 $3F $37 $3B $0F $0B $00 $2F $30 $3E $3C $3E $38 $06 $01 $05
 .db $20 $3F $05 $0B $03 $02 $00 $30 $3C $0C $0F $08 $3A $36 $03 $0A
 
-; 17th entry of Pointer Table from 1112 (indexed by _RAM_C023_)
+; 17th entry of Pointer Table from 1112 (indexed by v_level)
 ; Data from 1FE7E to 1FFFF (386 bytes)
 _DATA_1FE7E_:
 .db $30 $3F $37 $3B $0F $0B $00 $2F $06 $0B $01 $3E $38 $0C $08 $3C

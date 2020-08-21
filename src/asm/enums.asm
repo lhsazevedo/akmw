@@ -13,25 +13,25 @@ _RAM_C00E_ dw
 .ende
 
 .enum $C011 export
-_RAM_C011_ db
+v_messageToShowInTheTextBoxIndex db
 .ende
 
 .enum $C014 export
 _RAM_C014_ db
 shouldDisplayMapOpening db
-_RAM_C016_ db
+v_nextDemoIndex db
 .ende
 
 .enum $C01F export
 v_gameState db
-_RAM_C020_ dsb $3
-_RAM_C023_ dw
-_RAM_C025_ db
+v_score dsb $3
+v_level dw
+v_lives db
 .ende
 
 .enum $C030 export
-_RAM_C030_ db
-_RAM_C031_ db
+v_money db
+v_moneyByteTwo db
 .ende
 
 .enum $C038 export
@@ -44,16 +44,16 @@ _RAM_C03F_ db
 .ende
 
 .enum $C046 export
-_RAM_C046_ db
-_RAM_C047_ db
-_RAM_C048_ db
-_RAM_C049_ db
-_RAM_C04A_ db
-_RAM_C04B_ db
-_RAM_C04C_ db
-_RAM_C04D_ db
-_RAM_C04E_ db
-_RAM_C04F_ db
+v_hasMagicCapsuleA db
+v_hasMagicCapsuleB db
+v_hasTelepathyBall db
+v_hasCaneOfFlight db
+v_hasTeleportPowder db
+v_hasMoonstoneMedallion db
+v_hasLetterToNibana db
+v_hasPowerBracelet db
+v_hasHirottaStone db
+v_hasSunstoneMedallion db
 .ende
 
 .enum $C051 export
@@ -61,49 +61,49 @@ _RAM_C051_ db
 .ende
 
 .enum $C053 export
-_RAM_C053_ db
+v_inventoryItemSelectionState db
 _RAM_C054_ db
-_RAM_C055_ db
-_RAM_C056_ db
-_RAM_C057_ db
-_RAM_C058_ dw
-_RAM_C05A_ dw
-_RAM_C05C_ db
-_RAM_C05D_ db
+v_shopFlags db
+v_shopSelectedItemIndex db
+v_itemBeignBoughtIndex db
+v_selectedItemNametablePointer dw
+v_invincibilityTimer dw
+v_shouldBlankLeftmostColumn db
+v_invincibilityColorTimer db
 .ende
 
 .enum $C05F export
-_RAM_C05F_ db
+v_VDPRegister0Value db
 .ende
 
 .enum $C061 export
-_RAM_C061_ dw
-_RAM_C063_ db
-_RAM_C064_ db
-_RAM_C065_ db
-_RAM_C066_ db
-_RAM_C067_ db
+v_entitydataPointersPointer dw
+v_addedEntitiesShouldBeOffscreenHorizontally db
+v_addedEntitiesShouldBeOffscreenVertically db
+v_entityIndex db
+v_isScrollingDownToNextScreen db
+v_newEntityVerticalOffset db
 .ende
 
 .enum $C069 export
-_RAM_C069_ db
-_RAM_C06A_ dw
-_RAM_C06C_ db
-_RAM_C06D_ dw
-_RAM_C06F_ db
-_RAM_C070_ dw
-_RAM_C072_ dw
+v_shopEntranceHorizontalPosition db
+v_shopEntranceDoorNametablePointer dw
+v_horizontalPositionShopHasBeenEnteredFrom db
+v_shopEntranceEnteredFromDoorNametablePointer dw
+v_shouldAlexStartWalkingtoNextScreen db
+v_nuraiOrOldManEntityTemporaryPointer dw
+v_nuraiOrOldManEntityAnimationDescriptorTemporaryPointer dw
 _RAM_C074_ dw
-_RAM_C076_ db
-_RAM_C077_ db
+v_shouldShowNuraiOrOldMan db
+v_specialLevelScrollabilityFlag db
 _RAM_C078_ dw
 _RAM_C07A_ dw
-_RAM_C07C_ db
-_RAM_C07D_ db
-_RAM_C07E_ db
+v_questionMarkBoxIndex db
+v_textBoxCounter db
+v_textBoxFlags db
 _RAM_C07F_ db
-_RAM_C080_ db
-_RAM_C081_ db
+v_levelScrollability db
+v_levelBankNumber db
 .ende
 
 .enum $C085 export
@@ -113,37 +113,37 @@ _RAM_C089_ dw
 .ende
 
 .enum $C08D export
-_RAM_C08D_ db
+v_currentScreenNumber db
 _RAM_C08E_ db
-_RAM_C08F_ db
-_RAM_C090_ db
-_RAM_C091_ db
-_RAM_C092_ db
-_RAM_C093_ db
-_RAM_C094_ db
+v_powerBraceletsPickedUpCounter db
+v_alexStateBeforeHit db
+v_newEntityHorizontalOffset db
+v_currentLevelIsBonusLevel db
+v_triggerMapScreenToggle db
+v_endingSequencePointer db
 _RAM_C095_ db
 v_resetButtonState db
 .ende
 
 .enum $C0A0 export
-_RAM_C0A0_ db
-_RAM_C0A1_ db
+v_levelWidth db
+v_linesToLoadToNametable db
 .ende
 
 .enum $C0A3 export
-_RAM_C0A3_ dw
-_RAM_C0A5_ db
-_RAM_C0A6_ db
+v_levelLayoutPointer dw
+v_levelHeight db
+v_columnsToLoadToNametable db
 .ende
 
 .enum $C0A8 export
-_RAM_C0A8_ dw
-_RAM_C0AA_ db
-_RAM_C0AB_ db
+v_SecondLevelLayoutPointer dw
+v_UpdateNameTableFlags db
+v_horizontalScrollSpeed db
 _RAM_C0AC_ db
 _RAM_C0AD_ db
 _RAM_C0AE_ db
-_RAM_C0AF_ db
+v_horizontalScroll db
 _RAM_C0B0_ dw
 .ende
 
@@ -151,13 +151,13 @@ _RAM_C0B0_ dw
 _RAM_C0B3_ db
 _RAM_C0B4_ db
 _RAM_C0B5_ db
-_RAM_C0B6_ db
+v_horizontalScreenNumber db
 _RAM_C0B7_ dw
-_RAM_C0B9_ db
+v_verticalScrollSpeed db
 _RAM_C0BA_ db
 _RAM_C0BB_ db
 _RAM_C0BC_ db
-_RAM_C0BD_ db
+v_verticalScroll db
 _RAM_C0BE_ dw
 .ende
 
@@ -165,32 +165,32 @@ _RAM_C0BE_ dw
 _RAM_C0C1_ db
 _RAM_C0C2_ db
 _RAM_C0C3_ db
-_RAM_C0C4_ db
+v_verticalScreenNumber db
 _RAM_C0C5_ dw
 .ende
 
 .enum $C0C9 export
-_RAM_C0C9_ db
-_RAM_C0CA_ dsb $2a
+v_scrollFlags db
+v_temporaryLevelDataCopy dsb $2a
 _RAM_C0F4_ dw
 .ende
 
 .enum $C0F8 export
-_RAM_C0F8_ db
-_RAM_C0F9_ dw
+v_entitydataArrayLength db
+v_entitydataArrayPointer dw
 _RAM_C0FB_ db
 .ende
 
 .enum $C0FD export
 _RAM_C0FD_ dw
 _RAM_C0FF_ db
-_RAM_C100_ db
+v_waterColorTimer db
 .ende
 
 .enum $C103 export
-_RAM_C103_ dw
-_RAM_C105_ dw
-_RAM_C107_ dw
+v_introTimer dw
+v_demoInputDataTimer dw
+v_demoCurrentInputData dw
 .ende
 
 .enum $C10A export
@@ -203,17 +203,17 @@ _RAM_C10D_ db
 .ende
 
 .enum $C110 export
-_RAM_C110_ db
-_RAM_C111_ db
-_RAM_C112_ db
-_RAM_C113_ db
-_RAM_C114_ db
-_RAM_C115_ db
-_RAM_C116_ db
+v_soundControl db
+v_soundFadeOutVolume db
+v_soundFadeOutTimer db
+v_soundEffectPriority db
+v_soundSoftwareChannelSevenState db
+v_soundJankenMatchSoundFlags db
+v_soundNumber db
 .ende
 
 .enum $C118 export
-_RAM_C118_ dsb $8
+v_soundMusicSoftwareChannels dsb $8
 _RAM_C120_ db
 .ende
 
@@ -235,7 +235,7 @@ _RAM_C178_ db
 .ende
 
 .enum $C198 export
-_RAM_C198_ dsb $9
+v_soundEffectsSoftwareChannels dsb $9
 .ende
 
 .enum $C1B8 export
@@ -247,7 +247,7 @@ _RAM_C1D8_ dsb $9
 .ende
 
 .enum $C200 export
-_RAM_C200_ db
+v_alexTilesIndex db
 .ende
 
 .enum $C202 export
@@ -261,15 +261,15 @@ _RAM_C209_ db
 
 .enum $C20B export
 _RAM_C20B_ db
-_RAM_C20C_ dw
-_RAM_C20E_ dw
-_RAM_C210_ db
+v_alexHorizontalSpeedTemporaryCopy dw
+v_alexVerticalSpeedTemporaryCopy dw
+v_alexStateTemporaryCopy db
 _RAM_C211_ dw
 _RAM_C213_ db
-_RAM_C214_ db
-_RAM_C215_ db
+v_nextGhostSpawnTimer db
+v_hasJankenMatchStarted db
 _RAM_C216_ db
-_RAM_C217_ db
+v_JankenMatchOpponentDecisionIndex db
 _RAM_C218_ db
 _RAM_C219_ dw
 _RAM_C21B_ dw
