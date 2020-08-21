@@ -9,22 +9,37 @@ RUN cd / \
     && mkdir sdcc \
     && tar -C sdcc --strip-components=1 -xf sdcc.tar.bz2
 
+RUN wget -O png2tile.tar https://github.com/yuv422/png2tile/tarball/master --progress=dot \
+    && mkdir png2tile \
+    && tar -C png2tile --strip-components=1 -xf png2tile.tar
+
 FROM debian:buster AS builder
 
 COPY --from=downloader /wla-dx /usr/src/wla-dx
+COPY --from=downloader /png2tile /usr/src/png2tile
 
-RUN apt-get update && \
-    apt-get install --assume-yes cmake
+RUN apt-get update \
+    && apt-get install --assume-yes cmake libpng-dev
 
 RUN cd /usr/src/wla-dx \
     && mkdir build && cd build && cmake .. \
     && cmake --build . -- -j$(nproc --all) \
     && cmake -P cmake_install.cmake
 
+RUN cd /usr/src/png2tile \
+    && cmake . \
+    && make
+
 FROM debian:buster
 
 COPY --from=builder /usr/local/bin/wla-* /usr/local/bin/wlalink /usr/local/bin/wlab /usr/local/bin/
 COPY --from=downloader /sdcc /usr/local/
+
+RUN apt-get update \
+    && apt-get install -y imagemagick \
+    && apt-get clean autoclean \
+    && apt-get autoremove --yes \
+    && rm -rf /var/lib/{apt,dpkg,cache,log}/
 
 RUN groupadd --gid 1000 dockeruser && \
     adduser --system --shell /bin/bash --uid 1000 --ingroup dockeruser dockeruser
