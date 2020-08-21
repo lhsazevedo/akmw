@@ -1291,7 +1291,7 @@ _DATA_8F2_:
 _LABEL_8F6_:
 	ld a, $1E
 	ld (v_entitydataArrayLength), a
-	ld hl, _RAM_C300_
+	ld hl, v_entity1
 	ld (v_entitydataArrayPointer), hl
 	call _LABEL_9D9_
 	ld a, $1D
@@ -1345,7 +1345,7 @@ _LABEL_966_:
 	ret
 
 _LABEL_967_:
-	ld ix, _RAM_C300_
+	ld ix, v_entity1
 	ld (ix+0), $18
 	ld hl, _RAM_C800_
 	ld (_RAM_C307_), hl
@@ -1388,7 +1388,7 @@ _LABEL_9C2_:
 
 _LABEL_9D9_:
 	ld b, $1E
-	ld hl, _RAM_C300_
+	ld hl, v_entity1
 -:
 	call _LABEL_278D_
 	inc hl
@@ -1530,7 +1530,7 @@ _LABEL_ABD_:
 	ldir
 	ld a, $1E
 	ld (v_entitydataArrayLength), a
-	ld hl, _RAM_C300_
+	ld hl, v_entity1
 	ld (v_entitydataArrayPointer), hl
 	call _LABEL_10FF_
 	call _LABEL_1134_
@@ -1704,7 +1704,7 @@ _LABEL_BF3_:
 	jp ---
 
 _LABEL_C43_:
-	ld ix, _RAM_C300_
+	ld ix, v_entity1
 	ld (ix+0), $01
 	ld a, (v_level)
 	add a, a
@@ -3067,7 +3067,7 @@ _LABEL_1735_:
 	ld (v_horizontalScrollSpeed), hl
 	ld a, (v_levelScrollability)
 	ld (v_scrollFlags), a
-	ld ix, _RAM_C300_
+	ld ix, v_entity1
 	ld de, $0020
 	ld a, (v_entitydataArrayLength)
 	ld b, a
@@ -3077,7 +3077,7 @@ _LABEL_1735_:
 	djnz -
 	ld a, $82
 	ld (_RAM_FFFF_), a
-	ld ix, _RAM_C300_
+	ld ix, v_entity1
 	ld (ix+0), $01
 	ld a, (v_level)
 	cp $11
@@ -3119,7 +3119,7 @@ _LABEL_1735_:
 	ld (ix+12), e
 	ld (ix+14), d
 _LABEL_1874_:
-	ld ix, _RAM_C300_
+	ld ix, v_entity1
 	call _LABEL_29C2_
 	call _LABEL_2694_
 	ld de, $8026
@@ -3195,7 +3195,7 @@ _LABEL_18CE_:
 	ld (_RAM_C08E_), a
 	ld b, $1E
 	ld de, $0020
-	ld ix, _RAM_C300_
+	ld ix, v_entity1
 -:
 	call _LABEL_278A_
 	add ix, de
@@ -3272,7 +3272,7 @@ _LABEL_194F_:
 	ret
 
 _LABEL_19AB_:
-	ld ix, _RAM_C300_
+	ld ix, v_entity1
 	ld (ix+0), $56
 	ld a, (v_level)
 	cp $10
@@ -3290,7 +3290,7 @@ _LABEL_19CB_:
 	ld hl, _RAM_C03F_
 	dec (hl)
 	jp nz, _LABEL_19CB_
-	ld ix, _RAM_C300_
+	ld ix, v_entity1
 	call _LABEL_278A_
 	ld ix, _RAM_C320_
 	call _LABEL_278A_
@@ -3405,7 +3405,7 @@ _LABEL_1A46_:
 	call _LABEL_145_
 	ld a, $03
 	ld (v_entitydataArrayLength), a
-	ld hl, _RAM_C300_
+	ld hl, v_entity1
 	ld (v_entitydataArrayPointer), hl
 	ld a, $83
 	ld (_RAM_FFFF_), a
@@ -3576,11 +3576,11 @@ _LABEL_1C33_:
 	ld (v_soundControl), a
 	ld a, $1E
 	ld (v_entitydataArrayLength), a
-	ld de, _RAM_C300_
+	ld de, v_entity1
 	ld hl, _RAM_CFA0_
 	ld bc, $0020
 	ldir
-	ld ix, _RAM_C300_
+	ld ix, v_entity1
 	call _LABEL_29C2_
 	call _LABEL_2694_
 	call _LABEL_10FF_
@@ -3666,11 +3666,11 @@ _LABEL_1D04_:
 	ldir
 	ld a, $82
 	ld (_RAM_FFFF_), a
-	ld hl, _RAM_C300_
+	ld hl, v_entity1
 	ld de, _RAM_CFA0_
 	ld bc, $0020
 	ldir
-	ld ix, _RAM_C300_
+	ld ix, v_entity1
 	ld (ix+0), $01
 	ld (ix+12), $20
 	ld (ix+14), $88
@@ -3958,7 +3958,7 @@ _LABEL_1FE9_:
 	ld bc, $0700
 	call _LABEL_145_
 	call _LABEL_69B5_
-	ld hl, _RAM_C300_
+	ld hl, v_entity1
 	ld (v_entitydataArrayPointer), hl
 	ld a, $1E
 	ld (v_entitydataArrayLength), a
@@ -4053,7 +4053,7 @@ _LABEL_1FE9_:
 	ld a, (_RAM_C054_)
 	cp $01
 	jr nz, +
-	ld ix, _RAM_C300_
+	ld ix, v_entity1
 	call _LABEL_2A6E_
 +:
 	ld ix, _RAM_CF80_
@@ -6216,7 +6216,7 @@ _LABEL_3340_:
 	jr nz, _LABEL_335F_
 	call _LABEL_2BFA_
 _LABEL_335F_:
-	ld hl, _RAM_C300_
+	ld hl, v_entity1
 	ld de, _RAM_C240_
 	ld bc, $0020
 	ldir
@@ -7682,7 +7682,7 @@ _LABEL_3E50_:
 	ld a, (ix+10)
 	or (ix+9)
 	ret nz
-	ld iy, _RAM_C300_
+	ld iy, v_entity1
 	call _LABEL_7CC2_
 	ret c
 	ld a, $1A
@@ -7734,7 +7734,7 @@ _LABEL_3EC1_:
 	ld a, (ix+10)
 	or (ix+9)
 	ret nz
-	ld iy, _RAM_C300_
+	ld iy, v_entity1
 	call _LABEL_7CC2_
 	ret c
 	ld a, (_RAM_C640_)
@@ -11043,7 +11043,7 @@ _LABEL_5A31_:
 	ld a, (ix+9)
 	or (ix+10)
 	jp nz, _LABEL_278A_
-	ld iy, _RAM_C300_
+	ld iy, v_entity1
 	call _LABEL_7CC2_
 	jp c, +
 	ld l, (ix+22)
@@ -11075,7 +11075,7 @@ _LABEL_5A96_:
 	ld a, (ix+9)
 	or (ix+10)
 	jp nz, _LABEL_278A_
-	ld iy, _RAM_C300_
+	ld iy, v_entity1
 	call _LABEL_7CC2_
 	jr c, +
 	ld a, $8F
@@ -11110,7 +11110,7 @@ _LABEL_5AE6_:
 	ld a, (ix+9)
 	or (ix+10)
 	jp nz, _LABEL_278A_
-	ld iy, _RAM_C300_
+	ld iy, v_entity1
 	call _LABEL_7CC2_
 	jr c, +
 	ld a, $8F
@@ -11201,7 +11201,7 @@ _LABEL_5BD1_:
 	ld a, (ix+9)
 	or (ix+10)
 	ret nz
-	ld iy, _RAM_C300_
+	ld iy, v_entity1
 	call _LABEL_7CC2_
 	ret c
 	ld l, $0C
@@ -11805,7 +11805,7 @@ _LABEL_610D_:
 	or (ix+10)
 	ret nz
 	set 1, (ix+1)
-	ld iy, _RAM_C300_
+	ld iy, v_entity1
 	call _LABEL_7CC2_
 	ret c
 	ld a, $8F
@@ -11909,7 +11909,7 @@ _LABEL_61CD_:
 	jr ++
 
 +:
-	ld iy, _RAM_C300_
+	ld iy, v_entity1
 	call _LABEL_7CC2_
 	ret c
 	jr +++
@@ -11977,7 +11977,7 @@ _LABEL_6280_:
 	ld a, (ix+9)
 	or (ix+10)
 	ret nz
-	ld iy, _RAM_C300_
+	ld iy, v_entity1
 	call _LABEL_7CC2_
 	ret c
 	ld a, $08
@@ -13403,7 +13403,7 @@ _LABEL_6C0C_:
 	ld (hl), a
 	ld a, $82
 	ld (_RAM_FFFF_), a
-	ld ix, _RAM_C300_
+	ld ix, v_entity1
 	ld de, $0020
 	ld b, $05
 -:
@@ -13449,7 +13449,7 @@ _LABEL_6C0C_:
 	ld a, (v_level)
 	cp $01
 	jp z, +
-	ld de, _RAM_C300_
+	ld de, v_entity1
 	ld hl, _RAM_C240_
 	ld bc, $0020
 	ldir
@@ -13464,7 +13464,7 @@ _LABEL_6C0C_:
 	jp _LABEL_6D73_
 
 +:
-	ld ix, _RAM_C300_
+	ld ix, v_entity1
 	ld (ix+0), $01
 	ld a, (v_level)
 	cp $0D
@@ -13511,7 +13511,7 @@ _LABEL_6C0C_:
 	jp --
 
 _LABEL_6D26_:
-	ld ix, _RAM_C300_
+	ld ix, v_entity1
 	ld de, $0020
 	ld b, $1E
 -:
@@ -15545,7 +15545,7 @@ _LABEL_7D38_:
 	bit 0, a
 	scf
 	ret z
-	ld iy, _RAM_C300_
+	ld iy, v_entity1
 	ld a, (_RAM_C313_)
 	add a, $04
 	ld l, a
@@ -15591,7 +15591,7 @@ _LABEL_7D84_:
 
 ; 8th entry of Jump Table from 7D1C (indexed by _RAM_C054_)
 _LABEL_7D8B_:
-	ld iy, _RAM_C300_
+	ld iy, v_entity1
 	jp _LABEL_7CC2_
 
 ; 6th entry of Jump Table from 7D1C (indexed by _RAM_C054_)
@@ -15614,7 +15614,7 @@ _DATA_7DA8_:
 
 ; 1st entry of Jump Table from 7DA8 (indexed by _RAM_C054_)
 _LABEL_7DBC_:
-	ld iy, _RAM_C300_
+	ld iy, v_entity1
 	call _LABEL_7CC2_
 	ret c
 	set 7, (iy+1)

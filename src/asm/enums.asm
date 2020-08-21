@@ -317,7 +317,11 @@ _RAM_C2A0_ dsb $b
 .ende
 
 .enum $C300 export
-_RAM_C300_ dsb $4
+v_entity1 db
+v_entity1Flags db
+_RAM_C302_ db
+v_entity1SpecificData db
+; v_entity1 dsb $4
 _RAM_C304_ db
 _RAM_C305_ db
 _RAM_C306_ db
