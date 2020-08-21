@@ -3,7 +3,8 @@
 
 2e = Whale sine Left
 2f = Whale straight left
-30 = fish?
+30 = fish left
 31 = Kaicho ?
 32 = Kaicho ?
+34 = fish right
 35 = Whale sine Right
