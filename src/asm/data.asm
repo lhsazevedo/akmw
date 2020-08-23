@@ -2265,7 +2265,15 @@ _DATA_BE87_:
 
 ; Data from C000 to C47F (1152 bytes)
 _DATA_C000_:
-.incbin "src/graphics/boxes.bin"
+.incbin "src/graphics/boxes/skull.bin"
+.incbin "src/graphics/boxes/question_mark.bin"
+.incbin "src/graphics/boxes/star.bin"
+.incbin "src/graphics/boxes/star_pink.bin"
+.incbin "src/graphics/boxes/waves_pink.bin"
+.incbin "src/graphics/boxes/fish_pink.bin"
+.incbin "src/graphics/boxes/moon_pink.bin"
+.incbin "src/graphics/boxes/skull_pink.bin"
+.incbin "src/graphics/boxes/sun_pink.bin"
 
 ; Pointer Table from C480 to C4A1 (17 entries, indexed by v_level)
 _DATA_C480_:
