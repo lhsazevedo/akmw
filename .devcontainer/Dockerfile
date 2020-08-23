@@ -19,7 +19,7 @@ COPY --from=downloader /wla-dx /usr/src/wla-dx
 COPY --from=downloader /png2tile /usr/src/png2tile
 
 RUN apt-get update \
-    && apt-get install --assume-yes cmake libpng-dev
+    && apt-get install --assume-yes build-essential cmake libpng-dev
 
 RUN cd /usr/src/wla-dx \
     && mkdir build && cd build && cmake .. \
@@ -34,6 +34,7 @@ FROM debian:buster
 
 COPY --from=builder /usr/local/bin/wla-* /usr/local/bin/wlalink /usr/local/bin/wlab /usr/local/bin/
 COPY --from=downloader /sdcc /usr/local/
+cOPY --from=builder /usr/src/png2tile/png2tile /usr/local/bin/
 
 RUN apt-get update \
     && apt-get install -y imagemagick \
