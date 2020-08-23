@@ -36,6 +36,17 @@ mkdir -p tmp build
 
 rm -f tmp/* 
 
+echo Converting sprites
+png2tile src/graphics/boxes/skull.png -binary -savetiles src/graphics/boxes/skull.bin
+png2tile src/graphics/boxes/question_mark.png -binary -savetiles src/graphics/boxes/question_mark.bin
+png2tile src/graphics/boxes/star.png -binary -savetiles src/graphics/boxes/star.bin
+png2tile src/graphics/boxes/star_pink.png -binary -savetiles src/graphics/boxes/star_pink.bin
+png2tile src/graphics/boxes/waves_pink.png -binary -savetiles src/graphics/boxes/waves_pink.bin
+png2tile src/graphics/boxes/fish_pink.png -binary -savetiles src/graphics/boxes/fish_pink.bin
+png2tile src/graphics/boxes/moon_pink.png -binary -savetiles src/graphics/boxes/moon_pink.bin
+png2tile src/graphics/boxes/skull_pink.png -binary -savetiles src/graphics/boxes/skull_pink.bin
+png2tile src/graphics/boxes/sun_pink.png -binary -savetiles src/graphics/boxes/sun_pink.bin
+
 echo Compiling
 wla-z80 -i -I./src/ -D _REV0 -o tmp/baserom_rev0.o src/asm/baserom.asm 
 wla-z80 -i -I./src/ -D _REV1 -o tmp/baserom_rev1.o src/asm/baserom.asm
