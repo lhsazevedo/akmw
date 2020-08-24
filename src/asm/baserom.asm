@@ -637,7 +637,7 @@ readInput:
 +:
 	ld a, c
 _LABEL_3C4_:
-	ld hl, _RAM_C006_
+	ld hl, v_inputData
 	cpl
 	ld c, a
 	xor (hl)
@@ -1173,7 +1173,7 @@ _LABEL_7EC_:
 	ld a, $09
 	call _LABEL_2E6_
 	call _LABEL_2694_
-	ld a, (_RAM_C006_)
+	ld a, (v_inputData)
 	ld b, a
 	and $30
 	jr nz, +
@@ -1456,7 +1456,7 @@ _LABEL_9E5_:
 _LABEL_A35_:
 	ld a, $85
 	ld (_RAM_FFFF_), a
-	ld a, (_RAM_C006_)
+	ld a, (v_inputData)
 	and $30
 	jr z, +
 	ld a, $01
@@ -1491,7 +1491,7 @@ _LABEL_A35_:
 ++:
 	ld (v_demoCurrentInputData), bc
 	ld a, c
-	ld (_RAM_C006_), a
+	ld (v_inputData), a
 	jp _LABEL_AB1_
 
 ; Data from A7C to A7F (4 bytes)
@@ -4403,7 +4403,7 @@ _LABEL_2439_:
 	ld (ix+7), <_DATA_8A1D_
 	ld (ix+8), >_DATA_8A1D_
 	res 4, b
-	ld a, (_RAM_C006_)
+	ld a, (v_inputData)
 	ld c, a
 	and $03
 	ld hl, $0000
@@ -4437,7 +4437,7 @@ _LABEL_2439_:
 	ld hl, _DATA_8A18_
 	call _LABEL_280E_
 	exx
-	ld a, (_RAM_C006_)
+	ld a, (v_inputData)
 	and $30
 	ret z
 	ld a, $8F
@@ -5224,7 +5224,7 @@ _LABEL_2A9E_:
 	jp nz, _LABEL_4508_
 	bit 4, a
 	jp nz, _LABEL_2CAE_
-	ld a, (_RAM_C006_)
+	ld a, (v_inputData)
 	bit 2, a
 	jr nz, _LABEL_2B1F_
 	bit 3, a
@@ -5313,7 +5313,7 @@ _LABEL_2B41_:
 	jr nc, +++
 ++:
 	call _LABEL_3B56_
-	ld a, (_RAM_C006_)
+	ld a, (v_inputData)
 	bit 1, a
 	jp nz, _LABEL_2B0B_
 	bit 3, a
@@ -5323,7 +5323,7 @@ _LABEL_2B41_:
 	jp _LABEL_2BFA_
 
 +++:
-	ld a, (_RAM_C006_)
+	ld a, (v_inputData)
 	bit 2, a
 	jr z, +
 	set 2, (ix+20)
@@ -5381,7 +5381,7 @@ _LABEL_2C25_:
 	jr nc, +++
 ++:
 	call _LABEL_3B56_
-	ld a, (_RAM_C006_)
+	ld a, (v_inputData)
 	bit 1, a
 	jp nz, _LABEL_2B0B_
 	bit 2, a
@@ -5391,7 +5391,7 @@ _LABEL_2C25_:
 	jp _LABEL_2BFA_
 
 +++:
-	ld a, (_RAM_C006_)
+	ld a, (v_inputData)
 	bit 3, a
 	jr z, +
 	set 2, (ix+20)
@@ -5472,7 +5472,7 @@ _LABEL_2CD0_:
 +++:
 	bit 2, (ix+28)
 	jp nz, _LABEL_2D4A_
-	ld a, (_RAM_C006_)
+	ld a, (v_inputData)
 	bit 4, a
 	jr z, ++
 	dec (ix+27)
@@ -5544,7 +5544,7 @@ _LABEL_2D7F_:
 	call _LABEL_39ED_
 	jr c, +++
 ++:
-	ld a, (_RAM_C006_)
+	ld a, (v_inputData)
 	bit 2, a
 	jr nz, ++++
 	bit 3, a
@@ -5554,7 +5554,7 @@ _LABEL_2D7F_:
 
 +++:
 	call _LABEL_3B56_
-	ld a, (_RAM_C006_)
+	ld a, (v_inputData)
 	bit 3, a
 	ret z
 	set 1, (ix+20)
@@ -5599,7 +5599,7 @@ _LABEL_2DF3_:
 	call _LABEL_39ED_
 	jr c, +++
 ++:
-	ld a, (_RAM_C006_)
+	ld a, (v_inputData)
 	bit 3, a
 	jr nz, ++++
 	bit 2, a
@@ -5609,7 +5609,7 @@ _LABEL_2DF3_:
 
 +++:
 	call _LABEL_3B56_
-	ld a, (_RAM_C006_)
+	ld a, (v_inputData)
 	bit 2, a
 	ret z
 	res 1, (ix+20)
@@ -5660,7 +5660,7 @@ _LABEL_2E60_:
 	call _LABEL_3A41_
 	jp nc, _LABEL_2CA1_
 ++:
-	ld a, (_RAM_C006_)
+	ld a, (v_inputData)
 	bit 1, a
 	jr nz, +
 	ld a, (v_entities.1.isOffScreenFlagsB2)
@@ -5683,7 +5683,7 @@ _LABEL_2E60_:
 	jp _LABEL_3B4B_
 
 +:
-	ld a, (_RAM_C006_)
+	ld a, (v_inputData)
 	ld c, a
 	ld a, (v_entities.1.unknown3)
 	and $FB
@@ -5827,7 +5827,7 @@ _LABEL_2FD5_:
 	jp nc, _LABEL_43F2_
 	call _LABEL_4578_
 ++:
-	ld a, (_RAM_C006_)
+	ld a, (v_inputData)
 	bit 3, a
 	jr z, +
 	ld de, $0040
@@ -5859,7 +5859,7 @@ _LABEL_302F_:
 	call _LABEL_3C48_
 	bit 2, (ix+28)
 	jr nz, ++
-	ld a, (_RAM_C006_)
+	ld a, (v_inputData)
 	bit 4, a
 	jr z, +
 	dec (ix+27)
@@ -5926,7 +5926,7 @@ _LABEL_30C5_:
 	call _LABEL_7C4B_
 	rlca
 	jp c, _LABEL_389C_
-	ld a, (_RAM_C006_)
+	ld a, (v_inputData)
 	bit 3, a
 	jr z, +
 	ld de, $0040
@@ -5958,7 +5958,7 @@ _LABEL_3107_:
 +:
 	bit 2, (ix+28)
 	jr nz, ++
-	ld a, (_RAM_C006_)
+	ld a, (v_inputData)
 	bit 4, a
 	jr z, +
 	dec (ix+27)
@@ -6110,7 +6110,7 @@ _LABEL_3230_:
 _LABEL_3256_:
 	call _LABEL_3B56_
 	ld (v_entities.1.ySpeedB1), hl
-	ld a, (_RAM_C006_)
+	ld a, (v_inputData)
 	rrca
 	jr c, ++
 	rrca
@@ -6275,7 +6275,7 @@ _LABEL_3392_:
 	ld a, (_RAM_C007_)
 	bit 5, a
 	jp nz, _LABEL_4508_
-	ld a, (_RAM_C006_)
+	ld a, (v_inputData)
 	ld c, a
 	bit 0, c
 	call nz, ++
@@ -6424,7 +6424,7 @@ _LABEL_34B6_:
 	and $E0
 	cp $60
 	jr nz, +
-	ld a, (_RAM_C006_)
+	ld a, (v_inputData)
 	and $01
 	jr z, +
 	dec hl
@@ -6462,7 +6462,7 @@ _LABEL_34B6_:
 	bit 0, (ix+28)
 	ret nz
 	ld c, $14
-	ld a, (_RAM_C006_)
+	ld a, (v_inputData)
 	bit 0, (ix+20)
 	jr nz, ++
 	bit 4, a
@@ -6506,7 +6506,7 @@ _LABEL_34B6_:
 	ld a, (hl)
 	bit 7, a
 	jp nz, _LABEL_35E3_
-	ld a, (_RAM_C006_)
+	ld a, (v_inputData)
 	bit 1, a
 	jr nz, ++
 	bit 0, a
@@ -6534,7 +6534,7 @@ _LABEL_35BE_:
 	ld a, (hl)
 	cp $59
 	jr nz, +
-	ld a, (_RAM_C006_)
+	ld a, (v_inputData)
 	and $01
 	jr z, +
 	set 7, (ix+1)
@@ -6552,7 +6552,7 @@ _LABEL_35E3_:
 	ld hl, $0000
 	ld (v_entities.1.ySpeedB1), hl
 	res 4, (ix+20)
-	ld a, (_RAM_C006_)
+	ld a, (v_inputData)
 	bit 1, a
 	ret z
 	set 3, (ix+20)
@@ -6568,7 +6568,7 @@ _LABEL_35F8_:
 	ld a, (hl)
 	rlca
 	jr c, ++
-	ld a, (_RAM_C006_)
+	ld a, (v_inputData)
 	bit 1, a
 	jr z, +
 	ld bc, $0100
@@ -6586,7 +6586,7 @@ _LABEL_35F8_:
 	ld hl, $0000
 	ld (v_entities.1.ySpeedB1), hl
 	res 4, (ix+20)
-	ld a, (_RAM_C006_)
+	ld a, (v_inputData)
 	bit 1, a
 	ret nz
 	res 3, (ix+20)
@@ -6599,7 +6599,7 @@ _LABEL_363E_:
 	ld a, $0A
 	call _LABEL_3A03_
 	jr c, +
-	ld a, (_RAM_C006_)
+	ld a, (v_inputData)
 	bit 2, a
 	jr nz, ++
 	bit 3, a
@@ -6609,7 +6609,7 @@ _LABEL_363E_:
 
 +:
 	call _LABEL_3B56_
-	ld a, (_RAM_C006_)
+	ld a, (v_inputData)
 	bit 3, a
 	ret z
 	ld a, (v_entities.1.unknown3)
@@ -6642,7 +6642,7 @@ _LABEL_369A_:
 	ld a, $0A
 	call _LABEL_3A03_
 	jr c, +
-	ld a, (_RAM_C006_)
+	ld a, (v_inputData)
 	bit 3, a
 	jr nz, ++
 	bit 2, a
@@ -6652,7 +6652,7 @@ _LABEL_369A_:
 
 +:
 	call _LABEL_3B56_
-	ld a, (_RAM_C006_)
+	ld a, (v_inputData)
 	bit 2, a
 	ret z
 	ld a, (v_entities.1.unknown3)
@@ -6726,7 +6726,7 @@ _LABEL_36F1_:
 	ld b, $02
 	call _LABEL_39ED_
 	jr c, +
-	ld a, (_RAM_C006_)
+	ld a, (v_inputData)
 	bit 2, a
 	jr nz, ++
 	bit 3, a
@@ -6736,7 +6736,7 @@ _LABEL_36F1_:
 
 +:
 	call _LABEL_3B56_
-	ld a, (_RAM_C006_)
+	ld a, (v_inputData)
 	bit 3, a
 	ret z
 	ld a, (v_entities.1.unknown3)
@@ -6761,7 +6761,7 @@ _LABEL_378F_:
 	ld b, $02
 	call _LABEL_39ED_
 	jr c, +
-	ld a, (_RAM_C006_)
+	ld a, (v_inputData)
 	bit 3, a
 	jr nz, ++
 	bit 2, a
@@ -6771,7 +6771,7 @@ _LABEL_378F_:
 
 +:
 	call _LABEL_3B56_
-	ld a, (_RAM_C006_)
+	ld a, (v_inputData)
 	bit 2, a
 	ret z
 	ld a, (v_entities.1.unknown3)
@@ -7503,7 +7503,7 @@ _LABEL_3CCF_:
 	ld a, (v_entities.1.xPosB2)
 	cp $18
 	ret c
-	ld a, (_RAM_C006_)
+	ld a, (v_inputData)
 	bit 0, a
 	ret z
 	ld (ix+26), $0D
@@ -7517,7 +7517,7 @@ _LABEL_3CF3_:
 	ret
 
 +:
-	ld a, (_RAM_C006_)
+	ld a, (v_inputData)
 	bit 0, a
 	ret z
 	ld hl, $FF00
@@ -7642,7 +7642,7 @@ _LABEL_3DD4_:
 	ret
 
 +:
-	ld a, (_RAM_C006_)
+	ld a, (v_inputData)
 	bit 1, a
 	ret z
 	ld hl, $0100
@@ -13643,7 +13643,7 @@ _LABEL_6DC9_:
 -:
 	ld a, $80
 	call _LABEL_2E6_
-	ld a, (_RAM_C006_)
+	ld a, (v_inputData)
 	and $01
 	jp nz, +
 	xor a
@@ -15798,7 +15798,7 @@ _LABEL_7DC9_:
 _LABEL_7E5E_:
 	ld a, $01
 	call _LABEL_2E6_
-	ld a, (_RAM_C006_)
+	ld a, (v_inputData)
 	and $30
 	jp nz, ++
 	ld a, (v_shouldShowNuraiOrOldMan)

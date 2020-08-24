@@ -2,7 +2,7 @@
 _RAM_C000_ dsb $4
 _RAM_C004_ db
 v_inputFlags db
-_RAM_C006_ db
+v_inputData db      ; inverse of port Port_IOPort1 (port $DC)
 _RAM_C007_ db
 _RAM_C008_ db
 _RAM_C009_ dw
