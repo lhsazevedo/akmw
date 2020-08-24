@@ -1,5 +1,4 @@
 
-; Money bag values
-SMALL_MONEY_BAG_VALUE = $01 $00 $00 ; 10
-BIG_MONEY_BAG_VALUE =   $02 $00 $00 ; 20
-
+; Money bag values (BCD)
+SMALL_MONEY_BAG_VALUE = $01 $00 $00 ; 100
+BIG_MONEY_BAG_VALUE =   $02 $00 $00 ; 200
