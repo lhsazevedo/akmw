@@ -1293,7 +1293,7 @@ _LABEL_8F6_:
 	ld (v_entitydataArrayLength), a
 	ld hl, v_entity1
 	ld (v_entitydataArrayPointer), hl
-	call _LABEL_9D9_
+	call clearEntities
 	ld a, $1D
 	call _LABEL_41C0_
 	ld bc, $0036
@@ -1386,7 +1386,8 @@ _LABEL_9C2_:
 	ld (ix+14), $0C
 	ret
 
-_LABEL_9D9_:
+; $9D9
+clearEntities:
 	ld b, $1E
 	ld hl, v_entity1
 -:
@@ -1519,7 +1520,7 @@ _LABEL_AB1_:
 
 _LABEL_ABD_:
 	call _LABEL_311_
-	call _LABEL_9D9_
+	call clearEntities
 	ld a, $82
 	ld (_RAM_FFFF_), a
 	call _LABEL_9DF3_
@@ -3144,7 +3145,7 @@ _LABEL_189A_:
 	xor a
 	ld de, $C010
 	call _LABEL_13F_
-	call _LABEL_9D9_
+	call clearEntities
 	call _LABEL_2694_
 	ld a, $83
 	ld (_RAM_FFFF_), a
@@ -3335,7 +3336,7 @@ _LABEL_1A01_:
 _LABEL_1A46_:
 	set 7, (hl)
 	call _LABEL_311_
-	call _LABEL_9D9_
+	call clearEntities
 	call _LABEL_303_
 	ld a, $82
 	ld (_RAM_FFFF_), a
