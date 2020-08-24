@@ -20,6 +20,7 @@ BANKS 6
 
 .INCDIR "src/asm"
 
+.INCLUDE "constants.asm"
 .INCLUDE "structs.asm"
 .INCLUDE "variables.asm"
 
@@ -650,7 +651,7 @@ takeMoney:
 	and $20
 	ret nz
 	ld bc, v_money
-	ld de, _DATA_483_
+	ld de, data_moneyBagValueTable
 	ld h, $00
 	add hl, de
 	call +
@@ -791,8 +792,9 @@ _LABEL_456_:
 	ret
 
 ; Data from 483 to 488 (6 bytes)
-_DATA_483_:
-.db $01 $00 $00 $02 $00 $00
+data_moneyBagValueTable:
+.db SMALL_MONEY_BAG_VALUE
+.db BIG_MONEY_BAG_VALUE
 
 ; Data from 489 to 4CD (69 bytes)
 _DATA_489_:
