@@ -1390,7 +1390,7 @@ _LABEL_9D9_:
 	ld b, $1E
 	ld hl, v_entity1
 -:
-	call _LABEL_278D_
+	call clearEntity
 	inc hl
 	djnz -
 	ret
@@ -4614,7 +4614,7 @@ _LABEL_25B4_:
 	ld hl, _RAM_C320_
 	ld b, $03
 -:
-	call _LABEL_278D_
+	call clearEntity
 	inc hl
 	djnz -
 	ld hl, _RAM_C31C_
@@ -4846,7 +4846,16 @@ _LABEL_273A_:
 _LABEL_278A_:
 	push ix
 	pop hl
-_LABEL_278D_:
+
+;
+; Clears the given entity data, zeroing all bytes except for animation timer,
+; that is set to $01. 
+;
+; Param hl The entity index
+;
+; v1 address $278D
+;
+clearEntity:		; 
 	xor a
 	ld (hl), a
 	inc l
@@ -6355,11 +6364,11 @@ _LABEL_3468_:
 
 _LABEL_3478_:
 	ld hl, _RAM_C320_
-	call _LABEL_278D_
+	call clearEntity
 	inc hl
-	call _LABEL_278D_
+	call clearEntity
 	inc hl
-	call _LABEL_278D_
+	call clearEntity
 	ld a, (_RAM_C31C_)
 	and $F4
 	ld (_RAM_C31C_), a
@@ -7722,9 +7731,9 @@ _LABEL_3EA6_:
 	ld a, $89
 	ld (_RAM_C202_), a
 	ld hl, _RAM_C640_
-	call _LABEL_278D_
+	call clearEntity
 	inc hl
-	call _LABEL_278D_
+	call clearEntity
 	jp _LABEL_278A_
 
 ; 97th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
@@ -7750,9 +7759,9 @@ _LABEL_3EC1_:
 	ld bc, v_money
 	call _LABEL_41C_
 	ld hl, _RAM_C640_
-	call _LABEL_278D_
+	call clearEntity
 	ld hl, _RAM_C660_
-	jp _LABEL_278D_
+	jp clearEntity
 
 ; Data from 3F00 to 3F02 (3 bytes)
 _DATA_3F00_:
@@ -14508,9 +14517,9 @@ _DATA_74DF_:
 	ld a, $93
 	ld (v_soundControl), a
 	ld hl, _RAM_C3C0_
-	call _LABEL_278D_
+	call clearEntity
 	inc hl
-	jp _LABEL_278D_
+	jp clearEntity
 
 ; 1st entry of Jump Table from 74DF (indexed by _RAM_CF9A_)
 _LABEL_7509_:
@@ -14619,9 +14628,9 @@ _LABEL_7591_:
 
 _LABEL_75C6_:
 	ld hl, _RAM_C640_
-	call _LABEL_278D_
+	call clearEntity
 	inc hl
-	call _LABEL_278D_
+	call clearEntity
 	ld hl, _RAM_CA08_
 	ld de, _RAM_D000_
 	ld bc, $00EC
@@ -14683,11 +14692,11 @@ _DATA_763B_:
 
 _LABEL_7641_:
 	ld hl, _RAM_C640_
-	call _LABEL_278D_
+	call clearEntity
 	inc hl
-	call _LABEL_278D_
+	call clearEntity
 	ld hl, _RAM_C5C0_
-	jp _LABEL_278D_
+	jp clearEntity
 
 ; Data from 7651 to 7652 (2 bytes)
 _DATA_7651_:
@@ -14885,7 +14894,7 @@ _LABEL_77CD_:
 	ld hl, $9395
 	ld (_RAM_C3A7_), hl
 	ld hl, _RAM_C3C0_
-	call _LABEL_278D_
+	call clearEntity
 	ld iy, _RAM_C3C0_
 	ld (iy+0), $0D
 	ld a, (_RAM_C3AC_)
@@ -15022,7 +15031,7 @@ _LABEL_7924_:
 	ld hl, _RAM_C3C0_
 	ld b, $16
 -:
-	call _LABEL_278D_
+	call clearEntity
 	inc hl
 	djnz -
 	call _LABEL_9DF3_
@@ -15048,7 +15057,7 @@ _LABEL_7941_:
 	ldir
 	ld hl, _RAM_C5C0_
 	push hl
-	call _LABEL_278D_
+	call clearEntity
 	pop hl
 	ld (hl), $0C
 	ret
