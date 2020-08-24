@@ -193,7 +193,7 @@ _LABEL_C0_:
 	pop af
 	rrca
 	push af
-	call _LABEL_367_
+	call readInput
 	call _LABEL_107C_
 	pop af
 	rrca
@@ -583,7 +583,8 @@ _LABEL_350_:
 	res 0, (hl)
 	ret
 
-_LABEL_367_:
+; $00367
+readInput:
 	ld a, (v_inputFlags)
 	bit 0, a
 	jp nz, +
