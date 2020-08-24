@@ -14715,19 +14715,89 @@ _DATA_7651_:
 .dw _DATA_11BB5_
 
 ; Data from 7665 to 7672 (14 bytes)
-.db $B9 $76 $F2 $92 $F7 $92 $97 $76 $03 $77 $04 $00 $16 $93
+.IFDEF _REV1
+	.db $B9
+.ELSE
+	.db $B2
+.ENDIF
+.db $76 $F2 $92 $F7 $92
+.IFDEF _REV1
+	.db $97
+.ELSE
+	.db $90
+.ENDIF
+.db $76
+.IFDEF _REV1
+	.db $03 $77
+.ELSE
+	.db $FC $76
+.ENDIF
+.db $04 $00 $16 $93
+
+; Data from 7665 to 7672 (14 bytes)
+; .db $B9 $76 $F2 $92 $F7 $92
+; .IFDEV _REV1
+; 	.db $97
+; .ELSE
+; 	.db $90
+; .ENDIF
+; .db $76
+; 
+; .IFDEF _REV1
+; 	.db $03 $77
+; .ELSE
+; 	.db $FC $76
+; .ENDIF
+; .db $04 $00 $16 $93
 
 ; Pointer Table from 7673 to 7674 (1 entries, indexed by _RAM_C3A3_)
 .dw _DATA_11E67_
 
 ; Data from 7675 to 7682 (14 bytes)
-.db $C7 $76 $F2 $92 $15 $94 $9D $76 $23 $77 $05 $00 $16 $93
+.IFDEF _REV1
+	.db $C7
+.ELSE
+	.db $C0
+.ENDIF
+.db $76 $F2 $92 $15 $94
+.IFDEF _REV1
+	.db $9D
+.ELSE
+	.db $96
+.ENDIF
+.db $76
+.IFDEF _REV1
+	.db $23
+.ELSE
+	.db $1C
+.ENDIF
+.db $77 $05 $00 $16 $93
 
 ; Pointer Table from 7683 to 7684 (1 entries, indexed by _RAM_C3A3_)
 .dw _DATA_120A8_
 
 ; Data from 7685 to 7690 (12 bytes)
-.db $D5 $76 $F2 $92 $F7 $92 $97 $76 $43 $77 $06 $00
+.IFDEF _REV1
+	.db $D5
+.ELSE
+	.db $CE
+.ENDIF
+.db $76 $F2 $92 $F7 $92
+.IFDEF _REV1
+	.db $97
+.ELSE
+	.db $90
+.ENDIF
+
+.db $76
+
+.IFDEF _REV1
+	.db $43
+.ELSE
+	.db $3C
+.ENDIF
+
+.db $77 $06 $00
 
 ; 1st entry of Pointer Table from 765B (indexed by _RAM_C3A3_)
 ; Data from 7691 to 7692 (2 bytes)
@@ -15824,13 +15894,37 @@ _DATA_7F50_:
 .dw _DATA_1FB41_ _DATA_1FB89_ _DATA_1FB89_ _DATA_1FB89_ _DATA_1FC48_ _DATA_1FC84_
 
 ; Data from 7F7C to 7FEF (116 bytes)
-.dsb 116, $FF
+.IFDEF _REV1
+	.dsb 116, $FF
+.ELSE
+	.dsb 123, $FF
+.ENDIF
 
 .BANK 1 SLOT 1
 .ORG $0000
 
 ; Data from 7FF0 to 7FFF (16 bytes)
-.db $54 $4D $52 $20 $53 $45 $47 $41 $20 $20 $D0 $1C $67 $50 $01 $4F
+.db $54 $4D $52 $20 $53 $45 $47 $41 $20 $20
+
+.IFDEF _REV1
+	.db $D0 $1C
+.ELSE
+	.db $22 $12
+.ENDIF
+
+.db $67 $50
+
+.IFDEF _REV1
+	.db $01
+.ELSE
+	.db $00
+.ENDIF
+
+.db $4F
+
+;.IFNDEF _REV1
+	;.db $FF $FF $FF $FF $FF $FF $FF
+;.ENDIF
 
 .BANK 2
 .ORG $0000
