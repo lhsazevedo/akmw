@@ -316,48 +316,48 @@ _RAM_C260_ dsb $2e
 _RAM_C2A0_ dsb $b
 .ende
 
+.STRUCT entity
+    type db ; C300
+    flags db ; C301
+    unknown1 db ; C302
+    data db ;C303
+    animationFrame db ; C304
+    animationTimer db ; C305
+    animationTimerResetValue db ; C306
+    spriteDescriptorPointer dw ; C307
+    ; ; C308
+    isOffScreenFlagsB1 db ; C309
+    isOffScreenFlagsB2 db ; C30A
+    xPosB1 db ; C30B
+    xPosB2 db ; C30C
+    yPosB1 db ; C30D
+    yPosB2 db ; C30E
+    xSpeedB1 db ; C30F
+    xSpeedB2 db ; C310
+    ySpeedB1 db ; C311
+    ySpeedB2 db ; C312
+    unknown2 db ; C313
+    unknown3 db ; C314
+    unknown4 db ; C315
+    unknown5 db ; C316
+    jankenMatchDecision db; C317
+    unknown6 db ; C318
+    unknown7 db ; C319
+    state db ; C31A
+    stateTimer db ; C31B
+    unknown8 db ; C31C
+    unknown9 db ; C31D
+    unknown10 db ; C31E
+    unknown11 db ; C31F
+.ENDST
+
 .enum $C300 export
-v_entity1 db
-v_entity1Flags db
-_RAM_C302_ db
-v_entity1SpecificData db
-; v_entity1 dsb $4
-_RAM_C304_ db
-_RAM_C305_ db
-_RAM_C306_ db
-_RAM_C307_ dw
-_RAM_C309_ db
-_RAM_C30A_ db
+    v_entities INSTANCEOF entity
 .ende
 
-.enum $C30C export
-_RAM_C30C_ db
-.ende
+.DEFINE v_entity1 v_entities
 
-.enum $C30E export
-_RAM_C30E_ db
-_RAM_C30F_ db
-_RAM_C310_ db
-_RAM_C311_ db
-_RAM_C312_ db
-_RAM_C313_ db
-_RAM_C314_ db
-.ende
-
-.enum $C317 export
-_RAM_C317_ db
-_RAM_C318_ db
-.ende
-
-.enum $C31A export
-_RAM_C31A_ db
-_RAM_C31B_ db
-_RAM_C31C_ db
-_RAM_C31D_ db
-.ende
-
-.enum $C31F export
-_RAM_C31F_ db
+.enum $C320 export
 _RAM_C320_ db
 .ende
 
