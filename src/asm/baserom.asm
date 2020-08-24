@@ -589,7 +589,7 @@ readInput:
 	bit 0, a
 	jp nz, +
 	in a, (Port_IOPort1)
-	jp _LABEL_3C4_
+	jp saveInput
 
 +:
 	ld a, $07
@@ -636,7 +636,8 @@ readInput:
 	res 5, c
 +:
 	ld a, c
-_LABEL_3C4_:
+; $003C4
+saveInput:
 	ld hl, v_inputData
 	cpl
 	ld c, a
