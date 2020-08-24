@@ -20,7 +20,7 @@ BANKS 6
 
 .INCDIR "src/asm"
 
-.INCLUDE "enums.asm"
+.INCLUDE "variables.asm"
 
 ; Ports
 .define Port_PSG $7F
@@ -15903,24 +15903,7 @@ _DATA_7F50_:
 .BANK 1 SLOT 1
 .ORG $0000
 
-; Data from 7FF0 to 7FFF (16 bytes)
-.db $54 $4D $52 $20 $53 $45 $47 $41 $20 $20
-
-.IFDEF _REV1
-	.db $D0 $1C
-.ELSE
-	.db $22 $12
-.ENDIF
-
-.db $67 $50
-
-.IFDEF _REV1
-	.db $01
-.ELSE
-	.db $00
-.ENDIF
-
-.db $4F
+.INCLUDE "header.asm"
 
 ;.IFNDEF _REV1
 	;.db $FF $FF $FF $FF $FF $FF $FF
