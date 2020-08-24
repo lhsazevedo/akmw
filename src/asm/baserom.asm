@@ -20,6 +20,7 @@ BANKS 6
 
 .INCDIR "src/asm"
 
+.INCLUDE "structs.asm"
 .INCLUDE "variables.asm"
 
 ; Ports
