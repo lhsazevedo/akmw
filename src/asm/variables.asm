@@ -352,33 +352,10 @@ _RAM_C2A0_ dsb $b
 .ENDST
 
 .enum $C300 export
-    v_entities INSTANCEOF entity
+    v_entities INSTANCEOF entity 2
 .ende
 
 .DEFINE v_entity1 v_entities
-
-.enum $C320 export
-_RAM_C320_ db
-.ende
-
-.enum $C327 export
-_RAM_C327_ dw
-_RAM_C329_ db
-.ende
-
-.enum $C32C export
-_RAM_C32C_ db
-.ende
-
-.enum $C32E export
-_RAM_C32E_ db
-_RAM_C32F_ dw
-_RAM_C331_ dw
-.ende
-
-.enum $C339 export
-_RAM_C339_ db
-.ende
 
 .enum $C340 export
 _RAM_C340_ db
