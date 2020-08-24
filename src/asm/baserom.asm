@@ -15906,10 +15906,6 @@ _DATA_7F50_:
 ; ROM header from 7FF0 to 7FFF (16 bytes)
 .INCLUDE "header.asm"
 
-;.IFNDEF _REV1
-	;.db $FF $FF $FF $FF $FF $FF $FF
-;.ENDIF
-
 .BANK 2
 .ORG $0000
 
