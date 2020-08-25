@@ -1203,8 +1203,13 @@ _LABEL_7EC_:
 
 ; Data from 824 to 841 (30 bytes)
 _DATA_824_:
-.db $03 $00 $00 $00 $01 $01 $03
-.dsb 15, $00
+.db INITIAL_GAME_STATE
+.db INITIAL_SCORE
+.db INITIAL_LEVEL
+.db INITIAL_LIFES
+.db $00 $00 $00 $00
+.db INITIAL_MONEY
+.dsb 8, $00
 .db $03 $00 $00 $00 $00 $00 $00 $00
 
 ; 1st entry of Jump Table from 127 (indexed by v_gameState)
