@@ -439,40 +439,14 @@ _LABEL_293_:
 -:
 	push bc
 	push de
-	call _LABEL_2A0_
+	call decompressToVRAM
 	pop de
 	inc de
 	pop bc
 	djnz -
 	ret
 
-_LABEL_2A0_:
-	ld a, (hl)
-	inc hl
-	or a
-	ret z
-	ld b, a
-	ld c, a
-	res 7, b
--:
-	ld a, e
-	out (Port_VDPAddress), a
-	ld a, d
-	out (Port_VDPAddress), a
-	ld a, (hl)
-	out (Port_VDPData), a
-	bit 7, c
-	jp z, +
-	inc hl
-+:
-	inc de
-	inc de
-	inc de
-	inc de
-	djnz -
-	jp nz, _LABEL_2A0_
-	inc hl
-	jp _LABEL_2A0_
+.INCLUDE "decompress.asm"
 
 ; Data from 2C4 to 2C4 (1 bytes)
 .db $CF
