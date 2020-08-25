@@ -13,6 +13,8 @@ RUN wget -O png2tile.tar https://github.com/yuv422/png2tile/tarball/master --pro
     && mkdir png2tile \
     && tar -C png2tile --strip-components=1 -xf png2tile.tar
 
+COPY gfxcomp_phantasystargaiden.cpp /png2tile/compressors/gfxcomp_phantasystargaiden.cpp
+
 FROM debian:buster AS builder
 
 COPY --from=downloader /wla-dx /usr/src/wla-dx
