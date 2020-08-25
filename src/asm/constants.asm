@@ -2,6 +2,8 @@
 ; Money bag values (BCD)
 SMALL_MONEY_BAG_VALUE = $01 $00 $00 ; 100
 BIG_MONEY_BAG_VALUE =   $02 $00 $00 ; 200
+
+; Initial game values
 INITIAL_GAME_STATE = $03
 INITIAL_SCORE = $00 $00 $00 ; 0
 INITIAL_LEVEL = $01 $01
