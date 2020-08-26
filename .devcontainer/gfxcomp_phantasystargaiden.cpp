@@ -58,7 +58,7 @@ int PSGaiden_compressTiles(uint8_t* source, uint32_t sourceLen, uint8_t* dest, u
     }
 
     // copy to dest
-    memcpy(dest, destLen, &bufDest[0], bufDest.size());
+    memcpy(dest, &bufDest[0], bufDest.size());
 
     // return length
     return bufDest.size();

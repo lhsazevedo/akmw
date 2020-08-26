@@ -38,12 +38,6 @@ COPY --from=builder /usr/local/bin/wla-* /usr/local/bin/wlalink /usr/local/bin/w
 COPY --from=downloader /sdcc /usr/local/
 cOPY --from=builder /usr/src/png2tile/png2tile /usr/local/bin/
 
-RUN apt-get update \
-    && apt-get install -y imagemagick \
-    && apt-get clean autoclean \
-    && apt-get autoremove --yes \
-    && rm -rf /var/lib/{apt,dpkg,cache,log}/
-
 RUN groupadd --gid 1000 dockeruser && \
     adduser --system --shell /bin/bash --uid 1000 --ingroup dockeruser dockeruser
 
