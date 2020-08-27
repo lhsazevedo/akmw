@@ -10411,10 +10411,15 @@ _DATA_1F0A9_:
 ; 1st entry of Pointer Table from 7F50 (indexed by v_messageToShowInTheTextBoxIndex)
 ; Data from 1F109 to 1F154 (76 bytes)
 _DATA_1F109_:
+;;                                                           W   E 
 .db $9C $20 $B0 $84 $80 $B0 $9A $60 $B0 $83 $C0 $B0 $19 $20 $E7 $D5
+;    L   C   O   M   E   !       P   L   E   A   S   E       B   U 
 .db $DC $D3 $DF $DD $D5 $B1 $B0 $E0 $DC $D5 $D1 $E3 $D5 $B0 $D2 $E5
+;    Y                                                           T
 .db $E9 $B0 $B0 $B0 $B0 $B0 $B0 $01 $80 $B0 $98 $60 $B0 $01 $80 $E4
+;             H   E      T   H   I   N   G   S       T   H   A   T
 .db $18 $20 $D8 $D5 $B0 $E4 $D8 $D9 $DE $D7 $E3 $B0 $E4 $D8 $D1 $E4
+;        Y   O   U       L   I   K   E   .
 .db $B0 $E9 $DF $E5 $B0 $DC $D9 $DB $D5 $BE $00 $00
 
 ; 2nd entry of Pointer Table from 7F50 (indexed by v_messageToShowInTheTextBoxIndex)
