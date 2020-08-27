@@ -32,3 +32,38 @@
     unknown10 db ; C31E
     unknown11 db ; C31F
 .ENDST
+
+
+; _DATA_66F8_:
+; .db $86
+
+; ; Pointer Table from 66F9 to 66FC (2 entries, indexed by unknown)
+; .dw _DATA_18000_ _DATA_18004_
+
+; ; Data from 66FD to 6701 (5 bytes)
+; .db $01 $01 $02 $09 $81
+
+; ; Pointer Table from 6702 to 6703 (1 entries, indexed by unknown)
+; .dw _DATA_14000_
+
+.STRUCT LevelDescriptor
+    bank db ; 66f8
+    layoutDataPointer dw ; 66f9
+    layoutDataPointer2 dw; 66fb
+    startScreenX db ; 66fd
+    startScreenY db ; 66fe
+    xScreenCount db ; 66ff
+    yScreenCount db ; 6700
+    scrollability db ; 6701
+    metatileNameTablePointer dw ; 6703
+.ENDST
+
+; 0	1 byte	Bank number containing the level layout data (Always $86) [5]
+; 1	2 bytes	Slot 2 pointer into the level layout data
+; 3	2 bytes	A second slot 2 pointer into the level layout data
+; 5	1 byte	Start screen horizontal number
+; 6	1 byte	Start screen vertical number
+; 7	1 byte	Width in screens
+; 8	1 byte	Height in screens
+; 9	1 byte	Scrollability
+; 10	2 bytes	Slot 2 address of metatile name table entry pointer table
