@@ -1,8 +1,10 @@
 #!/usr/bin/env node
 
 const fs = require('fs')
+const path = require('path')
 
-const file = "src/graphics/bag_of_gold_coins_and_cloud.bin"
+const file = "src/data/baserom_DATA_C583_.inc"
+const filename = path.parse(file).name
 // src/graphics/bag_o f_gold_coins_and_cloud.bin
 let [...buf] = fs.readFileSync(file)
 let dest = []
@@ -63,7 +65,7 @@ if (compressed) {
 
   console.log(`Output ${dest.length} bytes`)
 
-  fs.writeFileSync('bag.bin', Uint8Array.from(dest))
+  fs.writeFileSync(filename + '.bin', Uint8Array.from(dest))
 
   console.log('Deinterleaving...')
 
@@ -75,7 +77,7 @@ if (compressed) {
 
   console.log('Done!')
 
-  fs.writeFileSync('bag.bytedeint.bin', Uint8Array.from(destd))
+  fs.writeFileSync(filename + '.bytedeint.bin', Uint8Array.from(destd))
 } else {
   destd = buf
 }
@@ -217,6 +219,6 @@ for (let i = 0; i < destd.length; i = i+4) {
     // }
 }
 
-fs.writeFileSync('bag.bitdeint.bin', Uint8Array.from(pixels))
+fs.writeFileSync(filename + '.bitdeint.bin', Uint8Array.from(pixels))
 
 })();
