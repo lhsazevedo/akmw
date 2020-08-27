@@ -1,30 +1,8 @@
 #!/usr/bin/env node
 
-const argv = require('yargs')
-  .usage('$0 <source> <output> [options]', 'Converts tiledata to PNG', (yargs) => {
-    yargs.positional('source', {
-      describe: 'The binary tile data file'
-    })
-    .positional('output', {
-      describe: 'The png file to be created'
-    })
-    .option('decompress', {
-      alias: 'd',
-      type: 'boolean',
-      describe: 'Decompress PS RLE',
-      default: false
-    })
-    .option('v', {
-      type: 'boolean',
-      default: false
-    })
-  })
-  .argv
-
 const fs = require('fs')
-const PNGlib = require('node-pnglib')
 
-const file = argv.source
+const file = "src/graphics/bag_of_gold_coins_and_cloud.bin"
 // src/graphics/bag_o f_gold_coins_and_cloud.bin
 let [...buf] = fs.readFileSync(file)
 let dest = []
@@ -33,7 +11,7 @@ let destd = []
 let ptr = 0
 let bp = 0
 let bplen = 0
-const compressed = argv.decompress
+const compressed = true
 
 ;(async () => {
 
@@ -85,7 +63,7 @@ if (compressed) {
 
   console.log(`Output ${dest.length} bytes`)
 
-  fs.writeFileSync('bag.int.bin', Uint8Array.from(dest))
+  fs.writeFileSync('bag.bin', Uint8Array.from(dest))
 
   console.log('Deinterleaving...')
 
@@ -97,7 +75,7 @@ if (compressed) {
 
   console.log('Done!')
 
-  fs.writeFileSync('bag.bin', Uint8Array.from(destd))
+  fs.writeFileSync('bag.bytedeint.bin', Uint8Array.from(destd))
 } else {
   destd = buf
 }
@@ -161,6 +139,8 @@ function printP(v) {
     process.stdout.write('\x1b[0m')
 }
 
+const pixels = []
+
 for (let i = 0; i < destd.length; i = i+4) {
 
     if (i%32 === 0) {
@@ -173,12 +153,16 @@ for (let i = 0; i < destd.length; i = i+4) {
     //     process.exit()
     // }
 
-    for (let j = 7; j >= 0; j--) {
+    for (let j = 7; j >= 0; j-=2) {
         const mask = (1 << j)
         const b0 = (destd[i] & mask) >>> j
         const b1 = (destd[i+1] & mask) >>> j
         const b2 = (destd[i+2] & mask) >>> j
         const b3 = (destd[i+3] & mask) >>> j
+        const b20 = (destd[i] & mask >>> 1) >>> (j-1)
+        const b21 = (destd[i+1] & mask >>> 1) >>> (j-1)
+        const b22 = (destd[i+2] & mask >>> 1) >>> (j-1)
+        const b23 = (destd[i+3] & mask >>> 1) >>> (j-1)
 
         // console.log(`Tile ${Math.floor(i/4/8)} Row ${(i/4)%8} Pixel ${7-j}`)
 
@@ -196,10 +180,17 @@ for (let i = 0; i < destd.length; i = i+4) {
         // console.log(`Bit  3: ${b3.toString(2).padStart(8,0)}`)
         // console.log()
 
-        let num = (b0)
-                | (b1 << 1)
-                | (b2 << 2)
-                | (b3 << 3)
+        let num = (b0 << 4)
+                | (b1 << 5)
+                | (b2 << 6)
+                | (b3 << 7)
+                | (b20)
+                | (b21 << 1)
+                | (b22 << 2)
+                | (b23 << 3)
+
+
+        pixels.push(num)
 
         // if (j >= 4) {
         //   num = num 
@@ -226,5 +217,6 @@ for (let i = 0; i < destd.length; i = i+4) {
     // }
 }
 
+fs.writeFileSync('bag.bitdeint.bin', Uint8Array.from(pixels))
 
 })();
