@@ -4,6 +4,7 @@
 #include <bitset>
 #include <iomanip>
 
+#include <zlib.h>
 #include <png.h>
 #include <vector>
 #include <fstream>
@@ -22,7 +23,7 @@ int main(int argc, char **argv) {
 
     writepng_version_info();
 
-    const char *filename = "bag.bitdeint.bin";
+    const char *filename = argv[1];
     FILE *rfp = fopen(filename, "rb");
     if (!rfp) {
         printf("File %s could not be opened for reading", filename);
@@ -33,19 +34,29 @@ int main(int argc, char **argv) {
     int sz = ftell(rfp);
     fseek(rfp, 0L, SEEK_SET);
 
-    int width = sz/4;
-    printf("%d", width);
-    int height = 8;
+    const int tile_width = 8;
+    const int tile_height = 8;
+    const int pixels_per_tile = tile_width * tile_width;
+
+    const int bits_per_pixel = 4;
+    const int pixels_per_byte = 8 / bits_per_pixel;
+    const int bytes_per_tile = pixels_per_tile / pixels_per_byte;
+    const int height = tile_height;
+    const int pixel_count = sz * pixels_per_byte;
+    const int tile_count = pixel_count / (tile_width * tile_height);
+    const int width = pixel_count / height;
+    const int width_in_bytes = width / pixels_per_byte;
+    // int width = sz/4; // sz = 320; sz/4 = 80
 
     char pixels[sz];
 
     for (int i = 0; i < sz; i++) {
         char byte = getc(rfp);
 
-        int pos = i/4*40;
-        pos = pos % 320;
-        pos = pos + (i/32)*4;
-        pos = pos + i%4;
+        int pos = i/bits_per_pixel * width_in_bytes;
+        pos = pos % sz;
+        pos = pos + (i/bytes_per_tile)*bits_per_pixel;
+        pos = pos + i % bits_per_pixel;
         pixels[pos] = byte;
         std::cout << i << " " << pos << std::endl;
     }
@@ -53,7 +64,7 @@ int main(int argc, char **argv) {
 
     png_bytepp row_pointers = (png_bytepp) malloc(sizeof(png_bytep) * height);
     for (int i = 0; i < 8; i++)
-        row_pointers[i] = (png_byte *) &pixels[i * 40];
+        row_pointers[i] = (png_byte *) &pixels[i * width_in_bytes];
 
     //const char *outfilename = 'out.png';
     FILE *wfp = fopen("out.png", "wb");
@@ -89,87 +100,114 @@ int main(int argc, char **argv) {
                  bit_depth, PNG_COLOR_TYPE_PALETTE, PNG_INTERLACE_NONE,
                  PNG_COMPRESSION_TYPE_BASE, PNG_FILTER_TYPE_BASE);
 
+    // Pal 0
+    // const int pallete_colors[16] = {
+    //     0x0000ff, 0xffffff, 0xff55ff, 0xffaaff,
+    //     0xffff00, 0xffaa00, 0x000000, 0xffffaa,
+    //     0xaa5500, 0xffaa00, 0x550000, 0x55ffff,
+    //     0x00aaff, 0x00ff00, 0x00aa00, 0x00ff00
+    // };
+
+    // Pal 1
+    const int pallete_colors[16] = {
+        0x0000ff, 0xffffff, 0x555500, 0xffaa00,
+        0xff0000, 0xaa0000, 0x000000, 0x0000ff,
+        0x00ffff, 0x00ff00, 0xffff00, 0x00aa00,
+        0xaaaaff, 0xaa55ff, 0xff0000, 0xaaaa00
+    };
+
     png_color palette[16];
 
-    // 30
-    palette[0].red = 0;
-    palette[0].green = 0;
-    palette[0].blue = 0xff;
+    for (int i = 0; i < 16; i++) {
+        printf("%d\n", i);
+        palette[i].red = (pallete_colors[i] >> 16) & 0xFF;
+        printf("%#02x\n", palette[i].red);
+        palette[i].green = (pallete_colors[i] >> 8) & 0xFF;
+        printf("%#02x\n", palette[i].green);
+        palette[i].blue = pallete_colors[i] & 0xFF;
+        printf("%#02x\n", palette[i].blue);
+        printf("================\n");
+    }
 
-    // 3f
-    palette[1].red = 0xff;
-    palette[1].green = 0xff;
-    palette[1].blue = 0xff;
+    // // 30
+    // palette[0].red = 0;
+    // palette[0].green = 0;
+    // palette[0].blue = 0xff;
 
-    // 37
-    palette[2].red = 0xff;
-    palette[2].green = 0x55;
-    palette[2].blue = 0xff;
+    // // 3f
+    // palette[1].red = 0xff;
+    // palette[1].green = 0xff;
+    // palette[1].blue = 0xff;
 
-    // 3b
-    palette[3].red = 0xff;
-    palette[3].green = 0xaa;
-    palette[3].blue = 0xff;
+    // // 37
+    // palette[2].red = 0xff;
+    // palette[2].green = 0x55;
+    // palette[2].blue = 0xff;
 
-    // 0f
-    palette[4].red = 0xff;
-    palette[4].green = 0xff;
-    palette[4].blue = 0x00;
+    // // 3b
+    // palette[3].red = 0xff;
+    // palette[3].green = 0xaa;
+    // palette[3].blue = 0xff;
 
-    // 0b
-    palette[5].red = 0xff;
-    palette[5].green = 0xaa;
-    palette[5].blue = 0x00;
+    // // 0f
+    // palette[4].red = 0xff;
+    // palette[4].green = 0xff;
+    // palette[4].blue = 0x00;
 
-    // 00
-    palette[6].red = 0x00;
-    palette[6].green = 0x00;
-    palette[6].blue = 0x00;
+    // // 0b
+    // palette[5].red = 0xff;
+    // palette[5].green = 0xaa;
+    // palette[5].blue = 0x00;
 
-    // 2f
-    palette[7].red = 0xff;
-    palette[7].green = 0xff;
-    palette[7].blue = 0xaa;
+    // // 00
+    // palette[6].red = 0x00;
+    // palette[6].green = 0x00;
+    // palette[6].blue = 0x00;
 
-    // 06
-    palette[8].red = 0xaa;
-    palette[8].green = 0x55;
-    palette[8].blue = 0x00;
+    // // 2f
+    // palette[7].red = 0xff;
+    // palette[7].green = 0xff;
+    // palette[7].blue = 0xaa;
 
-    // 0b
-    palette[9].red = 0xff;
-    palette[9].green = 0xaa;
-    palette[9].blue = 0x00;
+    // // 06
+    // palette[8].red = 0xaa;
+    // palette[8].green = 0x55;
+    // palette[8].blue = 0x00;
 
-    // 01
-    palette[10].red = 0x55;
-    palette[10].green = 0x00;
-    palette[10].blue = 0x00;
+    // // 0b
+    // palette[9].red = 0xff;
+    // palette[9].green = 0xaa;
+    // palette[9].blue = 0x00;
+
+    // // 01
+    // palette[10].red = 0x55;
+    // palette[10].green = 0x00;
+    // palette[10].blue = 0x00;
     
-    //fd
-    palette[11].red = 0x55;
-    palette[11].green = 0xff;
-    palette[11].blue = 0xff;
+    // //fd
+    // palette[11].red = 0x55;
+    // palette[11].green = 0xff;
+    // palette[11].blue = 0xff;
     
-    //38
-    palette[12].red = 0x00;
-    palette[12].green = 0xaa;
-    palette[12].blue = 0xff;
+    // //38
+    // palette[12].red = 0x00;
+    // palette[12].green = 0xaa;
+    // palette[12].blue = 0xff;
     
-    //0c
-    palette[13].red = 0x00;
-    palette[13].green = 0xff;
-    palette[13].blue = 0x00;
+    // //0c
+    // palette[13].red = 0x00;
+    // palette[13].green = 0xff;
+    // palette[13].blue = 0x00;
     
-    //08
-    palette[14].red = 0x00;
-    palette[14].green = 0xaa;
-    palette[14].blue = 0x00;
+    // //08
+    // palette[14].red = 0x00;
+    // palette[14].green = 0xaa;
+    // palette[14].blue = 0x00;
     
-    //3c
-    palette[15].red = 0x00;
-    palette[15].green = 0xff;
-    palette[15].blue = 0x00;
+    // //3c
+    // palette[15].red = 0x00;
+    // palette[15].green = 0xff;
+    // palette[15].blue = 0x00;
 
     png_set_PLTE(png_ptr, info_ptr, palette, 16);
 
