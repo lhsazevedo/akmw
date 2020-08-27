@@ -3,4 +3,4 @@
 SCRIPTPATH=`dirname "$0"`
 REALSCRIPTPATH=`realpath $SCRIPTPATH`
 
-docker run -it -v $REALSCRIPTPATH:/app akmw-devcontainer:latest
+docker run -it --user dockeruser -v $REALSCRIPTPATH:/app akmw-devcontainer:latest
