@@ -33,7 +33,6 @@
     unknown11 db ; C31F
 .ENDST
 
-
 ; _DATA_66F8_:
 ; .db $86
 
@@ -57,13 +56,3 @@
     scrollability db ; 6701
     metatileNameTablePointer dw ; 6703
 .ENDST
-
-; 0	1 byte	Bank number containing the level layout data (Always $86) [5]
-; 1	2 bytes	Slot 2 pointer into the level layout data
-; 3	2 bytes	A second slot 2 pointer into the level layout data
-; 5	1 byte	Start screen horizontal number
-; 6	1 byte	Start screen vertical number
-; 7	1 byte	Width in screens
-; 8	1 byte	Height in screens
-; 9	1 byte	Scrollability
-; 10	2 bytes	Slot 2 address of metatile name table entry pointer table
