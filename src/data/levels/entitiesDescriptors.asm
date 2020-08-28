@@ -1,8 +1,4 @@
-; 1st entry of Pointer Table from B505 (indexed by v_level)
-; Pointer Table from B527 to B53E (12 entries, indexed by v_entityIndex)
-_DATA_B527_:
-.dw _DATA_B6ED_ _DATA_B6EE_ _DATA_B6F3_ _DATA_B6FC_ _DATA_B705_ _DATA_B70E_ _DATA_B713_ _DATA_B71C_
-.dw _DATA_B725_ _DATA_B726_ _DATA_B733_ _DATA_B73C_
+.INCLUDE "data/levels/mtEthernalStage1/screenEntitiesDescriptorsPointers.asm"
 
 ; 2nd entry of Pointer Table from B505 (indexed by v_level)
 ; Pointer Table from B53F to B562 (18 entries, indexed by v_entityIndex)

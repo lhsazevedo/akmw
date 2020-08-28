@@ -1596,7 +1596,7 @@ _LABEL_ABD_:
 	ld a, $82
 	ld (_RAM_FFFF_), a
 	ld a, (v_level)
-	ld hl, _DATA_B505_ - 2
+	ld hl, entitiesDescriptorsPointers - 2
 	call _LABEL_10_
 	ld (v_entitydataPointersPointer), hl
 	xor a
@@ -12514,9 +12514,9 @@ _LABEL_6671_:
 	set 7, (hl)
 	jr -
 
-.INCLUDE "data/level/descriptor_pointers.asm"
+.INCLUDE "data/levels/descriptor_pointers.asm"
 
-.INCLUDE "data/level/descriptors.asm"
+.INCLUDE "data/levels/descriptors.asm"
 
 _LABEL_67C4_:
 	ld de, (v_horizontalScrollSpeed)
