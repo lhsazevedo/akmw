@@ -2,7 +2,7 @@
 LevelDescriptorPointerTable:
 .dw MtEthernalDescriptor
 .dw mtEthernalStage2Descriptor
-.dw theIslandOfStNurariDescriptor
+.dw lakeFathomDescriptor
 .dw LevelEntry4Descriptor
 .dw LevelEntry5Descriptor
 .dw _DATA_6734_

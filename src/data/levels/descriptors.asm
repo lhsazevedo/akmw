@@ -5,7 +5,7 @@
 .INCLUDE "data/levels/mtEthernalStage2/descriptor.asm"
 
 ; 3rd entry of Pointer Table from 66D6 (indexed by v_level)
-.INCLUDE "data/levels/theIslandOfStNurari/descriptor.asm"
+.INCLUDE "data/levels/lakeFathom/descriptor.asm"
 
 ; 4rd entry of Pointer Table from 66D6 (indexed by v_level)
 .INCLUDE "data/levels/descriptors/entry_4.asm"
