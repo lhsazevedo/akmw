@@ -1151,7 +1151,6 @@ _DATA_B385_:
 .db $7C $FC $C0 $DC $DC $CC $FC $7C $38 $38 $7C $5C $5C $CE $BE $BE
 
 ;; For each level...
-.INCLUDE "data/levels/entitiesDescriptorsPointers.asm"
 .INCLUDE "data/levels/entitiesDescriptors.asm"
 
 .INCLUDE "data/levels/screenEntitiesDescriptors.asm"
