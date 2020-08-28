@@ -12514,8 +12514,6 @@ _LABEL_6671_:
 	set 7, (hl)
 	jr -
 
-.INCLUDE "data/levels/descriptor_pointers.asm"
-
 .INCLUDE "data/levels/descriptors.asm"
 
 _LABEL_67C4_:
