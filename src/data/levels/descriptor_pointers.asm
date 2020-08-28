@@ -1,8 +1,8 @@
 ; Pointer Table from 66D6 to 66F7 (17 entries, indexed by v_level)
 LevelDescriptorPointerTable:
 .dw MtEthernalDescriptor
-.dw MtEthernalUnderwaterDescriptor
-.dw MtEthernalStage2Descriptor
+.dw mtEthernalStage2Descriptor
+.dw theIslandOfStNurariDescriptor
 .dw LevelEntry4Descriptor
 .dw LevelEntry5Descriptor
 .dw _DATA_6734_
