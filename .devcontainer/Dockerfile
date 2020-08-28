@@ -4,10 +4,10 @@ RUN wget -O wla-dx.tar https://github.com/vhelin/wla-dx/tarball/master --progres
     && mkdir wla-dx \
     && tar -C wla-dx --strip-components=1 -xf wla-dx.tar
 
-RUN cd / \
-    && wget -O sdcc.tar.bz2 https://sourceforge.net/projects/sdcc/files/snapshot_builds/amd64-unknown-linux2.5/sdcc-snapshot-amd64-unknown-linux2.5-20200819-11821.tar.bz2 \
-    && mkdir sdcc \
-    && tar -C sdcc --strip-components=1 -xf sdcc.tar.bz2
+# RUN cd / \
+#     && wget -O sdcc.tar.bz2 https://sourceforge.net/projects/sdcc/files/snapshot_builds/amd64-unknown-linux2.5/sdcc-snapshot-amd64-unknown-linux2.5-20200819-11821.tar.bz2 \
+#     && mkdir sdcc \
+#     && tar -C sdcc --strip-components=1 -xf sdcc.tar.bz2
 
 RUN wget -O png2tile.tar https://github.com/yuv422/png2tile/tarball/master --progress=dot \
     && mkdir png2tile \
@@ -43,7 +43,7 @@ RUN apt-get update \
     && apt-get install --assume-yes libpng-dev zlib1g
 
 COPY --from=builder /usr/local/bin/wla-* /usr/local/bin/wlalink /usr/local/bin/wlab /usr/local/bin/
-COPY --from=downloader /sdcc /usr/local/
+# COPY --from=downloader /sdcc /usr/local/
 COPY --from=builder /usr/src/png2tile/png2tile /usr/local/bin/
 COPY --from=builder /usr/src/tile2png/tile2png /usr/local/bin/
 
