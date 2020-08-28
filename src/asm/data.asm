@@ -1173,25 +1173,25 @@ _DATA_C000_:
 .incbin "src/graphics/boxes/sun_pink.bin"
 
 ; Pointer Table from C480 to C4A1 (17 entries, indexed by v_level)
-_DATA_C480_:
-.dw _DATA_CECE_ _DATA_D158_ _DATA_D317_ _DATA_D56A_ _DATA_CECE_ _DATA_DB82_ _DATA_DF1D_ _DATA_E24C_
-.dw _DATA_CECE_ _DATA_D158_ _DATA_EA05_ _DATA_DB82_ _DATA_D158_ _DATA_F49B_ _DATA_D158_ _DATA_EE33_
-.dw _DATA_F117_
+levelMainTilesetPointers:
+.dw tiles_mainSet tiles_mainSet2 tiles_mainSet3 tiles_mainSet4 tiles_mainSet tiles_mainSet5 tiles_level7MainSet tiles_level8MainSet
+.dw tiles_mainSet tiles_mainSet2 tiles_level11MainSet tiles_mainSet5 tiles_mainSet2 tiles_level14MainSet tiles_mainSet2 tiles_level16MainSet
+.dw tiles_level17MainSet
 
 ; Data from C4A2 to C582 (225 bytes)
-_DATA_C4A2_:
+tiles_bagOfGoldCoinsAndCloud:
 .incbin "src/graphics/bag_of_gold_coins_and_cloud.bin"
 
 ; Data from C583 to C9E0 (1118 bytes)
-_DATA_C583_:
+tiles_aditionalSet1:
 .incbin "baserom_DATA_C583_.inc"
 
 ; Data from C9E1 to CE64 (1156 bytes)
-_DATA_C9E1_:
+tiles_aditionalSet2:
 .incbin "baserom_DATA_C9E1_.inc"
 
 ; Data from CE65 to CECD (105 bytes)
-_DATA_CE65_:
+tiles_aditionalSet3:
 .db $83 $00 $07 $1F $02 $3F $03 $7F $88 $00 $E0 $F8 $FC $FC $F6 $F2
 .db $E2 $03 $7F $02 $38 $8B $1C $07 $00 $E2 $C6 $06 $0C $1C $78 $E0
 .db $00 $00 $8D $07 $1F $38 $70 $61 $E7 $FF $CF $E0 $F8 $7C $7E $FE
@@ -1202,7 +1202,7 @@ _DATA_CE65_:
 
 ; 1st entry of Pointer Table from C480 (indexed by v_level)
 ; Data from CECE to D157 (650 bytes)
-_DATA_CECE_:
+tiles_mainSet:
 .db $84 $00 $07 $1F $3F $04 $7F $88 $00 $F0 $FC $FC $FE $C6 $FA $FE
 .db $03 $7F $02 $3F $8E $1F $04 $00 $FC $FE $FE $7E $3C $B8 $E0 $00
 .db $0E $70 $40 $02 $80 $04 $00 $81 $38 $02 $20 $02 $40 $85 $00 $40
@@ -1247,7 +1247,7 @@ _DATA_CECE_:
 
 ; 2nd entry of Pointer Table from C480 (indexed by v_level)
 ; Data from D158 to D316 (447 bytes)
-_DATA_D158_:
+tiles_mainSet2:
 .db $83 $1F $3F $7F $05 $FF $83 $F8 $FC $FE $09 $FF $02 $7F $82 $3F
 .db $1F $03 $FF $03 $FE $86 $FC $F8 $00 $07 $1F $3F $04 $7F $88 $00
 .db $F8 $FC $FC $FE $C6 $FA $FE $03 $7F $03 $3F $8C $1E $00 $FC $FE
@@ -1279,7 +1279,7 @@ _DATA_D158_:
 
 ; 3rd entry of Pointer Table from C480 (indexed by v_level)
 ; Data from D317 to D569 (595 bytes)
-_DATA_D317_:
+tiles_mainSet3:
 .db $02 $00 $8F $03 $06 $0E $38 $F8 $8C $30 $F8 $1C $14 $26 $02 $02
 .db $01 $02 $07 $00 $81 $01 $07 $00 $94 $1F $37 $10 $00 $60 $70 $7C
 .db $4F $80 $F8 $BF $4F $0B $02 $00 $00 $63 $41 $00 $40 $04 $00 $84
@@ -1321,12 +1321,12 @@ _DATA_D317_:
 
 ; 4th entry of Pointer Table from C480 (indexed by v_level)
 ; Data from D56A to DB81 (1560 bytes)
-_DATA_D56A_:
+tiles_mainSet4:
 .incbin "baserom_DATA_D56A_.inc"
 
 ; 6th entry of Pointer Table from C480 (indexed by v_level)
 ; Data from DB82 to DF1C (923 bytes)
-_DATA_DB82_:
+tiles_mainSet5:
 .db $02 $00 $88 $01 $07 $1F $3F $7F $FF $07 $3F $16 $FF $81 $80 $06
 .db $BF $03 $BE $02 $BC $85 $B8 $B0 $B7 $B0 $01 $09 $FD $02 $7D $84
 .db $3D $0D $ED $0D $0E $3F $82 $7F $3F $02 $FF $03 $F8 $05 $FF $83
@@ -1388,7 +1388,7 @@ _DATA_DB82_:
 
 ; 7th entry of Pointer Table from C480 (indexed by v_level)
 ; Data from DF1D to E24B (815 bytes)
-_DATA_DF1D_:
+tiles_level7MainSet:
 .db $82 $0F $3F $02 $7F $04 $FF $97 $E0 $F0 $F0 $F8 $FA $F8 $E6 $D6
 .db $FF $7F $4B $3F $2C $37 $1F $0C $4E $CE $CC $5C $B8 $B0 $40 $7F
 .db $00 $70 $00 $A7 $03 $07 $07 $0E $FF $F7 $FF $5D $EA $55 $60 $F0
@@ -1443,17 +1443,18 @@ _DATA_DF1D_:
 
 ; 8th entry of Pointer Table from C480 (indexed by v_level)
 ; Data from E24C to EA04 (1977 bytes)
-_DATA_E24C_:
+tiles_level8MainSet:
 .incbin "baserom_DATA_E24C_.inc"
 
 ; 11th entry of Pointer Table from C480 (indexed by v_level)
 ; Data from EA05 to EE32 (1070 bytes)
-_DATA_EA05_:
+; Also used for level 14
+tiles_level11MainSet:
 .incbin "baserom_DATA_EA05_.inc"
 
 ; 16th entry of Pointer Table from C480 (indexed by v_level)
 ; Data from EE33 to F116 (740 bytes)
-_DATA_EE33_:
+tiles_level16MainSet:
 .db $9D $00 $7F $7F $7E $7D $7B $75 $6E $00 $FE $FE $7E $BE $DE $AE
 .db $76 $6E $75 $7B $7D $7E $7F $7F $00 $76 $AE $DE $BE $7E $02 $FE
 .db $02 $00 $05 $7F $81 $40 $02 $00 $05 $FC $02 $00 $82 $70 $00 $03
@@ -1504,7 +1505,7 @@ _DATA_EE33_:
 
 ; 17th entry of Pointer Table from C480 (indexed by v_level)
 ; Data from F117 to F49A (900 bytes)
-_DATA_F117_:
+tiles_level17MainSet:
 .db $02 $00 $8F $03 $06 $0E $38 $F8 $8C $30 $F8 $1C $14 $26 $02 $02
 .db $01 $02 $07 $00 $81 $01 $07 $00 $94 $1F $37 $10 $00 $60 $70 $7C
 .db $4F $80 $F8 $BF $4F $0B $02 $00 $00 $63 $41 $00 $40 $04 $00 $84
@@ -1565,7 +1566,7 @@ _DATA_F117_:
 
 ; 14th entry of Pointer Table from C480 (indexed by v_level)
 ; Data from F49B to F75B (705 bytes)
-_DATA_F49B_:
+tiles_level14MainSet:
 .db $02 $BF $81 $FF $02 $5F $02 $2F $85 $3F $5F $BF $BF $7F $03 $BF
 .db $81 $7F $10 $FF $08 $BF $08 $FF $12 $00 $9E $01 $07 $1F $3E $39
 .db $77 $00 $00 $F0 $FE $FF $07 $F9 $FE $77 $6D $6B $ED $DE $DB $DB
@@ -1613,7 +1614,7 @@ _DATA_F49B_:
 .db $00
 
 ; Data from F75C to F7F5 (154 bytes)
-_DATA_F75C_:
+tiles_level17AditionalSet:
 .db $8E $07 $18 $20 $40 $40 $83 $80 $80 $FE $01 $C0 $00 $00 $FF $02
 .db $00 $02 $10 $02 $80 $02 $10 $02 $80 $02 $08 $02 $01 $02 $08 $02
 .db $01 $02 $10 $02 $80 $02 $10 $02 $80 $00 $90 $F8 $E0 $C0 $80 $80
@@ -1626,7 +1627,7 @@ _DATA_F75C_:
 .db $02 $48 $02 $28 $02 $48 $82 $28 $20 $00
 
 ; Data from F7F6 to F895 (160 bytes)
-_DATA_F7F6_:
+tiles_aditionalSet4:
 .db $00 $0F $0F $00 $00 $10 $1F $0F $00 $10 $1F $0F $00 $0F $0F $00
 .db $02 $07 $00 $05 $00 $07 $07 $00 $00 $08 $0F $07 $00 $10 $1F $0F
 .db $00 $FF $FF $00 $00 $00 $FF $FF $00 $00 $FF $FF $00 $FF $FF $00
@@ -1639,7 +1640,7 @@ _DATA_F7F6_:
 .db $00 $20 $E0 $C0 $00 $40 $C0 $80 $00 $80 $80 $00 $00 $00 $00 $00
 
 ; Data from F896 to F969 (212 bytes)
-_DATA_F896_:
+tiles_aditionalSet5:
 .db $83 $0E $70 $40 $02 $80 $04 $00 $81 $38 $02 $20 $02 $40 $85 $00
 .db $40 $00 $00 $E8 $07 $00 $9A $03 $04 $00 $10 $00 $00 $1C $7E $7E
 .db $7F $3D $2D $6E $3C $18 $7E $FE $FA $7C $7C $38 $EC $31 $71 $E0
@@ -1656,7 +1657,7 @@ _DATA_F896_:
 .db $EF $22 $FF $00
 
 ; Data from F96A to FC68 (767 bytes)
-_DATA_F96A_:
+data_endingSequenceText:
 .db $00 $00 $1A $04 $E4 $D8 $D5 $B0 $D8 $D5 $E2 $DF $D9 $D3 $B0 $D1
 .db $D3 $E4 $D9 $DF $DE $B0 $E4 $D1 $DB $D5 $DE $B0 $D2 $E9 $FE $19
 .db $04 $D1 $DC $D5 $E8 $B0 $DB $D9 $D4 $D4 $B0 $E2 $D5 $E3 $E5 $DC
@@ -1711,7 +1712,7 @@ _DATA_F96A_:
 .db $FF $00
 
 ; Data from FC69 to FFFF (919 bytes)
-_DATA_FC69_:
+tiles_AlexKiddEatingRiceBall:
 .db $1B $00 $83 $01 $03 $0F $02 $1F $02 $00 $84 $C0 $E0 $F8 $FE $02
 .db $FF $04 $00 $84 $06 $0F $9F $C7 $08 $00 $84 $19 $17 $1F $3F $02
 .db $7F $02 $70 $82 $F1 $EE $04 $FF $02 $03 $81 $C7 $05 $E7 $82 $E6

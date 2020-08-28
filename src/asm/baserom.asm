@@ -1875,7 +1875,7 @@ _LABEL_E4B_:
 	jp _LABEL_E4B_
 
 _LABEL_E6C_:
-	ld hl, _DATA_C4A2_
+	ld hl, tiles_bagOfGoldCoinsAndCloud
 	ld de, $44A0
 	call _LABEL_293_
 	ld a, (v_level)
@@ -1896,25 +1896,25 @@ _LABEL_E9F_:
 	ld l, $00
 	call _LABEL_184_
 	ld a, (v_level)
-	ld hl, _DATA_C480_ - 2
+	ld hl, levelMainTilesetPointers - 2
 	rst $10	; _LABEL_10_
 	ld de, $4720
 	call _LABEL_293_
-	ld hl, _DATA_F7F6_
+	ld hl, tiles_aditionalSet4
 	ld de, $4E60
 	ld b, $A0
 	rst $30	; _LABEL_30_
-	ld hl, _DATA_C583_
+	ld hl, tiles_aditionalSet1
 	ld de, $4F00
 	jp _LABEL_293_
 
 ; 8th entry of Jump Table from E7D (indexed by v_level)
 _LABEL_EC9_:
-	ld hl, _DATA_C9E1_
+	ld hl, tiles_aditionalSet2
 	ld de, $4EC0
 	call _LABEL_293_
 	ld a, (v_level)
-	ld hl, _DATA_C480_ - 2
+	ld hl, levelMainTilesetPointers - 2
 	rst $10	; _LABEL_10_
 	ld de, $46A0
 	jp _LABEL_293_
@@ -1926,11 +1926,11 @@ _LABEL_EDF_:
 	ld l, $00
 	call _LABEL_184_
 	ld a, (v_level)
-	ld hl, _DATA_C480_ - 2
+	ld hl, levelMainTilesetPointers - 2
 	rst $10	; _LABEL_10_
 	ld de, $4720
 	call _LABEL_293_
-	ld hl, _DATA_C583_
+	ld hl, tiles_aditionalSet1
 	ld de, $4F00
 	jp _LABEL_293_
 
@@ -1941,11 +1941,11 @@ _LABEL_F00_:
 	ld l, $00
 	call _LABEL_184_
 	ld a, (v_level)
-	ld hl, _DATA_C480_ - 2
+	ld hl, levelMainTilesetPointers - 2
 	rst $10	; _LABEL_10_
 	ld de, $4720
 	call _LABEL_293_
-	ld hl, _DATA_C9E1_
+	ld hl, tiles_aditionalSet2
 	ld de, $4EC0
 	jp _LABEL_293_
 
@@ -1956,18 +1956,18 @@ _LABEL_F21_:
 	ld l, $00
 	call _LABEL_184_
 	ld a, (v_level)
-	ld hl, _DATA_C480_ - 2
+	ld hl, levelMainTilesetPointers - 2
 	rst $10	; _LABEL_10_
 	ld de, $48A0
 	call _LABEL_293_
-	ld hl, _DATA_F896_
+	ld hl, tiles_aditionalSet5
 	ld de, $4D00
 	call _LABEL_293_
-	ld hl, _DATA_F7F6_
+	ld hl, tiles_aditionalSet4
 	ld de, $4E60
 	ld b, $A0
 	rst $30	; _LABEL_30_
-	ld hl, _DATA_C583_
+	ld hl, tiles_aditionalSet1
 	ld de, $4F00
 	jp _LABEL_293_
 
@@ -1978,7 +1978,7 @@ _LABEL_F54_:
 	ld l, $00
 	call _LABEL_184_
 	ld a, (v_level)
-	ld hl, _DATA_C480_ - 2
+	ld hl, levelMainTilesetPointers - 2
 	rst $10	; _LABEL_10_
 	ld de, $4720
 	jp _LABEL_293_
@@ -1995,21 +1995,21 @@ _LABEL_F6C_:
 	ld de, $4720
 	call _LABEL_293_
 	ld a, (v_level)
-	ld hl, _DATA_C480_ - 2
+	ld hl, levelMainTilesetPointers - 2
 	rst $10	; _LABEL_10_
 	ld de, $4920
 	call _LABEL_293_
-	ld hl, _DATA_C9E1_
+	ld hl, tiles_aditionalSet2
 	ld de, $4EC0
 	jp _LABEL_293_
 
 ; 5th entry of Jump Table from E7D (indexed by v_level)
 _LABEL_F99_:
 	call _LABEL_E9F_
-	ld hl, _DATA_F896_
+	ld hl, tiles_aditionalSet5
 	ld de, $4D00
 	call _LABEL_293_
-	ld hl, _DATA_CE65_
+	ld hl, tiles_aditionalSet3
 	ld de, $47A0
 	jp _LABEL_293_
 
@@ -2020,7 +2020,7 @@ _LABEL_FAE_:
 	ld l, $0A
 	call _LABEL_184_
 	ld a, (v_level)
-	ld hl, _DATA_C480_ - 2
+	ld hl, levelMainTilesetPointers - 2
 	rst $10	; _LABEL_10_
 	ld de, $4720
 	jp _LABEL_293_
@@ -2032,17 +2032,17 @@ _LABEL_FC6_:
 	ld l, $00
 	call _LABEL_184_
 	ld a, (v_level)
-	ld hl, _DATA_C480_ - 2
+	ld hl, levelMainTilesetPointers - 2
 	rst $10	; _LABEL_10_
 	ld de, $4720
 	call _LABEL_293_
-	ld hl, _DATA_F896_
+	ld hl, tiles_aditionalSet5
 	ld de, $4D00
 	call _LABEL_293_
-	ld hl, _DATA_C583_
+	ld hl, tiles_aditionalSet1
 	ld de, $4F00
 	call _LABEL_293_
-	ld hl, _DATA_CE65_
+	ld hl, tiles_aditionalSet3
 	ld de, $47A0
 	jp _LABEL_293_
 
@@ -2057,10 +2057,10 @@ _LABEL_FF9_:
 	rst $10	; _LABEL_10_
 	ld de, $4720
 	call _LABEL_293_
-	ld hl, _DATA_C9E1_
+	ld hl, tiles_aditionalSet2
 	ld de, $4EC0
 	call _LABEL_293_
-	ld hl, _DATA_CE65_
+	ld hl, tiles_aditionalSet3
 	ld de, $47A0
 	jp _LABEL_293_
 
@@ -2076,14 +2076,14 @@ _LABEL_1022_:
 	ld de, $48A0
 	call _LABEL_293_
 	ld a, (v_level)
-	ld hl, _DATA_C480_ - 2
+	ld hl, levelMainTilesetPointers - 2
 	rst $10	; _LABEL_10_
 	ld de, $4AA0
 	call _LABEL_293_
-	ld hl, _DATA_F75C_
+	ld hl, tiles_level17AditionalSet
 	ld de, $4720
 	call _LABEL_293_
-	ld hl, _DATA_C583_
+	ld hl, tiles_aditionalSet1
 	ld de, $4F00
 	jp _LABEL_293_
 
@@ -2099,7 +2099,7 @@ _LABEL_1058_:
 	ld de, $4720
 	call _LABEL_293_
 	ld a, (v_level)
-	ld hl, _DATA_C480_ - 2
+	ld hl, levelMainTilesetPointers - 2
 	rst $10	; _LABEL_10_
 	ld de, $4DA0
 	jp _LABEL_293_
@@ -3143,7 +3143,7 @@ _LABEL_189A_:
 	call _LABEL_2694_
 	ld a, $83
 	ld (_RAM_FFFF_), a
-	ld hl, _DATA_F96A_
+	ld hl, data_endingSequenceText
 	ld (v_endingSequencePointer), hl
 	ld hl, $0039
 	ld (v_verticalScrollSpeed), hl
@@ -3404,7 +3404,7 @@ _LABEL_1A46_:
 	ld (v_entitydataArrayPointer), hl
 	ld a, $83
 	ld (_RAM_FFFF_), a
-	ld hl, _DATA_FC69_
+	ld hl, tiles_AlexKiddEatingRiceBall
 	ld de, $6C00
 	call _LABEL_293_
 	ld ix, _RAM_C340_
