@@ -1,4 +1,4 @@
 /build
 /tmp
-/baserom.sms
+*.sms
 /src/graphics/boxes/*.bin
