@@ -1,17 +1,20 @@
 ; 1st entry of Pointer Table from 66D6 (indexed by v_level)
 .INCLUDE "data/levels/mtEthernalStage1/descriptor.asm"
 
-; 2nd entry of Pointer Table from 66D6 (indexed by v_level)
+.INCLUDE "data/levels/mtEthernalStage1/descriptor.asm"
 .INCLUDE "data/levels/mtEthernalStage2/descriptor.asm"
-
-; 3rd entry of Pointer Table from 66D6 (indexed by v_level)
 .INCLUDE "data/levels/lakeFathom/descriptor.asm"
-
-; 4rd entry of Pointer Table from 66D6 (indexed by v_level)
-.INCLUDE "data/levels/descriptors/entry_4.asm"
-
-; 4rd entry of Pointer Table from 66D6 (indexed by v_level)
-.INCLUDE "data/levels/descriptors/entry_5.asm"
-
-; 4rd to 17th entries...
-.INCLUDE "data/levels/descriptors/entry_n.asm"
+.INCLUDE "data/levels/theIslandOfNurai/descriptor.asm"
+.INCLUDE "data/levels/lakeFathomPart2/descriptor.asm"
+.INCLUDE "data/levels/theVillageOfNamui/descriptor.asm"
+.INCLUDE "data/levels/mtKave/descriptor.asm"
+.INCLUDE "data/levels/theBlakwoods/descriptor.asm"
+.INCLUDE "data/levels/river/descriptor.asm"
+.INCLUDE "data/levels/bingooLowland/descriptor.asm"
+.INCLUDE "data/levels/theRadactianCastle/descriptor.asm"
+.INCLUDE "data/levels/theCityOfRadactian/descriptor.asm"
+.INCLUDE "data/levels/swamp/descriptor.asm"
+.INCLUDE "data/levels/theKingdomOfNibanaPart1/descriptor.asm"
+.INCLUDE "data/levels/theKingdomOfNibanaPart2/descriptor.asm"
+.INCLUDE "data/levels/jankensCastle/descriptor.asm"
+.INCLUDE "data/levels/craggLake/descriptor.asm"
