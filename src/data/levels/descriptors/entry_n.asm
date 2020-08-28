@@ -1,6 +1,6 @@
 ; 6th entry of Pointer Table from 66D6 (indexed by v_level)
 ; Data from 6734 to 6734 (1 bytes)
-_DATA_6734_:
+theVillageOfNamuiDescriptor:
 .db $86
 
 ; Pointer Table from 6735 to 6738 (2 entries, indexed by unknown)
@@ -14,7 +14,7 @@ _DATA_6734_:
 
 ; 7th entry of Pointer Table from 66D6 (indexed by v_level)
 ; Data from 6740 to 6740 (1 bytes)
-_DATA_6740_:
+mtKaveDescriptor:
 .db $86
 
 ; Pointer Table from 6741 to 6744 (2 entries, indexed by unknown)
@@ -28,7 +28,7 @@ _DATA_6740_:
 
 ; 8th entry of Pointer Table from 66D6 (indexed by v_level)
 ; Data from 674C to 674C (1 bytes)
-_DATA_674C_:
+theBlakwoodsDescriptor:
 .db $86
 
 ; Pointer Table from 674D to 6750 (2 entries, indexed by unknown)
@@ -42,7 +42,7 @@ _DATA_674C_:
 
 ; 9th entry of Pointer Table from 66D6 (indexed by v_level)
 ; Data from 6758 to 6758 (1 bytes)
-_DATA_6758_:
+riverDescriptor:
 .db $86
 
 ; Pointer Table from 6759 to 675C (2 entries, indexed by unknown)
@@ -56,7 +56,7 @@ _DATA_6758_:
 
 ; 10th entry of Pointer Table from 66D6 (indexed by v_level)
 ; Data from 6764 to 6764 (1 bytes)
-_DATA_6764_:
+bingooLowlandDescriptor:
 .db $86
 
 ; Pointer Table from 6765 to 6768 (2 entries, indexed by unknown)
@@ -70,7 +70,7 @@ _DATA_6764_:
 
 ; 11th entry of Pointer Table from 66D6 (indexed by v_level)
 ; Data from 6770 to 6770 (1 bytes)
-_DATA_6770_:
+theRadactianCastleDescriptor:
 .db $86
 
 ; Pointer Table from 6771 to 6774 (2 entries, indexed by unknown)
@@ -84,7 +84,7 @@ _DATA_6770_:
 
 ; 12th entry of Pointer Table from 66D6 (indexed by v_level)
 ; Data from 677C to 677C (1 bytes)
-_DATA_677C_:
+theCityOfRadactianDescriptor:
 .db $86
 
 ; Pointer Table from 677D to 6780 (2 entries, indexed by unknown)
@@ -98,7 +98,7 @@ _DATA_677C_:
 
 ; 13th entry of Pointer Table from 66D6 (indexed by v_level)
 ; Data from 6788 to 6788 (1 bytes)
-_DATA_6788_:
+swampDescriptor:
 .db $86
 
 ; Pointer Table from 6789 to 678C (2 entries, indexed by unknown)
@@ -112,7 +112,7 @@ _DATA_6788_:
 
 ; 14th entry of Pointer Table from 66D6 (indexed by v_level)
 ; Data from 6794 to 6794 (1 bytes)
-_DATA_6794_:
+theKingdomOfNibanaPart1Descriptor:
 .db $86
 
 ; Pointer Table from 6795 to 6798 (2 entries, indexed by unknown)
@@ -126,7 +126,7 @@ _DATA_6794_:
 
 ; 15th entry of Pointer Table from 66D6 (indexed by v_level)
 ; Data from 67A0 to 67A0 (1 bytes)
-_DATA_67A0_:
+theKingdomOfNibanaPart2Descriptor:
 .db $86
 
 ; Pointer Table from 67A1 to 67A4 (2 entries, indexed by unknown)
@@ -140,7 +140,7 @@ _DATA_67A0_:
 
 ; 16th entry of Pointer Table from 66D6 (indexed by v_level)
 ; Data from 67AC to 67AC (1 bytes)
-_DATA_67AC_:
+jankensCastleDescriptor:
 .db $86
 
 ; Pointer Table from 67AD to 67B0 (2 entries, indexed by unknown)
@@ -154,7 +154,7 @@ _DATA_67AC_:
 
 ; 17th entry of Pointer Table from 66D6 (indexed by v_level)
 ; Data from 67B8 to 67B8 (1 bytes)
-_DATA_67B8_:
+craggLakeDescriptor:
 .db $86
 
 ; Pointer Table from 67B9 to 67BC (2 entries, indexed by unknown)

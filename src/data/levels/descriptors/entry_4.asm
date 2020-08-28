@@ -1,4 +1,4 @@
-.DSTRUCT LevelEntry4Descriptor INSTANCEOF LevelDescriptor VALUES
+.DSTRUCT theIslandOfStNurariDescriptor  INSTANCEOF LevelDescriptor VALUES
 	bank: .db $86
 	layoutDataPointer: .dw _DATA_18AD6_
 	layoutDataPointer2: .dw _DATA_18AD6_

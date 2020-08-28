@@ -1,4 +1,4 @@
-.DSTRUCT LevelEntry5Descriptor INSTANCEOF LevelDescriptor VALUES
+.DSTRUCT lakeFathomPart2Descriptor INSTANCEOF LevelDescriptor VALUES
 	bank: .db $86
 	layoutDataPointer: .dw _DATA_18DCE_
 	layoutDataPointer2: .dw _DATA_18DD2_
