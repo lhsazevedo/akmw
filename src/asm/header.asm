@@ -4,11 +4,8 @@
 .db $20 $20
 
 ; Checksum
-.IFDEF _REV1
-	.db $D0 $1C
-.ELSE
-	.db $22 $12
-.ENDIF
+.db $00 $00
+.COMPUTESMSCHECKSUM
 
 ; Product code + version
 .IFDEF _REV1
