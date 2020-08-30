@@ -1184,7 +1184,7 @@ tiles_bagOfGoldCoinsAndCloud:
 
 ; Data from C583 to C9E0 (1118 bytes)
 tiles_aditionalSet1:
-.incbin "baserom_DATA_C583_.inc"
+.incbin "src/graphics/aditionalSet1.bin"
 
 ; Data from C9E1 to CE64 (1156 bytes)
 tiles_aditionalSet2:
