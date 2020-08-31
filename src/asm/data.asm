@@ -1,9 +1,6 @@
 .INCDIR "src/data"
 
-; 1st entry of Pointer Table from 98DD (indexed by v_soundControl)
-; Data from 9ECD to 9ED0 (4 bytes)
-_DATA_9ECD_:
-.db $04 $80 $80 $04
+.INC "audio.asm"
 
 ; Pointer Table from 9ED1 to 9ED2 (1 entries, indexed by unknown)
 .dw _DATA_9EF2_
