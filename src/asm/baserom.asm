@@ -1479,9 +1479,7 @@ _LABEL_A35_:
 _DATA_A7C_:
 .db $02 $03 $04 $05
 
-; Pointer Table from A80 to A87 (4 entries, indexed by v_nextDemoIndex)
-_DATA_A80_:
-.dw _DATA_14D35_ _DATA_14D5B_ _DATA_14E3B_ _DATA_14F6B_
+.INC "src/data/demoInputPointers.asm"
 
 ; 10th entry of Jump Table from 3B (indexed by v_gameState)
 _LABEL_A88_:
