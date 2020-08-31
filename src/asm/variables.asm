@@ -317,7 +317,7 @@ _RAM_C2A0_ dsb $b
 .ende
 
 .enum $C300 export
-    v_entities INSTANCEOF entity 2
+    v_entities INSTANCEOF entity $1E
 .ende
 
 .DEFINE v_entity1 v_entities
