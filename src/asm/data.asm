@@ -2856,7 +2856,7 @@ _DATA_161B1_:
 
 ; Data from 161D5 to 16F10 (3388 bytes)
 _DATA_161D5_:
-.incbin "baserom_DATA_161D5_.inc"
+.incbin "src/graphics/map.bin"
 
 ; Data from 16F11 to 16F50 (64 bytes)
 _DATA_16F11_:
