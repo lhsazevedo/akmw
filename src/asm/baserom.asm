@@ -4734,19 +4734,19 @@ _LABEL_2694_:
 	ret
 
 _LABEL_26D7_:
-	ld a, (ix+0)
+	ld a, (ix+0)	; v_entities.IX.type
 	or a
 	ret z
-	ld a, (ix+9)
-	or (ix+10)
+	ld a, (ix+9)	; v_entities.IX.isOffscreenFlagsB1
+	or (ix+10)    ; v_entities.IX.isOffscreenFlagsB2
 	jp nz, _LABEL_283B_
-	ld a, (ix+14)
+	ld a, (ix+14)    ; ; v_entities.IX.yPosB2
 	cp $C0
 	ret nc
 	ld c, a
 	ld de, (_RAM_C009_)
 	push de
-	ld l, (ix+7)
+	ld l, (ix+7)    ; v_entities.IX.spriteDescriptorPointer
 	ld h, (ix+8)
 	ld b, (hl)
 	push bc
@@ -4799,19 +4799,19 @@ _LABEL_26D7_:
 
 _LABEL_273A_:
 	ld de, (v_verticalScrollSpeed)
-	ld h, (ix+18)
-	ld l, (ix+17)
+	ld h, (ix+18)    ; v_entities.IX.ySpeedB2
+	ld l, (ix+17)    ; v_entities.IX.ySpeedB1
 	or a
 	sbc hl, de
 	ret z
 	ex de, hl
-	ld l, (ix+13)
-	ld h, (ix+14)
+	ld l, (ix+13)    ; v_entities.IX.yPosB1
+	ld h, (ix+14)    ; v_entities.IX.yPosB2
 	add hl, de
 	bit 7, d
 	jp z, +
 	jp c, ++
-	bit 1, (ix+1)
+	bit 1, (ix+1)    ; v_entities.IX.flags
 	jp nz, _LABEL_278A_
 	ld a, h
 	sub $40
@@ -4918,21 +4918,21 @@ clearEntity:		;
 
 _LABEL_27D0_:
 	ld hl, (v_horizontalScrollSpeed)
-	ld d, (ix+16)
-	ld e, (ix+15)
+	ld d, (ix+16)    ; v_entities.IX.xSpeedB2
+	ld e, (ix+15)    ; v_entities.IX.xSpeedB1
 	or a
 	adc hl, de
 	ret z
 	ex de, hl
-	ld l, (ix+11)
-	ld h, (ix+12)
+	ld l, (ix+11)    ; v_entities.IX.xPosB1
+	ld h, (ix+12)    ; v_entities.IX.xPosB2
 	add hl, de
 	bit 7, d
 	jp z, +
 	jp c, ++
-	bit 1, (ix+1)
+	bit 1, (ix+1)    ; v_entities.IX.flags
 	jp nz, _LABEL_278A_
-	inc (ix+9)
+	inc (ix+9)    ; v_entities.IX.isOffscreenFlagsB1
 	jp ++
 
 +:
@@ -4975,21 +4975,21 @@ _LABEL_280E_:
 
 _LABEL_283B_:
 	inc a
-	or (ix+9)
+	or (ix+9)    ; v_entities.IX.isOffscreenFlagsB1
 	ret nz
-	ld a, (ix+14)
+	ld a, (ix+14)    ; v_entities.IX.yPosB2
 	cp $A8
 	ret c
 	ld c, a
 	ld de, (_RAM_C009_)
 	push de
-	ld l, (ix+7)
+	ld l, (ix+7)    ; v_entities.IX.spriteDescriptorPointer
 	ld h, (ix+8)
 	ld b, (hl)
 	push bc
 	inc hl
 	ld a, (hl)
-	ld (ix+19), a
+	ld (ix+19), a    ; v_entities.IX.unknown2
 	inc hl
 -:
 	ld a, c
@@ -5004,7 +5004,7 @@ _LABEL_283B_:
 	pop de
 	sla e
 	set 7, e
-	ld c, (ix+12)
+	ld c, (ix+12)    ; v_entities.IX.xPosB2
 -:
 	ld a, c
 	add a, (hl)
