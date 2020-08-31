@@ -3347,7 +3347,7 @@ _LABEL_1A46_:
 	xor a
 	ld de, $C010
 	call _LABEL_13F_
-	ld hl, _DATA_161D5_
+	ld hl, mapTiles
 	ld de, $4000
 	call _LABEL_293_
 	ld de, $78C8
@@ -4239,7 +4239,7 @@ _LABEL_2198_:
 	call _LABEL_1D6_
 	ld a, $85
 	ld (_RAM_FFFF_), a
-	ld hl, _DATA_161D5_
+	ld hl, mapTiles
 	ld de, $4000
 	call _LABEL_293_
 	ld hl, _DATA_16F11_

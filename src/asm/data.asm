@@ -2855,7 +2855,7 @@ _DATA_161B1_:
 .db $63 $02 $65 $02
 
 ; Data from 161D5 to 16F10 (3388 bytes)
-_DATA_161D5_:
+mapTiles:
 .incbin "src/graphics/map.bin"
 
 ; Data from 16F11 to 16F50 (64 bytes)
