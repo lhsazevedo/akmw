@@ -4709,7 +4709,7 @@ _LABEL_2694_:
 	and $7F
 	jp z, ++
 	push bc
-	ld hl, _DATA_2892_ - 2
+	ld hl, entityTypeJumpTable - 2
 	rst $20	; _LABEL_20_
 	ld a, (ix+0)
 	or a
@@ -5032,13 +5032,13 @@ _LABEL_283B_:
 	ret
 
 ; Jump Table from 2892 to 2957 (99 entries, indexed by _RAM_CF80_)
-_DATA_2892_:
-.dw _LABEL_2958_ _LABEL_4490_ _LABEL_4446_ _LABEL_44D4_ _LABEL_4690_ _LABEL_46C9_ _LABEL_4720_ _LABEL_488C_
+entityTypeJumpTable:
+.dw entityTypeJumpTableAlexEntry _LABEL_4490_ _LABEL_4446_ _LABEL_44D4_ _LABEL_4690_ _LABEL_46C9_ _LABEL_4720_ _LABEL_488C_
 .dw _LABEL_476F_ _LABEL_486A_ _LABEL_7626_ _LABEL_7989_ _LABEL_79A1_ _LABEL_7A90_ _LABEL_7B35_ _LABEL_49F2_
 .dw _LABEL_4A2D_ _LABEL_4A39_ _LABEL_4A45_ _LABEL_4984_ _LABEL_4B23_ _LABEL_4A51_ _LABEL_4AEE_ _LABEL_966_
 .dw _LABEL_74CE_ _LABEL_78A5_ _LABEL_491B_ _LABEL_714A_ _LABEL_7796_ _LABEL_7816_ _LABEL_78A8_ _LABEL_4EEF_
 .dw _LABEL_2439_ _LABEL_4E9D_ _LABEL_4E30_ _LABEL_4C2E_ _LABEL_52E7_ _LABEL_5360_ _LABEL_53CF_ _LABEL_5451_
-.dw _LABEL_55F3_ _LABEL_557A_ _LABEL_5684_ _LABEL_4FF1_ _LABEL_5037_ _LABEL_515F_ _LABEL_56CC_ _LABEL_50E1_
+.dw _LABEL_55F3_ _LABEL_557A_ _LABEL_5684_ _LABEL_4FF1_ entityTypeJumpTableMonsterbirdEntry _LABEL_515F_ _LABEL_56CC_ _LABEL_50E1_
 .dw _LABEL_57CE_ _LABEL_5883_ _LABEL_5088_ _LABEL_5132_ _LABEL_51F3_ _LABEL_4F82_ _LABEL_5723_ _LABEL_5908_
 .dw _LABEL_5996_ _LABEL_59C8_ _LABEL_59FB_ _LABEL_5A31_ _LABEL_5D94_ _LABEL_5E14_ _LABEL_5E7B_ _LABEL_5EBA_
 .dw _LABEL_5F05_ _LABEL_5F4C_ _LABEL_5629_ _LABEL_5BD1_ _LABEL_60BC_ _LABEL_5C36_ _LABEL_5CB0_ _LABEL_5CF7_
@@ -5048,7 +5048,7 @@ _DATA_2892_:
 .dw _LABEL_3EC1_ _LABEL_39DB_ _LABEL_3F03_
 
 ; 1st entry of Jump Table from 2892 (indexed by _RAM_CF80_)
-_LABEL_2958_:
+entityTypeJumpTableAlexEntry:
 	ld hl, $0000
 	ld (v_horizontalScrollSpeed), hl
 	ld (v_verticalScrollSpeed), hl
@@ -10041,22 +10041,22 @@ _LABEL_4FF1_:
 	ret
 
 ; 45th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
-_LABEL_5037_:
-	bit 0, (ix+1)
+entityTypeJumpTableMonsterbirdEntry:
+	bit 0, (ix+1)    ; v_entities.IX.flags
 	jr nz, +
-	set 0, (ix+1)
-	ld (ix+20), $04
-	ld (ix+5), $10
-	ld (ix+6), $10
+	set 0, (ix+1)    ; v_entities.IX.flags
+	ld (ix+20), $04    ; v_entities.IX.unknown3
+	ld (ix+5), $10    ; v_entities.IX.animationTimer
+	ld (ix+6), $10    ; v_entities.IX.animationTimerResetValue
 	jr ++
 
 +:
-	ld a, (ix+9)
-	or (ix+10)
+	ld a, (ix+9)    ; v_entities.IX.isOffscreenFlagsB1
+	or (ix+10)    ; v_entities.IX.isOffscreenFlagsB2
 	jr nz, ++
-	ld (ix+16), $FF
-	ld (ix+15), $80
-	set 1, (ix+1)
+	ld (ix+16), $FF    ; v_entities.IX.xSpeedB2
+	ld (ix+15), $80    ; v_entities.IX.xSpeedB1
+	set 1, (ix+1)     ; v_entities.IX.flags
 	call _LABEL_7D99_
 	call _LABEL_7D0B_
 	jp nc, _LABEL_55A5_
@@ -10064,9 +10064,9 @@ _LABEL_5037_:
 	ld a, $08
 	call _LABEL_3A03_
 	jr nc, ++
-	ld (ix+0), $33
-	ld (ix+16), $00
-	ld (ix+15), $80
+	ld (ix+0), $33    ; v_entities.IX
+	ld (ix+16), $00    ; v_entities.IX.xSpeedB2
+	ld (ix+15), $80    ; ; v_entities.IX.xSpeedB1
 ++:
 	ld hl, _DATA_81B7_
 	jp _LABEL_280E_
