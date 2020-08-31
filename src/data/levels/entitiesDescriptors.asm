@@ -1,10 +1,10 @@
 ; Pointer Table from B505 to B526 (17 entries, indexed by v_level)
 entitiesDescriptorsPointers:
 .dw MtEthernalEntitiesDescriptorsPointers
-.dw _DATA_B53F_
-.dw _DATA_B563_
-.dw _DATA_B579_
-.dw _DATA_B583_
+.dw mtEthernalStage2EntitiesDescriptorsPointers
+.dw lakeFathomEntitiesDescriptorsPointers
+.dw theIslandOfNuraiEntitiesDescriptorsPointers
+.dw lakeFathomPart2EntitiesDescriptorsPointers
 .dw _DATA_B5AB_
 .dw _DATA_B5BD_
 .dw _DATA_B5CF_
