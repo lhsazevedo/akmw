@@ -1,4 +1,4 @@
-.STRUCT entity
+.STRUCT Entity
     type db ; C300
     flags db ; C301
     unknown1 db ; C302
@@ -8,6 +8,7 @@
     animationTimerResetValue db ; C306
     spriteDescriptorPointer dw ; C307
     ; ; C308
+    isOffScreenFlags .dw
     isOffScreenFlagsB1 db ; C309
     isOffScreenFlagsB2 db ; C30A
     xPosB1 db ; C30B
