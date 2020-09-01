@@ -4737,10 +4737,10 @@ _LABEL_26D7_:
 	ld a, (ix+0)	; v_entities.IX.type
 	or a
 	ret z
-	ld a, (ix+9)	; v_entities.IX.isOffscreenFlagsB1
-	or (ix+10)    ; v_entities.IX.isOffscreenFlagsB2
+	ld a, (ix+9)	; v_entities.IX.isOffScreenFlags
+	or (ix+10)    ; v_entities.IX.isOffScreenFlags.high
 	jp nz, _LABEL_283B_
-	ld a, (ix+14)    ; ; v_entities.IX.yPosB2
+	ld a, (ix+14)    ; ; v_entities.IX.yPos.high
 	cp $C0
 	ret nc
 	ld c, a
@@ -4799,14 +4799,14 @@ _LABEL_26D7_:
 
 _LABEL_273A_:
 	ld de, (v_verticalScrollSpeed)
-	ld h, (ix+18)    ; v_entities.IX.ySpeedB2
-	ld l, (ix+17)    ; v_entities.IX.ySpeedB1
+	ld h, (ix+18)    ; v_entities.IX.ySpeed.high
+	ld l, (ix+17)    ; v_entities.IX.ySpeed
 	or a
 	sbc hl, de
 	ret z
 	ex de, hl
-	ld l, (ix+13)    ; v_entities.IX.yPosB1
-	ld h, (ix+14)    ; v_entities.IX.yPosB2
+	ld l, (ix+13)    ; v_entities.IX.yPos
+	ld h, (ix+14)    ; v_entities.IX.yPos.high
 	add hl, de
 	bit 7, d
 	jp z, +
@@ -4918,21 +4918,21 @@ clearEntity:		;
 
 _LABEL_27D0_:
 	ld hl, (v_horizontalScrollSpeed)
-	ld d, (ix+16)    ; v_entities.IX.xSpeedB2
-	ld e, (ix+15)    ; v_entities.IX.xSpeedB1
+	ld d, (ix+16)    ; v_entities.IX.xSpeed.high
+	ld e, (ix+15)    ; v_entities.IX.xSpeed
 	or a
 	adc hl, de
 	ret z
 	ex de, hl
-	ld l, (ix+11)    ; v_entities.IX.xPosB1
-	ld h, (ix+12)    ; v_entities.IX.xPosB2
+	ld l, (ix+11)    ; v_entities.IX.xPos
+	ld h, (ix+12)    ; v_entities.IX.xPos.high
 	add hl, de
 	bit 7, d
 	jp z, +
 	jp c, ++
 	bit 1, (ix+1)    ; v_entities.IX.flags
 	jp nz, _LABEL_278A_
-	inc (ix+9)    ; v_entities.IX.isOffscreenFlagsB1
+	inc (ix+9)    ; v_entities.IX.isOffScreenFlags
 	jp ++
 
 +:
@@ -4975,9 +4975,9 @@ _LABEL_280E_:
 
 _LABEL_283B_:
 	inc a
-	or (ix+9)    ; v_entities.IX.isOffscreenFlagsB1
+	or (ix+9)    ; v_entities.IX.isOffScreenFlags
 	ret nz
-	ld a, (ix+14)    ; v_entities.IX.yPosB2
+	ld a, (ix+14)    ; v_entities.IX.yPos.high
 	cp $A8
 	ret c
 	ld c, a
@@ -5004,7 +5004,7 @@ _LABEL_283B_:
 	pop de
 	sla e
 	set 7, e
-	ld c, (ix+12)    ; v_entities.IX.xPosB2
+	ld c, (ix+12)    ; v_entities.IX.xPos.high
 -:
 	ld a, c
 	add a, (hl)
@@ -5103,7 +5103,7 @@ _LABEL_29C2_:
 	ld a, $85
 	ld (v_soundControl), a
 	ld hl, $0040
-	ld (v_entities.1.xSpeedB1), hl
+	ld (v_entities.1.xSpeed), hl
 	ld (ix+6), $04
 	ld (ix+31), $18
 	ld (ix+29), $0F
@@ -5115,9 +5115,9 @@ _LABEL_29C2_:
 	ld (ix+26), $06
 	ld a, $88
 	ld (v_soundControl), a
-	ld a, (v_entities.1.yPosB2)
+	ld a, (v_entities.1.yPos.high)
 	sub $10
-	ld (v_entities.1.yPosB2), a
+	ld (v_entities.1.yPos.high), a
 	ld (ix+6), $04
 	ld (ix+31), $18
 	ld (ix+29), $08
@@ -5131,7 +5131,7 @@ _LABEL_29C2_:
 
 _LABEL_2A49_:
 	ld hl, $0040
-	ld (v_entities.1.xSpeedB1), hl
+	ld (v_entities.1.xSpeed), hl
 	ld (ix+14), $90
 	ld (ix+6), $04
 	ld (ix+31), $10
@@ -5162,7 +5162,7 @@ _LABEL_2A84_:
 ; 2nd entry of Jump Table from 2982 (indexed by v_entities.1.state)
 _LABEL_2A9E_:
 	call _LABEL_3B56_
-	ld (v_entities.1.ySpeedB1), hl
+	ld (v_entities.1.ySpeed), hl
 	bit 4, (ix+28)
 	jp nz, _LABEL_3E0B_
 	call _LABEL_3C45_
@@ -5170,7 +5170,7 @@ _LABEL_2A9E_:
 	cp $01
 	ret nz
 	ld de, $1904
-	ld a, (v_entities.1.isOffScreenFlagsB2)
+	ld a, (v_entities.1.isOffScreenFlags.high)
 	or a
 	jr z, +
 	call _LABEL_3A4F_
@@ -5240,7 +5240,7 @@ _LABEL_2B39_:
 ; 3rd entry of Jump Table from 2982 (indexed by v_entities.1.state)
 _LABEL_2B41_:
 	ld hl, $0000
-	ld (v_entities.1.ySpeedB1), hl
+	ld (v_entities.1.ySpeed), hl
 	bit 4, (ix+28)
 	jp nz, _LABEL_3DFB_
 	call _LABEL_3C45_
@@ -5248,7 +5248,7 @@ _LABEL_2B41_:
 	cp $02
 	ret nz
 	ld de, $1904
-	ld a, (v_entities.1.isOffScreenFlagsB2)
+	ld a, (v_entities.1.isOffScreenFlags.high)
 	or a
 	jr z, +
 	call _LABEL_3A4F_
@@ -5277,7 +5277,7 @@ _LABEL_2B41_:
 	bit 1, (ix+20)
 	jp nz, _LABEL_2C25_
 	ld de, $0102
-	ld a, (v_entities.1.isOffScreenFlagsB2)
+	ld a, (v_entities.1.isOffScreenFlags.high)
 	or a
 	jr z, +
 	ld d, $17
@@ -5345,7 +5345,7 @@ _LABEL_2C04_:
 
 _LABEL_2C25_:
 	ld de, $010E
-	ld a, (v_entities.1.isOffScreenFlagsB2)
+	ld a, (v_entities.1.isOffScreenFlags.high)
 	or a
 	jr z, +
 	ld d, $17
@@ -5456,7 +5456,7 @@ _LABEL_2CD0_:
 	jr z, ++
 	dec (ix+27)
 	jr z, ++
-	ld de, (v_entities.1.xSpeedB1)
+	ld de, (v_entities.1.xSpeed)
 	bit 7, d
 	jr nz, +
 	xor a
@@ -5471,7 +5471,7 @@ _LABEL_2CD0_:
 	rr e
 	ld hl, $FE00
 	add hl, de
-	ld (v_entities.1.ySpeedB1), hl
+	ld (v_entities.1.ySpeed), hl
 	ld de, $0104
 	call _LABEL_3A7E_
 	bit 7, (ix+20)
@@ -5506,7 +5506,7 @@ _LABEL_2D7F_:
 	bit 1, (ix+20)
 	jp nz, _LABEL_2DF3_
 	ld de, $1802
-	ld a, (v_entities.1.isOffScreenFlagsB2)
+	ld a, (v_entities.1.isOffScreenFlags.high)
 	or a
 	jr z, +
 	call _LABEL_3A11_
@@ -5514,7 +5514,7 @@ _LABEL_2D7F_:
 	jr ++
 
 +:
-	ld a, (v_entities.1.ySpeedB2)
+	ld a, (v_entities.1.ySpeed.high)
 	add a, $07
 	ld d, a
 	ld a, $08
@@ -5562,7 +5562,7 @@ _LABEL_2D7F_:
 
 _LABEL_2DF3_:
 	ld de, $180E
-	ld a, (v_entities.1.isOffScreenFlagsB2)
+	ld a, (v_entities.1.isOffScreenFlags.high)
 	or a
 	jr z, +
 	call _LABEL_3A11_
@@ -5570,7 +5570,7 @@ _LABEL_2DF3_:
 	jr ++
 
 +:
-	ld a, (v_entities.1.ySpeedB2)
+	ld a, (v_entities.1.ySpeed.high)
 	add a, $07
 	ld d, a
 	ld a, $08
@@ -5619,7 +5619,7 @@ _LABEL_2DF3_:
 ; 5th entry of Jump Table from 2982 (indexed by v_entities.1.state)
 _LABEL_2E60_:
 	ld hl, $0000
-	ld (v_entities.1.ySpeedB1), hl
+	ld (v_entities.1.ySpeed), hl
 	bit 4, (ix+28)
 	jp nz, _LABEL_3E0B_
 	call _LABEL_3C45_
@@ -5627,7 +5627,7 @@ _LABEL_2E60_:
 	cp $04
 	ret nz
 	ld de, $1904
-	ld a, (v_entities.1.isOffScreenFlagsB2)
+	ld a, (v_entities.1.isOffScreenFlags.high)
 	or a
 	jr z, +
 	call _LABEL_3A4F_
@@ -5642,7 +5642,7 @@ _LABEL_2E60_:
 	ld a, (v_inputData)
 	bit 1, a
 	jr nz, +
-	ld a, (v_entities.1.isOffScreenFlagsB2)
+	ld a, (v_entities.1.isOffScreenFlags.high)
 	or a
 	jp nz, _LABEL_2F22_
 	ld de, $0004
@@ -5677,7 +5677,7 @@ _LABEL_2E60_:
 	call _LABEL_3A03_
 	jr c, +
 	ld hl, $0020
-	ld (v_entities.1.xSpeedB1), hl
+	ld (v_entities.1.xSpeed), hl
 	set 2, a
 +:
 	or $03
@@ -5695,7 +5695,7 @@ _LABEL_2E60_:
 	call _LABEL_3A03_
 	jr c, +
 	ld hl, $FFE0
-	ld (v_entities.1.xSpeedB1), hl
+	ld (v_entities.1.xSpeed), hl
 	set 2, a
 +:
 	and $FC
@@ -5732,12 +5732,12 @@ _LABEL_2F41_:
 	xor a
 	ld h, a
 	ld l, a
-	ld (v_entities.1.xSpeedB1), hl
+	ld (v_entities.1.xSpeed), hl
 	ld (v_entities.1.unknown8), a
 	ld (_RAM_C054_), a
 	res 2, (ix+20)
 	ld hl, $FF38
-	ld (v_entities.1.ySpeedB1), hl
+	ld (v_entities.1.ySpeed), hl
 	ld a, (v_entities.1.state)
 	ld (v_alexStateBeforeHit), a
 	ld (ix+26), $0F
@@ -5755,12 +5755,12 @@ _LABEL_2F41_:
 _LABEL_2F8A_:
 	ld hl, _DATA_8D23_
 	call _LABEL_4189_
-	ld a, (v_entities.1.yPosB2)
+	ld a, (v_entities.1.yPos.high)
 	cp $A8
 	ret nc
 	cp $A3
 	ret c
-	ld a, (v_entities.1.isOffScreenFlagsB2)
+	ld a, (v_entities.1.isOffScreenFlags.high)
 	inc a
 	ret nz
 	call _LABEL_278A_
@@ -5771,7 +5771,7 @@ _LABEL_2F8A_:
 ; 9th entry of Jump Table from 2982 (indexed by v_entities.1.state)
 _LABEL_2FA7_:
 	ld hl, $0000
-	ld (v_entities.1.ySpeedB1), hl
+	ld (v_entities.1.ySpeed), hl
 	ld de, $0C0C
 	call _LABEL_3C48_
 	ld de, $1805
@@ -5781,7 +5781,7 @@ _LABEL_2FA7_:
 	ld a, (_RAM_C007_)
 	bit 4, a
 	jp nz, _LABEL_301D_
-	ld a, (v_entities.1.xSpeedB2)
+	ld a, (v_entities.1.xSpeed.high)
 	cpl
 	add a, $07
 	ld (v_entities.1.animationTimerResetValue), a
@@ -5843,7 +5843,7 @@ _LABEL_302F_:
 	jr z, +
 	dec (ix+27)
 	jr z, +
-	ld de, (v_entities.1.xSpeedB1)
+	ld de, (v_entities.1.xSpeed)
 	xor a
 	ld h, a
 	ld l, a
@@ -5853,7 +5853,7 @@ _LABEL_302F_:
 	rr e
 	ld hl, $FE00
 	add hl, de
-	ld (v_entities.1.ySpeedB1), hl
+	ld (v_entities.1.ySpeed), hl
 	ld de, $0102
 	call _LABEL_3A7E_
 	bit 7, (ix+20)
@@ -5878,7 +5878,7 @@ _LABEL_302F_:
 ; 12th entry of Jump Table from 2982 (indexed by v_entities.1.state)
 _LABEL_3094_:
 	ld hl, $0000
-	ld (v_entities.1.ySpeedB1), hl
+	ld (v_entities.1.ySpeed), hl
 	ld de, $0C0C
 	call _LABEL_3C48_
 	bit 0, (ix+28)
@@ -5890,7 +5890,7 @@ _LABEL_3094_:
 	ld a, (_RAM_C007_)
 	bit 4, a
 	jp nz, _LABEL_30F5_
-	ld a, (v_entities.1.xSpeedB2)
+	ld a, (v_entities.1.xSpeed.high)
 	cpl
 	add a, $07
 	ld (v_entities.1.animationTimerResetValue), a
@@ -5942,7 +5942,7 @@ _LABEL_3107_:
 	jr z, +
 	dec (ix+27)
 	jr z, +
-	ld de, (v_entities.1.xSpeedB1)
+	ld de, (v_entities.1.xSpeed)
 	xor a
 	ld h, a
 	ld l, a
@@ -5952,7 +5952,7 @@ _LABEL_3107_:
 	rr e
 	ld hl, $FE00
 	add hl, de
-	ld (v_entities.1.ySpeedB1), hl
+	ld (v_entities.1.ySpeed), hl
 	ld de, $0102
 	call _LABEL_3A7E_
 	bit 7, (ix+20)
@@ -5986,7 +5986,7 @@ _LABEL_3180_:
 	jr z, +
 	jr c, ++
 	ld hl, $0080
-	ld (v_entities.1.xSpeedB1), hl
+	ld (v_entities.1.xSpeed), hl
 	ld hl, _DATA_8CF4_
 	jp _LABEL_4189_
 
@@ -6017,14 +6017,14 @@ _LABEL_31A8_:
 
 ++:
 	ld hl, $FF80
-	ld (v_entities.1.xSpeedB1), hl
+	ld (v_entities.1.xSpeed), hl
 	ld hl, _DATA_8CEB_
 	jp _LABEL_4189_
 
 ; 18th entry of Jump Table from 2982 (indexed by v_entities.1.state)
 _LABEL_31CC_:
 	ld hl, $0000
-	ld (v_entities.1.ySpeedB1), hl
+	ld (v_entities.1.ySpeed), hl
 	ld a, (v_shopEntranceHorizontalPosition)
 	ld hl, (v_horizontalScroll)
 	add a, h
@@ -6032,14 +6032,14 @@ _LABEL_31CC_:
 	jr z, ++
 	jr c, +
 	ld hl, $0080
-	ld (v_entities.1.xSpeedB1), hl
+	ld (v_entities.1.xSpeed), hl
 	set 1, (ix+20)
 	ld hl, _DATA_8D02_
 	jp _LABEL_4189_
 
 +:
 	ld hl, $FF80
-	ld (v_entities.1.xSpeedB1), hl
+	ld (v_entities.1.xSpeed), hl
 	res 1, (ix+20)
 	ld hl, _DATA_8CFD_
 	jp _LABEL_4189_
@@ -6050,7 +6050,7 @@ _LABEL_31CC_:
 	ld a, $82
 	ld (_RAM_C202_), a
 	ld hl, $00D0
-	ld (v_entities.1.ySpeedB1), hl
+	ld (v_entities.1.ySpeed), hl
 	call _LABEL_3B56_
 	push ix
 	call _LABEL_6671_
@@ -6072,7 +6072,7 @@ _LABEL_3230_:
 	add a, a
 	add a, a
 	and $F0
-	ld (v_entities.1.xPosB2), a
+	ld (v_entities.1.xPos.high), a
 	call _LABEL_3B56_
 	ld hl, v_entities.1.unknown3
 	ld a, (hl)
@@ -6088,7 +6088,7 @@ _LABEL_3230_:
 ; 11th entry of Jump Table from 2982 (indexed by v_entities.1.state)
 _LABEL_3256_:
 	call _LABEL_3B56_
-	ld (v_entities.1.ySpeedB1), hl
+	ld (v_entities.1.ySpeed), hl
 	ld a, (v_inputData)
 	rrca
 	jr c, ++
@@ -6105,7 +6105,7 @@ _LABEL_3256_:
 	call _LABEL_39ED_
 	ret c
 	ld hl, $0100
-	ld (v_entities.1.xSpeedB1), hl
+	ld (v_entities.1.xSpeed), hl
 	ld (ix+20), $07
 	jp _LABEL_2CA1_
 
@@ -6117,12 +6117,12 @@ _LABEL_3256_:
 	call _LABEL_39ED_
 	ret c
 	ld hl, $FF00
-	ld (v_entities.1.xSpeedB1), hl
+	ld (v_entities.1.xSpeed), hl
 	ld (ix+20), $04
 	jp _LABEL_2CA1_
 
 ++:
-	ld a, (v_entities.1.isOffScreenFlagsB2)
+	ld a, (v_entities.1.isOffScreenFlags.high)
 	or a
 	ret nz
 	ld de, $0008
@@ -6151,7 +6151,7 @@ _LABEL_3256_:
 +:
 	res 3, (ix+20)
 	ld hl, $FF00
-	ld (v_entities.1.ySpeedB1), hl
+	ld (v_entities.1.ySpeed), hl
 	ld hl, _DATA_9188_
 	jp _LABEL_4189_
 
@@ -6162,7 +6162,7 @@ _LABEL_32DC_:
 	ld a, (hl)
 	cp $3F
 	jr nz, +
-	ld a, (v_entities.1.yPosB2)
+	ld a, (v_entities.1.yPos.high)
 	add a, $18
 	cp $C0
 	jr nc, _LABEL_3301_
@@ -6177,7 +6177,7 @@ _LABEL_32DC_:
 _LABEL_3301_:
 	set 3, (ix+20)
 	ld hl, $0100
-	ld (v_entities.1.ySpeedB1), hl
+	ld (v_entities.1.ySpeed), hl
 	ld hl, _DATA_9188_
 	jp _LABEL_4189_
 
@@ -6191,13 +6191,13 @@ _LABEL_3301_:
 	jr _LABEL_3301_
 
 _LABEL_3320_:
-	ld hl, (v_entities.1.ySpeedB1)
+	ld hl, (v_entities.1.ySpeed)
 	ld (v_alexVerticalSpeedTemporaryCopy), hl
-	ld hl, (v_entities.1.xSpeedB1)
+	ld hl, (v_entities.1.xSpeed)
 	ld (v_alexHorizontalSpeedTemporaryCopy), hl
 	ld hl, $0000
-	ld (v_entities.1.xSpeedB1), hl
-	ld (v_entities.1.ySpeedB1), hl
+	ld (v_entities.1.xSpeed), hl
+	ld (v_entities.1.ySpeed), hl
 	ld a, (v_entities.1.state)
 	ld (v_alexStateTemporaryCopy), a
 	ld (ix+26), $10
@@ -6209,9 +6209,9 @@ _LABEL_3340_:
 	and $0F
 	ret nz
 	ld hl, (v_alexVerticalSpeedTemporaryCopy)
-	ld (v_entities.1.ySpeedB1), hl
+	ld (v_entities.1.ySpeed), hl
 	ld hl, (v_alexHorizontalSpeedTemporaryCopy)
-	ld (v_entities.1.xSpeedB1), hl
+	ld (v_entities.1.xSpeed), hl
 	ld a, (v_alexStateTemporaryCopy)
 	ld (v_entities.1.state), a
 	cp $14
@@ -6229,7 +6229,7 @@ _LABEL_335F_:
 ; 8th entry of Jump Table from 2982 (indexed by v_entities.1.state)
 _LABEL_336F_:
 	call _LABEL_3B56_
-	ld (v_entities.1.ySpeedB1), hl
+	ld (v_entities.1.ySpeed), hl
 	res 4, (ix+20)
 	res 2, (ix+20)
 	call _LABEL_3C45_
@@ -6270,9 +6270,9 @@ _LABEL_3392_:
 	jr z, +
 	ld de, $FF80
 +:
-	ld hl, (v_entities.1.ySpeedB1)
+	ld hl, (v_entities.1.ySpeed)
 	add hl, de
-	ld (v_entities.1.ySpeedB1), hl
+	ld (v_entities.1.ySpeed), hl
 	jr _LABEL_3392_
 
 ++:
@@ -6282,11 +6282,11 @@ _LABEL_3392_:
 	call _LABEL_3A41_
 	pop bc
 	ret c
-	ld a, (v_entities.1.yPosB2)
+	ld a, (v_entities.1.yPos.high)
 	cp $04
 	ret c
 	ld hl, $FF00
-	ld (v_entities.1.ySpeedB1), hl
+	ld (v_entities.1.ySpeed), hl
 	res 3, (ix+20)
 	res 7, (ix+20)
 	set 4, (ix+20)
@@ -6299,11 +6299,11 @@ _LABEL_3400_:
 	call _LABEL_3A41_
 	pop bc
 	ret c
-	ld a, (v_entities.1.yPosB2)
+	ld a, (v_entities.1.yPos.high)
 	cp $98
 	ret nc
 	ld hl, $0100
-	ld (v_entities.1.ySpeedB1), hl
+	ld (v_entities.1.ySpeed), hl
 	set 3, (ix+20)
 	set 7, (ix+20)
 	set 4, (ix+20)
@@ -6322,7 +6322,7 @@ _LABEL_3424_:
 	or $04
 	ld (v_entities.1.unknown3), a
 	ld hl, $FF00
-	ld (v_entities.1.xSpeedB1), hl
+	ld (v_entities.1.xSpeed), hl
 	ret
 
 _LABEL_3442_:
@@ -6337,7 +6337,7 @@ _LABEL_3442_:
 	or $07
 	ld (v_entities.1.unknown3), a
 	ld hl, $0100
-	ld (v_entities.1.xSpeedB1), hl
+	ld (v_entities.1.xSpeed), hl
 	ret
 
 _LABEL_345E_:
@@ -6350,7 +6350,7 @@ _LABEL_345E_:
 ; 21st entry of Jump Table from 2982 (indexed by v_entities.1.state)
 _LABEL_3468_:
 	ld hl, $0180
-	ld (v_entities.1.xSpeedB1), hl
+	ld (v_entities.1.xSpeed), hl
 	set 2, (ix+20)
 	ld hl, _DATA_8CF4_
 	jp _LABEL_4189_
@@ -6392,11 +6392,11 @@ _LABEL_34B6_:
 	ld a, (v_entities.1.state)
 	cp $05
 	ret nz
-	ld a, (v_entities.1.yPosB2)
+	ld a, (v_entities.1.yPos.high)
 	sub $08
 	jr c, +
 	ld d, a
-	ld a, (v_entities.1.xPosB2)
+	ld a, (v_entities.1.xPos.high)
 	add a, $0C
 	ld e, a
 	call _LABEL_7C7A_
@@ -6412,7 +6412,7 @@ _LABEL_34B6_:
 	jr nz, +
 	ld (_RAM_C211_), hl
 	ld hl, $F000
-	ld (v_entities.1.ySpeedB1), hl
+	ld (v_entities.1.ySpeed), hl
 	jp _LABEL_3230_
 
 +:
@@ -6465,7 +6465,7 @@ _LABEL_34B6_:
 +++:
 	bit 3, (ix+20)
 	jp nz, _LABEL_35F8_
-	ld a, (v_entities.1.yPosB2)
+	ld a, (v_entities.1.yPos.high)
 	add a, (ix+18)
 	cp $02
 	jr c, _LABEL_35BE_
@@ -6524,12 +6524,12 @@ _LABEL_35BE_:
 	or $18
 	ld (v_entities.1.unknown3), a
 	ld hl, $0080
-	ld (v_entities.1.ySpeedB1), hl
+	ld (v_entities.1.ySpeed), hl
 	ret
 
 _LABEL_35E3_:
 	ld hl, $0000
-	ld (v_entities.1.ySpeedB1), hl
+	ld (v_entities.1.ySpeed), hl
 	res 4, (ix+20)
 	ld a, (v_inputData)
 	bit 1, a
@@ -6563,7 +6563,7 @@ _LABEL_35F8_:
 
 ++:
 	ld hl, $0000
-	ld (v_entities.1.ySpeedB1), hl
+	ld (v_entities.1.ySpeed), hl
 	res 4, (ix+20)
 	ld a, (v_inputData)
 	bit 1, a
@@ -6782,7 +6782,7 @@ _LABEL_37D5_:
 	ld a, (_RAM_C007_)
 	and $10
 	jr nz, +
-	ld a, (v_entities.1.yPosB2)
+	ld a, (v_entities.1.yPos.high)
 	cp $04
 	jr c, +++
 	ld de, $0020
@@ -6793,7 +6793,7 @@ _LABEL_37D5_:
 ++:
 	dec (ix+27)
 	ld (ix+6), $02
-	ld a, (v_entities.1.yPosB2)
+	ld a, (v_entities.1.yPos.high)
 	cp $04
 	jr c, +++
 	ld de, $FFC0
@@ -6804,7 +6804,7 @@ _LABEL_37D5_:
 	res 4, (ix+20)
 	set 3, (ix+20)
 	ld hl, $0000
-	ld (v_entities.1.ySpeedB1), hl
+	ld (v_entities.1.ySpeed), hl
 	ret
 
 _LABEL_382B_:
@@ -6845,7 +6845,7 @@ _LABEL_3868_:
 
 _LABEL_3875_:
 	ld hl, $0000
-	ld (v_entities.1.ySpeedB1), hl
+	ld (v_entities.1.ySpeed), hl
 	res 4, (ix+20)
 	ld a, (v_entities.1.stateTimer)
 	or a
@@ -6869,7 +6869,7 @@ _LABEL_389C_:
 	ld (_RAM_C054_), a
 	call _LABEL_4415_
 	call _LABEL_3B56_
-	ld (v_entities.1.ySpeedB1), hl
+	ld (v_entities.1.ySpeed), hl
 	res 0, (ix+28)
 	ld a, (v_entities.1.unknown3)
 	or $18
@@ -6893,12 +6893,12 @@ _LABEL_38C5_:
 	call _LABEL_3A41_
 	ld hl, $0300
 	jr nc, +
-	ld a, (v_entities.1.yPosB2)
+	ld a, (v_entities.1.yPos.high)
 	cp $04
 	jr c, +
 	ld hl, $0000
 +:
-	ld (v_entities.1.ySpeedB1), hl
+	ld (v_entities.1.ySpeed), hl
 	ld (ix+28), $00
 	ld hl, _RAM_C20B_
 	ld a, (v_scrollFlags)
@@ -6965,25 +6965,25 @@ _DATA_395B_:
 ; 23rd entry of Jump Table from 2982 (indexed by v_entities.1.state)
 _LABEL_3961_:
 	ld hl, $0000
-	ld (v_entities.1.ySpeedB1), hl
-	ld a, (v_entities.1.xPosB2)
+	ld (v_entities.1.ySpeed), hl
+	ld a, (v_entities.1.xPos.high)
 	cp $28
 	jr z, ++
 	jr nc, +
 	ld hl, $0100
-	ld (v_entities.1.xSpeedB1), hl
+	ld (v_entities.1.xSpeed), hl
 	ld hl, _DATA_8CF4_
 	jp _LABEL_4189_
 
 +:
 	ld hl, $FF00
-	ld (v_entities.1.xSpeedB1), hl
+	ld (v_entities.1.xSpeed), hl
 	ld hl, _DATA_8CEB_
 	jp _LABEL_4189_
 
 ++:
 	call _LABEL_3B56_
-	ld (v_entities.1.ySpeedB1), hl
+	ld (v_entities.1.ySpeed), hl
 	ld (ix+26), $17
 	ld a, ($000A)
 	ld (v_entities.1.unknown3), a
@@ -7010,7 +7010,7 @@ _LABEL_39B4_:
 	jr ++
 
 +:
-	ld (v_entities.1.ySpeedB1), hl
+	ld (v_entities.1.ySpeed), hl
 ++:
 	ld hl, _DATA_90D1_
 	call _LABEL_41AA_
@@ -7022,7 +7022,7 @@ _LABEL_39B4_:
 ; 27th entry of Jump Table from 2982 (indexed by v_entities.1.state)
 _LABEL_39D4_:
 	call _LABEL_3B56_
-	ld (v_entities.1.ySpeedB1), hl
+	ld (v_entities.1.ySpeed), hl
 	ret
 
 ; 98th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
@@ -7065,11 +7065,11 @@ _LABEL_3A03_:
 	ret
 
 _LABEL_3A11_:
-	ld a, (v_entities.1.xPosB2)
+	ld a, (v_entities.1.xPos.high)
 	add a, e
 	ld e, a
 	ex af, af'
-	ld a, (v_entities.1.yPosB2)
+	ld a, (v_entities.1.yPos.high)
 	add a, $40
 	add a, d
 	add a, (ix+18)
@@ -7110,11 +7110,11 @@ _LABEL_3A41_:
 	ret
 
 _LABEL_3A4F_:
-	ld a, (v_entities.1.yPosB2)
+	ld a, (v_entities.1.yPos.high)
 	add a, $40
 	add a, d
 	ld d, a
-	ld a, (v_entities.1.xPosB2)
+	ld a, (v_entities.1.xPos.high)
 	add a, e
 	ld e, a
 	call _LABEL_7C7A_
@@ -7127,17 +7127,17 @@ _LABEL_3A4F_:
 	ret
 
 _LABEL_3A68_:
-	ld hl, (v_entities.1.ySpeedB1)
+	ld hl, (v_entities.1.ySpeed)
 	ld bc, $0040
 	add hl, bc
-	ld (v_entities.1.ySpeedB1), hl
+	ld (v_entities.1.ySpeed), hl
 	jr nc, +
 	set 7, (ix+20)
 +:
 	bit 7, (ix+20)
 	jr nz, +
 _LABEL_3A7E_:
-	ld a, (v_entities.1.isOffScreenFlagsB2)
+	ld a, (v_entities.1.isOffScreenFlags.high)
 	or a
 	ret nz
 	ld a, (v_entities.1.unknown9)
@@ -7145,7 +7145,7 @@ _LABEL_3A7E_:
 	ret nc
 	set 7, (ix+20)
 	ld hl, $0000
-	ld (v_entities.1.ySpeedB1), hl
+	ld (v_entities.1.ySpeed), hl
 	ret
 
 +:
@@ -7157,15 +7157,15 @@ _LABEL_3A7E_:
 	ld a, (v_entities.1.unknown11)
 	add a, h
 	ld d, a
-	ld a, (v_entities.1.isOffScreenFlagsB2)
+	ld a, (v_entities.1.isOffScreenFlags.high)
 	or a
 	jr z, +
-	ld a, (v_entities.1.yPosB2)
+	ld a, (v_entities.1.yPos.high)
 	add a, $40
 	add a, d
 	ret nc
 	ld d, a
-	ld a, (v_entities.1.xPosB2)
+	ld a, (v_entities.1.xPos.high)
 	add a, e
 	ld e, a
 	call _LABEL_7C7A_
@@ -7195,15 +7195,15 @@ _LABEL_3AD5_:
 	add a, (ix+18)
 	ld h, a
 	ld l, $00
-	ld (v_entities.1.ySpeedB1), hl
+	ld (v_entities.1.ySpeed), hl
 	set 6, (ix+20)
 	ret
 
 _LABEL_3AE8_:
-	ld hl, (v_entities.1.ySpeedB1)
+	ld hl, (v_entities.1.ySpeed)
 	ld bc, $0040
 	add hl, bc
-	ld (v_entities.1.ySpeedB1), hl
+	ld (v_entities.1.ySpeed), hl
 	jr nc, +
 	set 7, (ix+20)
 +:
@@ -7239,7 +7239,7 @@ _LABEL_3B2B_:
 	and $FC
 	ld (v_entities.1.unknown3), a
 	set 2, (ix+20)
-	ld hl, (v_entities.1.xSpeedB1)
+	ld hl, (v_entities.1.xSpeed)
 	add hl, de
 	ld e, l
 	ld d, h
@@ -7249,21 +7249,21 @@ _LABEL_3B2B_:
 	ld e, c
 	ld d, b
 +:
-	ld (v_entities.1.xSpeedB1), de
+	ld (v_entities.1.xSpeed), de
 	ret
 
 _LABEL_3B4B_:
 	bit 2, (ix+20)
 	ret z
 _LABEL_3B50_:
-	ld hl, (v_entities.1.xSpeedB1)
+	ld hl, (v_entities.1.xSpeed)
 	add hl, de
 	jr nc, +
 _LABEL_3B56_:
 	res 2, (ix+20)
 	ld hl, $0000
 +:
-	ld (v_entities.1.xSpeedB1), hl
+	ld (v_entities.1.xSpeed), hl
 	ret
 
 _LABEL_3B61_:
@@ -7271,7 +7271,7 @@ _LABEL_3B61_:
 	bit 2, a
 	jr z, +
 	set 0, a
-	ld hl, (v_entities.1.xSpeedB1)
+	ld hl, (v_entities.1.xSpeed)
 	add hl, de
 	jr nc, ++
 +:
@@ -7279,7 +7279,7 @@ _LABEL_3B61_:
 	and $FB
 	ld hl, $0000
 ++:
-	ld (v_entities.1.xSpeedB1), hl
+	ld (v_entities.1.xSpeed), hl
 	ld (v_entities.1.unknown3), a
 	ret
 
@@ -7288,7 +7288,7 @@ _LABEL_3B7E_:
 	or $07
 	ld (v_entities.1.unknown3), a
 	set 2, (ix+20)
-	ld hl, (v_entities.1.xSpeedB1)
+	ld hl, (v_entities.1.xSpeed)
 	add hl, de
 	ld e, l
 	ld d, h
@@ -7298,19 +7298,19 @@ _LABEL_3B7E_:
 	ld e, c
 	ld d, b
 +:
-	ld (v_entities.1.xSpeedB1), de
+	ld (v_entities.1.xSpeed), de
 	ret
 
 _LABEL_3B9C_:
 	bit 2, (ix+20)
 	ret z
 _LABEL_3BA1_:
-	ld hl, (v_entities.1.xSpeedB1)
+	ld hl, (v_entities.1.xSpeed)
 	or a
 	adc hl, de
 	jp nc, _LABEL_3B56_
 	jp z, _LABEL_3B56_
-	ld (v_entities.1.xSpeedB1), hl
+	ld (v_entities.1.xSpeed), hl
 	ret
 
 _LABEL_3BB1_:
@@ -7318,7 +7318,7 @@ _LABEL_3BB1_:
 	bit 2, a
 	jr z, +
 	and $FE
-	ld hl, (v_entities.1.xSpeedB1)
+	ld hl, (v_entities.1.xSpeed)
 	adc hl, de
 	jr z, +
 	jr c, ++
@@ -7326,12 +7326,12 @@ _LABEL_3BB1_:
 	ld hl, $0000
 	and $F8
 ++:
-	ld (v_entities.1.xSpeedB1), hl
+	ld (v_entities.1.xSpeed), hl
 	ld (v_entities.1.unknown3), a
 	ret
 
 _LABEL_3BCF_:
-	ld hl, (v_entities.1.xSpeedB1)
+	ld hl, (v_entities.1.xSpeed)
 	add hl, de
 	ld e, l
 	ld d, h
@@ -7341,12 +7341,12 @@ _LABEL_3BCF_:
 	ld e, c
 	ld d, b
 +:
-	ld (v_entities.1.xSpeedB1), de
+	ld (v_entities.1.xSpeed), de
 	ret
 
 _LABEL_3BE1_:
 	set 4, (ix+20)
-	ld hl, (v_entities.1.ySpeedB1)
+	ld hl, (v_entities.1.ySpeed)
 	add hl, de
 	ld e, l
 	ld d, h
@@ -7356,14 +7356,14 @@ _LABEL_3BE1_:
 	ld e, c
 	ld d, b
 +:
-	ld (v_entities.1.ySpeedB1), de
+	ld (v_entities.1.ySpeed), de
 	ret
 
 _LABEL_3BF7_:
 	ld a, (v_entities.1.unknown3)
 	bit 4, a
 	jr z, +
-	ld hl, (v_entities.1.ySpeedB1)
+	ld hl, (v_entities.1.ySpeed)
 	add hl, de
 	jr nc, ++
 +:
@@ -7371,13 +7371,13 @@ _LABEL_3BF7_:
 	and $EF
 	ld hl, $0000
 ++:
-	ld (v_entities.1.ySpeedB1), hl
+	ld (v_entities.1.ySpeed), hl
 	ld (v_entities.1.unknown3), a
 	ret
 
 _LABEL_3C12_:
 	set 4, (ix+20)
-	ld hl, (v_entities.1.ySpeedB1)
+	ld hl, (v_entities.1.ySpeed)
 	add hl, de
 	ld e, l
 	ld d, h
@@ -7387,14 +7387,14 @@ _LABEL_3C12_:
 	ld e, c
 	ld d, b
 +:
-	ld (v_entities.1.ySpeedB1), de
+	ld (v_entities.1.ySpeed), de
 	ret
 
 _LABEL_3C28_:
 	ld a, (v_entities.1.unknown3)
 	bit 4, a
 	jr z, +
-	ld hl, (v_entities.1.ySpeedB1)
+	ld hl, (v_entities.1.ySpeed)
 	or a
 	adc hl, de
 	jr z, +
@@ -7403,7 +7403,7 @@ _LABEL_3C28_:
 	ld hl, $0000
 	and $E7
 ++:
-	ld (v_entities.1.ySpeedB1), hl
+	ld (v_entities.1.ySpeed), hl
 	ld (v_entities.1.unknown3), a
 	ret
 
@@ -7412,7 +7412,7 @@ _LABEL_3C45_:
 _LABEL_3C48_:
 	xor a
 	ld (_RAM_C213_), a
-	ld a, (v_entities.1.isOffScreenFlagsB2)
+	ld a, (v_entities.1.isOffScreenFlags.high)
 	or a
 	ret nz
 	call _LABEL_7C4B_
@@ -7479,7 +7479,7 @@ _LABEL_3CCF_:
 	ld a, (v_entities.1.state)
 	cp $01
 	ret nz
-	ld a, (v_entities.1.xPosB2)
+	ld a, (v_entities.1.xPos.high)
 	cp $18
 	ret c
 	ld a, (v_inputData)
@@ -7500,13 +7500,13 @@ _LABEL_3CF3_:
 	bit 0, a
 	ret z
 	ld hl, $FF00
-	ld (v_entities.1.ySpeedB1), hl
+	ld (v_entities.1.ySpeed), hl
 	jp _LABEL_3230_
 
 _LABEL_3D07_:
 	ld de, $1808
 _LABEL_3D0A_:
-	ld a, (v_entities.1.isOffScreenFlagsB2)
+	ld a, (v_entities.1.isOffScreenFlags.high)
 	or a
 	ret nz
 	call _LABEL_7C4B_
@@ -7606,7 +7606,7 @@ _LABEL_3DBF_:
 	ret p
 	ld (hl), $7F
 	ld e, (ix+12)
-	ld a, (v_entities.1.yPosB2)
+	ld a, (v_entities.1.yPos.high)
 	add a, $18
 	ld d, a
 	ld c, $4F
@@ -7625,7 +7625,7 @@ _LABEL_3DD4_:
 	bit 1, a
 	ret z
 	ld hl, $0100
-	ld (v_entities.1.ySpeedB1), hl
+	ld (v_entities.1.ySpeed), hl
 	jp _LABEL_3230_
 
 ; Data from 3DF0 to 3DFA (11 bytes)
@@ -7638,7 +7638,7 @@ _LABEL_3DFB_:
 
 _LABEL_3E01_:
 	ld hl, $0000
-	ld (v_entities.1.ySpeedB1), hl
+	ld (v_entities.1.ySpeed), hl
 	res 4, (ix+20)
 _LABEL_3E0B_:
 	dec (ix+24)
@@ -7648,13 +7648,13 @@ _LABEL_3E0B_:
 	jr z, +
 	ld hl, $0080
 +:
-	ld (v_entities.1.xSpeedB1), hl
+	ld (v_entities.1.xSpeed), hl
 	ret
 
 ++:
 	res 2, (ix+20)
 	ld hl, $0000
-	ld (v_entities.1.xSpeedB1), hl
+	ld (v_entities.1.xSpeed), hl
 	res 4, (ix+28)
 	ret
 
@@ -7797,7 +7797,7 @@ _DATA_3F3A_:
 ; 1st entry of Jump Table from 3F3A (indexed by v_level)
 _LABEL_3F5C_:
 	call _LABEL_40E7_
-	ld hl, (v_entities.1.xSpeedB1)
+	ld hl, (v_entities.1.xSpeed)
 	add hl, hl
 	add hl, hl
 	add hl, hl
@@ -7823,7 +7823,7 @@ _LABEL_3F75_:
 	ld a, (hl)
 	or a
 	jr nz, +
-	ld hl, (v_entities.1.xSpeedB1)
+	ld hl, (v_entities.1.xSpeed)
 	add hl, hl
 	add hl, hl
 	add hl, hl
@@ -7834,14 +7834,14 @@ _LABEL_3F75_:
 	jp _LABEL_4124_
 
 +:
-	ld a, (v_entities.1.xPosB2)
+	ld a, (v_entities.1.xPos.high)
 	ld b, $40
 	cp $44
 	jp c, _LABEL_4124_
 	ld a, (v_scrollFlags)
 	and $08
 	ret z
-	ld de, (v_entities.1.xSpeedB1)
+	ld de, (v_entities.1.xSpeed)
 	xor a
 	ld hl, $FF00
 	sbc hl, de
@@ -7866,16 +7866,16 @@ _LABEL_3FD1_:
 	ld a, (_RAM_C0B7_)
 	and $02
 	jr z, ++
-	ld a, (v_entities.1.yPosB2)
+	ld a, (v_entities.1.yPos.high)
 	cp $90
 	jr c, +
 	ld hl, $0000
-	ld (v_entities.1.ySpeedB1), hl
+	ld (v_entities.1.ySpeed), hl
 +:
 	ld hl, $FF00
 	ld (v_horizontalScrollSpeed), hl
 	ld hl, $0100
-	ld (v_entities.1.xSpeedB1), hl
+	ld (v_entities.1.xSpeed), hl
 	ret
 
 ++:
@@ -7886,11 +7886,11 @@ _LABEL_3FD1_:
 	ld hl, v_scrollFlags
 	set 0, (hl)
 +++:
-	ld a, (v_entities.1.yPosB2)
+	ld a, (v_entities.1.yPos.high)
 	cp $08
 	jr nc, +
 	ld hl, $0300
-	ld (v_entities.1.ySpeedB1), hl
+	ld (v_entities.1.ySpeed), hl
 +:
 	ld hl, $0300
 	ld (v_verticalScrollSpeed), hl
@@ -7911,7 +7911,7 @@ _LABEL_4025_:
 	jp _LABEL_40AF_
 
 +:
-	ld a, (v_entities.1.yPosB2)
+	ld a, (v_entities.1.yPos.high)
 	cp $A8
 	jr c, +
 	ld a, (v_entities.1.unknown3)
@@ -7921,7 +7921,7 @@ _LABEL_4025_:
 	jp z, _LABEL_40D2_
 	bit 6, a
 	jp nz, _LABEL_40B6_
-	ld hl, (v_entities.1.ySpeedB1)
+	ld hl, (v_entities.1.ySpeed)
 	ld a, l
 	or h
 	jp z, _LABEL_40D2_
@@ -7934,7 +7934,7 @@ _LABEL_4025_:
 	jr nz, +
 	ld b, $E8
 +:
-	ld a, (v_entities.1.xPosB2)
+	ld a, (v_entities.1.xPos.high)
 	cp b
 	ret c
 	bit 1, (ix+20)
@@ -7948,7 +7948,7 @@ _LABEL_4025_:
 	jr nz, +
 	ld hl, $FFA0
 +:
-	ld (v_entities.1.xSpeedB1), hl
+	ld (v_entities.1.xSpeed), hl
 _LABEL_4090_:
 	ld hl, $0400
 	ld (v_horizontalScrollSpeed), hl
@@ -7964,7 +7964,7 @@ _LABEL_4090_:
 	jr nz, +
 	ld hl, $0060
 +:
-	ld (v_entities.1.xSpeedB1), hl
+	ld (v_entities.1.xSpeed), hl
 _LABEL_40AF_:
 	ld hl, $FC00
 	ld (v_horizontalScrollSpeed), hl
@@ -7978,7 +7978,7 @@ _LABEL_40B6_:
 	ld hl, v_scrollFlags
 	set 0, (hl)
 	ld hl, $0080
-	ld (v_entities.1.ySpeedB1), hl
+	ld (v_entities.1.ySpeed), hl
 _LABEL_40CB_:
 	ld hl, $0400
 	ld (v_verticalScrollSpeed), hl
@@ -7989,7 +7989,7 @@ _LABEL_40D2_:
 	ld hl, v_scrollFlags
 	set 1, (hl)
 	ld hl, $FF80
-	ld (v_entities.1.ySpeedB1), hl
+	ld (v_entities.1.ySpeed), hl
 _LABEL_40E0_:
 	ld hl, $FC00
 	ld (v_verticalScrollSpeed), hl
@@ -8000,17 +8000,17 @@ _LABEL_40E7_:
 	ld a, (hl)
 	and $03
 	jp z, _LABEL_415E_
-	ld a, (v_entities.1.yPosB2)
+	ld a, (v_entities.1.yPos.high)
 	bit 7, (ix+18)
 	jr nz, ++
 	bit 0, (hl)
 	jr z, +
 	cp $50
 	ret c
-	ld a, (v_entities.1.isOffScreenFlagsB2)
+	ld a, (v_entities.1.isOffScreenFlags.high)
 	or a
 	ret nz
-	ld hl, (v_entities.1.ySpeedB1)
+	ld hl, (v_entities.1.ySpeed)
 	ld (v_verticalScrollSpeed), hl
 	ret
 
@@ -8018,7 +8018,7 @@ _LABEL_40E7_:
 	cp $A8
 	ret c
 	ld hl, $0000
-	ld (v_entities.1.ySpeedB1), hl
+	ld (v_entities.1.ySpeed), hl
 	res 4, (ix+20)
 	ret
 
@@ -8031,8 +8031,8 @@ _LABEL_40E7_:
 _LABEL_4124_:
 	ld a, (v_scrollFlags)
 	ld c, a
-	ld a, (v_entities.1.xPosB2)
-	ld de, (v_entities.1.xSpeedB1)
+	ld a, (v_entities.1.xPos.high)
+	ld de, (v_entities.1.xSpeed)
 	bit 7, d
 	jr z, ++
 	bit 2, c
@@ -8072,17 +8072,17 @@ _LABEL_415E_:
 	ld a, (v_entities.1.state)
 	cp $07
 	ret c
-	ld a, (v_entities.1.yPosB2)
+	ld a, (v_entities.1.yPos.high)
 	bit 7, (ix+18)
 	jr nz, +
-	ld a, (v_entities.1.isOffScreenFlagsB2)
+	ld a, (v_entities.1.isOffScreenFlags.high)
 	or a
 	ret nz
 	cp $A8
 	ret c
 -:
 	ld hl, $0000
-	ld (v_entities.1.ySpeedB1), hl
+	ld (v_entities.1.ySpeed), hl
 	res 4, (ix+20)
 	ret
 
@@ -8484,9 +8484,9 @@ _LABEL_43F2_:
 	ld (ix+26), $03
 	ld (ix+20), $03
 	ld hl, $FE00
-	ld (v_entities.1.ySpeedB1), hl
+	ld (v_entities.1.ySpeed), hl
 	ld hl, $0000
-	ld (v_entities.1.xSpeedB1), hl
+	ld (v_entities.1.xSpeed), hl
 	ld hl, _DATA_90BC_
 	call _LABEL_41AA_
 _LABEL_4415_:
@@ -8495,10 +8495,10 @@ _LABEL_4415_:
 	xor a
 	ld (_RAM_C054_), a
 	ld iy, _RAM_C360_
-	ld a, (v_entities.1.xPosB2)
+	ld a, (v_entities.1.xPos.high)
 	add a, $08
 	ld (_RAM_C36C_), a
-	ld a, (v_entities.1.yPosB2)
+	ld a, (v_entities.1.yPos.high)
 	add a, $10
 	ld (_RAM_C36E_), a
 	ld (iy+0), $03
@@ -8523,10 +8523,10 @@ _LABEL_4453_:
 	ld a, (hl)
 	or $09
 	ld (hl), a
-	ld a, (v_entities.1.yPosB2)
+	ld a, (v_entities.1.yPos.high)
 	add a, $10
-	ld (v_entities.2.yPosB2), a
-	ld a, (v_entities.1.xPosB2)
+	ld (v_entities.2.yPos.high), a
+	ld a, (v_entities.1.xPos.high)
 	bit 0, (ix+20)
 	ld hl, $FC00
 	jr z, +
@@ -8534,8 +8534,8 @@ _LABEL_4453_:
 	ret c
 	ld hl, $0400
 +:
-	ld (v_entities.2.xPosB2), a
-	ld (v_entities.2.xSpeedB1), hl
+	ld (v_entities.2.xPos.high), a
+	ld (v_entities.2.xSpeed), hl
 	ld a, $02
 	ld (v_entities.2), a
 	ld hl, $84E8
@@ -8548,10 +8548,10 @@ _LABEL_4453_:
 _LABEL_4490_:
 	bit 7, (ix+1)
 	jr nz, ++
-	ld a, (v_entities.2.isOffScreenFlagsB1)
+	ld a, (v_entities.2.isOffScreenFlags)
 	or (ix+10)
 	jr nz, +
-	ld a, (v_entities.2.xPosB2)
+	ld a, (v_entities.2.xPos.high)
 	ld de, $0404
 	call _LABEL_7C4B_
 	rlca
@@ -8571,7 +8571,7 @@ _LABEL_4490_:
 	ld a, $A9
 	ld (v_soundControl), a
 	ld hl, $0000
-	ld (v_entities.2.xSpeedB1), hl
+	ld (v_entities.2.xSpeed), hl
 	ld hl, $8380
 	ld (v_entities.2.spriteDescriptorPointer), hl
 	ret
@@ -8608,7 +8608,7 @@ _LABEL_44E2_:
 _LABEL_4508_:
 	bit 0, (ix+28)
 	ret nz
-	ld a, (v_entities.1.isOffScreenFlagsB2)
+	ld a, (v_entities.1.isOffScreenFlags.high)
 	or a
 	ret nz
 	ld a, (v_gameState)
@@ -8644,7 +8644,7 @@ _LABEL_455E_:
 	ld a, $8A
 	ld (v_soundControl), a
 	call _LABEL_41AA_
-	ld a, (v_entities.1.xPosB2)
+	ld a, (v_entities.1.xPos.high)
 	add a, e
 	cp $F8
 	ret nc
@@ -8795,9 +8795,9 @@ _LABEL_464E_:
 	ld a, (hl)
 	or $0B
 	ld (hl), a
-	ld a, (v_entities.1.xPosB2)
+	ld a, (v_entities.1.xPos.high)
 	ld (_RAM_C36C_), a
-	ld a, (v_entities.1.yPosB2)
+	ld a, (v_entities.1.yPos.high)
 	add a, $04
 	ld (_RAM_C36E_), a
 	ld a, (v_entities.1.unknown3)
@@ -9064,15 +9064,15 @@ _LABEL_488C_:
 	or h
 	ld (_RAM_C37B_), hl
 	jr z, +
-	ld a, (v_entities.1.xPosB2)
+	ld a, (v_entities.1.xPos.high)
 	sub $04
 	ld (_RAM_C36C_), a
-	ld a, (v_entities.1.isOffScreenFlagsB1)
+	ld a, (v_entities.1.isOffScreenFlags)
 	ld (_RAM_C369_), a
-	ld a, (v_entities.1.yPosB2)
+	ld a, (v_entities.1.yPos.high)
 	sub $03
 	ld (_RAM_C36E_), a
-	ld a, (v_entities.1.isOffScreenFlagsB2)
+	ld a, (v_entities.1.isOffScreenFlags.high)
 	ld (_RAM_C36A_), a
 	ret
 
@@ -9089,7 +9089,7 @@ _LABEL_488C_:
 ; 6th entry of Jump Table from 4523 (indexed by _RAM_C054_)
 _LABEL_48C5_:
 	bit 0, (ix+20)
-	ld a, (v_entities.1.xPosB2)
+	ld a, (v_entities.1.xPos.high)
 	jr nz, +
 	sub $08
 	call nc, +++
@@ -9114,14 +9114,14 @@ _LABEL_48C5_:
 	ld hl, $8098
 	ld de, $0400
 +++++:
-	ld (v_entities.2.xPosB2), a
-	ld a, (v_entities.1.yPosB2)
+	ld (v_entities.2.xPos.high), a
+	ld a, (v_entities.1.yPos.high)
 	add a, $08
-	ld (v_entities.2.yPosB2), a
+	ld (v_entities.2.yPos.high), a
 	ld (v_entities.2.spriteDescriptorPointer), hl
-	ld (v_entities.2.xSpeedB1), de
+	ld (v_entities.2.xSpeed), de
 	ld hl, $0000
-	ld (v_entities.2.ySpeedB1), hl
+	ld (v_entities.2.ySpeed), hl
 	ld a, $1B
 	ld (v_entities.2), a
 	ld hl, v_entities.1.unknown8
@@ -9132,10 +9132,10 @@ _LABEL_48C5_:
 
 ; 27th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_491B_:
-	ld a, (v_entities.2.isOffScreenFlagsB1)
+	ld a, (v_entities.2.isOffScreenFlags)
 	or (ix+10)
 	jr nz, +
-	ld a, (v_entities.2.xPosB2)
+	ld a, (v_entities.2.xPos.high)
 	cp $0C
 	jr c, +
 	cp $F4
@@ -9300,7 +9300,7 @@ _LABEL_4A51_:
 	set 1, (ix+1)
 	bit 4, (ix+1)
 	jr nz, _LABEL_4A86_
-	ld a, (v_entities.1.xPosB2)
+	ld a, (v_entities.1.xPos.high)
 	sub (ix+12)
 	ret c
 	cp $10
@@ -9717,7 +9717,7 @@ _LABEL_4D92_:
 
 _LABEL_4DAD_:
 	ld c, $00
-	ld a, (v_entities.1.yPosB2)
+	ld a, (v_entities.1.yPos.high)
 	sub (ix+14)
 	jr nz, +
 	inc a
@@ -9727,7 +9727,7 @@ _LABEL_4DAD_:
 	neg
 +:
 	ld l, a
-	ld a, (v_entities.1.xPosB2)
+	ld a, (v_entities.1.xPos.high)
 	sub (ix+12)
 	jr nz, +
 	inc a
@@ -10051,11 +10051,11 @@ entityTypeJumpTableMonsterbirdEntry:
 	jr ++
 
 +:
-	ld a, (ix+9)    ; v_entities.IX.isOffscreenFlagsB1
-	or (ix+10)    ; v_entities.IX.isOffscreenFlagsB2
+	ld a, (ix+9)    ; v_entities.IX.isOffScreenFlags
+	or (ix+10)    ; v_entities.IX.isOffScreenFlags.high
 	jr nz, ++
-	ld (ix+16), $FF    ; v_entities.IX.xSpeedB2
-	ld (ix+15), $80    ; v_entities.IX.xSpeedB1
+	ld (ix+16), $FF    ; v_entities.IX.xSpeed.high
+	ld (ix+15), $80    ; v_entities.IX.xSpeed
 	set 1, (ix+1)     ; v_entities.IX.flags
 	call _LABEL_7D99_
 	call _LABEL_7D0B_
@@ -10065,8 +10065,8 @@ entityTypeJumpTableMonsterbirdEntry:
 	call _LABEL_3A03_
 	jr nc, ++
 	ld (ix+0), $33    ; v_entities.IX
-	ld (ix+16), $00    ; v_entities.IX.xSpeedB2
-	ld (ix+15), $80    ; ; v_entities.IX.xSpeedB1
+	ld (ix+16), $00    ; v_entities.IX.xSpeed.high
+	ld (ix+15), $80    ; ; v_entities.IX.xSpeed
 ++:
 	ld hl, _DATA_81B7_
 	jp _LABEL_280E_
@@ -10322,7 +10322,7 @@ _LABEL_52E7_:
 	jp nc, _LABEL_54DF_
 	ld a, (ix+24)
 	ld (ix+19), a
-	ld a, (v_entities.1.xPosB2)
+	ld a, (v_entities.1.xPos.high)
 	sub (ix+12)
 	jr nc, _LABEL_5357_
 	neg
@@ -10371,7 +10371,7 @@ _LABEL_5360_:
 	ld a, $38
 	add a, (ix+12)
 	ld c, a
-	ld a, (v_entities.1.xPosB2)
+	ld a, (v_entities.1.xPos.high)
 	sub c
 	jr c, _LABEL_53C6_
 	cp $20
@@ -10426,7 +10426,7 @@ _LABEL_53CF_:
 	ld a, (ix+5)
 	cp $20
 	jr nz, _LABEL_543D_
-	ld a, (v_entities.1.xPosB2)
+	ld a, (v_entities.1.xPos.high)
 	sub (ix+12)
 	jp nc, _LABEL_5357_
 	neg
@@ -10486,7 +10486,7 @@ _LABEL_5451_:
 	ld a, $38
 	add a, (ix+12)
 	ld c, a
-	ld a, (v_entities.1.xPosB2)
+	ld a, (v_entities.1.xPos.high)
 	sub c
 	jp c, _LABEL_53C6_
 	cp $20
@@ -11156,7 +11156,7 @@ _LABEL_5B37_:
 	ld (ix+18), d
 	ld (ix+17), e
 	ld hl, _DATA_8C6C_
-	ld a, (v_entities.1.xPosB2)
+	ld a, (v_entities.1.xPos.high)
 	cp (ix+12)
 	jp nc, _LABEL_280E_
 ++:
@@ -12002,7 +12002,7 @@ _LABEL_62AF_:
 	ld (ix+24), $0E
 	ld (ix+15), $60
 	ld (ix+16), $00
-	ld a, (v_entities.1.xPosB2)
+	ld a, (v_entities.1.xPos.high)
 	cp (ix+12)
 	jr nc, _LABEL_62F5_
 	ld (ix+24), $02

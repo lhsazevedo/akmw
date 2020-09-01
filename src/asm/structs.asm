@@ -9,20 +9,20 @@
     spriteDescriptorPointer dw ; C307
     ; ; C308
     isOffScreenFlags .dw
-    isOffScreenFlagsB1 db ; C309
-    isOffScreenFlagsB2 db ; C30A
+    isOffScreenFlags.low db ; C309
+    isOffScreenFlags.high db ; C30A
     xPos .dw
-    xPosB1 db ; C30B
-    xPosB2 db ; C30C
+    xPos.low db ; C30B
+    xPos.high db ; C30C
     yPos .dw
-    yPosB1 db ; C30D
-    yPosB2 db ; C30E
+    yPos.low db ; C30D
+    yPos.high db ; C30E
     xSpeed .dw
-    xSpeedB1 db ; C30F
-    xSpeedB2 db ; C310
+    xSpeed.low db ; C30F
+    xSpeed.high db ; C310
     ySpeed .dw
-    ySpeedB1 db ; C311
-    ySpeedB2 db ; C312
+    ySpeed.low db ; C311
+    ySpeed.high db ; C312
     unknown2 db ; C313
     unknown3 db ; C314
     unknown4 db ; C315
