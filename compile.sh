@@ -46,6 +46,7 @@ png2tile src/graphics/boxes/fish_pink.png -binary -savetiles src/graphics/boxes/
 png2tile src/graphics/boxes/moon_pink.png -binary -savetiles src/graphics/boxes/moon_pink.bin
 png2tile src/graphics/boxes/skull_pink.png -binary -savetiles src/graphics/boxes/skull_pink.bin
 png2tile src/graphics/boxes/sun_pink.png -binary -savetiles src/graphics/boxes/sun_pink.bin
+png2tile src/graphics/village_elder.png -binary -savetiles src/graphics/village_elder.bin
 
 echo Compiling
 wla-z80 -i -I./src/ -D _REV0 -o tmp/baserom_rev0.o src/asm/baserom.asm 

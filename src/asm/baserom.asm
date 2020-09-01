@@ -2679,7 +2679,7 @@ _LABEL_1506_:
 	jp _LABEL_145_
 
 _LABEL_1512_:
-	ld hl, _DATA_1C069_
+	ld hl, tiles_villageElder
 	ld de, $6AA0
 	ld bc, $0100
 	jp _LABEL_145_
