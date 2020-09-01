@@ -633,7 +633,7 @@ _RAM_CFC0_ db
 .ende
 
 .enum $CFE0 export
-_RAM_CFE0_ db
+v_textboxCursor db
 .ende
 
 .enum $D000 export

@@ -15612,7 +15612,7 @@ _LABEL_7ED3_:
 	ld (_RAM_C038_), hl
 	ld hl, $0100
 	ld (_RAM_C074_), hl
-	ld ix, _RAM_CFE0_
+	ld ix, v_textboxCursor
 	ld (ix+14), $11
 	ld (ix+12), $09
 	xor a
