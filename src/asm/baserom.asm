@@ -10042,21 +10042,21 @@ _LABEL_4FF1_:
 
 ; 45th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 entityTypeJumpTableMonsterbirdEntry:
-	bit 0, (ix+1)    ; v_entities.IX.flags
+	bit 0, (ix + Entity.flags)
 	jr nz, +
-	set 0, (ix+1)    ; v_entities.IX.flags
-	ld (ix+20), $04    ; v_entities.IX.unknown3
-	ld (ix+5), $10    ; v_entities.IX.animationTimer
-	ld (ix+6), $10    ; v_entities.IX.animationTimerResetValue
+	set 0, (ix + Entity.flags)
+	ld (ix + Entity.unknown3), $04
+	ld (ix + Entity.animationTimer), $10
+	ld (ix + Entity.animationTimerResetValue), $10
 	jr ++
 
 +:
-	ld a, (ix+9)    ; v_entities.IX.isOffScreenFlags
-	or (ix+10)    ; v_entities.IX.isOffScreenFlags.high
+	ld a, (ix + Entity.isOffScreenFlags.low)
+	or (ix + Entity.isOffScreenFlags.high)
 	jr nz, ++
-	ld (ix+16), $FF    ; v_entities.IX.xSpeed.high
-	ld (ix+15), $80    ; v_entities.IX.xSpeed
-	set 1, (ix+1)     ; v_entities.IX.flags
+	ld (ix+ Entity.xSpeed.high), $FF
+	ld (ix+ Entity.xSpeed), $80
+	set 1, (ix + Entity.flags)
 	call _LABEL_7D99_
 	call _LABEL_7D0B_
 	jp nc, _LABEL_55A5_
@@ -10064,9 +10064,9 @@ entityTypeJumpTableMonsterbirdEntry:
 	ld a, $08
 	call _LABEL_3A03_
 	jr nc, ++
-	ld (ix+0), $33    ; v_entities.IX
-	ld (ix+16), $00    ; v_entities.IX.xSpeed.high
-	ld (ix+15), $80    ; ; v_entities.IX.xSpeed
+	ld (ix + Entity.type), $33
+	ld (ix + Entity.xSpeed.high), $00
+	ld (ix + Entity.xSpeed.low), $80
 ++:
 	ld hl, _DATA_81B7_
 	jp _LABEL_280E_
