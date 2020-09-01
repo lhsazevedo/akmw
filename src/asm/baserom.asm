@@ -5052,7 +5052,7 @@ entityTypeJumpTableAlexEntry:
 	ld hl, $0000
 	ld (v_horizontalScrollSpeed), hl
 	ld (v_verticalScrollSpeed), hl
-	bit 7, (ix+1)
+	bit 7, (ix + Entity.flags)
 	call nz, _LABEL_2F41_
 	ld a, (v_entities.1.state)
 	ld hl, _DATA_2982_
@@ -5060,7 +5060,7 @@ entityTypeJumpTableAlexEntry:
 	ld a, (v_entities.1.state)
 	cp $0F
 	ret z
-	bit 4, (ix+28)
+	bit 4, (ix + Entity.unknown8)
 	ret nz
 	ld a, (v_level)
 	ld hl, _DATA_3F3A_ - 2
