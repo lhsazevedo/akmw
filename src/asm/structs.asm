@@ -11,12 +11,16 @@
     isOffScreenFlags .dw
     isOffScreenFlagsB1 db ; C309
     isOffScreenFlagsB2 db ; C30A
+    xPos .dw
     xPosB1 db ; C30B
     xPosB2 db ; C30C
+    yPos .dw
     yPosB1 db ; C30D
     yPosB2 db ; C30E
+    xSpeed .dw
     xSpeedB1 db ; C30F
     xSpeedB2 db ; C310
+    ySpeed .dw
     ySpeedB1 db ; C311
     ySpeedB2 db ; C312
     unknown2 db ; C313
