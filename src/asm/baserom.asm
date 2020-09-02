@@ -5060,7 +5060,7 @@ entityTypeJumpTableAlexEntry:
 	bit 7, (ix + Entity.flags)
 	call nz, _LABEL_2F41_
 	ld a, (v_entities.1.state)
-	ld hl, _DATA_2982_
+	ld hl, alexStateHandlersPointers
 	rst $20	; loadAthJumptablePointer
 	ld a, (v_entities.1.state)
 	cp $0F
@@ -5073,7 +5073,7 @@ entityTypeJumpTableAlexEntry:
 	ret
 
 ; Jump Table from 2982 to 29B9 (28 entries, indexed by v_entities.1.state)
-_DATA_2982_:
+alexStateHandlersPointers:
 .dw _LABEL_29BA_ _LABEL_2A9E_ _LABEL_2B41_ _LABEL_2CD0_ _LABEL_2E60_ _LABEL_34B6_ _LABEL_36F1_ _LABEL_336F_
 .dw _LABEL_2FA7_ _LABEL_302F_ _LABEL_3256_ _LABEL_3094_ _LABEL_3107_ _LABEL_3180_ _LABEL_31A8_ _LABEL_2F8A_
 .dw _LABEL_3340_ _LABEL_31CC_ _LABEL_3223_ _LABEL_38C5_ _LABEL_3468_ _LABEL_3919_ _LABEL_3961_ _LABEL_39A5_
