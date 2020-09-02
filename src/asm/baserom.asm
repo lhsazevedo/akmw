@@ -73,7 +73,7 @@ _LABEL_1B_:
 	bit 7, a
 	ret z
 	and $0F
-_LABEL_20_:
+loadAthJumptablePointer:
 	add a, a
 _LABEL_21_:
 	ld e, a
@@ -113,7 +113,7 @@ _LABEL_53_:
 	and $0F
 	exx
 	ld hl, _DATA_3B_
-	rst $20	; _LABEL_20_
+	rst $20	; loadAthJumptablePointer
 	jp -
 
 ; Data from 65 to 65 (1 bytes)
@@ -1216,7 +1216,7 @@ _LABEL_842_:
 	ld hl, _RAM_FFFF_
 	ld (hl), $84
 	ld hl, _DATA_8E6_
-	jp _LABEL_20_
+	jp loadAthJumptablePointer
 
 ; 1st entry of Jump Table from 8E6 (indexed by _RAM_C227_)
 _LABEL_872_:
@@ -1878,7 +1878,7 @@ _LABEL_E6C_:
 	call _LABEL_293_
 	ld a, (v_level)
 	ld hl, _DATA_E7D_ - 2
-	rst $20	; _LABEL_20_
+	rst $20	; loadAthJumptablePointer
 	ret
 
 ; Jump Table from E7D to E9E (17 entries, indexed by v_level)
@@ -2235,7 +2235,7 @@ _LABEL_1134_:
 	ld (_RAM_FFFF_), a
 	ld a, (v_level)
 	ld hl, _DATA_1142_ - 2
-	jp _LABEL_20_
+	jp loadAthJumptablePointer
 
 ; Jump Table from 1142 to 1163 (17 entries, indexed by v_level)
 _DATA_1142_:
@@ -4710,7 +4710,7 @@ _LABEL_2694_:
 	jp z, ++
 	push bc
 	ld hl, entityTypeJumpTable - 2
-	rst $20	; _LABEL_20_
+	rst $20	; loadAthJumptablePointer
 	ld a, (ix+0)
 	or a
 	jp z, +
@@ -5056,7 +5056,7 @@ entityTypeJumpTableAlexEntry:
 	call nz, _LABEL_2F41_
 	ld a, (v_entities.1.state)
 	ld hl, _DATA_2982_
-	rst $20	; _LABEL_20_
+	rst $20	; loadAthJumptablePointer
 	ld a, (v_entities.1.state)
 	cp $0F
 	ret z
@@ -5064,7 +5064,7 @@ entityTypeJumpTableAlexEntry:
 	ret nz
 	ld a, (v_level)
 	ld hl, _DATA_3F3A_ - 2
-	rst $20	; _LABEL_20_
+	rst $20	; loadAthJumptablePointer
 	ret
 
 ; Jump Table from 2982 to 29B9 (28 entries, indexed by v_entities.1.state)
@@ -7521,7 +7521,7 @@ _LABEL_3D0A_:
 	sub $0D
 	ret c
 	ld hl, _DATA_3D2B_
-	jp _LABEL_20_
+	jp loadAthJumptablePointer
 
 ; Jump Table from 3D2B to 3D5A (24 entries, indexed by _RAM_C802_)
 _DATA_3D2B_:
@@ -7662,7 +7662,7 @@ _LABEL_3E0B_:
 _LABEL_3E2F_:
 	ld a, (ix+26)
 	ld hl, _DATA_3E38_
-	jp _LABEL_20_
+	jp loadAthJumptablePointer
 
 ; Jump Table from 3E38 to 3E3F (4 entries, indexed by _RAM_CF9A_)
 _DATA_3E38_:
@@ -8617,7 +8617,7 @@ _LABEL_4508_:
 	ret z
 	ld a, (_RAM_C054_)
 	ld hl, _DATA_4523_
-	jp _LABEL_20_
+	jp loadAthJumptablePointer
 
 ; Jump Table from 4523 to 453E (14 entries, indexed by _RAM_C054_)
 _DATA_4523_:
@@ -8702,7 +8702,7 @@ _LABEL_4578_:
 	ld c, e
 	ld b, d
 	ld hl, _DATA_45D9_ - 2
-	rst $20	; _LABEL_20_
+	rst $20	; loadAthJumptablePointer
 _LABEL_45BE_:
 	ld a, (v_entities.1.state)
 	cp $05
@@ -13795,7 +13795,7 @@ _DATA_7128_:
 _LABEL_714A_:
 	ld a, (_RAM_C3BA_)
 	ld hl, _DATA_7152_
-	rst $20	; _LABEL_20_
+	rst $20	; loadAthJumptablePointer
 	ret
 
 ; Jump Table from 7152 to 717B (21 entries, indexed by _RAM_C3BA_)
@@ -13973,7 +13973,7 @@ _LABEL_72B3_:
 	add a, e
 	add a, e
 	ld hl, _DATA_72CA_
-	rst $20	; _LABEL_20_
+	rst $20	; loadAthJumptablePointer
 	ld a, $07
 	ld (v_gameState), a
 	ret
@@ -14253,7 +14253,7 @@ _LABEL_74CE_:
 	jr nz, +
 	ld a, (ix+26)
 	ld hl, _DATA_74DF_
-	rst $20	; _LABEL_20_
+	rst $20	; loadAthJumptablePointer
 	ret
 
 ; Jump Table from 74DF to 74EA (6 entries, indexed by _RAM_CF9A_)
@@ -14619,7 +14619,7 @@ _DATA_778E_:
 _LABEL_7796_:
 	ld a, (_RAM_C3BA_)
 	ld hl, _DATA_779E_
-	rst $20	; _LABEL_20_
+	rst $20	; loadAthJumptablePointer
 	ret
 
 ; Jump Table from 779E to 77BD (16 entries, indexed by _RAM_C3BA_)
@@ -14673,7 +14673,7 @@ _LABEL_780B_:
 _LABEL_7816_:
 	ld a, (_RAM_C3BA_)
 	ld hl, _DATA_781E_
-	rst $20	; _LABEL_20_
+	rst $20	; loadAthJumptablePointer
 	ret
 
 ; Jump Table from 781E to 783B (15 entries, indexed by _RAM_C3BA_)
@@ -14733,7 +14733,7 @@ _LABEL_78A5_:
 _LABEL_78A8_:
 	ld a, (_RAM_C3BA_)
 	ld hl, _DATA_78B0_
-	rst $20	; _LABEL_20_
+	rst $20	; loadAthJumptablePointer
 	ret
 
 ; Jump Table from 78B0 to 78CD (15 entries, indexed by _RAM_C3BA_)
@@ -14841,7 +14841,7 @@ _LABEL_7989_:
 _LABEL_79A1_:
 	ld a, (_RAM_C3DA_)
 	ld hl, _DATA_79A9_
-	rst $20	; _LABEL_20_
+	rst $20	; loadAthJumptablePointer
 	ret
 
 ; Jump Table from 79A9 to 79B0 (4 entries, indexed by _RAM_C3DA_)
@@ -14963,7 +14963,7 @@ _LABEL_7A79_:
 _LABEL_7A90_:
 	ld a, (_RAM_C3DA_)
 	ld hl, _DATA_7A98_
-	rst $20	; _LABEL_20_
+	rst $20	; loadAthJumptablePointer
 	ret
 
 ; Jump Table from 7A98 to 7A9F (4 entries, indexed by _RAM_C3DA_)
@@ -15071,7 +15071,7 @@ _LABEL_7B35_:
 ++:
 	ld a, (_RAM_C3DA_)
 	ld hl, _DATA_7B64_
-	rst $20	; _LABEL_20_
+	rst $20	; loadAthJumptablePointer
 	ret
 
 ; Jump Table from 7B64 to 7B77 (10 entries, indexed by _RAM_C3DA_)
@@ -15362,7 +15362,7 @@ _LABEL_7D0B_:
 	jp z, _LABEL_7D38_
 	ld a, (_RAM_C054_)
 	ld hl, _DATA_7D1C_
-	jp _LABEL_20_
+	jp loadAthJumptablePointer
 
 ; Jump Table from 7D1C to 7D37 (14 entries, indexed by _RAM_C054_)
 _DATA_7D1C_:
@@ -15435,7 +15435,7 @@ _LABEL_7D99_:
 	ret nc
 	ld a, (_RAM_C054_)
 	ld hl, _DATA_7DA8_
-	jp _LABEL_20_
+	jp loadAthJumptablePointer
 
 ; Jump Table from 7DA8 to 7DBB (10 entries, indexed by _RAM_C054_)
 _DATA_7DA8_:
