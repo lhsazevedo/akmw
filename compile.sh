@@ -64,8 +64,8 @@ rm -f build/*
 
 echo Linking
 cd tmp
-wlalink -d -S -A -i -b linkfile_rev0 ../build/alex-kidd-in-miracle-world-usa-europe.sms
-wlalink -d -S -A -i -b linkfile_rev1 ../build/alex-kidd-in-miracle-world-usa-europe-rev-1.sms
+wlalink -d -S -i -b linkfile_rev0 ../build/alex-kidd-in-miracle-world-usa-europe.sms
+wlalink -d -S -i -b linkfile_rev1 ../build/alex-kidd-in-miracle-world-usa-europe-rev-1.sms
 cd ..
 
 if sha1sum --status -c <<<"8cecf8ed0f765163b2657be1b0a3ce2a9cb767f4 *build/alex-kidd-in-miracle-world-usa-europe.sms"; then
