@@ -5,7 +5,7 @@ MtEternalScreen0EntitiesDescriptor:
 ; Data at B6EE (5 bytes)
 MtEternalScreen1EntitiesDescriptor:
     .db $01
-    .db ENTITY_MOSTERBIRD_LEFT
+    .db ENTITY_MONSTERBIRD_LEFT
     .db $78 $68
     .db $00
 
@@ -14,11 +14,11 @@ MtEternalScreen2EntitiesDescriptor:
     ; Length
     .db $02
     ; Entity 1
-    .db ENTITY_MOSTERBIRD_LEFT
+    .db ENTITY_MONSTERBIRD_LEFT
     .db $20 $88
     .db $00
     ; Entity 2
-    .db ENTITY_MOSTERBIRD_LEFT
+    .db ENTITY_MONSTERBIRD_LEFT
     .db $98 $40
     .db $00
 
@@ -27,11 +27,11 @@ MtEternalScreen3EntitiesDescriptor:
     ; Length
     .db $02
     ; Entity 1
-    .db ENTITY_MOSTERBIRD_LEFT
+    .db ENTITY_MONSTERBIRD_LEFT
     .db $10 $88
     .db $00
     ; Entity 2
-    .db ENTITY_MOSTERBIRD_LEFT
+    .db ENTITY_MONSTERBIRD_LEFT
     .db $A0 $60
     .db $00
 
@@ -39,11 +39,11 @@ MtEternalScreen3EntitiesDescriptor:
 MtEternalScreen4EntitiesDescriptor:
     .db $02
     ; Entity 1
-    .db ENTITY_MOSTERBIRD_LEFT
+    .db ENTITY_MONSTERBIRD_LEFT
     .db $20 $D0
     .db $00
     ; Entity 2
-    .db ENTITY_MOSTERBIRD_LEFT
+    .db ENTITY_MONSTERBIRD_LEFT
     .db $70 $88
     .db $00
 
@@ -51,7 +51,7 @@ MtEternalScreen4EntitiesDescriptor:
 MtEternalScreen5EntitiesDescriptor:
     .db $01
     ; Entity 1
-    .db ENTITY_MOSTERBIRD_LEFT
+    .db ENTITY_MONSTERBIRD_LEFT
     .db $40 $50
     .db $00
 
@@ -59,11 +59,11 @@ MtEternalScreen5EntitiesDescriptor:
 MtEternalScreen6EntitiesDescriptor:
     .db $02
     ; Entity 1
-    .db ENTITY_MOSTERBIRD_LEFT
+    .db ENTITY_MONSTERBIRD_LEFT
     .db $20 $D0
     .db $00
     ; Entity 2
-    .db ENTITY_MOSTERBIRD_LEFT
+    .db ENTITY_MONSTERBIRD_LEFT
     .db $90 $30
     .db $00
 
@@ -71,11 +71,11 @@ MtEternalScreen6EntitiesDescriptor:
 MtEternalScreen7EntitiesDescriptor:
     .db $02
     ; Entity 1
-    .db ENTITY_MOSTERBIRD_LEFT
+    .db ENTITY_MONSTERBIRD_LEFT
     .db $70 $28
     .db $00
     ; Entity 2
-    .db ENTITY_MOSTERBIRD_LEFT
+    .db ENTITY_MONSTERBIRD_LEFT
     .db $98 $B0
     .db $00
 

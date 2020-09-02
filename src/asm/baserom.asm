@@ -10076,7 +10076,7 @@ entityTypeJumpTableMonsterbirdEntry:
 	ld a, $08
 	call _LABEL_3A03_
 	jr nc, ++
-	ld (ix + Entity.type), $33
+	ld (ix + Entity.type), ENTITY_MONSTERBIRD_RIGHT
 	ld (ix + Entity.xSpeed.high), $00
 	ld (ix + Entity.xSpeed.low), $80
 ++:
@@ -10116,7 +10116,7 @@ entityTypeJumpTableMonsterbirdLeftEntry:
 	ld a, $08
 	call _LABEL_3A03_
 	jr nc, ++
-	ld (ix+0), $2D
+	ld (ix+0), ENTITY_MONSTERBIRD_LEFT
 	ld (ix+16), $FF
 	ld (ix+15), $80
 ++:
@@ -10147,7 +10147,7 @@ _LABEL_50E1_:
 	ld a, $08
 	call _LABEL_3A03_
 	jr nc, ++
-	ld (ix+0), $34
+	ld (ix+0), ENTITY_SMALL_FISH_RIGHT
 	ld (ix+16), $00
 	ld (ix+15), $60
 ++:
@@ -10166,7 +10166,7 @@ _LABEL_5132_:
 	ld a, $08
 	call _LABEL_3A03_
 	jr nc, +
-	ld (ix+0), $30
+	ld (ix+0), ENTITY_SMALL_FISH_LEFT
 	ld (ix+16), $FF
 	ld (ix+15), $A0
 +:
