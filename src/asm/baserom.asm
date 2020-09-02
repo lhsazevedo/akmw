@@ -1181,9 +1181,9 @@ _DATA_824_:
 .db INITIAL_SCORE
 .db INITIAL_LEVEL
 .db INITIAL_LIFES
-.db $00 $00 $00 $00
+.dsb 10, $00
 .db INITIAL_MONEY
-.dsb 8, $00
+.db $00 $00
 .db $03 $00 $00 $00 $00 $00 $00 $00
 
 ; 1st entry of Jump Table from 127 (indexed by v_gameState)
