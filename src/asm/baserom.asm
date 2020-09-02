@@ -10042,6 +10042,7 @@ _LABEL_4FF1_:
 
 ; 45th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 entityTypeJumpTableMonsterbirdEntry:
+	; Reset animation if bit 0 is set
 	bit 0, (ix + Entity.flags)
 	jr nz, +
 	set 0, (ix + Entity.flags)
@@ -10054,6 +10055,7 @@ entityTypeJumpTableMonsterbirdEntry:
 	ld a, (ix + Entity.isOffScreenFlags.low)
 	or (ix + Entity.isOffScreenFlags.high)
 	jr nz, ++
+	; Skip to ++ if monster is offscreen
 	ld (ix+ Entity.xSpeed.high), $FF
 	ld (ix+ Entity.xSpeed), $80
 	set 1, (ix + Entity.flags)
@@ -10073,6 +10075,7 @@ entityTypeJumpTableMonsterbirdEntry:
 
 ; 51st entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 entityTypeJumpTableMonsterbirdLeftEntry:
+	; Reset animation if bit 0 is set
 	bit 0, (ix+1)
 	jr nz, +
 	set 0, (ix+1)
@@ -10085,6 +10088,7 @@ entityTypeJumpTableMonsterbirdLeftEntry:
 	ld a, (ix+9)
 	or (ix+10)
 	jr nz, ++
+	; Skip to ++ if monster is offscreen
 	ld (ix+16), $00
 	ld (ix+15), $80
 	set 1, (ix+1)
@@ -10102,7 +10106,7 @@ entityTypeJumpTableMonsterbirdLeftEntry:
 	ld (ix+16), $FF
 	ld (ix+15), $80
 ++:
-	ld hl, _DATA_81E4_
+	ld hl, _DATA_81E4_ ; unique
 	jp _LABEL_280E_
 
 ; 48th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
