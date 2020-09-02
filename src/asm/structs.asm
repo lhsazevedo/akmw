@@ -6,7 +6,9 @@
     animationFrame db ; C304
     animationTimer db ; C305
     animationTimerResetValue db ; C306
-    spriteDescriptorPointer dw ; C307
+    spriteDescriptorPointer .dw ; C307
+    spriteDescriptorPointer.low db ; C307
+    spriteDescriptorPointer.high db ; C308
     ; ; C308
     isOffScreenFlags .dw
     isOffScreenFlags.low db ; C309
