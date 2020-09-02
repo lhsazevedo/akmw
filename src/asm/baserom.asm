@@ -10115,7 +10115,7 @@ entityTypeJumpTableMonsterbirdLeftEntry:
 	ld (ix+16), $FF
 	ld (ix+15), $80
 ++:
-	ld hl, _DATA_81E4_ ; unique
+	ld hl, monsterbirdRightAnimationDescriptor ; unique
 	jp tickEntityAnimation
 
 ; 48th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
@@ -15868,21 +15868,17 @@ _DATA_81D0_:
 .db $0A $87 $12 $88
 
 ; Data from 81E4 to 81E4 (1 bytes)
-_DATA_81E4_:
+monsterbirdRightAnimationDescriptor:
 .db $02
 
-; Pointer Table from 81E5 to 81E8 (2 entries, indexed by _RAM_CF84_)
-.dw _DATA_81E9_ _DATA_81FD_
+.dw monsterbirdRightSpriteDescriptor1
+.dw monsterbirdRightSpriteDescriptor2
 
-; 1st entry of Pointer Table from 81E5 (indexed by _RAM_CF84_)
-; Data from 81E9 to 81FC (20 bytes)
-_DATA_81E9_:
+monsterbirdRightSpriteDescriptor1:
 .db $06 $58 $00 $00 $00 $08 $08 $08 $10 $89 $08 $8A $00 $8B $10 $8C
 .db $08 $8D $00 $8E
 
-; 2nd entry of Pointer Table from 81E5 (indexed by _RAM_CF84_)
-; Data from 81FD to 8210 (20 bytes)
-_DATA_81FD_:
+monsterbirdRightSpriteDescriptor2:
 .db $06 $58 $00 $00 $00 $08 $08 $08 $10 $8F $08 $90 $00 $91 $0E $92
 .db $06 $93 $FE $94
 
