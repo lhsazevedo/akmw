@@ -5074,20 +5074,25 @@ entityTypeJumpTableAlexEntry:
 
 ; Jump Table from 2982 to 29B9 (28 entries, indexed by v_entities.1.state)
 alexStateHandlersPointers:
-.dw _LABEL_29BA_ _LABEL_2A9E_ _LABEL_2B41_ _LABEL_2CD0_ _LABEL_2E60_ _LABEL_34B6_ _LABEL_36F1_ _LABEL_336F_
+.dw alexInvincibleStateHandler
+.dw alexIdleStateHandler
+.dw alexWalkingStateHandler
+.dw alexFallingStateHandler
+.dw alexCrouchedStateHandler
+.dw alexSwimingStateHandler _LABEL_36F1_ _LABEL_336F_
 .dw _LABEL_2FA7_ _LABEL_302F_ _LABEL_3256_ _LABEL_3094_ _LABEL_3107_ _LABEL_3180_ _LABEL_31A8_ _LABEL_2F8A_
 .dw _LABEL_3340_ _LABEL_31CC_ _LABEL_3223_ _LABEL_38C5_ _LABEL_3468_ _LABEL_3919_ _LABEL_3961_ _LABEL_39A5_
 .dw _LABEL_3949_ _LABEL_39B4_ _LABEL_39D4_ _LABEL_38C2_
 
 ; 1st entry of Jump Table from 2982 (indexed by v_entities.1.state)
-_LABEL_29BA_:
-	ld (ix+12), $80
-	ld (ix+14), $60
+alexInvincibleStateHandler:
+	ld (ix + Entity.xPos.high), $80
+	ld (ix + Entity.yPos.high), $60
 _LABEL_29C2_:
-	set 0, (ix+1)
-	ld (ix+1), $00
-	ld (ix+20), $03
-	ld (ix+5), $01
+	set 0, (ix + Entity.flags)
+	ld (ix + Entity.flags), $00
+	ld (ix + Entity.unknown3), $03
+	ld (ix + Entity.animationTimer), $01
 	ld a, (v_shouldAlexStartWalkingtoNextScreen)
 	or a
 	jp nz, _LABEL_2A84_
@@ -5099,8 +5104,8 @@ _LABEL_29C2_:
 	jr z, +
 	cp $09
 	jr z, ++
-	ld (ix+31), $18
-	ld (ix+29), $08
+	ld (ix + Entity.unknown11), $18
+	ld (ix + Entity.unknown9), $08
 	call _LABEL_2BFA_
 	ret
 
@@ -5165,7 +5170,7 @@ _LABEL_2A84_:
 	jp _LABEL_41AA_
 
 ; 2nd entry of Jump Table from 2982 (indexed by v_entities.1.state)
-_LABEL_2A9E_:
+alexIdleStateHandler:
 	call _LABEL_3B56_
 	ld (v_entities.1.ySpeed), hl
 	bit 4, (ix+28)
@@ -5243,7 +5248,7 @@ _LABEL_2B39_:
 	jr -
 
 ; 3rd entry of Jump Table from 2982 (indexed by v_entities.1.state)
-_LABEL_2B41_:
+alexWalkingStateHandler:
 	ld hl, $0000
 	ld (v_entities.1.ySpeed), hl
 	bit 4, (ix+28)
@@ -5429,7 +5434,7 @@ _LABEL_2CAE_:
 +:
 	call _LABEL_41AA_
 ; 4th entry of Jump Table from 2982 (indexed by v_entities.1.state)
-_LABEL_2CD0_:
+alexFallingStateHandler:
 	call _LABEL_3C45_
 	ld a, (v_entities.1.state)
 	cp $03
@@ -5622,7 +5627,7 @@ _LABEL_2DF3_:
 	jp _LABEL_3BB1_
 
 ; 5th entry of Jump Table from 2982 (indexed by v_entities.1.state)
-_LABEL_2E60_:
+alexCrouchedStateHandler:
 	ld hl, $0000
 	ld (v_entities.1.ySpeed), hl
 	bit 4, (ix+28)
@@ -6386,10 +6391,10 @@ _LABEL_3498_:
 	call _LABEL_3478_
 	bit 7, (ix+18)
 	set 3, (ix+20)
-	jr z, _LABEL_34B6_
+	jr z, alexSwimingStateHandler
 	res 3, (ix+20)
 ; 6th entry of Jump Table from 2982 (indexed by v_entities.1.state)
-_LABEL_34B6_:
+alexSwimingStateHandler:
 	bit 4, (ix+28)
 	jp nz, _LABEL_3E01_
 	ld de, $080C
