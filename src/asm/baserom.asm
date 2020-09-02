@@ -122,7 +122,7 @@ _LABEL_53_:
 _LABEL_66_:
 	push af
 	ld a, (v_entities.1.state)
-	cp $0F
+	cp ALEX_DEAD
 	jp z, +
 	ld a, (shouldDisplayMapOpening)
 	or a
@@ -3818,7 +3818,7 @@ _LABEL_1EAF_:
 	bit 6, (hl)
 	jr z, +
 	ld a, (v_entities.1.state)
-	cp $03
+	cp ALEX_FALLING
 	ret z
 	res 6, (hl)
 	xor a
@@ -4076,7 +4076,7 @@ _LABEL_1FE9_:
 
 +:
 	ld a, (v_entities.1.state)
-	cp $05
+	cp ALEX_SWIMING
 	jr nz, ++
 	ld a, $83
 	ld (v_soundControl), a
@@ -4325,7 +4325,7 @@ _LABEL_2198_:
 	ld a, (hl)
 	ld (v_soundControl), a
 	ld a, (v_entities.1.state)
-	cp $05
+	cp ALEX_SWIMING
 	jr nz, +
 	ld a, $83
 	ld (v_soundControl), a
@@ -5063,7 +5063,7 @@ entityTypeJumpTableAlexEntry:
 	ld hl, alexStateHandlersPointers
 	rst $20	; loadAthJumptablePointer
 	ld a, (v_entities.1.state)
-	cp $0F
+	cp ALEX_DEAD
 	ret z
 	bit 4, (ix + Entity.unknown8)
 	ret nz
@@ -5177,7 +5177,7 @@ alexIdleStateHandler:
 	jp nz, _LABEL_3E0B_
 	call _LABEL_3C45_
 	ld a, (v_entities.1.state)
-	cp $01
+	cp ALEX_IDLE
 	ret nz
 	ld de, $1904
 	ld a, (v_entities.1.isOffScreenFlags.high)
@@ -5193,7 +5193,7 @@ alexIdleStateHandler:
 	jp nc, _LABEL_2CA1_
 	call _LABEL_3D07_
 	ld a, (v_entities.1.state)
-	cp $01
+	cp ALEX_IDLE
 	ret nz
 ++:
 	ld a, (_RAM_C213_)
@@ -5255,7 +5255,7 @@ alexWalkingStateHandler:
 	jp nz, _LABEL_3DFB_
 	call _LABEL_3C45_
 	ld a, (v_entities.1.state)
-	cp $02
+	cp ALEX_WALKING
 	ret nz
 	ld de, $1904
 	ld a, (v_entities.1.isOffScreenFlags.high)
@@ -5271,7 +5271,7 @@ alexWalkingStateHandler:
 	jp nc, _LABEL_2CA1_
 	call _LABEL_3D07_
 	ld a, (v_entities.1.state)
-	cp $02
+	cp ALEX_WALKING
 	ret nz
 ++:
 	ld a, (_RAM_C007_)
@@ -5437,7 +5437,7 @@ _LABEL_2CAE_:
 alexFallingStateHandler:
 	call _LABEL_3C45_
 	ld a, (v_entities.1.state)
-	cp $03
+	cp ALEX_FALLING
 	ret nz
 	ld a, (_RAM_C213_)
 	or a
@@ -5634,7 +5634,7 @@ alexCrouchedStateHandler:
 	jp nz, _LABEL_3E0B_
 	call _LABEL_3C45_
 	ld a, (v_entities.1.state)
-	cp $04
+	cp ALEX_CROUCHED
 	ret nz
 	ld de, $1904
 	ld a, (v_entities.1.isOffScreenFlags.high)
@@ -6400,7 +6400,7 @@ alexSwimingStateHandler:
 	ld de, $080C
 	call _LABEL_3C48_
 	ld a, (v_entities.1.state)
-	cp $05
+	cp ALEX_SWIMING
 	ret nz
 	ld a, (v_entities.1.yPos.high)
 	sub $08
@@ -7487,7 +7487,7 @@ _LABEL_3CCF_:
 	cp $70
 	jr c, +
 	ld a, (v_entities.1.state)
-	cp $01
+	cp ALEX_IDLE
 	ret nz
 	ld a, (v_entities.1.xPos.high)
 	cp $18
@@ -7689,7 +7689,7 @@ _LABEL_3E40_:
 ; 2nd entry of Jump Table from 3E38 (indexed by _RAM_CF9A_)
 _LABEL_3E50_:
 	ld a, (v_entities.1.state)
-	cp $01
+	cp ALEX_IDLE
 	ret nz
 	ld a, (ix+10)
 	or (ix+9)
@@ -8715,7 +8715,7 @@ _LABEL_4578_:
 	rst $20	; loadAthJumptablePointer
 _LABEL_45BE_:
 	ld a, (v_entities.1.state)
-	cp $05
+	cp ALEX_SWIMING
 	ld hl, _DATA_14503_
 	jr nz, +
 	ld hl, _DATA_1450B_
@@ -10316,7 +10316,7 @@ _LABEL_52E7_:
 	or (ix+10)
 	jr nz, +
 	ld a, (v_entities.1.state)
-	cp $0F
+	cp ALEX_DEAD
 	jp z, _LABEL_5571_
 +:
 	bit 0, (ix+1)
@@ -10366,7 +10366,7 @@ _LABEL_5360_:
 	or (ix+10)
 	jr nz, +
 	ld a, (v_entities.1.state)
-	cp $0F
+	cp ALEX_DEAD
 	jp z, _LABEL_5571_
 +:
 	bit 0, (ix+1)
@@ -10413,7 +10413,7 @@ _LABEL_53CF_:
 	or (ix+10)
 	jr nz, +
 	ld a, (v_entities.1.state)
-	cp $0F
+	cp ALEX_DEAD
 	jp z, _LABEL_5571_
 +:
 	bit 0, (ix+1)
@@ -10468,7 +10468,7 @@ _LABEL_5451_:
 	or (ix+10)
 	jr nz, +
 	ld a, (v_entities.1.state)
-	cp $0F
+	cp ALEX_DEAD
 	jp z, _LABEL_5571_
 +:
 	bit 0, (ix+1)
@@ -10546,7 +10546,7 @@ _LABEL_5515_:
 	or (ix+10)
 	jr nz, +
 	ld a, (v_entities.1.state)
-	cp $0F
+	cp ALEX_DEAD
 	jp z, _LABEL_5571_
 +:
 	ld a, (ix+22)
@@ -11165,7 +11165,7 @@ _LABEL_5B37_:
 	set 1, (ix+1)
 +:
 	ld a, (v_entities.1.state)
-	cp $0F
+	cp ALEX_DEAD
 	ret z
 	call _LABEL_7D99_
 	call _LABEL_4DAD_
@@ -11727,7 +11727,7 @@ _LABEL_6054_:
 	or a
 	ret nz
 	ld a, (v_entities.1.state)
-	cp $02
+	cp ALEX_WALKING
 	ret nz
 	ld a, $80
 	ld (_RAM_C202_), a
@@ -13859,7 +13859,7 @@ _LABEL_71B0_:
 	and $0F
 	ret nz
 	ld a, (v_entities.1.state)
-	cp $03
+	cp ALEX_FALLING
 	ret nc
 	inc (ix+26)
 	ld a, $16
@@ -14164,7 +14164,7 @@ _LABEL_73D8_:
 	ld (v_soundControl), a
 ++:
 	ld a, (v_entities.1.state)
-	cp $0F
+	cp ALEX_DEAD
 	ret nc
 	dec (ix+24)
 	ret nz
@@ -15376,7 +15376,7 @@ _LABEL_7CE6_:
 
 _LABEL_7D0B_:
 	ld a, (v_entities.1.state)
-	cp $05
+	cp ALEX_SWIMING
 	jp z, _LABEL_7D38_
 	ld a, (_RAM_C054_)
 	ld hl, _DATA_7D1C_
@@ -15450,7 +15450,7 @@ _LABEL_7D92_:
 _LABEL_7D99_:
 	; Return if Alex state is $0F
 	ld a, (v_entities.1.state)
-	cp $0F
+	cp ALEX_DEAD
 	ret nc
 	ld a, (_RAM_C054_)
 	ld hl, _DATA_7DA8_

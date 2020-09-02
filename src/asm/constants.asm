@@ -17,7 +17,7 @@ ALEX_WALKING     = $02
 ALEX_FALLING     = $03
 ALEX_CROUCHED    = $04
 ALEX_SWIMING     = $05
-ALEX_DEAD        = $0E
+ALEX_DEAD        = $0F
 
 
 ; Entity types
