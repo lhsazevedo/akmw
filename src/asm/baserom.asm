@@ -3456,7 +3456,7 @@ _LABEL_1B41_:
 	ld (ix+14), a
 _LABEL_1B88_:
 	ld hl, _DATA_8A18_
-	jp _LABEL_280E_
+	jp tickEntityAnimation
 
 ; 88th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_1B8E_:
@@ -4414,7 +4414,7 @@ _LABEL_2439_:
 	ld d, a
 	exx
 	ld hl, _DATA_8A18_
-	call _LABEL_280E_
+	call tickEntityAnimation
 	exx
 	ld a, (v_inputData)
 	and $30
@@ -4945,20 +4945,25 @@ _LABEL_27D0_:
 	ld (ix+12), h
 	ret
 
-_LABEL_280E_:
+;
+; Tick entity animation timer, resetting it and
+; advancing frame (and sprite descriptor) if necessary.
+;
+tickEntityAnimation:
 	ld d, (hl)
 	inc hl
-	ld a, (ix+4)
-	dec (ix+5)
+	ld a, (ix + Entity.animationFrame)
+	dec (ix + Entity.animationTimer)
+	; Reset timer only if its zero
 	jr nz, +
-	ld e, (ix+6)
-	ld (ix+5), e
+	ld e, (ix + Entity.animationTimerResetValue)
+	ld (ix + Entity.animationTimer), e
 	inc a
 	cp d
 	jr c, +
 	xor a
 +:
-	ld (ix+4), a
+	ld (ix + Entity.animationFrame), a
 	add a, a
 	ld e, a
 	ld d, $00
@@ -4966,8 +4971,8 @@ _LABEL_280E_:
 	ld e, (hl)
 	inc hl
 	ld h, (hl)
-	ld (ix+7), e
-	ld (ix+8), h
+	ld (ix + Entity.spriteDescriptorPointer.low), e
+	ld (ix + Entity.spriteDescriptorPointer.high), h
 	ret
 
 ; Data from 2835 to 283A (6 bytes)
@@ -7031,7 +7036,7 @@ _LABEL_39DB_:
 	ld (ix+12), $D8
 	ld (ix+14), $80
 	ld hl, _DATA_9750_
-	jp _LABEL_280E_
+	jp tickEntityAnimation
 
 _LABEL_39ED_:
 	push bc
@@ -8510,7 +8515,7 @@ _LABEL_4415_:
 ; 3rd entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_4446_:
 	ld hl, _DATA_8372_
-	call _LABEL_280E_
+	call tickEntityAnimation
 	dec (ix+25)
 	jp z, _LABEL_278A_
 	ret
@@ -8957,11 +8962,11 @@ _LABEL_476F_:
 	jr nz, _LABEL_47D0_
 _LABEL_47CA_:
 	ld hl, _DATA_8522_
-	jp _LABEL_280E_
+	jp tickEntityAnimation
 
 _LABEL_47D0_:
 	ld hl, _DATA_8537_
-	jp _LABEL_280E_
+	jp tickEntityAnimation
 
 +:
 	ld (ix+0), $0A
@@ -9845,7 +9850,7 @@ _LABEL_4E30_:
 	call _LABEL_4FAD_
 ++:
 	ld hl, _DATA_8211_
-	jp _LABEL_280E_
+	jp tickEntityAnimation
 
 +++:
 	ld a, (v_entities.1.unknown8)
@@ -9895,7 +9900,7 @@ _LABEL_4E9D_:
 	jp c, _LABEL_278A_
 +:
 	ld hl, _DATA_825C_
-	jp _LABEL_280E_
+	jp tickEntityAnimation
 
 ; 32nd entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_4EEF_:
@@ -9960,7 +9965,7 @@ _LABEL_4F43_:
 	ld (ix+14), a
 _LABEL_4F7C_:
 	ld hl, _DATA_8BBD_
-	jp _LABEL_280E_
+	jp tickEntityAnimation
 
 ; 54th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_4F82_:
@@ -10071,7 +10076,9 @@ entityTypeJumpTableMonsterbirdEntry:
 	ld (ix + Entity.xSpeed.low), $80
 ++:
 	ld hl, _DATA_81B7_
-	jp _LABEL_280E_
+	; Handle animation
+	; Ticks timer, advances frames, always set the sprite descriptor
+	jp tickEntityAnimation
 
 ; 51st entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 entityTypeJumpTableMonsterbirdLeftEntry:
@@ -10095,7 +10102,9 @@ entityTypeJumpTableMonsterbirdLeftEntry:
 	ld a, (ix+9)
 	or (ix+10)
 	jr nz, ++
+	; Do something (if alex state is $0F)
 	call _LABEL_7D99_
+	; Something related to alex state being $05
 	call _LABEL_7D0B_
 	jp nc, _LABEL_55A5_
 	ld de, $0118
@@ -10107,7 +10116,7 @@ entityTypeJumpTableMonsterbirdLeftEntry:
 	ld (ix+15), $80
 ++:
 	ld hl, _DATA_81E4_ ; unique
-	jp _LABEL_280E_
+	jp tickEntityAnimation
 
 ; 48th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_50E1_:
@@ -10138,7 +10147,7 @@ _LABEL_50E1_:
 	ld (ix+15), $60
 ++:
 	ld hl, _DATA_8BD2_
-	jp _LABEL_280E_
+	jp tickEntityAnimation
 
 ; 52nd entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_5132_:
@@ -10157,7 +10166,7 @@ _LABEL_5132_:
 	ld (ix+15), $A0
 +:
 	ld hl, _DATA_8C4B_
-	jp _LABEL_280E_
+	jp tickEntityAnimation
 
 ; 46th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_515F_:
@@ -10225,7 +10234,7 @@ _LABEL_515F_:
 	ld (ix+14), a
 _LABEL_51ED_:
 	ld hl, _DATA_83AB_
-	jp _LABEL_280E_
+	jp tickEntityAnimation
 
 ; 53rd entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_51F3_:
@@ -10275,7 +10284,7 @@ _LABEL_51F3_:
 	ld (ix+14), a
 _LABEL_5249_:
 	ld hl, _DATA_83D8_
-	jp _LABEL_280E_
+	jp tickEntityAnimation
 
 ; Data from 524F to 528E (64 bytes)
 _DATA_524F_:
@@ -10334,7 +10343,7 @@ _LABEL_52E7_:
 	jr c, +++
 ++:
 	ld hl, _DATA_8A35_
-	jp _LABEL_280E_
+	jp tickEntityAnimation
 
 +++:
 	ld (ix+0), $27
@@ -10381,7 +10390,7 @@ _LABEL_5360_:
 	cp $20
 	jr c, +
 	ld hl, _DATA_8A3F_
-	jp _LABEL_280E_
+	jp tickEntityAnimation
 
 +:
 	ld (ix+0), $28
@@ -10438,7 +10447,7 @@ _LABEL_53CF_:
 	jp nc, _LABEL_53C6_
 _LABEL_543D_:
 	ld hl, _DATA_8A3A_
-	jp _LABEL_280E_
+	jp tickEntityAnimation
 
 +:
 	ld a, (ix+5)
@@ -10497,7 +10506,7 @@ _LABEL_5451_:
 	jp nc, _LABEL_5357_
 _LABEL_54C9_:
 	ld hl, _DATA_8A44_
-	jp _LABEL_280E_
+	jp tickEntityAnimation
 
 +:
 	ld a, (ix+5)
@@ -10627,7 +10636,7 @@ _LABEL_55A5_:
 	djnz -
 _LABEL_55ED_:
 	ld hl, _DATA_84ED_
-	jp _LABEL_280E_
+	jp tickEntityAnimation
 
 ; 41st entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_55F3_:
@@ -10676,7 +10685,7 @@ _LABEL_5629_:
 	jr z, ++
 +:
 	ld hl, _DATA_8175_
-	jp _LABEL_280E_
+	jp tickEntityAnimation
 
 ++:
 	xor a
@@ -10713,7 +10722,7 @@ _LABEL_5684_:
 	jp z, _LABEL_278A_
 +:
 	ld hl, _DATA_8170_
-	jp _LABEL_280E_
+	jp tickEntityAnimation
 
 ; 47th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_56CC_:
@@ -10844,7 +10853,7 @@ _LABEL_57CE_:
 	ld (ix+14), a
 _LABEL_5845_:
 	ld hl, _DATA_8BF3_
-	jp _LABEL_280E_
+	jp tickEntityAnimation
 
 +:
 	ld (ix+16), $00
@@ -10863,7 +10872,7 @@ _LABEL_5865_:
 	ld (ix+23), $00
 	ld (ix+24), $FF
 	ld hl, _DATA_8BF3_
-	jp _LABEL_280E_
+	jp tickEntityAnimation
 
 ; 50th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_5883_:
@@ -10900,7 +10909,7 @@ _LABEL_5883_:
 	ld (ix+14), a
 _LABEL_58D2_:
 	ld hl, _DATA_8BF3_
-	jp _LABEL_280E_
+	jp tickEntityAnimation
 
 +:
 	ld (ix+16), $00
@@ -10917,7 +10926,7 @@ _LABEL_58F2_:
 	ld (ix+23), $00
 	ld (ix+24), $00
 	ld hl, _DATA_8BF3_
-	jp _LABEL_280E_
+	jp tickEntityAnimation
 
 ; 56th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_5908_:
@@ -10967,7 +10976,7 @@ _LABEL_596B_:
 	ld a, (ix+24)
 	ld hl, _DATA_5D8C_
 	rst $10	; _LABEL_10_
-	jp _LABEL_280E_
+	jp tickEntityAnimation
 
 ; 57th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_5996_:
@@ -11162,10 +11171,10 @@ _LABEL_5B37_:
 	ld hl, _DATA_8C6C_
 	ld a, (v_entities.1.xPos.high)
 	cp (ix+12)
-	jp nc, _LABEL_280E_
+	jp nc, tickEntityAnimation
 ++:
 	ld hl, _DATA_8C2A_
-	jp _LABEL_280E_
+	jp tickEntityAnimation
 
 _LABEL_5B90_:
 	ld iy, _RAM_C640_
@@ -11275,7 +11284,7 @@ _LABEL_5C36_:
 
 _LABEL_5C96_:
 	ld hl, _DATA_8453_
-	jp _LABEL_280E_
+	jp tickEntityAnimation
 
 +:
 	ld (ix+0), $48
@@ -11348,7 +11357,7 @@ _LABEL_5CF7_:
 
 +:
 	ld hl, _DATA_8405_
-	jp _LABEL_280E_
+	jp tickEntityAnimation
 
 ++:
 	ld (ix+0), $46
@@ -11452,7 +11461,7 @@ _LABEL_5D94_:
 	set 1, (ix+1)
 _LABEL_5E0E_:
 	ld hl, _DATA_85A6_
-	jp _LABEL_280E_
+	jp tickEntityAnimation
 
 ; 62nd entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_5E14_:
@@ -11489,9 +11498,9 @@ _LABEL_5E60_:
 	ld hl, _DATA_85A6_
 	ld a, (ix+3)
 	or a
-	jp nz, _LABEL_280E_
+	jp nz, tickEntityAnimation
 	ld hl, _DATA_826B_
-	jp _LABEL_280E_
+	jp tickEntityAnimation
 
 +:
 	ld d, $08
@@ -11522,9 +11531,9 @@ _LABEL_5E7B_:
 	ld hl, _DATA_85A6_
 	ld a, (ix+3)
 	or a
-	jp nz, _LABEL_280E_
+	jp nz, tickEntityAnimation
 	ld hl, _DATA_8286_
-	jp _LABEL_280E_
+	jp tickEntityAnimation
 
 +:
 	ld d, $08
@@ -11595,7 +11604,7 @@ _LABEL_5F05_:
 
 +:
 	ld hl, _DATA_85E9_
-	jp _LABEL_280E_
+	jp tickEntityAnimation
 
 ; 66th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_5F4C_:
@@ -12055,7 +12064,7 @@ _LABEL_6341_:
 	ld (ix+18), $00
 _LABEL_6351_:
 	ld hl, _DATA_8585_
-	jp _LABEL_280E_
+	jp tickEntityAnimation
 
 ++:
 	ld (ix+24), $02
@@ -12120,9 +12129,9 @@ _LABEL_63EA_:
 	ld hl, _DATA_84C2_
 	ld a, (ix+16)
 	cp $FF
-	jp nz, _LABEL_280E_
+	jp nz, tickEntityAnimation
 	ld hl, _DATA_84A1_
-	jp _LABEL_280E_
+	jp tickEntityAnimation
 
 ; 87th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_63FB_:
@@ -12139,7 +12148,7 @@ _LABEL_63FB_:
 	call _LABEL_7D99_
 ++:
 	ld hl, _DATA_85A6_
-	jp _LABEL_280E_
+	jp tickEntityAnimation
 
 ; Pointer Table from 6422 to 6435 (10 entries, indexed by _RAM_CF83_)
 _DATA_6422_:
@@ -13923,7 +13932,7 @@ _LABEL_7251_:
 	cp $80
 	jr z, +
 	ld hl, (_RAM_C236_)
-	jp _LABEL_280E_
+	jp tickEntityAnimation
 
 +:
 	ld a, $AD
@@ -13945,7 +13954,7 @@ _LABEL_727F_:
 	cp $10
 	jr z, +
 	ld hl, (_RAM_C238_)
-	jp _LABEL_280E_
+	jp tickEntityAnimation
 
 +:
 	ld hl, (_RAM_C23A_)
@@ -14078,7 +14087,7 @@ _LABEL_7372_:
 	cp $06
 	jr z, +
 	ld hl, (_RAM_C236_)
-	jp _LABEL_280E_
+	jp tickEntityAnimation
 
 +:
 	ld b, (ix+0)
@@ -15434,6 +15443,7 @@ _LABEL_7D92_:
 	jp _LABEL_7CC2_
 
 _LABEL_7D99_:
+	; Return if Alex state is $0F
 	ld a, (v_entities.1.state)
 	cp $0F
 	ret nc
@@ -15546,7 +15556,7 @@ _LABEL_7E5E_:
 	or a
 	jp z, +
 	ld hl, (v_nuraiOrOldManEntityAnimationDescriptorTemporaryPointer)
-	call _LABEL_280E_
+	call tickEntityAnimation
 	ld hl, _RAM_C700_
 	ld (_RAM_C009_), hl
 	call _LABEL_26D7_
