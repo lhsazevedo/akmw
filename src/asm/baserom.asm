@@ -5038,7 +5038,7 @@ _LABEL_283B_:
 
 ; Jump Table from 2892 to 2957 (99 entries, indexed by _RAM_CF80_)
 entityTypeJumpTable:
-.dw entityTypeJumpTableAlexEntry _LABEL_4490_ _LABEL_4446_ _LABEL_44D4_ _LABEL_4690_ _LABEL_46C9_ _LABEL_4720_ _LABEL_488C_
+.dw updateAlex _LABEL_4490_ _LABEL_4446_ _LABEL_44D4_ _LABEL_4690_ _LABEL_46C9_ _LABEL_4720_ _LABEL_488C_
 .dw _LABEL_476F_ _LABEL_486A_ _LABEL_7626_ _LABEL_7989_ _LABEL_79A1_ _LABEL_7A90_ _LABEL_7B35_ _LABEL_49F2_
 .dw _LABEL_4A2D_ _LABEL_4A39_ _LABEL_4A45_ _LABEL_4984_ _LABEL_4B23_ _LABEL_4A51_ _LABEL_4AEE_ _LABEL_966_
 .dw _LABEL_74CE_ _LABEL_78A5_ _LABEL_491B_ _LABEL_714A_ _LABEL_7796_ _LABEL_7816_ _LABEL_78A8_ _LABEL_4EEF_
@@ -5053,119 +5053,55 @@ entityTypeJumpTable:
 .dw _LABEL_3EC1_ _LABEL_39DB_ _LABEL_3F03_
 
 ; 1st entry of Jump Table from 2892 (indexed by _RAM_CF80_)
-entityTypeJumpTableAlexEntry:
-	ld hl, $0000
-	ld (v_horizontalScrollSpeed), hl
-	ld (v_verticalScrollSpeed), hl
-	bit 7, (ix + Entity.flags)
-	call nz, _LABEL_2F41_
-	ld a, (v_entities.1.state)
-	ld hl, alexStateHandlersPointers
-	rst $20	; loadAthJumptablePointer
-	ld a, (v_entities.1.state)
-	cp ALEX_DEAD
-	ret z
-	bit 4, (ix + Entity.unknown8)
-	ret nz
-	ld a, (v_level)
-	ld hl, _DATA_3F3A_ - 2
-	rst $20	; loadAthJumptablePointer
-	ret
+.INC "entities/alex/updater.asm"
 
 ; Jump Table from 2982 to 29B9 (28 entries, indexed by v_entities.1.state)
 alexStateHandlersPointers:
-.dw alexInvincibleStateHandler
+.dw alexState0Handler
 .dw alexIdleStateHandler
 .dw alexWalkingStateHandler
 .dw alexFallingStateHandler
 .dw alexCrouchedStateHandler
-.dw alexSwimingStateHandler _LABEL_36F1_ _LABEL_336F_
-.dw _LABEL_2FA7_ _LABEL_302F_ _LABEL_3256_ _LABEL_3094_ _LABEL_3107_ _LABEL_3180_ _LABEL_31A8_ _LABEL_2F8A_
-.dw _LABEL_3340_ _LABEL_31CC_ _LABEL_3223_ _LABEL_38C5_ _LABEL_3468_ _LABEL_3919_ _LABEL_3961_ _LABEL_39A5_
-.dw _LABEL_3949_ _LABEL_39B4_ _LABEL_39D4_ _LABEL_38C2_
+.dw alexSwimingStateHandler
+.dw alexHandler_36F1
+.dw alexHandler_336F
+.dw alexHandler_2FA7
+.dw alexHandler_302F
+.dw alexHandler_3256
+.dw alexHandler_3094
+.dw alexHandler_3107
+.dw alexHandler_3180
+.dw alexHandler_31A8
+.dw alexHandler_2F8A
+.dw alexHandler_3340
+.dw alexHandler_31CC
+.dw alexHandler_3223
+.dw alexHandler_38C5
+.dw alexHandler_3468
+.dw alexHandler_3919
+.dw alexHandler_3961
+.dw alexHandler_39A5
+.dw alexHandler_3949
+.dw alexHandler_39B4
+.dw alexHandler_39D4
+.dw alexHandler_38C2
 
-; 1st entry of Jump Table from 2982 (indexed by v_entities.1.state)
-alexInvincibleStateHandler:
-	ld (ix + Entity.xPos.high), $80
-	ld (ix + Entity.yPos.high), $60
-_LABEL_29C2_:
-	set 0, (ix + Entity.flags)
-	ld (ix + Entity.flags), $00
-	ld (ix + Entity.unknown3), $03
-	ld (ix + Entity.animationTimer), $01
-	ld a, (v_shouldAlexStartWalkingtoNextScreen)
-	or a
-	jp nz, _LABEL_2A84_
-	ld a, (_RAM_C051_)
-	or a
-	jr nz, _LABEL_2A49_
-	ld a, (_RAM_C054_)
-	cp $07
-	jr z, +
-	cp $09
-	jr z, ++
-	ld (ix + Entity.unknown11), $18
-	ld (ix + Entity.unknown9), $08
-	call _LABEL_2BFA_
-	ret
-
-+:
-	ld a, $85
-	ld (v_soundControl), a
-	ld hl, $0040
-	ld (v_entities.1.xSpeed), hl
-	ld (ix+6), $04
-	ld (ix+31), $18
-	ld (ix+29), $0F
-	ld (ix+26), $08
-	ld hl, _DATA_8F2A_
-	jp _LABEL_41AA_
-
-++:
-	ld (ix+26), $06
-	ld a, $88
-	ld (v_soundControl), a
-	ld a, (v_entities.1.yPos.high)
-	sub $10
-	ld (v_entities.1.yPos.high), a
-	ld (ix+6), $04
-	ld (ix+31), $18
-	ld (ix+29), $08
-	ld a, (v_level)
-	cp $0D
-	ld hl, _DATA_9011_
-	jp nz, _LABEL_41AA_
-	ld (ix+20), $00
-	ld hl, _DATA_8F7B_
-	jp _LABEL_41AA_
-
-_LABEL_2A49_:
-	ld hl, $0040
-	ld (v_entities.1.xSpeed), hl
-	ld (ix+14), $90
-	ld (ix+6), $04
-	ld (ix+31), $10
-	ld (ix+29), $0F
-	ld (ix+26), $0B
-	ld a, $08
-	ld (_RAM_C054_), a
-	ld hl, _DATA_9152_
-	jp _LABEL_41AA_
+.INC "entities/alex/stateHandlers.asm"
 
 _LABEL_2A6E_:
-	ld (ix+6), $05
-	ld (ix+31), $18
-	ld (ix+29), $08
-	ld (ix+26), $07
+	ld (ix + Entity.animationTimerResetValue), $05
+	ld (ix + Entity.unknown11), $18
+	ld (ix + Entity.unknown9), $08
+	ld (ix + Entity.state), $07
 	ld hl, _DATA_90BC_
 	jp _LABEL_41AA_
 
 _LABEL_2A84_:
-	ld (ix+6), $05
-	ld (ix+31), $18
-	ld (ix+29), $08
-	ld (ix+26), $14
-	ld (ix+14), $98
+	ld (ix + Entity.animationTimerResetValue), $05
+	ld (ix + Entity.unknown11), $18
+	ld (ix + Entity.unknown9), $08
+	ld (ix + Entity.state), $14
+	ld (ix + Entity.yPos.high), $98
 	ld hl, _DATA_90BC_
 	jp _LABEL_41AA_
 
@@ -5762,7 +5698,7 @@ _LABEL_2F41_:
 	ret
 
 ; 16th entry of Jump Table from 2982 (indexed by v_entities.1.state)
-_LABEL_2F8A_:
+alexHandler_2F8A:
 	ld hl, _DATA_8D23_
 	call _LABEL_4189_
 	ld a, (v_entities.1.yPos.high)
@@ -5779,7 +5715,7 @@ _LABEL_2F8A_:
 	ret
 
 ; 9th entry of Jump Table from 2982 (indexed by v_entities.1.state)
-_LABEL_2FA7_:
+alexHandler_2FA7:
 	ld hl, $0000
 	ld (v_entities.1.ySpeed), hl
 	ld de, $0C0C
@@ -5843,7 +5779,7 @@ _LABEL_301D_:
 	ld hl, _DATA_8F60_
 	call _LABEL_41AA_
 ; 10th entry of Jump Table from 2982 (indexed by v_entities.1.state)
-_LABEL_302F_:
+alexHandler_302F:
 	ld de, $0C0C
 	call _LABEL_3C48_
 	bit 2, (ix+28)
@@ -5886,7 +5822,7 @@ _LABEL_302F_:
 	jp _LABEL_2FD5_
 
 ; 12th entry of Jump Table from 2982 (indexed by v_entities.1.state)
-_LABEL_3094_:
+alexHandler_3094:
 	ld hl, $0000
 	ld (v_entities.1.ySpeed), hl
 	ld de, $0C0C
@@ -5936,7 +5872,7 @@ _LABEL_30F5_:
 	ld hl, _DATA_9137_
 	call _LABEL_41AA_
 ; 13th entry of Jump Table from 2982 (indexed by v_entities.1.state)
-_LABEL_3107_:
+alexHandler_3107:
 	ld de, $0C0C
 	call _LABEL_3C48_
 	bit 0, (ix+28)
@@ -5988,7 +5924,7 @@ _LABEL_3107_:
 	jp _LABEL_30C5_
 
 ; 14th entry of Jump Table from 2982 (indexed by v_entities.1.state)
-_LABEL_3180_:
+alexHandler_3180:
 	ld a, (v_shopEntranceHorizontalPosition)
 	ld hl, (v_horizontalScroll)
 	add a, h
@@ -6008,7 +5944,7 @@ _LABEL_3180_:
 	ret
 
 ; 15th entry of Jump Table from 2982 (indexed by v_entities.1.state)
-_LABEL_31A8_:
+alexHandler_31A8:
 	dec (ix+27)
 	jr nz, ++
 	call _LABEL_3B56_
@@ -6032,7 +5968,7 @@ _LABEL_31A8_:
 	jp _LABEL_4189_
 
 ; 18th entry of Jump Table from 2982 (indexed by v_entities.1.state)
-_LABEL_31CC_:
+alexHandler_31CC:
 	ld hl, $0000
 	ld (v_entities.1.ySpeed), hl
 	ld a, (v_shopEntranceHorizontalPosition)
@@ -6070,7 +6006,7 @@ _LABEL_31CC_:
 	ret
 
 ; 19th entry of Jump Table from 2982 (indexed by v_entities.1.state)
-_LABEL_3223_:
+alexHandler_3223:
 	ld hl, $0300
 	ld (v_verticalScrollSpeed), hl
 	dec (ix+27)
@@ -6096,7 +6032,7 @@ _LABEL_3230_:
 	ret
 
 ; 11th entry of Jump Table from 2982 (indexed by v_entities.1.state)
-_LABEL_3256_:
+alexHandler_3256:
 	call _LABEL_3B56_
 	ld (v_entities.1.ySpeed), hl
 	ld a, (v_inputData)
@@ -6214,7 +6150,7 @@ _LABEL_3320_:
 	ret
 
 ; 17th entry of Jump Table from 2982 (indexed by v_entities.1.state)
-_LABEL_3340_:
+alexHandler_3340:
 	ld a, (v_scrollFlags)
 	and $0F
 	ret nz
@@ -6237,7 +6173,7 @@ _LABEL_335F_:
 	ret
 
 ; 8th entry of Jump Table from 2982 (indexed by v_entities.1.state)
-_LABEL_336F_:
+alexHandler_336F:
 	call _LABEL_3B56_
 	ld (v_entities.1.ySpeed), hl
 	res 4, (ix+20)
@@ -6358,7 +6294,7 @@ _LABEL_345E_:
 	jp _LABEL_2CA1_
 
 ; 21st entry of Jump Table from 2982 (indexed by v_entities.1.state)
-_LABEL_3468_:
+alexHandler_3468:
 	ld hl, $0180
 	ld (v_entities.1.xSpeed), hl
 	set 2, (ix+20)
@@ -6673,7 +6609,7 @@ _LABEL_369A_:
 	jp _LABEL_3BB1_
 
 ; 7th entry of Jump Table from 2982 (indexed by v_entities.1.state)
-_LABEL_36F1_:
+alexHandler_36F1:
 	bit 6, (ix+28)
 	jr nz, +
 	ld a, (_RAM_C007_)
@@ -6890,11 +6826,11 @@ _LABEL_389C_:
 	ret
 
 ; 28th entry of Jump Table from 2982 (indexed by v_entities.1.state)
-_LABEL_38C2_:
+alexHandler_38C2:
 	jp _LABEL_3B56_
 
 ; 20th entry of Jump Table from 2982 (indexed by v_entities.1.state)
-_LABEL_38C5_:
+alexHandler_38C5:
 	call _LABEL_3B56_
 	ld hl, _DATA_9122_
 	call _LABEL_41AA_
@@ -6928,7 +6864,7 @@ _DATA_3904_:
 .db $00 $DD $36 $06 $14
 
 ; 22nd entry of Jump Table from 2982 (indexed by v_entities.1.state)
-_LABEL_3919_:
+alexHandler_3919:
 	call _LABEL_3928_
 	ld a, (v_entities.1.jankenMatchDecision)
 	ld (_RAM_C677_), a
@@ -6955,7 +6891,7 @@ _LABEL_3928_:
 	ret
 
 ; 25th entry of Jump Table from 2982 (indexed by v_entities.1.state)
-_LABEL_3949_:
+alexHandler_3949:
 	ld a, (ix+23)
 	add a, a
 	ld e, a
@@ -6973,7 +6909,7 @@ _DATA_395B_:
 .dw _DATA_8E9D_ _DATA_8EBE_ _DATA_8EDF_
 
 ; 23rd entry of Jump Table from 2982 (indexed by v_entities.1.state)
-_LABEL_3961_:
+alexHandler_3961:
 	ld hl, $0000
 	ld (v_entities.1.ySpeed), hl
 	ld a, (v_entities.1.xPos.high)
@@ -7004,7 +6940,7 @@ _LABEL_3961_:
 	ret
 
 ; 24th entry of Jump Table from 2982 (indexed by v_entities.1.state)
-_LABEL_39A5_:
+alexHandler_39A5:
 	call _LABEL_3928_
 	ld a, (v_entities.1.jankenMatchDecision)
 	ld (_RAM_C677_), a
@@ -7012,7 +6948,7 @@ _LABEL_39A5_:
 	jp _LABEL_4189_
 
 ; 26th entry of Jump Table from 2982 (indexed by v_entities.1.state)
-_LABEL_39B4_:
+alexHandler_39B4:
 	call _LABEL_3B56_
 	bit 6, (ix+20)
 	jr nz, +
@@ -7030,7 +6966,7 @@ _LABEL_39B4_:
 	ret
 
 ; 27th entry of Jump Table from 2982 (indexed by v_entities.1.state)
-_LABEL_39D4_:
+alexHandler_39D4:
 	call _LABEL_3B56_
 	ld (v_entities.1.ySpeed), hl
 	ret
