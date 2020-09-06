@@ -1,17 +1,14 @@
 #include <vector>
-#include <map>
 #include <cstdint>
-#include <cstring>
+#include <string.h>
+#include <stdio.h>
 
-// // Forward declares
-// void deinterleave(std::vector<uint8_t>& buf, uint32_t interleaving);
-// void compressTile(const std::vector<uint8_t>& src, std::vector<uint8_t>& dest);
-// Forward declares
 const uint8_t MAX_RUN_SIZE = 0x7f;
 const uint8_t RLE_MASK = 0x00;
 const uint8_t RAW_MASK = 0x80;
 
-
+	// Forward declares
+uint32_t compress(uint8_t* source, uint32_t sourceLen, uint8_t* dest, uint32_t destLen, uint32_t interleaving);
 void deinterleave(std::vector<uint8_t>& buf, uint32_t interleaving);
 void compressPlane(std::vector<uint8_t>& dest, std::vector<uint8_t>::const_iterator source, std::vector<uint8_t>::const_iterator sourceEnd);
 
@@ -28,10 +25,11 @@ const char* PSGaiden_getExt()
 	return "psgcompr";
 }
 
-int PSGaiden_compressTiles(uint8_t* source, uint32_t sourceLen, uint8_t* dest, uint32_t destLen)
+int PSGaiden_compressTiles(uint8_t* source, uint32_t numTiles, uint8_t* dest, uint32_t destLen)
 {
+    uint32_t sourceLen = numTiles * 32;
     uint32_t interleaving = 4;
-    // Compress sourceLen bytes from source to dest;
+	// Compress sourceLen bytes from source to dest;
     // return length, or 0 if destLen is too small, or -1 if there is an error
 
     // Copy the data into a buffer
@@ -201,12 +199,15 @@ void compressPlane(std::vector<uint8_t>& destination, std::vector<uint8_t>::cons
     if (blocks.size() > 2)
     {
         auto previous = blocks.begin();
-        for (auto current = previous + 1; current != blocks.end(); /* increment in loop */)
+        auto next = previous;
+        for (auto current = previous + 1; current < blocks.end(); /* increment in loop */)
         {
-            if ((previous->type == Block::Raw && current->type == Block::Run && current->data.size() == 2) ||
-                (previous->type == Block::Raw && current->type == Block::Raw) ||
-                (previous->type == Block::Run && previous->data.size() == 2 && current->type == Block::Raw))
-            {
+            next = current + 1;
+            if (
+                (next->type == Block::Raw && previous->type == Block::Raw && current->type == Block::Run && current->data.size() == 2)
+                || (previous->type == Block::Raw && current->type == Block::Raw)
+                // || (previous->type == Block::Run && previous->data.size() == 2 && current->type == Block::Raw)
+            ) {
                 // Combine the data
                 previous->data.insert(previous->data.end(), current->data.begin(), current->data.end());
                 previous->type = Block::Raw;
