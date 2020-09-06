@@ -5043,8 +5043,8 @@ entityTypeJumpTable:
 .dw _LABEL_4A2D_ _LABEL_4A39_ _LABEL_4A45_ _LABEL_4984_ _LABEL_4B23_ _LABEL_4A51_ _LABEL_4AEE_ _LABEL_966_
 .dw _LABEL_74CE_ _LABEL_78A5_ _LABEL_491B_ _LABEL_714A_ _LABEL_7796_ _LABEL_7816_ _LABEL_78A8_ _LABEL_4EEF_
 .dw _LABEL_2439_ _LABEL_4E9D_ _LABEL_4E30_ _LABEL_4C2E_ _LABEL_52E7_ _LABEL_5360_ _LABEL_53CF_ _LABEL_5451_
-.dw _LABEL_55F3_ _LABEL_557A_ _LABEL_5684_ _LABEL_4FF1_ entityTypeJumpTableMonsterbirdEntry _LABEL_515F_ _LABEL_56CC_ _LABEL_50E1_
-.dw _LABEL_57CE_ _LABEL_5883_ entityTypeJumpTableMonsterbirdLeftEntry _LABEL_5132_ _LABEL_51F3_ _LABEL_4F82_ _LABEL_5723_ _LABEL_5908_
+.dw _LABEL_55F3_ _LABEL_557A_ _LABEL_5684_ _LABEL_4FF1_ updateMonsterbirdLeft _LABEL_515F_ _LABEL_56CC_ _LABEL_50E1_
+.dw _LABEL_57CE_ _LABEL_5883_ updateMonsterbirdRight _LABEL_5132_ _LABEL_51F3_ _LABEL_4F82_ _LABEL_5723_ _LABEL_5908_
 .dw _LABEL_5996_ _LABEL_59C8_ _LABEL_59FB_ _LABEL_5A31_ _LABEL_5D94_ _LABEL_5E14_ _LABEL_5E7B_ _LABEL_5EBA_
 .dw _LABEL_5F05_ _LABEL_5F4C_ _LABEL_5629_ _LABEL_5BD1_ _LABEL_60BC_ _LABEL_5C36_ _LABEL_5CB0_ _LABEL_5CF7_
 .dw _LABEL_5D36_ _LABEL_5515_ _LABEL_61CD_ _LABEL_6280_ _LABEL_5A96_ _LABEL_5AE6_ _LABEL_5B37_ _LABEL_607E_
@@ -10050,78 +10050,7 @@ _LABEL_4FF1_:
 	ld (ix+23), $00
 	ret
 
-; 45th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
-entityTypeJumpTableMonsterbirdEntry:
-	; Reset animation if bit 0 is set
-	bit 0, (ix + Entity.flags)
-	jr nz, +
-	set 0, (ix + Entity.flags)
-	ld (ix + Entity.unknown3), $04
-	ld (ix + Entity.animationTimer), $10
-	ld (ix + Entity.animationTimerResetValue), $10
-	jr ++
-
-+:
-	ld a, (ix + Entity.isOffScreenFlags.low)
-	or (ix + Entity.isOffScreenFlags.high)
-	jr nz, ++
-	; Skip to ++ if monster is offscreen
-	ld (ix+ Entity.xSpeed.high), $FF
-	ld (ix+ Entity.xSpeed), $80
-	set 1, (ix + Entity.flags)
-	call _LABEL_7D99_
-	call _LABEL_7D0B_
-	jp nc, _LABEL_55A5_
-	ld de, $0100
-	ld a, $08
-	call _LABEL_3A03_
-	jr nc, ++
-	ld (ix + Entity.type), ENTITY_MONSTERBIRD_RIGHT
-	ld (ix + Entity.xSpeed.high), $00
-	ld (ix + Entity.xSpeed.low), $80
-++:
-	ld hl, _DATA_81B7_
-	; Handle animation
-	; Ticks timer, advances frames, always set the sprite descriptor
-	jp handleEntityAnimation
-
-; 51st entry of Jump Table from 2892 (indexed by _RAM_CF80_)
-entityTypeJumpTableMonsterbirdLeftEntry:
-	; Reset animation if bit 0 is set
-	bit 0, (ix+1)
-	jr nz, +
-	set 0, (ix+1)
-	ld (ix+20), $04
-	ld (ix+5), $10
-	ld (ix+6), $10
-	jr ++
-
-+:
-	ld a, (ix+9)
-	or (ix+10)
-	jr nz, ++
-	; Skip to ++ if monster is offscreen
-	ld (ix+16), $00
-	ld (ix+15), $80
-	set 1, (ix+1)
-	ld a, (ix+9)
-	or (ix+10)
-	jr nz, ++
-	; Do something (if alex state is $0F)
-	call _LABEL_7D99_
-	; Something related to alex state being $05
-	call _LABEL_7D0B_
-	jp nc, _LABEL_55A5_
-	ld de, $0118
-	ld a, $08
-	call _LABEL_3A03_
-	jr nc, ++
-	ld (ix+0), ENTITY_MONSTERBIRD_LEFT
-	ld (ix+16), $FF
-	ld (ix+15), $80
-++:
-	ld hl, monsterbirdRightAnimationDescriptor ; unique
-	jp handleEntityAnimation
+.INC "entities/monsterbird/updater.asm"
 
 ; 48th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_50E1_:
@@ -15225,7 +15154,7 @@ _LABEL_7C40_:
 	ret
 
 _LABEL_7C4B_:
-	ld a, (ix+12)
+	ld a, (ix + Entity.xPos.high)
 	add a, e
 _LABEL_7C4F_:
 	ld hl, (v_horizontalScroll)
@@ -15235,7 +15164,7 @@ _LABEL_7C4F_:
 	rra
 	and $3E
 	ld e, a
-	ld a, (ix+14)
+	ld a, (ix + Entity.yPos.high)
 	add a, d
 -:
 	ld hl, (v_verticalScroll)
@@ -15853,39 +15782,7 @@ _DATA_8191_:
 .db $01 $4A $09 $4B $F8 $4C $00 $4D $08 $4E $F8 $4F $00 $50 $08 $51
 .db $F9 $52 $01 $53 $09 $54
 
-; Data from 81B7 to 81B7 (1 bytes)
-_DATA_81B7_:
-.db $02
-
-; Pointer Table from 81B8 to 81BB (2 entries, indexed by _RAM_CF84_)
-.dw _DATA_81BC_ _DATA_81D0_
-
-; 1st entry of Pointer Table from 81B8 (indexed by _RAM_CF84_)
-; Data from 81BC to 81CF (20 bytes)
-_DATA_81BC_:
-.db $06 $54 $00 $00 $00 $08 $08 $08 $00 $7D $08 $7E $10 $7F $00 $80
-.db $08 $81 $10 $82
-
-; 2nd entry of Pointer Table from 81B8 (indexed by _RAM_CF84_)
-; Data from 81D0 to 81E3 (20 bytes)
-_DATA_81D0_:
-.db $06 $54 $00 $00 $00 $08 $08 $08 $00 $83 $08 $84 $10 $85 $02 $86
-.db $0A $87 $12 $88
-
-; Data from 81E4 to 81E4 (1 bytes)
-monsterbirdRightAnimationDescriptor:
-.db $02
-
-.dw monsterbirdRightSpriteDescriptor1
-.dw monsterbirdRightSpriteDescriptor2
-
-monsterbirdRightSpriteDescriptor1:
-.db $06 $58 $00 $00 $00 $08 $08 $08 $10 $89 $08 $8A $00 $8B $10 $8C
-.db $08 $8D $00 $8E
-
-monsterbirdRightSpriteDescriptor2:
-.db $06 $58 $00 $00 $00 $08 $08 $08 $10 $8F $08 $90 $00 $91 $0E $92
-.db $06 $93 $FE $94
+.INC "entities/monsterbird/sprites.asm"
 
 ; Data from 8211 to 8211 (1 bytes)
 _DATA_8211_:

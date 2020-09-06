@@ -63,3 +63,9 @@
     scrollability db ; 6701
     metatileNameTablePointer dw ; 6703
 .ENDST
+
+.STRUCT TileDescriptor
+    yPos db
+    xPos db
+    characterCode db
+.ENDST
