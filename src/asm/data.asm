@@ -6448,7 +6448,7 @@ _DATA_1FC84_:
 
 ; 1st entry of Pointer Table from 1112 (indexed by v_level)
 ; Data from 1FC9E to 1FCBD (32 bytes)
-_DATA_1FC9E_:
+mtEthernalStage1Palette:
 .db $30 $3F $37 $3B $0F $0B $00 $2F $06 $0B $01 $3E $38 $0C $08 $3C
 .db $30 $3F $05 $0B $03 $02 $00 $30 $3C $0C $0F $08 $3A $36 $03 $0A
 
