@@ -10,14 +10,35 @@ INITIAL_LEVEL = $01 $01
 INITIAL_LIFES = $03
 INITIAL_MONEY = $00 $00 $00
 
+; Input pins
+JOY_UP    = 1
+JOY_DOWN  = 1 << 1
+JOY_LEFT  = 1 << 2
+JOY_RIGHT = 1 << 3
+JOY_FIREA = 1 << 4
+JOY_FIREB = 1 << 5
+
+JOY_UP_BIT = 0
+JOY_DOWN_BIT = 1
+JOY_LEFT_BIT = 2
+JOY_RIGHT_BIT = 3
+JOY_BTN1_BIT = 4
+JOY_BTN2_BIT = 5
+
 ; Alex states
-ALEX_STATE0      = $00
-ALEX_IDLE        = $01
-ALEX_WALKING     = $02
-ALEX_FALLING     = $03
-ALEX_CROUCHED    = $04
-ALEX_SWIMING     = $05
-ALEX_DEAD        = $0F
+ALEX_SPAWNING                 = $00
+ALEX_IDLE                     = $01
+ALEX_WALKING                  = $02
+ALEX_IN_AIR                   = $03
+ALEX_CROUCHED                 = $04
+ALEX_SWIMING                  = $05
+ALEX_FLYING_PETICOPTER        = $06
+ALEX_RIDING_MOTORCYCLE        = $08
+ALEX_RIDING_MOTORCYCLE_IN_AIR = $09
+ALEX_RIDING_BOAT              = $0B
+ALEX_RIDING_BOAT_IN_AIR       = $0C 
+ALEX_DEAD                     = $0F
+ALEX_AUTO_WALKING_RIGHT       = $14
 
 
 ; Entity types

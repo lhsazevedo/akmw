@@ -1,67 +1,67 @@
 ; 1st entry of Jump Table from 2982 (indexed by v_entities.1.state)
-alexState0Handler:
+updateAlexSpawningAtCenter:
 	ld (ix + Entity.xPos.high), $80
 	ld (ix + Entity.yPos.high), $60
-_LABEL_29C2_:
+updateAlexSpawning:
 	set 0, (ix + Entity.flags)
 	ld (ix + Entity.flags), $00
 	ld (ix + Entity.unknown3), $03
 	ld (ix + Entity.animationTimer), $01
 	ld a, (v_shouldAlexStartWalkingtoNextScreen)
 	or a
-	jp nz, _LABEL_2A84_
+	jp nz, startAutoWalkRight
 	ld a, (_RAM_C051_)
 	or a
-	jr nz, _LABEL_2A49_
+	jr nz, _spawnRidingBoat
 	ld a, (_RAM_C054_)
 	cp $07
-	jr z, +
+	jr z, _spawnRidingMotorcycle
 	cp $09
-	jr z, ++
+	jr z, _spawnFlyingPeticopter
 	ld (ix + Entity.unknown11), $18
 	ld (ix + Entity.unknown9), $08
 	call _LABEL_2BFA_
 	ret
 
-+:
+_spawnRidingMotorcycle:
 	ld a, $85
 	ld (v_soundControl), a
 	ld hl, $0040
 	ld (v_entities.1.xSpeed), hl
-	ld (ix+6), $04
-	ld (ix+31), $18
-	ld (ix+29), $0F
-	ld (ix+26), $08
+	ld (ix + Entity.animationTimerResetValue), $04
+	ld (ix + Entity.unknown11), $18
+	ld (ix + Entity.unknown9), $0F
+	ld (ix + Entity.state), ALEX_RIDING_MOTORCYCLE
 	ld hl, _DATA_8F2A_
 	jp _LABEL_41AA_
 
-++:
-	ld (ix+26), $06
+_spawnFlyingPeticopter:
+	ld (ix + Entity.state), ALEX_FLYING_PETICOPTER
 	ld a, $88
 	ld (v_soundControl), a
 	ld a, (v_entities.1.yPos.high)
 	sub $10
 	ld (v_entities.1.yPos.high), a
-	ld (ix+6), $04
-	ld (ix+31), $18
-	ld (ix+29), $08
+	ld (ix + Entity.animationTimerResetValue), $04
+	ld (ix + Entity.unknown11), $18
+	ld (ix + Entity.unknown9), $08
 	ld a, (v_level)
 	cp $0D
 	ld hl, _DATA_9011_
 	jp nz, _LABEL_41AA_
-	ld (ix+20), $00
+	ld (ix + Entity.unknown3), $00
 	ld hl, _DATA_8F7B_
 	jp _LABEL_41AA_
 
 
-_LABEL_2A49_:
+_spawnRidingBoat:
 	ld hl, $0040
 	ld (v_entities.1.xSpeed), hl
-	ld (ix+14), $90
-	ld (ix+6), $04
-	ld (ix+31), $10
-	ld (ix+29), $0F
-	ld (ix+26), $0B
+	ld (ix + Entity.yPos.high), $90
+	ld (ix + Entity.animationTimerResetValue), $04
+	ld (ix + Entity.unknown11), $10
+	ld (ix + Entity.unknown9), $0F
+	ld (ix + Entity.state), ALEX_RIDING_BOAT
 	ld a, $08
 	ld (_RAM_C054_), a
 	ld hl, _DATA_9152_

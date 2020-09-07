@@ -1710,7 +1710,7 @@ _LABEL_C43_:
 	inc hl
 	ld a, (hl)
 	ld (ix+14), a
-	call _LABEL_29C2_
+	call updateAlexSpawning
 	call _LABEL_2694_
 	ld a, (v_level)
 	ld hl, _DATA_D2C_ - 2
@@ -3113,7 +3113,7 @@ _LABEL_1735_:
 	ld (ix+14), d
 _LABEL_1874_:
 	ld ix, v_entity1
-	call _LABEL_29C2_
+	call updateAlexSpawning
 	call _LABEL_2694_
 	ld de, $8026
 	rst $08	; _LABEL_8_
@@ -3574,7 +3574,7 @@ _LABEL_1C33_:
 	ld bc, $0020
 	ldir
 	ld ix, v_entity1
-	call _LABEL_29C2_
+	call updateAlexSpawning
 	call _LABEL_2694_
 	call _LABEL_10FF_
 	ld a, $83
@@ -3667,7 +3667,7 @@ _LABEL_1D04_:
 	ld (ix+0), $01
 	ld (ix+12), $20
 	ld (ix+14), $88
-	call _LABEL_29C2_
+	call updateAlexSpawning
 	call _LABEL_2694_
 	ld a, (v_shopSelectedItemIndex)
 	or a
@@ -3818,7 +3818,7 @@ _LABEL_1EAF_:
 	bit 6, (hl)
 	jr z, +
 	ld a, (v_entities.1.state)
-	cp ALEX_FALLING
+	cp ALEX_IN_AIR 
 	ret z
 	res 6, (hl)
 	xor a
@@ -5057,27 +5057,27 @@ entityTypeJumpTable:
 
 ; Jump Table from 2982 to 29B9 (28 entries, indexed by v_entities.1.state)
 alexStateHandlersPointers:
-.dw alexState0Handler
-.dw alexIdleStateHandler
-.dw alexWalkingStateHandler
-.dw alexFallingStateHandler
-.dw alexCrouchedStateHandler
-.dw alexSwimingStateHandler
-.dw alexHandler_36F1
+.dw updateAlexSpawningAtCenter
+.dw updateAlexIdle
+.dw updateAlexWalking
+.dw updateAlexInAir
+.dw updateAlexCrouched
+.dw updateAlexSwiming
+.dw updateAlexFlyingPeticopter
 .dw alexHandler_336F
-.dw alexHandler_2FA7
+.dw updateAlexRidingMotorcycle
 .dw alexHandler_302F
 .dw alexHandler_3256
-.dw alexHandler_3094
-.dw alexHandler_3107
+.dw updateAlexRidingBoat
+.dw updateAlexRidingBoatInAir
 .dw alexHandler_3180
 .dw alexHandler_31A8
-.dw alexHandler_2F8A
+.dw updateAlexDead
 .dw alexHandler_3340
 .dw alexHandler_31CC
 .dw alexHandler_3223
 .dw alexHandler_38C5
-.dw alexHandler_3468
+.dw updateAutoWalkingRight
 .dw alexHandler_3919
 .dw alexHandler_3961
 .dw alexHandler_39A5
@@ -5086,7 +5086,7 @@ alexStateHandlersPointers:
 .dw alexHandler_39D4
 .dw alexHandler_38C2
 
-.INC "entities/alex/stateHandlers.asm"
+.INC "entities/alex/updaters/updateSpawning.asm"
 
 _LABEL_2A6E_:
 	ld (ix + Entity.animationTimerResetValue), $05
@@ -5096,95 +5096,47 @@ _LABEL_2A6E_:
 	ld hl, _DATA_90BC_
 	jp _LABEL_41AA_
 
-_LABEL_2A84_:
+startAutoWalkRight:
 	ld (ix + Entity.animationTimerResetValue), $05
 	ld (ix + Entity.unknown11), $18
 	ld (ix + Entity.unknown9), $08
-	ld (ix + Entity.state), $14
+	ld (ix + Entity.state), ALEX_AUTO_WALKING_RIGHT
 	ld (ix + Entity.yPos.high), $98
 	ld hl, _DATA_90BC_
 	jp _LABEL_41AA_
 
 ; 2nd entry of Jump Table from 2982 (indexed by v_entities.1.state)
-alexIdleStateHandler:
-	call _LABEL_3B56_
-	ld (v_entities.1.ySpeed), hl
-	bit 4, (ix+28)
-	jp nz, _LABEL_3E0B_
-	call _LABEL_3C45_
-	ld a, (v_entities.1.state)
-	cp ALEX_IDLE
-	ret nz
-	ld de, $1904
-	ld a, (v_entities.1.isOffScreenFlags.high)
-	or a
-	jr z, +
-	call _LABEL_3A4F_
-	jp nc, _LABEL_2CA1_
-	jr ++
+.INC "entities/alex/updaters/updateAlexIdle.asm"
 
-+:
-	ld a, $08
-	call _LABEL_3A41_
-	jp nc, _LABEL_2CA1_
-	call _LABEL_3D07_
-	ld a, (v_entities.1.state)
-	cp ALEX_IDLE
-	ret nz
-++:
-	ld a, (_RAM_C213_)
-	or a
-	jp nz, _LABEL_3498_
-	bit 0, (ix+28)
-	jr z, +
-	bit 1, (ix+28)
-	jr nz, +
-	call _LABEL_462E_
-	ret nz
-	jp _LABEL_2C04_
-
-+:
-	ld a, (_RAM_C007_)
-	bit 5, a
-	jp nz, _LABEL_4508_
-	bit 4, a
-	jp nz, _LABEL_2CAE_
-	ld a, (v_inputData)
-	bit 2, a
-	jr nz, _LABEL_2B1F_
-	bit 3, a
-	jr nz, _LABEL_2B2C_
-	bit 1, a
-	ret z
 _LABEL_2B0B_:
-	ld (ix+26), $04
-	bit 0, (ix+20)
+	ld (ix + Entity.state), ALEX_CROUCHED
+	bit 0, (ix + Entity.unknown3)
 	ld hl, _DATA_8DA7_
 	jp z, _LABEL_41AA_
 	ld hl, _DATA_8DBC_
 	jp _LABEL_41AA_
 
 _LABEL_2B1F_:
-	res 1, (ix+20)
+	res 1, (ix + Entity.unknown3)
 --:
-	res 0, (ix+20)
-	ld (ix+26), $02
+	res 0, (ix + Entity.unknown3)
+	ld (ix + Entity.state), ALEX_WALKING
 	ret
 
 _LABEL_2B2C_:
-	set 1, (ix+20)
+	set 1, (ix + Entity.unknown3)
 -:
-	set 0, (ix+20)
-	ld (ix+26), $02
+	set 0, (ix + Entity.unknown3)
+	ld (ix + Entity.state), ALEX_WALKING
 	ret
 
 _LABEL_2B39_:
-	bit 1, (ix+20)
+	bit 1, (ix + Entity.unknown3)
 	jr z, --
 	jr -
 
 ; 3rd entry of Jump Table from 2982 (indexed by v_entities.1.state)
-alexWalkingStateHandler:
+updateAlexWalking:
 	ld hl, $0000
 	ld (v_entities.1.ySpeed), hl
 	bit 4, (ix+28)
@@ -5239,19 +5191,19 @@ alexWalkingStateHandler:
 ++:
 	call _LABEL_3B56_
 	ld a, (v_inputData)
-	bit 1, a
+	bit JOY_DOWN_BIT, a
 	jp nz, _LABEL_2B0B_
-	bit 3, a
+	bit JOY_RIGHT_BIT, a
 	jp nz, _LABEL_2B2C_
-	bit 2, a
+	bit JOY_LEFT_BIT, a
 	jr nz, _LABEL_2BDC_
 	jp _LABEL_2BFA_
 
 +++:
 	ld a, (v_inputData)
-	bit 2, a
+	bit JOY_LEFT_BIT, a
 	jr z, +
-	set 2, (ix+20)
+	set 2, (ix + Entity.unknown3)
 	ld de, $FFC0
 	ld bc, $FE00
 	call _LABEL_3B2B_
@@ -5260,11 +5212,11 @@ _LABEL_2BDC_:
 	jp _LABEL_4189_
 
 +:
-	bit 3, a
+	bit JOY_RIGHT_BIT, a
 	jp nz, +
-	bit 1, a
+	bit JOY_DOWN_BIT, a
 	jp nz, _LABEL_2B0B_
-	bit 2, (ix+20)
+	bit 2, (ix + Entity.unknown3)
 	jr z, _LABEL_2BFA_
 	ld de, $0020
 	call _LABEL_3B50_
@@ -5283,7 +5235,7 @@ _LABEL_2C04_:
 	jp _LABEL_41AA_
 
 +:
-	set 0, (ix+20)
+	set 0, (ix + Entity.unknown3)
 	ld de, $0040
 	call _LABEL_3B61_
 	ld hl, _DATA_8CF4_
@@ -5370,10 +5322,10 @@ _LABEL_2CAE_:
 +:
 	call _LABEL_41AA_
 ; 4th entry of Jump Table from 2982 (indexed by v_entities.1.state)
-alexFallingStateHandler:
+updateAlexInAir:
 	call _LABEL_3C45_
 	ld a, (v_entities.1.state)
-	cp ALEX_FALLING
+	cp ALEX_IN_AIR 
 	ret nz
 	ld a, (_RAM_C213_)
 	or a
@@ -5563,7 +5515,7 @@ _LABEL_2DF3_:
 	jp _LABEL_3BB1_
 
 ; 5th entry of Jump Table from 2982 (indexed by v_entities.1.state)
-alexCrouchedStateHandler:
+updateAlexCrouched:
 	ld hl, $0000
 	ld (v_entities.1.ySpeed), hl
 	bit 4, (ix+28)
@@ -5645,14 +5597,14 @@ alexCrouchedStateHandler:
 	set 2, a
 +:
 	and $FC
-	bit 0, (ix+20)
+	bit 0, (ix + Entity.unknown3)
 	ld (v_entities.1.unknown3), a
 	ret z
 	ld hl, _DATA_8DA7_
 	jp _LABEL_41AA_
 
 _LABEL_2F22_:
-	bit 2, (ix+20)
+	bit 2, (ix + Entity.unknown3)
 	jp z, _LABEL_2BFA_
 	jp _LABEL_2B39_
 
@@ -5667,13 +5619,13 @@ _LABEL_2F2C_:
 	ret
 
 _LABEL_2F41_:
-	res 7, (ix+1)
+	res 7, (ix + Entity.flags)
 	ld a, (v_entities.1.state)
-	cp $06
+	cp ALEX_FLYING_PETICOPTER
 	jp z, _LABEL_388E_
-	cp $0B
+	cp ALEX_RIDING_BOAT
 	jp z, _LABEL_388E_
-	cp $0C
+	cp ALEX_RIDING_BOAT_IN_AIR
 	jp z, _LABEL_388E_
 	xor a
 	ld h, a
@@ -5681,13 +5633,13 @@ _LABEL_2F41_:
 	ld (v_entities.1.xSpeed), hl
 	ld (v_entities.1.unknown8), a
 	ld (_RAM_C054_), a
-	res 2, (ix+20)
+	res 2, (ix + Entity.unknown3)
 	ld hl, $FF38
 	ld (v_entities.1.ySpeed), hl
 	ld a, (v_entities.1.state)
 	ld (v_alexStateBeforeHit), a
-	ld (ix+26), $0F
-	ld (ix+6), $05
+	ld (ix + Entity.state), ALEX_DEAD
+	ld (ix + Entity.animationTimerResetValue), $05
 	ld b, $1E
 -:
 	ld a, $01
@@ -5698,24 +5650,10 @@ _LABEL_2F41_:
 	ret
 
 ; 16th entry of Jump Table from 2982 (indexed by v_entities.1.state)
-alexHandler_2F8A:
-	ld hl, _DATA_8D23_
-	call _LABEL_4189_
-	ld a, (v_entities.1.yPos.high)
-	cp $A8
-	ret nc
-	cp $A3
-	ret c
-	ld a, (v_entities.1.isOffScreenFlags.high)
-	inc a
-	ret nz
-	call _LABEL_278A_
-	ld a, $06
-	ld (v_gameState), a
-	ret
+.INC "entities/alex/updaters/updateDead.asm"
 
 ; 9th entry of Jump Table from 2982 (indexed by v_entities.1.state)
-alexHandler_2FA7:
+updateAlexRidingMotorcycle:
 	ld hl, $0000
 	ld (v_entities.1.ySpeed), hl
 	ld de, $0C0C
@@ -5773,9 +5711,9 @@ _LABEL_3013_:
 
 _LABEL_301D_:
 	ld (ix+27), $10
-	res 7, (ix+20)
+	res 7, (ix + Entity.unknown3)
 +:
-	ld (ix+26), $09
+	ld (ix + Entity.state), ALEX_RIDING_MOTORCYCLE_IN_AIR
 	ld hl, _DATA_8F60_
 	call _LABEL_41AA_
 ; 10th entry of Jump Table from 2982 (indexed by v_entities.1.state)
@@ -5822,7 +5760,7 @@ alexHandler_302F:
 	jp _LABEL_2FD5_
 
 ; 12th entry of Jump Table from 2982 (indexed by v_entities.1.state)
-alexHandler_3094:
+updateAlexRidingBoat:
 	ld hl, $0000
 	ld (v_entities.1.ySpeed), hl
 	ld de, $0C0C
@@ -5872,7 +5810,7 @@ _LABEL_30F5_:
 	ld hl, _DATA_9137_
 	call _LABEL_41AA_
 ; 13th entry of Jump Table from 2982 (indexed by v_entities.1.state)
-alexHandler_3107:
+updateAlexRidingBoatInAir:
 	ld de, $0C0C
 	call _LABEL_3C48_
 	bit 0, (ix+28)
@@ -6294,7 +6232,7 @@ _LABEL_345E_:
 	jp _LABEL_2CA1_
 
 ; 21st entry of Jump Table from 2982 (indexed by v_entities.1.state)
-alexHandler_3468:
+updateAutoWalkingRight:
 	ld hl, $0180
 	ld (v_entities.1.xSpeed), hl
 	set 2, (ix+20)
@@ -6327,10 +6265,10 @@ _LABEL_3498_:
 	call _LABEL_3478_
 	bit 7, (ix+18)
 	set 3, (ix+20)
-	jr z, alexSwimingStateHandler
+	jr z, updateAlexSwiming
 	res 3, (ix+20)
 ; 6th entry of Jump Table from 2982 (indexed by v_entities.1.state)
-alexSwimingStateHandler:
+updateAlexSwiming:
 	bit 4, (ix+28)
 	jp nz, _LABEL_3E01_
 	ld de, $080C
@@ -6609,7 +6547,7 @@ _LABEL_369A_:
 	jp _LABEL_3BB1_
 
 ; 7th entry of Jump Table from 2982 (indexed by v_entities.1.state)
-alexHandler_36F1:
+updateAlexFlyingPeticopter:
 	bit 6, (ix+28)
 	jr nz, +
 	ld a, (_RAM_C007_)
@@ -13182,7 +13120,7 @@ _LABEL_6D4F_:
 	ld (ix+25), $00
 	ld (ix+26), $00
 	call _LABEL_6F21_
-	call _LABEL_29C2_
+	call updateAlexSpawning
 _LABEL_6D73_:
 	call _LABEL_2694_
 	ld a, (v_level)
@@ -13724,7 +13662,7 @@ _LABEL_71B0_:
 	and $0F
 	ret nz
 	ld a, (v_entities.1.state)
-	cp ALEX_FALLING
+	cp ALEX_IN_AIR 
 	ret nc
 	inc (ix+26)
 	ld a, $16
