@@ -101,21 +101,31 @@ handleInterruptEntrypoint:
 	jp handleInterrupt
 
 ; Jump Table from 3B to 52 (12 entries, indexed by v_gameState)
-_DATA_3B_:
-.dw _LABEL_76D_ _LABEL_76D_ _LABEL_9E5_ _LABEL_194F_ _LABEL_18CE_ _LABEL_1BC9_ _LABEL_6C0C_ _LABEL_7DC9_
-.dw _LABEL_1650_ _LABEL_A88_ _LABEL_A88_ _LABEL_1FCD_
+gameStateMainLoopPointers:
+.dw updateTitleScreenState
+.dw updateTitleScreenState
+.dw updateDemoState
+.dw updateLevelStartingState
+.dw updateLevelCompletedState
+.dw updateShopState
+.dw updateLifeLostState
+.dw updateTextBoxState
+.dw updateBonusLevelState
+.dw updateGameplayState
+.dw updateGameplayState
+.dw updateMapState
 
 _LABEL_53_:
 	xor a
 	ld (v_gameState), a
--:
+mainLoop:
 	ld hl, v_gameState
 	ld a, (hl)
 	and $0F
 	exx
-	ld hl, _DATA_3B_
+	ld hl, gameStateMainLoopPointers
 	rst $20	; loadAthJumptablePointer
-	jp -
+	jp mainLoop
 
 ; Data from 65 to 65 (1 bytes)
 .db $FF
@@ -229,8 +239,18 @@ handleInterrupt:
 
 ; Jump Table from 127 to 13E (12 entries, indexed by v_gameState)
 gameStateInterruptHandlersPointers:
-.dw _LABEL_842_ _LABEL_842_ _LABEL_A35_ _LABEL_1A01_ _LABEL_18CD_ _LABEL_1BEE_ _LABEL_6EAE_ _LABEL_7F29_
-.dw _LABEL_16A6_ handleGameplayInterrupt handleGameplayInterrupt _LABEL_1FE6_
+.dw handleInterruptTitleScreenState
+.dw handleInterruptTitleScreenState
+.dw handleInterruptDemoState
+.dw handleInterruptLevelStartingState
+.dw handleInterruptLevelCompletedState
+.dw handleInterruptShopState
+.dw handleInterruptLifeLostState
+.dw handleInterruptTextBoxState
+.dw handleInterruptBonusLevelState
+.dw handleInterruptGameplayState
+.dw handleInterruptGameplayState
+.dw handleInterruptMapState
 
 _LABEL_13F_:
 	push af
@@ -1096,7 +1116,7 @@ _LABEL_74C_:
 .db $6A $10 $F3 $C9
 
 ; 1st entry of Jump Table from 3B (indexed by v_gameState)
-_LABEL_76D_:
+updateTitleScreenState:
 	exx
 	bit 7, (hl)
 	jp nz, _LABEL_7EC_
@@ -1188,7 +1208,7 @@ _DATA_824_:
 .db $03 $00 $00 $00 $00 $00 $00 $00
 
 ; 1st entry of Jump Table from 127 (indexed by v_gameState)
-_LABEL_842_:
+handleInterruptTitleScreenState:
 	ld hl, _RAM_C226_
 	dec (hl)
 	ret nz
@@ -1392,7 +1412,7 @@ clearEntities:
 	ret
 
 ; 3rd entry of Jump Table from 3B (indexed by v_gameState)
-_LABEL_9E5_:
+updateDemoState:
 	ld hl, v_gameState
 	bit 7, (hl)
 	jp nz, _LABEL_A8E_
@@ -1435,7 +1455,7 @@ _LABEL_9E5_:
 .db $C9
 
 ; 3rd entry of Jump Table from 127 (indexed by v_gameState)
-_LABEL_A35_:
+handleInterruptDemoState:
 	ld a, $85
 	ld (_RAM_FFFF_), a
 	ld a, (v_inputData)
@@ -1474,7 +1494,7 @@ _LABEL_A35_:
 	ld (v_demoCurrentInputData), bc
 	ld a, c
 	ld (v_inputData), a
-	jp handleGameplayInterrupt
+	jp handleInterruptGameplayState
 
 ; Data from A7C to A7F (4 bytes)
 _DATA_A7C_:
@@ -1483,7 +1503,7 @@ _DATA_A7C_:
 .INC "src/data/demoInputPointers.asm"
 
 ; 10th entry of Jump Table from 3B (indexed by v_gameState)
-_LABEL_A88_:
+updateGameplayState:
 	exx
 	bit 7, (hl)
 	jp z, _LABEL_ABD_
@@ -1505,7 +1525,7 @@ _LABEL_A8E_:
 	ret
 
 ; 10th entry of Jump Table from 127 (indexed by v_gameState)
-handleGameplayInterrupt:
+handleInterruptGameplayState:
 	call _LABEL_264F_
 	call _LABEL_4229_
 	call _LABEL_158F_
@@ -2849,7 +2869,7 @@ _DATA_1648_:
 .dw _DATA_17D53_ _DATA_17DB3_ _DATA_17E13_ _DATA_17E73_
 
 ; 9th entry of Jump Table from 3B (indexed by v_gameState)
-_LABEL_1650_:
+updateBonusLevelState:
 	exx
 	bit 7, (hl)
 	jp z, _LABEL_1735_
@@ -2892,7 +2912,7 @@ _LABEL_1650_:
 	ret
 
 ; 9th entry of Jump Table from 127 (indexed by v_gameState)
-_LABEL_16A6_:
+handleInterruptBonusLevelState:
 	ld a, (_RAM_D800_)
 	or a
 	ret z
@@ -3154,11 +3174,11 @@ _LABEL_189A_:
 	jp _LABEL_2F6_
 
 ; 5th entry of Jump Table from 127 (indexed by v_gameState)
-_LABEL_18CD_:
+handleInterruptLevelCompletedState:
 	ret
 
 ; 5th entry of Jump Table from 3B (indexed by v_gameState)
-_LABEL_18CE_:
+updateLevelCompletedState:
 	exx
 	bit 7, (hl)
 	jp z, +
@@ -3217,7 +3237,7 @@ _LABEL_18CE_:
 	jp _LABEL_2F6_
 
 ; 4th entry of Jump Table from 3B (indexed by v_gameState)
-_LABEL_194F_:
+updateLevelStartingState:
 	exx
 	bit 7, (hl)
 	jp z, _LABEL_1A46_
@@ -3297,7 +3317,7 @@ _LABEL_19CB_:
 	jp _LABEL_343_
 
 ; 4th entry of Jump Table from 127 (indexed by v_gameState)
-_LABEL_1A01_:
+handleInterruptLevelStartingState:
 	ld a, $85
 	ld (_RAM_FFFF_), a
 	ld hl, (_RAM_C038_)
@@ -3476,7 +3496,7 @@ _DATA_1BA7_:
 .db $B4 $70
 
 ; 6th entry of Jump Table from 3B (indexed by v_gameState)
-_LABEL_1BC9_:
+updateShopState:
 	exx
 	bit 7, (hl)
 	jp z, _LABEL_1D04_
@@ -3497,7 +3517,7 @@ _LABEL_1BC9_:
 	jp _LABEL_1EAF_
 
 ; 6th entry of Jump Table from 127 (indexed by v_gameState)
-_LABEL_1BEE_:
+handleInterruptShopState:
 	ld hl, $C032
 	ld de, $7D48
 	call _LABEL_454_
@@ -3920,7 +3940,7 @@ _DATA_1FAB_:
 .dw _DATA_1BF9C_
 
 ; 12th entry of Jump Table from 3B (indexed by v_gameState)
-_LABEL_1FCD_:
+updateMapState:
 	exx
 	bit 7, (hl)
 	jp z, _LABEL_2198_
@@ -3935,7 +3955,7 @@ _LABEL_1FCD_:
 	jr _LABEL_1FE9_
 
 ; 12th entry of Jump Table from 127 (indexed by v_gameState)
-_LABEL_1FE6_:
+handleInterruptMapState:
 	jp _LABEL_263D_
 
 _LABEL_1FE9_:
@@ -13006,7 +13026,7 @@ _LABEL_6BEF_:
 	jp _LABEL_6BEF_
 
 ; 7th entry of Jump Table from 3B (indexed by v_gameState)
-_LABEL_6C0C_:
+updateLifeLostState:
 	ld a, (v_inputFlags)
 	and $20
 	jp z, +
@@ -13312,7 +13332,7 @@ _DATA_6EA1_:
 .db $D3 $DF $DE $E4 $D9 $DE $E5 $D5 $B0 $DD $DF $D4 $D5
 
 ; 7th entry of Jump Table from 127 (indexed by v_gameState)
-_LABEL_6EAE_:
+handleInterruptLifeLostState:
 	ret
 
 _LABEL_6EAF_:
@@ -15318,7 +15338,7 @@ _LABEL_7DC8_:
 	ret
 
 ; 8th entry of Jump Table from 3B (indexed by v_gameState)
-_LABEL_7DC9_:
+updateTextBoxState:
 	exx
 	bit 7, (hl)
 	jp z, _LABEL_7ED3_
@@ -15488,7 +15508,7 @@ _LABEL_7ED3_:
 	ret
 
 ; 8th entry of Jump Table from 127 (indexed by v_gameState)
-_LABEL_7F29_:
+handleInterruptTextBoxState:
 	ld a, (_RAM_C03E_)
 	or a
 	ret z
