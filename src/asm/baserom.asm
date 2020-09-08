@@ -97,7 +97,7 @@ _LABEL_30_:
 	jr nz, -
 	ret
 
-_LABEL_38_:
+handleInterruptEntrypoint:
 	jp handleInterrupt
 
 ; Jump Table from 3B to 52 (12 entries, indexed by v_gameState)
@@ -120,7 +120,7 @@ _LABEL_53_:
 ; Data from 65 to 65 (1 bytes)
 .db $FF
 
-_LABEL_66_:
+handlePauseInterrupt:
 	push af
 	ld a, (v_entities.1.state)
 	cp ALEX_DEAD
