@@ -5,7 +5,9 @@ v_inputFlags db
 v_inputData db      ; inverse of port Port_IOPort1 (port $DC)
 _RAM_C007_ db
 _RAM_C008_ db
-_RAM_C009_ dw
+v_spriteTerminatorPointer dw
+; v_spriteTerminatorPointer.low db
+; v_spriteTerminatorPointer.high db
 .ende
 
 .enum $C00E export

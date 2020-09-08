@@ -45,7 +45,8 @@ start:
 	ld sp, $DFF0
 	jr init
 
-_LABEL_8_:
+; Set DE as VDP Address
+setVDPAddress:
 	ld a, e
 	out (Port_VDPAddress), a
 	ld a, d
@@ -89,7 +90,7 @@ _LABEL_21_:
 .db $FF $FF $FF $FF $FF $FF
 
 _LABEL_30_:
-	rst $08	; _LABEL_8_
+	rst $08	; setVDPAddress
 	ld c, Port_VDPData
 -:
 	outi
@@ -97,7 +98,7 @@ _LABEL_30_:
 	ret
 
 _LABEL_38_:
-	jp _LABEL_C0_
+	jp handleInterrupt
 
 ; Jump Table from 3B to 52 (12 entries, indexed by v_gameState)
 _DATA_3B_:
@@ -161,7 +162,7 @@ init:
 	call _LABEL_2F6_
 	jp _LABEL_53_
 
-_LABEL_C0_:
+handleInterrupt:
 	push af
 	push bc
 	push de
@@ -188,7 +189,7 @@ _LABEL_C0_:
 	ld a, (_RAM_C008_)
 	rrca
 	push af
-	call c, _LABEL_1F7_
+	call c, copySATtoVRAM
 	call _LABEL_41B3_
 	pop af
 	rrca
@@ -202,7 +203,7 @@ _LABEL_C0_:
 	pop af
 	rrca
 	ld a, (v_gameState)
-	ld hl, _DATA_127_
+	ld hl, gameStateInterruptHandlersPointers
 	call c, _LABEL_1B_
 	ld a, $82
 	ld (_RAM_FFFF_), a
@@ -227,19 +228,19 @@ _LABEL_C0_:
 	ret
 
 ; Jump Table from 127 to 13E (12 entries, indexed by v_gameState)
-_DATA_127_:
+gameStateInterruptHandlersPointers:
 .dw _LABEL_842_ _LABEL_842_ _LABEL_A35_ _LABEL_1A01_ _LABEL_18CD_ _LABEL_1BEE_ _LABEL_6EAE_ _LABEL_7F29_
-.dw _LABEL_16A6_ _LABEL_AB1_ _LABEL_AB1_ _LABEL_1FE6_
+.dw _LABEL_16A6_ handleGameplayInterrupt handleGameplayInterrupt _LABEL_1FE6_
 
 _LABEL_13F_:
 	push af
-	rst $08	; _LABEL_8_
+	rst $08	; setVDPAddress
 	pop af
 	out (Port_VDPData), a
 	ret
 
 _LABEL_145_:
-	rst $08	; _LABEL_8_
+	rst $08	; setVDPAddress
 	ld a, c
 	or a
 	jr z, +
@@ -256,7 +257,7 @@ _LABEL_145_:
 	ret
 
 _LABEL_159_:
-	rst $08	; _LABEL_8_
+	rst $08	; setVDPAddress
 	ld a, (_RAM_C10A_)
 	ld c, Port_VDPData
 -:
@@ -276,7 +277,7 @@ _LABEL_17C_:
 	ld bc, $0700
 	ld l, $00
 _LABEL_184_:
-	rst $08	; _LABEL_8_
+	rst $08	; setVDPAddress
 	ld a, c
 	or a
 	ld a, l
@@ -291,7 +292,7 @@ _LABEL_18B_:
 
 _LABEL_193_:
 	push bc
-	rst $08	; _LABEL_8_
+	rst $08	; setVDPAddress
 	ld b, c
 	ld c, Port_VDPData
 -:
@@ -312,7 +313,7 @@ _LABEL_193_:
 
 _LABEL_1C5_:
 	ld hl, $0040
-	rst $08	; _LABEL_8_
+	rst $08	; setVDPAddress
 	push bc
 	xor a
 -:
@@ -327,7 +328,7 @@ _LABEL_1C5_:
 
 _LABEL_1D6_:
 	ld (_RAM_C10B_), a
-	rst $08	; _LABEL_8_
+	rst $08	; setVDPAddress
 --:
 	ld a, (hl)
 	exx
@@ -351,7 +352,7 @@ _LABEL_1D6_:
 	jp nz, --
 	ret
 
-_LABEL_1F7_:
+copySATtoVRAM:
 	ld a, (v_gameState)
 	and $0F
 	cp $02
@@ -364,31 +365,31 @@ _LABEL_208_:
 	ld hl, _RAM_C700_
 	ld de, $7F00
 	ld bc,  $4000 | Port_VDPData
-	rst $08	; _LABEL_8_
+	rst $08	; setVDPAddress
 -:
 	outi
 	jr nz, -
 	ld hl, _RAM_C780_
 	ld de, $7F80
 	ld b, $80
-	rst $08	; _LABEL_8_
+	rst $08	; setVDPAddress
 -:
 	outi
 	jr nz, -
 	ret
 
 +:
-	ld a, (_RAM_C009_)
+	ld a, (v_spriteTerminatorPointer)
 	cp $13
 	jr c, _LABEL_208_
 	ld hl, _RAM_C700_
 	ld bc,  $1100 | Port_VDPData
 	ld de, $7F00
-	rst $08	; _LABEL_8_
+	rst $08	; setVDPAddress
 -:
 	outi
 	jr nz, -
-	ld hl, (_RAM_C009_)
+	ld hl, (v_spriteTerminatorPointer)
 	ld a, l
 	dec l
 	sub $11
@@ -401,11 +402,11 @@ _LABEL_208_:
 	ld hl, _RAM_C780_
 	ld de, $7F80
 	ld b, $22
-	rst $08	; _LABEL_8_
+	rst $08	; setVDPAddress
 -:
 	outi
 	jr nz, -
-	ld hl, (_RAM_C009_)
+	ld hl, (v_spriteTerminatorPointer)
 	sla l
 	set 7, l
 	ld a, l
@@ -491,7 +492,7 @@ _LABEL_2F6_:
 	ld (_RAM_C004_), a
 	ld e, a
 	ld d, $81
-	rst $08	; _LABEL_8_
+	rst $08	; setVDPAddress
 	ret
 
 _LABEL_303_:
@@ -500,9 +501,9 @@ _LABEL_303_:
 	ld (_RAM_C0B0_), a
 	ld e, a
 	ld d, $89
-	rst $08	; _LABEL_8_
+	rst $08	; setVDPAddress
 	dec d
-	rst $08	; _LABEL_8_
+	rst $08	; setVDPAddress
 	ret
 
 _LABEL_311_:
@@ -518,9 +519,9 @@ _LABEL_311_:
 	ld (hl), $E0
 	ldir
 	ld de, $8800
-	rst $08	; _LABEL_8_
+	rst $08	; setVDPAddress
 	ld d, $89
-	rst $08	; _LABEL_8_
+	rst $08	; setVDPAddress
 	ei
 	ld a, $01
 	call _LABEL_2E6_
@@ -736,7 +737,7 @@ _LABEL_43B_:
 _LABEL_454_:
 	ld c, $03
 _LABEL_456_:
-	call _LABEL_8_
+	call setVDPAddress
 	set 7, e
 --:
 	ld a, $C0
@@ -1148,7 +1149,7 @@ _LABEL_76D_:
 _LABEL_7EC_:
 	ld a, $09
 	call _LABEL_2E6_
-	call _LABEL_2694_
+	call updateEntities
 	ld a, (v_inputData)
 	ld b, a
 	and $30
@@ -1473,7 +1474,7 @@ _LABEL_A35_:
 	ld (v_demoCurrentInputData), bc
 	ld a, c
 	ld (v_inputData), a
-	jp _LABEL_AB1_
+	jp handleGameplayInterrupt
 
 ; Data from A7C to A7F (4 bytes)
 _DATA_A7C_:
@@ -1489,7 +1490,7 @@ _LABEL_A88_:
 _LABEL_A8E_:
 	call _LABEL_645E_
 	call _LABEL_6F44_
-	call _LABEL_2694_
+	call updateEntities
 	call _LABEL_67C4_
 	call _LABEL_6B49_
 	ld a, $09
@@ -1504,7 +1505,7 @@ _LABEL_A8E_:
 	ret
 
 ; 10th entry of Jump Table from 127 (indexed by v_gameState)
-_LABEL_AB1_:
+handleGameplayInterrupt:
 	call _LABEL_264F_
 	call _LABEL_4229_
 	call _LABEL_158F_
@@ -1711,7 +1712,7 @@ _LABEL_C43_:
 	ld a, (hl)
 	ld (ix+14), a
 	call updateAlexSpawning
-	call _LABEL_2694_
+	call updateEntities
 	ld a, (v_level)
 	ld hl, _DATA_D2C_ - 2
 	call _LABEL_10_
@@ -3114,9 +3115,9 @@ _LABEL_1735_:
 _LABEL_1874_:
 	ld ix, v_entity1
 	call updateAlexSpawning
-	call _LABEL_2694_
+	call updateEntities
 	ld de, $8026
-	rst $08	; _LABEL_8_
+	rst $08	; setVDPAddress
 	ld a, (v_level)
 	inc a
 	ld c, a
@@ -3138,7 +3139,7 @@ _LABEL_189A_:
 	ld de, $C010
 	call _LABEL_13F_
 	call clearEntities
-	call _LABEL_2694_
+	call updateEntities
 	ld a, $83
 	ld (_RAM_FFFF_), a
 	ld hl, data_endingSequenceText
@@ -3205,7 +3206,7 @@ _LABEL_18CE_:
 	set 0, (hl)
 +:
 	ld de, $8026
-	call _LABEL_8_
+	call setVDPAddress
 	xor a
 	ld (v_newEntityHorizontalOffset), a
 	ld (v_shopFlags), a
@@ -3232,7 +3233,7 @@ _LABEL_194F_:
 	ld a, $01
 +:
 	call _LABEL_2E6_
-	call _LABEL_2694_
+	call updateEntities
 	ld a, $85
 	ld (_RAM_FFFF_), a
 	xor a
@@ -3279,7 +3280,7 @@ _LABEL_19CB_:
 	ld (_RAM_FFFF_), a
 	ld a, $01
 	call _LABEL_2E6_
-	call _LABEL_2694_
+	call updateEntities
 	ld hl, _RAM_C03F_
 	dec (hl)
 	jp nz, _LABEL_19CB_
@@ -3289,7 +3290,7 @@ _LABEL_19CB_:
 	call _LABEL_278A_
 	ld ix, _RAM_C340_
 	call _LABEL_278A_
-	call _LABEL_2694_
+	call updateEntities
 	ld a, $0A
 	ld (v_gameState), a
 	ld b, $05
@@ -3409,7 +3410,7 @@ _LABEL_1A46_:
 	ld (ix+0), $62
 	ld a, $82
 	ld (_RAM_FFFF_), a
-	call _LABEL_2694_
+	call updateEntities
 	ld a, $85
 	ld (_RAM_FFFF_), a
 	ld a, $50
@@ -3491,7 +3492,7 @@ _LABEL_1BC9_:
 	ret
 
 +:
-	call _LABEL_2694_
+	call updateEntities
 	ld hl, $C055
 	jp _LABEL_1EAF_
 
@@ -3575,7 +3576,7 @@ _LABEL_1C33_:
 	ldir
 	ld ix, v_entity1
 	call updateAlexSpawning
-	call _LABEL_2694_
+	call updateEntities
 	call _LABEL_10FF_
 	ld a, $83
 	ld (_RAM_FFFF_), a
@@ -3615,7 +3616,7 @@ _LABEL_1C33_:
 	ld (_RAM_FFFF_), a
 	ld e, $26
 	ld d, $80
-	rst $08	; _LABEL_8_
+	rst $08	; setVDPAddress
 	ei
 	ld a, $09
 	call _LABEL_2E6_
@@ -3668,7 +3669,7 @@ _LABEL_1D04_:
 	ld (ix+12), $20
 	ld (ix+14), $88
 	call updateAlexSpawning
-	call _LABEL_2694_
+	call updateEntities
 	ld a, (v_shopSelectedItemIndex)
 	or a
 	jr z, +
@@ -3742,7 +3743,7 @@ _LABEL_1D04_:
 	xor a
 	ld (v_itemBeignBoughtIndex), a
 	ld de, $8006
-	rst $08	; _LABEL_8_
+	rst $08	; setVDPAddress
 	ld a, $86
 	ld (_RAM_FFFF_), a
 	ld a, (v_level)
@@ -3923,7 +3924,7 @@ _LABEL_1FCD_:
 	exx
 	bit 7, (hl)
 	jp z, _LABEL_2198_
-	call _LABEL_2694_
+	call updateEntities
 	ld a, $09
 	call _LABEL_2E6_
 	ld a, (v_triggerMapScreenToggle)
@@ -4056,7 +4057,7 @@ _LABEL_1FE9_:
 	ld ix, _RAM_CFC0_
 	call _LABEL_278A_
 	ld ix, $C300
-	call _LABEL_2694_
+	call updateEntities
 	call _LABEL_67C4_
 	call _LABEL_6B49_
 	ld ix, $C300
@@ -4221,7 +4222,7 @@ _LABEL_2198_:
 	ld ix, _RAM_CFA0_
 	ld (ix+0), $56
 	res 0, (ix+1)
-	call _LABEL_2694_
+	call updateEntities
 	ld a, (v_level)
 	cp $10
 	jr c, +
@@ -4647,13 +4648,13 @@ _LABEL_25D3_:
 	call _LABEL_278A_
 	add ix, de
 	djnz -
-	call _LABEL_2694_
+	call updateEntities
 	ei
 	call _LABEL_2F6_
 -:
 	ld a, $01
 	call _LABEL_2E6_
-	call _LABEL_2694_
+	call updateEntities
 	ld a, (v_triggerMapScreenToggle)
 	or a
 	jr z, -
@@ -4698,9 +4699,9 @@ _DATA_2674_:
 .db $30 $00 $3F $2A $25 $0F $03 $0B $3C $02 $00 $00 $00 $00 $00 $00
 .db $30 $00 $3F $2A $25 $0F $03 $0B $3C $02 $00 $00 $00 $00 $00 $00
 
-_LABEL_2694_:
+updateEntities:
 	ld hl, _RAM_C706_
-	ld (_RAM_C009_), hl
+	ld (v_spriteTerminatorPointer), hl
 	ld ix, (v_entitydataArrayPointer)
 	ld a, (v_entitydataArrayLength)
 	ld b, a
@@ -4716,47 +4717,56 @@ _LABEL_2694_:
 	jp z, +
 	call _LABEL_27D0_
 	call _LABEL_273A_
-	call _LABEL_26D7_
+	call updateEntitySprites
 +:
 	pop bc
 ++:
 	ld de, $0020
 	add ix, de
 	djnz -
-	ld hl, (_RAM_C009_)
+	ld hl, (v_spriteTerminatorPointer)
 	ld a, l
 	cp $40
 	jr c, +
 	ld l, $3F
-	ld (_RAM_C009_), hl
+	ld (v_spriteTerminatorPointer), hl
 +:
 	ld (hl), $D0
 	ret
 
-_LABEL_26D7_:
-	ld a, (ix+0)	; v_entities.IX.type
+updateEntitySprites:
+	ld a, (ix + Entity.type)
+	; Do nothing if entity type is 0
 	or a
 	ret z
-	ld a, (ix+9)	; v_entities.IX.isOffScreenFlags
-	or (ix+10)    ; v_entities.IX.isOffScreenFlags.high
+	ld a, (ix + Entity.isOffScreenFlags.low)
+	or (ix + Entity.isOffScreenFlags.high)
+	; Jump to $283b if entity is offscreen
 	jp nz, _LABEL_283B_
-	ld a, (ix+14)    ; ; v_entities.IX.yPos.high
+	; Return if entity is past the bottom of screen
+	ld a, (ix + Entity.yPos.high)
 	cp $C0
 	ret nc
-	ld c, a
-	ld de, (_RAM_C009_)
+	ld c, a ; c = yPos high
+	ld de, (v_spriteTerminatorPointer)
 	push de
-	ld l, (ix+7)    ; v_entities.IX.spriteDescriptorPointer
-	ld h, (ix+8)
+	; hl = entity.spriteDescriptorPointer
+	ld l, (ix + Entity.spriteDescriptorPointer.low)
+	ld h, (ix + Entity.spriteDescriptorPointer.high)
+	; b = sprite count
 	ld b, (hl)
 	push bc
+	; a = sprite collision data
 	inc hl
 	ld a, (hl)
-	ld (ix+19), a
+	ld (ix + Entity.unknown2), a
 	inc hl
 -:
+	; a = Entity.yPos.high
 	ld a, c
+	; a += tile.y
 	add a, (hl)
+	; if (a !== $D0) dec a
 	cp $D0
 	jr nz, +
 	dec a
@@ -4765,7 +4775,7 @@ _LABEL_26D7_:
 	inc e
 	inc hl
 	djnz -
-	ld (_RAM_C009_), de
+	ld (v_spriteTerminatorPointer), de
 	pop bc
 	pop de
 	sla e
@@ -4986,7 +4996,7 @@ _LABEL_283B_:
 	cp $A8
 	ret c
 	ld c, a
-	ld de, (_RAM_C009_)
+	ld de, (v_spriteTerminatorPointer)
 	push de
 	ld l, (ix+7)    ; v_entities.IX.spriteDescriptorPointer
 	ld h, (ix+8)
@@ -5004,7 +5014,7 @@ _LABEL_283B_:
 	inc e
 	inc hl
 	djnz -
-	ld (_RAM_C009_), de
+	ld (v_spriteTerminatorPointer), de
 	pop bc
 	pop de
 	sla e
@@ -8100,7 +8110,7 @@ _LABEL_41C0_:
 	ld c, a
 	ld b, $00
 	ld de, $6000
-	rst $08	; _LABEL_8_
+	rst $08	; setVDPAddress
 _LABEL_41C8_:
 	ld a, $84
 	ld (_RAM_FFFF_), a
@@ -8341,7 +8351,7 @@ _LABEL_434F_:
 	ld d, a
 	ld bc, $0404
 _LABEL_435F_:
-	rst $08	; _LABEL_8_
+	rst $08	; setVDPAddress
 	push bc
 	push hl
 	push de
@@ -9453,7 +9463,7 @@ _LABEL_4BCD_:
 	djnz -
 	pop hl
 	pop bc
-	call _LABEL_8_
+	call setVDPAddress
 -:
 	xor a
 	out (Port_VDPData), a
@@ -12023,7 +12033,7 @@ _LABEL_6462_:
 	ld de, $8026
 	ld a, e
 	ld (v_VDPRegister0Value), a
-	rst $08	; _LABEL_8_
+	rst $08	; setVDPAddress
 	ei
 	ld a, $08
 	ld (v_scrollFlags), a
@@ -12048,7 +12058,7 @@ _LABEL_647D_:
 	ld de, $8026
 	ld a, e
 	ld (v_VDPRegister0Value), a
-	rst $08	; _LABEL_8_
+	rst $08	; setVDPAddress
 	ei
 +:
 	ld hl, (v_horizontalScroll)
@@ -12142,7 +12152,7 @@ _LABEL_6502_:
 	ld de, $8006
 	ld a, e
 	ld (v_VDPRegister0Value), a
-	rst $08	; _LABEL_8_
+	rst $08	; setVDPAddress
 	ei
 	ret
 
@@ -12284,7 +12294,7 @@ _LABEL_65B1_:
 	ld de, $8006
 	ld a, e
 	ld (v_VDPRegister0Value), a
-	rst $08	; _LABEL_8_
+	rst $08	; setVDPAddress
 	ld a, (v_levelScrollability)
 	ld (v_scrollFlags), a
 	ret
@@ -12585,7 +12595,7 @@ _LABEL_6920_:
 	ld a, $18
 -:
 	ex af, af'
-	call _LABEL_8_
+	call setVDPAddress
 	ld a, (hl)
 	out (Port_VDPData), a
 	inc hl
@@ -12653,10 +12663,10 @@ _LABEL_69B5_:
 	ld (v_UpdateNameTableFlags), a
 	ld de, (_RAM_C0B0_)
 	ld d, $88
-	call _LABEL_8_
+	call setVDPAddress
 	ld de, (_RAM_C0BE_)
 	ld d, $89
-	jp _LABEL_8_
+	jp setVDPAddress
 
 _LABEL_69CB_:
 	ld de, (v_verticalScrollSpeed)
@@ -13155,7 +13165,7 @@ _LABEL_6D4F_:
 	call _LABEL_6F21_
 	call updateAlexSpawning
 _LABEL_6D73_:
-	call _LABEL_2694_
+	call updateEntities
 	ld a, (v_level)
 	ld c, a
 	ld a, (v_currentLevelIsBonusLevel)
@@ -13222,7 +13232,7 @@ _LABEL_6DC9_:
 	ld de, $8026
 	ld a, e
 	ld (v_VDPRegister0Value), a
-	rst $08	; _LABEL_8_
+	rst $08	; setVDPAddress
 	ld a, $AF
 	ld (v_soundControl), a
 	ei
@@ -15399,8 +15409,8 @@ _LABEL_7E5E_:
 	ld hl, (v_nuraiOrOldManEntityAnimationDescriptorTemporaryPointer)
 	call handleEntityAnimation
 	ld hl, _RAM_C700_
-	ld (_RAM_C009_), hl
-	call _LABEL_26D7_
+	ld (v_spriteTerminatorPointer), hl
+	call updateEntitySprites
 +:
 	jp _LABEL_7E5E_
 
@@ -15426,7 +15436,7 @@ _LABEL_7E5E_:
 	ld a, $85
 	ld (v_gameState), a
 +:
-	call _LABEL_2694_
+	call updateEntities
 	ld a, $01
 	call _LABEL_2E6_
 	di
@@ -15442,7 +15452,7 @@ _LABEL_7E5E_:
 _LABEL_7ED3_:
 	ld a, $82
 	ld (_RAM_FFFF_), a
-	call _LABEL_2694_
+	call updateEntities
 	ld a, $01
 	call _LABEL_2E6_
 	ld hl, v_gameState
@@ -15489,7 +15499,7 @@ _LABEL_7F29_:
 	ld h, a
 	dec hl
 	ex de, hl
-	rst $08	; _LABEL_8_
+	rst $08	; setVDPAddress
 	ld hl, (_RAM_C038_)
 	ld a, (hl)
 	out (Port_VDPData), a
