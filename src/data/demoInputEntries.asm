@@ -1,9 +1,25 @@
 ; 1st entry of Pointer Table from A80 (indexed by v_nextDemoIndex)
 ; Data from 14D35 to 14D5A (38 bytes)
 _DATA_14D35_:
-.db $11 $00 $B4 $08 $0B $18 $82 $08 $0C $18 $34 $08 $13 $18 $2B $08
-.db $0A $18 $7B $08 $13 $18 $AD $08 $0F $18 $31 $08 $0C $18 $77 $08
-.db $0C $18 $17 $10 $00 $00
+.db $11 $00
+.db $B4 JOY_RIGHT
+.db $0B (JOY_RIGHT | JOY_FIREA)
+.db $82 JOY_RIGHT
+.db $0C (JOY_RIGHT | JOY_FIREA)
+.db $34 JOY_RIGHT
+.db $13 (JOY_RIGHT | JOY_FIREA)
+.db $2B JOY_RIGHT
+.db $0A (JOY_RIGHT | JOY_FIREA)
+.db $7B JOY_RIGHT
+.db $13 (JOY_RIGHT | JOY_FIREA)
+.db $AD JOY_RIGHT
+.db $0F (JOY_RIGHT | JOY_FIREA)
+.db $31 JOY_RIGHT
+.db $0C (JOY_RIGHT | JOY_FIREA)
+.db $77 JOY_RIGHT
+.db $0C (JOY_RIGHT | JOY_FIREA)
+.db $17 JOY_FIREA
+.db $00 $00
 
 ; 2nd entry of Pointer Table from A80 (indexed by v_nextDemoIndex)
 ; Data from 14D5B to 14E3A (224 bytes)
