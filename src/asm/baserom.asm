@@ -152,8 +152,9 @@ init:
 	ld a, $82
 	ld (_RAM_FFFF_), a
 	call initVolume
-	ld hl, _RAM_C000_
-	ld de, _RAM_C000_ + 1
+	; Clear RAM
+	ld hl, $C000
+	ld de, $C000 + 1
 	ld bc, $1FFF
 	ld (hl), l
 	ldir
