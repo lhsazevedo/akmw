@@ -849,7 +849,7 @@ _LABEL_9DF3_:
 	ld (hl), $00
 	ldir
 	exx
-_LABEL_9E02_:
+initVolume:
 	exx
 	ld hl, _DATA_9E18_
 	ld c, Port_PSG
@@ -869,6 +869,12 @@ _LABEL_9E0F_:
 ; Data from 9E18 to 9E1B (4 bytes)
 _DATA_9E18_:
 .db $9F $BF $DF $FF
+
+1001 1111
+
+1011 1111
+1101 1111
+1111 1111
 
 ; Data from 9E1C to 9E74 (89 bytes)
 _DATA_9E1C_:

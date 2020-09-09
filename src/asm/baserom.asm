@@ -151,7 +151,7 @@ handlePauseInterrupt:
 init:
 	ld a, $82
 	ld (_RAM_FFFF_), a
-	call _LABEL_9E02_
+	call initVolume
 	ld hl, _RAM_C000_
 	ld de, _RAM_C000_ + 1
 	ld bc, $1FFF
@@ -163,7 +163,7 @@ init:
 	ld a, $82
 	ld (_RAM_FFFF_), a
 	ld sp, $DFF0
-	call _LABEL_9E02_
+	call initVolume
 	call _LABEL_26B_
 	ld hl, $0000
 	ld de, $4000
