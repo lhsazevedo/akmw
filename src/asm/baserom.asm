@@ -89,7 +89,8 @@ _LABEL_21_:
 ; Data from 2A to 2F (6 bytes)
 .db $FF $FF $FF $FF $FF $FF
 
-_LABEL_30_:
+; Copy B bytes from (HL) to VRAM (DE) onwards
+memcpyToVRAM:
 	rst $08	; setVDPAddress
 	ld c, Port_VDPData
 -:
@@ -1158,7 +1159,7 @@ updateTitleScreenState:
 	ld hl, _DATA_8C6_
 	ld de, $C000
 	ld b, $20
-	rst $30	; _LABEL_30_
+	rst $30	; memcpyToVRAM
 	call _LABEL_8F6_
 	call _LABEL_2F6_
 	ei
@@ -1729,7 +1730,7 @@ _LABEL_E9F_:
 	ld hl, tiles_aditionalSet4
 	ld de, $4E60
 	ld b, $A0
-	rst $30	; _LABEL_30_
+	rst $30	; memcpyToVRAM
 	ld hl, tiles_aditionalSet1
 	ld de, $4F00
 	jp _LABEL_293_
@@ -1792,7 +1793,7 @@ _LABEL_F21_:
 	ld hl, tiles_aditionalSet4
 	ld de, $4E60
 	ld b, $A0
-	rst $30	; _LABEL_30_
+	rst $30	; memcpyToVRAM
 	ld hl, tiles_aditionalSet1
 	ld de, $4F00
 	jp _LABEL_293_
@@ -2049,7 +2050,7 @@ _LABEL_10FF_:
 	rst $10	; _LABEL_10_
 	ld de, $C000
 	ld b, $20
-	rst $30	; _LABEL_30_
+	rst $30	; memcpyToVRAM
 	ret
 
 ; Pointer Table from 1112 to 1133 (17 entries, indexed by v_level)
@@ -2607,7 +2608,7 @@ _LABEL_15D2_:
 	call _LABEL_15BC_
 	ld de, $5100
 	ld b, $40
-	rst $30	; _LABEL_30_
+	rst $30	; memcpyToVRAM
 	ret
 
 ; 2nd entry of Jump Table from 156D (indexed by v_level)
@@ -2616,7 +2617,7 @@ _LABEL_15DF_:
 	call _LABEL_15BC_
 	ld de, $48C0
 	ld b, $40
-	rst $30	; _LABEL_30_
+	rst $30	; memcpyToVRAM
 	ret
 
 ; 4th entry of Jump Table from 156D (indexed by v_level)
@@ -2625,7 +2626,7 @@ _LABEL_15EC_:
 	call _LABEL_15AF_
 	ld de, $49E0
 	ld b, $60
-	rst $30	; _LABEL_30_
+	rst $30	; memcpyToVRAM
 	ret
 
 ; 16th entry of Jump Table from 156D (indexed by v_level)
@@ -2634,12 +2635,12 @@ _LABEL_15F9_:
 	call _LABEL_15AF_
 	ld de, $48A0
 	ld b, $60
-	rst $30	; _LABEL_30_
+	rst $30	; memcpyToVRAM
 	ld de, _DATA_1620_
 	call _LABEL_15BC_
 	ld de, $5100
 	ld b, $40
-	rst $30	; _LABEL_30_
+	rst $30	; memcpyToVRAM
 	ret
 
 ; 7th entry of Jump Table from 156D (indexed by v_level)
@@ -2648,7 +2649,7 @@ _LABEL_1612_:
 	call _LABEL_15AF_
 	ld de, $4B40
 	ld b, $60
-	rst $30	; _LABEL_30_
+	rst $30	; memcpyToVRAM
 	ret
 
 ; 8th entry of Jump Table from 156D (indexed by v_level)
@@ -6960,7 +6961,7 @@ _LABEL_42C3_:
 	push bc
 	ld hl, _DATA_1450B_
 	ld b, $08
-	rst $30	; _LABEL_30_
+	rst $30	; memcpyToVRAM
 	ld hl, $0040
 	add hl, de
 	ex de, hl
@@ -7055,7 +7056,7 @@ _LABEL_437D_:
 	add hl, bc
 	ex de, hl
 	ld b, $04
-	rst $30	; _LABEL_30_
+	rst $30	; memcpyToVRAM
 	ex de, hl
 	pop hl
 	ex af, af'
@@ -8075,7 +8076,7 @@ _LABEL_4B9E_:
 	sub $50
 	ld d, a
 	pop bc
-	rst $30	; _LABEL_30_
+	rst $30	; memcpyToVRAM
 	ex de, hl
 	call _LABEL_4C23_
 	ex de, hl
@@ -8152,7 +8153,7 @@ _LABEL_4BF3_:
 	pop af
 	add a, a
 	ld b, a
-	rst $30	; _LABEL_30_
+	rst $30	; memcpyToVRAM
 	ld l, e
 _LABEL_4C23_:
 	ld bc, $0040
