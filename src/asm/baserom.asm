@@ -170,7 +170,7 @@ init:
 	ld hl, $0000
 	ld de, $4000
 	ld bc, $3800
-	call _LABEL_184_
+	call fillVRAM
 	ei
 	call _LABEL_2F6_
 	jp _LABEL_53_
@@ -299,7 +299,8 @@ _LABEL_17C_:
 	ld de, $7800
 	ld bc, $0700
 	ld l, $00
-_LABEL_184_:
+; FIXME: Understand parameters
+fillVRAM:
 	rst $08	; setVDPAddress
 	ld a, c
 	or a
@@ -1131,7 +1132,7 @@ updateTitleScreenState:
 	ld de, $6000
 	ld bc, $0020
 	ld l, $00
-	call _LABEL_184_
+	call fillVRAM
 	ld a, $82
 	ld (_RAM_FFFF_), a
 	call _LABEL_9DF3_
@@ -1724,7 +1725,7 @@ _LABEL_E9F_:
 	ld de, $46A0
 	ld bc, $0080
 	ld l, $00
-	call _LABEL_184_
+	call fillVRAM
 	ld a, (v_level)
 	ld hl, levelMainTilesetPointers - 2
 	rst $10	; _LABEL_10_
@@ -1754,7 +1755,7 @@ _LABEL_EDF_:
 	ld de, $46A0
 	ld bc, $0080
 	ld l, $00
-	call _LABEL_184_
+	call fillVRAM
 	ld a, (v_level)
 	ld hl, levelMainTilesetPointers - 2
 	rst $10	; _LABEL_10_
@@ -1769,7 +1770,7 @@ _LABEL_F00_:
 	ld de, $46A0
 	ld bc, $0080
 	ld l, $00
-	call _LABEL_184_
+	call fillVRAM
 	ld a, (v_level)
 	ld hl, levelMainTilesetPointers - 2
 	rst $10	; _LABEL_10_
@@ -1784,7 +1785,7 @@ _LABEL_F21_:
 	ld de, $46A0
 	ld bc, $0200
 	ld l, $00
-	call _LABEL_184_
+	call fillVRAM
 	ld a, (v_level)
 	ld hl, levelMainTilesetPointers - 2
 	rst $10	; _LABEL_10_
@@ -1806,7 +1807,7 @@ _LABEL_F54_:
 	ld de, $46A0
 	ld bc, $0080
 	ld l, $00
-	call _LABEL_184_
+	call fillVRAM
 	ld a, (v_level)
 	ld hl, levelMainTilesetPointers - 2
 	rst $10	; _LABEL_10_
@@ -1818,7 +1819,7 @@ _LABEL_F6C_:
 	ld de, $46A0
 	ld bc, $0080
 	ld l, $00
-	call _LABEL_184_
+	call fillVRAM
 	ld a, $02
 	ld hl, $847E
 	rst $10	; _LABEL_10_
@@ -1848,7 +1849,7 @@ _LABEL_FAE_:
 	ld de, $46A0
 	ld bc, $0080
 	ld l, $0A
-	call _LABEL_184_
+	call fillVRAM
 	ld a, (v_level)
 	ld hl, levelMainTilesetPointers - 2
 	rst $10	; _LABEL_10_
@@ -1860,7 +1861,7 @@ _LABEL_FC6_:
 	ld de, $46A0
 	ld bc, $0080
 	ld l, $00
-	call _LABEL_184_
+	call fillVRAM
 	ld a, (v_level)
 	ld hl, levelMainTilesetPointers - 2
 	rst $10	; _LABEL_10_
@@ -1881,7 +1882,7 @@ _LABEL_FF9_:
 	ld de, $46A0
 	ld bc, $0080
 	ld l, $00
-	call _LABEL_184_
+	call fillVRAM
 	ld a, $02
 	ld hl, $847E
 	rst $10	; _LABEL_10_
@@ -1899,7 +1900,7 @@ _LABEL_1022_:
 	ld de, $46A0
 	ld bc, $0200
 	ld l, $00
-	call _LABEL_184_
+	call fillVRAM
 	ld a, $03
 	ld hl, $847E
 	rst $10	; _LABEL_10_
@@ -1922,7 +1923,7 @@ _LABEL_1058_:
 	ld de, $46A0
 	ld bc, $0080
 	ld l, $00
-	call _LABEL_184_
+	call fillVRAM
 	ld a, $0B
 	ld hl, $847E
 	rst $10	; _LABEL_10_
@@ -2777,7 +2778,7 @@ handleInterruptBonusLevelState:
 	pop de
 	ld l, $00
 	ld bc, $0040
-	call _LABEL_184_
+	call fillVRAM
 	exx
 	ld a, (hl)
 	or e
@@ -2799,11 +2800,11 @@ _LABEL_170D_:
 	ld bc, $0040
 	jr c, +
 	ld bc, $0020
-	call _LABEL_184_
+	call fillVRAM
 	ld bc, $0020
 	ld de, $7800
 +:
-	call _LABEL_184_
+	call fillVRAM
 	pop hl
 	jr _LABEL_170D_
 
@@ -3219,7 +3220,7 @@ _LABEL_1A46_:
 	ld de, $6800
 	ld bc, $0020
 	ld l, $00
-	call _LABEL_184_
+	call fillVRAM
 	ld hl, _DATA_1E209_
 	ld de, $6820
 	ld bc, $0020

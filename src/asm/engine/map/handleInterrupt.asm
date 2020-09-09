@@ -263,7 +263,7 @@ _LABEL_2198_:
 	ld de, $6800
 	ld bc, $0020
 	ld l, $00
-	call _LABEL_184_
+	call fillVRAM
 	ld hl, _DATA_1E209_
 	ld de, $6820
 	ld bc, $0020
