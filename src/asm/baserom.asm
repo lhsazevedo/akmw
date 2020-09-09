@@ -158,7 +158,7 @@ init:
 	ld bc, $1FFF
 	ld (hl), l
 	ldir
-	call _LABEL_341_
+	call sleepOneSecond
 	call _LABEL_350_
 -:
 	ld a, $82
@@ -550,7 +550,8 @@ _LABEL_311_:
 	di
 	jp _LABEL_17C_
 
-_LABEL_341_:
+; Wait almost a second
+sleepOneSecond:
 	ld b, $0A
 _LABEL_343_:
 	push bc
