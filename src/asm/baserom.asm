@@ -159,7 +159,7 @@ init:
 	ld (hl), l
 	ldir
 	call sleepOneSecond
-	call _LABEL_350_
+	call configurePPI
 -:
 	ld a, $82
 	ld (_RAM_FFFF_), a
@@ -565,7 +565,7 @@ _LABEL_343_:
 	djnz _LABEL_343_
 	ret
 
-_LABEL_350_:
+configurePPI:
 	ld a, $92
 	out (_PORT_DF_), a
 	ld hl, v_inputFlags
