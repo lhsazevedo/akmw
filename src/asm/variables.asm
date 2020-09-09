@@ -1,6 +1,6 @@
 .enum $C000 export
 _RAM_C000_ dsb $4
-_RAM_C004_ db
+v_VDPRegister1Value db
 v_inputFlags db
 v_inputData db      ; inverse of port Port_IOPort1 (port $DC)
 _RAM_C007_ db

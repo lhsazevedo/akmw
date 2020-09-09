@@ -449,7 +449,7 @@ _LABEL_26B_:
 	xor a
 	out (Port_VDPData), a
 	ld a, (_DATA_27D_ + 2)
-	ld (_RAM_C004_), a
+	ld (v_VDPRegister1Value), a
 	ret
 
 ; Data from 27D to 292 (22 bytes)
@@ -503,15 +503,15 @@ _LABEL_2E6_:
 	ret
 
 _LABEL_2EF_:
-	ld a, (_RAM_C004_)
+	ld a, (v_VDPRegister1Value)
 	and $BF
 	jr +
 
 _LABEL_2F6_:
-	ld a, (_RAM_C004_)
+	ld a, (v_VDPRegister1Value)
 	or $40
 +:
-	ld (_RAM_C004_), a
+	ld (v_VDPRegister1Value), a
 	ld e, a
 	ld d, $81
 	rst $08	; setVDPAddress
