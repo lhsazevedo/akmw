@@ -163,6 +163,7 @@ init:
 -:
 	ld a, $82
 	ld (_RAM_FFFF_), a
+	; Reset stack pointer
 	ld sp, $DFF0
 	call initVolume
 	call _LABEL_26B_
