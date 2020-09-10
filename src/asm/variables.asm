@@ -278,14 +278,14 @@ _RAM_C21B_ dw
 .ende
 
 .enum $C220 export
-_RAM_C220_ db
-_RAM_C221_ db
-_RAM_C222_ db
-_RAM_C223_ dw
-_RAM_C225_ db
-_RAM_C226_ db
-_RAM_C227_ db
-_RAM_C228_ db
+v_titleScreenTileUpdateTimer db
+v_titleScreen4FrameTileTimer db
+v_titleScreen6FrameTileTimer db
+v_titleScreenTileUpdaterPointer dw
+v_shouldUpdateTitlescreenLevelTiles db
+v_titleScreenTimer db
+v_currentTitleScreen db
+v_titleScreenLogoTimer db
 _RAM_C229_ db
 _RAM_C22A_ db
 .ende

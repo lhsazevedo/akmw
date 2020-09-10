@@ -1,6 +1,6 @@
 ; 1st entry of Jump Table from 127 (indexed by v_gameState)
 handleInterruptTitleScreenState:
-	ld hl, _RAM_C226_
+	ld hl, v_titleScreenTimer
 	dec (hl)
 	ret nz
 	ld (hl), $20
@@ -30,7 +30,7 @@ handleInterruptTitleScreenState:
 	ld hl, _DATA_8E6_
 	jp loadAthJumptablePointer
 
-; 1st entry of Jump Table from 8E6 (indexed by _RAM_C227_)
+; 1st entry of Jump Table from 8E6 (indexed by v_currentTitleScreen)
 _LABEL_872_:
 	ld hl, _DATA_12EFC_
 	ld de, $7828
@@ -38,7 +38,7 @@ _LABEL_872_:
 	call _LABEL_193_
 	jp _LABEL_9C2_
 
-; 2nd entry of Jump Table from 8E6 (indexed by _RAM_C227_)
+; 2nd entry of Jump Table from 8E6 (indexed by v_currentTitleScreen)
 _LABEL_881_:
 	ld hl, _DATA_130A4_
 	ld de, $7B98
@@ -46,14 +46,14 @@ _LABEL_881_:
 	call _LABEL_193_
 	jp _LABEL_97E_
 
-; 3rd entry of Jump Table from 8E6 (indexed by _RAM_C227_)
+; 3rd entry of Jump Table from 8E6 (indexed by v_currentTitleScreen)
 _LABEL_890_:
 	ld hl, _DATA_12FA4_
 	ld de, $7800
 	ld bc, $080E
 	jp _LABEL_193_
 
-; 4th entry of Jump Table from 8E6 (indexed by _RAM_C227_)
+; 4th entry of Jump Table from 8E6 (indexed by v_currentTitleScreen)
 _LABEL_89C_:
 	ld hl, _DATA_13014_
 	ld de, $79F4
@@ -61,7 +61,7 @@ _LABEL_89C_:
 	call _LABEL_193_
 	jp _LABEL_967_
 
-; 5th entry of Jump Table from 8E6 (indexed by _RAM_C227_)
+; 5th entry of Jump Table from 8E6 (indexed by v_currentTitleScreen)
 _LABEL_8AB_:
 	ld hl, _DATA_131B2_
 	ld de, $7A00
@@ -69,7 +69,7 @@ _LABEL_8AB_:
 	call _LABEL_193_
 	jp _LABEL_995_
 
-; 6th entry of Jump Table from 8E6 (indexed by _RAM_C227_)
+; 6th entry of Jump Table from 8E6 (indexed by v_currentTitleScreen)
 _LABEL_8BA_:
 	ld hl, _DATA_1314C_
 	ld de, $7D1A
@@ -86,7 +86,7 @@ _DATA_8CA_:
 .db $0C $08 $05 $0B $30 $38 $3C $3F $02 $06 $2F $00 $2F $3F $05 $0B
 .db $03 $02 $00 $30 $3C $0C $0F $08 $3A $36 $03 $0A
 
-; Jump Table from 8E6 to 8F1 (6 entries, indexed by _RAM_C227_)
+; Jump Table from 8E6 to 8F1 (6 entries, indexed by v_currentTitleScreen)
 _DATA_8E6_:
 .dw _LABEL_872_ _LABEL_881_ _LABEL_890_ _LABEL_89C_ _LABEL_8AB_ _LABEL_8BA_
 

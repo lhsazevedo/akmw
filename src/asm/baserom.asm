@@ -327,6 +327,7 @@ _LABEL_18B_:
 	djnz _LABEL_18B_
 	ret
 
+; Copy CxB (WxH) tiles from HL to DE
 _LABEL_193_:
 	push bc
 	rst $08	; setVDPAddress
@@ -337,6 +338,7 @@ _LABEL_193_:
 	nop
 	jr nz, -
 	ex de, hl
+	; Go to next line, (add $40 to VRAM address)
 	ld bc, $0040
 	add hl, bc
 	ex de, hl
@@ -1163,88 +1165,10 @@ _LABEL_74C_:
 .db $6A $10 $F3 $C9
 
 ; 1st entry of Jump Table from 3B (indexed by v_gameState)
-updateTitleScreenState:
-	exx
-	bit 7, (hl)
-	jp nz, _LABEL_7EC_
-	set 7, (hl)
-	xor a
-	ld (_RAM_C10A_), a
-	call _LABEL_311_
-	ld de, $6000
-	ld bc, $0020
-	ld l, $00
-	call fillVRAM
-	ld a, $82
-	ld (_RAM_FFFF_), a
-	call _LABEL_9DF3_
-	call _LABEL_43B_
-	ld hl, v_score
-	ld de, v_score + 1
-	ld bc, $1DDF
-	ld (hl), $00
-	ldir
-	ld hl, _RAM_C226_
-	ld (hl), $3C
-	xor a
-	ld (_RAM_C227_), a
-	ld (_RAM_C228_), a
-	ld a, $84
-	ld (_RAM_FFFF_), a
-	ld hl, _DATA_13332_
-	ld de, $4020
-	call decompress4BitplanesToVRAM
-	ld hl, _DATA_12D9E_
-	ld de, $788E
-	ld bc, $061C
-	call _LABEL_193_
-	ld hl, _DATA_12E46_
-	ld de, $79DA
-	ld bc, $071A
-	call _LABEL_193_
-	ld hl, titleScreenPalette
-	ld de, $C000
-	ld b, $20
-	rst $30	; memcpyToVRAM
-	call _LABEL_8F6_
-	call enableDisplay
-	ei
-	ld hl, $01D0
-	ld (v_introTimer), hl
-	ld a, $81
-	ld (v_soundControl), a
-_LABEL_7EC_:
-	ld a, $09
-	call setAndWaitForInterruptFlags
-	call updateEntities
-	ld a, (v_inputData)
-	ld b, a
-	and $30
-	jr nz, +
-	ld hl, (v_introTimer)
-	dec hl
-	ld (v_introTimer), hl
-	ld a, h
-	or l
-	ret nz
-	ld a, $02
-	ld (v_gameState), a
-	ret
-
-+:
-	ld a, $26
-	ld (v_VDPRegister0Value), a
-	ld hl, _DATA_824_
-	ld de, v_gameState
-	ld bc, $0019
-	ldir
-	xor a
-	ld (_RAM_C10A_), a
-	ld (v_inputFlags), a
-	ret
+.INC "engine/title/update.asm"
 
 ; Data from 824 to 841 (30 bytes)
-_DATA_824_:
+initialValues:
 .db INITIAL_GAME_STATE
 .db INITIAL_SCORE
 .db INITIAL_LEVEL
@@ -1409,9 +1333,9 @@ _LABEL_C43_:
 	inc hl
 	ld h, (hl)
 	ld l, a
-	ld (_RAM_C223_), hl
+	ld (v_titleScreenTileUpdaterPointer), hl
 	ld a, $01
-	ld (_RAM_C220_), a
+	ld (v_titleScreenTileUpdateTimer), a
 	ld a, (v_level)
 	ld hl, _DATA_D0A_ - 2
 	call _LABEL_10_
@@ -2409,27 +2333,27 @@ _DATA_156D_:
 .dw _LABEL_15D2_
 
 _LABEL_158F_:
-	ld hl, _RAM_C225_
+	ld hl, v_shouldUpdateTitlescreenLevelTiles
 	ld a, (hl)
 	ld (hl), $00
 	or a
 	jp z, +
-	ld hl, _RAM_C220_
+	ld hl, v_titleScreenTileUpdateTimer
 	dec (hl)
 	ret nz
 	inc (hl)
 +:
-	ld hl, _RAM_C220_
+	ld hl, v_titleScreenTileUpdateTimer
 	dec (hl)
 	ret nz
 	ld (hl), $12
 	ld a, $85
 	ld (_RAM_FFFF_), a
-	ld hl, (_RAM_C223_)
+	ld hl, (v_titleScreenTileUpdaterPointer)
 	jp (hl)
 
 _LABEL_15AF_:
-	ld hl, _RAM_C221_
+	ld hl, v_titleScreen4FrameTileTimer
 	inc (hl)
 	ld a, (hl)
 	cp $04
@@ -2437,7 +2361,7 @@ _LABEL_15AF_:
 	jp +
 
 _LABEL_15BC_:
-	ld hl, _RAM_C222_
+	ld hl, v_titleScreen6FrameTileTimer
 	inc (hl)
 	ld a, (hl)
 	cp $06
@@ -2510,23 +2434,23 @@ _LABEL_1612_:
 _LABEL_161F_:
 	ret
 
-; Pointer Table from 1620 to 162B (6 entries, indexed by _RAM_C222_)
+; Pointer Table from 1620 to 162B (6 entries, indexed by v_titleScreen6FrameTileTimer)
 _DATA_1620_:
 .dw _DATA_17853_ _DATA_17893_ _DATA_178D3_ _DATA_17913_ _DATA_178D3_ _DATA_17893_
 
-; Pointer Table from 162C to 1637 (6 entries, indexed by _RAM_C222_)
+; Pointer Table from 162C to 1637 (6 entries, indexed by v_titleScreen6FrameTileTimer)
 _DATA_162C_:
 .dw _DATA_17953_ _DATA_17993_ _DATA_179D3_ _DATA_17A13_ _DATA_179D3_ _DATA_17993_
 
-; Pointer Table from 1638 to 163F (4 entries, indexed by _RAM_C221_)
+; Pointer Table from 1638 to 163F (4 entries, indexed by v_titleScreen4FrameTileTimer)
 _DATA_1638_:
 .dw _DATA_17A53_ _DATA_17AB3_ _DATA_17B13_ _DATA_17B73_
 
-; Pointer Table from 1640 to 1647 (4 entries, indexed by _RAM_C221_)
+; Pointer Table from 1640 to 1647 (4 entries, indexed by v_titleScreen4FrameTileTimer)
 _DATA_1640_:
 .dw _DATA_17BD3_ _DATA_17C33_ _DATA_17C93_ _DATA_17CF3_
 
-; Pointer Table from 1648 to 164F (4 entries, indexed by _RAM_C221_)
+; Pointer Table from 1648 to 164F (4 entries, indexed by v_titleScreen4FrameTileTimer)
 _DATA_1648_:
 .dw _DATA_17D53_ _DATA_17DB3_ _DATA_17E13_ _DATA_17E73_
 
@@ -6600,7 +6524,7 @@ _LABEL_41B3_:
 	cp (hl)
 	ret z
 	ld (hl), a
-	ld hl, _RAM_C225_
+	ld hl, v_shouldUpdateTitlescreenLevelTiles
 	ld (hl), $01
 _LABEL_41C0_:
 	add a, a
