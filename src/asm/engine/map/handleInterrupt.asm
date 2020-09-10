@@ -183,7 +183,7 @@ _LABEL_1FE9_:
 	ld a, b
 	ld (v_soundControl), a
 ++:
-	call _LABEL_2F6_
+	call enableDisplay
 	ld b, $0A
 	jp _LABEL_343_
 
@@ -421,7 +421,7 @@ _LABEL_2198_:
 	ld (v_soundControl), a
 +:
 	ei
-	call _LABEL_2F6_
+	call enableDisplay
 	ret
 
 ; Data from 23FD to 241C (32 bytes)
@@ -714,7 +714,7 @@ _LABEL_25D3_:
 	djnz -
 	call updateEntities
 	ei
-	call _LABEL_2F6_
+	call enableDisplay
 -:
 	ld a, $01
 	call _LABEL_2E6_

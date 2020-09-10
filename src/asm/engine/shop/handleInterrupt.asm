@@ -122,7 +122,7 @@ _LABEL_1C33_:
 	ei
 	ld a, $09
 	call _LABEL_2E6_
-	call _LABEL_2F6_
+	call enableDisplay
 	ld b, $0A
 	jp _LABEL_343_
 
@@ -306,7 +306,7 @@ _LABEL_1E77_:
 	ld a, $82
 	ld (_RAM_FFFF_), a
 	ei
-	call _LABEL_2F6_
+	call enableDisplay
 	ld a, (v_level)
 	ld c, a
 	ld b, $00

@@ -116,7 +116,7 @@ gameStateMainLoopPointers:
 .dw updateGameplayState
 .dw updateMapState
 
-_LABEL_53_:
+initMainLoop:
 	xor a
 	ld (v_gameState), a
 mainLoop:
@@ -167,13 +167,14 @@ init:
 	ld sp, $DFF0
 	call initVolume
 	call initVDPRegisters
+	; Clear VRAM tiles
 	ld hl, $0000
 	ld de, $4000
 	ld bc, $3800
 	call fillVRAM
 	ei
-	call _LABEL_2F6_
-	jp _LABEL_53_
+	call enableDisplay
+	jp initMainLoop
 
 handleInterrupt:
 	push af
@@ -549,9 +550,10 @@ _LABEL_2EF_:
 	and $BF
 	jr +
 
-_LABEL_2F6_:
+; Also sets VDP Address, why?
+enableDisplay:
 	ld a, (v_VDPRegister1Value)
-	or $40
+	or VDP_R1_DISPLAY_VISIBLE
 +:
 	ld (v_VDPRegister1Value), a
 	ld e, a
@@ -1205,7 +1207,7 @@ updateTitleScreenState:
 	ld b, $20
 	rst $30	; memcpyToVRAM
 	call _LABEL_8F6_
-	call _LABEL_2F6_
+	call enableDisplay
 	ei
 	ld hl, $01D0
 	ld (v_introTimer), hl
@@ -1651,7 +1653,7 @@ _LABEL_C43_:
 	ld hl, v_gameState
 	set 7, (hl)
 	ei
-	jp _LABEL_2F6_
+	jp enableDisplay
 
 ; Jump Table from D0A to D2B (17 entries, indexed by v_level)
 _DATA_D0A_:
@@ -3001,7 +3003,7 @@ _LABEL_1874_:
 	ld hl, v_gameState
 	set 7, (hl)
 	ei
-	jp _LABEL_2F6_
+	jp enableDisplay
 
 _LABEL_189A_:
 	xor a
@@ -3023,7 +3025,7 @@ _LABEL_189A_:
 	ld hl, v_gameState
 	set 7, (hl)
 	ei
-	jp _LABEL_2F6_
+	jp enableDisplay
 
 ; 5th entry of Jump Table from 127 (indexed by v_gameState)
 handleInterruptLevelCompletedState:
@@ -3086,7 +3088,7 @@ updateLevelCompletedState:
 	ld (_RAM_C051_), a
 	ld (v_currentLevelIsBonusLevel), a
 	ei
-	jp _LABEL_2F6_
+	jp enableDisplay
 
 ; 4th entry of Jump Table from 3B (indexed by v_gameState)
 updateLevelStartingState:
@@ -3290,7 +3292,7 @@ _LABEL_1A46_:
 	ld a, $86
 	ld (v_soundControl), a
 	ei
-	jp _LABEL_2F6_
+	jp enableDisplay
 
 ; 86th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_1B41_:
@@ -11892,7 +11894,7 @@ _LABEL_6D73_:
 +:
 	ld a, b
 	ld (v_gameState), a
-	jp _LABEL_2F6_
+	jp enableDisplay
 
 _LABEL_6DC9_:
 	call _LABEL_311_
@@ -11923,7 +11925,7 @@ _LABEL_6DC9_:
 	ld a, $AF
 	ld (v_soundControl), a
 	ei
-	call _LABEL_2F6_
+	call enableDisplay
 	ld a, $C0
 	ld (_RAM_C07F_), a
 	xor a
@@ -14132,7 +14134,7 @@ _LABEL_7E5E_:
 	ld de, $7800
 	ld bc, $0700
 	call _LABEL_145_
-	call _LABEL_2F6_
+	call enableDisplay
 	ei
 	ret
 
