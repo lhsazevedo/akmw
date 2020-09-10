@@ -5,7 +5,7 @@ updateMapState:
 	jp z, _LABEL_2198_
 	call updateEntities
 	ld a, $09
-	call _LABEL_2E6_
+	call waitForInterrupt
 	ld a, (v_shouldOpenMap)
 	or a
 	ret z

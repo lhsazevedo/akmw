@@ -10,7 +10,7 @@ _LABEL_A8E_:
 	call _LABEL_67C4_
 	call _LABEL_6B49_
 	ld a, $09
-	call _LABEL_2E6_
+	call waitForInterrupt
 
 	; Return if map shouldn't be displayed
 	ld a, (v_shouldOpenMap)
