@@ -117,6 +117,7 @@ gameStateMainLoopPointers:
 .dw updateMapState
 
 initMainLoop:
+	; Reset game state to STATE_TITLE
 	xor a
 	ld (v_gameState), a
 mainLoop:
@@ -124,18 +125,24 @@ mainLoop:
 	ld a, (hl)
 	and $0F
 	exx
+
+	; Jump to state updater
 	ld hl, gameStateMainLoopPointers
 	rst $20	; loadAthJumptablePointer
 	jp mainLoop
 
+
 ; Data from 65 to 65 (1 bytes)
 .db $FF
 
+
 handlePauseInterrupt:
 	push af
+	; Skip if alex is dead
 	ld a, (v_entities.1.state)
 	cp ALEX_DEAD
 	jp z, +
+
 	ld a, (shouldDisplayMapOpening)
 	or a
 	jp nz, +
