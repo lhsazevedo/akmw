@@ -36,4 +36,4 @@ updateDemoState:
 	ld (hl), a
 	ld hl, $01FF
 	ld (v_demoCurrentInputData), hl
-	jp _LABEL_ABD_
+	jp initGameplayState

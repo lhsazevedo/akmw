@@ -2,7 +2,7 @@
 updateGameplayState:
 	exx
 	bit 7, (hl)
-	jp z, _LABEL_ABD_
+	jp z, initGameplayState
 _LABEL_A8E_:
 	call _LABEL_645E_
 	call _LABEL_6F44_
