@@ -456,26 +456,46 @@ initVDPRegisters:
 
 ; Data from 27D to 292 (22 bytes)
 initialVDPRegistersWrites:
-; Write $26 to register $00
-.db $26 $80
-; Write $A0 to register $01
-.db $A0 $81
+; Register $00
+.db ( VDP_R0_MASK_COL_0 | VDP_R0_USE_MODE_4  | VDP_R0_CHANGE_HEIGHT_IN_MODE_4 )
+.db $80
+
+; Register $01
+.db ( 1 << 7 | VDP_R1_ENABLE_FRAME_INTERRUPT )
+.db $81
+
 ; Write $FF to register $02
+; Name table base address
 .db $FF $82
+
 ; Write $FF to register $03
+; Color table base address
 .db $FF $83
+
 ; Write $FF to register $04
+; Background Pattern Generator Base Address
 .db $FF $84
+
 ; Write $FF to register $05
+; Sprite Attribute Table Base Address
 .db $FF $85
+
 ; Write $FF to register $06
+; Sprite Pattern Generator Base Address
 .db $FF $86
+
 ; Write $00 to register $08
+; Background X Scroll
 .db $00 $88
+
 ; Write $00 to register $09
+; Background Y Scroll
 .db $00 $89
+
 ; Write $00 to register $07
+; Overscan/Backdrop Color
 .db $00 $87
+
 ; Write to CRAM at $C0 command
 .db $10 $C0
 
