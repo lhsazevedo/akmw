@@ -512,18 +512,6 @@ initialVDPRegistersWrites:
 ; Write to CRAM at $C0 command
 .db $10 $C0
 
-_LABEL_293_:
-	ld b, $04
--:
-	push bc
-	push de
-	call decompressToVRAM
-	pop de
-	inc de
-	pop bc
-	djnz -
-	ret
-
 .INCLUDE "decompress.asm"
 
 ; Data from 2C4 to 2C4 (1 bytes)
@@ -1205,7 +1193,7 @@ updateTitleScreenState:
 	ld (_RAM_FFFF_), a
 	ld hl, _DATA_13332_
 	ld de, $4020
-	call _LABEL_293_
+	call decompress4BitplanesToVRAM
 	ld hl, _DATA_12D9E_
 	ld de, $788E
 	ld bc, $061C
@@ -1285,7 +1273,7 @@ _LABEL_8F6_:
 	call _LABEL_41C8_
 	ld hl, _DATA_12357_
 	ld de, $6400
-	call _LABEL_293_
+	call decompress4BitplanesToVRAM
 	ld a, $82
 	ld (_RAM_FFFF_), a
 	ld hl, _DATA_8F7B_ + 1
@@ -1570,7 +1558,7 @@ _LABEL_E4B_:
 _LABEL_E6C_:
 	ld hl, tiles_bagOfGoldCoinsAndCloud
 	ld de, $44A0
-	call _LABEL_293_
+	call decompress4BitplanesToVRAM
 	ld a, (v_level)
 	ld hl, _DATA_E7D_ - 2
 	rst $20	; loadAthJumptablePointer
@@ -1592,25 +1580,25 @@ _LABEL_E9F_:
 	ld hl, levelMainTilesetPointers - 2
 	rst $10	; _LABEL_10_
 	ld de, $4720
-	call _LABEL_293_
+	call decompress4BitplanesToVRAM
 	ld hl, tiles_aditionalSet4
 	ld de, $4E60
 	ld b, $A0
 	rst $30	; memcpyToVRAM
 	ld hl, tiles_aditionalSet1
 	ld de, $4F00
-	jp _LABEL_293_
+	jp decompress4BitplanesToVRAM
 
 ; 8th entry of Jump Table from E7D (indexed by v_level)
 _LABEL_EC9_:
 	ld hl, tiles_aditionalSet2
 	ld de, $4EC0
-	call _LABEL_293_
+	call decompress4BitplanesToVRAM
 	ld a, (v_level)
 	ld hl, levelMainTilesetPointers - 2
 	rst $10	; _LABEL_10_
 	ld de, $46A0
-	jp _LABEL_293_
+	jp decompress4BitplanesToVRAM
 
 ; 16th entry of Jump Table from E7D (indexed by v_level)
 _LABEL_EDF_:
@@ -1622,10 +1610,10 @@ _LABEL_EDF_:
 	ld hl, levelMainTilesetPointers - 2
 	rst $10	; _LABEL_10_
 	ld de, $4720
-	call _LABEL_293_
+	call decompress4BitplanesToVRAM
 	ld hl, tiles_aditionalSet1
 	ld de, $4F00
-	jp _LABEL_293_
+	jp decompress4BitplanesToVRAM
 
 ; 10th entry of Jump Table from E7D (indexed by v_level)
 _LABEL_F00_:
@@ -1637,10 +1625,10 @@ _LABEL_F00_:
 	ld hl, levelMainTilesetPointers - 2
 	rst $10	; _LABEL_10_
 	ld de, $4720
-	call _LABEL_293_
+	call decompress4BitplanesToVRAM
 	ld hl, tiles_aditionalSet2
 	ld de, $4EC0
-	jp _LABEL_293_
+	jp decompress4BitplanesToVRAM
 
 ; 3rd entry of Jump Table from E7D (indexed by v_level)
 _LABEL_F21_:
@@ -1652,17 +1640,17 @@ _LABEL_F21_:
 	ld hl, levelMainTilesetPointers - 2
 	rst $10	; _LABEL_10_
 	ld de, $48A0
-	call _LABEL_293_
+	call decompress4BitplanesToVRAM
 	ld hl, tiles_aditionalSet5
 	ld de, $4D00
-	call _LABEL_293_
+	call decompress4BitplanesToVRAM
 	ld hl, tiles_aditionalSet4
 	ld de, $4E60
 	ld b, $A0
 	rst $30	; memcpyToVRAM
 	ld hl, tiles_aditionalSet1
 	ld de, $4F00
-	jp _LABEL_293_
+	jp decompress4BitplanesToVRAM
 
 ; 4th entry of Jump Table from E7D (indexed by v_level)
 _LABEL_F54_:
@@ -1674,7 +1662,7 @@ _LABEL_F54_:
 	ld hl, levelMainTilesetPointers - 2
 	rst $10	; _LABEL_10_
 	ld de, $4720
-	jp _LABEL_293_
+	jp decompress4BitplanesToVRAM
 
 ; 6th entry of Jump Table from E7D (indexed by v_level)
 _LABEL_F6C_:
@@ -1686,25 +1674,25 @@ _LABEL_F6C_:
 	ld hl, $847E
 	rst $10	; _LABEL_10_
 	ld de, $4720
-	call _LABEL_293_
+	call decompress4BitplanesToVRAM
 	ld a, (v_level)
 	ld hl, levelMainTilesetPointers - 2
 	rst $10	; _LABEL_10_
 	ld de, $4920
-	call _LABEL_293_
+	call decompress4BitplanesToVRAM
 	ld hl, tiles_aditionalSet2
 	ld de, $4EC0
-	jp _LABEL_293_
+	jp decompress4BitplanesToVRAM
 
 ; 5th entry of Jump Table from E7D (indexed by v_level)
 _LABEL_F99_:
 	call _LABEL_E9F_
 	ld hl, tiles_aditionalSet5
 	ld de, $4D00
-	call _LABEL_293_
+	call decompress4BitplanesToVRAM
 	ld hl, tiles_aditionalSet3
 	ld de, $47A0
-	jp _LABEL_293_
+	jp decompress4BitplanesToVRAM
 
 ; 7th entry of Jump Table from E7D (indexed by v_level)
 _LABEL_FAE_:
@@ -1716,7 +1704,7 @@ _LABEL_FAE_:
 	ld hl, levelMainTilesetPointers - 2
 	rst $10	; _LABEL_10_
 	ld de, $4720
-	jp _LABEL_293_
+	jp decompress4BitplanesToVRAM
 
 ; 9th entry of Jump Table from E7D (indexed by v_level)
 _LABEL_FC6_:
@@ -1728,16 +1716,16 @@ _LABEL_FC6_:
 	ld hl, levelMainTilesetPointers - 2
 	rst $10	; _LABEL_10_
 	ld de, $4720
-	call _LABEL_293_
+	call decompress4BitplanesToVRAM
 	ld hl, tiles_aditionalSet5
 	ld de, $4D00
-	call _LABEL_293_
+	call decompress4BitplanesToVRAM
 	ld hl, tiles_aditionalSet1
 	ld de, $4F00
-	call _LABEL_293_
+	call decompress4BitplanesToVRAM
 	ld hl, tiles_aditionalSet3
 	ld de, $47A0
-	jp _LABEL_293_
+	jp decompress4BitplanesToVRAM
 
 ; 2nd entry of Jump Table from E7D (indexed by v_level)
 _LABEL_FF9_:
@@ -1749,13 +1737,13 @@ _LABEL_FF9_:
 	ld hl, $847E
 	rst $10	; _LABEL_10_
 	ld de, $4720
-	call _LABEL_293_
+	call decompress4BitplanesToVRAM
 	ld hl, tiles_aditionalSet2
 	ld de, $4EC0
-	call _LABEL_293_
+	call decompress4BitplanesToVRAM
 	ld hl, tiles_aditionalSet3
 	ld de, $47A0
-	jp _LABEL_293_
+	jp decompress4BitplanesToVRAM
 
 ; 17th entry of Jump Table from E7D (indexed by v_level)
 _LABEL_1022_:
@@ -1767,18 +1755,18 @@ _LABEL_1022_:
 	ld hl, $847E
 	rst $10	; _LABEL_10_
 	ld de, $48A0
-	call _LABEL_293_
+	call decompress4BitplanesToVRAM
 	ld a, (v_level)
 	ld hl, levelMainTilesetPointers - 2
 	rst $10	; _LABEL_10_
 	ld de, $4AA0
-	call _LABEL_293_
+	call decompress4BitplanesToVRAM
 	ld hl, tiles_level17AditionalSet
 	ld de, $4720
-	call _LABEL_293_
+	call decompress4BitplanesToVRAM
 	ld hl, tiles_aditionalSet1
 	ld de, $4F00
-	jp _LABEL_293_
+	jp decompress4BitplanesToVRAM
 
 ; 14th entry of Jump Table from E7D (indexed by v_level)
 _LABEL_1058_:
@@ -1790,12 +1778,12 @@ _LABEL_1058_:
 	ld hl, $847E
 	rst $10	; _LABEL_10_
 	ld de, $4720
-	call _LABEL_293_
+	call decompress4BitplanesToVRAM
 	ld a, (v_level)
 	ld hl, levelMainTilesetPointers - 2
 	rst $10	; _LABEL_10_
 	ld de, $4DA0
-	jp _LABEL_293_
+	jp decompress4BitplanesToVRAM
 
 _LABEL_107C_:
 	ld a, (v_gameState)
@@ -3044,7 +3032,7 @@ _LABEL_1A46_:
 	call _LABEL_13F_
 	ld hl, mapTiles
 	ld de, $4000
-	call _LABEL_293_
+	call decompress4BitplanesToVRAM
 	ld de, $78C8
 	ld (_RAM_C03A_), de
 	ld hl, _DATA_15E75_
@@ -3099,7 +3087,7 @@ _LABEL_1A46_:
 	ld (_RAM_FFFF_), a
 	ld hl, tiles_AlexKiddEatingRiceBall
 	ld de, $6C00
-	call _LABEL_293_
+	call decompress4BitplanesToVRAM
 	ld ix, _RAM_C340_
 	ld (ix+0), $62
 	ld a, $82
@@ -12241,7 +12229,7 @@ _LABEL_71CC_:
 	call _LABEL_7924_
 	ld hl, (_RAM_C232_)
 	ld de, $6400
-	call _LABEL_293_
+	call decompress4BitplanesToVRAM
 	ei
 	ld a, $82
 	ld (_RAM_FFFF_), a
@@ -13164,7 +13152,7 @@ _LABEL_7924_:
 	ld hl, _DATA_118E9_
 	ld de, $7000
 	di
-	jp _LABEL_293_
+	jp decompress4BitplanesToVRAM
 
 _LABEL_7941_:
 	ld hl, _RAM_C908_

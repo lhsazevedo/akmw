@@ -54,7 +54,7 @@ initGameplayState:
 	ld (_RAM_FFFF_), a
 	ld de, $5600
 	ld hl, _DATA_172B1_
-	call _LABEL_293_
+	call decompress4BitplanesToVRAM
 	ld a, $83
 	ld (_RAM_FFFF_), a
 	ld hl, _DATA_C000_
