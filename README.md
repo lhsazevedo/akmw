@@ -13,3 +13,9 @@ It builds the following roms:
   SHA1  8cecf8ed0f765163b2657be1b0a3ce2a9cb767f4
   CRC32 17a40e29
   ```
+
+## Disclaimer:
+Any and all content presented in this repository is presented for informational and educational purposes only.
+Commercial usage is expressly prohibited. Owner claims no ownership of any code in these repositories.
+You assume any and all responsibility for using this content responsibly. Owner claims no responsibiliy or warranty.
+You are not allowed to redistribute the patched ROM or bundle the patch with pirated copies of the game.
