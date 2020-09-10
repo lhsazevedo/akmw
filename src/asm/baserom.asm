@@ -1160,7 +1160,7 @@ updateTitleScreenState:
 	ld de, $79DA
 	ld bc, $071A
 	call _LABEL_193_
-	ld hl, _DATA_8C6_
+	ld hl, titleScreenPalette
 	ld de, $C000
 	ld b, $20
 	rst $30	; memcpyToVRAM

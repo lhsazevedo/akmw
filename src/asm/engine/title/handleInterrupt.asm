@@ -77,7 +77,7 @@ _LABEL_8BA_:
 	jp _LABEL_193_
 
 ; Data from 8C6 to 8C9 (4 bytes)
-_DATA_8C6_:
+titleScreenPalette:
 .db $2F $00 $03 $04
 
 ; 5th entry of Pointer Table from 1BF61 (indexed by unknown)
