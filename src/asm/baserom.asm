@@ -212,7 +212,7 @@ handleInterrupt:
 	jp nz, -
 	ld a, (_RAM_FFFF_)
 	push af
-	ld a, (_RAM_C008_)
+	ld a, (v_interruptFlags)
 	rrca
 	push af
 	call c, copySATtoVRAM
@@ -235,7 +235,7 @@ handleInterrupt:
 	ld (_RAM_FFFF_), a
 	call _LABEL_984F_
 	xor a
-	ld (_RAM_C008_), a
+	ld (v_interruptFlags), a
 	pop af
 	ld (_RAM_FFFF_), a
 	pop iy
@@ -549,7 +549,7 @@ _LABEL_2C5_:
 .db $21 $00 $C7 $11 $01 $C7 $01 $BF $00 $36 $E0 $ED $B0 $3E $01
 
 waitForInterrupt:
-	ld hl, _RAM_C008_
+	ld hl, v_interruptFlags
 	ld (hl), a
 -:
 	ld a, (hl)
