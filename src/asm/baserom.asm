@@ -1387,16 +1387,8 @@ clearEntities:
 .INC "engine/demo/handleInterrupt.asm"
 .INC "src/data/demoInputPointers.asm"
 
-; 10th entry of Jump Table from 3B (indexed by v_gameState)
 .INC "engine/gameplay/update.asm"
-
-; 10th entry of Jump Table from 127 (indexed by v_gameState)
-handleInterruptGameplayState:
-	call _LABEL_264F_
-	call _LABEL_4229_
-	call _LABEL_158F_
-	jp _LABEL_6920_
-
+.INC "engine/gameplay/handleInterrupt.asm"
 .INC "engine/gameplay/init.asm"
 
 _LABEL_C43_:
