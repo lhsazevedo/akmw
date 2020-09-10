@@ -140,7 +140,7 @@ handlePauseInterrupt:
 	or a
 	jp nz, +
 	ld a, (v_gameState)
-	cp $8A
+	cp ($80 | STATE_GAMEPLAY)
 	jr c, +
 	ld a, $01
 	ld (v_triggerMapScreenToggle), a

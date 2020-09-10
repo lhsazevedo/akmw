@@ -3,6 +3,18 @@
 SMALL_MONEY_BAG_VALUE = $01 $00 $00 ; 100
 BIG_MONEY_BAG_VALUE =   $02 $00 $00 ; 200
 
+STATE_TITLE             = $0
+STATE_DEMO              = $2
+STATE_LEVEL_STARTING    = $3
+STATE_LEVEL_COMPLETED   = $4
+STATE_SHOP              = $5
+STATE_LIFE_LOST         = $6
+STATE_TEXT_BOX          = $7
+STATE_BONUS_LEVEL       = $8
+STATE_JANKEN_GAME       = $9
+STATE_GAMEPLAY          = $A
+STATE_MAP               = $B
+
 ; Initial game values
 INITIAL_GAME_STATE = $03
 INITIAL_SCORE = $00 $00 $00 ; 0
