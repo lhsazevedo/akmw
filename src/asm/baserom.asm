@@ -150,7 +150,7 @@ handlePauseInterrupt:
 	cp ($80 | STATE_GAMEPLAY)
 	jr c, +
 	ld a, $01
-	ld (v_triggerMapScreenToggle), a
+	ld (v_shouldOpenMap), a
 +:
 	pop af
 	retn

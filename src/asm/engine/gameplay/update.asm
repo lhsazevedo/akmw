@@ -13,13 +13,13 @@ _LABEL_A8E_:
 	call _LABEL_2E6_
 
 	; Return if map shouldn't be displayed
-	ld a, (v_triggerMapScreenToggle)
+	ld a, (v_shouldOpenMap)
 	or a
 	ret z
 	xor a
 
 	; Change state to map
-	ld (v_triggerMapScreenToggle), a
+	ld (v_shouldOpenMap), a
 	ld a, STATE_MAP
 	ld (v_gameState), a
 	ret

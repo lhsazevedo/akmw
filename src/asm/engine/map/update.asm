@@ -6,9 +6,9 @@ updateMapState:
 	call updateEntities
 	ld a, $09
 	call _LABEL_2E6_
-	ld a, (v_triggerMapScreenToggle)
+	ld a, (v_shouldOpenMap)
 	or a
 	ret z
 	xor a
-	ld (v_triggerMapScreenToggle), a
+	ld (v_shouldOpenMap), a
 	jr _LABEL_1FE9_

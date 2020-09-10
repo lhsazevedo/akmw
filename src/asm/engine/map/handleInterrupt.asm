@@ -719,11 +719,11 @@ _LABEL_25D3_:
 	ld a, $01
 	call _LABEL_2E6_
 	call updateEntities
-	ld a, (v_triggerMapScreenToggle)
+	ld a, (v_shouldOpenMap)
 	or a
 	jr z, -
 	xor a
-	ld (v_triggerMapScreenToggle), a
+	ld (v_shouldOpenMap), a
 	jp _LABEL_1FE9_
 
 _LABEL_263D_:

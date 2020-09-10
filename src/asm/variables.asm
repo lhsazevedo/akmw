@@ -121,7 +121,7 @@ v_powerBraceletsPickedUpCounter db
 v_alexStateBeforeHit db
 v_newEntityHorizontalOffset db
 v_currentLevelIsBonusLevel db
-v_triggerMapScreenToggle db
+v_shouldOpenMap db
 v_endingSequencePointer db
 _RAM_C095_ db
 v_resetButtonState db
