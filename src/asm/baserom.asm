@@ -166,7 +166,7 @@ init:
 	; Reset stack pointer
 	ld sp, $DFF0
 	call initVolume
-	call _LABEL_26B_
+	call initVDPRegisters
 	ld hl, $0000
 	ld de, $4000
 	ld bc, $3800
@@ -444,20 +444,40 @@ _LABEL_208_:
 	jp nz, -
 	ret
 
-_LABEL_26B_:
-	ld hl, _DATA_27D_
+initVDPRegisters:
+	ld hl, initialVDPRegistersWrites
 	ld bc,  $1600 | Port_VDPAddress
 	otir
 	xor a
 	out (Port_VDPData), a
-	ld a, (_DATA_27D_ + 2)
+	ld a, (initialVDPRegistersWrites + 2)
 	ld (v_VDPRegister1Value), a
 	ret
 
 ; Data from 27D to 292 (22 bytes)
-_DATA_27D_:
-.db $26 $80 $A0 $81 $FF $82 $FF $83 $FF $84 $FF $85 $FF $86 $00 $88
-.db $00 $89 $00 $87 $10 $C0
+initialVDPRegistersWrites:
+; Write $26 to register $00
+.db $26 $80
+; Write $A0 to register $01
+.db $A0 $81
+; Write $FF to register $02
+.db $FF $82
+; Write $FF to register $03
+.db $FF $83
+; Write $FF to register $04
+.db $FF $84
+; Write $FF to register $05
+.db $FF $85
+; Write $FF to register $06
+.db $FF $86
+; Write $00 to register $08
+.db $00 $88
+; Write $00 to register $09
+.db $00 $89
+; Write $00 to register $07
+.db $00 $87
+; Write to CRAM at $C0 command
+.db $10 $C0
 
 _LABEL_293_:
 	ld b, $04
