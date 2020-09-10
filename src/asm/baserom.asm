@@ -152,21 +152,25 @@ init:
 	ld a, $82
 	ld (_RAM_FFFF_), a
 	call initVolume
+
 	; Clear RAM
 	ld hl, $C000
 	ld de, $C000 + 1
 	ld bc, $1FFF
 	ld (hl), l
 	ldir
+
 	call sleepOneSecond
 	call configurePPI
 -:
 	ld a, $82
 	ld (_RAM_FFFF_), a
+
 	; Reset stack pointer
 	ld sp, $DFF0
 	call initVolume
 	call initVDPRegisters
+
 	; Clear VRAM tiles
 	ld hl, $0000
 	ld de, $4000
@@ -175,6 +179,7 @@ init:
 	ei
 	call enableDisplay
 	jp initMainLoop
+
 
 handleInterrupt:
 	push af
