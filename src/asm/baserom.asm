@@ -1427,11 +1427,11 @@ _LABEL_C43_:
 	ld a, (v_level)
 	ld hl, _DATA_D0A_ - 2
 	call _LABEL_10_
-	ld (_RAM_C085_), hl
+	ld (scrollFlagsUpdaterPointer), hl
 	ld a, (v_level)
 	ld hl, _DATA_D4E_ - 2
 	call _LABEL_10_
-	ld (_RAM_C089_), hl
+	ld (newEntitiesLoaderPointer), hl
 	ld a, (v_level)
 	ld c, a
 	ld b, $00
@@ -10525,8 +10525,8 @@ _DATA_644A_:
 .dw _RAM_D800_ _RAM_D801_ _RAM_D802_ _RAM_D803_ _RAM_D804_ _RAM_D805_ _RAM_D806_ _RAM_D807_
 .dw _RAM_D800_ _RAM_D807_
 
-_LABEL_645E_:
-	ld hl, (_RAM_C085_)
+updateScrollFlags:
+	ld hl, (scrollFlagsUpdaterPointer)
 	jp (hl)
 
 ; 1st entry of Jump Table from D0A (indexed by v_level)
@@ -11912,8 +11912,8 @@ _DATA_6F3E_:
 _DATA_6F41_:
 .db $25 $B0 $90
 
-_LABEL_6F44_:
-	ld hl, (_RAM_C089_)
+loadNewEntities:
+	ld hl, (newEntitiesLoaderPointer)
 	jp (hl)
 
 ; 1st entry of Jump Table from D4E (indexed by v_level)

@@ -4,10 +4,12 @@ updateGameplayState:
 	bit 7, (hl)
 	jp z, initGameplayState
 _LABEL_A8E_:
-	call _LABEL_645E_
-	call _LABEL_6F44_
+	call updateScrollFlags
+	call loadNewEntities
 	call updateEntities
+	; Somothing related to scrolling
 	call _LABEL_67C4_
+	; Something related to nametable
 	call _LABEL_6B49_
 	ld a, $09
 	call setAndWaitForInterruptFlags
@@ -16,9 +18,9 @@ _LABEL_A8E_:
 	ld a, (v_shouldOpenMap)
 	or a
 	ret z
-	xor a
 
 	; Change state to map
+	xor a
 	ld (v_shouldOpenMap), a
 	ld a, STATE_MAP
 	ld (v_gameState), a

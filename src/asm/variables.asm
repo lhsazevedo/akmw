@@ -109,9 +109,9 @@ v_levelBankNumber db
 .ende
 
 .enum $C085 export
-_RAM_C085_ dw
+scrollFlagsUpdaterPointer dw
 _RAM_C087_ dw
-_RAM_C089_ dw
+newEntitiesLoaderPointer dw
 .ende
 
 .enum $C08D export
