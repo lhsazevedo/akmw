@@ -121,7 +121,7 @@ _LABEL_1C33_:
 	rst $08	; setVDPAddress
 	ei
 	ld a, $09
-	call waitForInterrupt
+	call setAndWaitForInterruptFlags
 	call enableDisplay
 	ld b, $0A
 	jp _LABEL_343_

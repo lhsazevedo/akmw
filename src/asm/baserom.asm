@@ -548,7 +548,7 @@ _LABEL_2C5_:
 ; Data from 2D7 to 2E5 (15 bytes)
 .db $21 $00 $C7 $11 $01 $C7 $01 $BF $00 $36 $E0 $ED $B0 $3E $01
 
-waitForInterrupt:
+setAndWaitForInterruptFlags:
 	ld hl, v_interruptFlags
 	ld (hl), a
 -:
@@ -602,7 +602,7 @@ _LABEL_311_:
 	rst $08	; setVDPAddress
 	ei
 	ld a, $01
-	call waitForInterrupt
+	call setAndWaitForInterruptFlags
 	di
 	jp _LABEL_17C_
 
@@ -1227,7 +1227,7 @@ updateTitleScreenState:
 	ld (v_soundControl), a
 _LABEL_7EC_:
 	ld a, $09
-	call waitForInterrupt
+	call setAndWaitForInterruptFlags
 	call updateEntities
 	ld a, (v_inputData)
 	ld b, a
@@ -2740,7 +2740,7 @@ updateBonusLevelState:
 	bit 7, (hl)
 	jp z, _LABEL_1735_
 	ld a, $09
-	call waitForInterrupt
+	call setAndWaitForInterruptFlags
 	ld a, (_RAM_D800_)
 	or a
 	jr nz, +
@@ -2759,7 +2759,7 @@ updateBonusLevelState:
 	ld (_RAM_C014_), a
 -:
 	ld a, $01
-	call waitForInterrupt
+	call setAndWaitForInterruptFlags
 	ld hl, _RAM_C014_
 	dec (hl)
 	jp nz, -
@@ -3051,7 +3051,7 @@ updateLevelCompletedState:
 	ld a, $82
 	ld (_RAM_FFFF_), a
 	ld a, $01
-	call waitForInterrupt
+	call setAndWaitForInterruptFlags
 	ld hl, v_level
 	inc (hl)
 	ld a, $85
@@ -3118,7 +3118,7 @@ updateLevelStartingState:
 	jp nz, +
 	ld a, $01
 +:
-	call waitForInterrupt
+	call setAndWaitForInterruptFlags
 	call updateEntities
 	ld a, $85
 	ld (_RAM_FFFF_), a
@@ -3165,7 +3165,7 @@ _LABEL_19CB_:
 	ld a, $82
 	ld (_RAM_FFFF_), a
 	ld a, $01
-	call waitForInterrupt
+	call setAndWaitForInterruptFlags
 	call updateEntities
 	ld hl, _RAM_C03F_
 	dec (hl)
@@ -4434,7 +4434,7 @@ _LABEL_2F41_:
 	ld b, $1E
 -:
 	ld a, $01
-	call waitForInterrupt
+	call setAndWaitForInterruptFlags
 	djnz -
 	ld a, $89
 	ld (v_soundControl), a
@@ -11897,7 +11897,7 @@ _LABEL_6D73_:
 	ld a, $82
 	ld (_RAM_FFFF_), a
 	ld a, $01
-	call waitForInterrupt
+	call setAndWaitForInterruptFlags
 	ld b, $89
 	ld a, (v_hasJankenMatchStarted)
 	or a
@@ -11944,7 +11944,7 @@ _LABEL_6DC9_:
 	ld (v_itemBeignBoughtIndex), a
 -:
 	ld a, $80
-	call waitForInterrupt
+	call setAndWaitForInterruptFlags
 	ld a, (v_inputData)
 	and $01
 	jp nz, +
@@ -14024,7 +14024,7 @@ updateTextBoxState:
 	bit 7, (hl)
 	jp z, _LABEL_7ED3_
 	ld a, $09
-	call waitForInterrupt
+	call setAndWaitForInterruptFlags
 	ld a, $01
 	ld (_RAM_C03E_), a
 	ld hl, v_textBoxCounter
@@ -14100,7 +14100,7 @@ updateTextBoxState:
 	ld (ix+6), $0A
 _LABEL_7E5E_:
 	ld a, $01
-	call waitForInterrupt
+	call setAndWaitForInterruptFlags
 	ld a, (v_inputData)
 	and $30
 	jp nz, ++
@@ -14139,7 +14139,7 @@ _LABEL_7E5E_:
 +:
 	call updateEntities
 	ld a, $01
-	call waitForInterrupt
+	call setAndWaitForInterruptFlags
 	di
 	call _LABEL_2EF_
 	ld hl, _RAM_C800_
@@ -14155,7 +14155,7 @@ _LABEL_7ED3_:
 	ld (_RAM_FFFF_), a
 	call updateEntities
 	ld a, $01
-	call waitForInterrupt
+	call setAndWaitForInterruptFlags
 	ld hl, v_gameState
 	set 7, (hl)
 	ld a, (v_hasJankenMatchStarted)

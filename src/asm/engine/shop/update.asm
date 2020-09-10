@@ -6,7 +6,7 @@ updateShopState:
 	bit 6, (hl)
 	jp nz, _LABEL_1C33_
 	ld a, $09
-	call waitForInterrupt
+	call setAndWaitForInterruptFlags
 	ld a, (v_messageToShowInTheTextBoxIndex)
 	or a
 	jr z, +

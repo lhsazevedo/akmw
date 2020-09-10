@@ -169,7 +169,7 @@ _LABEL_1FE9_:
 	ld a, $8A
 	ld (v_gameState), a
 	ld a, $09
-	call waitForInterrupt
+	call setAndWaitForInterruptFlags
 	ld a, (_RAM_C054_)
 	or a
 	jr z, ++
@@ -717,7 +717,7 @@ _LABEL_25D3_:
 	call enableDisplay
 -:
 	ld a, $01
-	call waitForInterrupt
+	call setAndWaitForInterruptFlags
 	call updateEntities
 	ld a, (v_shouldOpenMap)
 	or a
