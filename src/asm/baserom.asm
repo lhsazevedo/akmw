@@ -328,7 +328,7 @@ _LABEL_18B_:
 	ret
 
 ; Copy CxB (WxH) tiles from HL to DE
-_LABEL_193_:
+copyNameTableBlockToVRAM:
 	push bc
 	rst $08	; setVDPAddress
 	ld b, c
@@ -343,7 +343,7 @@ _LABEL_193_:
 	add hl, bc
 	ex de, hl
 	pop bc
-	djnz _LABEL_193_
+	djnz copyNameTableBlockToVRAM
 	ret
 
 ; Data from 1A7 to 1C4 (30 bytes)
@@ -2909,21 +2909,21 @@ handleInterruptLevelStartingState:
 	ld hl, (_RAM_C038_)
 	ld de, (_RAM_C03A_)
 	ld bc, $1202
-	call _LABEL_193_
+	call copyNameTableBlockToVRAM
 	ld de, (_RAM_C03A_)
 	inc de
 	inc de
 	ld (_RAM_C03A_), de
 	ld hl, _DATA_1618D_
 	ld bc, $1202
-	call _LABEL_193_
+	call copyNameTableBlockToVRAM
 	ld de, (_RAM_C03A_)
 	inc de
 	inc de
 	ld (_RAM_C03A_), de
 	ld hl, _DATA_161B1_
 	ld bc, $1202
-	call _LABEL_193_
+	call copyNameTableBlockToVRAM
 	ld de, (_RAM_C03A_)
 	dec de
 	dec de
@@ -2961,28 +2961,28 @@ _LABEL_1A46_:
 	ld (_RAM_C03A_), de
 	ld hl, _DATA_15E75_
 	ld bc, $1202
-	call _LABEL_193_
+	call copyNameTableBlockToVRAM
 	ld de, (_RAM_C03A_)
 	inc de
 	inc de
 	ld (_RAM_C03A_), de
 	ld hl, _DATA_15E99_
 	ld bc, $1202
-	call _LABEL_193_
+	call copyNameTableBlockToVRAM
 	ld de, (_RAM_C03A_)
 	inc de
 	inc de
 	ld (_RAM_C03A_), de
 	ld hl, _DATA_1618D_
 	ld bc, $1202
-	call _LABEL_193_
+	call copyNameTableBlockToVRAM
 	ld de, (_RAM_C03A_)
 	inc de
 	inc de
 	ld (_RAM_C03A_), de
 	ld hl, _DATA_161B1_
 	ld bc, $1202
-	call _LABEL_193_
+	call copyNameTableBlockToVRAM
 	ld de, $78C8
 	inc de
 	inc de
@@ -6671,7 +6671,7 @@ _LABEL_424B_:
 	sub $50
 	ld d, a
 	ld bc, $0204
-	call _LABEL_193_
+	call copyNameTableBlockToVRAM
 	ret
 
 ; 5th entry of Jump Table from 4237 (indexed by _RAM_C202_)
@@ -6747,7 +6747,7 @@ _LABEL_42C3_:
 	djnz -
 	ld hl, _DATA_14400_
 	ld bc, $0208
-	jp _LABEL_193_
+	jp copyNameTableBlockToVRAM
 
 ; 2nd entry of Jump Table from 4237 (indexed by _RAM_C202_)
 _LABEL_4340_:
@@ -6857,7 +6857,7 @@ _LABEL_43CA_:
 	ld hl, _DATA_14420_
 	ld de, $7BB4
 	ld bc, $0608
-	call _LABEL_193_
+	call copyNameTableBlockToVRAM
 	ld hl, _DATA_14420_
 	ld de, _RAM_CBB4_
 	ld a, $06

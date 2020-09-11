@@ -356,7 +356,7 @@ _LABEL_2198_:
 	ld hl, _DATA_2429_
 	ld de, $7D42
 	ld bc, $0204
-	call _LABEL_193_
+	call copyNameTableBlockToVRAM
 	ld hl, $C025
 	ld de, $7D88
 	ld c, $01
@@ -364,7 +364,7 @@ _LABEL_2198_:
 	ld hl, _DATA_2431_
 	ld de, $7CC2
 	ld bc, $0204
-	call _LABEL_193_
+	call copyNameTableBlockToVRAM
 	ld a, $C0
 	ld de, $7D12
 	call _LABEL_13F_
@@ -699,7 +699,7 @@ _LABEL_25D3_:
 	ld hl, _DATA_15924_
 	ld de, $7892
 	ld bc, $1218
-	call _LABEL_193_
+	call copyNameTableBlockToVRAM
 	ld hl, _DATA_15AD4_
 	ld de, $4000
 	call decompress4BitplanesToVRAM

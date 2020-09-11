@@ -35,7 +35,7 @@ _LABEL_872_:
 	ld hl, _DATA_12EFC_
 	ld de, $7828
 	ld bc, $0718
-	call _LABEL_193_
+	call copyNameTableBlockToVRAM
 	jp _LABEL_9C2_
 
 ; 2nd entry of Jump Table from 8E6 (indexed by v_currentTitleScreen)
@@ -43,7 +43,7 @@ _LABEL_881_:
 	ld hl, _DATA_130A4_
 	ld de, $7B98
 	ld bc, $061C
-	call _LABEL_193_
+	call copyNameTableBlockToVRAM
 	jp _LABEL_97E_
 
 ; 3rd entry of Jump Table from 8E6 (indexed by v_currentTitleScreen)
@@ -51,14 +51,14 @@ _LABEL_890_:
 	ld hl, _DATA_12FA4_
 	ld de, $7800
 	ld bc, $080E
-	jp _LABEL_193_
+	jp copyNameTableBlockToVRAM
 
 ; 4th entry of Jump Table from 8E6 (indexed by v_currentTitleScreen)
 _LABEL_89C_:
 	ld hl, _DATA_13014_
 	ld de, $79F4
 	ld bc, $0C0C
-	call _LABEL_193_
+	call copyNameTableBlockToVRAM
 	jp _LABEL_967_
 
 ; 5th entry of Jump Table from 8E6 (indexed by v_currentTitleScreen)
@@ -66,7 +66,7 @@ _LABEL_8AB_:
 	ld hl, _DATA_131B2_
 	ld de, $7A00
 	ld bc, $1018
-	call _LABEL_193_
+	call copyNameTableBlockToVRAM
 	jp _LABEL_995_
 
 ; 6th entry of Jump Table from 8E6 (indexed by v_currentTitleScreen)
@@ -74,7 +74,7 @@ _LABEL_8BA_:
 	ld hl, _DATA_1314C_
 	ld de, $7D1A
 	ld bc, $0322
-	jp _LABEL_193_
+	jp copyNameTableBlockToVRAM
 
 ; Data from 8C6 to 8C9 (4 bytes)
 titleScreenPalette:

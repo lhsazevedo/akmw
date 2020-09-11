@@ -38,11 +38,11 @@ updateTitleScreenState:
 	ld bc, $061C
 
 	; Init title scren tile map
-	call _LABEL_193_
+	call copyNameTableBlockToVRAM
 	ld hl, _DATA_12E46_
 	ld de, $79DA
 	ld bc, $071A
-	call _LABEL_193_
+	call copyNameTableBlockToVRAM
 
 	; Set titlescreen palette
 	ld hl, titleScreenPalette
