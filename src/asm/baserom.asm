@@ -547,7 +547,7 @@ setAndWaitForInterruptFlags:
 	jr nz, -
 	ret
 
-_LABEL_2EF_:
+disableDisplay:
 	ld a, (v_VDPRegister1Value)
 	and $BF
 	jr +
@@ -575,7 +575,7 @@ _LABEL_303_:
 	ret
 
 _LABEL_311_:
-	call _LABEL_2EF_
+	call disableDisplay
 	ld hl, $0000
 	ld (v_horizontalScroll), hl
 	ld (v_verticalScroll), hl
@@ -11436,7 +11436,7 @@ updateLifeLostState:
 	ret
 
 +:
-	call _LABEL_2EF_
+	call disableDisplay
 	ld b, $05
 	call _LABEL_343_
 	call _LABEL_9DF3_
@@ -13861,7 +13861,7 @@ _LABEL_7E5E_:
 	ld a, $01
 	call setAndWaitForInterruptFlags
 	di
-	call _LABEL_2EF_
+	call disableDisplay
 	ld hl, _RAM_C800_
 	ld de, $7800
 	ld bc, $0700
