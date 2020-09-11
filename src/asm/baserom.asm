@@ -308,7 +308,8 @@ _LABEL_159_:
 .db $CF $79 $B7 $28 $01 $04 $78 $41 $0E $BE $ED $A2 $C2 $72 $01 $3D
 .db $C2 $72 $01 $C9
 
-_LABEL_17C_:
+
+clearNameTable:
 	ld de, $7800
 	ld bc, $0700
 	ld l, $00
@@ -345,6 +346,7 @@ copyNameTableBlockToVRAM:
 	pop bc
 	djnz copyNameTableBlockToVRAM
 	ret
+
 
 ; Data from 1A7 to 1C4 (30 bytes)
 .db $32 $0A $C1 $C5 $CF $41 $0E $BE $ED $A3 $3A $0A $C1 $00 $ED $79
@@ -549,7 +551,7 @@ setAndWaitForInterruptFlags:
 
 disableDisplay:
 	ld a, (v_VDPRegister1Value)
-	and $BF
+	and %10111111
 	jr +
 
 ; Also sets VDP Address, why?
@@ -574,13 +576,19 @@ _LABEL_303_:
 	rst $08	; setVDPAddress
 	ret
 
+
 _LABEL_311_:
 	call disableDisplay
+
+	; Reset horizontal scroll
 	ld hl, $0000
 	ld (v_horizontalScroll), hl
 	ld (v_verticalScroll), hl
 	ld (v_horizontalScrollSpeed), hl
 	ld (v_verticalScrollSpeed), hl
+
+	; Reset sprite address table
+	; @TODO: Why $E0?
 	ld hl, _RAM_C700_
 	ld de, _RAM_C700_ + 1
 	ld bc, $00BF
@@ -590,11 +598,15 @@ _LABEL_311_:
 	rst $08	; setVDPAddress
 	ld d, $89
 	rst $08	; setVDPAddress
+
+	; Enable interrupts and wait
 	ei
 	ld a, $01
 	call setAndWaitForInterruptFlags
+
+	; Disable interrupts
 	di
-	jp _LABEL_17C_
+	jp clearNameTable
 
 ; Wait almost a second
 sleepOneSecond:
