@@ -7,6 +7,7 @@ updateTitleScreenState:
 	jp nz, realUpdateTitleScreenState
 
 	set 7, (hl)
+
 	xor a
 	ld (_RAM_C10A_), a
 	call _LABEL_311_
