@@ -2707,7 +2707,7 @@ _LABEL_1735_:
 	ld a, (v_entitydataArrayLength)
 	ld b, a
 -:
-	call _LABEL_278A_
+	call clearCurrentEntity
 	add ix, de
 	djnz -
 	ld a, $82
@@ -2832,7 +2832,7 @@ updateLevelCompletedState:
 	ld de, $0020
 	ld ix, v_entity1
 -:
-	call _LABEL_278A_
+	call clearCurrentEntity
 	add ix, de
 	djnz -
 	ld hl, _RAM_D800_
@@ -2926,11 +2926,11 @@ _LABEL_19CB_:
 	dec (hl)
 	jp nz, _LABEL_19CB_
 	ld ix, v_entity1
-	call _LABEL_278A_
+	call clearCurrentEntity
 	ld ix, v_entities.2
-	call _LABEL_278A_
+	call clearCurrentEntity
 	ld ix, _RAM_C340_
-	call _LABEL_278A_
+	call clearCurrentEntity
 	call updateEntities
 	ld a, $0A
 	ld (v_gameState), a
@@ -3278,7 +3278,7 @@ _LABEL_273A_:
 	jp z, +
 	jp c, ++
 	bit 1, (ix+1)    ; v_entities.IX.flags
-	jp nz, _LABEL_278A_
+	jp nz, clearCurrentEntity
 	ld a, h
 	sub $40
 	ld (ix+13), l
@@ -3291,7 +3291,7 @@ _LABEL_273A_:
 	sub $C0
 	jp c, ++
 	bit 1, (ix+1)
-	jp nz, _LABEL_278A_
+	jp nz, clearCurrentEntity
 	ld (ix+13), l
 	ld (ix+14), a
 	inc (ix+10)
@@ -3302,19 +3302,19 @@ _LABEL_273A_:
 	ld (ix+14), h
 	ret
 
-_LABEL_278A_:
+
+clearCurrentEntity:
 	push ix
 	pop hl
-
 ;
 ; Clears the given entity data, zeroing all bytes except for animation timer,
 ; that is set to $01. 
 ;
-; Param hl The entity index
+; @param hl - The entity index
 ;
 ; v1 address $278D
 ;
-clearEntity:		; 
+clearEntity:
 	xor a
 	ld (hl), a
 	inc l
@@ -3382,6 +3382,7 @@ clearEntity:		;
 	ld c, a
 	ret
 
+
 _LABEL_27D0_:
 	ld hl, (v_horizontalScrollSpeed)
 	ld d, (ix+16)    ; v_entities.IX.xSpeed.high
@@ -3397,14 +3398,14 @@ _LABEL_27D0_:
 	jp z, +
 	jp c, ++
 	bit 1, (ix+1)    ; v_entities.IX.flags
-	jp nz, _LABEL_278A_
+	jp nz, clearCurrentEntity
 	inc (ix+9)    ; v_entities.IX.isOffScreenFlags
 	jp ++
 
 +:
 	jp nc, ++
 	bit 1, (ix+1)
-	jp nz, _LABEL_278A_
+	jp nz, clearCurrentEntity
 	dec (ix+9)
 ++:
 	ld (ix+11), l
@@ -6157,7 +6158,7 @@ _LABEL_3EA6_:
 	call clearEntity
 	inc hl
 	call clearEntity
-	jp _LABEL_278A_
+	jp clearCurrentEntity
 
 ; 97th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_3EC1_:
@@ -6205,7 +6206,7 @@ _LABEL_3F03_:
 	ld (_RAM_C206_), hl
 	ld hl, _RAM_CC08_
 	ld (_RAM_C204_), hl
-	jp _LABEL_278A_
+	jp clearCurrentEntity
 
 +:
 	ld (ix+7), <_DATA_80E1_
@@ -6942,7 +6943,7 @@ _LABEL_4446_:
 	ld hl, _DATA_8372_
 	call handleEntityAnimation
 	dec (ix+25)
-	jp z, _LABEL_278A_
+	jp z, clearCurrentEntity
 	ret
 
 ; 9th entry of Jump Table from 4523 (indexed by _RAM_C054_)
@@ -7014,7 +7015,7 @@ _LABEL_44D4_:
 	ld a, (hl)
 	and $F6
 	ld (hl), a
-	jp _LABEL_278A_
+	jp clearCurrentEntity
 
 _LABEL_44E2_:
 	bit 0, (ix+28)
@@ -7305,7 +7306,7 @@ _LABEL_46C9_:
 	and $02
 	ld (iy+20), a
 	dec (ix+30)
-	jp z, _LABEL_278A_
+	jp z, clearCurrentEntity
 	ret
 
 ; 7th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
@@ -7466,7 +7467,7 @@ _LABEL_485A_:
 	xor a
 	ld (_RAM_C054_), a
 +:
-	call _LABEL_278A_
+	call clearCurrentEntity
 	or a
 	ret
 
@@ -7514,7 +7515,7 @@ _LABEL_488C_:
 	ld (hl), a
 	xor a
 	ld (_RAM_C054_), a
-	jp _LABEL_278A_
+	jp clearCurrentEntity
 
 ; 6th entry of Jump Table from 4523 (indexed by _RAM_C054_)
 _LABEL_48C5_:
@@ -7581,7 +7582,7 @@ _LABEL_491B_:
 	ld a, (hl)
 	and $F4
 	ld (hl), a
-	jp _LABEL_278A_
+	jp clearCurrentEntity
 
 _LABEL_4944_:
 	ld l, (ix+17)
@@ -7655,7 +7656,7 @@ _LABEL_4984_:
 	inc hl
 	or (hl)
 	djnz -
-	jp nz, _LABEL_278A_
+	jp nz, clearCurrentEntity
 	ld l, (ix+28)
 	ld h, (ix+29)
 	call _LABEL_4C23_
@@ -7767,7 +7768,7 @@ _LABEL_4A86_:
 	ld a, $87
 	ld (_RAM_C202_), a
 	dec (ix+24)
-	jp z, _LABEL_278A_
+	jp z, clearCurrentEntity
 	ret
 
 _LABEL_4AC2_:
@@ -7851,7 +7852,7 @@ _LABEL_4B23_:
 
 ++:
 	call _LABEL_99D3_
-	jp _LABEL_278A_
+	jp clearCurrentEntity
 
 _LABEL_4B7A_:
 	set 0, (ix+1)
@@ -8130,7 +8131,7 @@ _LABEL_4D67_:
 	ld a, (ix+9)
 	ld (_RAM_C0FB_), a
 	cp $01
-	jp z, _LABEL_278A_
+	jp z, clearCurrentEntity
 	ret
 
 _LABEL_4D92_:
@@ -8322,7 +8323,7 @@ _LABEL_4E9D_:
 	call _LABEL_7D99_
 	ld a, (ix+14)
 	cp $18
-	jp c, _LABEL_278A_
+	jp c, clearCurrentEntity
 +:
 	ld hl, _DATA_825C_
 	jp handleEntityAnimation
@@ -8342,7 +8343,7 @@ _LABEL_4EEF_:
 +:
 	ld a, (ix+9)
 	or (ix+10)
-	jp nz, _LABEL_278A_
+	jp nz, clearCurrentEntity
 	set 1, (ix+1)
 	ld (ix+16), $FF
 	ld (ix+15), $80
@@ -8386,7 +8387,7 @@ _LABEL_4F43_:
 	ld (ix+23), l
 	add a, h
 	cp $C0
-	jp nc, _LABEL_278A_
+	jp nc, clearCurrentEntity
 	ld (ix+14), a
 _LABEL_4F7C_:
 	ld hl, _DATA_8BBD_
@@ -8396,7 +8397,7 @@ _LABEL_4F7C_:
 _LABEL_4F82_:
 	ld a, (ix+9)
 	or (ix+10)
-	jp nz, _LABEL_278A_
+	jp nz, clearCurrentEntity
 	call _LABEL_7D99_
 	call _LABEL_7D0B_
 	jp nc, _LABEL_55A5_
@@ -8964,7 +8965,7 @@ _LABEL_55F3_:
 +:
 	ld a, (ix+9)
 	or (ix+10)
-	jp nz, _LABEL_278A_
+	jp nz, clearCurrentEntity
 	jp _LABEL_7D99_
 
 ; 67th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
@@ -8983,7 +8984,7 @@ _LABEL_5629_:
 +:
 	ld a, (ix+9)
 	or (ix+10)
-	jp nz, _LABEL_278A_
+	jp nz, clearCurrentEntity
 	ld a, (ix+4)
 	cp $03
 	jr nz, +
@@ -8999,7 +9000,7 @@ _LABEL_5629_:
 	ld (_RAM_C07F_), a
 	ld a, (ix+2)
 	or a
-	jp z, _LABEL_278A_
+	jp z, clearCurrentEntity
 	res 0, (ix+1)
 	ld (ix+0), $44
 	ret
@@ -9020,13 +9021,13 @@ _LABEL_5684_:
 +:
 	ld a, (ix+9)
 	or (ix+10)
-	jp nz, _LABEL_278A_
+	jp nz, clearCurrentEntity
 	ld a, (ix+4)
 	cp $01
 	jr nz, +
 	ld a, (ix+5)
 	cp $01
-	jp z, _LABEL_278A_
+	jp z, clearCurrentEntity
 +:
 	ld hl, _DATA_8170_
 	jp handleEntityAnimation
@@ -9269,10 +9270,10 @@ _LABEL_5908_:
 _LABEL_596B_:
 	ld a, (ix+12)
 	cp $F8
-	jp nc, _LABEL_278A_
+	jp nc, clearCurrentEntity
 	ld a, (ix+9)
 	or (ix+10)
-	jp nz, _LABEL_278A_
+	jp nz, clearCurrentEntity
 	ld h, (ix+18)
 	ld l, (ix+17)
 	ld de, $0030
@@ -9360,7 +9361,7 @@ _LABEL_5A96_:
 +:
 	ld a, (ix+9)
 	or (ix+10)
-	jp nz, _LABEL_278A_
+	jp nz, clearCurrentEntity
 	ld iy, v_entity1
 	call _LABEL_7CC2_
 	jr c, +
@@ -9371,11 +9372,11 @@ _LABEL_5A96_:
 	add a, $01
 	daa
 	ld (hl), a
-	jp _LABEL_278A_
+	jp clearCurrentEntity
 
 +:
 	dec (ix+23)
-	jp z, _LABEL_278A_
+	jp z, clearCurrentEntity
 	ret
 
 ; 78th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
@@ -9395,7 +9396,7 @@ _LABEL_5AE6_:
 +:
 	ld a, (ix+9)
 	or (ix+10)
-	jp nz, _LABEL_278A_
+	jp nz, clearCurrentEntity
 	ld iy, v_entity1
 	call _LABEL_7CC2_
 	jr c, +
@@ -9405,11 +9406,11 @@ _LABEL_5AE6_:
 	ld (v_hasPowerBracelet), a
 	ld hl, v_powerBraceletsPickedUpCounter
 	inc (hl)
-	jp _LABEL_278A_
+	jp clearCurrentEntity
 
 +:
 	dec (ix+23)
-	jp z, _LABEL_278A_
+	jp z, clearCurrentEntity
 	ret
 
 ; 79th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
@@ -9423,7 +9424,7 @@ _LABEL_5B37_:
 +:
 	ld a, (ix+9)
 	or (ix+10)
-	jp nz, _LABEL_278A_
+	jp nz, clearCurrentEntity
 	bit 1, (ix+1)
 	jp nz, +
 	dec (ix+24)
@@ -9492,7 +9493,7 @@ _LABEL_5BD1_:
 	ret c
 	ld l, $0C
 	call addScore
-	call _LABEL_278A_
+	call clearCurrentEntity
 	ld a, $04
 	ld (v_gameState), a
 	ret
@@ -9924,7 +9925,7 @@ _LABEL_5FB1_:
 	jp nz, _LABEL_603E_
 	ld a, (_RAM_D800_)
 	or a
-	jp nz, _LABEL_278A_
+	jp nz, clearCurrentEntity
 	bit 1, (ix+1)
 	jr nz, ++
 	ld (ix+7), <_DATA_830B_
@@ -10078,7 +10079,7 @@ _LABEL_610D_:
 	rst $10	; _LABEL_10_
 	ld a, (hl)
 	or a
-	jp nz, _LABEL_278A_
+	jp nz, clearCurrentEntity
 	ld a, (ix+3)
 	ld hl, _DATA_6422_
 	rst $10	; _LABEL_10_
@@ -10108,7 +10109,7 @@ _LABEL_610D_:
 	ld hl, _DATA_6436_
 	rst $10	; _LABEL_10_
 	set 0, (hl)
-	jp _LABEL_278A_
+	jp clearCurrentEntity
 
 +:
 	ld hl, v_lives
@@ -10116,7 +10117,7 @@ _LABEL_610D_:
 	add a, $01
 	daa
 	ld (hl), a
-	jp _LABEL_278A_
+	jp clearCurrentEntity
 
 ++:
 	ld a, $08
@@ -10218,7 +10219,7 @@ _LABEL_61CD_:
 	inc (ix+22)
 	ld a, (_RAM_D8A0_)
 	cp (ix+22)
-	jp c, _LABEL_278A_
+	jp c, clearCurrentEntity
 	ld a, $80
 	ld (_RAM_C202_), a
 	ld hl, (v_shopEntranceDoorNametablePointer)
@@ -10248,7 +10249,7 @@ _LABEL_6275_:
 	ret c
 	ld hl, _RAM_C07F_
 	inc (hl)
-	jp _LABEL_278A_
+	jp clearCurrentEntity
 
 ; 76th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_6280_:
@@ -10268,7 +10269,7 @@ _LABEL_6280_:
 	ret c
 	ld a, $08
 	ld (v_gameState), a
-	jp _LABEL_278A_
+	jp clearCurrentEntity
 
 ; 84th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_62AF_:
@@ -10754,7 +10755,7 @@ _LABEL_6671_:
 	ld a, (ix+9)
 	or (ix+10)
 	jr z, +
-	call _LABEL_278A_
+	call clearCurrentEntity
 +:
 	add ix, de
 	djnz -
@@ -11451,14 +11452,14 @@ updateLifeLostState:
 	ld de, $0020
 	ld b, $05
 -:
-	call _LABEL_278A_
+	call clearCurrentEntity
 	add ix, de
 	djnz -
 	ld ix, _RAM_C500_
 	ld de, $0020
 	ld b, $0C
 -:
-	call _LABEL_278A_
+	call clearCurrentEntity
 	add ix, de
 	djnz -
 	ld ix, _RAM_C3C0_
@@ -11472,7 +11473,7 @@ updateLifeLostState:
 	ld hl, _DATA_6F30_ - 2
 	rst $10	; _LABEL_10_
 	exx
-	call _LABEL_278A_
+	call clearCurrentEntity
 	exx
 	ld b, e
 	ld a, (hl)
@@ -11559,7 +11560,7 @@ _LABEL_6D26_:
 	ld de, $0020
 	ld b, $1E
 -:
-	call _LABEL_278A_
+	call clearCurrentEntity
 	add ix, de
 	djnz -
 	ld a, $0A
@@ -12366,7 +12367,7 @@ _LABEL_7372_:
 	ld e, (ix+12)
 	ld d, (ix+14)
 	exx
-	call _LABEL_278A_
+	call clearCurrentEntity
 	exx
 	ld hl, $80E1
 	ld (_RAM_C3A7_), hl

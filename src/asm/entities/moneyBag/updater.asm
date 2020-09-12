@@ -22,7 +22,7 @@ updateMoneyBag:
 +:
 	ld a, (ix + Entity.isOffScreenFlags.low)
 	or (ix + Entity.isOffScreenFlags.high)
-	jp nz, _LABEL_278A_
+	jp nz, clearCurrentEntity
 	ld iy, v_entity1
 	call _LABEL_7CC2_
 	jp c, +
@@ -30,9 +30,9 @@ updateMoneyBag:
 	call takeMoney
 	ld a, $8E
 	ld (v_soundControl), a
-	jp _LABEL_278A_
+	jp clearCurrentEntity
 
 +:
 	dec (ix + Entity.jankenMatchDecision)
-	jp z, _LABEL_278A_
+	jp z, clearCurrentEntity
 	ret

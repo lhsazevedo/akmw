@@ -10,7 +10,7 @@ updateAlexDead:
 	ld a, (v_entities.1.isOffScreenFlags.high)
 	inc a
 	ret nz
-	call _LABEL_278A_
+	call clearCurrentEntity
 	ld a, $06
 	ld (v_gameState), a
 	ret
