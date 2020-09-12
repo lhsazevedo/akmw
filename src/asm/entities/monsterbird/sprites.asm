@@ -14,41 +14,16 @@ monsterbirdLeftSprite0Descriptor:
     ; Colision data
     .db $54
 
-    .DSTRUCT monsterbirdLeftSprite0Tile0 INSTANCEOF TileDescriptor VALUES
-        yPos: .db $00
-        xPos: .db $00
-        characterCode: .db $00 
-    .ENDST
+    ; Y positions
+    .db $00 $00 $00 $08 $08 $08
 
-    .DSTRUCT monsterbirdLeftSprite0Tile1 INSTANCEOF TileDescriptor VALUES
-        yPos: .db $08
-        xPos: .db $08
-        characterCode: .db $08 
-    .ENDST
-
-    .DSTRUCT monsterbirdLeftSprite0Tile2 INSTANCEOF TileDescriptor VALUES
-        yPos: .db $00
-        xPos: .db $7D
-        characterCode: .db $08 
-    .ENDST
-
-    .DSTRUCT monsterbirdLeftSprite0Tile3 INSTANCEOF TileDescriptor VALUES
-        yPos: .db $7E
-        xPos: .db $10
-        characterCode: .db $7F 
-    .ENDST
-
-    .DSTRUCT monsterbirdLeftSprite0Tile4 INSTANCEOF TileDescriptor VALUES
-        yPos: .db $00
-        xPos: .db $80
-        characterCode: .db $08 
-    .ENDST
-
-    .DSTRUCT monsterbirdLeftSprite0Tile5 INSTANCEOF TileDescriptor VALUES
-        yPos: .db $81
-        xPos: .db $10
-        characterCode: .db $82 
-    .ENDST
+    ; X positions / Character codes
+    .db $00 $7D
+    .db $08 $7E
+    .db $10 $7F
+    .db $00 $80
+    .db $08 $81
+    .db $10 $82 
 
 ; 2nd entry of Pointer Table from 81B8 (indexed by _RAM_CF84_)
 ; Data from 81D0 to 81E3 (20 bytes)
@@ -58,41 +33,22 @@ monsterbirdLeftSprite1Descriptor:
     ; Colision data
     .db $54
 
-    .DSTRUCT monsterbirdLeftSprite1Tile0 INSTANCEOF TileDescriptor VALUES
-        yPos: .db $00
-        xPos: .db $00
-        characterCode: .db $00 
-    .ENDST
+    ; Y Positions
+    .db $00
+    .db $00
+    .db $00 
+    .db $08
+    .db $08
+    .db $08
 
-    .DSTRUCT monsterbirdLeftSprite1Tile1 INSTANCEOF TileDescriptor VALUES
-        yPos: .db $08
-        xPos: .db $08
-        characterCode: .db $08 
-    .ENDST
+    ; X positions / Character codes
+    .db $00 $83
+    .db $08 $84
+    .db $10 $85
+    .db $02 $86
+    .db $0A $87
+    .db $12 $88 
 
-    .DSTRUCT monsterbirdLeftSprite1Tile2 INSTANCEOF TileDescriptor VALUES
-        yPos: .db $00
-        xPos: .db $83
-        characterCode: .db $08 
-    .ENDST
-
-    .DSTRUCT monsterbirdLeftSprite1Tile3 INSTANCEOF TileDescriptor VALUES
-        yPos: .db $84
-        xPos: .db $10
-        characterCode: .db $85 
-    .ENDST
-
-    .DSTRUCT monsterbirdLeftSprite1Tile4 INSTANCEOF TileDescriptor VALUES
-        yPos: .db $02
-        xPos: .db $86
-        characterCode: .db $0A 
-    .ENDST
-
-    .DSTRUCT monsterbirdLeftSprite1Tile5 INSTANCEOF TileDescriptor VALUES
-        yPos: .db $87
-        xPos: .db $12
-        characterCode: .db $88 
-    .ENDST
 
 
 ; Data from 81E4 to 81E4 (1 bytes)
