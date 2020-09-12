@@ -13589,17 +13589,20 @@ _LABEL_7CBC_:
 	or a
 	scf
 	ret z
+
+
+; @TODO Colision related
 _LABEL_7CC2_:
-	ld a, (iy+9)
-	or (iy+10)
+	ld a, (iy + Entity.isOffScreenFlags.low)
+	or (iy + Entity.isOffScreenFlags.high)
 	scf
 	ret nz
-	ld l, (iy+19)
+	ld l, (iy + Entity.unknown2)
 	ld h, $00
 	ld bc, _DATA_91D0_
 	add hl, bc
 	ex de, hl
-	ld l, (ix+19)
+	ld l, (ix + Entity.unknown2)
 	ld h, $00
 	add hl, bc
 	ld a, (de)
@@ -13607,12 +13610,12 @@ _LABEL_7CC2_:
 	inc de
 	ld a, (de)
 	add a, b
-	add a, (iy+12)
+	add a, (iy + Entity.xPos.high)
 	jr nc, _LABEL_7CE6_
 	ld a, $FF
 _LABEL_7CE6_:
 	sub (hl)
-	sub (ix+12)
+	sub (ix + Entity.xPos.high)
 	ret c
 	ld c, a
 	inc hl
@@ -13627,9 +13630,9 @@ _LABEL_7CE6_:
 	inc de
 	ld a, (de)
 	add a, b
-	add a, (iy+14)
+	add a, (iy + Entity.yPos.high)
 	sub (hl)
-	sub (ix+14)
+	sub (ix + Entity.yPos.high)
 	ret c
 	inc hl
 	ld c, a
@@ -13637,8 +13640,9 @@ _LABEL_7CE6_:
 	add a, (hl)
 	cp c
 	ret c
-	set 7, (ix+1)
+	set 7, (ix + Entity.flags)
 	ret
+
 
 _LABEL_7D0B_:
 	ld a, (v_entities.1.state)
