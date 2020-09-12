@@ -704,16 +704,21 @@ saveInput:
 	ld (hl), a
 	ret
 
+; l = index to moneybag value table
 takeMoney:
+	; Return if Button B is pressed
 	ld a, (v_inputFlags)
-	and $20
+	and JOY_FIREB
 	ret nz
+
 	ld bc, v_money
 	ld de, data_moneyBagValueTable
 	ld h, $00
 	add hl, de
-	call +
+	call sumBCD
 	ret nc
+
+	; Limit to 999999
 	ld hl, v_money
 	ld c, $99
 	ld (hl), c
@@ -723,16 +728,22 @@ takeMoney:
 	ld (hl), c
 	ret
 
-_LABEL_3ED_:
+
+addScore:
+	; Return if Button B is pressed?
 	ld a, (v_inputFlags)
-	and $20
+	and JOY_FIREB
 	ret nz
+
 	ld bc, v_score
 	ld de, _DATA_489_
 	ld h, $00
 	add hl, de
-	call +
+	call sumBCD
 	ret nc
+
+	; Limit to 999999
+	; @TODO: Why C000?
 	ld hl, _RAM_C000_
 	ld c, $99
 	ld (hl), c
@@ -742,24 +753,36 @@ _LABEL_3ED_:
 	ld (hl), c
 	ret
 
-+:
+
+; Sum tree BCD bytes, writing back to hl.
+;
+; @param bc - Pointer to current money balance
+; @param hl - Pointer to value to add 
+sumBCD:
+	; Sum and correct least significant byte
 	ld a, (bc)
 	add a, (hl)
 	daa
 	ld (bc), a
+
+	; Sum and correct middle byte
 	inc bc
 	inc hl
 	ld a, (bc)
 	adc a, (hl)
 	daa
 	ld (bc), a
+
+	; Sum and corrent most significant byte
 	inc bc
 	inc hl
 	ld a, (bc)
 	adc a, (hl)
 	daa
 	ld (bc), a
+
 	ret
+
 
 _LABEL_41C_:
 	ld a, (bc)
@@ -9078,7 +9101,7 @@ _LABEL_5768_:
 	ld hl, _DATA_5776_ - 1
 	add hl, bc
 	ld l, (hl)
-	jp _LABEL_3ED_
+	jp addScore
 
 ; Data from 5776 to 57CD (88 bytes)
 _DATA_5776_:
@@ -9504,7 +9527,7 @@ _LABEL_5BD1_:
 	call _LABEL_7CC2_
 	ret c
 	ld l, $0C
-	call _LABEL_3ED_
+	call addScore
 	call _LABEL_278A_
 	ld a, $04
 	ld (v_gameState), a
@@ -9967,7 +9990,7 @@ _LABEL_5FB1_:
 _LABEL_6001_:
 	set 0, (ix+1)
 	ld l, $0C
-	call _LABEL_3ED_
+	call addScore
 	xor a
 	ld (_RAM_C07F_), a
 	ld hl, _RAM_D800_
@@ -12512,7 +12535,7 @@ _LABEL_746F_:
 	ld a, $01
 	ld (v_hasMoonstoneMedallion), a
 	ld l, $15
-	jp _LABEL_3ED_
+	jp addScore
 
 ; 14th entry of Jump Table from 779E (indexed by _RAM_C3BA_)
 _LABEL_74A4_:
