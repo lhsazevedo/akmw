@@ -3563,7 +3563,7 @@ entityTypeJumpTable:
 .dw _LABEL_5996_
 .dw _LABEL_59C8_
 .dw _LABEL_59FB_
-.dw _LABEL_5A31_
+.dw updateMoneyBag
 .dw _LABEL_5D94_
 .dw _LABEL_5E14_
 .dw _LABEL_5E7B_
@@ -9341,43 +9341,7 @@ _LABEL_59FB_:
 	jp _LABEL_596B_
 
 ; 60th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
-_LABEL_5A31_:
-	bit 0, (ix+1)
-	jr nz, +
-	set 0, (ix+1)
-	ld (ix+15), $00
-	ld (ix+16), $00
-	ld (ix+17), $00
-	ld (ix+18), $00
-	ld (ix+23), $F0
-	ld (ix+7), <_DATA_8359_
-	ld (ix+8), >_DATA_8359_
-	ld (ix+22), $03
-	ld a, (ix+24)
-	cp $04
-	ret c
-	ld (ix+7), <_DATA_8367_
-	ld (ix+8), >_DATA_8367_
-	ld (ix+22), $00
-	ret
-
-+:
-	ld a, (ix+9)
-	or (ix+10)
-	jp nz, _LABEL_278A_
-	ld iy, v_entity1
-	call _LABEL_7CC2_
-	jp c, +
-	ld l, (ix+22)
-	call takeMoney
-	ld a, $8E
-	ld (v_soundControl), a
-	jp _LABEL_278A_
-
-+:
-	dec (ix+23)
-	jp z, _LABEL_278A_
-	ret
+.INC "entities/moneyBag/updater.asm"
 
 ; 77th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_5A96_:

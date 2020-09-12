@@ -274,13 +274,7 @@ _DATA_8331_:
 .db $05 $9C $0D $9D $06 $00 $08 $08 $10 $10 $18 $18 $04 $98 $0C $99
 .db $04 $9E $0C $9F $05 $9C $0D $9D
 
-; Data from 8359 to 8366 (14 bytes)
-_DATA_8359_:
-.db $04 $6C $00 $00 $08 $08 $01 $36 $09 $37 $00 $38 $08 $39
-
-; Data from 8367 to 8371 (11 bytes)
-_DATA_8367_:
-.db $03 $6C $00 $08 $08 $05 $3A $03 $3B $0B $3C
+.INC "entities/moneyBag/sprites.asm"
 
 ; Data from 8372 to 8372 (1 bytes)
 _DATA_8372_:
