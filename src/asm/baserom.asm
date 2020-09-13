@@ -5574,7 +5574,7 @@ _LABEL_3E50_:
 	or (ix+9)
 	ret nz
 	ld iy, v_entity1
-	call _LABEL_7CC2_
+	call checkEntityCollision
 	ret c
 	ld a, $1A
 	ld (v_entities.1.state), a
@@ -5626,7 +5626,7 @@ _LABEL_3EC1_:
 	or (ix+9)
 	ret nz
 	ld iy, v_entity1
-	call _LABEL_7CC2_
+	call checkEntityCollision
 	ret c
 	ld a, (_RAM_C640_)
 	ld c, a
@@ -8821,7 +8821,7 @@ _LABEL_5A96_:
 	or (ix+10)
 	jp nz, clearCurrentEntity
 	ld iy, v_entity1
-	call _LABEL_7CC2_
+	call checkEntityCollision
 	jr c, +
 	ld a, $8F
 	ld (v_soundControl), a
@@ -8856,7 +8856,7 @@ _LABEL_5AE6_:
 	or (ix+10)
 	jp nz, clearCurrentEntity
 	ld iy, v_entity1
-	call _LABEL_7CC2_
+	call checkEntityCollision
 	jr c, +
 	ld a, $8F
 	ld (v_soundControl), a
@@ -8947,7 +8947,7 @@ _LABEL_5BD1_:
 	or (ix+10)
 	ret nz
 	ld iy, v_entity1
-	call _LABEL_7CC2_
+	call checkEntityCollision
 	ret c
 	ld l, $0C
 	call addScore
@@ -9551,7 +9551,7 @@ _LABEL_610D_:
 	ret nz
 	set 1, (ix+1)
 	ld iy, v_entity1
-	call _LABEL_7CC2_
+	call checkEntityCollision
 	ret c
 	ld a, $8F
 	ld (v_soundControl), a
@@ -9655,7 +9655,7 @@ _LABEL_61CD_:
 
 +:
 	ld iy, v_entity1
-	call _LABEL_7CC2_
+	call checkEntityCollision
 	ret c
 	jr +++
 
@@ -9723,7 +9723,7 @@ _LABEL_6280_:
 	or (ix+10)
 	ret nz
 	ld iy, v_entity1
-	call _LABEL_7CC2_
+	call checkEntityCollision
 	ret c
 	ld a, $08
 	ld (v_gameState), a
@@ -13050,8 +13050,10 @@ _LABEL_7CBC_:
 	ret z
 
 
-; @TODO Colision related
-_LABEL_7CC2_:
+; @TODO Document - Colision related
+; @param ix - Entity A
+; @param iy - Entity B
+checkEntityCollision:
 	ld a, (iy + Entity.isOffScreenFlags.low)
 	or (iy + Entity.isOffScreenFlags.high)
 	scf
@@ -13152,10 +13154,10 @@ _LABEL_7D61_:
 ; 4th entry of Jump Table from 7D1C (indexed by _RAM_C054_)
 _LABEL_7D6E_:
 	ld iy, _RAM_C340_
-	call _LABEL_7CC2_
+	call checkEntityCollision
 	jr nc, +
 	ld iy, v_entities.2
-	call _LABEL_7CC2_
+	call checkEntityCollision
 	ret c
 +:
 	set 7, (iy+1)
@@ -13164,17 +13166,17 @@ _LABEL_7D6E_:
 ; 5th entry of Jump Table from 7D1C (indexed by _RAM_C054_)
 _LABEL_7D84_:
 	ld iy, _RAM_C360_
-	jp _LABEL_7CC2_
+	jp checkEntityCollision
 
 ; 8th entry of Jump Table from 7D1C (indexed by _RAM_C054_)
 _LABEL_7D8B_:
 	ld iy, v_entity1
-	jp _LABEL_7CC2_
+	jp checkEntityCollision
 
 ; 6th entry of Jump Table from 7D1C (indexed by _RAM_C054_)
 _LABEL_7D92_:
 	ld iy, v_entities.2
-	jp _LABEL_7CC2_
+	jp checkEntityCollision
 
 _LABEL_7D99_:
 	; Return if Alex state is $0F
@@ -13193,7 +13195,7 @@ _DATA_7DA8_:
 ; 1st entry of Jump Table from 7DA8 (indexed by _RAM_C054_)
 _LABEL_7DBC_:
 	ld iy, v_entity1
-	call _LABEL_7CC2_
+	call checkEntityCollision
 	ret c
 	set 7, (iy+1)
 ; 3rd entry of Jump Table from 7DA8 (indexed by _RAM_C054_)
