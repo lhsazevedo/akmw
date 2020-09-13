@@ -44,8 +44,8 @@ updateAlexIdle:
 	jp nz, _LABEL_2CAE_
 	ld a, (v_inputData)
 	bit 2, a
-	jr nz, _LABEL_2B1F_
+	jr nz, walkLeft
 	bit 3, a
-	jr nz, _LABEL_2B2C_
+	jr nz, walkRight
 	bit 1, a
 	ret z

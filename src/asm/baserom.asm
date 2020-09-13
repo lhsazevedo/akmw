@@ -3215,7 +3215,7 @@ startAutoWalkRight:
 ; 2nd entry of Jump Table from 2982 (indexed by v_entities.1.state)
 .INC "entities/alex/updaters/updateAlexIdle.asm"
 
-_LABEL_2B0B_:
+crouch:
 	ld (ix + Entity.state), ALEX_CROUCHED
 	bit 0, (ix + Entity.unknown3)
 	ld hl, _DATA_8DA7_
@@ -3223,21 +3223,21 @@ _LABEL_2B0B_:
 	ld hl, _DATA_8DBC_
 	jp _LABEL_41AA_
 
-_LABEL_2B1F_:
+walkLeft:
 	res 1, (ix + Entity.unknown3)
 --:
 	res 0, (ix + Entity.unknown3)
 	ld (ix + Entity.state), ALEX_WALKING
 	ret
 
-_LABEL_2B2C_:
+walkRight:
 	set 1, (ix + Entity.unknown3)
 -:
 	set 0, (ix + Entity.unknown3)
 	ld (ix + Entity.state), ALEX_WALKING
 	ret
 
-_LABEL_2B39_:
+walk:
 	bit 1, (ix + Entity.unknown3)
 	jr z, --
 	jr -
@@ -3299,9 +3299,9 @@ updateAlexWalking:
 	call _LABEL_3B56_
 	ld a, (v_inputData)
 	bit JOY_DOWN_BIT, a
-	jp nz, _LABEL_2B0B_
+	jp nz, crouch
 	bit JOY_RIGHT_BIT, a
-	jp nz, _LABEL_2B2C_
+	jp nz, walkRight
 	bit JOY_LEFT_BIT, a
 	jr nz, _LABEL_2BDC_
 	jp _LABEL_2BFA_
@@ -3322,7 +3322,7 @@ _LABEL_2BDC_:
 	bit JOY_RIGHT_BIT, a
 	jp nz, +
 	bit JOY_DOWN_BIT, a
-	jp nz, _LABEL_2B0B_
+	jp nz, crouch
 	bit 2, (ix + Entity.unknown3)
 	jr z, _LABEL_2BFA_
 	ld de, $0020
@@ -3367,9 +3367,9 @@ _LABEL_2C25_:
 	call _LABEL_3B56_
 	ld a, (v_inputData)
 	bit 1, a
-	jp nz, _LABEL_2B0B_
+	jp nz, crouch
 	bit 2, a
-	jp nz, _LABEL_2B1F_
+	jp nz, walkLeft
 	bit 3, a
 	jr nz, _LABEL_2C6C_
 	jp _LABEL_2BFA_
@@ -3390,7 +3390,7 @@ _LABEL_2C6C_:
 	bit 2, a
 	jr nz, +
 	bit 1, a
-	jp nz, _LABEL_2B0B_
+	jp nz, crouch
 	bit 2, (ix+20)
 	jp z, _LABEL_2BFA_
 	ld de, $FFE0
@@ -3506,7 +3506,7 @@ _LABEL_2D4A_:
 +:
 	bit 2, (ix+20)
 	jp z, _LABEL_2BFA_
-	call _LABEL_2B39_
+	call walk
 _LABEL_2D7F_:
 	bit 1, (ix+20)
 	jp nz, _LABEL_2DF3_
@@ -3713,7 +3713,7 @@ updateAlexCrouched:
 _LABEL_2F22_:
 	bit 2, (ix + Entity.unknown3)
 	jp z, _LABEL_2BFA_
-	jp _LABEL_2B39_
+	jp walk
 
 _LABEL_2F2C_:
 	ld de, $090E
