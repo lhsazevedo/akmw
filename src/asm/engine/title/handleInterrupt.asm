@@ -1,13 +1,19 @@
 ; 1st entry of Jump Table from 127 (indexed by v_gameState)
 handleInterruptTitleScreenState:
+	; Wait TITLE_SCREEN_DURATION frames (frames?)
 	ld hl, v_titleScreenTimer
 	dec (hl)
 	ret nz
+
+	; Reset timer to $20
 	ld (hl), $20
+
+	; Check if we are at the last tile screen
 	inc hl
 	ld a, (hl)
 	cp $06
-	jr c, +
+	jr c, advanceTitleScreenLevelTile
+
 	dec hl
 	ld (hl), $03
 	inc hl
@@ -23,54 +29,55 @@ handleInterruptTitleScreenState:
 	ld de, $C002
 	jp _LABEL_13F_
 
-+:
+advanceTitleScreenLevelTile:
+	; Advance title screen tile
 	inc (hl)
 	ld hl, _RAM_FFFF_
 	ld (hl), $84
-	ld hl, _DATA_8E6_
+	ld hl, titleScreenLevelTileUpdatersPointers
 	jp loadAthJumptablePointer
 
 ; 1st entry of Jump Table from 8E6 (indexed by v_currentTitleScreen)
-_LABEL_872_:
+showTitleUnderwaterFrame:
 	ld hl, _DATA_12EFC_
 	ld de, $7828
 	ld bc, $0718
 	call copyNameTableBlockToVRAM
-	jp _LABEL_9C2_
+	jp createTitleEntityAlexSwiming
 
 ; 2nd entry of Jump Table from 8E6 (indexed by v_currentTitleScreen)
-_LABEL_881_:
+showTitleBoatFrame:
 	ld hl, _DATA_130A4_
 	ld de, $7B98
 	ld bc, $061C
 	call copyNameTableBlockToVRAM
-	jp _LABEL_97E_
+	jp createTitleEntityAlexRidingBoat
 
 ; 3rd entry of Jump Table from 8E6 (indexed by v_currentTitleScreen)
-_LABEL_890_:
+showTitleTreeFrame:
 	ld hl, _DATA_12FA4_
 	ld de, $7800
 	ld bc, $080E
 	jp copyNameTableBlockToVRAM
 
 ; 4th entry of Jump Table from 8E6 (indexed by v_currentTitleScreen)
-_LABEL_89C_:
+showTitlePeticopterFrame:
 	ld hl, _DATA_13014_
 	ld de, $79F4
 	ld bc, $0C0C
 	call copyNameTableBlockToVRAM
-	jp _LABEL_967_
+	jp createTitleEntityAlexFlyingPeticopter
 
 ; 5th entry of Jump Table from 8E6 (indexed by v_currentTitleScreen)
-_LABEL_8AB_:
-	ld hl, _DATA_131B2_
+showTitleJankenFrame:
+	ld hl, _DATA_131B2_ 
 	ld de, $7A00
 	ld bc, $1018
 	call copyNameTableBlockToVRAM
-	jp _LABEL_995_
+	jp createTitleEntitiesJankenFlight
 
 ; 6th entry of Jump Table from 8E6 (indexed by v_currentTitleScreen)
-_LABEL_8BA_:
+showTitlePushStartFrame:
 	ld hl, _DATA_1314C_
 	ld de, $7D1A
 	ld bc, $0322
@@ -87,8 +94,8 @@ _DATA_8CA_:
 .db $03 $02 $00 $30 $3C $0C $0F $08 $3A $36 $03 $0A
 
 ; Jump Table from 8E6 to 8F1 (6 entries, indexed by v_currentTitleScreen)
-_DATA_8E6_:
-.dw _LABEL_872_ _LABEL_881_ _LABEL_890_ _LABEL_89C_ _LABEL_8AB_ _LABEL_8BA_
+titleScreenLevelTileUpdatersPointers:
+.dw showTitleUnderwaterFrame showTitleBoatFrame showTitleTreeFrame showTitlePeticopterFrame showTitleJankenFrame showTitlePushStartFrame
 
 ; Data from 8F2 to 8F5 (4 bytes)
 _DATA_8F2_:

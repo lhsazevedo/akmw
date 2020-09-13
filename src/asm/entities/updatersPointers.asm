@@ -23,7 +23,7 @@ entityTypeJumpTable:
 .dw _LABEL_4B23_
 .dw _LABEL_4A51_
 .dw _LABEL_4AEE_
-.dw _LABEL_966_
+.dw return
 .dw _LABEL_74CE_
 .dw _LABEL_78A5_
 .dw _LABEL_491B_

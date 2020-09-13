@@ -25,7 +25,7 @@ updateTitleScreenState:
 	ld (hl), $00
 	ldir
 	ld hl, v_titleScreenTimer
-	ld (hl), $3C
+	ld (hl), TITLE_SCREEN_DURATION
 	xor a
 	ld (v_currentTitleScreen), a
 	ld (v_titleScreenLogoTimer), a
@@ -52,7 +52,7 @@ updateTitleScreenState:
 	rst $30	; memcpyToVRAM
 
 	; Copy alex/janken sprite tiles to VRAM
-	call _LABEL_8F6_
+	call loadTitleSprites
 
 	call enableDisplay
 	ei
@@ -89,7 +89,9 @@ realUpdateTitleScreenState:
 
 startGame:
 	; Update VDP register 0 as following:
-	; VDP_R0_CHANGE_HEIGHT_IN_MODE_4 | VDP_R0_USE_MODE_4 | VDP_R0_ENABLE_LINE_INTERRUPT
+	; VDP_R0_CHANGE_HEIGHT_IN_MODE_4
+	; | VDP_R0_USE_MODE_4
+	; | VDP_R0_ENABLE_LINE_INTERRUPT
 	ld a, $26
 	ld (v_VDPRegister0Value), a
 	ld hl, initialValues
