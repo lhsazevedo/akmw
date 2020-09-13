@@ -1,6 +1,4 @@
-; 1st entry of Pointer Table from A80 (indexed by v_nextDemoIndex)
-; Data from 14D35 to 14D5A (38 bytes)
-_DATA_14D35_:
+demo1Input:
 .db $11 $00
 .db $B4 JOY_RIGHT
 .db $0B (JOY_RIGHT | JOY_FIREA)
@@ -21,27 +19,123 @@ _DATA_14D35_:
 .db $17 JOY_FIREA
 .db $00 $00
 
-; 2nd entry of Pointer Table from A80 (indexed by v_nextDemoIndex)
-; Data from 14D5B to 14E3A (224 bytes)
-_DATA_14D5B_:
-.db $1C $00 $02 $08 $20 $0A $0D $02 $03 $12 $07 $02 $13 $06 $0A $02
-.db $25 $0A $04 $2A $06 $0A $04 $2A $10 $0A $05 $2A $12 $0A $03 $2A
-.db $09 $0A $04 $22 $03 $02 $47 $06 $07 $04 $02 $00 $03 $20 $03 $21
-.db $02 $29 $16 $09 $08 $01 $03 $00 $07 $08 $0A $0A $17 $08 $2A $0A
-.db $46 $08 $3E $0A $07 $02 $03 $0A $2A $08 $08 $0A $13 $02 $0C $0A
-.db $20 $08 $1B $0A $17 $08 $05 $09 $0B $01 $05 $05 $13 $04 $03 $24
-.db $08 $20 $04 $00 $06 $22 $03 $02 $09 $0A $06 $02 $15 $06 $0A $04
-.db $01 $05 $01 $01 $03 $00 $03 $08 $22 $0A $0C $08 $1B $09 $25 $08
-.db $2B $0A $07 $02 $07 $06 $0B $04 $05 $00 $01 $02 $3D $0A $40 $08
-.db $25 $0A $09 $28 $18 $08 $09 $0A $0C $2A $01 $0A $05 $02 $36 $06
-.db $08 $02 $2F $0A $4D $08 $08 $09 $0C $08 $23 $0A $09 $2A $11 $0A
-.db $09 $2A $10 $0A $0A $2A $27 $0A $07 $02 $23 $06 $07 $26 $05 $20
-.db $1E $08 $1A $09 $0B $08 $4A $0A $1A $02 $0B $00 $0F $01 $08 $00
-.db $08 $02 $14 $06 $08 $02 $05 $00 $18 $08 $01 $00 $11 $02 $00 $00
 
-; 3rd entry of Pointer Table from A80 (indexed by v_nextDemoIndex)
-; Data from 14E3B to 14F6A (304 bytes)
-_DATA_14E3B_:
+demo2Input:
+.db $1C $00
+.db $02 JOY_RIGHT
+.db $20 (JOY_RIGHT | JOY_DOWN)
+.db $0D JOY_DOWN
+.db $03 (JOY_FIREA | JOY_DOWN)
+.db $07 JOY_DOWN
+.db $13 (JOY_DOWN | JOY_LEFT)
+.db $0A JOY_DOWN
+.db $25 (JOY_RIGHT | JOY_DOWN)
+.db $04 (JOY_RIGHT | JOY_DOWN | JOY_FIREB)
+.db $06 (JOY_RIGHT | JOY_DOWN)
+.db $04 (JOY_RIGHT | JOY_DOWN | JOY_FIREB)
+.db $10 (JOY_RIGHT | JOY_DOWN)
+.db $05 (JOY_RIGHT | JOY_DOWN | JOY_FIREB)
+.db $12 (JOY_RIGHT | JOY_DOWN)
+.db $03 (JOY_RIGHT | JOY_DOWN | JOY_FIREB)
+.db $09 (JOY_RIGHT | JOY_DOWN)
+.db $04 (JOY_DOWN | JOY_FIREB)
+.db $03 JOY_DOWN
+.db $47 (JOY_DOWN | JOY_LEFT)
+.db $07 JOY_LEFT
+.db $02 $00
+.db $03 JOY_FIREB
+.db $03 $21
+.db $02 $29
+.db $16 (JOY_RIGHT | JOY_UP)
+.db $08 $01
+.db $03 $00
+.db $07 JOY_RIGHT
+.db $0A (JOY_RIGHT | JOY_DOWN)
+.db $17 JOY_RIGHT
+.db $2A (JOY_RIGHT | JOY_DOWN)
+.db $46 JOY_RIGHT
+.db $3E (JOY_RIGHT | JOY_DOWN)
+.db $07 JOY_DOWN
+.db $03 (JOY_RIGHT | JOY_DOWN)
+.db $2A JOY_RIGHT
+.db $08 (JOY_RIGHT | JOY_DOWN)
+.db $13 JOY_DOWN
+.db $0C (JOY_RIGHT | JOY_DOWN)
+.db $20 JOY_RIGHT
+.db $1B (JOY_RIGHT | JOY_DOWN)
+.db $17 JOY_RIGHT
+.db $05 (JOY_RIGHT | JOY_UP)
+.db $0B JOY_UP
+.db $05 (JOY_LEFT | JOY_UP)
+.db $13 JOY_LEFT
+.db $03 (JOY_FIREB | JOY_LEFT)
+.db $08 JOY_FIREB
+.db $04 $00
+.db $06 (JOY_DOWN | JOY_FIREB)
+.db $03 JOY_DOWN
+.db $09 (JOY_RIGHT | JOY_DOWN)
+.db $06 JOY_DOWN
+.db $15 (JOY_DOWN | JOY_LEFT)
+.db $0A JOY_LEFT
+.db $01 (JOY_LEFT | JOY_UP)
+.db $01 JOY_UP
+.db $03 $00
+.db $03 JOY_RIGHT
+.db $22 (JOY_RIGHT | JOY_DOWN)
+.db $0C JOY_RIGHT
+.db $1B (JOY_RIGHT | JOY_UP)
+.db $25 JOY_RIGHT
+.db $2B (JOY_RIGHT | JOY_DOWN)
+.db $07 JOY_DOWN
+.db $07 (JOY_DOWN | JOY_LEFT)
+.db $0B JOY_LEFT
+.db $05 $00
+.db $01 JOY_DOWN
+.db $3D (JOY_RIGHT | JOY_DOWN)
+.db $40 JOY_RIGHT
+.db $25 (JOY_RIGHT | JOY_DOWN)
+.db $09 (JOY_FIREB | JOY_RIGHT)
+.db $18 JOY_RIGHT
+.db $09 (JOY_RIGHT | JOY_DOWN)
+.db $0C (JOY_RIGHT | JOY_DOWN | JOY_FIREB)
+.db $01 (JOY_RIGHT | JOY_DOWN)
+.db $05 JOY_DOWN
+.db $36 (JOY_DOWN | JOY_LEFT)
+.db $08 JOY_DOWN
+.db $2F (JOY_RIGHT | JOY_DOWN)
+.db $4D JOY_RIGHT
+.db $08 (JOY_RIGHT | JOY_UP)
+.db $0C JOY_RIGHT
+.db $23 (JOY_RIGHT | JOY_DOWN)
+.db $09 (JOY_RIGHT | JOY_DOWN | JOY_FIREB)
+.db $11 (JOY_RIGHT | JOY_DOWN)
+.db $09 (JOY_RIGHT | JOY_DOWN | JOY_FIREB)
+.db $10 (JOY_RIGHT | JOY_DOWN)
+.db $0A (JOY_RIGHT | JOY_DOWN | JOY_FIREB)
+.db $27 (JOY_RIGHT | JOY_DOWN)
+.db $07 JOY_DOWN
+.db $23 (JOY_DOWN | JOY_LEFT)
+.db $07 (JOY_FIREB | JOY_LEFT | JOY_DOWN)
+.db $05 JOY_FIREB
+.db $1E JOY_RIGHT
+.db $1A (JOY_RIGHT | JOY_UP)
+.db $0B JOY_RIGHT
+.db $4A (JOY_RIGHT | JOY_DOWN)
+.db $1A JOY_DOWN
+.db $0B $00
+.db $0F JOY_UP
+.db $08 $00
+.db $08 JOY_DOWN
+.db $14 (JOY_DOWN | JOY_LEFT)
+.db $08 JOY_DOWN
+.db $05 $00
+.db $18 JOY_RIGHT
+.db $01 $00
+.db $11 JOY_DOWN
+.db $00 $00
+
+
+demo3Input:
 .db $16 $00 $24 $08 $14 $18 $15 $08 $0D $18 $05 $08 $15 $00 $10 $08
 .db $04 $00 $10 $04 $0E $14 $01 $15 $09 $05 $04 $04 $03 $00 $05 $20
 .db $05 $24 $05 $04 $14 $14 $13 $04 $01 $05 $03 $01 $01 $09 $07 $08
@@ -62,9 +156,8 @@ _DATA_14E3B_:
 .db $04 $09 $04 $29 $04 $28 $04 $20 $10 $00 $0F $10 $02 $14 $04 $10
 .db $04 $00 $09 $10 $0E $14 $05 $04 $10 $00 $07 $08 $15 $18 $00 $00
 
-; 4th entry of Pointer Table from A80 (indexed by v_nextDemoIndex)
-; Data from 14F6B to 1508D (291 bytes)
-_DATA_14F6B_:
+
+demo4Input:
 .db $12 $00 $05 $0A $02 $1A $1C $0A $01 $02 $02 $1A $07 $0A $02 $1A
 .db $05 $0A $03 $1A $31 $0A $02 $1A $07 $0A $01 $1A $38 $0A $03 $1A
 .db $0D $0A $03 $1A $06 $0A $02 $1A $06 $0A $02 $1A $11 $0A $02 $2A

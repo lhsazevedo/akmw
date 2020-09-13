@@ -25,7 +25,7 @@ updateDemoState:
 	ld a, $85
 	ld (_RAM_FFFF_), a
 	ld a, (v_nextDemoIndex)
-	ld hl, _DATA_A80_ - 2
+	ld hl, demoInputPointers - 2
 	rst $10	; _LABEL_10_
 	dec hl
 	ld (v_demoInputDataTimer), hl
