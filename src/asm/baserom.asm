@@ -3366,17 +3366,17 @@ _LABEL_2C25_:
 ++:
 	call _LABEL_3B56_
 	ld a, (v_inputData)
-	bit 1, a
+	bit JOY_DOWN_BIT, a
 	jp nz, crouch
-	bit 2, a
+	bit JOY_LEFT_BIT, a
 	jp nz, walkLeft
-	bit 3, a
+	bit JOY_RIGHT_BIT, a
 	jr nz, _LABEL_2C6C_
 	jp _LABEL_2BFA_
 
 +++:
 	ld a, (v_inputData)
-	bit 3, a
+	bit JOY_RIGHT_BIT, a
 	jr z, +
 	set 2, (ix+20)
 	ld de, $0040
@@ -3387,9 +3387,9 @@ _LABEL_2C6C_:
 	jp _LABEL_4189_
 
 +:
-	bit 2, a
+	bit JOY_LEFT_BIT, a
 	jr nz, +
-	bit 1, a
+	bit JOY_DOWN_BIT, a
 	jp nz, crouch
 	bit 2, (ix+20)
 	jp z, _LABEL_2BFA_
@@ -3457,7 +3457,7 @@ updateAlexInAir:
 	bit 2, (ix+28)
 	jp nz, _LABEL_2D4A_
 	ld a, (v_inputData)
-	bit 4, a
+	bit JOY_BTN1_BIT, a
 	jr z, ++
 	dec (ix+27)
 	jr z, ++
@@ -3529,9 +3529,9 @@ _LABEL_2D7F_:
 	jr c, +++
 ++:
 	ld a, (v_inputData)
-	bit 2, a
+	bit JOY_LEFT_BIT, a
 	jr nz, ++++
-	bit 3, a
+	bit JOY_RIGHT_BIT, a
 	jr nz, +++++
 	ld de, $0008
 	jp _LABEL_3B4B_
@@ -3539,7 +3539,7 @@ _LABEL_2D7F_:
 +++:
 	call _LABEL_3B56_
 	ld a, (v_inputData)
-	bit 3, a
+	bit JOY_RIGHT_BIT, a
 	ret z
 	set 1, (ix+20)
 	ret
@@ -3584,9 +3584,9 @@ _LABEL_2DF3_:
 	jr c, +++
 ++:
 	ld a, (v_inputData)
-	bit 3, a
+	bit JOY_RIGHT_BIT, a
 	jr nz, ++++
-	bit 2, a
+	bit JOY_LEFT_BIT, a
 	jr nz, +++++
 	ld de, $FFF8
 	jp _LABEL_3B9C_
@@ -3594,7 +3594,7 @@ _LABEL_2DF3_:
 +++:
 	call _LABEL_3B56_
 	ld a, (v_inputData)
-	bit 2, a
+	bit JOY_LEFT_BIT, a
 	ret z
 	res 1, (ix+20)
 	ret
@@ -3645,7 +3645,7 @@ updateAlexCrouched:
 	jp nc, _LABEL_2CA1_
 ++:
 	ld a, (v_inputData)
-	bit 1, a
+	bit JOY_DOWN_BIT, a
 	jr nz, +
 	ld a, (v_entities.1.isOffScreenFlags.high)
 	or a
@@ -3798,7 +3798,7 @@ _LABEL_2FD5_:
 	call _LABEL_4578_
 ++:
 	ld a, (v_inputData)
-	bit 3, a
+	bit JOY_RIGHT_BIT, a
 	jr z, +
 	ld de, $0040
 	ld bc, $0400
@@ -3830,7 +3830,7 @@ alexHandler_302F:
 	bit 2, (ix+28)
 	jr nz, ++
 	ld a, (v_inputData)
-	bit 4, a
+	bit JOY_BTN1_BIT, a
 	jr z, +
 	dec (ix+27)
 	jr z, +
@@ -3897,7 +3897,7 @@ _LABEL_30C5_:
 	rlca
 	jp c, _LABEL_389C_
 	ld a, (v_inputData)
-	bit 3, a
+	bit JOY_RIGHT_BIT, a
 	jr z, +
 	ld de, $0040
 	ld bc, $0280
@@ -3929,7 +3929,7 @@ updateAlexRidingBoatInAir:
 	bit 2, (ix+28)
 	jr nz, ++
 	ld a, (v_inputData)
-	bit 4, a
+	bit JOY_BTN1_BIT, a
 	jr z, +
 	dec (ix+27)
 	jr z, +
@@ -4247,13 +4247,13 @@ _LABEL_3392_:
 	jp nz, _LABEL_4508_
 	ld a, (v_inputData)
 	ld c, a
-	bit 0, c
+	bit JOY_UP_BIT, c
 	call nz, ++
-	bit 1, c
+	bit JOY_DOWN_BIT, c
 	call nz, _LABEL_3400_
-	bit 2, c
+	bit JOY_LEFT_BIT, c
 	call nz, _LABEL_3424_
-	bit 3, c
+	bit JOY_RIGHT_BIT, c
 	call nz, _LABEL_3442_
 	inc (ix+27)
 	bit 2, (ix+27)
@@ -4395,7 +4395,7 @@ updateAlexSwiming:
 	cp $60
 	jr nz, +
 	ld a, (v_inputData)
-	and $01
+	and JOY_UP
 	jr z, +
 	dec hl
 	ld a, (hl)
@@ -4435,7 +4435,7 @@ updateAlexSwiming:
 	ld a, (v_inputData)
 	bit 0, (ix+20)
 	jr nz, ++
-	bit 4, a
+	bit JOY_BTN1_BIT, a
 	jr z, +
 	ld c, $0A
 +:
@@ -4445,7 +4445,7 @@ updateAlexSwiming:
 
 ++:
 	ld c, $14
-	bit 4, a
+	bit JOY_BTN1_BIT, a
 	jr z, +
 	ld c, $0A
 +:
@@ -4477,9 +4477,9 @@ updateAlexSwiming:
 	bit 7, a
 	jp nz, _LABEL_35E3_
 	ld a, (v_inputData)
-	bit 1, a
+	bit JOY_DOWN_BIT, a
 	jr nz, ++
-	bit 0, a
+	bit JOY_UP_BIT, a
 	jr nz, +
 	ld bc, $FF00
 	ld de, $FFF0
@@ -4505,7 +4505,7 @@ _LABEL_35BE_:
 	cp $59
 	jr nz, +
 	ld a, (v_inputData)
-	and $01
+	and JOY_UP
 	jr z, +
 	set 7, (ix+1)
 	ret
@@ -4523,7 +4523,7 @@ _LABEL_35E3_:
 	ld (v_entities.1.ySpeed), hl
 	res 4, (ix+20)
 	ld a, (v_inputData)
-	bit 1, a
+	bit JOY_DOWN_BIT, a
 	ret z
 	set 3, (ix+20)
 	ret
@@ -4539,7 +4539,7 @@ _LABEL_35F8_:
 	rlca
 	jr c, ++
 	ld a, (v_inputData)
-	bit 1, a
+	bit JOY_DOWN_BIT, a
 	jr z, +
 	ld bc, $0100
 	ld de, $0010
@@ -4557,7 +4557,7 @@ _LABEL_35F8_:
 	ld (v_entities.1.ySpeed), hl
 	res 4, (ix+20)
 	ld a, (v_inputData)
-	bit 1, a
+	bit JOY_DOWN_BIT, a
 	ret nz
 	res 3, (ix+20)
 	ret
@@ -4570,9 +4570,9 @@ _LABEL_363E_:
 	call _LABEL_3A03_
 	jr c, +
 	ld a, (v_inputData)
-	bit 2, a
+	bit JOY_LEFT_BIT, a
 	jr nz, ++
-	bit 3, a
+	bit JOY_RIGHT_BIT, a
 	jr nz, +++
 	ld de, $0008
 	jp _LABEL_3B4B_
@@ -4580,7 +4580,7 @@ _LABEL_363E_:
 +:
 	call _LABEL_3B56_
 	ld a, (v_inputData)
-	bit 3, a
+	bit JOY_RIGHT_BIT, a
 	ret z
 	ld a, (v_entities.1.unknown3)
 	or $03
@@ -4588,7 +4588,7 @@ _LABEL_363E_:
 	ret
 
 ++:
-	bit 4, a
+	bit JOY_BTN1_BIT, a
 	jr nz, +
 	ld de, $FFF0
 	ld bc, $FF00
@@ -4613,9 +4613,9 @@ _LABEL_369A_:
 	call _LABEL_3A03_
 	jr c, +
 	ld a, (v_inputData)
-	bit 3, a
+	bit JOY_RIGHT_BIT, a
 	jr nz, ++
-	bit 2, a
+	bit JOY_LEFT_BIT, a
 	jr nz, +++
 	ld de, $FFF8
 	jp _LABEL_3B9C_
@@ -4623,7 +4623,7 @@ _LABEL_369A_:
 +:
 	call _LABEL_3B56_
 	ld a, (v_inputData)
-	bit 2, a
+	bit JOY_LEFT_BIT, a
 	ret z
 	ld a, (v_entities.1.unknown3)
 	and $F8
@@ -4631,7 +4631,7 @@ _LABEL_369A_:
 	ret
 
 ++:
-	bit 4, a
+	bit JOY_BTN1_BIT, a
 	jr nz, +
 	ld de, $0010
 	ld bc, $0100
@@ -4644,7 +4644,7 @@ _LABEL_369A_:
 
 +++:
 	res 0, (ix+20)
-	bit 4, a
+	bit JOY_BTN1_BIT, a
 	jr nz, +
 	ld de, $FFF0
 	jp _LABEL_3BB1_
@@ -4697,9 +4697,9 @@ updateAlexFlyingPeticopter:
 	call _LABEL_39ED_
 	jr c, +
 	ld a, (v_inputData)
-	bit 2, a
+	bit JOY_LEFT_BIT, a
 	jr nz, ++
-	bit 3, a
+	bit JOY_RIGHT_BIT, a
 	jr nz, +++
 	ld de, $0020
 	jp _LABEL_3B4B_
@@ -4707,7 +4707,7 @@ updateAlexFlyingPeticopter:
 +:
 	call _LABEL_3B56_
 	ld a, (v_inputData)
-	bit 3, a
+	bit JOY_RIGHT_BIT, a
 	ret z
 	ld a, (v_entities.1.unknown3)
 	or $03
@@ -4732,9 +4732,9 @@ _LABEL_378F_:
 	call _LABEL_39ED_
 	jr c, +
 	ld a, (v_inputData)
-	bit 3, a
+	bit JOY_RIGHT_BIT, a
 	jr nz, ++
-	bit 2, a
+	bit JOY_LEFT_BIT, a
 	jr nz, +++
 	ld de, $FFE0
 	jp _LABEL_3B9C_
@@ -4742,7 +4742,7 @@ _LABEL_378F_:
 +:
 	call _LABEL_3B56_
 	ld a, (v_inputData)
-	bit 2, a
+	bit JOY_LEFT_BIT, a
 	ret z
 	ld a, (v_entities.1.unknown3)
 	and $F8
@@ -5474,7 +5474,7 @@ _LABEL_3CCF_:
 	cp $18
 	ret c
 	ld a, (v_inputData)
-	bit 0, a
+	bit JOY_UP_BIT, a
 	ret z
 	ld (ix+26), $0D
 	ret
@@ -5488,7 +5488,7 @@ _LABEL_3CF3_:
 
 +:
 	ld a, (v_inputData)
-	bit 0, a
+	bit JOY_UP_BIT, a
 	ret z
 	ld hl, $FF00
 	ld (v_entities.1.ySpeed), hl
@@ -5613,7 +5613,7 @@ _LABEL_3DD4_:
 
 +:
 	ld a, (v_inputData)
-	bit 1, a
+	bit JOY_DOWN_BIT, a
 	ret z
 	ld hl, $0100
 	ld (v_entities.1.ySpeed), hl
@@ -11226,7 +11226,7 @@ _LABEL_6DC9_:
 	ld a, $80
 	call setAndWaitForInterruptFlags
 	ld a, (v_inputData)
-	and $01
+	and JOY_UP
 	jp nz, +
 	xor a
 	ld (v_itemBeignBoughtIndex), a
@@ -13386,7 +13386,7 @@ _LABEL_7E5E_:
 	ld a, $01
 	call setAndWaitForInterruptFlags
 	ld a, (v_inputData)
-	and $30
+	and (JOY_FIREA | JOY_FIREB)
 	jp nz, ++
 	ld a, (v_shouldShowNuraiOrOldMan)
 	or a
