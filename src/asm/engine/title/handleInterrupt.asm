@@ -100,7 +100,12 @@ _DATA_8CA_:
 
 
 titleScreenLevelTileUpdatersPointers:
-.dw showTitleUnderwaterFrame showTitleBoatFrame showTitleTreeFrame showTitlePeticopterFrame showTitleJankenFrame showTitlePushStartFrame
+.dw showTitleUnderwaterFrame
+.dw showTitleBoatFrame
+.dw showTitleTreeFrame
+.dw showTitlePeticopterFrame
+.dw showTitleJankenFrame
+.dw showTitlePushStartFrame
 
 
 titleLogoAnimationColors:
