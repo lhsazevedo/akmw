@@ -58,7 +58,9 @@ updateTitleScreenState:
 	ei
 	ld hl, $01D0
 	ld (v_introTimer), hl
-	ld a, $81
+
+	; Play intro sound
+	ld a, SOUND_INTRO
 	ld (v_soundControl), a
 
 
