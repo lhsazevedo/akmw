@@ -12176,22 +12176,6 @@ _DATA_7651_:
 .ENDIF
 .db $04 $00 $16 $93
 
-; Data from 7665 to 7672 (14 bytes)
-; .db $B9 $76 $F2 $92 $F7 $92
-; .IFDEV _REV1
-; 	.db $97
-; .ELSE
-; 	.db $90
-; .ENDIF
-; .db $76
-; 
-; .IFDEF _REV1
-; 	.db $03 $77
-; .ELSE
-; 	.db $FC $76
-; .ENDIF
-; .db $04 $00 $16 $93
-
 ; Pointer Table from 7673 to 7674 (1 entries, indexed by _RAM_C3A3_)
 .dw _DATA_11E67_
 
