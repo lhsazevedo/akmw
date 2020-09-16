@@ -38,7 +38,7 @@ updateMoneyBag:
 	call takeMoney
 
 	; Play money bag sound
-	ld a, $8E
+	ld a, SOUND_COINS
 	ld (v_soundControl), a
 	jp clearCurrentEntity
 
