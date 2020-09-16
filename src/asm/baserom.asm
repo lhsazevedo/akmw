@@ -9851,7 +9851,7 @@ _LABEL_63FB_:
 
 ; Pointer Table from 6422 to 6435 (10 entries, indexed by _RAM_CF83_)
 _DATA_6422_:
-.dw _DATA_80D3_ _DATA_80C5_ _DATA_8057_ _DATA_8065_ _DATA_8A27_ _DATA_8C0E_ _DATA_8C1C_ _DATA_801C_
+.dw _DATA_80D3_ _DATA_80C5_ _DATA_8057_ _DATA_8065_ _DATA_8A27_ _DATA_8C0E_ powerBraceletSpriteDescriptor _DATA_801C_
 .dw _DATA_800E_ _DATA_8000_
 
 ; Pointer Table from 6436 to 6449 (10 entries, indexed by _RAM_CF83_)

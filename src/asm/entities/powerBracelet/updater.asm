@@ -1,21 +1,26 @@
-; 78th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
-_LABEL_5AE6_:
-	bit 0, (ix+1)
+updatePowerBracelet:
+	; Skip initialization if already initialized
+	bit 0, (ix + Entity.flags)
 	jr nz, +
-	set 0, (ix+1)
-	ld (ix+23), $F0
-	ld (ix+7), <_DATA_8C1C_
-	ld (ix+8), >_DATA_8C1C_
-	ld (ix+15), $00
-	ld (ix+16), $00
-	ld (ix+17), $00
-	ld (ix+18), $00
+
+	; Initialize bracelet
+	set 0, (ix + Entity.flags)
+	ld (ix + Entity.jankenMatchDecision), $F0
+	ld (ix + Entity.spriteDescriptorPointer.low), <powerBraceletSpriteDescriptor
+	ld (ix + Entity.spriteDescriptorPointer.high), >powerBraceletSpriteDescriptor
+	ld (ix + Entity.xSpeed.low), $00
+	ld (ix + Entity.xSpeed.high), $00
+	ld (ix + Entity.ySpeed.low), $00
+	ld (ix + Entity.ySpeed.high), $00
 	ret
 
 +:
-	ld a, (ix+9)
-	or (ix+10)
+	; Destroy if offscreen
+	ld a, (ix + Entity.isOffScreenFlags.low)
+	or (ix + Entity.isOffScreenFlags.high)
 	jp nz, clearCurrentEntity
+
+	; Do not pickup if it isn't colliding with Alex
 	ld iy, v_entity1
 	call checkEntityCollision
 	jr c, +
@@ -28,6 +33,7 @@ _LABEL_5AE6_:
 	jp clearCurrentEntity
 
 +:
-	dec (ix+23)
+	; Tick timer, deleting when it reaches zero
+	dec (ix + Entity.jankenMatchDecision)
 	jp z, clearCurrentEntity
 	ret
