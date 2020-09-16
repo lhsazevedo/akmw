@@ -1,11 +1,12 @@
 ; @TODO: Add description
 ; 60th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 updateMoneyBag:
+	; Skip initialization if its already done
 	bit 0, (ix + Entity.flags)
 	jr nz, +
-	set 0, (ix + Entity.flags)
 
-	; Always reset speed
+	; Initialize
+	set 0, (ix + Entity.flags)
 	ld (ix + Entity.xSpeed.low), $00
 	ld (ix + Entity.xSpeed.high), $00
 	ld (ix + Entity.ySpeed.low), $00
@@ -43,7 +44,7 @@ updateMoneyBag:
 	jp clearCurrentEntity
 
 +:
-	; @TODO ???
+	; Decrement timer
 	dec (ix + Entity.jankenMatchDecision)
 	jp z, clearCurrentEntity
 	ret
