@@ -8841,39 +8841,7 @@ _LABEL_5A96_:
 .INC "entities/powerBracelet/updater.asm"
 
 ; 79th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
-_LABEL_5B37_:
-	bit 0, (ix+1)
-	jr nz, +
-	set 0, (ix+1)
-	ld (ix+24), $80
-	ld (ix+5), $18
-	ld (ix+6), $18
-+:
-	ld a, (ix+9)
-	or (ix+10)
-	jp nz, clearCurrentEntity
-	bit 1, (ix+1)
-	jp nz, +
-	dec (ix+24)
-	jr nz, ++
-	set 1, (ix+1)
-+:
-	ld a, (v_entities.1.state)
-	cp ALEX_DEAD
-	ret z
-	call _LABEL_7D99_
-	call _LABEL_4DAD_
-	ld (ix+16), h
-	ld (ix+15), l
-	ld (ix+18), d
-	ld (ix+17), e
-	ld hl, _DATA_8C6C_
-	ld a, (v_entities.1.xPos.high)
-	cp (ix+12)
-	jp nc, handleEntityAnimation
-++:
-	ld hl, _DATA_8C2A_
-	jp handleEntityAnimation
+.INC "entities/ghost/updater.asm"
 
 _LABEL_5B90_:
 	ld iy, _RAM_C640_
