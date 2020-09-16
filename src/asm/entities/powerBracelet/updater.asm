@@ -24,7 +24,9 @@ updatePowerBracelet:
 	ld iy, v_entity1
 	call checkEntityCollision
 	jr c, +
-	ld a, $8F
+
+	; Pickup bracelet
+	ld a, SOUND_POWERUP
 	ld (v_soundControl), a
 	ld a, $01
 	ld (v_hasPowerBracelet), a
