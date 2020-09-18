@@ -579,7 +579,7 @@ _LABEL_303_:
 	ret
 
 
-_LABEL_311_:
+clearVDPTablesAndDisableScreen:
 	call disableDisplay
 
 	; Reset horizontal scroll
@@ -821,7 +821,7 @@ _LABEL_42D_:
 	daa
 	ret
 
-_LABEL_43B_:
+updateHighScore:
 	ld de, v_score
 	ld hl, _RAM_C000_
 	ld b, $03
@@ -2420,7 +2420,7 @@ updateBonusLevelState:
 	jp nz, -
 	ld a, $82
 	ld (_RAM_FFFF_), a
-	call _LABEL_9DF3_
+	call resetSoundAndInitVolume
 	ld hl, v_money
 	ld de, v_moneyByteTwo
 	ld (hl), $00
@@ -2523,10 +2523,10 @@ _LABEL_1730_:
 	ret
 
 _LABEL_1735_:
-	call _LABEL_9DF3_
+	call resetSoundAndInitVolume
 	ld b, $05
 	call _LABEL_343_
-	call _LABEL_311_
+	call clearVDPTablesAndDisableScreen
 	ld hl, v_levelWidth
 	ld de, v_levelWidth + 1
 	ld bc, $002A
@@ -2717,10 +2717,10 @@ updateLevelCompletedState:
 
 +:
 	set 7, (hl)
-	call _LABEL_9DF3_
+	call resetSoundAndInitVolume
 	ld b, $05
 	call _LABEL_343_
-	call _LABEL_311_
+	call clearVDPTablesAndDisableScreen
 	ld hl, _RAM_D7D0_
 	ld de, _RAM_D7D0_ + 1
 	ld (hl), $00
@@ -2869,12 +2869,12 @@ handleInterruptLevelStartingState:
 
 _LABEL_1A46_:
 	set 7, (hl)
-	call _LABEL_311_
+	call clearVDPTablesAndDisableScreen
 	call clearEntities
 	call _LABEL_303_
 	ld a, $82
 	ld (_RAM_FFFF_), a
-	call _LABEL_9DF3_
+	call resetSoundAndInitVolume
 	xor a
 	ld (_RAM_C03C_), a
 	ld (_RAM_C03D_), a
@@ -10836,7 +10836,7 @@ updateLifeLostState:
 	call disableDisplay
 	ld b, $05
 	call _LABEL_343_
-	call _LABEL_9DF3_
+	call resetSoundAndInitVolume
 	ld hl, v_lives
 	ld a, (hl)
 	sub $01
@@ -11026,7 +11026,7 @@ _LABEL_6D73_:
 	jp enableDisplay
 
 _LABEL_6DC9_:
-	call _LABEL_311_
+	call clearVDPTablesAndDisableScreen
 	ld b, $05
 	call _LABEL_343_
 	call _LABEL_303_
@@ -12451,7 +12451,7 @@ _LABEL_7924_:
 	call clearEntity
 	inc hl
 	djnz -
-	call _LABEL_9DF3_
+	call resetSoundAndInitVolume
 	ld a, $84
 	ld (_RAM_FFFF_), a
 	ld hl, _DATA_118E9_

@@ -1,9 +1,9 @@
 initGameplayState:
-	call _LABEL_311_
+	call clearVDPTablesAndDisableScreen
 	call clearEntities
 	ld a, $82
 	ld (_RAM_FFFF_), a
-	call _LABEL_9DF3_
+	call resetSoundAndInitVolume
 	ld hl, v_levelWidth
 	ld de, v_levelWidth + 1
 	ld bc, $002A

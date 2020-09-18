@@ -3,10 +3,10 @@ handleInterruptMapState:
 	jp _LABEL_263D_
 
 _LABEL_1FE9_:
-	call _LABEL_9DF3_
+	call resetSoundAndInitVolume
 	ld a, $82
 	ld (_RAM_FFFF_), a
-	call _LABEL_311_
+	call clearVDPTablesAndDisableScreen
 	ld de, _RAM_C800_
 	ld hl, _RAM_D000_
 	ld bc, $0700
@@ -189,7 +189,7 @@ _LABEL_1FE9_:
 
 _LABEL_2198_:
 	set 7, (hl)
-	call _LABEL_9DF3_
+	call resetSoundAndInitVolume
 	ld hl, v_levelWidth
 	ld de, v_temporaryLevelDataCopy
 	ld bc, $002A
@@ -201,7 +201,7 @@ _LABEL_2198_:
 	dec de
 	ld bc, $0029
 	lddr
-	call _LABEL_311_
+	call clearVDPTablesAndDisableScreen
 	ld b, $05
 	call _LABEL_343_
 	ld hl, _RAM_C800_
@@ -683,8 +683,8 @@ _LABEL_25B4_:
 
 ; 6th entry of Jump Table from 2544 (indexed by _RAM_C801_)
 _LABEL_25D3_:
-	call _LABEL_9DF3_
-	call _LABEL_311_
+	call resetSoundAndInitVolume
+	call clearVDPTablesAndDisableScreen
 	ld hl, _RAM_C800_
 	ld de, _RAM_C800_ + 1
 	ld (hl), $00

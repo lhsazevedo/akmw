@@ -44,8 +44,8 @@ handleInterruptShopState:
 	ret
 
 _LABEL_1C33_:
-	call _LABEL_9DF3_
-	call _LABEL_311_
+	call resetSoundAndInitVolume
+	call clearVDPTablesAndDisableScreen
 	ld a, $82
 	ld (_RAM_FFFF_), a
 	ld a, $8A
@@ -128,7 +128,7 @@ _LABEL_1C33_:
 
 _LABEL_1D04_:
 	set 7, (hl)
-	call _LABEL_9DF3_
+	call resetSoundAndInitVolume
 	ld hl, v_levelWidth
 	ld de, v_temporaryLevelDataCopy
 	ld bc, $002A
@@ -140,7 +140,7 @@ _LABEL_1D04_:
 	dec de
 	ld bc, $0029
 	lddr
-	call _LABEL_311_
+	call clearVDPTablesAndDisableScreen
 	ld b, $05
 	call _LABEL_343_
 	call _LABEL_303_

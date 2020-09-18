@@ -55,9 +55,9 @@ _LABEL_984F_:
 _LABEL_98AE_:
 	ld a, (v_soundControl)
 	bit 7, a
-	jp z, _LABEL_9DF3_
+	jp z, resetSoundAndInitVolume
 	cp $B4
-	jp nc, _LABEL_9DF3_
+	jp nc, resetSoundAndInitVolume
 	sub $81
 	ret m
 	cp $30
@@ -146,7 +146,7 @@ _LABEL_99D3_:
 
 ; 1st entry of Jump Table from 993D (indexed by v_soundControl)
 _LABEL_99F0_:
-	call _LABEL_9DF3_
+	call resetSoundAndInitVolume
 	ld de, v_soundMusicSoftwareChannels
 	jp _LABEL_9AA3_
 
@@ -182,7 +182,7 @@ _LABEL_9A04_:
 
 ; 27th entry of Jump Table from 993D (indexed by v_soundControl)
 _LABEL_9A1F_:
-	call _LABEL_9DF3_
+	call resetSoundAndInitVolume
 	jr +
 
 ; 30th entry of Jump Table from 993D (indexed by v_soundControl)
@@ -841,7 +841,7 @@ _LABEL_9DEB_:
 	out (Port_PSG), a
 	ret
 
-_LABEL_9DF3_:
+resetSoundAndInitVolume:
 	exx
 	ld hl, v_soundFadeOutVolume
 	ld de, v_soundFadeOutVolume + 1

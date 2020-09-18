@@ -7,38 +7,48 @@ updateTitleScreenState:
 	jp nz, realUpdateTitleScreenState
 
 	set 7, (hl)
-
+	
 	xor a
 	ld (_RAM_C10A_), a
-	call _LABEL_311_
+	call clearVDPTablesAndDisableScreen
+	
 	ld de, $6000
 	ld bc, $0020
 	ld l, $00
 	call fillVRAM
+
 	ld a, $82
 	ld (_RAM_FFFF_), a
-	call _LABEL_9DF3_
-	call _LABEL_43B_
+	call resetSoundAndInitVolume
+	call updateHighScore
+
+	; Clear some RAM
+	; @TODO: Identify which part is being cleared
 	ld hl, v_score
 	ld de, v_score + 1
 	ld bc, $1DDF
 	ld (hl), $00
 	ldir
+
 	ld hl, v_titleScreenTimer
 	ld (hl), TITLE_SCREEN_DURATION
+
 	xor a
 	ld (v_currentTitleScreen), a
 	ld (v_titleScreenLogoTimer), a
+
 	ld a, $84
 	ld (_RAM_FFFF_), a
+
+	; Load logo and tile palettes
 	ld hl, _DATA_13332_
 	ld de, $4020
 	call decompress4BitplanesToVRAM
+
+	; Load logo tilemap
 	ld hl, _DATA_12D9E_
 	ld de, $788E
 	ld bc, $061C
-
-	; Init title scren tile map
 	call copyNameTableBlockToVRAM
 	ld hl, _DATA_12E46_
 	ld de, $79DA
