@@ -120,12 +120,12 @@ int main(int argc, char **argv) {
 
     for (int i = 0; i < 16; i++) {
         printf("%d\n", i);
-        palette[i].red = (pallete_colors[i] >> 16) & 0xFF;
-        printf("%#02x\n", palette[i].red);
-        palette[i].green = (pallete_colors[i] >> 8) & 0xFF;
-        printf("%#02x\n", palette[i].green);
-        palette[i].blue = pallete_colors[i] & 0xFF;
-        printf("%#02x\n", palette[i].blue);
+        palette[i].red = ((pallete_colors[i]) & 3) * 85;
+        // printf("%#02x\n", palette[i].red);
+        palette[i].green = ((pallete_colors[i] >> 2) & 3) * 85;
+        // printf("%#02x\n", palette[i].green);
+        palette[i].blue = (pallete_colors[i] >> 4) * 85;
+        // printf("%#02x\n", palette[i].blue);/
         printf("================\n");
     }
 
