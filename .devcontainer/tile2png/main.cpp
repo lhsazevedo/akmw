@@ -18,7 +18,6 @@ void writepng_version_info()
     ZLIB_VERSION, zlib_version);
 }
 
-
 int main(int argc, char **argv) {
 
     writepng_version_info();
@@ -34,37 +33,70 @@ int main(int argc, char **argv) {
     int sz = ftell(rfp);
     fseek(rfp, 0L, SEEK_SET);
 
-    const int tile_width = 8;
-    const int tile_height = 8;
-    const int pixels_per_tile = tile_width * tile_width;
+    const unsigned int tile_width = 8;
+    const unsigned int tile_height = 8;
+    const unsigned int pixels_per_tile = tile_width * tile_width;
+    const unsigned int tiles_per_row = 16;
 
-    const int bits_per_pixel = 4;
-    const int pixels_per_byte = 8 / bits_per_pixel;
-    const int bytes_per_tile = pixels_per_tile / pixels_per_byte;
-    const int height = tile_height;
-    const int pixel_count = sz * pixels_per_byte;
-    const int tile_count = pixel_count / (tile_width * tile_height);
-    const int width = pixel_count / height;
-    const int width_in_bytes = width / pixels_per_byte;
-    // int width = sz/4; // sz = 320; sz/4 = 80
+    const unsigned int bits_per_pixel = 4;
+    const unsigned int pixels_per_byte = 8 / bits_per_pixel;
+    const unsigned int bytes_per_tile = pixels_per_tile / pixels_per_byte;
 
-    char pixels[sz];
+    const unsigned int pixel_count = sz * pixels_per_byte;
+    const unsigned int tile_count = pixel_count / (tile_width * tile_height);
+
+    int unsigned height = (tile_count / tiles_per_row) * tile_height;
+    if (tile_count % tiles_per_row) {
+        height += tile_height;
+    }
+
+    const unsigned int width = tile_width * tiles_per_row;
+    const unsigned int width_in_bytes = width / pixels_per_byte;
+
+    char pixels[width_in_bytes * height];
+    for (int i = 0; i < (width_in_bytes * height); i++) {
+        pixels[i] = 0;
+    }
+
+    png_bytepp row_pointers = (png_bytepp) malloc(sizeof(png_bytep) * height);
+
+    const unsigned int tile_width_in_bytes = tile_width / pixels_per_byte;
+
+    unsigned int current_tile = 0;
+    unsigned int current_row_tile = 0;
 
     for (int i = 0; i < sz; i++) {
+        current_tile = i / bytes_per_tile;
+        current_row_tile = current_tile % tiles_per_row;
+
         char byte = getc(rfp);
 
-        int pos = i/bits_per_pixel * width_in_bytes;
-        pos = pos % sz;
-        pos = pos + (i/bytes_per_tile)*bits_per_pixel;
-        pos = pos + i % bits_per_pixel;
+        unsigned int pos = 0;
+
+        // offset pixel
+        pos += i % tile_width_in_bytes;
+
+        // offset line
+        const unsigned int line_offset = (i % bytes_per_tile) / tile_width_in_bytes;
+        pos += line_offset * width_in_bytes;
+
+        // offset tile
+        pos += current_row_tile * tile_width_in_bytes;
+
+        // offset row
+        const unsigned int row_offset = current_tile / tiles_per_row;
+        pos += row_offset * (bytes_per_tile * tiles_per_row);
+
         pixels[pos] = byte;
-        std::cout << i << " " << pos << std::endl;
+
+        if (current_row_tile == 0 && i % tile_width_in_bytes == 0) {
+            row_pointers[line_offset + row_offset * tile_height] = (png_byte *) &pixels[pos];
+        }
     }
 
 
-    png_bytepp row_pointers = (png_bytepp) malloc(sizeof(png_bytep) * height);
-    for (int i = 0; i < 8; i++)
-        row_pointers[i] = (png_byte *) &pixels[i * width_in_bytes];
+    // for (int i = 0; i < height; i++)
+    //     row_pointers[i] = (png_byte *) &pixels[i * width_in_bytes];
 
     //const char *outfilename = 'out.png';
     FILE *wfp = fopen("out.png", "wb");
