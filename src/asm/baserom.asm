@@ -270,14 +270,14 @@ gameStateInterruptHandlersPointers:
 .dw handleInterruptGameplayState
 .dw handleInterruptMapState
 
-_LABEL_13F_:
+writeAToVRAM:
 	push af
 	rst $08	; setVDPAddress
 	pop af
 	out (Port_VDPData), a
 	ret
 
-_LABEL_145_:
+writeBcBytesToVRAM:
 	rst $08	; setVDPAddress
 	ld a, c
 	or a
@@ -567,7 +567,7 @@ enableDisplay:
 	rst $08	; setVDPAddress
 	ret
 
-_LABEL_303_:
+clearScroll:
 	xor a
 	ld (_RAM_C0BE_), a
 	ld (_RAM_C0B0_), a
@@ -1291,7 +1291,7 @@ _LABEL_C43_:
 	ld hl, _DATA_1EFC9_
 	ld de, $6400
 	ld bc, $00E0
-	call _LABEL_145_
+	call writeBcBytesToVRAM
 	ld hl, _DATA_1EFC9_
 	ld bc, $00E0
 	call _LABEL_2C5_
@@ -1300,11 +1300,11 @@ _LABEL_C43_:
 	ld hl, _DATA_17191_
 	ld de, $65C0
 	ld bc, $0080
-	call _LABEL_145_
+	call writeBcBytesToVRAM
 	ld hl, _DATA_170B1_
 	ld de, $6640
 	ld bc, $0060
-	call _LABEL_145_
+	call writeBcBytesToVRAM
 	ld hl, _DATA_170F1_
 	ld bc, $0020
 	call _LABEL_2C5_
@@ -1676,7 +1676,7 @@ _LABEL_1089_:
 	add hl, de
 	ld de, $C00B
 	ld a, (hl)
-	call _LABEL_13F_
+	call writeAToVRAM
 _LABEL_10B0_:
 	ld a, (_RAM_C054_)
 	or a
@@ -1701,7 +1701,7 @@ _LABEL_10B0_:
 	add hl, de
 	ld de, $C014
 	ld a, (hl)
-	jp _LABEL_13F_
+	jp writeAToVRAM
 
 ; Data from 10D6 to 10D9 (4 bytes)
 _DATA_10D6_:
@@ -1993,13 +1993,13 @@ _LABEL_132F_:
 	ld hl, _DATA_1C7E9_
 	ld de, $6880
 	ld bc, $0220
-	jp _LABEL_145_
+	jp writeBcBytesToVRAM
 
 _LABEL_133B_:
 	ld hl, _DATA_1CA09_
 	ld de, $6FA0
 	ld bc, $0180
-	call _LABEL_145_
+	call writeBcBytesToVRAM
 	ld hl, _DATA_1CA09_
 	ld bc, $0180
 	jp _LABEL_2C5_
@@ -2008,19 +2008,19 @@ _LABEL_1350_:
 	ld hl, _DATA_1CDC9_
 	ld de, $7580
 	ld bc, $0040
-	jp _LABEL_145_
+	jp writeBcBytesToVRAM
 
 _LABEL_135C_:
 	ld hl, _DATA_1CB89_
 	ld de, $75C0
 	ld bc, $0240
-	jp _LABEL_145_
+	jp writeBcBytesToVRAM
 
 _LABEL_1368_:
 	ld hl, _DATA_1EE09_
 	ld de, $6AA0
 	ld bc, $0100
-	call _LABEL_145_
+	call writeBcBytesToVRAM
 	ld hl, _DATA_1EE09_
 	ld bc, $0100
 	jp _LABEL_2C5_
@@ -2029,7 +2029,7 @@ _LABEL_137D_:
 	ld hl, _DATA_1D5E9_
 	ld de, $6CA0
 	ld bc, $0180
-	call _LABEL_145_
+	call writeBcBytesToVRAM
 	ld hl, _DATA_1D5E9_
 	ld bc, $0180
 	jp _LABEL_2C5_
@@ -2038,49 +2038,49 @@ _LABEL_1392_:
 	ld hl, _DATA_1DCA9_
 	ld de, $6C00
 	ld bc, $0020
-	jp _LABEL_145_
+	jp writeBcBytesToVRAM
 
 _LABEL_139E_:
 	ld hl, _DATA_1DB49_
 	ld de, $6AA0
 	ld bc, $0160
-	jp _LABEL_145_
+	jp writeBcBytesToVRAM
 
 _LABEL_13AA_:
 	ld hl, _DATA_1DD49_
 	ld de, $7000
 	ld bc, $0100
-	jp _LABEL_145_
+	jp writeBcBytesToVRAM
 
 _LABEL_13B6_:
 	ld hl, _DATA_1DE49_
 	ld de, $7760
 	ld bc, $00A0
-	jp _LABEL_145_
+	jp writeBcBytesToVRAM
 
 _LABEL_13C2_:
 	ld hl, _DATA_1EF09_
 	ld de, $7200
 	ld bc, $00C0
-	jp _LABEL_145_
+	jp writeBcBytesToVRAM
 
 _LABEL_13CE_:
 	ld hl, _DATA_1DB09_
 	ld de, $77E0
 	ld bc, $0020
-	jp _LABEL_145_
+	jp writeBcBytesToVRAM
 
 _LABEL_13DA_:
 	ld hl, _DATA_1CFC9_
 	ld de, $72A0
 	ld bc, $0100
-	jp _LABEL_145_
+	jp writeBcBytesToVRAM
 
 _LABEL_13E6_:
 	ld hl, _DATA_1CEC9_
 	ld de, $72A0
 	ld bc, $0100
-	call _LABEL_145_
+	call writeBcBytesToVRAM
 	ld hl, _DATA_1CEC9_
 	ld bc, $0100
 	jp _LABEL_2C5_
@@ -2089,7 +2089,7 @@ _LABEL_13FB_:
 	ld hl, _DATA_1D769_
 	ld de, $6C00
 	ld bc, $02E0
-	call _LABEL_145_
+	call writeBcBytesToVRAM
 	ld hl, _DATA_1D769_
 	ld bc, $02E0
 	jp _LABEL_2C5_
@@ -2098,7 +2098,7 @@ _LABEL_1410_:
 	ld hl, _DATA_1DA49_
 	ld de, $7280
 	ld bc, $00C0
-	call _LABEL_145_
+	call writeBcBytesToVRAM
 	ld hl, _DATA_1DA49_
 	ld bc, $00C0
 	jp _LABEL_2C5_
@@ -2107,37 +2107,37 @@ _LABEL_1425_:
 	ld hl, _DATA_1DEE9_
 	ld de, $7680
 	ld bc, $00C0
-	jp _LABEL_145_
+	jp writeBcBytesToVRAM
 
 _LABEL_1431_:
 	ld hl, _DATA_1E2A9_
 	ld de, $6C20
 	ld bc, $0AE0
-	jp _LABEL_145_
+	jp writeBcBytesToVRAM
 
 _LABEL_143D_:
 	ld hl, _DATA_1E0A9_
 	ld de, $73E0
 	ld bc, $0020
-	jp _LABEL_145_
+	jp writeBcBytesToVRAM
 
 _LABEL_1449_:
 	ld hl, _DATA_1E0C9_
 	ld de, $7320
 	ld bc, $00C0
-	jp _LABEL_145_
+	jp writeBcBytesToVRAM
 
 _LABEL_1455_:
 	ld hl, _DATA_1DFA9_
 	ld de, $7400
 	ld bc, $0100
-	jp _LABEL_145_
+	jp writeBcBytesToVRAM
 
 _LABEL_1461_:
 	ld hl, _DATA_1CE09_
 	ld de, $7500
 	ld bc, $00C0
-	call _LABEL_145_
+	call writeBcBytesToVRAM
 	ld hl, _DATA_1CE09_
 	ld bc, $00C0
 	jp _LABEL_2C5_
@@ -2146,85 +2146,85 @@ _LABEL_1476_:
 	ld hl, _DATA_1D0C9_
 	ld de, $7180
 	ld bc, $0280
-	jp _LABEL_145_
+	jp writeBcBytesToVRAM
 
 _LABEL_1482_:
 	ld hl, _DATA_1E229_
 	ld de, $6DC0
 	ld bc, $0080
-	jp _LABEL_145_
+	jp writeBcBytesToVRAM
 
 _LABEL_148E_:
 	ld hl, _DATA_1C629_
 	ld de, $6E40
 	ld bc, $01C0
-	jp _LABEL_145_
+	jp writeBcBytesToVRAM
 
 _LABEL_149A_:
 	ld hl, _DATA_1ED89_
 	ld de, $7740
 	ld bc, $0080
-	jp _LABEL_145_
+	jp writeBcBytesToVRAM
 
 _LABEL_14A6_:
 	ld hl, _DATA_1C5A9_
 	ld de, $6840
 	ld bc, $0040
-	jp _LABEL_145_
+	jp writeBcBytesToVRAM
 
 _LABEL_14B2_:
 	ld hl, _DATA_1C529_
 	ld de, $6800
 	ld bc, $0040
-	jp _LABEL_145_
+	jp writeBcBytesToVRAM
 
 _LABEL_14BE_:
 	ld hl, _DATA_1C529_
 	ld de, $67C0
 	ld bc, $0040
-	jp _LABEL_145_
+	jp writeBcBytesToVRAM
 
 _LABEL_14CA_:
 	ld hl, _DATA_1C569_
 	ld de, $67C0
 	ld bc, $0040
-	jp _LABEL_145_
+	jp writeBcBytesToVRAM
 
 _LABEL_14D6_:
 	ld hl, _DATA_1C5E9_
 	ld de, $67C0
 	ld bc, $0040
-	jp _LABEL_145_
+	jp writeBcBytesToVRAM
 
 _LABEL_14E2_:
 	ld hl, _DATA_1C3C9_
 	ld de, $6F80
 	ld bc, $0080
-	jp _LABEL_145_
+	jp writeBcBytesToVRAM
 
 _LABEL_14EE_:
 	ld hl, _DATA_1C169_
 	ld de, $7100
 	ld bc, $0080
-	jp _LABEL_145_
+	jp writeBcBytesToVRAM
 
 _LABEL_14FA_:
 	ld hl, _DATA_1C1E9_
 	ld de, $6B20
 	ld bc, $0080
-	jp _LABEL_145_
+	jp writeBcBytesToVRAM
 
 _LABEL_1506_:
 	ld hl, _DATA_1C449_
 	ld de, $7100
 	ld bc, $0080
-	jp _LABEL_145_
+	jp writeBcBytesToVRAM
 
 _LABEL_1512_:
 	ld hl, tiles_villageElder
 	ld de, $6AA0
 	ld bc, $0100
-	jp _LABEL_145_
+	jp writeBcBytesToVRAM
 
 _LABEL_151E_:
 	ld a, $85
@@ -2232,14 +2232,14 @@ _LABEL_151E_:
 	ld hl, _DATA_16F51_
 	ld de, $7180
 	ld bc, $0020
-	call _LABEL_145_
+	call writeBcBytesToVRAM
 	ld hl, _DATA_16F51_
 	ld bc, $0020
 	call _LABEL_2C5_
 	ld hl, _DATA_16F71_
 	ld de, $71C0
 	ld bc, $0040
-	call _LABEL_145_
+	call writeBcBytesToVRAM
 	ld a, $87
 	ld (_RAM_FFFF_), a
 	ret
@@ -2250,7 +2250,7 @@ _LABEL_154A_:
 	ld hl, _DATA_17211_
 	ld de, $76E0
 	ld bc, $0080
-	call _LABEL_145_
+	call writeBcBytesToVRAM
 	ld a, $87
 	ld (_RAM_FFFF_), a
 	ret
@@ -2259,7 +2259,7 @@ _LABEL_1561_:
 	ld hl, _DATA_1E189_
 	ld de, $7180
 	ld bc, $0080
-	jp _LABEL_145_
+	jp writeBcBytesToVRAM
 
 ; Jump Table from 156D to 158E (17 entries, indexed by v_level)
 _DATA_156D_:
@@ -2675,10 +2675,10 @@ _LABEL_1874_:
 _LABEL_189A_:
 	xor a
 	ld de, $C000
-	call _LABEL_13F_
+	call writeAToVRAM
 	xor a
 	ld de, $C010
-	call _LABEL_13F_
+	call writeAToVRAM
 	call clearEntities
 	call updateEntities
 	ld a, $83
@@ -2757,209 +2757,11 @@ updateLevelCompletedState:
 	ei
 	jp enableDisplay
 
-; 4th entry of Jump Table from 3B (indexed by v_gameState)
-updateLevelStartingState:
-	exx
-	bit 7, (hl)
-	jp z, _LABEL_1A46_
-	ld a, (_RAM_C03C_)
-	cp $15
-	jp z, _LABEL_19AB_
-	ld a, $82
-	ld (_RAM_FFFF_), a
-	ld a, (_RAM_C03D_)
-	or a
-	ld a, $09
-	jp nz, +
-	ld a, $01
-+:
-	call setAndWaitForInterruptFlags
-	call updateEntities
-	ld a, $85
-	ld (_RAM_FFFF_), a
-	xor a
-	ld (_RAM_C03D_), a
-	ld a, (_RAM_C03E_)
-	dec a
-	ld (_RAM_C03E_), a
-	ret nz
-	ld hl, _RAM_C03C_
-	inc (hl)
-	ld a, (hl)
-	add a, a
-	ld b, $00
-	ld c, a
-	ld hl, _DATA_15E45_
-	add hl, bc
-	ld a, (hl)
-	inc hl
-	ld h, (hl)
-	ld l, a
-	ld (_RAM_C038_), hl
-	ld a, $03
-	ld (_RAM_C03E_), a
-	ld a, $01
-	ld (_RAM_C03D_), a
-	ld hl, (_RAM_C03A_)
-	inc hl
-	inc hl
-	ld (_RAM_C03A_), hl
-	ret
 
-_LABEL_19AB_:
-	ld ix, v_entity1
-	ld (ix+0), $56
-	ld a, (v_level)
-	cp $10
-	jp c, _LABEL_19CB_
-	ld ix, v_entities.2
-	ld (ix+0), $58
-	ld (ix+12), $98
-	ld (ix+14), $50
-_LABEL_19CB_:
-	ld a, $82
-	ld (_RAM_FFFF_), a
-	ld a, $01
-	call setAndWaitForInterruptFlags
-	call updateEntities
-	ld hl, _RAM_C03F_
-	dec (hl)
-	jp nz, _LABEL_19CB_
-	ld ix, v_entity1
-	call clearCurrentEntity
-	ld ix, v_entities.2
-	call clearCurrentEntity
-	ld ix, _RAM_C340_
-	call clearCurrentEntity
-	call updateEntities
-	ld a, $0A
-	ld (v_gameState), a
-	ld b, $05
-	jp _LABEL_343_
+.INC "engine/levelStarting/update.asm"
+.INC "engine/levelStarting/handleInterrupt.asm"
+.INC "engine/levelStarting/init.asm"
 
-; 4th entry of Jump Table from 127 (indexed by v_gameState)
-handleInterruptLevelStartingState:
-	ld a, $85
-	ld (_RAM_FFFF_), a
-	ld hl, (_RAM_C038_)
-	ld de, (_RAM_C03A_)
-	ld bc, $1202
-	call copyNameTableBlockToVRAM
-	ld de, (_RAM_C03A_)
-	inc de
-	inc de
-	ld (_RAM_C03A_), de
-	ld hl, _DATA_1618D_
-	ld bc, $1202
-	call copyNameTableBlockToVRAM
-	ld de, (_RAM_C03A_)
-	inc de
-	inc de
-	ld (_RAM_C03A_), de
-	ld hl, _DATA_161B1_
-	ld bc, $1202
-	call copyNameTableBlockToVRAM
-	ld de, (_RAM_C03A_)
-	dec de
-	dec de
-	dec de
-	dec de
-	ld (_RAM_C03A_), de
-	ret
-
-_LABEL_1A46_:
-	set 7, (hl)
-	call clearVDPTablesAndDisableScreen
-	call clearEntities
-	call _LABEL_303_
-	ld a, $82
-	ld (_RAM_FFFF_), a
-	call resetSoundAndInitVolume
-	xor a
-	ld (_RAM_C03C_), a
-	ld (_RAM_C03D_), a
-	ld a, $03
-	ld (_RAM_C03E_), a
-	ld a, $85
-	ld (_RAM_FFFF_), a
-	ld hl, _DATA_1B97_
-	ld de, $C000
-	ld bc, $0010
-	call _LABEL_145_
-	xor a
-	ld de, $C010
-	call _LABEL_13F_
-	ld hl, mapTiles
-	ld de, $4000
-	call decompress4BitplanesToVRAM
-	ld de, $78C8
-	ld (_RAM_C03A_), de
-	ld hl, _DATA_15E75_
-	ld bc, $1202
-	call copyNameTableBlockToVRAM
-	ld de, (_RAM_C03A_)
-	inc de
-	inc de
-	ld (_RAM_C03A_), de
-	ld hl, _DATA_15E99_
-	ld bc, $1202
-	call copyNameTableBlockToVRAM
-	ld de, (_RAM_C03A_)
-	inc de
-	inc de
-	ld (_RAM_C03A_), de
-	ld hl, _DATA_1618D_
-	ld bc, $1202
-	call copyNameTableBlockToVRAM
-	ld de, (_RAM_C03A_)
-	inc de
-	inc de
-	ld (_RAM_C03A_), de
-	ld hl, _DATA_161B1_
-	ld bc, $1202
-	call copyNameTableBlockToVRAM
-	ld de, $78C8
-	inc de
-	inc de
-	ld (_RAM_C03A_), de
-	ld a, $01
-	ld (_RAM_C03C_), a
-	ld a, $87
-	ld (_RAM_FFFF_), a
-	ld de, $6800
-	ld bc, $0020
-	ld l, $00
-	call fillVRAM
-	ld hl, _DATA_1E209_
-	ld de, $6820
-	ld bc, $0020
-	call _LABEL_145_
-	ld hl, _DATA_1C269_
-	ld de, $6840
-	ld bc, $0140
-	call _LABEL_145_
-	ld a, $03
-	ld (v_entitydataArrayLength), a
-	ld hl, v_entity1
-	ld (v_entitydataArrayPointer), hl
-	ld a, $83
-	ld (_RAM_FFFF_), a
-	ld hl, tiles_AlexKiddEatingRiceBall
-	ld de, $6C00
-	call decompress4BitplanesToVRAM
-	ld ix, _RAM_C340_
-	ld (ix+0), $62
-	ld a, $82
-	ld (_RAM_FFFF_), a
-	call updateEntities
-	ld a, $85
-	ld (_RAM_FFFF_), a
-	ld a, $50
-	ld (_RAM_C03F_), a
-	ld a, $86
-	ld (v_soundControl), a
-	ei
-	jp enableDisplay
 
 ; 86th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_1B41_:
@@ -3007,7 +2809,7 @@ _LABEL_1B8E_:
 	ret
 
 ; Data from 1B97 to 1BA6 (16 bytes)
-_DATA_1B97_:
+levelStartingPalette:
 .db $00 $2F $0B $06 $01 $0C $08 $04 $3F $3E $38 $03 $30 $00 $0F $00
 
 ; Data from 1BA7 to 1BC8 (34 bytes)
@@ -3048,7 +2850,7 @@ _LABEL_264F_:
 	ld (_RAM_C054_), a
 	ld a, $03
 	ld de, $C014
-	jp _LABEL_13F_
+	jp writeAToVRAM
 
 ; Data from 2674 to 2693 (32 bytes)
 _DATA_2674_:
@@ -10466,7 +10268,7 @@ _LABEL_6968_:
 	ld b, $00
 	ld c, a
 	ld hl, _RAM_CF38_
-	call _LABEL_145_
+	call writeBcBytesToVRAM
 	ex af, af'
 	or a
 	jp z, _LABEL_69B5_
@@ -10475,7 +10277,7 @@ _LABEL_6968_:
 	ld a, e
 	and $C0
 	ld e, a
-	call _LABEL_145_
+	call writeBcBytesToVRAM
 _LABEL_69B5_:
 	xor a
 	ld (v_UpdateNameTableFlags), a
@@ -11029,13 +10831,13 @@ _LABEL_6DC9_:
 	call clearVDPTablesAndDisableScreen
 	ld b, $05
 	call _LABEL_343_
-	call _LABEL_303_
+	call clearScroll
 	xor a
 	ld de, $C000
-	call _LABEL_13F_
+	call writeAToVRAM
 	xor a
 	ld de, $C010
-	call _LABEL_13F_
+	call writeAToVRAM
 	ld de, $7A94
 	ld hl, _DATA_6E8B_
 	ld b, $09
@@ -13081,7 +12883,7 @@ updateTextBoxState:
 	ld a, $09
 	call setAndWaitForInterruptFlags
 	ld a, $01
-	ld (_RAM_C03E_), a
+	ld (v_nextMapNametableUpdateTimer), a
 	ld hl, v_textBoxCounter
 	bit 7, (hl)
 	jp z, +
@@ -13200,7 +13002,7 @@ _LABEL_7E5E_:
 	ld hl, _RAM_C800_
 	ld de, $7800
 	ld bc, $0700
-	call _LABEL_145_
+	call writeBcBytesToVRAM
 	call enableDisplay
 	ei
 	ret
@@ -13238,14 +13040,14 @@ _LABEL_7ED3_:
 	ld (ix+12), $09
 	xor a
 	ld (v_messageToShowInTheTextBoxIndex), a
-	ld (_RAM_C03E_), a
+	ld (v_nextMapNametableUpdateTimer), a
 	ld a, $94
 	ld (v_soundControl), a
 	ret
 
 ; 8th entry of Jump Table from 127 (indexed by v_gameState)
 handleInterruptTextBoxState:
-	ld a, (_RAM_C03E_)
+	ld a, (v_nextMapNametableUpdateTimer)
 	or a
 	ret z
 	ld de, $0100

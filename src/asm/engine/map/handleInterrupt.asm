@@ -14,7 +14,7 @@ _LABEL_1FE9_:
 	ld hl, _RAM_C800_
 	ld de, $7800
 	ld bc, $0700
-	call _LABEL_145_
+	call writeBcBytesToVRAM
 	call _LABEL_69B5_
 	ld hl, v_entity1
 	ld (v_entitydataArrayPointer), hl
@@ -39,7 +39,7 @@ _LABEL_1FE9_:
 	ld hl, _DATA_C000_
 	ld de, $4020
 	ld bc, $0480
-	call _LABEL_145_
+	call writeBcBytesToVRAM
 	pop af
 	ld (v_level), a
 	ld a, $85
@@ -55,7 +55,7 @@ _LABEL_1FE9_:
 	ld hl, _DATA_1DCC9_
 	ld de, $6200
 	ld bc, $0080
-	call _LABEL_145_
+	call writeBcBytesToVRAM
 	ld hl, _DATA_1DCC9_
 	ld bc, $0080
 	call _LABEL_2C5_
@@ -64,7 +64,7 @@ _LABEL_1FE9_:
 	ld hl, _DATA_16FB1_
 	ld de, $6300
 	ld bc, $0080
-	call _LABEL_145_
+	call writeBcBytesToVRAM
 	jr ++
 
 +:
@@ -73,13 +73,13 @@ _LABEL_1FE9_:
 	ld hl, _DATA_1C4C9_
 	ld de, $6280
 	ld bc, $00C0
-	call _LABEL_145_
+	call writeBcBytesToVRAM
 	ld a, $85
 	ld (_RAM_FFFF_), a
 	ld hl, _DATA_17031_
 	ld de, $6200
 	ld bc, $0080
-	call _LABEL_145_
+	call writeBcBytesToVRAM
 	jr ++
 
 +:
@@ -88,7 +88,7 @@ _LABEL_1FE9_:
 	ld hl, _DATA_1C3A9_
 	ld de, $6200
 	ld bc, $0020
-	call _LABEL_145_
+	call writeBcBytesToVRAM
 	ld hl, _DATA_1C3A9_
 	ld bc, $0020
 	call _LABEL_2C5_
@@ -214,25 +214,25 @@ _LABEL_2198_:
 	ld (hl), $00
 	ldir
 	xor a
-	ld (_RAM_C03C_), a
+	ld (v_mapLoadingState), a
 	ld a, $85
 	ld (_RAM_FFFF_), a
 	ld b, $18
 	ld de, _RAM_C808_
-	ld (_RAM_C03A_), de
+	ld (v_mapCurrentNametableDestinationPointer), de
 	ld hl, _DATA_11E75_
 	ld (_RAM_C038_), hl
 -:
 	push bc
-	ld de, (_RAM_C03A_)
+	ld de, (v_mapCurrentNametableDestinationPointer)
 	ld hl, (_RAM_C038_)
 	ld bc, $1202
 	call _LABEL_2522_
-	ld de, (_RAM_C03A_)
+	ld de, (v_mapCurrentNametableDestinationPointer)
 	inc de
 	inc de
-	ld (_RAM_C03A_), de
-	ld hl, _RAM_C03C_
+	ld (v_mapCurrentNametableDestinationPointer), de
+	ld hl, v_mapLoadingState
 	inc (hl)
 	ld a, (hl)
 	add a, a
@@ -267,11 +267,11 @@ _LABEL_2198_:
 	ld hl, _DATA_1E209_
 	ld de, $6820
 	ld bc, $0020
-	call _LABEL_145_
+	call writeBcBytesToVRAM
 	ld hl, _DATA_1C269_
 	ld de, $6840
 	ld bc, $0140
-	call _LABEL_145_
+	call writeBcBytesToVRAM
 	ld a, $82
 	ld (_RAM_FFFF_), a
 	ld ix, _RAM_CF80_
@@ -310,11 +310,11 @@ _LABEL_2198_:
 	ld hl, _DATA_16F11_
 	ld de, $5980
 	ld bc, $01C0
-	call _LABEL_145_
+	call writeBcBytesToVRAM
 	ld hl, _DATA_170B1_
 	ld de, $5BA0
 	ld bc, $01E0
-	call _LABEL_145_
+	call writeBcBytesToVRAM
 	ld a, $87
 	ld (_RAM_FFFF_), a
 	ld hl, _DATA_1C000_
@@ -323,36 +323,36 @@ _LABEL_2198_:
 	ld hl, _DATA_1C3C9_
 	ld de, $5B20
 	ld bc, $0080
-	call _LABEL_145_
+	call writeBcBytesToVRAM
 	ld hl, _DATA_1E229_
 	ld de, $5D80
 	ld bc, $0080
-	call _LABEL_145_
+	call writeBcBytesToVRAM
 	ld hl, _DATA_1C169_
 	ld de, $5E00
 	ld bc, $0080
-	call _LABEL_145_
+	call writeBcBytesToVRAM
 	ld hl, _DATA_1C1E9_
 	ld de, $5E80
 	ld bc, $0080
-	call _LABEL_145_
+	call writeBcBytesToVRAM
 	ld hl, _DATA_1D349_
 	ld de, $5780
 	ld bc, $0080
-	call _LABEL_145_
+	call writeBcBytesToVRAM
 	ld hl, _DATA_1E189_
 	ld de, $5F00
 	ld bc, $0080
-	call _LABEL_145_
+	call writeBcBytesToVRAM
 	ld hl, _DATA_23FD_
 	ld de, $C000
 	ld bc, $0020
-	call _LABEL_145_
+	call writeBcBytesToVRAM
 	call _LABEL_24EC_
 	ld de, $7800
 	ld hl, _RAM_C800_
 	ld bc, $0600
-	call _LABEL_145_
+	call writeBcBytesToVRAM
 	ld hl, _DATA_2429_
 	ld de, $7D42
 	ld bc, $0204
@@ -367,7 +367,7 @@ _LABEL_2198_:
 	call copyNameTableBlockToVRAM
 	ld a, $C0
 	ld de, $7D12
-	call _LABEL_13F_
+	call writeAToVRAM
 	ld hl, $C032
 	ld de, $7D06
 	call _LABEL_454_
@@ -693,7 +693,7 @@ _LABEL_25D3_:
 	ld hl, _DATA_2674_
 	ld de, $C000
 	ld bc, $0020
-	call _LABEL_145_
+	call writeBcBytesToVRAM
 	ld a, $85
 	ld (_RAM_FFFF_), a
 	ld hl, _DATA_15924_

@@ -38,11 +38,11 @@ v_moneyByteTwo db
 
 .enum $C038 export
 _RAM_C038_ dw
-_RAM_C03A_ dw
-_RAM_C03C_ db
-_RAM_C03D_ db
-_RAM_C03E_ db
-_RAM_C03F_ db
+v_mapCurrentNametableDestinationPointer dw
+v_mapLoadingState db
+v_shouldUpdateMapNametable db
+v_nextMapNametableUpdateTimer db
+v_levelStartingTimer db
 .ende
 
 .enum $C046 export

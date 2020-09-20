@@ -31,7 +31,7 @@ handleInterruptTitleScreenState:
 	add hl, de
 	ld a, (hl)
 	ld de, $C002
-	jp _LABEL_13F_
+	jp writeAToVRAM
 
 
 advanceTitleScreenLevelTile:

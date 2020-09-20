@@ -57,7 +57,7 @@ _LABEL_1C33_:
 	ld hl, _RAM_C800_
 	ld de, $7800
 	ld bc, $0700
-	call _LABEL_145_
+	call writeBcBytesToVRAM
 	call _LABEL_69B5_
 	ld hl, v_temporaryLevelDataCopy
 	ld de, v_levelWidth
@@ -100,11 +100,11 @@ _LABEL_1C33_:
 	ld hl, _DATA_1DB29_
 	ld de, $6200
 	ld bc, $0020
-	call _LABEL_145_
+	call writeBcBytesToVRAM
 	ld hl, _DATA_1D429_
 	ld de, $6220
 	ld bc, $01C0
-	call _LABEL_145_
+	call writeBcBytesToVRAM
 +:
 	ld a, (v_horizontalPositionShopHasBeenEnteredFrom)
 	ld (v_shopEntranceHorizontalPosition), a
@@ -143,7 +143,7 @@ _LABEL_1D04_:
 	call clearVDPTablesAndDisableScreen
 	ld b, $05
 	call _LABEL_343_
-	call _LABEL_303_
+	call clearScroll
 	ld hl, _RAM_C800_
 	ld de, _RAM_D000_
 	ld bc, $0700
@@ -203,19 +203,19 @@ _LABEL_1D04_:
 	ld hl, _DATA_16F11_
 	ld de, $5200
 	ld bc, $01C0
-	call _LABEL_145_
+	call writeBcBytesToVRAM
 	ld hl, _DATA_17291_
 	ld de, $5FE0
 	ld bc, $0020
-	call _LABEL_145_
+	call writeBcBytesToVRAM
 	ld hl, _DATA_170B1_
 	ld de, $5420
 	ld bc, $01E0
-	call _LABEL_145_
+	call writeBcBytesToVRAM
 	ld hl, _DATA_1F42_
 	ld de, $C000
 	ld bc, $0020
-	call _LABEL_145_
+	call writeBcBytesToVRAM
 	ld a, $01
 	ld (v_shopFlags), a
 	ld a, (v_shopEntranceHorizontalPosition)
@@ -299,7 +299,7 @@ _LABEL_1E77_:
 	ld de, $7800
 	ld hl, _RAM_C800_
 	ld bc, $0600
-	call _LABEL_145_
+	call writeBcBytesToVRAM
 	ld hl, $C032
 	ld de, $7D48
 	call _LABEL_454_

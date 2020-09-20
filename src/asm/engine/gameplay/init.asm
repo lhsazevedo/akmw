@@ -18,11 +18,11 @@ initGameplayState:
 	ld hl, _DATA_1F0A9_
 	ld de, $61A0
 	ld bc, $0060
-	call _LABEL_145_
+	call writeBcBytesToVRAM
 	ld hl, _DATA_1D349_
 	ld de, $66C0
 	ld bc, $0100
-	call _LABEL_145_
+	call writeBcBytesToVRAM
 	ld a, (v_level)
 	ld hl, _DATA_E1F_ - 1
 	ld c, a
@@ -44,11 +44,11 @@ initGameplayState:
 	ld hl, _DATA_1DB29_
 	ld de, $6200
 	ld bc, $0020
-	call _LABEL_145_
+	call writeBcBytesToVRAM
 	ld hl, _DATA_1D429_
 	ld de, $6220
 	ld bc, $01C0
-	call _LABEL_145_
+	call writeBcBytesToVRAM
 +++:
 	ld a, $85
 	ld (_RAM_FFFF_), a
@@ -60,7 +60,7 @@ initGameplayState:
 	ld hl, _DATA_C000_
 	ld de, $4020
 	ld bc, $0480
-	call _LABEL_145_
+	call writeBcBytesToVRAM
 	call _LABEL_E6C_
 	call _LABEL_65B1_
 	ld a, (v_level)
