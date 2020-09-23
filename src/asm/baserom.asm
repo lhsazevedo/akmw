@@ -5815,6 +5815,7 @@ _LABEL_41AA_:
 	ld (v_entities.1.spriteDescriptorPointer), hl
 	ret
 
+
 _LABEL_41B3_:
 	ld hl, v_alexTilesIndex
 	ld a, (hl)
@@ -5824,13 +5825,22 @@ _LABEL_41B3_:
 	ld (hl), a
 	ld hl, v_shouldUpdateTitlescreenLevelTiles
 	ld (hl), $01
-_LABEL_41C0_:
+
+; Load tiles from Alex tile descriptors to VRAM $2000.
+;
+; @param a - Index to Alex tile descriptors pointers
+loadAlexTilesToVRAM2000:
 	add a, a
 	ld c, a
 	ld b, $00
 	ld de, $6000
 	rst $08	; setVDPAddress
-_LABEL_41C8_:
+
+; Load tiles from Alex tile descriptors to VRAM.
+; Assumes that VA is already set.
+;
+; @param bc - Offset to Alex tile descriptor
+loadAlexTilesToVRAM:
 	ld a, $84
 	ld (_RAM_FFFF_), a
 	ld hl, _DATA_10000_
@@ -5845,7 +5855,7 @@ _LABEL_41C8_:
 	ex af, af'
 	xor a
 	ex af, af'
-_LABEL_41DC_:
+-:
 	ld e, (hl)
 	inc hl
 	ld d, (hl)
@@ -5887,7 +5897,7 @@ _LABEL_41DC_:
 	ex af, af'
 	ex de, hl
 	dec a
-	jp nz, _LABEL_41DC_
+	jp nz, -
 	ret
 
 _LABEL_4229_:

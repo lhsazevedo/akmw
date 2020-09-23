@@ -9,19 +9,19 @@ loadTitleSprites:
 
     ; Load Peticopter tiles
 	ld a, $1D
-	call _LABEL_41C0_
+	call loadAlexTilesToVRAM2000
 
     ; Load Boat tiles
 	ld bc, $0036
-	call _LABEL_41C8_
+	call loadAlexTilesToVRAM
 
     ; Load Alex jumping tiles
 	ld bc, $002C
-	call _LABEL_41C8_
+	call loadAlexTilesToVRAM
 
     ; Load Alex swiming tiles
 	ld bc, $0014
-	call _LABEL_41C8_
+	call loadAlexTilesToVRAM
 
     ; Load Janken tiles
 	ld hl, _DATA_12357_
