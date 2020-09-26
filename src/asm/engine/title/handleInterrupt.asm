@@ -82,7 +82,7 @@ showTitleJankenFrame:
 
 
 showTitlePushStartFrame:
-	ld hl, _DATA_1314C_
+	ld hl, titlePushStartFrameNametable
 	ld de, $7D1A
 	ld bc, $0322
 	jp copyNameTableBlockToVRAM
