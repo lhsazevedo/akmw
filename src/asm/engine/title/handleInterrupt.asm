@@ -43,7 +43,7 @@ advanceTitleScreenLevelTile:
 
 
 showTitleUnderwaterFrame:
-	ld hl, _DATA_12EFC_
+	ld hl, titleUnderwaterFrameNametable
 	ld de, $7828
 	ld bc, $0718
 	call copyNameTableBlockToVRAM
@@ -51,7 +51,7 @@ showTitleUnderwaterFrame:
 
 
 showTitleBoatFrame:
-	ld hl, _DATA_130A4_
+	ld hl, titleBoatFrameNametable
 	ld de, $7B98
 	ld bc, $061C
 	call copyNameTableBlockToVRAM
@@ -59,14 +59,14 @@ showTitleBoatFrame:
 
 
 showTitleTreeFrame:
-	ld hl, _DATA_12FA4_
+	ld hl, titleTreeFrameNametable
 	ld de, $7800
 	ld bc, $080E
 	jp copyNameTableBlockToVRAM
 
 
 showTitlePeticopterFrame:
-	ld hl, _DATA_13014_
+	ld hl, titlePeticopterFrameNametable
 	ld de, $79F4
 	ld bc, $0C0C
 	call copyNameTableBlockToVRAM
@@ -74,7 +74,7 @@ showTitlePeticopterFrame:
 
 
 showTitleJankenFrame:
-	ld hl, _DATA_131B2_ 
+	ld hl, titleJankenFrameNametable 
 	ld de, $7A00
 	ld bc, $1018
 	call copyNameTableBlockToVRAM
