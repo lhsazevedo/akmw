@@ -608,7 +608,7 @@ titleJankenFrameNametable:
 .db $02 $04 $02 $04 $02 $04 $02 $04 $02 $04 $02 $04 $02 $04 $01 $06
 
 ; Data from 13332 to 13FFF (3278 bytes)
-_DATA_13332_:
+titleScreenTiles:
 .incbin "baserom_DATA_13332_.inc"
 
 .BANK 5

@@ -40,8 +40,8 @@ updateTitleScreenState:
 	ld a, $84
 	ld (_RAM_FFFF_), a
 
-	; Load logo and tile palettes
-	ld hl, _DATA_13332_
+	; Loag tiles
+	ld hl, titleScreenTiles
 	ld de, $4020
 	call decompress4BitplanesToVRAM
 
