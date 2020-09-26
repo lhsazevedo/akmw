@@ -106,6 +106,7 @@ startGame:
 	; | VDP_R0_ENABLE_LINE_INTERRUPT
 	ld a, $26
 	ld (v_VDPRegister0Value), a
+
 	ld hl, initialValues
 	ld de, v_gameState
 	ld bc, $0019
