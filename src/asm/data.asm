@@ -755,7 +755,7 @@ _DATA_15924_:
 
 .INC "src/graphics/hirotaStoneCloseUp.asm"
 
-.INC "src/data/map.asm"
+.INC "src/data/nametables/map.asm"
 
 ; Data from 161D5 to 16F10 (3388 bytes)
 mapTiles:
