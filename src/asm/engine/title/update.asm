@@ -45,12 +45,12 @@ updateTitleScreenState:
 	ld de, $4020
 	call decompress4BitplanesToVRAM
 
-	; Load logo tilemap
-	ld hl, _DATA_12D9E_
+	; Load logo nametable
+	ld hl, logoTopNametable
 	ld de, $788E
 	ld bc, $061C
 	call copyNameTableBlockToVRAM
-	ld hl, _DATA_12E46_
+	ld hl, logoBottomNametable
 	ld de, $79DA
 	ld bc, $071A
 	call copyNameTableBlockToVRAM
