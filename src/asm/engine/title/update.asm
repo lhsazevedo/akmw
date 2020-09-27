@@ -17,8 +17,10 @@ updateTitleScreenState:
 	ld l, $00
 	call fillVRAM
 
+	; Map slot 2 to bank 2
 	ld a, $82
 	ld (_RAM_FFFF_), a
+
 	call resetSoundAndInitVolume
 	call updateHighScore
 
@@ -37,7 +39,8 @@ updateTitleScreenState:
 	ld (v_currentTitleScreen), a
 	ld (v_titleScreenLogoTimer), a
 
-	ld a, $84
+	; Map slot 2 to titleScreenTiles bank
+	ld a, :titleScreenTiles | $80
 	ld (_RAM_FFFF_), a
 
 	; Loag tiles
