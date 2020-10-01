@@ -38,6 +38,9 @@ BANKS 6
 .define Port_IOPort1 $DC
 .define Port_IOPort2 $DD
 
+; Mapper
+.define Mapper_Slot2 $FFFF
+
 .BANK 0 SLOT 0
 .ORG $0000
 
