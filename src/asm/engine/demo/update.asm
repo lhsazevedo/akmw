@@ -23,7 +23,7 @@ updateDemoState:
 	ld (_RAM_C054_), a
 +:
 	ld a, $85
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ld a, (v_nextDemoIndex)
 	ld hl, demoInputPointers - 2
 	rst $10	; _LABEL_10_

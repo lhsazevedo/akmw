@@ -5,7 +5,7 @@ handleInterruptMapState:
 _LABEL_1FE9_:
 	call resetSoundAndInitVolume
 	ld a, $82
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	call clearVDPTablesAndDisableScreen
 	ld de, _RAM_C800_
 	ld hl, _RAM_D000_
@@ -34,7 +34,7 @@ _LABEL_1FE9_:
 +:
 	call _LABEL_10FF_
 	ld a, $83
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	call _LABEL_E6C_
 	ld hl, _DATA_C000_
 	ld de, $4020
@@ -43,12 +43,12 @@ _LABEL_1FE9_:
 	pop af
 	ld (v_level), a
 	ld a, $85
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ld hl, _DATA_172B1_
 	ld de, $5600
 	call decompress4BitplanesToVRAM
 	ld a, $87
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ld a, (_RAM_C054_)
 	cp $03
 	jr nz, +
@@ -60,7 +60,7 @@ _LABEL_1FE9_:
 	ld bc, $0080
 	call _LABEL_2C5_
 	ld a, $85
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ld hl, _DATA_16FB1_
 	ld de, $6300
 	ld bc, $0080
@@ -75,7 +75,7 @@ _LABEL_1FE9_:
 	ld bc, $00C0
 	call writeBcBytesToVRAM
 	ld a, $85
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ld hl, _DATA_17031_
 	ld de, $6200
 	ld bc, $0080
@@ -102,12 +102,12 @@ _LABEL_1FE9_:
 	inc (hl)
 +:
 	ld a, $87
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	call _LABEL_1134_
 	pop af
 	ld (v_level), a
 	ld a, $82
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ld a, (_RAM_C054_)
 	cp $01
 	jr nz, +
@@ -216,7 +216,7 @@ _LABEL_2198_:
 	xor a
 	ld (v_mapLoadingState), a
 	ld a, $85
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ld b, $18
 	ld de, _RAM_C808_
 	ld (v_mapCurrentNametableDestinationPointer), de
@@ -259,7 +259,7 @@ _LABEL_2198_:
 	ldir
 	call _LABEL_69B5_
 	ld a, $87
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ld de, $6800
 	ld bc, $0020
 	ld l, $00
@@ -273,7 +273,7 @@ _LABEL_2198_:
 	ld bc, $0140
 	call writeBcBytesToVRAM
 	ld a, $82
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ld ix, _RAM_CF80_
 	ld (ix+0), $21
 	ld (ix+7), <_DATA_8A1D_
@@ -296,14 +296,14 @@ _LABEL_2198_:
 	ld (ix+14), $38
 +:
 	ld a, $82
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ld de, $5800
 	ld hl, _DATA_B385_
 	ld bc, $0050
 	ld a, $01
 	call _LABEL_1D6_
 	ld a, $85
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ld hl, mapTiles
 	ld de, $4000
 	call decompress4BitplanesToVRAM
@@ -316,7 +316,7 @@ _LABEL_2198_:
 	ld bc, $01E0
 	call writeBcBytesToVRAM
 	ld a, $87
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ld hl, _DATA_1C000_
 	ld de, $5F80
 	call decompress4BitplanesToVRAM
@@ -381,7 +381,7 @@ _LABEL_2198_:
 	ld de, $7D9E
 	call _LABEL_454_
 	ld a, $82
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ld a, (v_level)
 	ld c, a
 	ld b, $00
@@ -548,7 +548,7 @@ _LABEL_24EC_:
 	ld e, a
 	ld d, $00
 	ld a, $86
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ld hl, _DATA_1BDB9_ - 2
 	add hl, de
 	ld a, (hl)
@@ -695,7 +695,7 @@ _LABEL_25D3_:
 	ld bc, $0020
 	call writeBcBytesToVRAM
 	ld a, $85
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ld hl, _DATA_15924_
 	ld de, $7892
 	ld bc, $1218
@@ -704,7 +704,7 @@ _LABEL_25D3_:
 	ld de, $4000
 	call decompress4BitplanesToVRAM
 	ld a, $82
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ld ix, _RAM_CF80_
 	ld b, $03
 	ld de, $0020

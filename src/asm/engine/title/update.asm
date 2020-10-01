@@ -19,7 +19,7 @@ updateTitleScreenState:
 
 	; Map slot 2 to bank 2
 	ld a, $82
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 
 	call resetSoundAndInitVolume
 	call updateHighScore
@@ -41,7 +41,7 @@ updateTitleScreenState:
 
 	; Map slot 2 to titleScreenTiles bank
 	ld a, :titleScreenTiles | $80
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 
 	; Loag tiles
 	ld hl, titleScreenTiles

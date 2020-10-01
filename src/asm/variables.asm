@@ -681,5 +681,5 @@ _RAM_D900_ dsb $600
 .ende
 
 .enum $FFFF export
-_RAM_FFFF_ db
+Mapper_Slot2 db
 .ende

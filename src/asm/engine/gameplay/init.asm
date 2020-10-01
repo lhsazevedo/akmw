@@ -2,7 +2,7 @@ initGameplayState:
 	call clearVDPTablesAndDisableScreen
 	call clearEntities
 	ld a, $82
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	call resetSoundAndInitVolume
 	ld hl, v_levelWidth
 	ld de, v_levelWidth + 1
@@ -51,12 +51,12 @@ initGameplayState:
 	call writeBcBytesToVRAM
 +++:
 	ld a, $85
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ld de, $5600
 	ld hl, _DATA_172B1_
 	call decompress4BitplanesToVRAM
 	ld a, $83
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ld hl, _DATA_C000_
 	ld de, $4020
 	ld bc, $0480
@@ -80,7 +80,7 @@ initGameplayState:
 	ld l, a
 	ld (_RAM_C0FD_), hl
 	ld a, $82
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ld a, (v_level)
 	ld hl, entitiesDescriptorsPointers - 2
 	call _LABEL_10_

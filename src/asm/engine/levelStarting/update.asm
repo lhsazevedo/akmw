@@ -9,7 +9,7 @@ updateLevelStartingState:
 	cp $15
 	jp z, updateLevelStartingStateMapAnimated
 	ld a, $82
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ld a, (v_shouldUpdateMapNametable)
 	or a
 	ld a, $09
@@ -19,7 +19,7 @@ updateLevelStartingState:
 	call setAndWaitForInterruptFlags
 	call updateEntities
 	ld a, $85
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	xor a
 	ld (v_shouldUpdateMapNametable), a
 	ld a, (v_nextMapNametableUpdateTimer)
@@ -65,7 +65,7 @@ updateLevelStartingStateMapAnimated:
 
 _LABEL_19CB_:
 	ld a, $82
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 
 	ld a, $01
 	call setAndWaitForInterruptFlags

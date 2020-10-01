@@ -30,7 +30,7 @@ loadTitleSprites:
 
     ; Load sprite descriptors
 	ld a, $82
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ld hl, _DATA_8F7B_ + 1
 	ld de, _RAM_C800_
 	xor a

@@ -11,7 +11,7 @@ handleInterruptShopState:
 	xor a
 	ld (v_itemBeignBoughtIndex), a
 	ld a, $86
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ld a, (v_level)
 	ld hl, _DATA_1FAB_ - 2
 	rst $10	; _LABEL_10_
@@ -47,7 +47,7 @@ _LABEL_1C33_:
 	call resetSoundAndInitVolume
 	call clearVDPTablesAndDisableScreen
 	ld a, $82
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ld a, $8A
 	ld (v_gameState), a
 	ld de, _RAM_C800_
@@ -81,22 +81,22 @@ _LABEL_1C33_:
 	call updateEntities
 	call _LABEL_10FF_
 	ld a, $83
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	call _LABEL_E6C_
 	ld a, $85
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ld hl, _DATA_172B1_
 	ld de, $5600
 	call decompress4BitplanesToVRAM
 	ld a, $82
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ld a, (_RAM_C054_)
 	cp $07
 	jr c, +
 	cp $08
 	jr z, +
 	ld a, $87
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ld hl, _DATA_1DB29_
 	ld de, $6200
 	ld bc, $0020
@@ -115,7 +115,7 @@ _LABEL_1C33_:
 	ld (v_shopFlags), a
 	ld (v_shopSelectedItemIndex), a
 	ld a, $82
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ld e, $26
 	ld d, $80
 	rst $08	; setVDPAddress
@@ -149,7 +149,7 @@ _LABEL_1D04_:
 	ld bc, $0700
 	ldir
 	ld a, $85
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ld hl, _DATA_1508E_
 	ld de, _RAM_C800_
 	call _LABEL_E41_
@@ -161,7 +161,7 @@ _LABEL_1D04_:
 	ld (hl), $00
 	ldir
 	ld a, $82
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ld hl, v_entity1
 	ld de, _RAM_CFA0_
 	ld bc, $0020
@@ -182,14 +182,14 @@ _LABEL_1D04_:
 	ld (v_shopSelectedItemIndex), a
 +:
 	ld a, $82
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ld de, $5800
 	ld hl, _DATA_B385_
 	ld bc, $0050
 	ld a, $01
 	call _LABEL_1D6_
 	ld a, $85
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ld hl, _DATA_153F3_
 	ld de, $4520
 	call decompress4BitplanesToVRAM
@@ -247,7 +247,7 @@ _LABEL_1D04_:
 	ld de, $8006
 	rst $08	; setVDPAddress
 	ld a, $86
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ld a, (v_level)
 	ld hl, _DATA_1F89_ - 2
 	rst $10	; _LABEL_10_
@@ -304,7 +304,7 @@ _LABEL_1E77_:
 	ld de, $7D48
 	call _LABEL_454_
 	ld a, $82
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ei
 	call enableDisplay
 	ld a, (v_level)

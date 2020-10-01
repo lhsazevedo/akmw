@@ -1,7 +1,7 @@
 handleInterruptLevelStartingState:
 	; Draw revealed map block
 	ld a, $85
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ld hl, (_RAM_C038_)
 	ld de, (v_mapCurrentNametableDestinationPointer)
 	ld bc, $1202

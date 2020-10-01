@@ -1,7 +1,7 @@
 ; 3rd entry of Jump Table from 127 (indexed by v_gameState)
 handleInterruptDemoState:
 	ld a, $85
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ld a, (v_inputData)
 	and $30
 	jr z, +

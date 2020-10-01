@@ -7,7 +7,7 @@ initLevelStartingState:
 
     ; @TODO: ?
 	ld a, $82
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 
 	call resetSoundAndInitVolume
 
@@ -20,7 +20,7 @@ initLevelStartingState:
 
     ; @TODO: ?
 	ld a, $85
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 
     ; Load pallete
 	ld hl, levelStartingPalette
@@ -75,7 +75,7 @@ initLevelStartingState:
 	ld (v_mapLoadingState), a
 
 	ld a, $87
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 
 	ld de, $6800
 	ld bc, $0020
@@ -100,7 +100,7 @@ initLevelStartingState:
 	ld (v_entitydataArrayPointer), hl
 
 	ld a, $83
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 
 	ld hl, tiles_AlexKiddEatingRiceBall
 	ld de, $6C00
@@ -110,12 +110,12 @@ initLevelStartingState:
 	ld (ix + Entity.type), $62
 
 	ld a, $82
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 
 	call updateEntities
 
 	ld a, $85
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 
 	ld a, $50
 	ld (v_levelStartingTimer), a

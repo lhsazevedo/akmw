@@ -159,7 +159,7 @@ handlePauseInterrupt:
 
 init:
 	ld a, $82
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	call initVolume
 
 	; Clear RAM
@@ -173,7 +173,7 @@ init:
 	call configurePPI
 -:
 	ld a, $82
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 
 	; Reset stack pointer
 	ld sp, $DFF0
@@ -212,7 +212,7 @@ handleInterrupt:
 	xor c
 	and c
 	jp nz, -
-	ld a, (_RAM_FFFF_)
+	ld a, (Mapper_Slot2)
 	push af
 	ld a, (v_interruptFlags)
 	rrca
@@ -234,12 +234,12 @@ handleInterrupt:
 	ld hl, gameStateInterruptHandlersPointers
 	call c, _LABEL_1B_
 	ld a, $82
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	call _LABEL_984F_
 	xor a
 	ld (v_interruptFlags), a
 	pop af
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	pop iy
 	pop ix
 	pop hl
@@ -1287,7 +1287,7 @@ _LABEL_C43_:
 	ld a, (hl)
 	ld (v_questionMarkBoxIndex), a
 	ld a, $87
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ld hl, _DATA_1EFC9_
 	ld de, $6400
 	ld bc, $00E0
@@ -1296,7 +1296,7 @@ _LABEL_C43_:
 	ld bc, $00E0
 	call _LABEL_2C5_
 	ld a, $85
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ld hl, _DATA_17191_
 	ld de, $65C0
 	ld bc, $0080
@@ -1309,7 +1309,7 @@ _LABEL_C43_:
 	ld bc, $0020
 	call _LABEL_2C5_
 	ld a, $82
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ld a, (v_level)
 	ld c, a
 	ld b, $00
@@ -1757,7 +1757,7 @@ _LABEL_10FC_:
 
 _LABEL_10FF_:
 	ld a, $87
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ld a, (v_level)
 	ld hl, _DATA_1112_ - 2
 	rst $10	; _LABEL_10_
@@ -1774,7 +1774,7 @@ _DATA_1112_:
 
 _LABEL_1134_:
 	ld a, $87
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ld a, (v_level)
 	ld hl, _DATA_1142_ - 2
 	jp loadAthJumptablePointer
@@ -2228,7 +2228,7 @@ _LABEL_1512_:
 
 _LABEL_151E_:
 	ld a, $85
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ld hl, _DATA_16F51_
 	ld de, $7180
 	ld bc, $0020
@@ -2241,18 +2241,18 @@ _LABEL_151E_:
 	ld bc, $0040
 	call writeBcBytesToVRAM
 	ld a, $87
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ret
 
 _LABEL_154A_:
 	ld a, $85
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ld hl, _DATA_17211_
 	ld de, $76E0
 	ld bc, $0080
 	call writeBcBytesToVRAM
 	ld a, $87
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ret
 
 _LABEL_1561_:
@@ -2283,7 +2283,7 @@ _LABEL_158F_:
 	ret nz
 	ld (hl), $12
 	ld a, $85
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ld hl, (v_titleScreenTileUpdaterPointer)
 	jp (hl)
 
@@ -2419,7 +2419,7 @@ updateBonusLevelState:
 	dec (hl)
 	jp nz, -
 	ld a, $82
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	call resetSoundAndInitVolume
 	ld hl, v_money
 	ld de, v_moneyByteTwo
@@ -2471,7 +2471,7 @@ handleInterruptBonusLevelState:
 	add hl, de
 	ex de, hl
 	ld a, $83
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ld hl, (v_endingSequencePointer)
 	ld a, (hl)
 	inc hl
@@ -2540,7 +2540,7 @@ _LABEL_1735_:
 	ld a, $01
 	ld (v_currentLevelIsBonusLevel), a
 	ld a, $83
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ld a, (v_level)
 	push af
 	inc a
@@ -2548,7 +2548,7 @@ _LABEL_1735_:
 	call _LABEL_E6C_
 	call _LABEL_10FF_
 	ld a, $87
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	call _LABEL_1134_
 	pop af
 	ld (v_level), a
@@ -2570,7 +2570,7 @@ _LABEL_1735_:
 	ld bc, $0400
 ++:
 	ld a, $85
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ld (v_levelLayoutPointer), hl
 	ld (v_SecondLevelLayoutPointer), de
 	ld a, b
@@ -2611,7 +2611,7 @@ _LABEL_1735_:
 	add ix, de
 	djnz -
 	ld a, $82
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ld ix, v_entity1
 	ld (ix+0), $01
 	ld a, (v_level)
@@ -2682,7 +2682,7 @@ _LABEL_189A_:
 	call clearEntities
 	call updateEntities
 	ld a, $83
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ld hl, data_endingSequenceText
 	ld (v_endingSequencePointer), hl
 	ld hl, $0039
@@ -2704,13 +2704,13 @@ updateLevelCompletedState:
 	bit 7, (hl)
 	jp z, +
 	ld a, $82
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ld a, $01
 	call setAndWaitForInterruptFlags
 	ld hl, v_level
 	inc (hl)
 	ld a, $85
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ld a, $03
 	ld (v_gameState), a
 	ret
@@ -5842,7 +5842,7 @@ loadAlexTilesToVRAM2000:
 ; @param bc - Offset to Alex tile descriptor
 loadAlexTilesToVRAM:
 	ld a, $84
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ld hl, _DATA_10000_
 	add hl, bc
 	ld e, (hl)
@@ -5917,7 +5917,7 @@ _DATA_4237_:
 ; 1st entry of Jump Table from 4237 (indexed by _RAM_C202_)
 _LABEL_424B_:
 	ld a, $85
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ld a, (_RAM_C08E_)
 	or a
 	jr z, ++
@@ -6020,7 +6020,7 @@ _LABEL_42C3_:
 
 ++:
 	ld a, $85
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ld a, $03
 -:
 	ld hl, _DATA_1450B_
@@ -6108,7 +6108,7 @@ _LABEL_435F_:
 ; 9th entry of Jump Table from 4237 (indexed by _RAM_C202_)
 _LABEL_437D_:
 	ld a, $84
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ld a, (_RAM_C218_)
 	ld b, a
 	and $07
@@ -6161,7 +6161,7 @@ _LABEL_437D_:
 ; 10th entry of Jump Table from 4237 (indexed by _RAM_C202_)
 _LABEL_43CA_:
 	ld a, $85
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ld hl, _DATA_14420_
 	ld de, $7BB4
 	ld bc, $0608
@@ -7144,7 +7144,7 @@ _LABEL_4B7A_:
 ; 6th entry of Jump Table from 4237 (indexed by _RAM_C202_)
 _LABEL_4B9E_:
 	ld a, $87
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ld hl, (_RAM_C206_)
 	ld de, (_RAM_C204_)
 	ld bc, (_RAM_C208_)
@@ -9210,11 +9210,11 @@ _LABEL_6054_:
 	ld hl, _RAM_CE84_
 	ld (_RAM_C204_), hl
 	ld a, $85
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ld hl, _DATA_14B5D_
 	ld (_RAM_C206_), hl
 	ld a, $82
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	jr _LABEL_6001_
 
 ; 80th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
@@ -9440,7 +9440,7 @@ _LABEL_61CD_:
 	inc hl
 	ld (v_shopEntranceDoorNametablePointer), hl
 	ld a, $85
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ld hl, (_RAM_C087_)
 	add hl, bc
 	add hl, bc
@@ -9450,7 +9450,7 @@ _LABEL_61CD_:
 	ld l, a
 	ld (_RAM_C206_), hl
 	ld a, $82
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ret
 
 _LABEL_6275_:
@@ -9859,7 +9859,7 @@ _LABEL_65B1_:
 	ld hl, LevelDescriptorPointerTable - 2
 	rst $10	; _LABEL_10_
 	ld a, (hl)
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ld (v_levelBankNumber), a
 	inc hl
 	ld e, (hl)
@@ -9997,7 +9997,7 @@ _LABEL_6671_:
 	ld (v_columnsToLoadToNametable), a
 	call _LABEL_6A73_
 	ld a, $82
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ret
 
 +++:
@@ -10077,7 +10077,7 @@ _LABEL_6841_:
 	ld e, a
 	ld d, $00
 	ld a, (v_levelBankNumber)
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ld hl, (v_levelLayoutPointer)
 	add hl, de
 	ld a, (hl)
@@ -10101,7 +10101,7 @@ _LABEL_6865_:
 	add hl, bc
 	ld de, _RAM_CF00_
 	ld a, $85
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 -:
 	push hl
 	ld c, (hl)
@@ -10397,7 +10397,7 @@ _LABEL_6A76_:
 +:
 	ld de, _RAM_CF38_
 	ld a, $85
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 -:
 	push hl
 	ld a, (hl)
@@ -10488,7 +10488,7 @@ _LABEL_6B21_:
 	ld e, a
 	ld d, $00
 	ld a, (v_levelBankNumber)
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ld hl, (v_SecondLevelLayoutPointer)
 	add hl, de
 	ld a, (hl)
@@ -10505,7 +10505,7 @@ _LABEL_6B21_:
 
 _LABEL_6B49_:
 	ld a, $82
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ld a, (v_UpdateNameTableFlags)
 	rrca
 	jp nc, _LABEL_6B9C_
@@ -10656,7 +10656,7 @@ updateLifeLostState:
 	daa
 	ld (hl), a
 	ld a, $82
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ld ix, v_entity1
 	ld de, $0020
 	ld b, $05
@@ -10824,7 +10824,7 @@ _LABEL_6D73_:
 	ld (v_soundControl), a
 +:
 	ld a, $82
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ld a, $01
 	call setAndWaitForInterruptFlags
 	ld b, $89
@@ -11365,7 +11365,7 @@ _LABEL_71CC_:
 	call decompress4BitplanesToVRAM
 	ei
 	ld a, $82
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ld a, $07
 	ld (v_gameState), a
 	ld a, (_RAM_C23E_)
@@ -12265,7 +12265,7 @@ _LABEL_7924_:
 	djnz -
 	call resetSoundAndInitVolume
 	ld a, $84
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ld hl, _DATA_118E9_
 	ld de, $7000
 	di
@@ -12956,7 +12956,7 @@ updateTextBoxState:
 	ld a, $B1
 	ld (v_soundControl), a
 	ld a, $82
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ld a, (v_shouldShowNuraiOrOldMan)
 	or a
 	jp z, _LABEL_7E5E_
@@ -13019,7 +13019,7 @@ _LABEL_7E5E_:
 
 _LABEL_7ED3_:
 	ld a, $82
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	call updateEntities
 	ld a, $01
 	call setAndWaitForInterruptFlags
@@ -13032,7 +13032,7 @@ _LABEL_7ED3_:
 	ld (v_soundControl), a
 +:
 	ld a, $87
-	ld (_RAM_FFFF_), a
+	ld (Mapper_Slot2), a
 	ld a, (v_messageToShowInTheTextBoxIndex)
 	ld hl, _DATA_7F50_ - 2
 	rst $10	; _LABEL_10_
