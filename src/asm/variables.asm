@@ -37,8 +37,8 @@ v_moneyByteTwo db
 .ende
 
 .enum $C038 export
-_RAM_C038_ dw
-v_mapCurrentNametableDestinationPointer dw
+v_currentMapOrTextNametablePointer dw
+v_currentMapNametableDestinationPointer dw
 v_mapLoadingState db
 v_shouldUpdateMapNametable db
 v_nextMapNametableUpdateTimer db

@@ -219,19 +219,19 @@ _LABEL_2198_:
 	ld (Mapper_Slot2), a
 	ld b, $18
 	ld de, _RAM_C808_
-	ld (v_mapCurrentNametableDestinationPointer), de
+	ld (v_currentMapNametableDestinationPointer), de
 	ld hl, _DATA_11E75_
-	ld (_RAM_C038_), hl
+	ld (v_currentMapOrTextNametablePointer), hl
 -:
 	push bc
-	ld de, (v_mapCurrentNametableDestinationPointer)
-	ld hl, (_RAM_C038_)
+	ld de, (v_currentMapNametableDestinationPointer)
+	ld hl, (v_currentMapOrTextNametablePointer)
 	ld bc, $1202
 	call _LABEL_2522_
-	ld de, (v_mapCurrentNametableDestinationPointer)
+	ld de, (v_currentMapNametableDestinationPointer)
 	inc de
 	inc de
-	ld (v_mapCurrentNametableDestinationPointer), de
+	ld (v_currentMapNametableDestinationPointer), de
 	ld hl, v_mapLoadingState
 	inc (hl)
 	ld a, (hl)
@@ -244,7 +244,7 @@ _LABEL_2198_:
 	inc hl
 	ld h, (hl)
 	ld l, a
-	ld (_RAM_C038_), hl
+	ld (v_currentMapOrTextNametablePointer), hl
 	pop bc
 	djnz -
 	xor a

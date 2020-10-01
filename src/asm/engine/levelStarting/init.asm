@@ -5,7 +5,6 @@ initLevelStartingState:
 	call clearEntities
 	call clearScroll
 
-    ; @TODO: ?
 	ld a, $82
 	ld (Mapper_Slot2), a
 
@@ -18,8 +17,7 @@ initLevelStartingState:
 	ld a, $03
 	ld (v_nextMapNametableUpdateTimer), a
 
-    ; @TODO: ?
-	ld a, $85
+	ld a, :mapTiles | $80
 	ld (Mapper_Slot2), a
 
     ; Load pallete
@@ -40,28 +38,28 @@ initLevelStartingState:
 
     ; Draw closed map parchment
 	ld de, $78C8
-	ld (v_mapCurrentNametableDestinationPointer), de
+	ld (v_currentMapNametableDestinationPointer), de
 	ld hl, _DATA_15E75_
 	ld bc, $1202
 	call copyNameTableBlockToVRAM
-	ld de, (v_mapCurrentNametableDestinationPointer)
+	ld de, (v_currentMapNametableDestinationPointer)
 	inc de
 	inc de
-	ld (v_mapCurrentNametableDestinationPointer), de
+	ld (v_currentMapNametableDestinationPointer), de
 	ld hl, _DATA_15E99_
 	ld bc, $1202
 	call copyNameTableBlockToVRAM
-	ld de, (v_mapCurrentNametableDestinationPointer)
+	ld de, (v_currentMapNametableDestinationPointer)
 	inc de
 	inc de
-	ld (v_mapCurrentNametableDestinationPointer), de
+	ld (v_currentMapNametableDestinationPointer), de
 	ld hl, _DATA_1618D_
 	ld bc, $1202
 	call copyNameTableBlockToVRAM
-	ld de, (v_mapCurrentNametableDestinationPointer)
+	ld de, (v_currentMapNametableDestinationPointer)
 	inc de
 	inc de
-	ld (v_mapCurrentNametableDestinationPointer), de
+	ld (v_currentMapNametableDestinationPointer), de
 	ld hl, _DATA_161B1_
 	ld bc, $1202
 	call copyNameTableBlockToVRAM
@@ -69,12 +67,12 @@ initLevelStartingState:
 	ld de, $78C8
 	inc de
 	inc de
-	ld (v_mapCurrentNametableDestinationPointer), de
+	ld (v_currentMapNametableDestinationPointer), de
 
 	ld a, $01
 	ld (v_mapLoadingState), a
 
-	ld a, $87
+	ld a, :_DATA_1E209_ | $80
 	ld (Mapper_Slot2), a
 
 	ld de, $6800
@@ -99,7 +97,7 @@ initLevelStartingState:
 	ld hl, v_entity1
 	ld (v_entitydataArrayPointer), hl
 
-	ld a, $83
+	ld a, :tiles_AlexKiddEatingRiceBall | $80
 	ld (Mapper_Slot2), a
 
 	ld hl, tiles_AlexKiddEatingRiceBall

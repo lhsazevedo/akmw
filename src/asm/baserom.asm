@@ -12904,14 +12904,14 @@ updateTextBoxState:
 	dec (hl)
 	set 7, (hl)
 	jp nz, +++
-	ld hl, (_RAM_C038_)
+	ld hl, (v_currentMapOrTextNametablePointer)
 	inc hl
 	jp ++
 
 +:
 	dec (hl)
 	jp nz, +++
-	ld hl, (_RAM_C038_)
+	ld hl, (v_currentMapOrTextNametablePointer)
 ++:
 	ld a, (hl)
 	ld (v_textBoxCounter), a
@@ -12919,7 +12919,7 @@ updateTextBoxState:
 	ld a, (hl)
 	ld (v_textBoxFlags), a
 	inc hl
-	ld (_RAM_C038_), hl
+	ld (v_currentMapOrTextNametablePointer), hl
 +++:
 	ld a, (v_textBoxFlags)
 	and $E0
@@ -13045,7 +13045,7 @@ _LABEL_7ED3_:
 	ld a, (hl)
 	ld (v_textBoxFlags), a
 	inc hl
-	ld (_RAM_C038_), hl
+	ld (v_currentMapOrTextNametablePointer), hl
 	ld hl, $0100
 	ld (_RAM_C074_), hl
 	ld ix, v_textboxCursor
@@ -13071,7 +13071,7 @@ handleInterruptTextBoxState:
 	dec hl
 	ex de, hl
 	rst $08	; setVDPAddress
-	ld hl, (_RAM_C038_)
+	ld hl, (v_currentMapOrTextNametablePointer)
 	ld a, (hl)
 	out (Port_VDPData), a
 	ld a, $10
@@ -13080,7 +13080,7 @@ handleInterruptTextBoxState:
 	bit 7, a
 	ret nz
 	inc hl
-	ld (_RAM_C038_), hl
+	ld (v_currentMapOrTextNametablePointer), hl
 	ret
 
 ; Pointer Table from 7F50 to 7F7B (22 entries, indexed by v_messageToShowInTheTextBoxIndex)

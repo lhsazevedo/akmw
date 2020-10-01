@@ -8,8 +8,10 @@ updateLevelStartingState:
 	ld a, (v_mapLoadingState)
 	cp $15
 	jp z, updateLevelStartingStateMapAnimated
+
 	ld a, $82
 	ld (Mapper_Slot2), a
+
 	ld a, (v_shouldUpdateMapNametable)
 	or a
 	ld a, $09
@@ -18,8 +20,10 @@ updateLevelStartingState:
 +:
 	call setAndWaitForInterruptFlags
 	call updateEntities
+
 	ld a, $85
 	ld (Mapper_Slot2), a
+
 	xor a
 	ld (v_shouldUpdateMapNametable), a
 	ld a, (v_nextMapNametableUpdateTimer)
@@ -38,15 +42,15 @@ updateLevelStartingState:
 	inc hl
 	ld h, (hl)
 	ld l, a
-	ld (_RAM_C038_), hl
+	ld (v_currentMapOrTextNametablePointer), hl
 	ld a, $03
 	ld (v_nextMapNametableUpdateTimer), a
 	ld a, $01
 	ld (v_shouldUpdateMapNametable), a
-	ld hl, (v_mapCurrentNametableDestinationPointer)
+	ld hl, (v_currentMapNametableDestinationPointer)
 	inc hl
 	inc hl
-	ld (v_mapCurrentNametableDestinationPointer), hl
+	ld (v_currentMapNametableDestinationPointer), hl
 	ret
 
 updateLevelStartingStateMapAnimated:
