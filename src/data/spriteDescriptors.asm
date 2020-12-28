@@ -831,21 +831,7 @@ _DATA_8C0E_:
 .INC "entities/powerBracelet/sprites.asm"
 
 ; Data from 8C2A to 8C2A (1 bytes)
-_DATA_8C2A_:
-.db $02
-
-; Pointer Table from 8C2B to 8C2E (2 entries, indexed by _RAM_CF84_)
-.dw _DATA_8C2F_ _DATA_8C3D_
-
-; 1st entry of Pointer Table from 8C2B (indexed by _RAM_CF84_)
-; Data from 8C2F to 8C3C (14 bytes)
-_DATA_8C2F_:
-.db $04 $64 $00 $00 $08 $08 $01 $20 $09 $21 $02 $22 $0A $23
-
-; 2nd entry of Pointer Table from 8C2B (indexed by _RAM_CF84_)
-; Data from 8C3D to 8C4A (14 bytes)
-_DATA_8C3D_:
-.db $04 $64 $00 $00 $08 $08 $00 $24 $08 $21 $01 $25 $09 $26
+.INC "entities/ghost/spritesLeft.asm"
 
 ; Data from 8C4B to 8C4B (1 bytes)
 _DATA_8C4B_:
@@ -865,25 +851,7 @@ _DATA_8C5E_:
 .db $04 $94 $00 $00 $08 $08 $07 $61 $FF $62 $08 $63 $00 $64
 
 ; Data from 8C6C to 8C6C (1 bytes)
-_DATA_8C6C_:
-.db $02
-
-; Pointer Table from 8C6D to 8C70 (2 entries, indexed by _RAM_CF84_)
-.dw _DATA_8C71_ _DATA_8C7F_
-
-; 1st entry of Pointer Table from 8C6D (indexed by _RAM_CF84_)
-; Data from 8C71 to 8C7E (14 bytes)
-_DATA_8C71_:
-.db $04 $64 $00 $00 $08 $08 $07 $27 $FF $28 $06 $29 $FE $2A
-
-; 2nd entry of Pointer Table from 8C6D (indexed by _RAM_CF84_)
-; Data from 8C7F to 8CC6 (72 bytes)
-_DATA_8C7F_:
-.db $04 $64 $00 $00 $08 $08 $08 $2B $00 $28 $07 $2C $FF $2D $0A $A0
-.db $00 $00 $08 $08 $08 $10 $10 $10 $18 $18 $09 $A1 $01 $A2 $0F $A3
-.db $07 $A4 $FF $A5 $0E $A6 $06 $A7 $FE $A8 $0A $A9 $02 $AA $08 $A0
-.db $00 $00 $08 $08 $10 $10 $18 $18 $09 $AB $01 $AC $0A $AD $02 $AE
-.db $0D $AF $05 $B0 $08 $B1 $00 $B2
+.INC "entities/ghost/spritesRight.asm"
 
 ; Data from 8CC7 to 8CE5 (31 bytes)
 _DATA_8CC7_:

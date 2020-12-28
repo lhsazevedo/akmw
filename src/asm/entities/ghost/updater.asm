@@ -39,10 +39,10 @@ updateGhost:
 	ld (ix + Entity.ySpeed.low), e
 
     ; Choose animation descriptor based on alex position
-	ld hl, _DATA_8C6C_
+	ld hl, ghostRightAnimationDescriptor
 	ld a, (v_entities.1.xPos.high)
 	cp (ix + Entity.xPos.high)
 	jp nc, handleEntityAnimation
 ++:
-	ld hl, _DATA_8C2A_
+	ld hl, ghostLeftAnimationDescriptor
 	jp handleEntityAnimation
