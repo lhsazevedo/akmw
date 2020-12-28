@@ -276,8 +276,8 @@ initMapState:
 	ld (Mapper_Slot2), a
 	ld ix, _RAM_CF80_
 	ld (ix+0), $21
-	ld (ix+7), <_DATA_8A1D_
-	ld (ix+8), >_DATA_8A1D_
+	ld (ix+7), <arrowSprite0Descriptor
+	ld (ix+8), >arrowSprite0Descriptor
 	ld (ix+6), $08
 	ld (ix+5), $08
 	ld (ix+12), $74
@@ -444,8 +444,8 @@ _DATA_2431_:
 ; 33rd entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_2439_:
 	ld b, (ix+20)
-	ld (ix+7), <_DATA_8A1D_
-	ld (ix+8), >_DATA_8A1D_
+	ld (ix+7), <arrowSprite0Descriptor
+	ld (ix+8), >arrowSprite0Descriptor
 	res 4, b
 	ld a, (v_inputData)
 	ld c, a
@@ -478,7 +478,7 @@ _LABEL_2439_:
 	ret z
 	ld d, a
 	exx
-	ld hl, _DATA_8A18_
+	ld hl, arrowAnimationDescriptor
 	call handleEntityAnimation
 	exx
 	ld a, (v_inputData)

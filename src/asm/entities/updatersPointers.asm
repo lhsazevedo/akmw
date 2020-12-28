@@ -85,7 +85,7 @@ entityTypeJumpTable:
 .dw _LABEL_6176_
 .dw _LABEL_62AF_
 .dw _LABEL_6368_
-.dw _LABEL_1B41_
+.dw updateArrow
 .dw _LABEL_63FB_
 .dw updateJankensCastle
 .dw $0000 $0000 $0000 $0000 $0000 $0000 $0000

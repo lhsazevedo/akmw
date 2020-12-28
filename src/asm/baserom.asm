@@ -2767,43 +2767,7 @@ updateLevelCompletedState:
 
 
 ; 86th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
-_LABEL_1B41_:
-	bit 0, (ix+1)
-	jp nz, _LABEL_1B88_
-	set 0, (ix+1)
-	ld (ix+5), $08
-	ld (ix+6), $08
-	ld a, (v_level)
-	add a, a
-	ld c, a
-	ld b, $00
-	ld hl, _DATA_1BA7_ - 2
-	add hl, bc
-	ld a, (hl)
-	ld (ix+12), a
-	inc hl
-	ld a, (hl)
-	ld b, a
-	ld a, (v_gameState)
-	and $7F
-	cp $03
-	jp z, +
-	ld a, b
-	sub $18
-	ld b, a
-	ld a, (v_currentLevelIsBonusLevel)
-	or a
-	jr z, +
-	ld (ix+12), $5E
-	ld (ix+14), $46
-	jr _LABEL_1B88_
-
-+:
-	ld a, b
-	ld (ix+14), a
-_LABEL_1B88_:
-	ld hl, _DATA_8A18_
-	jp handleEntityAnimation
+.INC "entities/arrow/update.asm"
 
 ; 88th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 .INC "entities/jankensCastle/update.asm"
@@ -2813,10 +2777,7 @@ levelStartingPalette:
 .db $00 $2F $0B $06 $01 $0C $08 $04 $3F $3E $38 $03 $30 $00 $0F $00
 
 ; Data from 1BA7 to 1BC8 (34 bytes)
-_DATA_1BA7_:
-.db $4D $74 $44 $64 $53 $5C $5A $4E $62 $4E $70 $45 $68 $30 $7D $2A
-.db $8D $25 $9B $32 $AD $2A $C0 $30 $B8 $45 $70 $80 $90 $6E $A4 $44
-.db $B4 $70
+.INC "src/data/mapArrowPositions.asm"
 
 ; 6th entry of Jump Table from 3B (indexed by v_gameState)
 .INC "engine/shop/update.asm"

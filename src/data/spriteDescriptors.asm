@@ -685,21 +685,7 @@ _DATA_89C8_:
 .db $08 $9F $08 $9F $08 $9F $08 $9F $08 $9F $08 $9F $08 $9F $08 $9F
 
 ; Data from 8A18 to 8A18 (1 bytes)
-_DATA_8A18_:
-.db $02
-
-; Pointer Table from 8A19 to 8A1C (2 entries, indexed by _RAM_CF84_)
-.dw _DATA_8A1D_ _DATA_8A22_
-
-; 1st entry of Pointer Table from 8A19 (indexed by _RAM_CF84_)
-; Data from 8A1D to 8A21 (5 bytes)
-_DATA_8A1D_:
-.db $01 $00 $00 $00 $41
-
-; 2nd entry of Pointer Table from 8A19 (indexed by _RAM_CF84_)
-; Data from 8A22 to 8A26 (5 bytes)
-_DATA_8A22_:
-.db $01 $00 $00 $00 $40
+.INC "entities/arrow/sprites.asm"
 
 ; 5th entry of Pointer Table from 6422 (indexed by _RAM_CF83_)
 ; Data from 8A27 to 8A34 (14 bytes)
