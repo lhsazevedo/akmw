@@ -788,21 +788,7 @@ _DATA_8BCA_:
 .db $02 $C8 $00 $00 $02 $BC $0A $BD
 
 ; Data from 8BD2 to 8BD2 (1 bytes)
-_DATA_8BD2_:
-.db $02
-
-; Pointer Table from 8BD3 to 8BD6 (2 entries, indexed by _RAM_CF84_)
-.dw _DATA_8BD7_ _DATA_8BE5_
-
-; 1st entry of Pointer Table from 8BD3 (indexed by _RAM_CF84_)
-; Data from 8BD7 to 8BE4 (14 bytes)
-_DATA_8BD7_:
-.db $04 $94 $00 $00 $08 $08 $01 $55 $09 $56 $00 $57 $08 $58
-
-; 2nd entry of Pointer Table from 8BD3 (indexed by _RAM_CF84_)
-; Data from 8BE5 to 8BF2 (14 bytes)
-_DATA_8BE5_:
-.db $04 $94 $00 $00 $08 $08 $01 $59 $09 $5A $00 $5B $08 $5C
+.INC "entities/smallFish/spritesLeft.asm"
 
 ; Data from 8BF3 to 8BF3 (1 bytes)
 _DATA_8BF3_:
@@ -834,21 +820,7 @@ _DATA_8C0E_:
 .INC "entities/ghost/spritesLeft.asm"
 
 ; Data from 8C4B to 8C4B (1 bytes)
-_DATA_8C4B_:
-.db $02
-
-; Pointer Table from 8C4C to 8C4F (2 entries, indexed by _RAM_CF84_)
-.dw _DATA_8C50_ _DATA_8C5E_
-
-; 1st entry of Pointer Table from 8C4C (indexed by _RAM_CF84_)
-; Data from 8C50 to 8C5D (14 bytes)
-_DATA_8C50_:
-.db $04 $94 $00 $00 $08 $08 $07 $5D $FF $5E $08 $5F $00 $60
-
-; 2nd entry of Pointer Table from 8C4C (indexed by _RAM_CF84_)
-; Data from 8C5E to 8C6B (14 bytes)
-_DATA_8C5E_:
-.db $04 $94 $00 $00 $08 $08 $07 $61 $FF $62 $08 $63 $00 $64
+.INC "entities/smallFish/spritesRight.asm"
 
 ; Data from 8C6C to 8C6C (1 bytes)
 .INC "entities/ghost/spritesRight.asm"

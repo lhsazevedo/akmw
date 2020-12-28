@@ -26,7 +26,7 @@ updateSmallFishLeft:
 	ld (ix+16), $00
 	ld (ix+15), $60
 ++:
-	ld hl, _DATA_8BD2_
+	ld hl, smallFishLeftAnimationDescriptor
 	jp handleEntityAnimation
 
 ; 52nd entry of Jump Table from 2892 (indexed by _RAM_CF80_)
@@ -45,5 +45,5 @@ updateSmallFishRight:
 	ld (ix+16), $FF
 	ld (ix+15), $A0
 +:
-	ld hl, _DATA_8C4B_
+	ld hl, smallFishRightAnimationDescriptor
 	jp handleEntityAnimation
