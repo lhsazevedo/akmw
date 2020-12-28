@@ -2,7 +2,7 @@
 updateMapState:
 	exx
 	bit 7, (hl)
-	jp z, _LABEL_2198_
+	jp z, initMapState
 	call updateEntities
 	ld a, $09
 	call setAndWaitForInterruptFlags

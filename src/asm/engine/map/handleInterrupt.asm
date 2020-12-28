@@ -187,7 +187,7 @@ _LABEL_1FE9_:
 	ld b, $0A
 	jp _LABEL_343_
 
-_LABEL_2198_:
+initMapState:
 	set 7, (hl)
 	call resetSoundAndInitVolume
 	ld hl, v_levelWidth
