@@ -2806,10 +2806,7 @@ _LABEL_1B88_:
 	jp handleEntityAnimation
 
 ; 88th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
-_LABEL_1B8E_:
-	ld (ix+7), <_DATA_8073_
-	ld (ix+8), >_DATA_8073_
-	ret
+.INC "entities/jankensCastle/update.asm"
 
 ; Data from 1B97 to 1BA6 (16 bytes)
 levelStartingPalette:
