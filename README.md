@@ -1,4 +1,4 @@
-*[🌐 Leia a versão em Português](README.md)*
+*[🌐 Leia a versão em Português](README.pt-BR.md)*
 
 # Alex Kidd in Miracle World Disassembly
 
