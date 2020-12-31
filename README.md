@@ -1,3 +1,5 @@
+*[🌐 Leia a versão em Português](README.md)*
+
 # Alex Kidd in Miracle World Disassembly
 
 It builds the following roms:
