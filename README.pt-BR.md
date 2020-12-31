@@ -21,7 +21,7 @@ As seguintes ROMs são compiladas:
   ```
 
 **⚠️ Aviso**  
-Este repositório não possui todos os assets necessários para compilar as ROMs. Você deve possuir uma cópia do jogo para extraí-los.
+Este repositório não possui todos os assets necessários para compilar as ROMs. Você deve ter uma cópia do jogo para extraí-los.
 
 ## O processo
 
@@ -85,13 +85,13 @@ clearEntities() {
 *Em breve*
 
 ## Por quê?
-É sabido que o disassembly deste jogo já foi feito pela comunidade de forma privada. Portanto, meu objetivo não é ser o primeiro ou algo do tipo, mas sim aprender a programar Master System e compartilhar esse conhecimento com o mundo.
+É sabido que o disassembly deste jogo já foi feito pela comunidade de forma privada. Portanto, meu objetivo não é ser o primeiro ou algo do tipo, mas sim aprender a programar pro SMS e compartilhar esse conhecimento com o mundo.
 
 ## Contato
 Grupo Telegram: https://t.me/smsdasmbr
 
 ## Agradecimentos
-Obrigado a todos as pessoas que pesquisaram o hardware do Master System e este jogo, e disponibilizaram esse trabalho gratuitamente. Sem eles eu teria desistido no primeiro dia.
+Obrigado a todas as pessoas que pesquisaram o hardware do Master System e este jogo, e disponibilizaram esse trabalho gratuitamente. Sem eles eu teria desistido no primeiro dia.
 
 - Comunidade [SMS Power!](https://www.smspower.org/)
 - [Pesquisa](https://www.smspower.org/Development/AlexKiddInMiracleWorld-SMS) feita por [Calindro](https://www.smspower.org/forums/member6944) e [Paul Baker](https://www.smspower.org/forums/member501)
@@ -100,7 +100,7 @@ Obrigado a todos as pessoas que pesquisaram o hardware do Master System e este j
 - Outros projetos de disassembly como [Pret](https://github.com/pret)
 - E todos os outros que não foram citados aqui.
 
-## Aviso Legal:
+## Aviso Legal
 Todo e qualquer conteúdo apresentado neste repositório é apresentado apenas para fins informativos e educacionais.
 O uso comercial é expressamente proibido. O proprietário não reivindica a propriedade de nenhum código nesses repositórios.
 Você assume toda e qualquer responsabilidade pelo uso responsável deste conteúdo. O proprietário não reclama nenhuma responsabilidade ou garantia.
