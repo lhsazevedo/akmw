@@ -36,13 +36,13 @@ Código de máquina
 Assembly:
 ```asm
 _LABEL_9D9_:
-	ld b, $1E
-	ld hl, _RAM_C300_
+    ld b, $1E
+    ld hl, _RAM_C300_
 -:
-	call _LABEL_278D_
-	inc hl
-	djnz -
-	ret
+    call _LABEL_278D_
+    inc hl
+    djnz -
+    ret
 ```
 
 ### 2. Nomear labels
@@ -54,13 +54,13 @@ Veja abaixo o resultado.
 
 ```asm
 clearEntities:
-	ld b, $1E
-	ld hl, entities
+    ld b, $1E
+    ld hl, entities
 -:
-	call clearEntity
-	inc hl
-	djnz -
-	ret
+    call clearEntity
+    inc hl
+    djnz -
+    ret
 
 ```
 
@@ -74,7 +74,7 @@ Abaixo vemos o mesmo trecho acima adaptado para pseudo-código.
 ```
 clearEntities() {
     for (i = 0x1E; i > 0; i--) {
-	    clearEntity(i)
+        clearEntity(i)
     }
  
     return
