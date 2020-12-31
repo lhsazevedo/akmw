@@ -24,9 +24,9 @@ As seguintes ROMs são compiladas:
 Este repositório não possui todos os assets necessários para compilar as ROMs. Você deve possuir uma cópia do jogo para extraí-los.
 
 ## O processo
-A primeiro passo foi transformar o código de maquina da ROM original pra linguagem assembly, legível para humanos. Esse passo foi realizado com ajuda do emulador [Emulicious](https://emulicious.net/) que possui essa funcionalidade. Veja o exemplo abaixo.
 
 ### 1. Disassembly
+A primeiro passo foi transformar o código de maquina da ROM original pra linguagem assembly, legível para humanos. Esse passo foi realizado com ajuda do emulador [Emulicious](https://emulicious.net/) que possui essa funcionalidade. Foram geradas cerca de [26 mil linhas de código](https://github.com/lhsazevedo/akmw/blob/25fd2e4413858a1700a7c40dd345f5d6b827e979/asm/baserom.asm). Veja abaixo um trecho deste arquivo.
 
 Código de máquina
 ```
