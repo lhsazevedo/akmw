@@ -2,7 +2,7 @@
 
 # Alex Kidd in Miracle World Disassembly
 
-The aim of this project is to understand, name and document the disasssembly of the game [Alex Kidd in Miracle World] (https://wikipedia.org/wiki/Alex_Kidd_in_Miracle_World) released in 1986 for the Sega Master System.
+The aim of this project is to understand, name and document the disasssembly of the game [Alex Kidd in Miracle World](https://wikipedia.org/wiki/Alex_Kidd_in_Miracle_World) released in 1986 for the Sega Master System.
 
 To ensure that the compiled ROM is exactly the same as the original cartridge, the hash of the compiled files are checked.
 
@@ -26,7 +26,7 @@ This repository doesn't contains all the necessary assets to build the ROMs. You
 ## The Process
 
 ### 1. Disassembly
-The first step was to transform the machine code from the original ROM into assembly language, readable by humans. This step was done with the help of the [Emulicious](https://emulicious.net/) emulator which has this functionality. About [26k of code] were generated (https://github.com/lhsazevedo/akmw/blob/25fd2e4413858a1700a7c40dd345f5d6b827e979/asm/baserom.asm). Below is an routine from this file.
+The first step was to transform the machine code from the original ROM into assembly language, readable by humans. This step was done with the help of the [Emulicious](https://emulicious.net/) emulator which has this functionality. About [26k lines of code](https://github.com/lhsazevedo/akmw/blob/25fd2e4413858a1700a7c40dd345f5d6b827e979/asm/baserom.asm) were generated. Below is an routine from this file.
 
 Machine code
 ```
