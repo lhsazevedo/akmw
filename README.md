@@ -2,7 +2,7 @@
 
 # Alex Kidd in Miracle World Disassembly
 
-The aim of this project is to understand, name and document the disasssembly of the game [Alex Kidd in Miracle World](https://wikipedia.org/wiki/Alex_Kidd_in_Miracle_World) released in 1986 for the Sega Master System.
+This project aims to understand, name and document the disasssembly of the game [Alex Kidd in Miracle World](https://wikipedia.org/wiki/Alex_Kidd_in_Miracle_World) released in 1986 for the Sega Master System.
 
 To ensure that the compiled ROM is exactly the same as the original cartridge, the hash of the compiled files are checked.
 
