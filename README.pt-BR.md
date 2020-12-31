@@ -94,7 +94,7 @@ Obrigado a todas as pessoas que pesquisaram o hardware do Master System e este j
 
 - Comunidade [SMS Power!](https://www.smspower.org/)
 - [Pesquisa](https://www.smspower.org/Development/AlexKiddInMiracleWorld-SMS) feita por [Calindro](https://www.smspower.org/forums/member6944) e [Paul Baker](https://www.smspower.org/forums/member501)
-- Emulador [Emulicious](https://emulicious.net/) por [Maxim](https://www.smspower.org/forums/member6944)
+- Emulador [Emulicious](https://emulicious.net/) por [Callindro](https://www.smspower.org/forums/member6944)
 - Assembler [WLA DX](https://github.com/vhelin/wla-dx) por [Ville Helin](https://github.com/vhelin)
 - Outros projetos de disassembly como [Pret](https://github.com/pret)
 - E todos os outros que não foram citados aqui.
