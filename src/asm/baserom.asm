@@ -3443,7 +3443,7 @@ updateAlexRidingMotorcycle:
 	call _LABEL_4189_
 _LABEL_2FD5_:
 	ld de, $0214
-	call _LABEL_7C4B_
+	call getTileNearEntityWithXYOffset
 	rlca
 	jr nc, +
 	rlca
@@ -3453,7 +3453,7 @@ _LABEL_2FD5_:
 
 +:
 	ld de, $1218
-	call _LABEL_7C4B_
+	call getTileNearEntityWithXYOffset
 	rlca
 	jr nc, ++
 	rlca
@@ -3552,11 +3552,11 @@ updateAlexRidingBoat:
 	call _LABEL_4189_
 _LABEL_30C5_:
 	ld de, $0212
-	call _LABEL_7C4B_
+	call getTileNearEntityWithXYOffset
 	rlca
 	jp c, _LABEL_389C_
 	ld de, $1214
-	call _LABEL_7C4B_
+	call getTileNearEntityWithXYOffset
 	rlca
 	jp c, _LABEL_389C_
 	ld a, (v_inputData)
@@ -3780,7 +3780,7 @@ alexHandler_3256:
 	or a
 	ret nz
 	ld de, $0008
-	call _LABEL_7C4B_
+	call getTileNearEntityWithXYOffset
 	rlca
 	jr nc, +
 	dec hl
@@ -3789,13 +3789,13 @@ alexHandler_3256:
 	ret nz
 +:
 	ld de, $0C08
-	call _LABEL_7C4B_
+	call getTileNearEntityWithXYOffset
 	dec hl
 	ld a, (hl)
 	cp $3F
 	jr z, +
 	ld de, $1908
-	call _LABEL_7C4B_
+	call getTileNearEntityWithXYOffset
 	rlca
 	ret nc
 	dec hl
@@ -3811,7 +3811,7 @@ alexHandler_3256:
 
 _LABEL_32DC_:
 	ld de, $0C08
-	call _LABEL_7C4B_
+	call getTileNearEntityWithXYOffset
 	dec hl
 	ld a, (hl)
 	cp $3F
@@ -3821,7 +3821,7 @@ _LABEL_32DC_:
 	cp $C0
 	jr nc, _LABEL_3301_
 	ld de, $1808
-	call _LABEL_7C4B_
+	call getTileNearEntityWithXYOffset
 	rlca
 	jr nc, _LABEL_3301_
 	dec hl
@@ -3837,7 +3837,7 @@ _LABEL_3301_:
 
 +:
 	ld de, $1808
-	call _LABEL_7C4B_
+	call getTileNearEntityWithXYOffset
 	dec hl
 	ld a, (hl)
 	cp $3F
@@ -4124,11 +4124,11 @@ updateAlexSwiming:
 	cp $02
 	jr c, _LABEL_35BE_
 	ld de, $0103
-	call _LABEL_7C4B_
+	call getTileNearEntityWithXYOffset
 	bit 7, a
 	jr nz, _LABEL_35E3_
 	ld de, $010C
-	call _LABEL_7C4B_
+	call getTileNearEntityWithXYOffset
 	bit 7, a
 	jp nz, _LABEL_35E3_
 	and $E0
@@ -4463,7 +4463,7 @@ _LABEL_37D5_:
 
 _LABEL_382B_:
 	ld de, $2004
-	call _LABEL_7C4B_
+	call getTileNearEntityWithXYOffset
 	bit 7, a
 	jr nz, _LABEL_3875_
 	ld a, (_RAM_C213_)
@@ -4560,7 +4560,7 @@ alexHandler_38C5:
 	or (hl)
 	ret nz
 	ld de, $0008
-	call _LABEL_7C4B_
+	call getTileNearEntityWithXYOffset
 	and $E0
 	cp $20
 	jp z, _LABEL_3498_
@@ -4708,7 +4708,7 @@ _LABEL_39ED_:
 
 _LABEL_3A03_:
 	ex af, af'
-	call _LABEL_7C4B_
+	call getTileNearEntityWithXYOffset
 	rlca
 	ret c
 	ex af, af'
@@ -4753,7 +4753,7 @@ _LABEL_3A11_:
 
 _LABEL_3A41_:
 	ex af, af'
-	call _LABEL_7C4B_
+	call getTileNearEntityWithXYOffset
 	rlca
 	ret c
 	ex af, af'
@@ -4871,7 +4871,7 @@ _LABEL_3AE8_:
 	ld a, $10
 	add a, h
 	ld d, a
-	call _LABEL_7C4B_
+	call getTileNearEntityWithXYOffset
 	bit 7, a
 	jp nz, _LABEL_389C_
 	and $E0
@@ -5069,7 +5069,7 @@ _LABEL_3C48_:
 	ld a, (v_entities.1.isOffScreenFlags.high)
 	or a
 	ret nz
-	call _LABEL_7C4B_
+	call getTileNearEntityWithXYOffset
 	bit 7, a
 	jp nz, _LABEL_3CF3_
 	bit 6, a
@@ -5163,7 +5163,7 @@ _LABEL_3D0A_:
 	ld a, (v_entities.1.isOffScreenFlags.high)
 	or a
 	ret nz
-	call _LABEL_7C4B_
+	call getTileNearEntityWithXYOffset
 	and $E0
 	cp $A0
 	jr nz, _LABEL_3D5B_
@@ -6217,7 +6217,7 @@ _LABEL_4490_:
 	jr nz, +
 	ld a, (v_entities.2.xPos.high)
 	ld de, $0404
-	call _LABEL_7C4B_
+	call getTileNearEntityWithXYOffset
 	rlca
 	jr nc, +
 	rlca
@@ -6492,7 +6492,7 @@ _LABEL_4690_:
 	jr z, +
 	ld e, $0E
 +:
-	call _LABEL_7C4B_
+	call getTileNearEntityWithXYOffset
 	rlca
 	ret nc
 	ld hl, $0000
@@ -6556,7 +6556,7 @@ _LABEL_4720_:
 	jr z, +
 	ld e, $0E
 +:
-	call _LABEL_7C4B_
+	call getTileNearEntityWithXYOffset
 	rlca
 	ret nc
 	ld hl, $0000
@@ -6614,7 +6614,7 @@ _LABEL_476F_:
 	res 0, (ix+29)
 +++:
 	ld de, $1004
-	call _LABEL_7C4B_
+	call getTileNearEntityWithXYOffset
 	rlca
 	jr nc, +
 	bit 1, (ix+20)
@@ -6805,7 +6805,7 @@ _LABEL_491B_:
 	cp $F4
 	jr nc, +
 	ld de, $0404
-	call _LABEL_7C4B_
+	call getTileNearEntityWithXYOffset
 	rlca
 	ret nc
 	rlca
@@ -6837,7 +6837,7 @@ _LABEL_4944_:
 	ld a, d
 	add a, h
 	ld d, a
-	call _LABEL_7C4B_
+	call getTileNearEntityWithXYOffset
 	rlca
 	ret nc
 	ld a, b
@@ -7584,7 +7584,7 @@ _LABEL_4EEF_:
 	call _LABEL_7D0B_
 	jp nc, _LABEL_55A5_
 	ld de, $0100
-	call _LABEL_7C4B_
+	call getTileNearEntityWithXYOffset
 	rlca
 	jr nc, _LABEL_4F43_
 	ld (ix+0), $36
@@ -7635,7 +7635,7 @@ _LABEL_4F82_:
 	call _LABEL_7D0B_
 	jp nc, _LABEL_55A5_
 	ld de, $0110
-	call _LABEL_7C4B_
+	call getTileNearEntityWithXYOffset
 	rlca
 	jp nc, _LABEL_4F43_
 	ld (ix+0), $20
@@ -8289,7 +8289,7 @@ _LABEL_56CC_:
 	ld a, $01
 	ld (ix+23), a
 	ld de, $1108
-	call _LABEL_7C4B_
+	call getTileNearEntityWithXYOffset
 	rlca
 	ret nc
 	ld (ix+0), $37
@@ -8300,33 +8300,49 @@ _LABEL_56CC_:
 	ret
 
 ; 55th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
-_LABEL_5723_:
-	ld a, (ix+9)
-	or (ix+10)
+updateMonsterFrogJumping:
+	; Return if offscreen
+	ld a, (ix + Entity.isOffScreenFlags.low)
+	or (ix + Entity.isOffScreenFlags.high)
 	ret nz
+
+	; Check if is colliding with Alex based on _RAM_C054_
+	; @TODO: Understand better
 	call _LABEL_7D99_
 	call _LABEL_7D0B_
 	jp nc, _LABEL_55A5_
-	ld h, (ix+18)
-	ld l, (ix+17)
+
+	; Update Y velocity
+	; @TODO: Understand better
+	ld h, (ix + Entity.ySpeed.high)
+	ld l, (ix + Entity.ySpeed.low)
 	ld de, $0008
 	add hl, de
-	ld (ix+18), h
-	ld (ix+17), l
+	ld (ix + Entity.ySpeed.high), h
+	ld (ix + Entity.ySpeed.low), l
 	ld a, h
 	cp $FF
 	ret z
+
+	; Return if not directly above a solid tile.
+	; This is needed so the frog can continue falling
+	; whean the block underneath it is broken
+	; PS: Solid tile are the ones with charcode less than 128
 	ld de, $1108
-	call _LABEL_7C4B_
+	call getTileNearEntityWithXYOffset
 	rlca
 	ret nc
-	ld (ix+18), $00
-	ld (ix+17), $00
-	ld (ix+0), $2F
-	ld (ix+7), <_DATA_854C_
-	ld (ix+8), >_DATA_854C_
-	ld (ix+23), $10
+
+	; Change entity to the normal still frog
+	ld (ix + Entity.ySpeed.high), $00
+	ld (ix + Entity.ySpeed.low), $00
+	ld (ix + Entity.type), ENTITY_MONSTER_FROG
+	ld (ix + Entity.spriteDescriptorPointer.low), <_DATA_854C_
+	ld (ix + Entity.spriteDescriptorPointer.high), >_DATA_854C_
+	; @TODO: Fix entity var name below.
+	ld (ix + Entity.jankenMatchDecision), $10
 	ret
+
 
 _LABEL_5768_:
 	ld a, (ix+0)
@@ -8929,7 +8945,7 @@ _LABEL_5E14_:
 	jp nc, _LABEL_55A5_
 +:
 	ld de, $0900
-	call _LABEL_7C4B_
+	call getTileNearEntityWithXYOffset
 	rlca
 	jr nc, +
 -:
@@ -8962,7 +8978,7 @@ _LABEL_5E7B_:
 	jp nc, _LABEL_55A5_
 +:
 	ld de, $0910
-	call _LABEL_7C4B_
+	call getTileNearEntityWithXYOffset
 	rlca
 	jr nc, +
 --:
@@ -9486,7 +9502,7 @@ _LABEL_62F5_:
 	xor $0C
 	ld e, a
 	ld d, $11
-	call _LABEL_7C4B_
+	call getTileNearEntityWithXYOffset
 	rlca
 	jr c, _LABEL_6341_
 	ld h, (ix+23)
@@ -9555,7 +9571,7 @@ _LABEL_6368_:
 	ld (ix+24), a
 +:
 	ld de, $1108
-	call _LABEL_7C4B_
+	call getTileNearEntityWithXYOffset
 	rlca
 	jr nc, +
 	ld (ix+17), $00
@@ -10703,11 +10719,11 @@ updateLifeLostState:
 	call _LABEL_6EAF_
 -:
 	ld de, $1900
-	call _LABEL_7C4B_
+	call getTileNearEntityWithXYOffset
 	rlca
 	jp nc, +
 	ld de, $1908
-	call _LABEL_7C4B_
+	call getTileNearEntityWithXYOffset
 	rlca
 	jp c, _LABEL_6D4F_
 +:
@@ -12645,10 +12661,12 @@ _LABEL_7C40_:
 	ld (_RAM_C3D1_), hl
 	ret
 
-_LABEL_7C4B_:
+getTileNearEntityWithXYOffset:
 	ld a, (ix + Entity.xPos.high)
 	add a, e
 _LABEL_7C4F_:
+	; Map x screen coordinate from e into x
+	; nametable position and put it on e again
 	ld hl, (v_horizontalScroll)
 	sub h
 	ld c, a
@@ -12656,6 +12674,9 @@ _LABEL_7C4F_:
 	rra
 	and $3E
 	ld e, a
+
+	; Count number of tiles to sum with x tile position to get the
+	; nametable address of the tile being displayed at screen coordinates
 	ld a, (ix + Entity.yPos.high)
 	add a, d
 -:
@@ -12822,6 +12843,7 @@ _LABEL_7D92_:
 	ld iy, v_entities.2
 	jp checkEntityCollision
 
+; Check if is colliding with Alex
 _LABEL_7D99_:
 	; Return if Alex state is $0F
 	ld a, (v_entities.1.state)
@@ -13022,7 +13044,7 @@ handleInterruptTextBoxState:
 	or a
 	ret z
 	ld de, $0100
-	call _LABEL_7C4B_
+	call getTileNearEntityWithXYOffset
 	ld a, h
 	xor $B0
 	ld h, a

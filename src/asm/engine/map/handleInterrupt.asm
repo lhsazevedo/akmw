@@ -473,7 +473,7 @@ _LABEL_2439_:
 	or a
 	ret nz
 	ld de, $1404
-	call _LABEL_7C4B_
+	call getTileNearEntityWithXYOffset
 	and $E0
 	ret z
 	ld d, a

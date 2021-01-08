@@ -54,7 +54,7 @@ entityTypeJumpTable:
 .dw updateSmallFishRight
 .dw _LABEL_51F3_
 .dw _LABEL_4F82_
-.dw _LABEL_5723_
+.dw updateMonsterFrogJumping
 .dw _LABEL_5908_
 .dw _LABEL_5996_
 .dw _LABEL_59C8_
