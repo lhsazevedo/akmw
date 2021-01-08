@@ -2,54 +2,9 @@
 # ::             WLA DX compiling batch file v3              ::
 # :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-# Set some default values:
-REV=1
-
-usage()
-{
-  echo "Usage: compile [ -rev0 ]"
-  exit 2
-}
-
-PARSED_ARGUMENTS=$(getopt -a -n compile -o '' --long rev0 -- "$@")
-VALID_ARGUMENTS=$?
-if [ "$VALID_ARGUMENTS" != "0" ]; then
-  usage
-fi
-
-eval set -- "$PARSED_ARGUMENTS"
-while :
-do
-  echo $1 $2
-  case "$1" in
-    --rev0)   REV=0               ; shift   ;;
-    # -- means the end of the arguments; drop this, and break out of the while loop
-    --) shift; break ;;
-    # If invalid options were passed, then getopt should have reported an error,
-    # which we checked as VALID_ARGUMENTS when getopt was called...
-    *) echo "Unexpected option: $1"
-       usage ;;
-  esac
-done
-
 mkdir -p tmp build
 
 rm -f tmp/* 
-
-echo Converting sprites
-png2tile src/graphics/boxes/skull.png -binary -savetiles src/graphics/boxes/skull.bin
-png2tile src/graphics/boxes/question_mark.png -binary -savetiles src/graphics/boxes/question_mark.bin
-png2tile src/graphics/boxes/star.png -binary -savetiles src/graphics/boxes/star.bin
-png2tile src/graphics/boxes/star_pink.png -binary -savetiles src/graphics/boxes/star_pink.bin
-png2tile src/graphics/boxes/waves_pink.png -binary -savetiles src/graphics/boxes/waves_pink.bin
-png2tile src/graphics/boxes/fish_pink.png -binary -savetiles src/graphics/boxes/fish_pink.bin
-png2tile src/graphics/boxes/moon_pink.png -binary -savetiles src/graphics/boxes/moon_pink.bin
-png2tile src/graphics/boxes/skull_pink.png -binary -savetiles src/graphics/boxes/skull_pink.bin
-png2tile src/graphics/boxes/sun_pink.png -binary -savetiles src/graphics/boxes/sun_pink.bin
-png2tile src/graphics/village_elder.png -binary -savetiles src/graphics/village_elder.bin
-
-png2tile src/graphics/aditionalSet1.png -compress -savetiles src/graphics/aditionalSet1.bin
-png2tile src/graphics/map.png -compress -savetiles src/graphics/map.bin
 
 echo Compiling
 wla-z80 -i -I./src/ -D _REV0 -o tmp/baserom_rev0.o src/asm/baserom.asm 
