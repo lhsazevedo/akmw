@@ -27,18 +27,20 @@ This repository doesn't contains all the necessary assets to build the ROMs. You
 To compile, both wla-dx assembler for z80 (wla-80) and the wlalink linker must be avaliable on your PATH.
 
 ## Compiling
+Execute de compile script for your system:
 
-
-### Linux
-Execute de compile script:
+**Linux:**
 ```
 ./compile.sh
 ```
 
+**Windows:**
+```
+./compile.bat
+```
+
 The script will build the two ROM revisions (REV0 e REV1), and will check if the resulting ROMs are identical to the original one.
 
-### Windows
-*Soon...*
 
 ## Documentation
 - [Basic introduction](docs/basic-introduction.md)

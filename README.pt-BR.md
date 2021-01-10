@@ -27,12 +27,17 @@ Este repositório não possui todos os assets necessários para compilar as ROMs
 Para compilar, o assembler wla-dx para z80 (wla-z80) e o linker wlalink devem estar disponíveis na sua variável de ambiente PATH.
 
 ## Compilando
+Execute o script de compilação para o seu sistema:
 
-
-### Linux
+**Linux:**
 Execute o script de compilação:
 ```
 ./compile.sh
+```
+
+**Windows:**
+```
+./compile.bat
 ```
 
 O script irá fazer o build das duas versões da ROM (REV0 e REV1), e checará se as ROMs geradas são identicas às originais.
