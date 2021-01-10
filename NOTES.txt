@@ -1,8 +1,0 @@
-Difference between v1 and v2 is +7 bytes
-
-Alex states:
-idle = 1
-walking = 2
-air = 3
-crouching = 4
-swiming = 5
