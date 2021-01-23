@@ -14,8 +14,8 @@ echo Compiling
 echo =========
 echo.
 
-wla-z80 -i -I./src/ -D _REV0 -o tmp/baserom_rev0.o src/asm/baserom.asm 
-wla-z80 -i -I./src/ -D _REV1 -o tmp/baserom_rev1.o src/asm/baserom.asm
+wla-z80 -i -I src -D _REV0 -o tmp/baserom_rev0.o src/asm/baserom.asm 
+wla-z80 -i -I src -D _REV1 -o tmp/baserom_rev1.o src/asm/baserom.asm
 
 
 echo.
