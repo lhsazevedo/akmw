@@ -1,0 +1,56 @@
+bank prg @ 0x0000 : [constdata; 0x1000];
+
+in prg @ 0x293 {
+    func decompress4BitplanesToVRAM(dest: *u8 in de, source: *u8 in hl) {
+        b = 4;
+        do {
+            push(bc);
+            push(dest);
+            decompressBitplaneToVram(dest, source);
+            dest = pop() as *u8;
+            dest++;
+            bc = pop();
+        } while --b != 0;
+    }
+
+    /**
+     * Alex Kidd in Miracle World uses "Phantasy Star RLE" for tile data
+     * compression. This function decompresses data from HL to VRAM DE.
+     */
+    #[fallthrough]
+    func decompressBitplaneToVram(dest: *u8 in de, source: *u8 in hl) {
+        var current_byte: u8 in a;
+        var block_bytes_count: u8 in b;
+        var block_control_byte: u8 in c;
+
+        ^do {
+            ^do {
+                current_byte = *source;
+                source++;
+
+                return if current_byte == 0x00;
+
+                block_bytes_count = current_byte;
+                block_control_byte = current_byte;
+                // Reset run type bit
+                block_bytes_count$7 = false;
+
+                do {
+                    io_write(0xBF, a = <:dest);
+                    io_write(0xBF, a = >:dest);
+                    io_write(0xBE, a = *source);
+
+                    ^if block_control_byte$7 {
+                        source++;
+                    }
+
+                    inline for in 1..4 {
+                        dest++;
+                    }
+                } while --block_bytes_count != 0;
+            } while !zero;
+
+            source++;
+        } while true;
+    }
+}
