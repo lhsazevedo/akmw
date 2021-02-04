@@ -23,7 +23,9 @@ in prg @ 0x293 {
         var block_bytes_count: u8 in b;
         var block_control_byte: u8 in c;
 
+        // For each input byte
         ^do {
+            // For each block
             ^do {
                 current_byte = *source;
                 source++;
@@ -35,6 +37,7 @@ in prg @ 0x293 {
                 // Reset run type bit
                 block_bytes_count$7 = false;
 
+                // Write block
                 do {
                     io_write(0xBF, a = <:dest);
                     io_write(0xBF, a = >:dest);
