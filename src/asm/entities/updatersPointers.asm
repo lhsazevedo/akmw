@@ -55,7 +55,7 @@ entityTypeJumpTable:
 .dw _LABEL_51F3_
 .dw _LABEL_4F82_
 .dw updateMonsterFrogJumping
-.dw _LABEL_5908_
+.dw updateDebrisTopLeft
 .dw _LABEL_5996_
 .dw _LABEL_59C8_
 .dw _LABEL_59FB_

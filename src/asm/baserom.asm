@@ -8445,54 +8445,7 @@ _LABEL_58F2_:
 	jp handleEntityAnimation
 
 ; 56th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
-_LABEL_5908_:
-	bit 0, (ix+1)
-	jr nz, _LABEL_596B_
-	set 0, (ix+1)
-	set 1, (ix+1)
-	ld (ix+16), $FF
-	ld (ix+15), $80
-	ld (ix+18), $FF
-	ld (ix+17), $80
-	ld (ix+5), $08
-	ld (ix+6), $08
-	ld a, (ix+24)
-	ld de, $0020
-	ld iy, _RAM_C5E0_
-	ld (iy+0), $39
-	ld (iy+24), a
-	res 0, (iy+1)
-	set 1, (iy+1)
-	add iy, de
-	ld (iy+0), $3A
-	ld (iy+24), a
-	res 0, (iy+1)
-	set 1, (iy+1)
-	add iy, de
-	ld (iy+0), $3B
-	ld (iy+24), a
-	res 0, (iy+1)
-	set 1, (iy+1)
-	jr +
-
-_LABEL_596B_:
-	ld a, (ix+12)
-	cp $F8
-	jp nc, clearCurrentEntity
-	ld a, (ix+9)
-	or (ix+10)
-	jp nz, clearCurrentEntity
-	ld h, (ix+18)
-	ld l, (ix+17)
-	ld de, $0030
-	add hl, de
-	ld (ix+18), h
-	ld (ix+17), l
-+:
-	ld a, (ix+24)
-	ld hl, _DATA_5D8C_
-	rst $10	; _LABEL_10_
-	jp handleEntityAnimation
+.INCLUDE "entities/debrisTopLeft/updater.asm"
 
 ; 57th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_5996_:
