@@ -42,9 +42,6 @@ Execute o script de compilação:
 
 O script irá fazer o build das duas versões da ROM (REV0 e REV1), e checará se as ROMs geradas são identicas às originais.
 
-### Windows
-*Em breve...*
-
 ## Documentação
 - [Introdução básica](docs/basic-introduction.pt-BR.md)
 
