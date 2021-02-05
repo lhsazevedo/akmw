@@ -158,7 +158,8 @@ _DATA_8191_:
 .db $F9 $52 $01 $53 $09 $54
 
 ; FIXME> Move entities sprite descriptors to data
-.INC "src/asm/entities/monsterbird/sprites.asm"
+.INC "src/asm/entities/monsterBirdLeft/sprites.asm"
+.INC "src/asm/entities/monsterBirdRight/sprites.asm"
 
 ; Data from 8211 to 8211 (1 bytes)
 _DATA_8211_:

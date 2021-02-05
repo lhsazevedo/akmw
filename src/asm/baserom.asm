@@ -7704,7 +7704,8 @@ _LABEL_4FF1_:
 	ld (ix+23), $00
 	ret
 
-.INC "entities/monsterbird/updater.asm"
+.INC "entities/monsterBirdLeft/updater.asm"
+.INC "entities/monsterBirdRight/updater.asm"
 
 ; 48th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 .INC "entities/smallFish/updaters.asm"
