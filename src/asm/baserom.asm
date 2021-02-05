@@ -7708,7 +7708,8 @@ _LABEL_4FF1_:
 .INC "entities/monsterBirdRight/updater.asm"
 
 ; 48th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
-.INC "entities/smallFish/updaters.asm"
+.INC "entities/smallFishLeft/updater.asm"
+.INC "entities/smallFishRight/updater.asm"
 
 ; 46th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_515F_:

@@ -789,7 +789,7 @@ _DATA_8BCA_:
 .db $02 $C8 $00 $00 $02 $BC $0A $BD
 
 ; Data from 8BD2 to 8BD2 (1 bytes)
-.INC "entities/smallFish/spritesLeft.asm"
+.INC "entities/smallFishLeft/sprites.asm"
 
 ; Data from 8BF3 to 8BF3 (1 bytes)
 _DATA_8BF3_:
@@ -821,7 +821,7 @@ _DATA_8C0E_:
 .INC "entities/ghost/spritesLeft.asm"
 
 ; Data from 8C4B to 8C4B (1 bytes)
-.INC "entities/smallFish/spritesRight.asm"
+.INC "entities/smallFishRight/sprites.asm"
 
 ; Data from 8C6C to 8C6C (1 bytes)
 .INC "entities/ghost/spritesRight.asm"
