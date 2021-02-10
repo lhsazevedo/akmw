@@ -2,6 +2,8 @@
 updateDebrisTopLeft:
 	bit 0, (ix + Entity.flags)
 	jr nz, _LABEL_596B_
+
+	; Initialize top left debris
 	set 0, (ix + Entity.flags)
 	set 1, (ix + Entity.flags)
 	ld (ix + Entity.xSpeed.high), $FF
@@ -11,22 +13,26 @@ updateDebrisTopLeft:
 	ld (ix + Entity.animationTimer), $08
 	ld (ix + Entity.animationTimerResetValue), $08
 	ld a, (ix + Entity.unknown6)
+
+	; Create the other 3 debris entities
 	ld de, $0020
-	ld iy, _RAM_C5E0_
-	ld (iy+0), $39
-	ld (iy+24), a
-	res 0, (iy+1)
-	set 1, (iy+1)
+	ld iy, v_entities.24
+	ld (iy + Entity.type), $39
+	ld (iy + Entity.unknown6), a
+	res 0, (iy + Entity.flags)
+	set 1, (iy + Entity.flags)
+
 	add iy, de
-	ld (iy+0), $3A
-	ld (iy+24), a
-	res 0, (iy+1)
-	set 1, (iy+1)
+	ld (iy + Entity.type), $3A
+	ld (iy + Entity.unknown6), a
+	res 0, (iy + Entity.flags)
+	set 1, (iy + Entity.flags)
+	
 	add iy, de
-	ld (iy+0), $3B
-	ld (iy+24), a
-	res 0, (iy+1)
-	set 1, (iy+1)
+	ld (iy + Entity.type), $3B
+	ld (iy + Entity.unknown6), a
+	res 0, (iy + Entity.flags)
+	set 1, (iy + Entity.flags)
 	jr +
 
 _LABEL_596B_:
