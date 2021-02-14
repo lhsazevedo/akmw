@@ -8452,7 +8452,7 @@ _LABEL_58F2_:
 ; 57th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_5996_:
 	bit 0, (ix+1)
-	jr nz, _LABEL_596B_
+	jr nz, updateDebris
 	set 0, (ix+1)
 	ld a, (_RAM_C5CC_)
 	ld (ix+12), a
@@ -8465,12 +8465,12 @@ _LABEL_5996_:
 	ld (ix+17), $80
 	ld (ix+5), $08
 	ld (ix+6), $08
-	jr _LABEL_596B_
+	jr updateDebris
 
 ; 58th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_59C8_:
 	bit 0, (ix+1)
-	jr nz, _LABEL_596B_
+	jr nz, updateDebris
 	set 0, (ix+1)
 	ld a, (_RAM_C5CC_)
 	add a, $08
@@ -8483,12 +8483,12 @@ _LABEL_59C8_:
 	ld (ix+17), $80
 	ld (ix+5), $08
 	ld (ix+6), $08
-	jp _LABEL_596B_
+	jp updateDebris
 
 ; 59th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_59FB_:
 	bit 0, (ix+1)
-	jp nz, _LABEL_596B_
+	jp nz, updateDebris
 	set 0, (ix+1)
 	ld a, (_RAM_C5CC_)
 	add a, $08
@@ -8502,7 +8502,7 @@ _LABEL_59FB_:
 	ld (ix+17), $80
 	ld (ix+5), $08
 	ld (ix+6), $08
-	jp _LABEL_596B_
+	jp updateDebris
 
 ; 60th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 .INC "entities/moneyBag/updater.asm"
