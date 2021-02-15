@@ -1,0 +1,18 @@
+Here are some temporary notes taken during debugging:
+
+# _RAM_C054_
+State for Alex mechanics
+- 00: Normal
+- 01: ?
+- 02: Invicible
+- 03: Magic Capsule A equipped
+- 04: Magic Capsule B equipped
+- 05: Power Bracelet equipped
+- 06: ?
+- 07: Riding motorcycle
+- 08: 
+- 09: Flying peticopter
+
+# Trivia
+- Level #07 Actually has a seven on it
+- I dont actually need to use Magic Capsule B to became invincible, just buy and equip it (but you cannot punch)
