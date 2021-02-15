@@ -3,7 +3,7 @@ updateSmallFishRight:
 	ld a, (ix+9)
 	or (ix+10)
 	jr nz, +
-	call _LABEL_7D99_
+	call tryToKillAlexIfColliding
 	call _LABEL_7D0B_
 	jp nc, _LABEL_55A5_
 	ld de, $0110

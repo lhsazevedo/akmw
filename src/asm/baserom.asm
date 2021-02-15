@@ -7234,7 +7234,7 @@ _LABEL_4C2E_:
 	ld a, (ix+9)
 	or (ix+10)
 	jp nz, _LABEL_4CDE_
-	call _LABEL_7D99_
+	call tryToKillAlexIfColliding
 	call _LABEL_7D0B_
 	jp c, _LABEL_4CDE_
 	ld a, (ix+21)
@@ -7490,7 +7490,7 @@ _LABEL_4E30_:
 	ld (ix+17), $C0
 	set 1, (ix+1)
 +:
-	call _LABEL_7D99_
+	call tryToKillAlexIfColliding
 	call _LABEL_7D0B_
 	jr nc, +++
 -:
@@ -7553,7 +7553,7 @@ _LABEL_4E9D_:
 	ld a, (ix+9)
 	or (ix+10)
 	jr nz, +
-	call _LABEL_7D99_
+	call tryToKillAlexIfColliding
 	ld a, (ix+14)
 	cp $18
 	jp c, clearCurrentEntity
@@ -7580,7 +7580,7 @@ _LABEL_4EEF_:
 	set 1, (ix+1)
 	ld (ix+16), $FF
 	ld (ix+15), $80
-	call _LABEL_7D99_
+	call tryToKillAlexIfColliding
 	call _LABEL_7D0B_
 	jp nc, _LABEL_55A5_
 	ld de, $0100
@@ -7631,7 +7631,7 @@ _LABEL_4F82_:
 	ld a, (ix+9)
 	or (ix+10)
 	jp nz, clearCurrentEntity
-	call _LABEL_7D99_
+	call tryToKillAlexIfColliding
 	call _LABEL_7D0B_
 	jp nc, _LABEL_55A5_
 	ld de, $0110
@@ -7689,7 +7689,7 @@ _LABEL_4FF1_:
 	ret
 
 +:
-	call _LABEL_7D99_
+	call tryToKillAlexIfColliding
 	inc (ix+23)
 	ld a, (ix+23)
 	cp $40
@@ -7732,7 +7732,7 @@ _LABEL_515F_:
 	ld (ix+16), $FF
 	ld (ix+15), $A0
 	set 1, (ix+1)
-	call _LABEL_7D99_
+	call tryToKillAlexIfColliding
 	call _LABEL_7D0B_
 	jp nc, _LABEL_55A5_
 	ld de, $0100
@@ -7784,7 +7784,7 @@ _LABEL_51F3_:
 	ld a, (ix+9)
 	or (ix+10)
 	jr nz, _LABEL_5249_
-	call _LABEL_7D99_
+	call tryToKillAlexIfColliding
 	call _LABEL_7D0B_
 	jp nc, _LABEL_55A5_
 	ld de, $0118
@@ -7870,7 +7870,7 @@ _LABEL_52E7_:
 	ld (ix+15), $A0
 	ld (ix+16), $FF
 +:
-	call _LABEL_7D99_
+	call tryToKillAlexIfColliding
 	ld a, (ix+19)
 	ld (ix+24), a
 	ld (ix+19), $A8
@@ -7916,7 +7916,7 @@ _LABEL_5360_:
 	ld (ix+15), $60
 	ld (ix+16), $00
 +:
-	call _LABEL_7D99_
+	call tryToKillAlexIfColliding
 	ld a, (ix+19)
 	ld (ix+24), a
 	ld (ix+19), $A8
@@ -7968,7 +7968,7 @@ _LABEL_53CF_:
 	ld a, (ix+9)
 	or (ix+10)
 	jr nz, _LABEL_543D_
-	call _LABEL_7D99_
+	call tryToKillAlexIfColliding
 	ld a, (ix+19)
 	ld (ix+24), a
 	ld (ix+19), $A8
@@ -8023,7 +8023,7 @@ _LABEL_5451_:
 	ld a, (ix+9)
 	or (ix+10)
 	jp nz, _LABEL_54C9_
-	call _LABEL_7D99_
+	call tryToKillAlexIfColliding
 	ld a, (ix+19)
 	ld (ix+24), a
 	ld (ix+19), $A8
@@ -8138,7 +8138,7 @@ _LABEL_557A_:
 	jp _LABEL_55ED_
 
 +:
-	call _LABEL_7D99_
+	call tryToKillAlexIfColliding
 	call _LABEL_7D0B_
 	jr nc, _LABEL_55A5_
 	jr +
@@ -8201,7 +8201,7 @@ _LABEL_55F3_:
 	ld a, (ix+9)
 	or (ix+10)
 	jp nz, clearCurrentEntity
-	jp _LABEL_7D99_
+	jp tryToKillAlexIfColliding
 
 ; 67th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_5629_:
@@ -8283,7 +8283,7 @@ _LABEL_56CC_:
 	ld a, (ix+9)
 	or (ix+10)
 	ret nz
-	call _LABEL_7D99_
+	call tryToKillAlexIfColliding
 	call _LABEL_7D0B_
 	jp nc, _LABEL_55A5_
 	dec (ix+23)
@@ -8335,7 +8335,7 @@ _LABEL_57CE_:
 	set 0, (ix+1)
 	set 1, (ix+1)
 +:
-	call _LABEL_7D99_
+	call tryToKillAlexIfColliding
 	call _LABEL_7D0B_
 	jp nc, _LABEL_55A5_
 	ld a, (ix+24)
@@ -8394,7 +8394,7 @@ _LABEL_5865_:
 
 ; 50th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_5883_:
-	call _LABEL_7D99_
+	call tryToKillAlexIfColliding
 	call _LABEL_7D0B_
 	jp nc, _LABEL_55A5_
 	ld a, (ix+24)
@@ -8639,7 +8639,7 @@ _LABEL_5C36_:
 	ld a, (ix+12)
 	cp $18
 	jr c, +
-	call _LABEL_7D99_
+	call tryToKillAlexIfColliding
 	call _LABEL_7D0B_
 	jr c, _LABEL_5C96_
 	inc (ix+23)
@@ -8712,7 +8712,7 @@ _LABEL_5CF7_:
 	ld a, (ix+12)
 	cp $D8
 	jr nc, ++
-	call _LABEL_7D99_
+	call tryToKillAlexIfColliding
 	call _LABEL_7D0B_
 	jr c, +
 	inc (ix+23)
@@ -8806,7 +8806,7 @@ _LABEL_5D94_:
 	ld a, (ix+9)
 	or (ix+10)
 	jr nz, +
-	call _LABEL_7D99_
+	call tryToKillAlexIfColliding
 +:
 	ld hl, (v_horizontalScrollSpeed)
 	ld a, h
@@ -8851,7 +8851,7 @@ _LABEL_5E14_:
 	jr _LABEL_5E60_
 
 +:
-	call _LABEL_7D99_
+	call tryToKillAlexIfColliding
 	ld a, (ix+3)
 	or a
 	jr nz, +
@@ -8884,7 +8884,7 @@ _LABEL_5E60_:
 
 ; 63rd entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_5E7B_:
-	call _LABEL_7D99_
+	call tryToKillAlexIfColliding
 	ld a, (ix+3)
 	or a
 	jr nz, +
@@ -8935,7 +8935,7 @@ _LABEL_5EBA_:
 	ret
 
 +:
-	call _LABEL_7D99_
+	call tryToKillAlexIfColliding
 	inc (ix+24)
 	ld a, (ix+24)
 	cp $10
@@ -8946,7 +8946,7 @@ _LABEL_5EBA_:
 
 ; 65th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_5F05_:
-	call _LABEL_7D99_
+	call tryToKillAlexIfColliding
 	ld h, (ix+16)
 	ld l, (ix+15)
 	ld de, $0008
@@ -9002,7 +9002,7 @@ _LABEL_5F4C_:
 	ret
 
 +:
-	call _LABEL_7D99_
+	call tryToKillAlexIfColliding
 	call _LABEL_7D0B_
 	jp nc, _LABEL_55A5_
 	ld h, (ix+18)
@@ -9394,7 +9394,7 @@ _LABEL_62AF_:
 	ld (ix+15), $A0
 	ld (ix+16), $FF
 _LABEL_62F5_:
-	call _LABEL_7D99_
+	call tryToKillAlexIfColliding
 	call _LABEL_7D0B_
 	jp nc, _LABEL_55A5_
 	ld d, $01
@@ -9463,7 +9463,7 @@ _LABEL_6368_:
 	set 1, (ix+1)
 	ld (ix+24), $0E
 +:
-	call _LABEL_7D99_
+	call tryToKillAlexIfColliding
 	call _LABEL_7D0B_
 	jp nc, _LABEL_55A5_
 	ld a, (ix+24)
@@ -9517,7 +9517,7 @@ _LABEL_63FB_:
 	set 0, (ix+1)
 	set 1, (ix+1)
 +:
-	call _LABEL_7D99_
+	call tryToKillAlexIfColliding
 ++:
 	ld hl, _DATA_85A6_
 	jp handleEntityAnimation
@@ -10528,6 +10528,7 @@ _LABEL_6BEF_:
 
 ; 7th entry of Jump Table from 3B (indexed by v_gameState)
 updateLifeLostState:
+	; @TODO: Why check input here?
 	ld a, (v_inputFlags)
 	and $20
 	jp z, +
@@ -10604,6 +10605,7 @@ updateLifeLostState:
 	ld (v_alexTilesIndex), a
 	ld a, $02
 	ld (_RAM_C054_), a
+	; CONSTANT: Respaw grace period (max)
 	ld a, $FF
 	ld (v_invincibilityTimer), a
 	jp _LABEL_6D73_
@@ -11511,7 +11513,7 @@ _LABEL_73D8_:
 	or a
 	ret nz
 	ld (ix+19), $CC
-	call _LABEL_7D99_
+	call tryToKillAlexIfColliding
 	ld hl, v_entities.1.unknown8
 	bit 3, (hl)
 	jr z, ++
@@ -11633,7 +11635,7 @@ _LABEL_74CD_:
 
 ; 25th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_74CE_:
-	call _LABEL_7D99_
+	call tryToKillAlexIfColliding
 	bit 7, (iy+1)
 	jr nz, +
 	ld a, (ix+26)
@@ -12032,7 +12034,7 @@ _LABEL_77CD_:
 
 ; 15th entry of Jump Table from 78B0 (indexed by _RAM_C3BA_)
 _LABEL_780B_:
-	call _LABEL_7D99_
+	call tryToKillAlexIfColliding
 	ld a, (_RAM_C3C0_)
 	or a
 	jp z, _LABEL_5547_
@@ -12073,7 +12075,7 @@ _LABEL_783C_:
 
 ; 15th entry of Jump Table from 781E (indexed by _RAM_C3BA_)
 _LABEL_786F_:
-	call _LABEL_7D99_
+	call tryToKillAlexIfColliding
 	ld a, (_RAM_C3C0_)
 	or a
 	jp z, _LABEL_5547_
@@ -12096,7 +12098,7 @@ _LABEL_786F_:
 
 ; 26th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_78A5_:
-	jp _LABEL_7D99_
+	jp tryToKillAlexIfColliding
 
 ; 31st entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_78A8_:
@@ -12271,7 +12273,7 @@ _LABEL_79F0_:
 	ret
 
 _LABEL_7A10_:
-	call _LABEL_7D99_
+	call tryToKillAlexIfColliding
 	call _LABEL_7D0B_
 	jr nc, _LABEL_7A40_
 	bit 1, (ix+20)
@@ -12386,7 +12388,7 @@ _LABEL_7AC2_:
 
 ; 3rd entry of Jump Table from 7A98 (indexed by _RAM_C3DA_)
 _LABEL_7AF3_:
-	call _LABEL_7D99_
+	call tryToKillAlexIfColliding
 	call _LABEL_7D0B_
 	jp nc, _LABEL_7A41_
 	ld a, (_RAM_C3CE_)
@@ -12405,7 +12407,7 @@ _LABEL_7AF3_:
 	ret
 
 _LABEL_7B18_:
-	call _LABEL_7D99_
+	call tryToKillAlexIfColliding
 	call _LABEL_7D0B_
 	jp nc, _LABEL_7A40_
 	bit 1, (ix+20)
@@ -12420,7 +12422,7 @@ _LABEL_7B18_:
 
 ; 15th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_7B35_:
-	call _LABEL_7D99_
+	call tryToKillAlexIfColliding
 	ld a, (_RAM_C3DB_)
 	or a
 	jr z, +
@@ -12758,7 +12760,7 @@ _LABEL_7D92_:
 	jp checkEntityCollision
 
 ; Check if is colliding with Alex
-_LABEL_7D99_:
+tryToKillAlexIfColliding:
 	; Return if Alex state is $0F
 	ld a, (v_entities.1.state)
 	cp ALEX_DEAD
@@ -12767,19 +12769,27 @@ _LABEL_7D99_:
 	ld hl, _DATA_7DA8_
 	jp loadAthJumptablePointer
 
-; Jump Table from 7DA8 to 7DBB (10 entries, indexed by _RAM_C054_)
+; This table controls wehther alex can be hurt when colliding with an entity
+; based on it's mechanics state (_RAM_C054_)
 _DATA_7DA8_:
-.dw _LABEL_7DBC_ _LABEL_7DBC_ _LABEL_7DC8_ _LABEL_7DBC_ _LABEL_7DC8_ _LABEL_7DBC_ _LABEL_7DBC_ _LABEL_7DC8_
-.dw _LABEL_7DBC_ _LABEL_7DBC_
+.dw killAlexIfColliding
+.dw killAlexIfColliding
+.dw doNotKillAlex
+.dw killAlexIfColliding
+.dw doNotKillAlex
+.dw killAlexIfColliding
+.dw killAlexIfColliding
+.dw doNotKillAlex
+.dw killAlexIfColliding
+.dw killAlexIfColliding
 
-; 1st entry of Jump Table from 7DA8 (indexed by _RAM_C054_)
-_LABEL_7DBC_:
+killAlexIfColliding:
 	ld iy, v_entity1
 	call checkEntityCollision
 	ret c
 	set 7, (iy+1)
-; 3rd entry of Jump Table from 7DA8 (indexed by _RAM_C054_)
-_LABEL_7DC8_:
+
+doNotKillAlex:
 	ret
 
 ; 8th entry of Jump Table from 3B (indexed by v_gameState)

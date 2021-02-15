@@ -28,9 +28,7 @@ updateGhost:
 	cp ALEX_DEAD
 	ret z
 
-    ; @TODO: Disassembly both calls below
-    ; Jump to table $7DA8 indexed by _RAM_C054_
-	call _LABEL_7D99_
+	call tryToKillAlexIfColliding
     ; Calculate x/y speed to pursuit Alex
 	call _LABEL_4DAD_
 	ld (ix + Entity.xSpeed.high), h

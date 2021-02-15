@@ -15,7 +15,7 @@ updateSmallFishLeft:
 	ld (ix+16), $FF
 	ld (ix+15), $A0
 	set 1, (ix+1)
-	call _LABEL_7D99_
+	call tryToKillAlexIfColliding
 	call _LABEL_7D0B_
 	jp nc, _LABEL_55A5_
 	ld de, $0100

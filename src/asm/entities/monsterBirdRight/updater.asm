@@ -20,8 +20,7 @@ updateMonsterbirdRight:
 	ld a, (ix + Entity.isOffScreenFlags.low)
 	or (ix + Entity.isOffScreenFlags.high)
 	jr nz, ++
-	; Do something (if alex state is $0F)
-	call _LABEL_7D99_
+	call tryToKillAlexIfColliding
 	; Something related to alex state being $05
 	call _LABEL_7D0B_
 	jp nc, _LABEL_55A5_

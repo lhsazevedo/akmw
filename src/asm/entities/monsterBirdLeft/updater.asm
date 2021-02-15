@@ -12,7 +12,7 @@
 ;	begin
 ;		entity.xSpeed = $FF80
 ;		entity.flags := entity.flags or %10
-; 		_LABEL_7D99_
+; 		tryToKillAlexIfColliding
 ;		_LABEL_7D0B_
 ;		if something then
 ; 			goto _LABEL_55A5_
@@ -47,7 +47,7 @@ updateMonsterbirdLeft:
 	ld (ix + Entity.xSpeed.high), $FF
 	ld (ix + Entity.xSpeed), $80
 	set 1, (ix + Entity.flags)
-	call _LABEL_7D99_
+	call tryToKillAlexIfColliding
 	call _LABEL_7D0B_
 	jp nc, _LABEL_55A5_
 	ld de, $0100

@@ -5,9 +5,8 @@ updateMonsterFrogJumping:
 	or (ix + Entity.isOffScreenFlags.high)
 	ret nz
 
-	; Check if is colliding with Alex based on _RAM_C054_
-	; @TODO: Understand better
-	call _LABEL_7D99_
+	call tryToKillAlexIfColliding
+	; @TODO
 	call _LABEL_7D0B_
 	jp nc, _LABEL_55A5_
 
