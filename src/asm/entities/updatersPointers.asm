@@ -31,7 +31,7 @@ entityTypeJumpTable:
 .dw _LABEL_7796_
 .dw _LABEL_7816_
 .dw _LABEL_78A8_
-.dw _LABEL_4EEF_
+.dw updateBatLeft
 .dw _LABEL_2439_
 .dw _LABEL_4E9D_
 .dw _LABEL_4E30_
