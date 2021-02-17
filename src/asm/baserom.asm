@@ -4782,7 +4782,7 @@ _LABEL_3A4F_:
 
 _LABEL_3A68_:
 	ld hl, (v_entities.1.ySpeed)
-	ld bc, $0040
+	ld bc, ALEX_GRAVITY
 	add hl, bc
 	ld (v_entities.1.ySpeed), hl
 	jr nc, +
