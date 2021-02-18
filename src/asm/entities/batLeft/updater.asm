@@ -1,21 +1,21 @@
 updateBatLeft:
-	bit 0, (ix+1)
+	bit 0, (ix + Entity.flags)
 	jr nz, +
-	ld a, (ix+9)
-	or (ix+10)
+	ld a, (ix + Entity.isOffScreenFlags.low)
+	or (ix + Entity.isOffScreenFlags.high)
 	jp nz, _LABEL_4F7C_
-	set 0, (ix+1)
-	ld a, (ix+14)
-	ld (ix+22), a
-	ld (ix+5), $08
-	ld (ix+6), $08
+	set 0, (ix + Entity.flags)
+	ld a, (ix + Entity.yPos.high)
+	ld (ix + Entity.unknown5), a
+	ld (ix + Entity.animationTimer), $08
+	ld (ix + Entity.animationTimerResetValue), $08
 +:
-	ld a, (ix+9)
-	or (ix+10)
+	ld a, (ix + Entity.isOffScreenFlags.low)
+	or (ix + Entity.isOffScreenFlags.high)
 	jp nz, clearCurrentEntity
-	set 1, (ix+1)
-	ld (ix+16), $FF
-	ld (ix+15), $80
+	set 1, (ix + Entity.flags)
+	ld (ix + Entity.xSpeed.high), $FF
+	ld (ix + Entity.xSpeed.low), $80
 	call tryToKillAlexIfColliding
 	call _LABEL_7D0B_
 	jp nc, _LABEL_55A5_
@@ -23,9 +23,9 @@ updateBatLeft:
 	call getTileNearEntityWithXYOffset
 	rlca
 	jr nc, _LABEL_4F43_
-	ld (ix+0), $36
-	ld (ix+16), $00
-	ld (ix+15), $80
+	ld (ix + Entity.type), ENTITY_BAT_RIGHT
+	ld (ix + Entity.xSpeed.high), $00
+	ld (ix + Entity.xSpeed.low), $80
 _LABEL_4F43_:
 	inc (ix+24)
 	ld a, (ix+24)
@@ -49,15 +49,15 @@ _LABEL_4F43_:
 	inc a
 	ld e, a
 	ld a, h
-	ld h, (ix+22)
-	ld l, (ix+23)
+	ld h, (ix + Entity.unknown5)
+	ld l, (ix + Entity.jankenMatchDecision)
 	add hl, de
-	ld (ix+22), h
-	ld (ix+23), l
+	ld (ix + Entity.unknown5), h
+	ld (ix + Entity.jankenMatchDecision), l
 	add a, h
 	cp $C0
 	jp nc, clearCurrentEntity
-	ld (ix+14), a
+	ld (ix + Entity.yPos.high), a
 _LABEL_4F7C_:
 	ld hl, _DATA_8BBD_
 	jp handleEntityAnimation
