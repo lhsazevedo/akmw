@@ -9,9 +9,9 @@
 
 ; Product code + version
 .IFDEF _REV1
-	.db $67 $50 $01
+    .db $67 $50 $01
 .ELSE
-	.db $67 $50 $00
+    .db $67 $50 $00
 .ENDIF
 
 ; Region code + ROM size

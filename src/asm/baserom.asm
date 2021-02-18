@@ -45,66 +45,66 @@ BANKS 6
 .ORG $0000
 
 start:
-	di
-	im 1
-	ld sp, $DFF0
-	jr init
+    di
+    im 1
+    ld sp, $DFF0
+    jr init
 
 ; Set DE as VDP Address
 setVDPAddress:
-	ld a, e
-	out (Port_VDPAddress), a
-	ld a, d
-	out (Port_VDPAddress), a
-	ret
+    ld a, e
+    out (Port_VDPAddress), a
+    ld a, d
+    out (Port_VDPAddress), a
+    ret
 
 ; Data from F to F (1 bytes)
 .db $FF
 
 _LABEL_10_:
-	add a, a
-	ld c, a
-	ld b, $00
-	add hl, bc
-	ld a, (hl)
-	inc hl
-	ld h, (hl)
-	ld l, a
-	ret
+    add a, a
+    ld c, a
+    ld b, $00
+    add hl, bc
+    ld a, (hl)
+    inc hl
+    ld h, (hl)
+    ld l, a
+    ret
 
 ; Data from 1A to 1A (1 bytes)
 .db $FF
 
 _LABEL_1B_:
-	bit 7, a
-	ret z
-	and $0F
+    bit 7, a
+    ret z
+    and $0F
 loadAthJumptablePointer:
-	add a, a
+    add a, a
 _LABEL_21_:
-	ld e, a
-	ld d, $00
-	add hl, de
-	ld a, (hl)
-	inc hl
-	ld h, (hl)
-	ld l, a
-	jp (hl)
+    ld e, a
+    ld d, $00
+    add hl, de
+    ld a, (hl)
+    inc hl
+    ld h, (hl)
+    ld l, a
+    jp (hl)
 
 ; Data from 2A to 2F (6 bytes)
 .db $FF $FF $FF $FF $FF $FF
 
 ; Copy B bytes from (HL) to VRAM (DE) onwards
 memcpyToVRAM:
-	rst $08	; setVDPAddress
-	ld c, Port_VDPData
+    rst $08    ; setVDPAddress
+    ld c, Port_VDPData
 -:
-	outi
-	jr nz, -
-	ret
+    outi
+    jr nz, -
+    ret
 
 handleInterruptEntrypoint:
-	jp handleInterrupt
+    jp handleInterrupt
 
 ; Jump Table from 3B to 52 (12 entries, indexed by v_gameState)
 gameStateMainLoopPointers:
@@ -122,19 +122,19 @@ gameStateMainLoopPointers:
 .dw updateMapState
 
 initMainLoop:
-	; Reset game state to STATE_TITLE
-	xor a
-	ld (v_gameState), a
+    ; Reset game state to STATE_TITLE
+    xor a
+    ld (v_gameState), a
 mainLoop:
-	ld hl, v_gameState
-	ld a, (hl)
-	and $0F
-	exx
+    ld hl, v_gameState
+    ld a, (hl)
+    and $0F
+    exx
 
-	; Jump to state updater
-	ld hl, gameStateMainLoopPointers
-	rst $20	; loadAthJumptablePointer
-	jp mainLoop
+    ; Jump to state updater
+    ld hl, gameStateMainLoopPointers
+    rst $20    ; loadAthJumptablePointer
+    jp mainLoop
 
 
 ; Data from 65 to 65 (1 bytes)
@@ -142,121 +142,121 @@ mainLoop:
 
 
 handlePauseInterrupt:
-	push af
-	; Skip if alex is dead
-	ld a, (v_entities.1.state)
-	cp ALEX_DEAD
-	jp z, +
+    push af
+    ; Skip if alex is dead
+    ld a, (v_entities.1.state)
+    cp ALEX_DEAD
+    jp z, +
 
-	ld a, (shouldDisplayMapOpening)
-	or a
-	jp nz, +
-	ld a, (v_gameState)
-	cp ($80 | STATE_GAMEPLAY)
-	jr c, +
-	ld a, $01
-	ld (v_shouldOpenMap), a
+    ld a, (shouldDisplayMapOpening)
+    or a
+    jp nz, +
+    ld a, (v_gameState)
+    cp ($80 | STATE_GAMEPLAY)
+    jr c, +
+    ld a, $01
+    ld (v_shouldOpenMap), a
 +:
-	pop af
-	retn
+    pop af
+    retn
 
 init:
-	ld a, $82
-	ld (Mapper_Slot2), a
-	call initVolume
+    ld a, $82
+    ld (Mapper_Slot2), a
+    call initVolume
 
-	; Clear RAM
-	ld hl, $C000
-	ld de, $C000 + 1
-	ld bc, $1FFF
-	ld (hl), l
-	ldir
+    ; Clear RAM
+    ld hl, $C000
+    ld de, $C000 + 1
+    ld bc, $1FFF
+    ld (hl), l
+    ldir
 
-	call sleepOneSecond
-	call configurePPI
+    call sleepOneSecond
+    call configurePPI
 -:
-	ld a, $82
-	ld (Mapper_Slot2), a
+    ld a, $82
+    ld (Mapper_Slot2), a
 
-	; Reset stack pointer
-	ld sp, $DFF0
-	call initVolume
-	call initVDPRegisters
+    ; Reset stack pointer
+    ld sp, $DFF0
+    call initVolume
+    call initVDPRegisters
 
-	; Clear VRAM tiles
-	ld hl, $0000
-	ld de, $4000
-	ld bc, $3800
-	call fillVRAM
-	ei
-	call enableDisplay
-	jp initMainLoop
+    ; Clear VRAM tiles
+    ld hl, $0000
+    ld de, $4000
+    ld bc, $3800
+    call fillVRAM
+    ei
+    call enableDisplay
+    jp initMainLoop
 
 
 handleInterrupt:
-	push af
-	push bc
-	push de
-	push hl
-	exx
-	ex af, af'
-	push af
-	push bc
-	push de
-	push hl
-	push ix
-	push iy
-	in a, (Port_VDPStatus)
-	in a, (Port_IOPort2)
-	and $10
-	ld hl, v_resetButtonState
-	ld c, (hl)
-	ld (hl), a
-	xor c
-	and c
-	jp nz, -
-	ld a, (Mapper_Slot2)
-	push af
-	ld a, (v_interruptFlags)
-	rrca
-	push af
-	call c, copySATtoVRAM
-	call _LABEL_41B3_
-	pop af
-	rrca
-	push af
-	call readInput
-	call _LABEL_107C_
-	pop af
-	rrca
-	push af
-	call _LABEL_264F_
-	pop af
-	rrca
-	ld a, (v_gameState)
-	ld hl, gameStateInterruptHandlersPointers
-	call c, _LABEL_1B_
-	ld a, $82
-	ld (Mapper_Slot2), a
-	call _LABEL_984F_
-	xor a
-	ld (v_interruptFlags), a
-	pop af
-	ld (Mapper_Slot2), a
-	pop iy
-	pop ix
-	pop hl
-	pop de
-	pop bc
-	pop af
-	exx
-	ex af, af'
-	pop hl
-	pop de
-	pop bc
-	pop af
-	ei
-	ret
+    push af
+    push bc
+    push de
+    push hl
+    exx
+    ex af, af'
+    push af
+    push bc
+    push de
+    push hl
+    push ix
+    push iy
+    in a, (Port_VDPStatus)
+    in a, (Port_IOPort2)
+    and $10
+    ld hl, v_resetButtonState
+    ld c, (hl)
+    ld (hl), a
+    xor c
+    and c
+    jp nz, -
+    ld a, (Mapper_Slot2)
+    push af
+    ld a, (v_interruptFlags)
+    rrca
+    push af
+    call c, copySATtoVRAM
+    call _LABEL_41B3_
+    pop af
+    rrca
+    push af
+    call readInput
+    call _LABEL_107C_
+    pop af
+    rrca
+    push af
+    call _LABEL_264F_
+    pop af
+    rrca
+    ld a, (v_gameState)
+    ld hl, gameStateInterruptHandlersPointers
+    call c, _LABEL_1B_
+    ld a, $82
+    ld (Mapper_Slot2), a
+    call _LABEL_984F_
+    xor a
+    ld (v_interruptFlags), a
+    pop af
+    ld (Mapper_Slot2), a
+    pop iy
+    pop ix
+    pop hl
+    pop de
+    pop bc
+    pop af
+    exx
+    ex af, af'
+    pop hl
+    pop de
+    pop bc
+    pop af
+    ei
+    ret
 
 ; Jump Table from 127 to 13E (12 entries, indexed by v_gameState)
 gameStateInterruptHandlersPointers:
@@ -274,40 +274,40 @@ gameStateInterruptHandlersPointers:
 .dw handleInterruptMapState
 
 writeAToVRAM:
-	push af
-	rst $08	; setVDPAddress
-	pop af
-	out (Port_VDPData), a
-	ret
+    push af
+    rst $08    ; setVDPAddress
+    pop af
+    out (Port_VDPData), a
+    ret
 
 writeBcBytesToVRAM:
-	rst $08	; setVDPAddress
-	ld a, c
-	or a
-	jr z, +
-	inc b
+    rst $08    ; setVDPAddress
+    ld a, c
+    or a
+    jr z, +
+    inc b
 +:
-	ld a, b
-	ld b, c
-	ld c, Port_VDPData
+    ld a, b
+    ld b, c
+    ld c, Port_VDPData
 -:
-	outi
-	jp nz, -
-	dec a
-	jp nz, -
-	ret
+    outi
+    jp nz, -
+    dec a
+    jp nz, -
+    ret
 
 _LABEL_159_:
-	rst $08	; setVDPAddress
-	ld a, (_RAM_C10A_)
-	ld c, Port_VDPData
+    rst $08    ; setVDPAddress
+    ld a, (_RAM_C10A_)
+    ld c, Port_VDPData
 -:
-	outi
-	push af
-	pop af
-	out (c), a
-	jr nz, -
-	ret
+    outi
+    push af
+    pop af
+    out (c), a
+    jr nz, -
+    ret
 
 ; Data from 168 to 17B (20 bytes)
 .db $CF $79 $B7 $28 $01 $04 $78 $41 $0E $BE $ED $A2 $C2 $72 $01 $3D
@@ -315,42 +315,42 @@ _LABEL_159_:
 
 
 clearNameTable:
-	ld de, $7800
-	ld bc, $0700
-	ld l, $00
+    ld de, $7800
+    ld bc, $0700
+    ld l, $00
 ; FIXME: Understand parameters
 fillVRAM:
-	rst $08	; setVDPAddress
-	ld a, c
-	or a
-	ld a, l
-	jr z, _LABEL_18B_
-	inc b
+    rst $08    ; setVDPAddress
+    ld a, c
+    or a
+    ld a, l
+    jr z, _LABEL_18B_
+    inc b
 _LABEL_18B_:
-	out (Port_VDPData), a
-	dec c
-	jr nz, _LABEL_18B_
-	djnz _LABEL_18B_
-	ret
+    out (Port_VDPData), a
+    dec c
+    jr nz, _LABEL_18B_
+    djnz _LABEL_18B_
+    ret
 
 ; Copy CxB (WxH) tiles from HL to DE
 copyNameTableBlockToVRAM:
-	push bc
-	rst $08	; setVDPAddress
-	ld b, c
-	ld c, Port_VDPData
+    push bc
+    rst $08    ; setVDPAddress
+    ld b, c
+    ld c, Port_VDPData
 -:
-	outi
-	nop
-	jr nz, -
-	ex de, hl
-	; Go to next line, (add $40 to VRAM address)
-	ld bc, $0040
-	add hl, bc
-	ex de, hl
-	pop bc
-	djnz copyNameTableBlockToVRAM
-	ret
+    outi
+    nop
+    jr nz, -
+    ex de, hl
+    ; Go to next line, (add $40 to VRAM address)
+    ld bc, $0040
+    add hl, bc
+    ex de, hl
+    pop bc
+    djnz copyNameTableBlockToVRAM
+    ret
 
 
 ; Data from 1A7 to 1C4 (30 bytes)
@@ -358,123 +358,123 @@ copyNameTableBlockToVRAM:
 .db $00 $C2 $AF $01 $EB $01 $40 $00 $09 $EB $C1 $10 $E6 $C9
 
 _LABEL_1C5_:
-	ld hl, $0040
-	rst $08	; setVDPAddress
-	push bc
-	xor a
+    ld hl, $0040
+    rst $08    ; setVDPAddress
+    push bc
+    xor a
 -:
-	out (Port_VDPData), a
-	dec c
-	jr nz, -
-	add hl, de
-	ex de, hl
-	pop bc
-	djnz _LABEL_1C5_
-	ret
+    out (Port_VDPData), a
+    dec c
+    jr nz, -
+    add hl, de
+    ex de, hl
+    pop bc
+    djnz _LABEL_1C5_
+    ret
 
 _LABEL_1D6_:
-	ld (_RAM_C10B_), a
-	rst $08	; setVDPAddress
+    ld (_RAM_C10B_), a
+    rst $08    ; setVDPAddress
 --:
-	ld a, (hl)
-	exx
-	ld c, Port_VDPData
-	ld b, $04
-	ld h, a
-	ld a, (_RAM_C10B_)
+    ld a, (hl)
+    exx
+    ld c, Port_VDPData
+    ld b, $04
+    ld h, a
+    ld a, (_RAM_C10B_)
 -:
-	rra
-	ld d, h
-	jr c, +
-	ld d, $00
+    rra
+    ld d, h
+    jr c, +
+    ld d, $00
 +:
-	out (c), d
-	djnz -
-	exx
-	inc hl
-	dec bc
-	ld a, b
-	or c
-	jp nz, --
-	ret
+    out (c), d
+    djnz -
+    exx
+    inc hl
+    dec bc
+    ld a, b
+    or c
+    jp nz, --
+    ret
 
 copySATtoVRAM:
-	ld a, (v_gameState)
-	and $0F
-	cp $02
-	jr c, _LABEL_208_
-	ld hl, _RAM_C10D_
-	inc (hl)
-	bit 0, (hl)
-	jr z, +
+    ld a, (v_gameState)
+    and $0F
+    cp $02
+    jr c, _LABEL_208_
+    ld hl, _RAM_C10D_
+    inc (hl)
+    bit 0, (hl)
+    jr z, +
 _LABEL_208_:
-	ld hl, _RAM_C700_
-	ld de, $7F00
-	ld bc,  $4000 | Port_VDPData
-	rst $08	; setVDPAddress
+    ld hl, _RAM_C700_
+    ld de, $7F00
+    ld bc,  $4000 | Port_VDPData
+    rst $08    ; setVDPAddress
 -:
-	outi
-	jr nz, -
-	ld hl, _RAM_C780_
-	ld de, $7F80
-	ld b, $80
-	rst $08	; setVDPAddress
+    outi
+    jr nz, -
+    ld hl, _RAM_C780_
+    ld de, $7F80
+    ld b, $80
+    rst $08    ; setVDPAddress
 -:
-	outi
-	jr nz, -
-	ret
+    outi
+    jr nz, -
+    ret
 
 +:
-	ld a, (v_spriteTerminatorPointer)
-	cp $13
-	jr c, _LABEL_208_
-	ld hl, _RAM_C700_
-	ld bc,  $1100 | Port_VDPData
-	ld de, $7F00
-	rst $08	; setVDPAddress
+    ld a, (v_spriteTerminatorPointer)
+    cp $13
+    jr c, _LABEL_208_
+    ld hl, _RAM_C700_
+    ld bc,  $1100 | Port_VDPData
+    ld de, $7F00
+    rst $08    ; setVDPAddress
 -:
-	outi
-	jr nz, -
-	ld hl, (v_spriteTerminatorPointer)
-	ld a, l
-	dec l
-	sub $11
-	ld b, a
+    outi
+    jr nz, -
+    ld hl, (v_spriteTerminatorPointer)
+    ld a, l
+    dec l
+    sub $11
+    ld b, a
 -:
-	outd
-	jr nz, -
-	ld a, $D0
-	out (Port_VDPData), a
-	ld hl, _RAM_C780_
-	ld de, $7F80
-	ld b, $22
-	rst $08	; setVDPAddress
+    outd
+    jr nz, -
+    ld a, $D0
+    out (Port_VDPData), a
+    ld hl, _RAM_C780_
+    ld de, $7F80
+    ld b, $22
+    rst $08    ; setVDPAddress
 -:
-	outi
-	jr nz, -
-	ld hl, (v_spriteTerminatorPointer)
-	sla l
-	set 7, l
-	ld a, l
-	sub $A2
-	ld b, a
+    outi
+    jr nz, -
+    ld hl, (v_spriteTerminatorPointer)
+    sla l
+    set 7, l
+    ld a, l
+    sub $A2
+    ld b, a
 -:
-	dec l
-	dec l
-	outi
-	outd
-	jp nz, -
-	ret
+    dec l
+    dec l
+    outi
+    outd
+    jp nz, -
+    ret
 
 initVDPRegisters:
-	ld hl, initialVDPRegistersWrites
-	ld bc,  $1600 | Port_VDPAddress
-	otir
-	xor a
-	out (Port_VDPData), a
-	ld a, (initialVDPRegistersWrites + 2)
-	ld (v_VDPRegister1Value), a
-	ret
+    ld hl, initialVDPRegistersWrites
+    ld bc,  $1600 | Port_VDPAddress
+    otir
+    xor a
+    out (Port_VDPData), a
+    ld a, (initialVDPRegistersWrites + 2)
+    ld (v_VDPRegister1Value), a
+    ret
 
 ; Data from 27D to 292 (22 bytes)
 initialVDPRegistersWrites:
@@ -527,236 +527,236 @@ initialVDPRegistersWrites:
 .db $CF
 
 _LABEL_2C5_:
-	ld e, $08
-	ld d, (hl)
+    ld e, $08
+    ld d, (hl)
 -:
-	sla d
-	rra
-	dec e
-	jr nz, -
-	out (Port_VDPData), a
-	inc hl
-	dec bc
-	ld a, b
-	or c
-	jr nz, _LABEL_2C5_
-	ret
+    sla d
+    rra
+    dec e
+    jr nz, -
+    out (Port_VDPData), a
+    inc hl
+    dec bc
+    ld a, b
+    or c
+    jr nz, _LABEL_2C5_
+    ret
 
 ; Data from 2D7 to 2E5 (15 bytes)
 .db $21 $00 $C7 $11 $01 $C7 $01 $BF $00 $36 $E0 $ED $B0 $3E $01
 
 setAndWaitForInterruptFlags:
-	ld hl, v_interruptFlags
-	ld (hl), a
+    ld hl, v_interruptFlags
+    ld (hl), a
 -:
-	ld a, (hl)
-	or a
-	jr nz, -
-	ret
+    ld a, (hl)
+    or a
+    jr nz, -
+    ret
 
 disableDisplay:
-	ld a, (v_VDPRegister1Value)
-	and %10111111
-	jr +
+    ld a, (v_VDPRegister1Value)
+    and %10111111
+    jr +
 
 ; Also sets VDP Address, why?
 enableDisplay:
-	ld a, (v_VDPRegister1Value)
-	or VDP_R1_DISPLAY_VISIBLE
+    ld a, (v_VDPRegister1Value)
+    or VDP_R1_DISPLAY_VISIBLE
 +:
-	ld (v_VDPRegister1Value), a
-	ld e, a
-	ld d, $81
-	rst $08	; setVDPAddress
-	ret
+    ld (v_VDPRegister1Value), a
+    ld e, a
+    ld d, $81
+    rst $08    ; setVDPAddress
+    ret
 
 clearScroll:
-	xor a
-	ld (_RAM_C0BE_), a
-	ld (_RAM_C0B0_), a
-	ld e, a
-	ld d, $89
-	rst $08	; setVDPAddress
-	dec d
-	rst $08	; setVDPAddress
-	ret
+    xor a
+    ld (_RAM_C0BE_), a
+    ld (_RAM_C0B0_), a
+    ld e, a
+    ld d, $89
+    rst $08    ; setVDPAddress
+    dec d
+    rst $08    ; setVDPAddress
+    ret
 
 
 clearVDPTablesAndDisableScreen:
-	call disableDisplay
+    call disableDisplay
 
-	; Reset horizontal scroll
-	ld hl, $0000
-	ld (v_horizontalScroll), hl
-	ld (v_verticalScroll), hl
-	ld (v_horizontalScrollSpeed), hl
-	ld (v_verticalScrollSpeed), hl
+    ; Reset horizontal scroll
+    ld hl, $0000
+    ld (v_horizontalScroll), hl
+    ld (v_verticalScroll), hl
+    ld (v_horizontalScrollSpeed), hl
+    ld (v_verticalScrollSpeed), hl
 
-	; Reset sprite address table
-	; @TODO: Why $E0?
-	ld hl, _RAM_C700_
-	ld de, _RAM_C700_ + 1
-	ld bc, $00BF
-	ld (hl), $E0
-	ldir
-	ld de, $8800
-	rst $08	; setVDPAddress
-	ld d, $89
-	rst $08	; setVDPAddress
+    ; Reset sprite address table
+    ; @TODO: Why $E0?
+    ld hl, _RAM_C700_
+    ld de, _RAM_C700_ + 1
+    ld bc, $00BF
+    ld (hl), $E0
+    ldir
+    ld de, $8800
+    rst $08    ; setVDPAddress
+    ld d, $89
+    rst $08    ; setVDPAddress
 
-	; Enable interrupts and wait
-	ei
-	ld a, $01
-	call setAndWaitForInterruptFlags
+    ; Enable interrupts and wait
+    ei
+    ld a, $01
+    call setAndWaitForInterruptFlags
 
-	; Disable interrupts
-	di
-	jp clearNameTable
+    ; Disable interrupts
+    di
+    jp clearNameTable
 
 ; Wait almost a second
 sleepOneSecond:
-	ld b, $0A
+    ld b, $0A
 _LABEL_343_:
-	push bc
-	ld bc, $3333
+    push bc
+    ld bc, $3333
 -:
-	dec bc
-	ld a, b
-	or c
-	jr nz, -
-	pop bc
-	djnz _LABEL_343_
-	ret
+    dec bc
+    ld a, b
+    or c
+    jr nz, -
+    pop bc
+    djnz _LABEL_343_
+    ret
 
 configurePPI:
-	ld a, $92
-	out (_PORT_DF_), a
-	ld hl, v_inputFlags
-	ld a, (hl)
-	and $02
-	or $01
-	ld (hl), a
-	xor a
-	out (_PORT_DE_), a
-	in a, (_PORT_DE_)
-	or a
-	ret z
-	res 0, (hl)
-	ret
+    ld a, $92
+    out (_PORT_DF_), a
+    ld hl, v_inputFlags
+    ld a, (hl)
+    and $02
+    or $01
+    ld (hl), a
+    xor a
+    out (_PORT_DE_), a
+    in a, (_PORT_DE_)
+    or a
+    ret z
+    res 0, (hl)
+    ret
 
 ; $00367
 readInput:
-	ld a, (v_inputFlags)
-	bit 0, a
-	jp nz, +
-	in a, (Port_IOPort1)
-	jp saveInput
+    ld a, (v_inputFlags)
+    bit 0, a
+    jp nz, +
+    in a, (Port_IOPort1)
+    jp saveInput
 
 +:
-	ld a, $07
-	out (_PORT_DE_), a
-	in a, (Port_IOPort1)
-	ld c, a
-	ld a, $04
-	out (_PORT_DE_), a
-	in a, (Port_IOPort1)
-	bit 5, a
-	jp nz, +
-	res 1, c
+    ld a, $07
+    out (_PORT_DE_), a
+    in a, (Port_IOPort1)
+    ld c, a
+    ld a, $04
+    out (_PORT_DE_), a
+    in a, (Port_IOPort1)
+    bit 5, a
+    jp nz, +
+    res 1, c
 +:
-	ld a, $05
-	out (_PORT_DE_), a
-	in a, (Port_IOPort1)
-	bit 5, a
-	jp nz, +
-	res 2, c
+    ld a, $05
+    out (_PORT_DE_), a
+    in a, (Port_IOPort1)
+    bit 5, a
+    jp nz, +
+    res 2, c
 +:
-	ld a, $06
-	out (_PORT_DE_), a
-	in a, (Port_IOPort1)
-	bit 5, a
-	jp nz, +
-	res 3, c
+    ld a, $06
+    out (_PORT_DE_), a
+    in a, (Port_IOPort1)
+    bit 5, a
+    jp nz, +
+    res 3, c
 +:
-	bit 6, a
-	jp nz, +
-	res 0, c
+    bit 6, a
+    jp nz, +
+    res 0, c
 +:
-	ld a, $02
-	out (_PORT_DE_), a
-	in a, (Port_IOPort1)
-	bit 4, a
-	jp nz, +
-	res 4, c
+    ld a, $02
+    out (_PORT_DE_), a
+    in a, (Port_IOPort1)
+    bit 4, a
+    jp nz, +
+    res 4, c
 +:
-	ld a, $03
-	out (_PORT_DE_), a
-	in a, (Port_IOPort1)
-	bit 4, a
-	jp nz, +
-	res 5, c
+    ld a, $03
+    out (_PORT_DE_), a
+    in a, (Port_IOPort1)
+    bit 4, a
+    jp nz, +
+    res 5, c
 +:
-	ld a, c
+    ld a, c
 ; $003C4
 saveInput:
-	ld hl, v_inputData
-	cpl
-	ld c, a
-	xor (hl)
-	ld (hl), c
-	inc hl
-	and c
-	ld (hl), a
-	ret
+    ld hl, v_inputData
+    cpl
+    ld c, a
+    xor (hl)
+    ld (hl), c
+    inc hl
+    and c
+    ld (hl), a
+    ret
 
 ; l = index to moneybag value table
 takeMoney:
-	; Return if Button B is pressed
-	ld a, (v_inputFlags)
-	and JOY_FIREB
-	ret nz
+    ; Return if Button B is pressed
+    ld a, (v_inputFlags)
+    and JOY_FIREB
+    ret nz
 
-	ld bc, v_money
-	ld de, data_moneyBagValueTable
-	ld h, $00
-	add hl, de
-	call sumBCD
-	ret nc
+    ld bc, v_money
+    ld de, data_moneyBagValueTable
+    ld h, $00
+    add hl, de
+    call sumBCD
+    ret nc
 
-	; Limit to 999999
-	ld hl, v_money
-	ld c, $99
-	ld (hl), c
-	inc hl
-	ld (hl), c
-	inc hl
-	ld (hl), c
-	ret
+    ; Limit to 999999
+    ld hl, v_money
+    ld c, $99
+    ld (hl), c
+    inc hl
+    ld (hl), c
+    inc hl
+    ld (hl), c
+    ret
 
 
 addScore:
-	; Return if Button B is pressed?
-	ld a, (v_inputFlags)
-	and JOY_FIREB
-	ret nz
+    ; Return if Button B is pressed?
+    ld a, (v_inputFlags)
+    and JOY_FIREB
+    ret nz
 
-	ld bc, v_score
-	ld de, _DATA_489_
-	ld h, $00
-	add hl, de
-	call sumBCD
-	ret nc
+    ld bc, v_score
+    ld de, _DATA_489_
+    ld h, $00
+    add hl, de
+    call sumBCD
+    ret nc
 
-	; Limit to 999999
-	; @TODO: Why C000?
-	ld hl, _RAM_C000_
-	ld c, $99
-	ld (hl), c
-	inc hl
-	ld (hl), c
-	inc hl
-	ld (hl), c
-	ret
+    ; Limit to 999999
+    ; @TODO: Why C000?
+    ld hl, _RAM_C000_
+    ld c, $99
+    ld (hl), c
+    inc hl
+    ld (hl), c
+    inc hl
+    ld (hl), c
+    ret
 
 
 ; Sum tree BCD bytes, writing back to hl.
@@ -764,118 +764,118 @@ addScore:
 ; @param bc - Pointer to current money balance
 ; @param hl - Pointer to value to add 
 sumBCD:
-	; Sum and correct least significant byte
-	ld a, (bc)
-	add a, (hl)
-	daa
-	ld (bc), a
+    ; Sum and correct least significant byte
+    ld a, (bc)
+    add a, (hl)
+    daa
+    ld (bc), a
 
-	; Sum and correct middle byte
-	inc bc
-	inc hl
-	ld a, (bc)
-	adc a, (hl)
-	daa
-	ld (bc), a
+    ; Sum and correct middle byte
+    inc bc
+    inc hl
+    ld a, (bc)
+    adc a, (hl)
+    daa
+    ld (bc), a
 
-	; Sum and corrent most significant byte
-	inc bc
-	inc hl
-	ld a, (bc)
-	adc a, (hl)
-	daa
-	ld (bc), a
+    ; Sum and corrent most significant byte
+    inc bc
+    inc hl
+    ld a, (bc)
+    adc a, (hl)
+    daa
+    ld (bc), a
 
-	ret
+    ret
 
 
 _LABEL_41C_:
-	ld a, (bc)
-	sub (hl)
-	daa
-	ld (bc), a
-	inc hl
-	inc c
-	ld a, (bc)
-	sbc a, (hl)
-	daa
-	ld (bc), a
-	inc hl
-	inc c
-	ld a, (bc)
-	sbc a, (hl)
-	daa
-	ld (bc), a
-	ret
+    ld a, (bc)
+    sub (hl)
+    daa
+    ld (bc), a
+    inc hl
+    inc c
+    ld a, (bc)
+    sbc a, (hl)
+    daa
+    ld (bc), a
+    inc hl
+    inc c
+    ld a, (bc)
+    sbc a, (hl)
+    daa
+    ld (bc), a
+    ret
 
 _LABEL_42D_:
-	ld a, (bc)
-	sub (hl)
-	daa
-	inc hl
-	inc c
-	ld a, (bc)
-	sbc a, (hl)
-	daa
-	inc hl
-	inc c
-	ld a, (bc)
-	sbc a, (hl)
-	daa
-	ret
+    ld a, (bc)
+    sub (hl)
+    daa
+    inc hl
+    inc c
+    ld a, (bc)
+    sbc a, (hl)
+    daa
+    inc hl
+    inc c
+    ld a, (bc)
+    sbc a, (hl)
+    daa
+    ret
 
 updateHighScore:
-	ld de, v_score
-	ld hl, _RAM_C000_
-	ld b, $03
-	or a
+    ld de, v_score
+    ld hl, _RAM_C000_
+    ld b, $03
+    or a
 -:
-	ld a, (de)
-	sbc a, (hl)
-	inc hl
-	inc de
-	djnz -
-	ret c
-	ex de, hl
-	dec hl
-	dec de
-	ld bc, $0003
-	lddr
-	ret
+    ld a, (de)
+    sbc a, (hl)
+    inc hl
+    inc de
+    djnz -
+    ret c
+    ex de, hl
+    dec hl
+    dec de
+    ld bc, $0003
+    lddr
+    ret
 
 _LABEL_454_:
-	ld c, $03
+    ld c, $03
 _LABEL_456_:
-	call setVDPAddress
-	set 7, e
+    call setVDPAddress
+    set 7, e
 --:
-	ld a, $C0
-	ld b, $02
+    ld a, $C0
+    ld b, $02
 -:
-	rld
-	push af
-	cp $C0
-	jr nz, +
-	bit 7, e
-	jr z, ++
-	ld a, $00
-	jr ++
+    rld
+    push af
+    cp $C0
+    jr nz, +
+    bit 7, e
+    jr z, ++
+    ld a, $00
+    jr ++
 
 +:
-	res 7, e
+    res 7, e
 ++:
-	out (Port_VDPData), a
-	push af
-	pop af
-	ld a, (_RAM_C10A_)
-	out (Port_VDPData), a
-	pop af
-	djnz -
-	rld
-	dec hl
-	dec c
-	jr nz, --
-	ret
+    out (Port_VDPData), a
+    push af
+    pop af
+    ld a, (_RAM_C10A_)
+    out (Port_VDPData), a
+    pop af
+    djnz -
+    rld
+    dec hl
+    dec c
+    jr nz, --
+    ret
 
 ; Data from 483 to 488 (6 bytes)
 data_moneyBagValueTable:
@@ -901,27 +901,27 @@ _DATA_489_:
 .db $05 $B3 $C3 $D6 $01
 
 _LABEL_4CE_:
-	ld l, (ix+27)
-	ld a, (ix+28)
-	and $01
-	ld (ix+28), a
-	ld h, a
-	add hl, hl
-	ld a, l
-	and $7E
-	ld c, a
-	add hl, hl
-	ld a, h
-	add a, a
-	ld e, a
-	ld d, $00
-	ld hl, _DATA_4EE_
-	add hl, de
-	ld a, (hl)
-	inc hl
-	ld h, (hl)
-	ld l, a
-	jp (hl)
+    ld l, (ix+27)
+    ld a, (ix+28)
+    and $01
+    ld (ix+28), a
+    ld h, a
+    add hl, hl
+    ld a, l
+    and $7E
+    ld c, a
+    add hl, hl
+    ld a, h
+    add a, a
+    ld e, a
+    ld d, $00
+    ld hl, _DATA_4EE_
+    add hl, de
+    ld a, (hl)
+    inc hl
+    ld h, (hl)
+    ld l, a
+    jp (hl)
 
 ; Jump Table from 4EE to 4FD (8 entries, indexed by _RAM_CF9C_)
 _DATA_4EE_:
@@ -929,251 +929,251 @@ _DATA_4EE_:
 
 ; 1st entry of Jump Table from 4EE (indexed by _RAM_CF9C_)
 _LABEL_4FE_:
-	ld hl, _DATA_6CA_
-	ld b, $00
-	add hl, bc
-	ld a, (hl)
-	exx
-	ld e, a
-	ld l, (ix+29)
-	call _LABEL_74C_
-	ld a, (ix+30)
-	add a, h
-	ld (ix+14), a
-	ld a, (ix+25)
-	adc a, $00
-	ld (ix+10), a
-	exx
-	inc hl
-	ld l, (hl)
-	ld e, (ix+29)
-	call _LABEL_74C_
-	ld a, (ix+31)
-	add a, h
-	ld (ix+12), a
-	ld a, (ix+26)
-	sbc a, $00
-	ld (ix+9), a
-	ret
+    ld hl, _DATA_6CA_
+    ld b, $00
+    add hl, bc
+    ld a, (hl)
+    exx
+    ld e, a
+    ld l, (ix+29)
+    call _LABEL_74C_
+    ld a, (ix+30)
+    add a, h
+    ld (ix+14), a
+    ld a, (ix+25)
+    adc a, $00
+    ld (ix+10), a
+    exx
+    inc hl
+    ld l, (hl)
+    ld e, (ix+29)
+    call _LABEL_74C_
+    ld a, (ix+31)
+    add a, h
+    ld (ix+12), a
+    ld a, (ix+26)
+    sbc a, $00
+    ld (ix+9), a
+    ret
 
 ; 2nd entry of Jump Table from 4EE (indexed by _RAM_CF9C_)
 _LABEL_535_:
-	ld hl, _DATA_6CA_ + 2
-	ld a, c
-	cpl
-	add a, $7F
-	ld c, a
-	ld b, $00
-	add hl, bc
-	ld a, (hl)
-	exx
-	ld e, a
-	ld l, (ix+29)
-	call _LABEL_74C_
-	ld a, (ix+31)
-	add a, h
-	ld (ix+12), a
-	ld a, (ix+26)
-	sbc a, $00
-	ld (ix+9), a
-	exx
-	inc hl
-	ld l, (hl)
-	ld e, (ix+29)
-	call _LABEL_74C_
-	ld a, (ix+30)
-	add a, h
-	ld (ix+14), a
-	ld a, (ix+25)
-	adc a, $00
-	ld (ix+10), a
-	ret
+    ld hl, _DATA_6CA_ + 2
+    ld a, c
+    cpl
+    add a, $7F
+    ld c, a
+    ld b, $00
+    add hl, bc
+    ld a, (hl)
+    exx
+    ld e, a
+    ld l, (ix+29)
+    call _LABEL_74C_
+    ld a, (ix+31)
+    add a, h
+    ld (ix+12), a
+    ld a, (ix+26)
+    sbc a, $00
+    ld (ix+9), a
+    exx
+    inc hl
+    ld l, (hl)
+    ld e, (ix+29)
+    call _LABEL_74C_
+    ld a, (ix+30)
+    add a, h
+    ld (ix+14), a
+    ld a, (ix+25)
+    adc a, $00
+    ld (ix+10), a
+    ret
 
 ; 3rd entry of Jump Table from 4EE (indexed by _RAM_CF9C_)
 _LABEL_571_:
-	ld hl, _DATA_6CA_ + 2
-	ld b, $00
-	add hl, bc
-	ld a, (hl)
-	exx
-	ld e, a
-	ld l, (ix+29)
-	call _LABEL_74C_
-	ld a, (ix+31)
-	sub h
-	ld (ix+12), a
-	ld a, (ix+26)
-	adc a, $00
-	ld (ix+9), a
-	exx
-	inc hl
-	ld l, (hl)
-	ld e, (ix+29)
-	call _LABEL_74C_
-	ld a, (ix+30)
-	add a, h
-	ld (ix+14), a
-	ld a, (ix+25)
-	adc a, $00
-	ld (ix+10), a
-	ret
+    ld hl, _DATA_6CA_ + 2
+    ld b, $00
+    add hl, bc
+    ld a, (hl)
+    exx
+    ld e, a
+    ld l, (ix+29)
+    call _LABEL_74C_
+    ld a, (ix+31)
+    sub h
+    ld (ix+12), a
+    ld a, (ix+26)
+    adc a, $00
+    ld (ix+9), a
+    exx
+    inc hl
+    ld l, (hl)
+    ld e, (ix+29)
+    call _LABEL_74C_
+    ld a, (ix+30)
+    add a, h
+    ld (ix+14), a
+    ld a, (ix+25)
+    adc a, $00
+    ld (ix+10), a
+    ret
 
 ; 4th entry of Jump Table from 4EE (indexed by _RAM_CF9C_)
 _LABEL_5A8_:
-	ld hl, _DATA_6CA_
-	ld a, c
-	cpl
-	add a, $7F
-	ld c, a
-	ld b, $00
-	add hl, bc
-	ld a, (hl)
-	exx
-	ld e, a
-	ld l, (ix+29)
-	call _LABEL_74C_
-	ld a, (ix+30)
-	add a, h
-	ld (ix+14), a
-	ld a, (ix+25)
-	adc a, $00
-	ld (ix+10), a
-	exx
-	inc hl
-	ld l, (hl)
-	ld e, (ix+29)
-	call _LABEL_74C_
-	ld a, (ix+31)
-	sub h
-	ld (ix+12), a
-	ld a, (ix+26)
-	adc a, $00
-	ld (ix+9), a
-	ret
+    ld hl, _DATA_6CA_
+    ld a, c
+    cpl
+    add a, $7F
+    ld c, a
+    ld b, $00
+    add hl, bc
+    ld a, (hl)
+    exx
+    ld e, a
+    ld l, (ix+29)
+    call _LABEL_74C_
+    ld a, (ix+30)
+    add a, h
+    ld (ix+14), a
+    ld a, (ix+25)
+    adc a, $00
+    ld (ix+10), a
+    exx
+    inc hl
+    ld l, (hl)
+    ld e, (ix+29)
+    call _LABEL_74C_
+    ld a, (ix+31)
+    sub h
+    ld (ix+12), a
+    ld a, (ix+26)
+    adc a, $00
+    ld (ix+9), a
+    ret
 
 ; 5th entry of Jump Table from 4EE (indexed by _RAM_CF9C_)
 _LABEL_5E4_:
-	ld hl, _DATA_6CA_
-	ld b, $00
-	add hl, bc
-	ld a, (hl)
-	exx
-	ld e, a
-	ld l, (ix+29)
-	call _LABEL_74C_
-	ld a, (ix+30)
-	sub h
-	ld (ix+14), a
-	ld a, (ix+25)
-	sbc a, $00
-	ld (ix+10), a
-	exx
-	inc hl
-	ld l, (hl)
-	ld e, (ix+29)
-	call _LABEL_74C_
-	ld a, (ix+31)
-	sub h
-	ld (ix+12), a
-	ld a, (ix+26)
-	adc a, $00
-	ld (ix+9), a
-	ret
+    ld hl, _DATA_6CA_
+    ld b, $00
+    add hl, bc
+    ld a, (hl)
+    exx
+    ld e, a
+    ld l, (ix+29)
+    call _LABEL_74C_
+    ld a, (ix+30)
+    sub h
+    ld (ix+14), a
+    ld a, (ix+25)
+    sbc a, $00
+    ld (ix+10), a
+    exx
+    inc hl
+    ld l, (hl)
+    ld e, (ix+29)
+    call _LABEL_74C_
+    ld a, (ix+31)
+    sub h
+    ld (ix+12), a
+    ld a, (ix+26)
+    adc a, $00
+    ld (ix+9), a
+    ret
 
 ; 6th entry of Jump Table from 4EE (indexed by _RAM_CF9C_)
 _LABEL_61B_:
-	ld hl, _DATA_6CA_ + 2
-	ld a, c
-	cpl
-	add a, $7F
-	ld c, a
-	ld b, $00
-	add hl, bc
-	ld a, (hl)
-	exx
-	ld e, a
-	ld l, (ix+29)
-	call _LABEL_74C_
-	ld a, (ix+31)
-	sub h
-	ld (ix+12), a
-	ld a, (ix+26)
-	adc a, $00
-	ld (ix+9), a
-	exx
-	inc hl
-	ld l, (hl)
-	ld e, (ix+29)
-	call _LABEL_74C_
-	ld a, (ix+30)
-	sub h
-	ld (ix+14), a
-	ld a, (ix+25)
-	sbc a, $00
-	ld (ix+10), a
-	ret
+    ld hl, _DATA_6CA_ + 2
+    ld a, c
+    cpl
+    add a, $7F
+    ld c, a
+    ld b, $00
+    add hl, bc
+    ld a, (hl)
+    exx
+    ld e, a
+    ld l, (ix+29)
+    call _LABEL_74C_
+    ld a, (ix+31)
+    sub h
+    ld (ix+12), a
+    ld a, (ix+26)
+    adc a, $00
+    ld (ix+9), a
+    exx
+    inc hl
+    ld l, (hl)
+    ld e, (ix+29)
+    call _LABEL_74C_
+    ld a, (ix+30)
+    sub h
+    ld (ix+14), a
+    ld a, (ix+25)
+    sbc a, $00
+    ld (ix+10), a
+    ret
 
 ; 7th entry of Jump Table from 4EE (indexed by _RAM_CF9C_)
 _LABEL_657_:
-	ld hl, _DATA_6CA_ + 2
-	ld b, $00
-	add hl, bc
-	ld a, (hl)
-	exx
-	ld e, a
-	ld l, (ix+29)
-	call _LABEL_74C_
-	ld a, (ix+31)
-	add a, h
-	ld (ix+12), a
-	ld a, (ix+26)
-	sbc a, $00
-	ld (ix+9), a
-	exx
-	inc hl
-	ld l, (hl)
-	ld e, (ix+29)
-	call _LABEL_74C_
-	ld a, (ix+30)
-	sub h
-	ld (ix+14), a
-	ld a, (ix+25)
-	sbc a, $00
-	ld (ix+10), a
-	ret
+    ld hl, _DATA_6CA_ + 2
+    ld b, $00
+    add hl, bc
+    ld a, (hl)
+    exx
+    ld e, a
+    ld l, (ix+29)
+    call _LABEL_74C_
+    ld a, (ix+31)
+    add a, h
+    ld (ix+12), a
+    ld a, (ix+26)
+    sbc a, $00
+    ld (ix+9), a
+    exx
+    inc hl
+    ld l, (hl)
+    ld e, (ix+29)
+    call _LABEL_74C_
+    ld a, (ix+30)
+    sub h
+    ld (ix+14), a
+    ld a, (ix+25)
+    sbc a, $00
+    ld (ix+10), a
+    ret
 
 ; 8th entry of Jump Table from 4EE (indexed by _RAM_CF9C_)
 _LABEL_68E_:
-	ld hl, _DATA_6CA_
-	ld a, c
-	cpl
-	add a, $7F
-	ld c, a
-	ld b, $00
-	add hl, bc
-	ld a, (hl)
-	exx
-	ld e, a
-	ld l, (ix+29)
-	call _LABEL_74C_
-	ld a, (ix+30)
-	sub h
-	ld (ix+14), a
-	ld a, (ix+25)
-	sbc a, $00
-	ld (ix+10), a
-	exx
-	inc hl
-	ld l, (hl)
-	ld e, (ix+29)
-	call _LABEL_74C_
-	ld a, (ix+31)
-	add a, h
-	ld (ix+12), a
-	ld a, (ix+26)
-	sbc a, $00
-	ld (ix+9), a
-	ret
+    ld hl, _DATA_6CA_
+    ld a, c
+    cpl
+    add a, $7F
+    ld c, a
+    ld b, $00
+    add hl, bc
+    ld a, (hl)
+    exx
+    ld e, a
+    ld l, (ix+29)
+    call _LABEL_74C_
+    ld a, (ix+30)
+    sub h
+    ld (ix+14), a
+    ld a, (ix+25)
+    sbc a, $00
+    ld (ix+10), a
+    exx
+    inc hl
+    ld l, (hl)
+    ld e, (ix+29)
+    call _LABEL_74C_
+    ld a, (ix+31)
+    add a, h
+    ld (ix+12), a
+    ld a, (ix+26)
+    sbc a, $00
+    ld (ix+9), a
+    ret
 
 ; Data from 6CA to 74B (130 bytes)
 _DATA_6CA_:
@@ -1188,17 +1188,17 @@ _DATA_6CA_:
 .db $B4 $B4
 
 _LABEL_74C_:
-	ld h, l
-	ld b, $08
-	ld d, $00
-	ld l, d
+    ld h, l
+    ld b, $08
+    ld d, $00
+    ld l, d
 -:
-	add hl, hl
-	jr nc, +
-	add hl, de
+    add hl, hl
+    jr nc, +
+    add hl, de
 +:
-	djnz -
-	ret
+    djnz -
+    ret
 
 ; Data from 759 to 76C (20 bytes)
 .db $06 $11 $AF $C3 $68 $07 $8F $38 $03 $BB $38 $02 $93 $B7 $3F $ED
@@ -1242,88 +1242,88 @@ initialValues:
 .INC "engine/gameplay/init.asm"
 
 _LABEL_C43_:
-	ld ix, v_entity1
-	ld (ix+0), $01
-	ld a, (v_level)
-	add a, a
-	ld c, a
-	ld b, $00
-	ld hl, _DATA_DA3_ - 2
-	add hl, bc
-	ld a, (hl)
-	ld (ix+12), a
-	inc hl
-	ld a, (hl)
-	ld (ix+14), a
-	call updateAlexSpawning
-	call updateEntities
-	ld a, (v_level)
-	ld hl, _DATA_D2C_ - 2
-	call _LABEL_10_
-	ld (_RAM_C00E_), hl
-	ld hl, _DATA_156D_ - 2
-	ld a, (v_level)
-	add a, a
-	ld e, a
-	ld d, $00
-	add hl, de
-	ld a, (hl)
-	inc hl
-	ld h, (hl)
-	ld l, a
-	ld (v_titleScreenTileUpdaterPointer), hl
-	ld a, $01
-	ld (v_titleScreenTileUpdateTimer), a
-	ld a, (v_level)
-	ld hl, _DATA_D0A_ - 2
-	call _LABEL_10_
-	ld (scrollFlagsUpdaterPointer), hl
-	ld a, (v_level)
-	ld hl, _DATA_D4E_ - 2
-	call _LABEL_10_
-	ld (newEntitiesLoaderPointer), hl
-	ld a, (v_level)
-	ld c, a
-	ld b, $00
-	ld hl, _DATA_E30_ - 1
-	add hl, bc
-	ld a, (hl)
-	ld (v_questionMarkBoxIndex), a
-	ld a, $87
-	ld (Mapper_Slot2), a
-	ld hl, _DATA_1EFC9_
-	ld de, $6400
-	ld bc, $00E0
-	call writeBcBytesToVRAM
-	ld hl, _DATA_1EFC9_
-	ld bc, $00E0
-	call _LABEL_2C5_
-	ld a, $85
-	ld (Mapper_Slot2), a
-	ld hl, _DATA_17191_
-	ld de, $65C0
-	ld bc, $0080
-	call writeBcBytesToVRAM
-	ld hl, _DATA_170B1_
-	ld de, $6640
-	ld bc, $0060
-	call writeBcBytesToVRAM
-	ld hl, _DATA_170F1_
-	ld bc, $0020
-	call _LABEL_2C5_
-	ld a, $82
-	ld (Mapper_Slot2), a
-	ld a, (v_level)
-	ld c, a
-	ld b, $00
-	ld hl, _DATA_DC5_ - 1
-	add hl, bc
-	ld a, (hl)
-	ld (v_soundControl), a
-	ld hl, v_gameState
-	set 7, (hl)
-	ei
-	jp enableDisplay
+    ld ix, v_entity1
+    ld (ix+0), $01
+    ld a, (v_level)
+    add a, a
+    ld c, a
+    ld b, $00
+    ld hl, _DATA_DA3_ - 2
+    add hl, bc
+    ld a, (hl)
+    ld (ix+12), a
+    inc hl
+    ld a, (hl)
+    ld (ix+14), a
+    call updateAlexSpawning
+    call updateEntities
+    ld a, (v_level)
+    ld hl, _DATA_D2C_ - 2
+    call _LABEL_10_
+    ld (_RAM_C00E_), hl
+    ld hl, _DATA_156D_ - 2
+    ld a, (v_level)
+    add a, a
+    ld e, a
+    ld d, $00
+    add hl, de
+    ld a, (hl)
+    inc hl
+    ld h, (hl)
+    ld l, a
+    ld (v_titleScreenTileUpdaterPointer), hl
+    ld a, $01
+    ld (v_titleScreenTileUpdateTimer), a
+    ld a, (v_level)
+    ld hl, _DATA_D0A_ - 2
+    call _LABEL_10_
+    ld (scrollFlagsUpdaterPointer), hl
+    ld a, (v_level)
+    ld hl, _DATA_D4E_ - 2
+    call _LABEL_10_
+    ld (newEntitiesLoaderPointer), hl
+    ld a, (v_level)
+    ld c, a
+    ld b, $00
+    ld hl, _DATA_E30_ - 1
+    add hl, bc
+    ld a, (hl)
+    ld (v_questionMarkBoxIndex), a
+    ld a, $87
+    ld (Mapper_Slot2), a
+    ld hl, _DATA_1EFC9_
+    ld de, $6400
+    ld bc, $00E0
+    call writeBcBytesToVRAM
+    ld hl, _DATA_1EFC9_
+    ld bc, $00E0
+    call _LABEL_2C5_
+    ld a, $85
+    ld (Mapper_Slot2), a
+    ld hl, _DATA_17191_
+    ld de, $65C0
+    ld bc, $0080
+    call writeBcBytesToVRAM
+    ld hl, _DATA_170B1_
+    ld de, $6640
+    ld bc, $0060
+    call writeBcBytesToVRAM
+    ld hl, _DATA_170F1_
+    ld bc, $0020
+    call _LABEL_2C5_
+    ld a, $82
+    ld (Mapper_Slot2), a
+    ld a, (v_level)
+    ld c, a
+    ld b, $00
+    ld hl, _DATA_DC5_ - 1
+    add hl, bc
+    ld a, (hl)
+    ld (v_soundControl), a
+    ld hl, v_gameState
+    set 7, (hl)
+    ei
+    jp enableDisplay
 
 ; Jump Table from D0A to D2B (17 entries, indexed by v_level)
 _DATA_D0A_:
@@ -1380,51 +1380,51 @@ _DATA_E30_:
 .db $11
 
 _LABEL_E41_:
-	push de
-	call _LABEL_E4B_
-	inc hl
-	pop de
-	inc de
-	jp _LABEL_E4B_
+    push de
+    call _LABEL_E4B_
+    inc hl
+    pop de
+    inc de
+    jp _LABEL_E4B_
 
 _LABEL_E4B_:
-	ld a, (hl)
-	or a
-	ret z
-	bit 7, a
-	jr nz, +
-	ld b, a
-	inc hl
-	ld a, (hl)
+    ld a, (hl)
+    or a
+    ret z
+    bit 7, a
+    jr nz, +
+    ld b, a
+    inc hl
+    ld a, (hl)
 -:
-	ld (de), a
-	inc de
-	inc de
-	djnz -
-	inc hl
-	jp _LABEL_E4B_
+    ld (de), a
+    inc de
+    inc de
+    djnz -
+    inc hl
+    jp _LABEL_E4B_
 
 +:
-	and $7F
-	ld b, a
+    and $7F
+    ld b, a
 -:
-	inc hl
-	ld a, (hl)
-	ld (de), a
-	inc de
-	inc de
-	djnz -
-	inc hl
-	jp _LABEL_E4B_
+    inc hl
+    ld a, (hl)
+    ld (de), a
+    inc de
+    inc de
+    djnz -
+    inc hl
+    jp _LABEL_E4B_
 
 _LABEL_E6C_:
-	ld hl, tiles_bagOfGoldCoinsAndCloud
-	ld de, $44A0
-	call decompress4BitplanesToVRAM
-	ld a, (v_level)
-	ld hl, _DATA_E7D_ - 2
-	rst $20	; loadAthJumptablePointer
-	ret
+    ld hl, tiles_bagOfGoldCoinsAndCloud
+    ld de, $44A0
+    call decompress4BitplanesToVRAM
+    ld a, (v_level)
+    ld hl, _DATA_E7D_ - 2
+    rst $20    ; loadAthJumptablePointer
+    ret
 
 ; Jump Table from E7D to E9E (17 entries, indexed by v_level)
 _DATA_E7D_:
@@ -1434,277 +1434,277 @@ _DATA_E7D_:
 
 ; 1st entry of Jump Table from E7D (indexed by v_level)
 _LABEL_E9F_:
-	ld de, $46A0
-	ld bc, $0080
-	ld l, $00
-	call fillVRAM
-	ld a, (v_level)
-	ld hl, levelMainTilesetPointers - 2
-	rst $10	; _LABEL_10_
-	ld de, $4720
-	call decompress4BitplanesToVRAM
-	ld hl, tiles_aditionalSet4
-	ld de, $4E60
-	ld b, $A0
-	rst $30	; memcpyToVRAM
-	ld hl, tiles_aditionalSet1
-	ld de, $4F00
-	jp decompress4BitplanesToVRAM
+    ld de, $46A0
+    ld bc, $0080
+    ld l, $00
+    call fillVRAM
+    ld a, (v_level)
+    ld hl, levelMainTilesetPointers - 2
+    rst $10    ; _LABEL_10_
+    ld de, $4720
+    call decompress4BitplanesToVRAM
+    ld hl, tiles_aditionalSet4
+    ld de, $4E60
+    ld b, $A0
+    rst $30    ; memcpyToVRAM
+    ld hl, tiles_aditionalSet1
+    ld de, $4F00
+    jp decompress4BitplanesToVRAM
 
 ; 8th entry of Jump Table from E7D (indexed by v_level)
 _LABEL_EC9_:
-	ld hl, tiles_aditionalSet2
-	ld de, $4EC0
-	call decompress4BitplanesToVRAM
-	ld a, (v_level)
-	ld hl, levelMainTilesetPointers - 2
-	rst $10	; _LABEL_10_
-	ld de, $46A0
-	jp decompress4BitplanesToVRAM
+    ld hl, tiles_aditionalSet2
+    ld de, $4EC0
+    call decompress4BitplanesToVRAM
+    ld a, (v_level)
+    ld hl, levelMainTilesetPointers - 2
+    rst $10    ; _LABEL_10_
+    ld de, $46A0
+    jp decompress4BitplanesToVRAM
 
 ; 16th entry of Jump Table from E7D (indexed by v_level)
 _LABEL_EDF_:
-	ld de, $46A0
-	ld bc, $0080
-	ld l, $00
-	call fillVRAM
-	ld a, (v_level)
-	ld hl, levelMainTilesetPointers - 2
-	rst $10	; _LABEL_10_
-	ld de, $4720
-	call decompress4BitplanesToVRAM
-	ld hl, tiles_aditionalSet1
-	ld de, $4F00
-	jp decompress4BitplanesToVRAM
+    ld de, $46A0
+    ld bc, $0080
+    ld l, $00
+    call fillVRAM
+    ld a, (v_level)
+    ld hl, levelMainTilesetPointers - 2
+    rst $10    ; _LABEL_10_
+    ld de, $4720
+    call decompress4BitplanesToVRAM
+    ld hl, tiles_aditionalSet1
+    ld de, $4F00
+    jp decompress4BitplanesToVRAM
 
 ; 10th entry of Jump Table from E7D (indexed by v_level)
 _LABEL_F00_:
-	ld de, $46A0
-	ld bc, $0080
-	ld l, $00
-	call fillVRAM
-	ld a, (v_level)
-	ld hl, levelMainTilesetPointers - 2
-	rst $10	; _LABEL_10_
-	ld de, $4720
-	call decompress4BitplanesToVRAM
-	ld hl, tiles_aditionalSet2
-	ld de, $4EC0
-	jp decompress4BitplanesToVRAM
+    ld de, $46A0
+    ld bc, $0080
+    ld l, $00
+    call fillVRAM
+    ld a, (v_level)
+    ld hl, levelMainTilesetPointers - 2
+    rst $10    ; _LABEL_10_
+    ld de, $4720
+    call decompress4BitplanesToVRAM
+    ld hl, tiles_aditionalSet2
+    ld de, $4EC0
+    jp decompress4BitplanesToVRAM
 
 ; 3rd entry of Jump Table from E7D (indexed by v_level)
 _LABEL_F21_:
-	ld de, $46A0
-	ld bc, $0200
-	ld l, $00
-	call fillVRAM
-	ld a, (v_level)
-	ld hl, levelMainTilesetPointers - 2
-	rst $10	; _LABEL_10_
-	ld de, $48A0
-	call decompress4BitplanesToVRAM
-	ld hl, tiles_aditionalSet5
-	ld de, $4D00
-	call decompress4BitplanesToVRAM
-	ld hl, tiles_aditionalSet4
-	ld de, $4E60
-	ld b, $A0
-	rst $30	; memcpyToVRAM
-	ld hl, tiles_aditionalSet1
-	ld de, $4F00
-	jp decompress4BitplanesToVRAM
+    ld de, $46A0
+    ld bc, $0200
+    ld l, $00
+    call fillVRAM
+    ld a, (v_level)
+    ld hl, levelMainTilesetPointers - 2
+    rst $10    ; _LABEL_10_
+    ld de, $48A0
+    call decompress4BitplanesToVRAM
+    ld hl, tiles_aditionalSet5
+    ld de, $4D00
+    call decompress4BitplanesToVRAM
+    ld hl, tiles_aditionalSet4
+    ld de, $4E60
+    ld b, $A0
+    rst $30    ; memcpyToVRAM
+    ld hl, tiles_aditionalSet1
+    ld de, $4F00
+    jp decompress4BitplanesToVRAM
 
 ; 4th entry of Jump Table from E7D (indexed by v_level)
 _LABEL_F54_:
-	ld de, $46A0
-	ld bc, $0080
-	ld l, $00
-	call fillVRAM
-	ld a, (v_level)
-	ld hl, levelMainTilesetPointers - 2
-	rst $10	; _LABEL_10_
-	ld de, $4720
-	jp decompress4BitplanesToVRAM
+    ld de, $46A0
+    ld bc, $0080
+    ld l, $00
+    call fillVRAM
+    ld a, (v_level)
+    ld hl, levelMainTilesetPointers - 2
+    rst $10    ; _LABEL_10_
+    ld de, $4720
+    jp decompress4BitplanesToVRAM
 
 ; 6th entry of Jump Table from E7D (indexed by v_level)
 _LABEL_F6C_:
-	ld de, $46A0
-	ld bc, $0080
-	ld l, $00
-	call fillVRAM
-	ld a, $02
-	ld hl, $847E
-	rst $10	; _LABEL_10_
-	ld de, $4720
-	call decompress4BitplanesToVRAM
-	ld a, (v_level)
-	ld hl, levelMainTilesetPointers - 2
-	rst $10	; _LABEL_10_
-	ld de, $4920
-	call decompress4BitplanesToVRAM
-	ld hl, tiles_aditionalSet2
-	ld de, $4EC0
-	jp decompress4BitplanesToVRAM
+    ld de, $46A0
+    ld bc, $0080
+    ld l, $00
+    call fillVRAM
+    ld a, $02
+    ld hl, $847E
+    rst $10    ; _LABEL_10_
+    ld de, $4720
+    call decompress4BitplanesToVRAM
+    ld a, (v_level)
+    ld hl, levelMainTilesetPointers - 2
+    rst $10    ; _LABEL_10_
+    ld de, $4920
+    call decompress4BitplanesToVRAM
+    ld hl, tiles_aditionalSet2
+    ld de, $4EC0
+    jp decompress4BitplanesToVRAM
 
 ; 5th entry of Jump Table from E7D (indexed by v_level)
 _LABEL_F99_:
-	call _LABEL_E9F_
-	ld hl, tiles_aditionalSet5
-	ld de, $4D00
-	call decompress4BitplanesToVRAM
-	ld hl, tiles_aditionalSet3
-	ld de, $47A0
-	jp decompress4BitplanesToVRAM
+    call _LABEL_E9F_
+    ld hl, tiles_aditionalSet5
+    ld de, $4D00
+    call decompress4BitplanesToVRAM
+    ld hl, tiles_aditionalSet3
+    ld de, $47A0
+    jp decompress4BitplanesToVRAM
 
 ; 7th entry of Jump Table from E7D (indexed by v_level)
 _LABEL_FAE_:
-	ld de, $46A0
-	ld bc, $0080
-	ld l, $0A
-	call fillVRAM
-	ld a, (v_level)
-	ld hl, levelMainTilesetPointers - 2
-	rst $10	; _LABEL_10_
-	ld de, $4720
-	jp decompress4BitplanesToVRAM
+    ld de, $46A0
+    ld bc, $0080
+    ld l, $0A
+    call fillVRAM
+    ld a, (v_level)
+    ld hl, levelMainTilesetPointers - 2
+    rst $10    ; _LABEL_10_
+    ld de, $4720
+    jp decompress4BitplanesToVRAM
 
 ; 9th entry of Jump Table from E7D (indexed by v_level)
 _LABEL_FC6_:
-	ld de, $46A0
-	ld bc, $0080
-	ld l, $00
-	call fillVRAM
-	ld a, (v_level)
-	ld hl, levelMainTilesetPointers - 2
-	rst $10	; _LABEL_10_
-	ld de, $4720
-	call decompress4BitplanesToVRAM
-	ld hl, tiles_aditionalSet5
-	ld de, $4D00
-	call decompress4BitplanesToVRAM
-	ld hl, tiles_aditionalSet1
-	ld de, $4F00
-	call decompress4BitplanesToVRAM
-	ld hl, tiles_aditionalSet3
-	ld de, $47A0
-	jp decompress4BitplanesToVRAM
+    ld de, $46A0
+    ld bc, $0080
+    ld l, $00
+    call fillVRAM
+    ld a, (v_level)
+    ld hl, levelMainTilesetPointers - 2
+    rst $10    ; _LABEL_10_
+    ld de, $4720
+    call decompress4BitplanesToVRAM
+    ld hl, tiles_aditionalSet5
+    ld de, $4D00
+    call decompress4BitplanesToVRAM
+    ld hl, tiles_aditionalSet1
+    ld de, $4F00
+    call decompress4BitplanesToVRAM
+    ld hl, tiles_aditionalSet3
+    ld de, $47A0
+    jp decompress4BitplanesToVRAM
 
 ; 2nd entry of Jump Table from E7D (indexed by v_level)
 _LABEL_FF9_:
-	ld de, $46A0
-	ld bc, $0080
-	ld l, $00
-	call fillVRAM
-	ld a, $02
-	ld hl, $847E
-	rst $10	; _LABEL_10_
-	ld de, $4720
-	call decompress4BitplanesToVRAM
-	ld hl, tiles_aditionalSet2
-	ld de, $4EC0
-	call decompress4BitplanesToVRAM
-	ld hl, tiles_aditionalSet3
-	ld de, $47A0
-	jp decompress4BitplanesToVRAM
+    ld de, $46A0
+    ld bc, $0080
+    ld l, $00
+    call fillVRAM
+    ld a, $02
+    ld hl, $847E
+    rst $10    ; _LABEL_10_
+    ld de, $4720
+    call decompress4BitplanesToVRAM
+    ld hl, tiles_aditionalSet2
+    ld de, $4EC0
+    call decompress4BitplanesToVRAM
+    ld hl, tiles_aditionalSet3
+    ld de, $47A0
+    jp decompress4BitplanesToVRAM
 
 ; 17th entry of Jump Table from E7D (indexed by v_level)
 _LABEL_1022_:
-	ld de, $46A0
-	ld bc, $0200
-	ld l, $00
-	call fillVRAM
-	ld a, $03
-	ld hl, $847E
-	rst $10	; _LABEL_10_
-	ld de, $48A0
-	call decompress4BitplanesToVRAM
-	ld a, (v_level)
-	ld hl, levelMainTilesetPointers - 2
-	rst $10	; _LABEL_10_
-	ld de, $4AA0
-	call decompress4BitplanesToVRAM
-	ld hl, tiles_level17AditionalSet
-	ld de, $4720
-	call decompress4BitplanesToVRAM
-	ld hl, tiles_aditionalSet1
-	ld de, $4F00
-	jp decompress4BitplanesToVRAM
+    ld de, $46A0
+    ld bc, $0200
+    ld l, $00
+    call fillVRAM
+    ld a, $03
+    ld hl, $847E
+    rst $10    ; _LABEL_10_
+    ld de, $48A0
+    call decompress4BitplanesToVRAM
+    ld a, (v_level)
+    ld hl, levelMainTilesetPointers - 2
+    rst $10    ; _LABEL_10_
+    ld de, $4AA0
+    call decompress4BitplanesToVRAM
+    ld hl, tiles_level17AditionalSet
+    ld de, $4720
+    call decompress4BitplanesToVRAM
+    ld hl, tiles_aditionalSet1
+    ld de, $4F00
+    jp decompress4BitplanesToVRAM
 
 ; 14th entry of Jump Table from E7D (indexed by v_level)
 _LABEL_1058_:
-	ld de, $46A0
-	ld bc, $0080
-	ld l, $00
-	call fillVRAM
-	ld a, $0B
-	ld hl, $847E
-	rst $10	; _LABEL_10_
-	ld de, $4720
-	call decompress4BitplanesToVRAM
-	ld a, (v_level)
-	ld hl, levelMainTilesetPointers - 2
-	rst $10	; _LABEL_10_
-	ld de, $4DA0
-	jp decompress4BitplanesToVRAM
+    ld de, $46A0
+    ld bc, $0080
+    ld l, $00
+    call fillVRAM
+    ld a, $0B
+    ld hl, $847E
+    rst $10    ; _LABEL_10_
+    ld de, $4720
+    call decompress4BitplanesToVRAM
+    ld a, (v_level)
+    ld hl, levelMainTilesetPointers - 2
+    rst $10    ; _LABEL_10_
+    ld de, $4DA0
+    jp decompress4BitplanesToVRAM
 
 _LABEL_107C_:
-	ld a, (v_gameState)
-	cp $89
-	ret c
-	cp $8B
-	ret z
-	ld hl, (_RAM_C00E_)
-	jp (hl)
+    ld a, (v_gameState)
+    cp $89
+    ret c
+    cp $8B
+    ret z
+    ld hl, (_RAM_C00E_)
+    jp (hl)
 
 ; 1st entry of Jump Table from D2C (indexed by v_level)
 _LABEL_1089_:
-	ld a, (v_currentLevelIsBonusLevel)
-	or a
-	jp nz, _LABEL_10B0_
-	ld hl, v_waterColorTimer
-	dec (hl)
-	jp p, _LABEL_10B0_
-	ld (hl), $08
-	inc hl
-	ld a, (hl)
-	cp $04
-	jr c, +
-	xor a
-	ld (hl), a
+    ld a, (v_currentLevelIsBonusLevel)
+    or a
+    jp nz, _LABEL_10B0_
+    ld hl, v_waterColorTimer
+    dec (hl)
+    jp p, _LABEL_10B0_
+    ld (hl), $08
+    inc hl
+    ld a, (hl)
+    cp $04
+    jr c, +
+    xor a
+    ld (hl), a
 +:
-	inc (hl)
-	ld e, a
-	ld d, $00
-	ld hl, _DATA_10D6_
-	add hl, de
-	ld de, $C00B
-	ld a, (hl)
-	call writeAToVRAM
+    inc (hl)
+    ld e, a
+    ld d, $00
+    ld hl, _DATA_10D6_
+    add hl, de
+    ld de, $C00B
+    ld a, (hl)
+    call writeAToVRAM
 _LABEL_10B0_:
-	ld a, (_RAM_C054_)
-	or a
-	ret z
-	cp $03
-	ret nc
-	ld hl, v_invincibilityColorTimer
-	dec (hl)
-	ret p
-	ld (hl), $04
-	inc hl
-	ld a, (hl)
-	cp $04
-	jr c, +
-	xor a
-	ld (hl), a
+    ld a, (_RAM_C054_)
+    or a
+    ret z
+    cp $03
+    ret nc
+    ld hl, v_invincibilityColorTimer
+    dec (hl)
+    ret p
+    ld (hl), $04
+    inc hl
+    ld a, (hl)
+    cp $04
+    jr c, +
+    xor a
+    ld (hl), a
 +:
-	inc (hl)
-	ld e, a
-	ld d, $00
-	ld hl, _DATA_10DA_
-	add hl, de
-	ld de, $C014
-	ld a, (hl)
-	jp writeAToVRAM
+    inc (hl)
+    ld e, a
+    ld d, $00
+    ld hl, _DATA_10DA_
+    add hl, de
+    ld de, $C014
+    ld a, (hl)
+    jp writeAToVRAM
 
 ; Data from 10D6 to 10D9 (4 bytes)
 _DATA_10D6_:
@@ -1716,58 +1716,58 @@ _DATA_10DA_:
 
 ; 2nd entry of Jump Table from D2C (indexed by v_level)
 _LABEL_10DE_:
-	jp _LABEL_10B0_
+    jp _LABEL_10B0_
 
 ; 4th entry of Jump Table from D2C (indexed by v_level)
 _LABEL_10E1_:
-	jp _LABEL_10B0_
+    jp _LABEL_10B0_
 
 ; 6th entry of Jump Table from D2C (indexed by v_level)
 _LABEL_10E4_:
-	jp _LABEL_10B0_
+    jp _LABEL_10B0_
 
 ; 7th entry of Jump Table from D2C (indexed by v_level)
 _LABEL_10E7_:
-	jp _LABEL_10B0_
+    jp _LABEL_10B0_
 
 ; 8th entry of Jump Table from D2C (indexed by v_level)
 _LABEL_10EA_:
-	jp _LABEL_10B0_
+    jp _LABEL_10B0_
 
 ; 10th entry of Jump Table from D2C (indexed by v_level)
 _LABEL_10ED_:
-	jp _LABEL_10B0_
+    jp _LABEL_10B0_
 
 ; 11th entry of Jump Table from D2C (indexed by v_level)
 _LABEL_10F0_:
-	jp _LABEL_10B0_
+    jp _LABEL_10B0_
 
 ; 12th entry of Jump Table from D2C (indexed by v_level)
 _LABEL_10F3_:
-	jp _LABEL_10B0_
+    jp _LABEL_10B0_
 
 ; 13th entry of Jump Table from D2C (indexed by v_level)
 _LABEL_10F6_:
-	jp _LABEL_10B0_
+    jp _LABEL_10B0_
 
 ; 14th entry of Jump Table from D2C (indexed by v_level)
 _LABEL_10F9_:
-	jp _LABEL_10B0_
+    jp _LABEL_10B0_
 
 ; 15th entry of Jump Table from D2C (indexed by v_level)
 _LABEL_10FC_:
-	jp _LABEL_10B0_
+    jp _LABEL_10B0_
 
 _LABEL_10FF_:
-	ld a, $87
-	ld (Mapper_Slot2), a
-	ld a, (v_level)
-	ld hl, _DATA_1112_ - 2
-	rst $10	; _LABEL_10_
-	ld de, $C000
-	ld b, $20
-	rst $30	; memcpyToVRAM
-	ret
+    ld a, $87
+    ld (Mapper_Slot2), a
+    ld a, (v_level)
+    ld hl, _DATA_1112_ - 2
+    rst $10    ; _LABEL_10_
+    ld de, $C000
+    ld b, $20
+    rst $30    ; memcpyToVRAM
+    ret
 
 ; Pointer Table from 1112 to 1133 (17 entries, indexed by v_level)
 _DATA_1112_:
@@ -1776,11 +1776,11 @@ _DATA_1112_:
 .dw _DATA_1FE7E_
 
 _LABEL_1134_:
-	ld a, $87
-	ld (Mapper_Slot2), a
-	ld a, (v_level)
-	ld hl, _DATA_1142_ - 2
-	jp loadAthJumptablePointer
+    ld a, $87
+    ld (Mapper_Slot2), a
+    ld a, (v_level)
+    ld hl, _DATA_1142_ - 2
+    jp loadAthJumptablePointer
 
 ; Jump Table from 1142 to 1163 (17 entries, indexed by v_level)
 _DATA_1142_:
@@ -1790,479 +1790,479 @@ _DATA_1142_:
 
 ; 1st entry of Jump Table from 1142 (indexed by v_level)
 _LABEL_1164_:
-	call _LABEL_14B2_
-	call _LABEL_14A6_
-	call _LABEL_14BE_
-	call _LABEL_132F_
-	call _LABEL_133B_
-	call _LABEL_1350_
-	call _LABEL_137D_
-	call _LABEL_135C_
-	jp _LABEL_1368_
+    call _LABEL_14B2_
+    call _LABEL_14A6_
+    call _LABEL_14BE_
+    call _LABEL_132F_
+    call _LABEL_133B_
+    call _LABEL_1350_
+    call _LABEL_137D_
+    call _LABEL_135C_
+    jp _LABEL_1368_
 
 ; 2nd entry of Jump Table from 1142 (indexed by v_level)
 _LABEL_117F_:
-	call _LABEL_14B2_
-	call _LABEL_14A6_
-	call _LABEL_14BE_
-	call _LABEL_1455_
-	call _LABEL_1461_
-	call _LABEL_132F_
-	call _LABEL_1392_
-	call _LABEL_139E_
-	call _LABEL_13AA_
-	jp _LABEL_13B6_
+    call _LABEL_14B2_
+    call _LABEL_14A6_
+    call _LABEL_14BE_
+    call _LABEL_1455_
+    call _LABEL_1461_
+    call _LABEL_132F_
+    call _LABEL_1392_
+    call _LABEL_139E_
+    call _LABEL_13AA_
+    jp _LABEL_13B6_
 
 ; 3rd entry of Jump Table from 1142 (indexed by v_level)
 _LABEL_119D_:
-	call _LABEL_14B2_
-	call _LABEL_14A6_
-	call _LABEL_14CA_
-	call _LABEL_132F_
-	call _LABEL_1368_
-	call _LABEL_137D_
-	call _LABEL_13C2_
-	jp _LABEL_13CE_
+    call _LABEL_14B2_
+    call _LABEL_14A6_
+    call _LABEL_14CA_
+    call _LABEL_132F_
+    call _LABEL_1368_
+    call _LABEL_137D_
+    call _LABEL_13C2_
+    jp _LABEL_13CE_
 
 ; 4th entry of Jump Table from 1142 (indexed by v_level)
 _LABEL_11B5_:
-	call _LABEL_14B2_
-	call _LABEL_14A6_
-	call _LABEL_14CA_
-	call _LABEL_154A_
-	call _LABEL_132F_
-	call _LABEL_133B_
-	call _LABEL_13DA_
-	call _LABEL_1455_
-	call _LABEL_1461_
-	jp _LABEL_13B6_
+    call _LABEL_14B2_
+    call _LABEL_14A6_
+    call _LABEL_14CA_
+    call _LABEL_154A_
+    call _LABEL_132F_
+    call _LABEL_133B_
+    call _LABEL_13DA_
+    call _LABEL_1455_
+    call _LABEL_1461_
+    jp _LABEL_13B6_
 
 ; 5th entry of Jump Table from 1142 (indexed by v_level)
 _LABEL_11D3_:
-	call _LABEL_14B2_
-	call _LABEL_14A6_
-	call _LABEL_14BE_
-	call _LABEL_132F_
-	call _LABEL_1368_
-	call _LABEL_133B_
-	call _LABEL_137D_
-	jp _LABEL_13E6_
+    call _LABEL_14B2_
+    call _LABEL_14A6_
+    call _LABEL_14BE_
+    call _LABEL_132F_
+    call _LABEL_1368_
+    call _LABEL_133B_
+    call _LABEL_137D_
+    jp _LABEL_13E6_
 
 ; 6th entry of Jump Table from 1142 (indexed by v_level)
 _LABEL_11EB_:
-	call _LABEL_14B2_
-	call _LABEL_14A6_
-	call _LABEL_14BE_
-	call _LABEL_1455_
-	call _LABEL_1461_
-	call _LABEL_132F_
-	call _LABEL_13FB_
-	call _LABEL_1512_
-	jp _LABEL_1410_
+    call _LABEL_14B2_
+    call _LABEL_14A6_
+    call _LABEL_14BE_
+    call _LABEL_1455_
+    call _LABEL_1461_
+    call _LABEL_132F_
+    call _LABEL_13FB_
+    call _LABEL_1512_
+    jp _LABEL_1410_
 
 ; 7th entry of Jump Table from 1142 (indexed by v_level)
 _LABEL_1206_:
-	call _LABEL_14B2_
-	call _LABEL_14A6_
-	call _LABEL_14CA_
-	call _LABEL_1455_
-	call _LABEL_1461_
-	call _LABEL_14E2_
-	call _LABEL_132F_
-	call _LABEL_1425_
-	jp _LABEL_149A_
+    call _LABEL_14B2_
+    call _LABEL_14A6_
+    call _LABEL_14CA_
+    call _LABEL_1455_
+    call _LABEL_1461_
+    call _LABEL_14E2_
+    call _LABEL_132F_
+    call _LABEL_1425_
+    jp _LABEL_149A_
 
 ; 8th entry of Jump Table from 1142 (indexed by v_level)
 _LABEL_1221_:
-	call _LABEL_14B2_
-	call _LABEL_14A6_
-	call _LABEL_14D6_
-	call _LABEL_132F_
-	call _LABEL_1392_
-	call _LABEL_149A_
-	call _LABEL_1431_
-	jp _LABEL_139E_
+    call _LABEL_14B2_
+    call _LABEL_14A6_
+    call _LABEL_14D6_
+    call _LABEL_132F_
+    call _LABEL_1392_
+    call _LABEL_149A_
+    call _LABEL_1431_
+    jp _LABEL_139E_
 
 ; 9th entry of Jump Table from 1142 (indexed by v_level)
 _LABEL_1239_:
-	call _LABEL_14B2_
-	call _LABEL_14A6_
-	call _LABEL_14BE_
-	call _LABEL_132F_
-	call _LABEL_133B_
-	call _LABEL_1368_
-	call _LABEL_1350_
-	call _LABEL_13E6_
-	jp _LABEL_135C_
+    call _LABEL_14B2_
+    call _LABEL_14A6_
+    call _LABEL_14BE_
+    call _LABEL_132F_
+    call _LABEL_133B_
+    call _LABEL_1368_
+    call _LABEL_1350_
+    call _LABEL_13E6_
+    jp _LABEL_135C_
 
 ; 10th entry of Jump Table from 1142 (indexed by v_level)
 _LABEL_1254_:
-	call _LABEL_14B2_
-	call _LABEL_14A6_
-	call _LABEL_14BE_
-	call _LABEL_13B6_
-	call _LABEL_132F_
-	call _LABEL_143D_
-	call _LABEL_1449_
-	call _LABEL_1455_
-	jp _LABEL_1461_
+    call _LABEL_14B2_
+    call _LABEL_14A6_
+    call _LABEL_14BE_
+    call _LABEL_13B6_
+    call _LABEL_132F_
+    call _LABEL_143D_
+    call _LABEL_1449_
+    call _LABEL_1455_
+    jp _LABEL_1461_
 
 ; 11th entry of Jump Table from 1142 (indexed by v_level)
 _LABEL_126F_:
-	call _LABEL_14B2_
-	call _LABEL_14A6_
-	call _LABEL_14CA_
-	call _LABEL_132F_
-	call _LABEL_14E2_
-	call _LABEL_1455_
-	call _LABEL_14EE_
-	call _LABEL_1476_
-	call _LABEL_1461_
-	call _LABEL_1425_
-	call _LABEL_139E_
-	call _LABEL_1392_
-	call _LABEL_13AA_
-	jp _LABEL_149A_
+    call _LABEL_14B2_
+    call _LABEL_14A6_
+    call _LABEL_14CA_
+    call _LABEL_132F_
+    call _LABEL_14E2_
+    call _LABEL_1455_
+    call _LABEL_14EE_
+    call _LABEL_1476_
+    call _LABEL_1461_
+    call _LABEL_1425_
+    call _LABEL_139E_
+    call _LABEL_1392_
+    call _LABEL_13AA_
+    jp _LABEL_149A_
 
 ; 12th entry of Jump Table from 1142 (indexed by v_level)
 _LABEL_1299_:
-	call _LABEL_14B2_
-	call _LABEL_14A6_
-	call _LABEL_14BE_
-	call _LABEL_1455_
-	call _LABEL_1461_
-	call _LABEL_13AA_
-	jp _LABEL_132F_
+    call _LABEL_14B2_
+    call _LABEL_14A6_
+    call _LABEL_14BE_
+    call _LABEL_1455_
+    call _LABEL_1461_
+    call _LABEL_13AA_
+    jp _LABEL_132F_
 
 ; 13th entry of Jump Table from 1142 (indexed by v_level)
 _LABEL_12AE_:
-	call _LABEL_14B2_
-	call _LABEL_14A6_
-	call _LABEL_14BE_
-	call _LABEL_132F_
-	call _LABEL_13B6_
-	jp _LABEL_133B_
+    call _LABEL_14B2_
+    call _LABEL_14A6_
+    call _LABEL_14BE_
+    call _LABEL_132F_
+    call _LABEL_13B6_
+    jp _LABEL_133B_
 
 ; 14th entry of Jump Table from 1142 (indexed by v_level)
 _LABEL_12C0_:
-	call _LABEL_14B2_
-	call _LABEL_14A6_
-	call _LABEL_14BE_
-	call _LABEL_14FA_
-	jp _LABEL_132F_
+    call _LABEL_14B2_
+    call _LABEL_14A6_
+    call _LABEL_14BE_
+    call _LABEL_14FA_
+    jp _LABEL_132F_
 
 ; 15th entry of Jump Table from 1142 (indexed by v_level)
 _LABEL_12CF_:
-	call _LABEL_14B2_
-	call _LABEL_14A6_
-	call _LABEL_14BE_
-	call _LABEL_1455_
-	call _LABEL_1461_
-	call _LABEL_132F_
-	call _LABEL_1392_
-	call _LABEL_139E_
-	call _LABEL_13AA_
-	jp _LABEL_13B6_
+    call _LABEL_14B2_
+    call _LABEL_14A6_
+    call _LABEL_14BE_
+    call _LABEL_1455_
+    call _LABEL_1461_
+    call _LABEL_132F_
+    call _LABEL_1392_
+    call _LABEL_139E_
+    call _LABEL_13AA_
+    jp _LABEL_13B6_
 
 ; 16th entry of Jump Table from 1142 (indexed by v_level)
 _LABEL_12ED_:
-	call _LABEL_14B2_
-	call _LABEL_14A6_
-	call _LABEL_14BE_
-	call _LABEL_132F_
-	call _LABEL_13AA_
-	call _LABEL_1482_
-	call _LABEL_151E_
-	call _LABEL_148E_
-	call _LABEL_1455_
-	call _LABEL_1461_
-	call _LABEL_1425_
-	jp _LABEL_13B6_
+    call _LABEL_14B2_
+    call _LABEL_14A6_
+    call _LABEL_14BE_
+    call _LABEL_132F_
+    call _LABEL_13AA_
+    call _LABEL_1482_
+    call _LABEL_151E_
+    call _LABEL_148E_
+    call _LABEL_1455_
+    call _LABEL_1461_
+    call _LABEL_1425_
+    jp _LABEL_13B6_
 
 ; 17th entry of Jump Table from 1142 (indexed by v_level)
 _LABEL_1311_:
-	call _LABEL_14B2_
-	call _LABEL_14A6_
-	call _LABEL_14BE_
-	call _LABEL_132F_
-	call _LABEL_1368_
-	call _LABEL_1482_
-	call _LABEL_1561_
-	call _LABEL_1506_
-	call _LABEL_1350_
-	jp _LABEL_135C_
+    call _LABEL_14B2_
+    call _LABEL_14A6_
+    call _LABEL_14BE_
+    call _LABEL_132F_
+    call _LABEL_1368_
+    call _LABEL_1482_
+    call _LABEL_1561_
+    call _LABEL_1506_
+    call _LABEL_1350_
+    jp _LABEL_135C_
 
 _LABEL_132F_:
-	ld hl, _DATA_1C7E9_
-	ld de, $6880
-	ld bc, $0220
-	jp writeBcBytesToVRAM
+    ld hl, _DATA_1C7E9_
+    ld de, $6880
+    ld bc, $0220
+    jp writeBcBytesToVRAM
 
 _LABEL_133B_:
-	ld hl, _DATA_1CA09_
-	ld de, $6FA0
-	ld bc, $0180
-	call writeBcBytesToVRAM
-	ld hl, _DATA_1CA09_
-	ld bc, $0180
-	jp _LABEL_2C5_
+    ld hl, _DATA_1CA09_
+    ld de, $6FA0
+    ld bc, $0180
+    call writeBcBytesToVRAM
+    ld hl, _DATA_1CA09_
+    ld bc, $0180
+    jp _LABEL_2C5_
 
 _LABEL_1350_:
-	ld hl, _DATA_1CDC9_
-	ld de, $7580
-	ld bc, $0040
-	jp writeBcBytesToVRAM
+    ld hl, _DATA_1CDC9_
+    ld de, $7580
+    ld bc, $0040
+    jp writeBcBytesToVRAM
 
 _LABEL_135C_:
-	ld hl, _DATA_1CB89_
-	ld de, $75C0
-	ld bc, $0240
-	jp writeBcBytesToVRAM
+    ld hl, _DATA_1CB89_
+    ld de, $75C0
+    ld bc, $0240
+    jp writeBcBytesToVRAM
 
 _LABEL_1368_:
-	ld hl, _DATA_1EE09_
-	ld de, $6AA0
-	ld bc, $0100
-	call writeBcBytesToVRAM
-	ld hl, _DATA_1EE09_
-	ld bc, $0100
-	jp _LABEL_2C5_
+    ld hl, _DATA_1EE09_
+    ld de, $6AA0
+    ld bc, $0100
+    call writeBcBytesToVRAM
+    ld hl, _DATA_1EE09_
+    ld bc, $0100
+    jp _LABEL_2C5_
 
 _LABEL_137D_:
-	ld hl, _DATA_1D5E9_
-	ld de, $6CA0
-	ld bc, $0180
-	call writeBcBytesToVRAM
-	ld hl, _DATA_1D5E9_
-	ld bc, $0180
-	jp _LABEL_2C5_
+    ld hl, _DATA_1D5E9_
+    ld de, $6CA0
+    ld bc, $0180
+    call writeBcBytesToVRAM
+    ld hl, _DATA_1D5E9_
+    ld bc, $0180
+    jp _LABEL_2C5_
 
 _LABEL_1392_:
-	ld hl, _DATA_1DCA9_
-	ld de, $6C00
-	ld bc, $0020
-	jp writeBcBytesToVRAM
+    ld hl, _DATA_1DCA9_
+    ld de, $6C00
+    ld bc, $0020
+    jp writeBcBytesToVRAM
 
 _LABEL_139E_:
-	ld hl, _DATA_1DB49_
-	ld de, $6AA0
-	ld bc, $0160
-	jp writeBcBytesToVRAM
+    ld hl, _DATA_1DB49_
+    ld de, $6AA0
+    ld bc, $0160
+    jp writeBcBytesToVRAM
 
 _LABEL_13AA_:
-	ld hl, _DATA_1DD49_
-	ld de, $7000
-	ld bc, $0100
-	jp writeBcBytesToVRAM
+    ld hl, _DATA_1DD49_
+    ld de, $7000
+    ld bc, $0100
+    jp writeBcBytesToVRAM
 
 _LABEL_13B6_:
-	ld hl, _DATA_1DE49_
-	ld de, $7760
-	ld bc, $00A0
-	jp writeBcBytesToVRAM
+    ld hl, _DATA_1DE49_
+    ld de, $7760
+    ld bc, $00A0
+    jp writeBcBytesToVRAM
 
 _LABEL_13C2_:
-	ld hl, _DATA_1EF09_
-	ld de, $7200
-	ld bc, $00C0
-	jp writeBcBytesToVRAM
+    ld hl, _DATA_1EF09_
+    ld de, $7200
+    ld bc, $00C0
+    jp writeBcBytesToVRAM
 
 _LABEL_13CE_:
-	ld hl, _DATA_1DB09_
-	ld de, $77E0
-	ld bc, $0020
-	jp writeBcBytesToVRAM
+    ld hl, _DATA_1DB09_
+    ld de, $77E0
+    ld bc, $0020
+    jp writeBcBytesToVRAM
 
 _LABEL_13DA_:
-	ld hl, _DATA_1CFC9_
-	ld de, $72A0
-	ld bc, $0100
-	jp writeBcBytesToVRAM
+    ld hl, _DATA_1CFC9_
+    ld de, $72A0
+    ld bc, $0100
+    jp writeBcBytesToVRAM
 
 _LABEL_13E6_:
-	ld hl, _DATA_1CEC9_
-	ld de, $72A0
-	ld bc, $0100
-	call writeBcBytesToVRAM
-	ld hl, _DATA_1CEC9_
-	ld bc, $0100
-	jp _LABEL_2C5_
+    ld hl, _DATA_1CEC9_
+    ld de, $72A0
+    ld bc, $0100
+    call writeBcBytesToVRAM
+    ld hl, _DATA_1CEC9_
+    ld bc, $0100
+    jp _LABEL_2C5_
 
 _LABEL_13FB_:
-	ld hl, _DATA_1D769_
-	ld de, $6C00
-	ld bc, $02E0
-	call writeBcBytesToVRAM
-	ld hl, _DATA_1D769_
-	ld bc, $02E0
-	jp _LABEL_2C5_
+    ld hl, _DATA_1D769_
+    ld de, $6C00
+    ld bc, $02E0
+    call writeBcBytesToVRAM
+    ld hl, _DATA_1D769_
+    ld bc, $02E0
+    jp _LABEL_2C5_
 
 _LABEL_1410_:
-	ld hl, _DATA_1DA49_
-	ld de, $7280
-	ld bc, $00C0
-	call writeBcBytesToVRAM
-	ld hl, _DATA_1DA49_
-	ld bc, $00C0
-	jp _LABEL_2C5_
+    ld hl, _DATA_1DA49_
+    ld de, $7280
+    ld bc, $00C0
+    call writeBcBytesToVRAM
+    ld hl, _DATA_1DA49_
+    ld bc, $00C0
+    jp _LABEL_2C5_
 
 _LABEL_1425_:
-	ld hl, _DATA_1DEE9_
-	ld de, $7680
-	ld bc, $00C0
-	jp writeBcBytesToVRAM
+    ld hl, _DATA_1DEE9_
+    ld de, $7680
+    ld bc, $00C0
+    jp writeBcBytesToVRAM
 
 _LABEL_1431_:
-	ld hl, _DATA_1E2A9_
-	ld de, $6C20
-	ld bc, $0AE0
-	jp writeBcBytesToVRAM
+    ld hl, _DATA_1E2A9_
+    ld de, $6C20
+    ld bc, $0AE0
+    jp writeBcBytesToVRAM
 
 _LABEL_143D_:
-	ld hl, _DATA_1E0A9_
-	ld de, $73E0
-	ld bc, $0020
-	jp writeBcBytesToVRAM
+    ld hl, _DATA_1E0A9_
+    ld de, $73E0
+    ld bc, $0020
+    jp writeBcBytesToVRAM
 
 _LABEL_1449_:
-	ld hl, _DATA_1E0C9_
-	ld de, $7320
-	ld bc, $00C0
-	jp writeBcBytesToVRAM
+    ld hl, _DATA_1E0C9_
+    ld de, $7320
+    ld bc, $00C0
+    jp writeBcBytesToVRAM
 
 _LABEL_1455_:
-	ld hl, _DATA_1DFA9_
-	ld de, $7400
-	ld bc, $0100
-	jp writeBcBytesToVRAM
+    ld hl, _DATA_1DFA9_
+    ld de, $7400
+    ld bc, $0100
+    jp writeBcBytesToVRAM
 
 _LABEL_1461_:
-	ld hl, _DATA_1CE09_
-	ld de, $7500
-	ld bc, $00C0
-	call writeBcBytesToVRAM
-	ld hl, _DATA_1CE09_
-	ld bc, $00C0
-	jp _LABEL_2C5_
+    ld hl, _DATA_1CE09_
+    ld de, $7500
+    ld bc, $00C0
+    call writeBcBytesToVRAM
+    ld hl, _DATA_1CE09_
+    ld bc, $00C0
+    jp _LABEL_2C5_
 
 _LABEL_1476_:
-	ld hl, _DATA_1D0C9_
-	ld de, $7180
-	ld bc, $0280
-	jp writeBcBytesToVRAM
+    ld hl, _DATA_1D0C9_
+    ld de, $7180
+    ld bc, $0280
+    jp writeBcBytesToVRAM
 
 _LABEL_1482_:
-	ld hl, _DATA_1E229_
-	ld de, $6DC0
-	ld bc, $0080
-	jp writeBcBytesToVRAM
+    ld hl, _DATA_1E229_
+    ld de, $6DC0
+    ld bc, $0080
+    jp writeBcBytesToVRAM
 
 _LABEL_148E_:
-	ld hl, _DATA_1C629_
-	ld de, $6E40
-	ld bc, $01C0
-	jp writeBcBytesToVRAM
+    ld hl, _DATA_1C629_
+    ld de, $6E40
+    ld bc, $01C0
+    jp writeBcBytesToVRAM
 
 _LABEL_149A_:
-	ld hl, _DATA_1ED89_
-	ld de, $7740
-	ld bc, $0080
-	jp writeBcBytesToVRAM
+    ld hl, _DATA_1ED89_
+    ld de, $7740
+    ld bc, $0080
+    jp writeBcBytesToVRAM
 
 _LABEL_14A6_:
-	ld hl, _DATA_1C5A9_
-	ld de, $6840
-	ld bc, $0040
-	jp writeBcBytesToVRAM
+    ld hl, _DATA_1C5A9_
+    ld de, $6840
+    ld bc, $0040
+    jp writeBcBytesToVRAM
 
 _LABEL_14B2_:
-	ld hl, _DATA_1C529_
-	ld de, $6800
-	ld bc, $0040
-	jp writeBcBytesToVRAM
+    ld hl, _DATA_1C529_
+    ld de, $6800
+    ld bc, $0040
+    jp writeBcBytesToVRAM
 
 _LABEL_14BE_:
-	ld hl, _DATA_1C529_
-	ld de, $67C0
-	ld bc, $0040
-	jp writeBcBytesToVRAM
+    ld hl, _DATA_1C529_
+    ld de, $67C0
+    ld bc, $0040
+    jp writeBcBytesToVRAM
 
 _LABEL_14CA_:
-	ld hl, _DATA_1C569_
-	ld de, $67C0
-	ld bc, $0040
-	jp writeBcBytesToVRAM
+    ld hl, _DATA_1C569_
+    ld de, $67C0
+    ld bc, $0040
+    jp writeBcBytesToVRAM
 
 _LABEL_14D6_:
-	ld hl, _DATA_1C5E9_
-	ld de, $67C0
-	ld bc, $0040
-	jp writeBcBytesToVRAM
+    ld hl, _DATA_1C5E9_
+    ld de, $67C0
+    ld bc, $0040
+    jp writeBcBytesToVRAM
 
 _LABEL_14E2_:
-	ld hl, _DATA_1C3C9_
-	ld de, $6F80
-	ld bc, $0080
-	jp writeBcBytesToVRAM
+    ld hl, _DATA_1C3C9_
+    ld de, $6F80
+    ld bc, $0080
+    jp writeBcBytesToVRAM
 
 _LABEL_14EE_:
-	ld hl, _DATA_1C169_
-	ld de, $7100
-	ld bc, $0080
-	jp writeBcBytesToVRAM
+    ld hl, _DATA_1C169_
+    ld de, $7100
+    ld bc, $0080
+    jp writeBcBytesToVRAM
 
 _LABEL_14FA_:
-	ld hl, _DATA_1C1E9_
-	ld de, $6B20
-	ld bc, $0080
-	jp writeBcBytesToVRAM
+    ld hl, _DATA_1C1E9_
+    ld de, $6B20
+    ld bc, $0080
+    jp writeBcBytesToVRAM
 
 _LABEL_1506_:
-	ld hl, _DATA_1C449_
-	ld de, $7100
-	ld bc, $0080
-	jp writeBcBytesToVRAM
+    ld hl, _DATA_1C449_
+    ld de, $7100
+    ld bc, $0080
+    jp writeBcBytesToVRAM
 
 _LABEL_1512_:
-	ld hl, tiles_villageElder
-	ld de, $6AA0
-	ld bc, $0100
-	jp writeBcBytesToVRAM
+    ld hl, tiles_villageElder
+    ld de, $6AA0
+    ld bc, $0100
+    jp writeBcBytesToVRAM
 
 _LABEL_151E_:
-	ld a, $85
-	ld (Mapper_Slot2), a
-	ld hl, _DATA_16F51_
-	ld de, $7180
-	ld bc, $0020
-	call writeBcBytesToVRAM
-	ld hl, _DATA_16F51_
-	ld bc, $0020
-	call _LABEL_2C5_
-	ld hl, _DATA_16F71_
-	ld de, $71C0
-	ld bc, $0040
-	call writeBcBytesToVRAM
-	ld a, $87
-	ld (Mapper_Slot2), a
-	ret
+    ld a, $85
+    ld (Mapper_Slot2), a
+    ld hl, _DATA_16F51_
+    ld de, $7180
+    ld bc, $0020
+    call writeBcBytesToVRAM
+    ld hl, _DATA_16F51_
+    ld bc, $0020
+    call _LABEL_2C5_
+    ld hl, _DATA_16F71_
+    ld de, $71C0
+    ld bc, $0040
+    call writeBcBytesToVRAM
+    ld a, $87
+    ld (Mapper_Slot2), a
+    ret
 
 _LABEL_154A_:
-	ld a, $85
-	ld (Mapper_Slot2), a
-	ld hl, _DATA_17211_
-	ld de, $76E0
-	ld bc, $0080
-	call writeBcBytesToVRAM
-	ld a, $87
-	ld (Mapper_Slot2), a
-	ret
+    ld a, $85
+    ld (Mapper_Slot2), a
+    ld hl, _DATA_17211_
+    ld de, $76E0
+    ld bc, $0080
+    call writeBcBytesToVRAM
+    ld a, $87
+    ld (Mapper_Slot2), a
+    ret
 
 _LABEL_1561_:
-	ld hl, _DATA_1E189_
-	ld de, $7180
-	ld bc, $0080
-	jp writeBcBytesToVRAM
+    ld hl, _DATA_1E189_
+    ld de, $7180
+    ld bc, $0080
+    jp writeBcBytesToVRAM
 
 ; Jump Table from 156D to 158E (17 entries, indexed by v_level)
 _DATA_156D_:
@@ -2271,106 +2271,106 @@ _DATA_156D_:
 .dw _LABEL_15D2_
 
 _LABEL_158F_:
-	ld hl, v_shouldUpdateTitlescreenLevelTiles
-	ld a, (hl)
-	ld (hl), $00
-	or a
-	jp z, +
-	ld hl, v_titleScreenTileUpdateTimer
-	dec (hl)
-	ret nz
-	inc (hl)
+    ld hl, v_shouldUpdateTitlescreenLevelTiles
+    ld a, (hl)
+    ld (hl), $00
+    or a
+    jp z, +
+    ld hl, v_titleScreenTileUpdateTimer
+    dec (hl)
+    ret nz
+    inc (hl)
 +:
-	ld hl, v_titleScreenTileUpdateTimer
-	dec (hl)
-	ret nz
-	ld (hl), $12
-	ld a, $85
-	ld (Mapper_Slot2), a
-	ld hl, (v_titleScreenTileUpdaterPointer)
-	jp (hl)
+    ld hl, v_titleScreenTileUpdateTimer
+    dec (hl)
+    ret nz
+    ld (hl), $12
+    ld a, $85
+    ld (Mapper_Slot2), a
+    ld hl, (v_titleScreenTileUpdaterPointer)
+    jp (hl)
 
 _LABEL_15AF_:
-	ld hl, v_titleScreen4FrameTileTimer
-	inc (hl)
-	ld a, (hl)
-	cp $04
-	jp c, ++
-	jp +
+    ld hl, v_titleScreen4FrameTileTimer
+    inc (hl)
+    ld a, (hl)
+    cp $04
+    jp c, ++
+    jp +
 
 _LABEL_15BC_:
-	ld hl, v_titleScreen6FrameTileTimer
-	inc (hl)
-	ld a, (hl)
-	cp $06
-	jp c, ++
+    ld hl, v_titleScreen6FrameTileTimer
+    inc (hl)
+    ld a, (hl)
+    cp $06
+    jp c, ++
 +:
-	xor a
-	ld (hl), a
+    xor a
+    ld (hl), a
 ++:
-	add a, a
-	ld l, a
-	ld h, $00
-	add hl, de
-	ld a, (hl)
-	inc hl
-	ld h, (hl)
-	ld l, a
-	ret
+    add a, a
+    ld l, a
+    ld h, $00
+    add hl, de
+    ld a, (hl)
+    inc hl
+    ld h, (hl)
+    ld l, a
+    ret
 
 ; 1st entry of Jump Table from 156D (indexed by v_level)
 _LABEL_15D2_:
-	ld de, _DATA_1620_
-	call _LABEL_15BC_
-	ld de, $5100
-	ld b, $40
-	rst $30	; memcpyToVRAM
-	ret
+    ld de, _DATA_1620_
+    call _LABEL_15BC_
+    ld de, $5100
+    ld b, $40
+    rst $30    ; memcpyToVRAM
+    ret
 
 ; 2nd entry of Jump Table from 156D (indexed by v_level)
 _LABEL_15DF_:
-	ld de, _DATA_162C_
-	call _LABEL_15BC_
-	ld de, $48C0
-	ld b, $40
-	rst $30	; memcpyToVRAM
-	ret
+    ld de, _DATA_162C_
+    call _LABEL_15BC_
+    ld de, $48C0
+    ld b, $40
+    rst $30    ; memcpyToVRAM
+    ret
 
 ; 4th entry of Jump Table from 156D (indexed by v_level)
 _LABEL_15EC_:
-	ld de, _DATA_1638_
-	call _LABEL_15AF_
-	ld de, $49E0
-	ld b, $60
-	rst $30	; memcpyToVRAM
-	ret
+    ld de, _DATA_1638_
+    call _LABEL_15AF_
+    ld de, $49E0
+    ld b, $60
+    rst $30    ; memcpyToVRAM
+    ret
 
 ; 16th entry of Jump Table from 156D (indexed by v_level)
 _LABEL_15F9_:
-	ld de, _DATA_1640_
-	call _LABEL_15AF_
-	ld de, $48A0
-	ld b, $60
-	rst $30	; memcpyToVRAM
-	ld de, _DATA_1620_
-	call _LABEL_15BC_
-	ld de, $5100
-	ld b, $40
-	rst $30	; memcpyToVRAM
-	ret
+    ld de, _DATA_1640_
+    call _LABEL_15AF_
+    ld de, $48A0
+    ld b, $60
+    rst $30    ; memcpyToVRAM
+    ld de, _DATA_1620_
+    call _LABEL_15BC_
+    ld de, $5100
+    ld b, $40
+    rst $30    ; memcpyToVRAM
+    ret
 
 ; 7th entry of Jump Table from 156D (indexed by v_level)
 _LABEL_1612_:
-	ld de, _DATA_1648_
-	call _LABEL_15AF_
-	ld de, $4B40
-	ld b, $60
-	rst $30	; memcpyToVRAM
-	ret
+    ld de, _DATA_1648_
+    call _LABEL_15AF_
+    ld de, $4B40
+    ld b, $60
+    rst $30    ; memcpyToVRAM
+    ret
 
 ; 8th entry of Jump Table from 156D (indexed by v_level)
 _LABEL_161F_:
-	ret
+    ret
 
 ; Pointer Table from 1620 to 162B (6 entries, indexed by v_titleScreen6FrameTileTimer)
 _DATA_1620_:
@@ -2394,371 +2394,371 @@ _DATA_1648_:
 
 ; 9th entry of Jump Table from 3B (indexed by v_gameState)
 updateBonusLevelState:
-	exx
-	bit 7, (hl)
-	jp z, _LABEL_1735_
-	ld a, $09
-	call setAndWaitForInterruptFlags
-	ld a, (_RAM_D800_)
-	or a
-	jr nz, +
-	ld a, $8A
-	ld (v_gameState), a
-	ld b, $0A
-	jp _LABEL_343_
+    exx
+    bit 7, (hl)
+    jp z, _LABEL_1735_
+    ld a, $09
+    call setAndWaitForInterruptFlags
+    ld a, (_RAM_D800_)
+    or a
+    jr nz, +
+    ld a, $8A
+    ld (v_gameState), a
+    ld b, $0A
+    jp _LABEL_343_
 
 +:
-	ld a, (_RAM_C095_)
-	or a
-	ret nz
-	ld hl, $0000
-	ld (v_verticalScrollSpeed), hl
-	ld a, $BD
-	ld (_RAM_C014_), a
+    ld a, (_RAM_C095_)
+    or a
+    ret nz
+    ld hl, $0000
+    ld (v_verticalScrollSpeed), hl
+    ld a, $BD
+    ld (_RAM_C014_), a
 -:
-	ld a, $01
-	call setAndWaitForInterruptFlags
-	ld hl, _RAM_C014_
-	dec (hl)
-	jp nz, -
-	ld a, $82
-	ld (Mapper_Slot2), a
-	call resetSoundAndInitVolume
-	ld hl, v_money
-	ld de, v_moneyByteTwo
-	ld (hl), $00
-	ldi
-	ldi
-	ld a, $01
-	ld (v_lives), a
-	ld a, $06
-	ld (v_gameState), a
-	ret
+    ld a, $01
+    call setAndWaitForInterruptFlags
+    ld hl, _RAM_C014_
+    dec (hl)
+    jp nz, -
+    ld a, $82
+    ld (Mapper_Slot2), a
+    call resetSoundAndInitVolume
+    ld hl, v_money
+    ld de, v_moneyByteTwo
+    ld (hl), $00
+    ldi
+    ldi
+    ld a, $01
+    ld (v_lives), a
+    ld a, $06
+    ld (v_gameState), a
+    ret
 
 ; 9th entry of Jump Table from 127 (indexed by v_gameState)
 handleInterruptBonusLevelState:
-	ld a, (_RAM_D800_)
-	or a
-	ret z
-	call _LABEL_69B5_
-	ld hl, (v_verticalScrollSpeed)
-	ld de, (v_verticalScroll)
-	add hl, de
-	ld a, h
-	cp $E0
-	jr c, +
-	ld c, $20
-	add a, c
-	ld h, a
+    ld a, (_RAM_D800_)
+    or a
+    ret z
+    call _LABEL_69B5_
+    ld hl, (v_verticalScrollSpeed)
+    ld de, (v_verticalScroll)
+    add hl, de
+    ld a, h
+    cp $E0
+    jr c, +
+    ld c, $20
+    add a, c
+    ld h, a
 +:
-	ld (v_verticalScroll), hl
-	cp d
-	ret z
-	and $07
-	ret nz
-	ld a, h
-	add a, $C0
-	ld c, $20
-	jr c, +
-	cp $E0
-	jr nc, +
-	ld c, $00
+    ld (v_verticalScroll), hl
+    cp d
+    ret z
+    and $07
+    ret nz
+    ld a, h
+    add a, $C0
+    ld c, $20
+    jr c, +
+    cp $E0
+    jr nc, +
+    ld c, $00
 +:
-	add a, c
-	ld l, a
-	ld h, $00
-	add hl, hl
-	add hl, hl
-	add hl, hl
-	ld de, $7800
-	add hl, de
-	ex de, hl
-	ld a, $83
-	ld (Mapper_Slot2), a
-	ld hl, (v_endingSequencePointer)
-	ld a, (hl)
-	inc hl
-	or a
-	jp z, _LABEL_170D_
-	ld b, a
-	inc a
-	jp z, _LABEL_1730_
-	inc a
-	jr z, +
-	push de
-	exx
-	pop de
-	ld l, $00
-	ld bc, $0040
-	call fillVRAM
-	exx
-	ld a, (hl)
-	or e
-	ld e, a
-	inc hl
-	xor a
-	ld (_RAM_C10A_), a
-	call _LABEL_159_
+    add a, c
+    ld l, a
+    ld h, $00
+    add hl, hl
+    add hl, hl
+    add hl, hl
+    ld de, $7800
+    add hl, de
+    ex de, hl
+    ld a, $83
+    ld (Mapper_Slot2), a
+    ld hl, (v_endingSequencePointer)
+    ld a, (hl)
+    inc hl
+    or a
+    jp z, _LABEL_170D_
+    ld b, a
+    inc a
+    jp z, _LABEL_1730_
+    inc a
+    jr z, +
+    push de
+    exx
+    pop de
+    ld l, $00
+    ld bc, $0040
+    call fillVRAM
+    exx
+    ld a, (hl)
+    or e
+    ld e, a
+    inc hl
+    xor a
+    ld (_RAM_C10A_), a
+    call _LABEL_159_
 _LABEL_170D_:
-	ld (v_endingSequencePointer), hl
-	ret
+    ld (v_endingSequencePointer), hl
+    ret
 
 +:
-	push hl
-	ld a, d
-	add a, e
-	ld hl, $0100
-	cp $FE
-	ld bc, $0040
-	jr c, +
-	ld bc, $0020
-	call fillVRAM
-	ld bc, $0020
-	ld de, $7800
+    push hl
+    ld a, d
+    add a, e
+    ld hl, $0100
+    cp $FE
+    ld bc, $0040
+    jr c, +
+    ld bc, $0020
+    call fillVRAM
+    ld bc, $0020
+    ld de, $7800
 +:
-	call fillVRAM
-	pop hl
-	jr _LABEL_170D_
+    call fillVRAM
+    pop hl
+    jr _LABEL_170D_
 
 _LABEL_1730_:
-	xor a
-	ld (_RAM_C095_), a
-	ret
+    xor a
+    ld (_RAM_C095_), a
+    ret
 
 _LABEL_1735_:
-	call resetSoundAndInitVolume
-	ld b, $05
-	call _LABEL_343_
-	call clearVDPTablesAndDisableScreen
-	ld hl, v_levelWidth
-	ld de, v_levelWidth + 1
-	ld bc, $002A
-	ld (hl), $00
-	ldir
-	xor a
-	ld (v_newEntityHorizontalOffset), a
-	ld a, (v_level)
-	cp $11
-	jp z, +
-	ld a, $01
-	ld (v_currentLevelIsBonusLevel), a
-	ld a, $83
-	ld (Mapper_Slot2), a
-	ld a, (v_level)
-	push af
-	inc a
-	ld (v_level), a
-	call _LABEL_E6C_
-	call _LABEL_10FF_
-	ld a, $87
-	ld (Mapper_Slot2), a
-	call _LABEL_1134_
-	pop af
-	ld (v_level), a
-	ld hl, $8AD6
-	ld de, $8AD6
-	ld bc, $0607
-	jr ++
+    call resetSoundAndInitVolume
+    ld b, $05
+    call _LABEL_343_
+    call clearVDPTablesAndDisableScreen
+    ld hl, v_levelWidth
+    ld de, v_levelWidth + 1
+    ld bc, $002A
+    ld (hl), $00
+    ldir
+    xor a
+    ld (v_newEntityHorizontalOffset), a
+    ld a, (v_level)
+    cp $11
+    jp z, +
+    ld a, $01
+    ld (v_currentLevelIsBonusLevel), a
+    ld a, $83
+    ld (Mapper_Slot2), a
+    ld a, (v_level)
+    push af
+    inc a
+    ld (v_level), a
+    call _LABEL_E6C_
+    call _LABEL_10FF_
+    ld a, $87
+    ld (Mapper_Slot2), a
+    call _LABEL_1134_
+    pop af
+    ld (v_level), a
+    ld hl, $8AD6
+    ld de, $8AD6
+    ld bc, $0607
+    jr ++
 
 +:
-	ld a, (_RAM_D800_)
-	or a
-	jp nz, _LABEL_189A_
-	ld hl, $BC53
-	ld de, $BC53
-	ld bc, $0300
-	ld a, (_RAM_C07F_)
-	or a
-	jr z, ++
-	ld bc, $0400
+    ld a, (_RAM_D800_)
+    or a
+    jp nz, _LABEL_189A_
+    ld hl, $BC53
+    ld de, $BC53
+    ld bc, $0300
+    ld a, (_RAM_C07F_)
+    or a
+    jr z, ++
+    ld bc, $0400
 ++:
-	ld a, $85
-	ld (Mapper_Slot2), a
-	ld (v_levelLayoutPointer), hl
-	ld (v_SecondLevelLayoutPointer), de
-	ld a, b
-	ld (v_horizontalScreenNumber), a
-	xor a
-	ld (v_verticalScreenNumber), a
-	ld a, c
-	ld (v_levelWidth), a
-	xor a
-	ld (v_levelHeight), a
-	ld a, $08
-	ld (v_levelScrollability), a
-	ld hl, $7800
-	ld (_RAM_C0B7_), hl
-	ld (_RAM_C0C5_), hl
+    ld a, $85
+    ld (Mapper_Slot2), a
+    ld (v_levelLayoutPointer), hl
+    ld (v_SecondLevelLayoutPointer), de
+    ld a, b
+    ld (v_horizontalScreenNumber), a
+    xor a
+    ld (v_verticalScreenNumber), a
+    ld a, c
+    ld (v_levelWidth), a
+    xor a
+    ld (v_levelHeight), a
+    ld a, $08
+    ld (v_levelScrollability), a
+    ld hl, $7800
+    ld (_RAM_C0B7_), hl
+    ld (_RAM_C0C5_), hl
 -:
-	ld hl, $0100
-	ld (v_horizontalScrollSpeed), hl
-	call _LABEL_67C4_
-	call _LABEL_6B49_
-	call _LABEL_6920_
-	ld hl, (v_horizontalScroll)
-	ld a, h
-	or l
-	jr nz, -
-	ld a, $88
-	ld (v_currentScreenNumber), a
-	ld hl, $0000
-	ld (v_horizontalScrollSpeed), hl
-	ld a, (v_levelScrollability)
-	ld (v_scrollFlags), a
-	ld ix, v_entity1
-	ld de, $0020
-	ld a, (v_entitydataArrayLength)
-	ld b, a
+    ld hl, $0100
+    ld (v_horizontalScrollSpeed), hl
+    call _LABEL_67C4_
+    call _LABEL_6B49_
+    call _LABEL_6920_
+    ld hl, (v_horizontalScroll)
+    ld a, h
+    or l
+    jr nz, -
+    ld a, $88
+    ld (v_currentScreenNumber), a
+    ld hl, $0000
+    ld (v_horizontalScrollSpeed), hl
+    ld a, (v_levelScrollability)
+    ld (v_scrollFlags), a
+    ld ix, v_entity1
+    ld de, $0020
+    ld a, (v_entitydataArrayLength)
+    ld b, a
 -:
-	call clearCurrentEntity
-	add ix, de
-	djnz -
-	ld a, $82
-	ld (Mapper_Slot2), a
-	ld ix, v_entity1
-	ld (ix+0), $01
-	ld a, (v_level)
-	cp $11
-	jr z, +
-	ld (ix+12), $10
-	ld (ix+14), $88
-	jr _LABEL_1874_
+    call clearCurrentEntity
+    add ix, de
+    djnz -
+    ld a, $82
+    ld (Mapper_Slot2), a
+    ld ix, v_entity1
+    ld (ix+0), $01
+    ld a, (v_level)
+    cp $11
+    jr z, +
+    ld (ix+12), $10
+    ld (ix+14), $88
+    jr _LABEL_1874_
 
 +:
-	xor a
-	ld (v_scrollFlags), a
-	ld (ix+12), $10
-	ld (ix+14), $88
-	ld a, (_RAM_C07F_)
-	or a
-	jr nz, +
-	ld c, $4C
-	ld de, $88F0
-	ld b, $01
-	ld (ix+12), $70
-	ld (ix+14), $A0
-	ld (ix+10), $FF
-	ld ix, _RAM_C3A0_
-	ld (ix+0), c
-	ld (ix+12), e
-	ld (ix+14), d
-	ld (ix+3), b
+    xor a
+    ld (v_scrollFlags), a
+    ld (ix+12), $10
+    ld (ix+14), $88
+    ld a, (_RAM_C07F_)
+    or a
+    jr nz, +
+    ld c, $4C
+    ld de, $88F0
+    ld b, $01
+    ld (ix+12), $70
+    ld (ix+14), $A0
+    ld (ix+10), $FF
+    ld ix, _RAM_C3A0_
+    ld (ix+0), c
+    ld (ix+12), e
+    ld (ix+14), d
+    ld (ix+3), b
 +:
-	ld c, $60
-	ld de, $98C0
-	ld a, (_RAM_C07F_)
-	or a
-	jr z, +
-	ld c, $61
-	ld de, $9008
+    ld c, $60
+    ld de, $98C0
+    ld a, (_RAM_C07F_)
+    or a
+    jr z, +
+    ld c, $61
+    ld de, $9008
 +:
-	ld ix, _RAM_C3C0_
-	ld (ix+0), c
-	ld (ix+12), e
-	ld (ix+14), d
+    ld ix, _RAM_C3C0_
+    ld (ix+0), c
+    ld (ix+12), e
+    ld (ix+14), d
 _LABEL_1874_:
-	ld ix, v_entity1
-	call updateAlexSpawning
-	call updateEntities
-	ld de, $8026
-	rst $08	; setVDPAddress
-	ld a, (v_level)
-	inc a
-	ld c, a
-	ld b, $00
-	ld hl, _DATA_DC5_ - 1
-	add hl, bc
-	ld a, (hl)
-	ld (v_soundControl), a
-	ld hl, v_gameState
-	set 7, (hl)
-	ei
-	jp enableDisplay
+    ld ix, v_entity1
+    call updateAlexSpawning
+    call updateEntities
+    ld de, $8026
+    rst $08    ; setVDPAddress
+    ld a, (v_level)
+    inc a
+    ld c, a
+    ld b, $00
+    ld hl, _DATA_DC5_ - 1
+    add hl, bc
+    ld a, (hl)
+    ld (v_soundControl), a
+    ld hl, v_gameState
+    set 7, (hl)
+    ei
+    jp enableDisplay
 
 _LABEL_189A_:
-	xor a
-	ld de, $C000
-	call writeAToVRAM
-	xor a
-	ld de, $C010
-	call writeAToVRAM
-	call clearEntities
-	call updateEntities
-	ld a, $83
-	ld (Mapper_Slot2), a
-	ld hl, data_endingSequenceText
-	ld (v_endingSequencePointer), hl
-	ld hl, $0039
-	ld (v_verticalScrollSpeed), hl
-	ld a, $B0
-	ld (v_soundControl), a
-	ld hl, v_gameState
-	set 7, (hl)
-	ei
-	jp enableDisplay
+    xor a
+    ld de, $C000
+    call writeAToVRAM
+    xor a
+    ld de, $C010
+    call writeAToVRAM
+    call clearEntities
+    call updateEntities
+    ld a, $83
+    ld (Mapper_Slot2), a
+    ld hl, data_endingSequenceText
+    ld (v_endingSequencePointer), hl
+    ld hl, $0039
+    ld (v_verticalScrollSpeed), hl
+    ld a, $B0
+    ld (v_soundControl), a
+    ld hl, v_gameState
+    set 7, (hl)
+    ei
+    jp enableDisplay
 
 ; 5th entry of Jump Table from 127 (indexed by v_gameState)
 handleInterruptLevelCompletedState:
-	ret
+    ret
 
 ; 5th entry of Jump Table from 3B (indexed by v_gameState)
 updateLevelCompletedState:
-	exx
-	bit 7, (hl)
-	jp z, +
-	ld a, $82
-	ld (Mapper_Slot2), a
-	ld a, $01
-	call setAndWaitForInterruptFlags
-	ld hl, v_level
-	inc (hl)
-	ld a, $85
-	ld (Mapper_Slot2), a
-	ld a, $03
-	ld (v_gameState), a
-	ret
+    exx
+    bit 7, (hl)
+    jp z, +
+    ld a, $82
+    ld (Mapper_Slot2), a
+    ld a, $01
+    call setAndWaitForInterruptFlags
+    ld hl, v_level
+    inc (hl)
+    ld a, $85
+    ld (Mapper_Slot2), a
+    ld a, $03
+    ld (v_gameState), a
+    ret
 
 +:
-	set 7, (hl)
-	call resetSoundAndInitVolume
-	ld b, $05
-	call _LABEL_343_
-	call clearVDPTablesAndDisableScreen
-	ld hl, _RAM_D7D0_
-	ld de, _RAM_D7D0_ + 1
-	ld (hl), $00
-	ld bc, $000E
-	ldir
-	xor a
-	ld (_RAM_C08E_), a
-	ld b, $1E
-	ld de, $0020
-	ld ix, v_entity1
+    set 7, (hl)
+    call resetSoundAndInitVolume
+    ld b, $05
+    call _LABEL_343_
+    call clearVDPTablesAndDisableScreen
+    ld hl, _RAM_D7D0_
+    ld de, _RAM_D7D0_ + 1
+    ld (hl), $00
+    ld bc, $000E
+    ldir
+    xor a
+    ld (_RAM_C08E_), a
+    ld b, $1E
+    ld de, $0020
+    ld ix, v_entity1
 -:
-	call clearCurrentEntity
-	add ix, de
-	djnz -
-	ld hl, _RAM_D800_
-	ld de, _RAM_D800_ + 1
-	ld (hl), $00
-	ld bc, $0007
-	ldir
-	ld a, (v_level)
-	cp $0A
-	jp nz, +
-	ld hl, _RAM_D802_
-	set 0, (hl)
+    call clearCurrentEntity
+    add ix, de
+    djnz -
+    ld hl, _RAM_D800_
+    ld de, _RAM_D800_ + 1
+    ld (hl), $00
+    ld bc, $0007
+    ldir
+    ld a, (v_level)
+    cp $0A
+    jp nz, +
+    ld hl, _RAM_D802_
+    set 0, (hl)
 +:
-	ld de, $8026
-	call setVDPAddress
-	xor a
-	ld (v_newEntityHorizontalOffset), a
-	ld (v_shopFlags), a
-	ld (_RAM_C054_), a
-	ld (_RAM_C051_), a
-	ld (v_currentLevelIsBonusLevel), a
-	ei
-	jp enableDisplay
+    ld de, $8026
+    call setVDPAddress
+    xor a
+    ld (v_newEntityHorizontalOffset), a
+    ld (v_shopFlags), a
+    ld (_RAM_C054_), a
+    ld (_RAM_C051_), a
+    ld (v_currentLevelIsBonusLevel), a
+    ei
+    jp enableDisplay
 
 
 .INC "engine/levelStarting/update.asm"
@@ -2791,27 +2791,27 @@ levelStartingPalette:
 .INC "engine/map/handleInterrupt.asm"
 
 _LABEL_264F_:
-	ld a, (_RAM_C054_)
-	or a
-	ret z
-	cp $03
-	ret nc
-	ld hl, (v_invincibilityTimer)
-	ld a, h
-	or l
-	jr z, +
-	dec hl
-	ld (v_invincibilityTimer), hl
-	ret
+    ld a, (_RAM_C054_)
+    or a
+    ret z
+    cp $03
+    ret nc
+    ld hl, (v_invincibilityTimer)
+    ld a, h
+    or l
+    jr z, +
+    dec hl
+    ld (v_invincibilityTimer), hl
+    ret
 
 +:
-	ld a, $B2
-	ld (v_soundControl), a
-	xor a
-	ld (_RAM_C054_), a
-	ld a, $03
-	ld de, $C014
-	jp writeAToVRAM
+    ld a, $B2
+    ld (v_soundControl), a
+    xor a
+    ld (_RAM_C054_), a
+    ld a, $03
+    ld de, $C014
+    jp writeAToVRAM
 
 ; Data from 2674 to 2693 (32 bytes)
 _DATA_2674_:
@@ -2859,1712 +2859,1712 @@ alexStateHandlersPointers:
 .INC "entities/alex/updaters/updateSpawning.asm"
 
 _LABEL_2A6E_:
-	ld (ix + Entity.animationTimerResetValue), $05
-	ld (ix + Entity.unknown11), $18
-	ld (ix + Entity.unknown9), $08
-	ld (ix + Entity.state), $07
-	ld hl, _DATA_90BC_
-	jp _LABEL_41AA_
+    ld (ix + Entity.animationTimerResetValue), $05
+    ld (ix + Entity.unknown11), $18
+    ld (ix + Entity.unknown9), $08
+    ld (ix + Entity.state), $07
+    ld hl, _DATA_90BC_
+    jp _LABEL_41AA_
 
 startAutoWalkRight:
-	ld (ix + Entity.animationTimerResetValue), $05
-	ld (ix + Entity.unknown11), $18
-	ld (ix + Entity.unknown9), $08
-	ld (ix + Entity.state), ALEX_AUTO_WALKING_RIGHT
-	ld (ix + Entity.yPos.high), $98
-	ld hl, _DATA_90BC_
-	jp _LABEL_41AA_
+    ld (ix + Entity.animationTimerResetValue), $05
+    ld (ix + Entity.unknown11), $18
+    ld (ix + Entity.unknown9), $08
+    ld (ix + Entity.state), ALEX_AUTO_WALKING_RIGHT
+    ld (ix + Entity.yPos.high), $98
+    ld hl, _DATA_90BC_
+    jp _LABEL_41AA_
 
 ; 2nd entry of Jump Table from 2982 (indexed by v_entities.1.state)
 .INC "entities/alex/updaters/updateAlexIdle.asm"
 
 crouch:
-	ld (ix + Entity.state), ALEX_CROUCHED
-	bit 0, (ix + Entity.unknown3)
-	ld hl, _DATA_8DA7_
-	jp z, _LABEL_41AA_
-	ld hl, _DATA_8DBC_
-	jp _LABEL_41AA_
+    ld (ix + Entity.state), ALEX_CROUCHED
+    bit 0, (ix + Entity.unknown3)
+    ld hl, _DATA_8DA7_
+    jp z, _LABEL_41AA_
+    ld hl, _DATA_8DBC_
+    jp _LABEL_41AA_
 
 walkLeft:
-	res 1, (ix + Entity.unknown3)
+    res 1, (ix + Entity.unknown3)
 --:
-	res 0, (ix + Entity.unknown3)
-	ld (ix + Entity.state), ALEX_WALKING
-	ret
+    res 0, (ix + Entity.unknown3)
+    ld (ix + Entity.state), ALEX_WALKING
+    ret
 
 walkRight:
-	set 1, (ix + Entity.unknown3)
+    set 1, (ix + Entity.unknown3)
 -:
-	set 0, (ix + Entity.unknown3)
-	ld (ix + Entity.state), ALEX_WALKING
-	ret
+    set 0, (ix + Entity.unknown3)
+    ld (ix + Entity.state), ALEX_WALKING
+    ret
 
 walk:
-	bit 1, (ix + Entity.unknown3)
-	jr z, --
-	jr -
+    bit 1, (ix + Entity.unknown3)
+    jr z, --
+    jr -
 
 ; 3rd entry of Jump Table from 2982 (indexed by v_entities.1.state)
 updateAlexWalking:
-	ld hl, $0000
-	ld (v_entities.1.ySpeed), hl
-	bit 4, (ix+28)
-	jp nz, _LABEL_3DFB_
-	call _LABEL_3C45_
-	ld a, (v_entities.1.state)
-	cp ALEX_WALKING
-	ret nz
-	ld de, $1904
-	ld a, (v_entities.1.isOffScreenFlags.high)
-	or a
-	jr z, +
-	call _LABEL_3A4F_
-	jp nc, _LABEL_2CA1_
-	jr ++
+    ld hl, $0000
+    ld (v_entities.1.ySpeed), hl
+    bit 4, (ix+28)
+    jp nz, _LABEL_3DFB_
+    call _LABEL_3C45_
+    ld a, (v_entities.1.state)
+    cp ALEX_WALKING
+    ret nz
+    ld de, $1904
+    ld a, (v_entities.1.isOffScreenFlags.high)
+    or a
+    jr z, +
+    call _LABEL_3A4F_
+    jp nc, _LABEL_2CA1_
+    jr ++
 
 +:
-	ld a, $08
-	call _LABEL_3A41_
-	jp nc, _LABEL_2CA1_
-	call _LABEL_3D07_
-	ld a, (v_entities.1.state)
-	cp ALEX_WALKING
-	ret nz
+    ld a, $08
+    call _LABEL_3A41_
+    jp nc, _LABEL_2CA1_
+    call _LABEL_3D07_
+    ld a, (v_entities.1.state)
+    cp ALEX_WALKING
+    ret nz
 ++:
-	ld a, (_RAM_C007_)
-	bit 5, a
-	jr z, +
-	ld (ix+26), $01
-	call _LABEL_3B56_
-	jp _LABEL_4508_
+    ld a, (_RAM_C007_)
+    bit 5, a
+    jr z, +
+    ld (ix+26), $01
+    call _LABEL_3B56_
+    jp _LABEL_4508_
 
 +:
-	bit 4, a
-	jp nz, _LABEL_2CAE_
-	bit 1, (ix+20)
-	jp nz, _LABEL_2C25_
-	ld de, $0102
-	ld a, (v_entities.1.isOffScreenFlags.high)
-	or a
-	jr z, +
-	ld d, $17
-	call _LABEL_3A11_
-	jr c, ++
-	jr +++
+    bit 4, a
+    jp nz, _LABEL_2CAE_
+    bit 1, (ix+20)
+    jp nz, _LABEL_2C25_
+    ld de, $0102
+    ld a, (v_entities.1.isOffScreenFlags.high)
+    or a
+    jr z, +
+    ld d, $17
+    call _LABEL_3A11_
+    jr c, ++
+    jr +++
 
 +:
-	ld a, $0E
-	ld b, $01
-	call _LABEL_39ED_
-	jr nc, +++
+    ld a, $0E
+    ld b, $01
+    call _LABEL_39ED_
+    jr nc, +++
 ++:
-	call _LABEL_3B56_
-	ld a, (v_inputData)
-	bit JOY_DOWN_BIT, a
-	jp nz, crouch
-	bit JOY_RIGHT_BIT, a
-	jp nz, walkRight
-	bit JOY_LEFT_BIT, a
-	jr nz, _LABEL_2BDC_
-	jp _LABEL_2BFA_
+    call _LABEL_3B56_
+    ld a, (v_inputData)
+    bit JOY_DOWN_BIT, a
+    jp nz, crouch
+    bit JOY_RIGHT_BIT, a
+    jp nz, walkRight
+    bit JOY_LEFT_BIT, a
+    jr nz, _LABEL_2BDC_
+    jp _LABEL_2BFA_
 
 +++:
-	ld a, (v_inputData)
-	bit JOY_LEFT_BIT, a
-	jr z, +
-	set 2, (ix + Entity.unknown3)
-	ld de, $FFC0
-	ld bc, $FE00
-	call _LABEL_3B2B_
+    ld a, (v_inputData)
+    bit JOY_LEFT_BIT, a
+    jr z, +
+    set 2, (ix + Entity.unknown3)
+    ld de, $FFC0
+    ld bc, $FE00
+    call _LABEL_3B2B_
 _LABEL_2BDC_:
-	ld hl, _DATA_8CEB_
-	jp _LABEL_4189_
+    ld hl, _DATA_8CEB_
+    jp _LABEL_4189_
 
 +:
-	bit JOY_RIGHT_BIT, a
-	jp nz, +
-	bit JOY_DOWN_BIT, a
-	jp nz, crouch
-	bit 2, (ix + Entity.unknown3)
-	jr z, _LABEL_2BFA_
-	ld de, $0020
-	call _LABEL_3B50_
-	jr nc, _LABEL_2BDC_
+    bit JOY_RIGHT_BIT, a
+    jp nz, +
+    bit JOY_DOWN_BIT, a
+    jp nz, crouch
+    bit 2, (ix + Entity.unknown3)
+    jr z, _LABEL_2BFA_
+    ld de, $0020
+    call _LABEL_3B50_
+    jr nc, _LABEL_2BDC_
 _LABEL_2BFA_:
-	ld a, $05
-	ld (v_entities.1.animationTimerResetValue), a
-	ld a, $01
-	ld (v_entities.1.state), a
+    ld a, $05
+    ld (v_entities.1.animationTimerResetValue), a
+    ld a, $01
+    ld (v_entities.1.state), a
 _LABEL_2C04_:
-	ld hl, _DATA_90A7_
-	ld a, (v_entities.1.unknown3)
-	bit 0, a
-	jp z, _LABEL_41AA_
-	ld hl, _DATA_90BC_
-	jp _LABEL_41AA_
+    ld hl, _DATA_90A7_
+    ld a, (v_entities.1.unknown3)
+    bit 0, a
+    jp z, _LABEL_41AA_
+    ld hl, _DATA_90BC_
+    jp _LABEL_41AA_
 
 +:
-	set 0, (ix + Entity.unknown3)
-	ld de, $0040
-	call _LABEL_3B61_
-	ld hl, _DATA_8CF4_
-	jp _LABEL_4189_
+    set 0, (ix + Entity.unknown3)
+    ld de, $0040
+    call _LABEL_3B61_
+    ld hl, _DATA_8CF4_
+    jp _LABEL_4189_
 
 _LABEL_2C25_:
-	ld de, $010E
-	ld a, (v_entities.1.isOffScreenFlags.high)
-	or a
-	jr z, +
-	ld d, $17
-	call _LABEL_3A11_
-	jr c, ++
-	jp +++
+    ld de, $010E
+    ld a, (v_entities.1.isOffScreenFlags.high)
+    or a
+    jr z, +
+    ld d, $17
+    call _LABEL_3A11_
+    jr c, ++
+    jp +++
 
 +:
-	ld a, $0E
-	ld b, $01
-	call _LABEL_39ED_
-	jr nc, +++
+    ld a, $0E
+    ld b, $01
+    call _LABEL_39ED_
+    jr nc, +++
 ++:
-	call _LABEL_3B56_
-	ld a, (v_inputData)
-	bit JOY_DOWN_BIT, a
-	jp nz, crouch
-	bit JOY_LEFT_BIT, a
-	jp nz, walkLeft
-	bit JOY_RIGHT_BIT, a
-	jr nz, _LABEL_2C6C_
-	jp _LABEL_2BFA_
+    call _LABEL_3B56_
+    ld a, (v_inputData)
+    bit JOY_DOWN_BIT, a
+    jp nz, crouch
+    bit JOY_LEFT_BIT, a
+    jp nz, walkLeft
+    bit JOY_RIGHT_BIT, a
+    jr nz, _LABEL_2C6C_
+    jp _LABEL_2BFA_
 
 +++:
-	ld a, (v_inputData)
-	bit JOY_RIGHT_BIT, a
-	jr z, +
-	set 2, (ix+20)
-	ld de, $0040
-	ld bc, $0200
-	call _LABEL_3B7E_
+    ld a, (v_inputData)
+    bit JOY_RIGHT_BIT, a
+    jr z, +
+    set 2, (ix+20)
+    ld de, $0040
+    ld bc, $0200
+    call _LABEL_3B7E_
 _LABEL_2C6C_:
-	ld hl, _DATA_8CF4_
-	jp _LABEL_4189_
+    ld hl, _DATA_8CF4_
+    jp _LABEL_4189_
 
 +:
-	bit JOY_LEFT_BIT, a
-	jr nz, +
-	bit JOY_DOWN_BIT, a
-	jp nz, crouch
-	bit 2, (ix+20)
-	jp z, _LABEL_2BFA_
-	ld de, $FFE0
-	call _LABEL_3BA1_
-	jr c, _LABEL_2C6C_
-	jp _LABEL_2BFA_
+    bit JOY_LEFT_BIT, a
+    jr nz, +
+    bit JOY_DOWN_BIT, a
+    jp nz, crouch
+    bit 2, (ix+20)
+    jp z, _LABEL_2BFA_
+    ld de, $FFE0
+    call _LABEL_3BA1_
+    jr c, _LABEL_2C6C_
+    jp _LABEL_2BFA_
 
 +:
-	set 2, (ix+20)
-	res 0, (ix+20)
-	ld de, $FFC0
-	call _LABEL_3BB1_
-	ld hl, _DATA_8CF4_
-	jp _LABEL_4189_
+    set 2, (ix+20)
+    res 0, (ix+20)
+    ld de, $FFC0
+    call _LABEL_3BB1_
+    ld hl, _DATA_8CF4_
+    jp _LABEL_4189_
 
 _LABEL_2CA1_:
-	ld a, (v_entities.1.unknown3)
-	and $BF
-	or $80
-	set 2, (ix+28)
-	jr +
+    ld a, (v_entities.1.unknown3)
+    and $BF
+    or $80
+    set 2, (ix+28)
+    jr +
 
 _LABEL_2CAE_:
-	ld a, $91
-	ld (v_soundControl), a
-	ld (ix+27), $16
-	ld a, (v_entities.1.unknown3)
-	and $3F
+    ld a, $91
+    ld (v_soundControl), a
+    ld (ix+27), $16
+    ld a, (v_entities.1.unknown3)
+    and $3F
 +:
-	ld (v_entities.1.unknown3), a
-	bit 0, a
-	ld (ix+26), $03
-	ld hl, _DATA_8F00_
-	jr z, +
-	ld hl, _DATA_8F15_
+    ld (v_entities.1.unknown3), a
+    bit 0, a
+    ld (ix+26), $03
+    ld hl, _DATA_8F00_
+    jr z, +
+    ld hl, _DATA_8F15_
 +:
-	call _LABEL_41AA_
+    call _LABEL_41AA_
 ; 4th entry of Jump Table from 2982 (indexed by v_entities.1.state)
 updateAlexInAir:
-	call _LABEL_3C45_
-	ld a, (v_entities.1.state)
-	cp ALEX_IN_AIR 
-	ret nz
-	ld a, (_RAM_C213_)
-	or a
-	jp nz, _LABEL_3498_
-	bit 0, (ix+28)
-	jr z, ++
-	call _LABEL_462E_
-	jr nz, +++
-	ld hl, _DATA_8F00_
-	bit 0, (ix+20)
-	jr z, +
-	ld hl, _DATA_8F15_
+    call _LABEL_3C45_
+    ld a, (v_entities.1.state)
+    cp ALEX_IN_AIR 
+    ret nz
+    ld a, (_RAM_C213_)
+    or a
+    jp nz, _LABEL_3498_
+    bit 0, (ix+28)
+    jr z, ++
+    call _LABEL_462E_
+    jr nz, +++
+    ld hl, _DATA_8F00_
+    bit 0, (ix+20)
+    jr z, +
+    ld hl, _DATA_8F15_
 +:
-	call _LABEL_41AA_
-	jr +++
+    call _LABEL_41AA_
+    jr +++
 
 ++:
-	ld a, (_RAM_C007_)
-	and $20
-	call nz, _LABEL_4508_
+    ld a, (_RAM_C007_)
+    and $20
+    call nz, _LABEL_4508_
 +++:
-	bit 2, (ix+28)
-	jp nz, _LABEL_2D4A_
-	ld a, (v_inputData)
-	bit JOY_BTN1_BIT, a
-	jr z, ++
-	dec (ix+27)
-	jr z, ++
-	ld de, (v_entities.1.xSpeed)
-	bit 7, d
-	jr nz, +
-	xor a
-	ld h, a
-	ld l, a
-	sbc hl, de
-	ex de, hl
+    bit 2, (ix+28)
+    jp nz, _LABEL_2D4A_
+    ld a, (v_inputData)
+    bit JOY_BTN1_BIT, a
+    jr z, ++
+    dec (ix+27)
+    jr z, ++
+    ld de, (v_entities.1.xSpeed)
+    bit 7, d
+    jr nz, +
+    xor a
+    ld h, a
+    ld l, a
+    sbc hl, de
+    ex de, hl
 +:
-	sra d
-	rr e
-	sra d
-	rr e
-	ld hl, $FE00
-	add hl, de
-	ld (v_entities.1.ySpeed), hl
-	ld de, $0104
-	call _LABEL_3A7E_
-	bit 7, (ix+20)
-	jr z, _LABEL_2D7F_
-	set 2, (ix+28)
-	jr _LABEL_2D7F_
+    sra d
+    rr e
+    sra d
+    rr e
+    ld hl, $FE00
+    add hl, de
+    ld (v_entities.1.ySpeed), hl
+    ld de, $0104
+    call _LABEL_3A7E_
+    bit 7, (ix+20)
+    jr z, _LABEL_2D7F_
+    set 2, (ix+28)
+    jr _LABEL_2D7F_
 
 ++:
-	set 2, (ix+28)
+    set 2, (ix+28)
 _LABEL_2D4A_:
-	ld de, $0104
-	call _LABEL_3A68_
-	bit 6, (ix+20)
-	jr z, _LABEL_2D7F_
-	res 2, (ix+28)
-	ld a, $B1
-	ld (v_soundControl), a
-	ld a, (v_entities.1.unknown8)
-	bit 0, a
-	jr z, +
-	bit 1, a
-	jr nz, +
-	res 2, (ix+20)
-	ld (ix+26), $01
-	jp _LABEL_2BFA_
+    ld de, $0104
+    call _LABEL_3A68_
+    bit 6, (ix+20)
+    jr z, _LABEL_2D7F_
+    res 2, (ix+28)
+    ld a, $B1
+    ld (v_soundControl), a
+    ld a, (v_entities.1.unknown8)
+    bit 0, a
+    jr z, +
+    bit 1, a
+    jr nz, +
+    res 2, (ix+20)
+    ld (ix+26), $01
+    jp _LABEL_2BFA_
 
 +:
-	bit 2, (ix+20)
-	jp z, _LABEL_2BFA_
-	call walk
+    bit 2, (ix+20)
+    jp z, _LABEL_2BFA_
+    call walk
 _LABEL_2D7F_:
-	bit 1, (ix+20)
-	jp nz, _LABEL_2DF3_
-	ld de, $1802
-	ld a, (v_entities.1.isOffScreenFlags.high)
-	or a
-	jr z, +
-	call _LABEL_3A11_
-	jr c, +++
-	jr ++
+    bit 1, (ix+20)
+    jp nz, _LABEL_2DF3_
+    ld de, $1802
+    ld a, (v_entities.1.isOffScreenFlags.high)
+    or a
+    jr z, +
+    call _LABEL_3A11_
+    jr c, +++
+    jr ++
 
 +:
-	ld a, (v_entities.1.ySpeed.high)
-	add a, $07
-	ld d, a
-	ld a, $08
-	ld e, $02
-	ld b, $01
-	call _LABEL_39ED_
-	jr c, +++
+    ld a, (v_entities.1.ySpeed.high)
+    add a, $07
+    ld d, a
+    ld a, $08
+    ld e, $02
+    ld b, $01
+    call _LABEL_39ED_
+    jr c, +++
 ++:
-	ld a, (v_inputData)
-	bit JOY_LEFT_BIT, a
-	jr nz, ++++
-	bit JOY_RIGHT_BIT, a
-	jr nz, +++++
-	ld de, $0008
-	jp _LABEL_3B4B_
+    ld a, (v_inputData)
+    bit JOY_LEFT_BIT, a
+    jr nz, ++++
+    bit JOY_RIGHT_BIT, a
+    jr nz, +++++
+    ld de, $0008
+    jp _LABEL_3B4B_
 
 +++:
-	call _LABEL_3B56_
-	ld a, (v_inputData)
-	bit JOY_RIGHT_BIT, a
-	ret z
-	set 1, (ix+20)
-	ret
+    call _LABEL_3B56_
+    ld a, (v_inputData)
+    bit JOY_RIGHT_BIT, a
+    ret z
+    set 1, (ix+20)
+    ret
 
 ++++:
-	set 2, (ix+20)
-	ld de, $FFF0
-	ld bc, $FE00
-	jp _LABEL_3B2B_
+    set 2, (ix+20)
+    ld de, $FFF0
+    ld bc, $FE00
+    jp _LABEL_3B2B_
 
 +++++:
-	ld a, (v_entities.1.unknown3)
-	set 0, a
-	ld (v_entities.1.unknown3), a
-	ld hl, _DATA_8F15_
-	ld a, (v_entities.1.unknown8)
-	and $03
-	cp $01
-	jr nz, +
-	ld hl, _DATA_8DE9_
+    ld a, (v_entities.1.unknown3)
+    set 0, a
+    ld (v_entities.1.unknown3), a
+    ld hl, _DATA_8F15_
+    ld a, (v_entities.1.unknown8)
+    and $03
+    cp $01
+    jr nz, +
+    ld hl, _DATA_8DE9_
 +:
-	call _LABEL_41AA_
-	ld de, $0010
-	jp _LABEL_3B61_
+    call _LABEL_41AA_
+    ld de, $0010
+    jp _LABEL_3B61_
 
 _LABEL_2DF3_:
-	ld de, $180E
-	ld a, (v_entities.1.isOffScreenFlags.high)
-	or a
-	jr z, +
-	call _LABEL_3A11_
-	jr c, +++
-	jr ++
+    ld de, $180E
+    ld a, (v_entities.1.isOffScreenFlags.high)
+    or a
+    jr z, +
+    call _LABEL_3A11_
+    jr c, +++
+    jr ++
 
 +:
-	ld a, (v_entities.1.ySpeed.high)
-	add a, $07
-	ld d, a
-	ld a, $08
-	ld b, $01
-	call _LABEL_39ED_
-	jr c, +++
+    ld a, (v_entities.1.ySpeed.high)
+    add a, $07
+    ld d, a
+    ld a, $08
+    ld b, $01
+    call _LABEL_39ED_
+    jr c, +++
 ++:
-	ld a, (v_inputData)
-	bit JOY_RIGHT_BIT, a
-	jr nz, ++++
-	bit JOY_LEFT_BIT, a
-	jr nz, +++++
-	ld de, $FFF8
-	jp _LABEL_3B9C_
+    ld a, (v_inputData)
+    bit JOY_RIGHT_BIT, a
+    jr nz, ++++
+    bit JOY_LEFT_BIT, a
+    jr nz, +++++
+    ld de, $FFF8
+    jp _LABEL_3B9C_
 
 +++:
-	call _LABEL_3B56_
-	ld a, (v_inputData)
-	bit JOY_LEFT_BIT, a
-	ret z
-	res 1, (ix+20)
-	ret
+    call _LABEL_3B56_
+    ld a, (v_inputData)
+    bit JOY_LEFT_BIT, a
+    ret z
+    res 1, (ix+20)
+    ret
 
 ++++:
-	set 2, (ix+20)
-	ld de, $0010
-	ld bc, $0200
-	jp _LABEL_3B7E_
+    set 2, (ix+20)
+    ld de, $0010
+    ld bc, $0200
+    jp _LABEL_3B7E_
 
 +++++:
-	ld a, (v_entities.1.unknown3)
-	bit 0, a
-	res 0, a
-	ld (v_entities.1.unknown3), a
-	ld hl, _DATA_8F00_
-	ld a, (v_entities.1.unknown8)
-	and $03
-	cp $01
-	jr nz, +
-	ld hl, _DATA_8DD1_
+    ld a, (v_entities.1.unknown3)
+    bit 0, a
+    res 0, a
+    ld (v_entities.1.unknown3), a
+    ld hl, _DATA_8F00_
+    ld a, (v_entities.1.unknown8)
+    and $03
+    cp $01
+    jr nz, +
+    ld hl, _DATA_8DD1_
 +:
-	call _LABEL_41AA_
-	ld de, $FFF0
-	jp _LABEL_3BB1_
+    call _LABEL_41AA_
+    ld de, $FFF0
+    jp _LABEL_3BB1_
 
 ; 5th entry of Jump Table from 2982 (indexed by v_entities.1.state)
 updateAlexCrouched:
-	ld hl, $0000
-	ld (v_entities.1.ySpeed), hl
-	bit 4, (ix+28)
-	jp nz, _LABEL_3E0B_
-	call _LABEL_3C45_
-	ld a, (v_entities.1.state)
-	cp ALEX_CROUCHED
-	ret nz
-	ld de, $1904
-	ld a, (v_entities.1.isOffScreenFlags.high)
-	or a
-	jr z, +
-	call _LABEL_3A4F_
-	jp nc, _LABEL_2CA1_
-	jr ++
+    ld hl, $0000
+    ld (v_entities.1.ySpeed), hl
+    bit 4, (ix+28)
+    jp nz, _LABEL_3E0B_
+    call _LABEL_3C45_
+    ld a, (v_entities.1.state)
+    cp ALEX_CROUCHED
+    ret nz
+    ld de, $1904
+    ld a, (v_entities.1.isOffScreenFlags.high)
+    or a
+    jr z, +
+    call _LABEL_3A4F_
+    jp nc, _LABEL_2CA1_
+    jr ++
 
 +:
-	ld a, $08
-	call _LABEL_3A41_
-	jp nc, _LABEL_2CA1_
+    ld a, $08
+    call _LABEL_3A41_
+    jp nc, _LABEL_2CA1_
 ++:
-	ld a, (v_inputData)
-	bit JOY_DOWN_BIT, a
-	jr nz, +
-	ld a, (v_entities.1.isOffScreenFlags.high)
-	or a
-	jp nz, _LABEL_2F22_
-	ld de, $0004
-	ld a, $08
-	call _LABEL_3A41_
-	jp nc, _LABEL_2F22_
+    ld a, (v_inputData)
+    bit JOY_DOWN_BIT, a
+    jr nz, +
+    ld a, (v_entities.1.isOffScreenFlags.high)
+    or a
+    jp nz, _LABEL_2F22_
+    ld de, $0004
+    ld a, $08
+    call _LABEL_3A41_
+    jp nc, _LABEL_2F22_
 +:
-	bit 2, (ix+20)
-	jr z, +
-	bit 1, (ix+20)
-	jp nz, _LABEL_2F2C_
-	ld de, $0902
-	ld a, $0D
-	call _LABEL_3A03_
-	jp c, _LABEL_3B56_
-	ld de, $0020
-	jp _LABEL_3B4B_
+    bit 2, (ix+20)
+    jr z, +
+    bit 1, (ix+20)
+    jp nz, _LABEL_2F2C_
+    ld de, $0902
+    ld a, $0D
+    call _LABEL_3A03_
+    jp c, _LABEL_3B56_
+    ld de, $0020
+    jp _LABEL_3B4B_
 
 +:
-	ld a, (v_inputData)
-	ld c, a
-	ld a, (v_entities.1.unknown3)
-	and $FB
-	bit 2, c
-	jr nz, ++
-	bit 3, c
-	ret z
-	bit 1, c
-	jr nz, +
-	ld de, $090E
-	ld a, $0D
-	call _LABEL_3A03_
-	jr c, +
-	ld hl, $0020
-	ld (v_entities.1.xSpeed), hl
-	set 2, a
+    ld a, (v_inputData)
+    ld c, a
+    ld a, (v_entities.1.unknown3)
+    and $FB
+    bit 2, c
+    jr nz, ++
+    bit 3, c
+    ret z
+    bit 1, c
+    jr nz, +
+    ld de, $090E
+    ld a, $0D
+    call _LABEL_3A03_
+    jr c, +
+    ld hl, $0020
+    ld (v_entities.1.xSpeed), hl
+    set 2, a
 +:
-	or $03
-	bit 0, (ix+20)
-	ld (v_entities.1.unknown3), a
-	ret nz
-	ld hl, _DATA_8DBC_
-	jp _LABEL_41AA_
+    or $03
+    bit 0, (ix+20)
+    ld (v_entities.1.unknown3), a
+    ret nz
+    ld hl, _DATA_8DBC_
+    jp _LABEL_41AA_
 
 ++:
-	bit 1, c
-	jr nz, +
-	ld de, $0902
-	ld a, $0D
-	call _LABEL_3A03_
-	jr c, +
-	ld hl, $FFE0
-	ld (v_entities.1.xSpeed), hl
-	set 2, a
+    bit 1, c
+    jr nz, +
+    ld de, $0902
+    ld a, $0D
+    call _LABEL_3A03_
+    jr c, +
+    ld hl, $FFE0
+    ld (v_entities.1.xSpeed), hl
+    set 2, a
 +:
-	and $FC
-	bit 0, (ix + Entity.unknown3)
-	ld (v_entities.1.unknown3), a
-	ret z
-	ld hl, _DATA_8DA7_
-	jp _LABEL_41AA_
+    and $FC
+    bit 0, (ix + Entity.unknown3)
+    ld (v_entities.1.unknown3), a
+    ret z
+    ld hl, _DATA_8DA7_
+    jp _LABEL_41AA_
 
 _LABEL_2F22_:
-	bit 2, (ix + Entity.unknown3)
-	jp z, _LABEL_2BFA_
-	jp walk
+    bit 2, (ix + Entity.unknown3)
+    jp z, _LABEL_2BFA_
+    jp walk
 
 _LABEL_2F2C_:
-	ld de, $090E
-	ld a, $0D
-	call _LABEL_3A03_
-	jp c, _LABEL_3B56_
-	ld de, $FFE0
-	call _LABEL_3BA1_
-	jp nc, _LABEL_3B56_
-	ret
+    ld de, $090E
+    ld a, $0D
+    call _LABEL_3A03_
+    jp c, _LABEL_3B56_
+    ld de, $FFE0
+    call _LABEL_3BA1_
+    jp nc, _LABEL_3B56_
+    ret
 
 _LABEL_2F41_:
-	res 7, (ix + Entity.flags)
-	ld a, (v_entities.1.state)
-	cp ALEX_FLYING_PETICOPTER
-	jp z, _LABEL_388E_
-	cp ALEX_RIDING_BOAT
-	jp z, _LABEL_388E_
-	cp ALEX_RIDING_BOAT_IN_AIR
-	jp z, _LABEL_388E_
-	xor a
-	ld h, a
-	ld l, a
-	ld (v_entities.1.xSpeed), hl
-	ld (v_entities.1.unknown8), a
-	ld (_RAM_C054_), a
-	res 2, (ix + Entity.unknown3)
-	ld hl, $FF38
-	ld (v_entities.1.ySpeed), hl
-	ld a, (v_entities.1.state)
-	ld (v_alexStateBeforeHit), a
-	ld (ix + Entity.state), ALEX_DEAD
-	ld (ix + Entity.animationTimerResetValue), $05
-	ld b, $1E
+    res 7, (ix + Entity.flags)
+    ld a, (v_entities.1.state)
+    cp ALEX_FLYING_PETICOPTER
+    jp z, _LABEL_388E_
+    cp ALEX_RIDING_BOAT
+    jp z, _LABEL_388E_
+    cp ALEX_RIDING_BOAT_IN_AIR
+    jp z, _LABEL_388E_
+    xor a
+    ld h, a
+    ld l, a
+    ld (v_entities.1.xSpeed), hl
+    ld (v_entities.1.unknown8), a
+    ld (_RAM_C054_), a
+    res 2, (ix + Entity.unknown3)
+    ld hl, $FF38
+    ld (v_entities.1.ySpeed), hl
+    ld a, (v_entities.1.state)
+    ld (v_alexStateBeforeHit), a
+    ld (ix + Entity.state), ALEX_DEAD
+    ld (ix + Entity.animationTimerResetValue), $05
+    ld b, $1E
 -:
-	ld a, $01
-	call setAndWaitForInterruptFlags
-	djnz -
-	ld a, $89
-	ld (v_soundControl), a
-	ret
+    ld a, $01
+    call setAndWaitForInterruptFlags
+    djnz -
+    ld a, $89
+    ld (v_soundControl), a
+    ret
 
 ; 16th entry of Jump Table from 2982 (indexed by v_entities.1.state)
 .INC "entities/alex/updaters/updateDead.asm"
 
 ; 9th entry of Jump Table from 2982 (indexed by v_entities.1.state)
 updateAlexRidingMotorcycle:
-	ld hl, $0000
-	ld (v_entities.1.ySpeed), hl
-	ld de, $0C0C
-	call _LABEL_3C48_
-	ld de, $1805
-	ld a, $0F
-	call _LABEL_3A41_
-	jp nc, _LABEL_3013_
-	ld a, (_RAM_C007_)
-	bit 4, a
-	jp nz, _LABEL_301D_
-	ld a, (v_entities.1.xSpeed.high)
-	cpl
-	add a, $07
-	ld (v_entities.1.animationTimerResetValue), a
-	ld hl, _DATA_8D19_
-	call _LABEL_4189_
+    ld hl, $0000
+    ld (v_entities.1.ySpeed), hl
+    ld de, $0C0C
+    call _LABEL_3C48_
+    ld de, $1805
+    ld a, $0F
+    call _LABEL_3A41_
+    jp nc, _LABEL_3013_
+    ld a, (_RAM_C007_)
+    bit 4, a
+    jp nz, _LABEL_301D_
+    ld a, (v_entities.1.xSpeed.high)
+    cpl
+    add a, $07
+    ld (v_entities.1.animationTimerResetValue), a
+    ld hl, _DATA_8D19_
+    call _LABEL_4189_
 _LABEL_2FD5_:
-	ld de, $0214
-	call getTileNearEntityWithXYOffset
-	rlca
-	jr nc, +
-	rlca
-	jp nc, _LABEL_43F2_
-	call _LABEL_4578_
-	jr ++
+    ld de, $0214
+    call getTileNearEntityWithXYOffset
+    rlca
+    jr nc, +
+    rlca
+    jp nc, _LABEL_43F2_
+    call _LABEL_4578_
+    jr ++
 
 +:
-	ld de, $1218
-	call getTileNearEntityWithXYOffset
-	rlca
-	jr nc, ++
-	rlca
-	jp nc, _LABEL_43F2_
-	call _LABEL_4578_
+    ld de, $1218
+    call getTileNearEntityWithXYOffset
+    rlca
+    jr nc, ++
+    rlca
+    jp nc, _LABEL_43F2_
+    call _LABEL_4578_
 ++:
-	ld a, (v_inputData)
-	bit JOY_RIGHT_BIT, a
-	jr z, +
-	ld de, $0040
-	ld bc, $0400
-	jp _LABEL_3B7E_
+    ld a, (v_inputData)
+    bit JOY_RIGHT_BIT, a
+    jr z, +
+    ld de, $0040
+    ld bc, $0400
+    jp _LABEL_3B7E_
 
 +:
-	bit 2, a
-	ret z
-	ld de, $FFC0
-	ld bc, $0100
-	jp _LABEL_3BCF_
+    bit 2, a
+    ret z
+    ld de, $FFC0
+    ld bc, $0100
+    jp _LABEL_3BCF_
 
 _LABEL_3013_:
-	set 7, (ix+20)
-	set 2, (ix+28)
-	jr +
+    set 7, (ix+20)
+    set 2, (ix+28)
+    jr +
 
 _LABEL_301D_:
-	ld (ix+27), $10
-	res 7, (ix + Entity.unknown3)
+    ld (ix+27), $10
+    res 7, (ix + Entity.unknown3)
 +:
-	ld (ix + Entity.state), ALEX_RIDING_MOTORCYCLE_IN_AIR
-	ld hl, _DATA_8F60_
-	call _LABEL_41AA_
+    ld (ix + Entity.state), ALEX_RIDING_MOTORCYCLE_IN_AIR
+    ld hl, _DATA_8F60_
+    call _LABEL_41AA_
 ; 10th entry of Jump Table from 2982 (indexed by v_entities.1.state)
 alexHandler_302F:
-	ld de, $0C0C
-	call _LABEL_3C48_
-	bit 2, (ix+28)
-	jr nz, ++
-	ld a, (v_inputData)
-	bit JOY_BTN1_BIT, a
-	jr z, +
-	dec (ix+27)
-	jr z, +
-	ld de, (v_entities.1.xSpeed)
-	xor a
-	ld h, a
-	ld l, a
-	sbc hl, de
-	ex de, hl
-	sra d
-	rr e
-	ld hl, $FE00
-	add hl, de
-	ld (v_entities.1.ySpeed), hl
-	ld de, $0102
-	call _LABEL_3A7E_
-	bit 7, (ix+20)
-	jp z, _LABEL_2FD5_
-	set 2, (ix+28)
-	jp _LABEL_2FD5_
+    ld de, $0C0C
+    call _LABEL_3C48_
+    bit 2, (ix+28)
+    jr nz, ++
+    ld a, (v_inputData)
+    bit JOY_BTN1_BIT, a
+    jr z, +
+    dec (ix+27)
+    jr z, +
+    ld de, (v_entities.1.xSpeed)
+    xor a
+    ld h, a
+    ld l, a
+    sbc hl, de
+    ex de, hl
+    sra d
+    rr e
+    ld hl, $FE00
+    add hl, de
+    ld (v_entities.1.ySpeed), hl
+    ld de, $0102
+    call _LABEL_3A7E_
+    bit 7, (ix+20)
+    jp z, _LABEL_2FD5_
+    set 2, (ix+28)
+    jp _LABEL_2FD5_
 
 +:
-	set 2, (ix+28)
+    set 2, (ix+28)
 ++:
-	ld de, $0102
-	call _LABEL_3A68_
-	bit 6, (ix+20)
-	jp z, _LABEL_2FD5_
-	ld a, (v_entities.1.unknown3)
-	and $3F
-	ld (v_entities.1.unknown3), a
-	res 2, (ix+28)
-	ld (ix+26), $08
-	jp _LABEL_2FD5_
+    ld de, $0102
+    call _LABEL_3A68_
+    bit 6, (ix+20)
+    jp z, _LABEL_2FD5_
+    ld a, (v_entities.1.unknown3)
+    and $3F
+    ld (v_entities.1.unknown3), a
+    res 2, (ix+28)
+    ld (ix+26), $08
+    jp _LABEL_2FD5_
 
 ; 12th entry of Jump Table from 2982 (indexed by v_entities.1.state)
 updateAlexRidingBoat:
-	ld hl, $0000
-	ld (v_entities.1.ySpeed), hl
-	ld de, $0C0C
-	call _LABEL_3C48_
-	bit 0, (ix+28)
-	jr nz, +
-	ld a, (_RAM_C007_)
-	and $20
-	call nz, _LABEL_4453_
+    ld hl, $0000
+    ld (v_entities.1.ySpeed), hl
+    ld de, $0C0C
+    call _LABEL_3C48_
+    bit 0, (ix+28)
+    jr nz, +
+    ld a, (_RAM_C007_)
+    and $20
+    call nz, _LABEL_4453_
 +:
-	ld a, (_RAM_C007_)
-	bit 4, a
-	jp nz, _LABEL_30F5_
-	ld a, (v_entities.1.xSpeed.high)
-	cpl
-	add a, $07
-	ld (v_entities.1.animationTimerResetValue), a
-	ld hl, _DATA_8D1E_
-	call _LABEL_4189_
+    ld a, (_RAM_C007_)
+    bit 4, a
+    jp nz, _LABEL_30F5_
+    ld a, (v_entities.1.xSpeed.high)
+    cpl
+    add a, $07
+    ld (v_entities.1.animationTimerResetValue), a
+    ld hl, _DATA_8D1E_
+    call _LABEL_4189_
 _LABEL_30C5_:
-	ld de, $0212
-	call getTileNearEntityWithXYOffset
-	rlca
-	jp c, _LABEL_389C_
-	ld de, $1214
-	call getTileNearEntityWithXYOffset
-	rlca
-	jp c, _LABEL_389C_
-	ld a, (v_inputData)
-	bit JOY_RIGHT_BIT, a
-	jr z, +
-	ld de, $0040
-	ld bc, $0280
-	jp _LABEL_3B7E_
+    ld de, $0212
+    call getTileNearEntityWithXYOffset
+    rlca
+    jp c, _LABEL_389C_
+    ld de, $1214
+    call getTileNearEntityWithXYOffset
+    rlca
+    jp c, _LABEL_389C_
+    ld a, (v_inputData)
+    bit JOY_RIGHT_BIT, a
+    jr z, +
+    ld de, $0040
+    ld bc, $0280
+    jp _LABEL_3B7E_
 
 +:
-	bit 2, a
-	ret z
-	ld de, $FFC0
-	ld bc, $0100
-	jp _LABEL_3BCF_
+    bit 2, a
+    ret z
+    ld de, $FFC0
+    ld bc, $0100
+    jp _LABEL_3BCF_
 
 _LABEL_30F5_:
-	ld (ix+27), $10
-	res 7, (ix+20)
-	ld (ix+26), $0C
-	ld hl, _DATA_9137_
-	call _LABEL_41AA_
+    ld (ix+27), $10
+    res 7, (ix+20)
+    ld (ix+26), $0C
+    ld hl, _DATA_9137_
+    call _LABEL_41AA_
 ; 13th entry of Jump Table from 2982 (indexed by v_entities.1.state)
 updateAlexRidingBoatInAir:
-	ld de, $0C0C
-	call _LABEL_3C48_
-	bit 0, (ix+28)
-	jr nz, +
-	ld a, (_RAM_C007_)
-	and $20
-	call nz, _LABEL_4453_
+    ld de, $0C0C
+    call _LABEL_3C48_
+    bit 0, (ix+28)
+    jr nz, +
+    ld a, (_RAM_C007_)
+    and $20
+    call nz, _LABEL_4453_
 +:
-	bit 2, (ix+28)
-	jr nz, ++
-	ld a, (v_inputData)
-	bit JOY_BTN1_BIT, a
-	jr z, +
-	dec (ix+27)
-	jr z, +
-	ld de, (v_entities.1.xSpeed)
-	xor a
-	ld h, a
-	ld l, a
-	sbc hl, de
-	ex de, hl
-	sra d
-	rr e
-	ld hl, $FE00
-	add hl, de
-	ld (v_entities.1.ySpeed), hl
-	ld de, $0102
-	call _LABEL_3A7E_
-	bit 7, (ix+20)
-	jp z, _LABEL_30C5_
-	set 2, (ix+28)
-	jp _LABEL_30C5_
+    bit 2, (ix+28)
+    jr nz, ++
+    ld a, (v_inputData)
+    bit JOY_BTN1_BIT, a
+    jr z, +
+    dec (ix+27)
+    jr z, +
+    ld de, (v_entities.1.xSpeed)
+    xor a
+    ld h, a
+    ld l, a
+    sbc hl, de
+    ex de, hl
+    sra d
+    rr e
+    ld hl, $FE00
+    add hl, de
+    ld (v_entities.1.ySpeed), hl
+    ld de, $0102
+    call _LABEL_3A7E_
+    bit 7, (ix+20)
+    jp z, _LABEL_30C5_
+    set 2, (ix+28)
+    jp _LABEL_30C5_
 
 +:
-	set 2, (ix+28)
+    set 2, (ix+28)
 ++:
-	ld de, $0102
-	call _LABEL_3AE8_
-	ld a, (v_entities.1.state)
-	cp $13
-	ret z
-	bit 6, (ix+20)
-	jp z, _LABEL_30C5_
-	ld a, (v_entities.1.unknown3)
-	and $3F
-	ld (v_entities.1.unknown3), a
-	res 2, (ix+28)
-	ld (ix+26), $0B
-	jp _LABEL_30C5_
+    ld de, $0102
+    call _LABEL_3AE8_
+    ld a, (v_entities.1.state)
+    cp $13
+    ret z
+    bit 6, (ix+20)
+    jp z, _LABEL_30C5_
+    ld a, (v_entities.1.unknown3)
+    and $3F
+    ld (v_entities.1.unknown3), a
+    res 2, (ix+28)
+    ld (ix+26), $0B
+    jp _LABEL_30C5_
 
 ; 14th entry of Jump Table from 2982 (indexed by v_entities.1.state)
 alexHandler_3180:
-	ld a, (v_shopEntranceHorizontalPosition)
-	ld hl, (v_horizontalScroll)
-	add a, h
-	cp (ix+12)
-	jr z, +
-	jr c, ++
-	ld hl, $0080
-	ld (v_entities.1.xSpeed), hl
-	ld hl, _DATA_8CF4_
-	jp _LABEL_4189_
+    ld a, (v_shopEntranceHorizontalPosition)
+    ld hl, (v_horizontalScroll)
+    add a, h
+    cp (ix+12)
+    jr z, +
+    jr c, ++
+    ld hl, $0080
+    ld (v_entities.1.xSpeed), hl
+    ld hl, _DATA_8CF4_
+    jp _LABEL_4189_
 
 +:
-	ld (ix+26), $0E
-	ld (ix+27), $21
-	ld a, $81
-	ld (_RAM_C202_), a
-	ret
+    ld (ix+26), $0E
+    ld (ix+27), $21
+    ld a, $81
+    ld (_RAM_C202_), a
+    ret
 
 ; 15th entry of Jump Table from 2982 (indexed by v_entities.1.state)
 alexHandler_31A8:
-	dec (ix+27)
-	jr nz, ++
-	call _LABEL_3B56_
-	ld hl, v_gameState
-	ld a, (hl)
-	cp $85
-	jr z, +
-	ld a, $05
-	ld (hl), a
-	ret
+    dec (ix+27)
+    jr nz, ++
+    call _LABEL_3B56_
+    ld hl, v_gameState
+    ld a, (hl)
+    cp $85
+    jr z, +
+    ld a, $05
+    ld (hl), a
+    ret
 
 +:
-	ld a, $C5
-	ld (hl), a
-	ret
+    ld a, $C5
+    ld (hl), a
+    ret
 
 ++:
-	ld hl, $FF80
-	ld (v_entities.1.xSpeed), hl
-	ld hl, _DATA_8CEB_
-	jp _LABEL_4189_
+    ld hl, $FF80
+    ld (v_entities.1.xSpeed), hl
+    ld hl, _DATA_8CEB_
+    jp _LABEL_4189_
 
 ; 18th entry of Jump Table from 2982 (indexed by v_entities.1.state)
 alexHandler_31CC:
-	ld hl, $0000
-	ld (v_entities.1.ySpeed), hl
-	ld a, (v_shopEntranceHorizontalPosition)
-	ld hl, (v_horizontalScroll)
-	add a, h
-	cp (ix+12)
-	jr z, ++
-	jr c, +
-	ld hl, $0080
-	ld (v_entities.1.xSpeed), hl
-	set 1, (ix+20)
-	ld hl, _DATA_8D02_
-	jp _LABEL_4189_
+    ld hl, $0000
+    ld (v_entities.1.ySpeed), hl
+    ld a, (v_shopEntranceHorizontalPosition)
+    ld hl, (v_horizontalScroll)
+    add a, h
+    cp (ix+12)
+    jr z, ++
+    jr c, +
+    ld hl, $0080
+    ld (v_entities.1.xSpeed), hl
+    set 1, (ix+20)
+    ld hl, _DATA_8D02_
+    jp _LABEL_4189_
 
 +:
-	ld hl, $FF80
-	ld (v_entities.1.xSpeed), hl
-	res 1, (ix+20)
-	ld hl, _DATA_8CFD_
-	jp _LABEL_4189_
+    ld hl, $FF80
+    ld (v_entities.1.xSpeed), hl
+    res 1, (ix+20)
+    ld hl, _DATA_8CFD_
+    jp _LABEL_4189_
 
 ++:
-	ld (ix+26), $12
-	ld (ix+27), $40
-	ld a, $82
-	ld (_RAM_C202_), a
-	ld hl, $00D0
-	ld (v_entities.1.ySpeed), hl
-	call _LABEL_3B56_
-	push ix
-	call _LABEL_6671_
-	pop ix
-	ld hl, v_scrollFlags
-	set 0, (hl)
-	ret
+    ld (ix+26), $12
+    ld (ix+27), $40
+    ld a, $82
+    ld (_RAM_C202_), a
+    ld hl, $00D0
+    ld (v_entities.1.ySpeed), hl
+    call _LABEL_3B56_
+    push ix
+    call _LABEL_6671_
+    pop ix
+    ld hl, v_scrollFlags
+    set 0, (hl)
+    ret
 
 ; 19th entry of Jump Table from 2982 (indexed by v_entities.1.state)
 alexHandler_3223:
-	ld hl, $0300
-	ld (v_verticalScrollSpeed), hl
-	dec (ix+27)
-	ret nz
-	jp _LABEL_3498_
+    ld hl, $0300
+    ld (v_verticalScrollSpeed), hl
+    dec (ix+27)
+    ret nz
+    jp _LABEL_3498_
 
 _LABEL_3230_:
-	ld a, (_RAM_C211_)
-	add a, a
-	add a, a
-	and $F0
-	ld (v_entities.1.xPos.high), a
-	call _LABEL_3B56_
-	ld hl, v_entities.1.unknown3
-	ld a, (hl)
-	and $2B
-	ld (hl), a
-	res 2, (ix+20)
-	ld (ix+6), $04
-	ld (ix+26), $0A
-	ld a, $B1
-	ld (v_soundControl), a
-	ret
+    ld a, (_RAM_C211_)
+    add a, a
+    add a, a
+    and $F0
+    ld (v_entities.1.xPos.high), a
+    call _LABEL_3B56_
+    ld hl, v_entities.1.unknown3
+    ld a, (hl)
+    and $2B
+    ld (hl), a
+    res 2, (ix+20)
+    ld (ix+6), $04
+    ld (ix+26), $0A
+    ld a, $B1
+    ld (v_soundControl), a
+    ret
 
 ; 11th entry of Jump Table from 2982 (indexed by v_entities.1.state)
 alexHandler_3256:
-	call _LABEL_3B56_
-	ld (v_entities.1.ySpeed), hl
-	ld a, (v_inputData)
-	rrca
-	jr c, ++
-	rrca
-	jr c, _LABEL_32DC_
-	rrca
-	jr c, +
-	rrca
-	ret nc
-	ld de, $0711
-	ld a, $08
-	ld e, $02
-	ld b, $01
-	call _LABEL_39ED_
-	ret c
-	ld hl, $0100
-	ld (v_entities.1.xSpeed), hl
-	ld (ix+20), $07
-	jp _LABEL_2CA1_
+    call _LABEL_3B56_
+    ld (v_entities.1.ySpeed), hl
+    ld a, (v_inputData)
+    rrca
+    jr c, ++
+    rrca
+    jr c, _LABEL_32DC_
+    rrca
+    jr c, +
+    rrca
+    ret nc
+    ld de, $0711
+    ld a, $08
+    ld e, $02
+    ld b, $01
+    call _LABEL_39ED_
+    ret c
+    ld hl, $0100
+    ld (v_entities.1.xSpeed), hl
+    ld (ix+20), $07
+    jp _LABEL_2CA1_
 
 +:
-	ld de, $07FF
-	ld a, $08
-	ld e, $02
-	ld b, $01
-	call _LABEL_39ED_
-	ret c
-	ld hl, $FF00
-	ld (v_entities.1.xSpeed), hl
-	ld (ix+20), $04
-	jp _LABEL_2CA1_
+    ld de, $07FF
+    ld a, $08
+    ld e, $02
+    ld b, $01
+    call _LABEL_39ED_
+    ret c
+    ld hl, $FF00
+    ld (v_entities.1.xSpeed), hl
+    ld (ix+20), $04
+    jp _LABEL_2CA1_
 
 ++:
-	ld a, (v_entities.1.isOffScreenFlags.high)
-	or a
-	ret nz
-	ld de, $0008
-	call getTileNearEntityWithXYOffset
-	rlca
-	jr nc, +
-	dec hl
-	ld a, (hl)
-	cp $3F
-	ret nz
+    ld a, (v_entities.1.isOffScreenFlags.high)
+    or a
+    ret nz
+    ld de, $0008
+    call getTileNearEntityWithXYOffset
+    rlca
+    jr nc, +
+    dec hl
+    ld a, (hl)
+    cp $3F
+    ret nz
 +:
-	ld de, $0C08
-	call getTileNearEntityWithXYOffset
-	dec hl
-	ld a, (hl)
-	cp $3F
-	jr z, +
-	ld de, $1908
-	call getTileNearEntityWithXYOffset
-	rlca
-	ret nc
-	dec hl
-	ld a, (hl)
-	cp $3F
-	jp nz, _LABEL_2BFA_
+    ld de, $0C08
+    call getTileNearEntityWithXYOffset
+    dec hl
+    ld a, (hl)
+    cp $3F
+    jr z, +
+    ld de, $1908
+    call getTileNearEntityWithXYOffset
+    rlca
+    ret nc
+    dec hl
+    ld a, (hl)
+    cp $3F
+    jp nz, _LABEL_2BFA_
 +:
-	res 3, (ix+20)
-	ld hl, $FF00
-	ld (v_entities.1.ySpeed), hl
-	ld hl, _DATA_9188_
-	jp _LABEL_4189_
+    res 3, (ix+20)
+    ld hl, $FF00
+    ld (v_entities.1.ySpeed), hl
+    ld hl, _DATA_9188_
+    jp _LABEL_4189_
 
 _LABEL_32DC_:
-	ld de, $0C08
-	call getTileNearEntityWithXYOffset
-	dec hl
-	ld a, (hl)
-	cp $3F
-	jr nz, +
-	ld a, (v_entities.1.yPos.high)
-	add a, $18
-	cp $C0
-	jr nc, _LABEL_3301_
-	ld de, $1808
-	call getTileNearEntityWithXYOffset
-	rlca
-	jr nc, _LABEL_3301_
-	dec hl
-	ld a, (hl)
-	cp $3F
-	jp nz, _LABEL_2BFA_
+    ld de, $0C08
+    call getTileNearEntityWithXYOffset
+    dec hl
+    ld a, (hl)
+    cp $3F
+    jr nz, +
+    ld a, (v_entities.1.yPos.high)
+    add a, $18
+    cp $C0
+    jr nc, _LABEL_3301_
+    ld de, $1808
+    call getTileNearEntityWithXYOffset
+    rlca
+    jr nc, _LABEL_3301_
+    dec hl
+    ld a, (hl)
+    cp $3F
+    jp nz, _LABEL_2BFA_
 _LABEL_3301_:
-	set 3, (ix+20)
-	ld hl, $0100
-	ld (v_entities.1.ySpeed), hl
-	ld hl, _DATA_9188_
-	jp _LABEL_4189_
+    set 3, (ix+20)
+    ld hl, $0100
+    ld (v_entities.1.ySpeed), hl
+    ld hl, _DATA_9188_
+    jp _LABEL_4189_
 
 +:
-	ld de, $1808
-	call getTileNearEntityWithXYOffset
-	dec hl
-	ld a, (hl)
-	cp $3F
-	jp nz, _LABEL_2CA1_
-	jr _LABEL_3301_
+    ld de, $1808
+    call getTileNearEntityWithXYOffset
+    dec hl
+    ld a, (hl)
+    cp $3F
+    jp nz, _LABEL_2CA1_
+    jr _LABEL_3301_
 
 _LABEL_3320_:
-	ld hl, (v_entities.1.ySpeed)
-	ld (v_alexVerticalSpeedTemporaryCopy), hl
-	ld hl, (v_entities.1.xSpeed)
-	ld (v_alexHorizontalSpeedTemporaryCopy), hl
-	ld hl, $0000
-	ld (v_entities.1.xSpeed), hl
-	ld (v_entities.1.ySpeed), hl
-	ld a, (v_entities.1.state)
-	ld (v_alexStateTemporaryCopy), a
-	ld (ix+26), $10
-	ret
+    ld hl, (v_entities.1.ySpeed)
+    ld (v_alexVerticalSpeedTemporaryCopy), hl
+    ld hl, (v_entities.1.xSpeed)
+    ld (v_alexHorizontalSpeedTemporaryCopy), hl
+    ld hl, $0000
+    ld (v_entities.1.xSpeed), hl
+    ld (v_entities.1.ySpeed), hl
+    ld a, (v_entities.1.state)
+    ld (v_alexStateTemporaryCopy), a
+    ld (ix+26), $10
+    ret
 
 ; 17th entry of Jump Table from 2982 (indexed by v_entities.1.state)
 alexHandler_3340:
-	ld a, (v_scrollFlags)
-	and $0F
-	ret nz
-	ld hl, (v_alexVerticalSpeedTemporaryCopy)
-	ld (v_entities.1.ySpeed), hl
-	ld hl, (v_alexHorizontalSpeedTemporaryCopy)
-	ld (v_entities.1.xSpeed), hl
-	ld a, (v_alexStateTemporaryCopy)
-	ld (v_entities.1.state), a
-	cp $14
-	jr nz, _LABEL_335F_
-	call _LABEL_2BFA_
+    ld a, (v_scrollFlags)
+    and $0F
+    ret nz
+    ld hl, (v_alexVerticalSpeedTemporaryCopy)
+    ld (v_entities.1.ySpeed), hl
+    ld hl, (v_alexHorizontalSpeedTemporaryCopy)
+    ld (v_entities.1.xSpeed), hl
+    ld a, (v_alexStateTemporaryCopy)
+    ld (v_entities.1.state), a
+    cp $14
+    jr nz, _LABEL_335F_
+    call _LABEL_2BFA_
 _LABEL_335F_:
-	ld hl, v_entity1
-	ld de, _RAM_C240_
-	ld bc, $0020
-	ldir
-	xor a
-	ld (_RAM_C25C_), a
-	ret
+    ld hl, v_entity1
+    ld de, _RAM_C240_
+    ld bc, $0020
+    ldir
+    xor a
+    ld (_RAM_C25C_), a
+    ret
 
 ; 8th entry of Jump Table from 2982 (indexed by v_entities.1.state)
 alexHandler_336F:
-	call _LABEL_3B56_
-	ld (v_entities.1.ySpeed), hl
-	res 4, (ix+20)
-	res 2, (ix+20)
-	call _LABEL_3C45_
-	ld a, (_RAM_C054_)
-	cp $01
-	jp nz, _LABEL_345E_
-	bit 0, (ix+28)
-	jr z, ++
-	call _LABEL_462E_
-	ret nz
+    call _LABEL_3B56_
+    ld (v_entities.1.ySpeed), hl
+    res 4, (ix+20)
+    res 2, (ix+20)
+    call _LABEL_3C45_
+    ld a, (_RAM_C054_)
+    cp $01
+    jp nz, _LABEL_345E_
+    bit 0, (ix+28)
+    jr z, ++
+    call _LABEL_462E_
+    ret nz
 _LABEL_3392_:
-	bit 1, (ix+20)
-	jr z, +
-	ld hl, _DATA_90BC_
-	jp _LABEL_41AA_
+    bit 1, (ix+20)
+    jr z, +
+    ld hl, _DATA_90BC_
+    jp _LABEL_41AA_
 
 +:
-	ld hl, _DATA_90A7_
-	jp _LABEL_41AA_
+    ld hl, _DATA_90A7_
+    jp _LABEL_41AA_
 
 ++:
-	ld a, (_RAM_C007_)
-	bit 5, a
-	jp nz, _LABEL_4508_
-	ld a, (v_inputData)
-	ld c, a
-	bit JOY_UP_BIT, c
-	call nz, ++
-	bit JOY_DOWN_BIT, c
-	call nz, _LABEL_3400_
-	bit JOY_LEFT_BIT, c
-	call nz, _LABEL_3424_
-	bit JOY_RIGHT_BIT, c
-	call nz, _LABEL_3442_
-	inc (ix+27)
-	bit 2, (ix+27)
-	ld de, $0080
-	jr z, +
-	ld de, $FF80
+    ld a, (_RAM_C007_)
+    bit 5, a
+    jp nz, _LABEL_4508_
+    ld a, (v_inputData)
+    ld c, a
+    bit JOY_UP_BIT, c
+    call nz, ++
+    bit JOY_DOWN_BIT, c
+    call nz, _LABEL_3400_
+    bit JOY_LEFT_BIT, c
+    call nz, _LABEL_3424_
+    bit JOY_RIGHT_BIT, c
+    call nz, _LABEL_3442_
+    inc (ix+27)
+    bit 2, (ix+27)
+    ld de, $0080
+    jr z, +
+    ld de, $FF80
 +:
-	ld hl, (v_entities.1.ySpeed)
-	add hl, de
-	ld (v_entities.1.ySpeed), hl
-	jr _LABEL_3392_
+    ld hl, (v_entities.1.ySpeed)
+    add hl, de
+    ld (v_entities.1.ySpeed), hl
+    jr _LABEL_3392_
 
 ++:
-	push bc
-	ld de, $0104
-	ld a, $0E
-	call _LABEL_3A41_
-	pop bc
-	ret c
-	ld a, (v_entities.1.yPos.high)
-	cp $04
-	ret c
-	ld hl, $FF00
-	ld (v_entities.1.ySpeed), hl
-	res 3, (ix+20)
-	res 7, (ix+20)
-	set 4, (ix+20)
-	ret
+    push bc
+    ld de, $0104
+    ld a, $0E
+    call _LABEL_3A41_
+    pop bc
+    ret c
+    ld a, (v_entities.1.yPos.high)
+    cp $04
+    ret c
+    ld hl, $FF00
+    ld (v_entities.1.ySpeed), hl
+    res 3, (ix+20)
+    res 7, (ix+20)
+    set 4, (ix+20)
+    ret
 
 _LABEL_3400_:
-	push bc
-	ld de, $1904
-	ld a, $08
-	call _LABEL_3A41_
-	pop bc
-	ret c
-	ld a, (v_entities.1.yPos.high)
-	cp $98
-	ret nc
-	ld hl, $0100
-	ld (v_entities.1.ySpeed), hl
-	set 3, (ix+20)
-	set 7, (ix+20)
-	set 4, (ix+20)
-	ret
+    push bc
+    ld de, $1904
+    ld a, $08
+    call _LABEL_3A41_
+    pop bc
+    ret c
+    ld a, (v_entities.1.yPos.high)
+    cp $98
+    ret nc
+    ld hl, $0100
+    ld (v_entities.1.ySpeed), hl
+    set 3, (ix+20)
+    set 7, (ix+20)
+    set 4, (ix+20)
+    ret
 
 _LABEL_3424_:
-	push bc
-	ld de, $0102
-	ld a, $0E
-	ld b, $01
-	call _LABEL_39ED_
-	pop bc
-	ret c
-	ld a, (v_entities.1.unknown3)
-	and $FC
-	or $04
-	ld (v_entities.1.unknown3), a
-	ld hl, $FF00
-	ld (v_entities.1.xSpeed), hl
-	ret
+    push bc
+    ld de, $0102
+    ld a, $0E
+    ld b, $01
+    call _LABEL_39ED_
+    pop bc
+    ret c
+    ld a, (v_entities.1.unknown3)
+    and $FC
+    or $04
+    ld (v_entities.1.unknown3), a
+    ld hl, $FF00
+    ld (v_entities.1.xSpeed), hl
+    ret
 
 _LABEL_3442_:
-	push bc
-	ld de, $010E
-	ld a, $0E
-	ld b, $01
-	call _LABEL_39ED_
-	pop bc
-	ret c
-	ld a, (v_entities.1.unknown3)
-	or $07
-	ld (v_entities.1.unknown3), a
-	ld hl, $0100
-	ld (v_entities.1.xSpeed), hl
-	ret
+    push bc
+    ld de, $010E
+    ld a, $0E
+    ld b, $01
+    call _LABEL_39ED_
+    pop bc
+    ret c
+    ld a, (v_entities.1.unknown3)
+    or $07
+    ld (v_entities.1.unknown3), a
+    ld hl, $0100
+    ld (v_entities.1.xSpeed), hl
+    ret
 
 _LABEL_345E_:
-	ld hl, v_entities.1.unknown3
-	ld a, (hl)
-	and $E7
-	ld (hl), a
-	jp _LABEL_2CA1_
+    ld hl, v_entities.1.unknown3
+    ld a, (hl)
+    and $E7
+    ld (hl), a
+    jp _LABEL_2CA1_
 
 ; 21st entry of Jump Table from 2982 (indexed by v_entities.1.state)
 updateAutoWalkingRight:
-	ld hl, $0180
-	ld (v_entities.1.xSpeed), hl
-	set 2, (ix+20)
-	ld hl, _DATA_8CF4_
-	jp _LABEL_4189_
+    ld hl, $0180
+    ld (v_entities.1.xSpeed), hl
+    set 2, (ix+20)
+    ld hl, _DATA_8CF4_
+    jp _LABEL_4189_
 
 _LABEL_3478_:
-	ld hl, v_entities.2
-	call clearEntity
-	inc hl
-	call clearEntity
-	inc hl
-	call clearEntity
-	ld a, (v_entities.1.unknown8)
-	and $F4
-	ld (v_entities.1.unknown8), a
-	ld hl, _RAM_C054_
-	ld a, (hl)
-	cp $02
-	ret z
-	xor a
-	ld (hl), a
-	ret
+    ld hl, v_entities.2
+    call clearEntity
+    inc hl
+    call clearEntity
+    inc hl
+    call clearEntity
+    ld a, (v_entities.1.unknown8)
+    and $F4
+    ld (v_entities.1.unknown8), a
+    ld hl, _RAM_C054_
+    ld a, (hl)
+    cp $02
+    ret z
+    xor a
+    ld (hl), a
+    ret
 
 _LABEL_3498_:
-	ld a, $92
-	ld (v_soundControl), a
-	ld (ix+26), $05
-	ld (ix+6), $0A
-	call _LABEL_3478_
-	bit 7, (ix+18)
-	set 3, (ix+20)
-	jr z, updateAlexSwiming
-	res 3, (ix+20)
+    ld a, $92
+    ld (v_soundControl), a
+    ld (ix+26), $05
+    ld (ix+6), $0A
+    call _LABEL_3478_
+    bit 7, (ix+18)
+    set 3, (ix+20)
+    jr z, updateAlexSwiming
+    res 3, (ix+20)
 ; 6th entry of Jump Table from 2982 (indexed by v_entities.1.state)
 updateAlexSwiming:
-	bit 4, (ix+28)
-	jp nz, _LABEL_3E01_
-	ld de, $080C
-	call _LABEL_3C48_
-	ld a, (v_entities.1.state)
-	cp ALEX_SWIMING
-	ret nz
-	ld a, (v_entities.1.yPos.high)
-	sub $08
-	jr c, +
-	ld d, a
-	ld a, (v_entities.1.xPos.high)
-	add a, $0C
-	ld e, a
-	call _LABEL_7C7A_
-	and $E0
-	cp $60
-	jr nz, +
-	ld a, (v_inputData)
-	and JOY_UP
-	jr z, +
-	dec hl
-	ld a, (hl)
-	cp $3F
-	jr nz, +
-	ld (_RAM_C211_), hl
-	ld hl, $F000
-	ld (v_entities.1.ySpeed), hl
-	jp _LABEL_3230_
+    bit 4, (ix+28)
+    jp nz, _LABEL_3E01_
+    ld de, $080C
+    call _LABEL_3C48_
+    ld a, (v_entities.1.state)
+    cp ALEX_SWIMING
+    ret nz
+    ld a, (v_entities.1.yPos.high)
+    sub $08
+    jr c, +
+    ld d, a
+    ld a, (v_entities.1.xPos.high)
+    add a, $0C
+    ld e, a
+    call _LABEL_7C7A_
+    and $E0
+    cp $60
+    jr nz, +
+    ld a, (v_inputData)
+    and JOY_UP
+    jr z, +
+    dec hl
+    ld a, (hl)
+    cp $3F
+    jr nz, +
+    ld (_RAM_C211_), hl
+    ld hl, $F000
+    ld (v_entities.1.ySpeed), hl
+    jp _LABEL_3230_
 
 +:
-	bit 0, (ix+28)
-	jr z, ++
-	call _LABEL_462E_
-	jr nz, +++
-	ld hl, _DATA_8E01_
-	bit 0, (ix+20)
-	jr z, +
-	ld hl, _DATA_8E25_
+    bit 0, (ix+28)
+    jr z, ++
+    call _LABEL_462E_
+    jr nz, +++
+    ld hl, _DATA_8E01_
+    bit 0, (ix+20)
+    jr z, +
+    ld hl, _DATA_8E25_
 +:
-	call _LABEL_41AA_
-	jr +++
+    call _LABEL_41AA_
+    jr +++
 
 ++:
-	ld a, (_RAM_C007_)
-	and $20
-	jr z, +++
-	call _LABEL_44E2_
+    ld a, (_RAM_C007_)
+    and $20
+    jr z, +++
+    call _LABEL_44E2_
 +++:
-	ld de, $110C
-	call _LABEL_3D0A_
-	call +++
-	call _LABEL_363E_
-	bit 0, (ix+28)
-	ret nz
-	ld c, $14
-	ld a, (v_inputData)
-	bit 0, (ix+20)
-	jr nz, ++
-	bit JOY_BTN1_BIT, a
-	jr z, +
-	ld c, $0A
+    ld de, $110C
+    call _LABEL_3D0A_
+    call +++
+    call _LABEL_363E_
+    bit 0, (ix+28)
+    ret nz
+    ld c, $14
+    ld a, (v_inputData)
+    bit 0, (ix+20)
+    jr nz, ++
+    bit JOY_BTN1_BIT, a
+    jr z, +
+    ld c, $0A
 +:
-	ld (ix+6), c
-	ld hl, _DATA_8CFD_
-	jp _LABEL_4189_
+    ld (ix+6), c
+    ld hl, _DATA_8CFD_
+    jp _LABEL_4189_
 
 ++:
-	ld c, $14
-	bit JOY_BTN1_BIT, a
-	jr z, +
-	ld c, $0A
+    ld c, $14
+    bit JOY_BTN1_BIT, a
+    jr z, +
+    ld c, $0A
 +:
-	ld (ix+6), c
-	ld hl, _DATA_8D02_
-	jp _LABEL_4189_
+    ld (ix+6), c
+    ld hl, _DATA_8D02_
+    jp _LABEL_4189_
 
 +++:
-	bit 3, (ix+20)
-	jp nz, _LABEL_35F8_
-	ld a, (v_entities.1.yPos.high)
-	add a, (ix+18)
-	cp $02
-	jr c, _LABEL_35BE_
-	ld de, $0103
-	call getTileNearEntityWithXYOffset
-	bit 7, a
-	jr nz, _LABEL_35E3_
-	ld de, $010C
-	call getTileNearEntityWithXYOffset
-	bit 7, a
-	jp nz, _LABEL_35E3_
-	and $E0
-	cp $20
-	jr nz, _LABEL_35BE_
-	ld e, $09
-	call _LABEL_7C94_
-	ld a, (hl)
-	bit 7, a
-	jp nz, _LABEL_35E3_
-	ld a, (v_inputData)
-	bit JOY_DOWN_BIT, a
-	jr nz, ++
-	bit JOY_UP_BIT, a
-	jr nz, +
-	ld bc, $FF00
-	ld de, $FFF0
-	jp _LABEL_3BE1_
+    bit 3, (ix+20)
+    jp nz, _LABEL_35F8_
+    ld a, (v_entities.1.yPos.high)
+    add a, (ix+18)
+    cp $02
+    jr c, _LABEL_35BE_
+    ld de, $0103
+    call getTileNearEntityWithXYOffset
+    bit 7, a
+    jr nz, _LABEL_35E3_
+    ld de, $010C
+    call getTileNearEntityWithXYOffset
+    bit 7, a
+    jp nz, _LABEL_35E3_
+    and $E0
+    cp $20
+    jr nz, _LABEL_35BE_
+    ld e, $09
+    call _LABEL_7C94_
+    ld a, (hl)
+    bit 7, a
+    jp nz, _LABEL_35E3_
+    ld a, (v_inputData)
+    bit JOY_DOWN_BIT, a
+    jr nz, ++
+    bit JOY_UP_BIT, a
+    jr nz, +
+    ld bc, $FF00
+    ld de, $FFF0
+    jp _LABEL_3BE1_
 
 +:
-	ld bc, $FE80
-	ld de, $FFE0
-	jp _LABEL_3BE1_
+    ld bc, $FE80
+    ld de, $FFE0
+    jp _LABEL_3BE1_
 
 ++:
-	ld de, $0010
-	bit 4, (ix+20)
-	jp nz, _LABEL_3BF7_
-	set 3, (ix+20)
-	ret
+    ld de, $0010
+    bit 4, (ix+20)
+    jp nz, _LABEL_3BF7_
+    set 3, (ix+20)
+    ret
 
 _LABEL_35BE_:
-	cp $60
-	jr nz, +
-	dec hl
-	ld a, (hl)
-	cp $59
-	jr nz, +
-	ld a, (v_inputData)
-	and JOY_UP
-	jr z, +
-	set 7, (ix+1)
-	ret
+    cp $60
+    jr nz, +
+    dec hl
+    ld a, (hl)
+    cp $59
+    jr nz, +
+    ld a, (v_inputData)
+    and JOY_UP
+    jr z, +
+    set 7, (ix+1)
+    ret
 
 +:
-	ld a, (v_entities.1.unknown3)
-	or $18
-	ld (v_entities.1.unknown3), a
-	ld hl, $0080
-	ld (v_entities.1.ySpeed), hl
-	ret
+    ld a, (v_entities.1.unknown3)
+    or $18
+    ld (v_entities.1.unknown3), a
+    ld hl, $0080
+    ld (v_entities.1.ySpeed), hl
+    ret
 
 _LABEL_35E3_:
-	ld hl, $0000
-	ld (v_entities.1.ySpeed), hl
-	res 4, (ix+20)
-	ld a, (v_inputData)
-	bit JOY_DOWN_BIT, a
-	ret z
-	set 3, (ix+20)
-	ret
+    ld hl, $0000
+    ld (v_entities.1.ySpeed), hl
+    res 4, (ix+20)
+    ld a, (v_inputData)
+    bit JOY_DOWN_BIT, a
+    ret z
+    set 3, (ix+20)
+    ret
 
 _LABEL_35F8_:
-	ld de, $0F03
-	ld a, $02
-	call _LABEL_3A41_
-	jr c, ++
-	ld e, $10
-	call _LABEL_7C94_
-	ld a, (hl)
-	rlca
-	jr c, ++
-	ld a, (v_inputData)
-	bit JOY_DOWN_BIT, a
-	jr z, +
-	ld bc, $0100
-	ld de, $0010
-	jp _LABEL_3C12_
+    ld de, $0F03
+    ld a, $02
+    call _LABEL_3A41_
+    jr c, ++
+    ld e, $10
+    call _LABEL_7C94_
+    ld a, (hl)
+    rlca
+    jr c, ++
+    ld a, (v_inputData)
+    bit JOY_DOWN_BIT, a
+    jr z, +
+    ld bc, $0100
+    ld de, $0010
+    jp _LABEL_3C12_
 
 +:
-	ld de, $FFE0
-	bit 0, a
-	jp nz, _LABEL_3C28_
-	ld de, $FFF0
-	jp _LABEL_3C28_
+    ld de, $FFE0
+    bit 0, a
+    jp nz, _LABEL_3C28_
+    ld de, $FFF0
+    jp _LABEL_3C28_
 
 ++:
-	ld hl, $0000
-	ld (v_entities.1.ySpeed), hl
-	res 4, (ix+20)
-	ld a, (v_inputData)
-	bit JOY_DOWN_BIT, a
-	ret nz
-	res 3, (ix+20)
-	ret
+    ld hl, $0000
+    ld (v_entities.1.ySpeed), hl
+    res 4, (ix+20)
+    ld a, (v_inputData)
+    bit JOY_DOWN_BIT, a
+    ret nz
+    res 3, (ix+20)
+    ret
 
 _LABEL_363E_:
-	bit 1, (ix+20)
-	jp nz, _LABEL_369A_
-	ld de, $0301
-	ld a, $0A
-	call _LABEL_3A03_
-	jr c, +
-	ld a, (v_inputData)
-	bit JOY_LEFT_BIT, a
-	jr nz, ++
-	bit JOY_RIGHT_BIT, a
-	jr nz, +++
-	ld de, $0008
-	jp _LABEL_3B4B_
+    bit 1, (ix+20)
+    jp nz, _LABEL_369A_
+    ld de, $0301
+    ld a, $0A
+    call _LABEL_3A03_
+    jr c, +
+    ld a, (v_inputData)
+    bit JOY_LEFT_BIT, a
+    jr nz, ++
+    bit JOY_RIGHT_BIT, a
+    jr nz, +++
+    ld de, $0008
+    jp _LABEL_3B4B_
 
 +:
-	call _LABEL_3B56_
-	ld a, (v_inputData)
-	bit JOY_RIGHT_BIT, a
-	ret z
-	ld a, (v_entities.1.unknown3)
-	or $03
-	ld (v_entities.1.unknown3), a
-	ret
+    call _LABEL_3B56_
+    ld a, (v_inputData)
+    bit JOY_RIGHT_BIT, a
+    ret z
+    ld a, (v_entities.1.unknown3)
+    or $03
+    ld (v_entities.1.unknown3), a
+    ret
 
 ++:
-	bit JOY_BTN1_BIT, a
-	jr nz, +
-	ld de, $FFF0
-	ld bc, $FF00
-	jp _LABEL_3B2B_
+    bit JOY_BTN1_BIT, a
+    jr nz, +
+    ld de, $FFF0
+    ld bc, $FF00
+    jp _LABEL_3B2B_
 
 +:
-	ld de, $FFE0
-	ld bc, $FE80
-	jp _LABEL_3B2B_
+    ld de, $FFE0
+    ld bc, $FE80
+    jp _LABEL_3B2B_
 
 +++:
-	set 0, (ix+20)
-	ld de, $0010
-	bit 4, a
-	jp z, _LABEL_3B61_
-	ld de, $0020
-	jp _LABEL_3B61_
+    set 0, (ix+20)
+    ld de, $0010
+    bit 4, a
+    jp z, _LABEL_3B61_
+    ld de, $0020
+    jp _LABEL_3B61_
 
 _LABEL_369A_:
-	ld de, $0317
-	ld a, $0A
-	call _LABEL_3A03_
-	jr c, +
-	ld a, (v_inputData)
-	bit JOY_RIGHT_BIT, a
-	jr nz, ++
-	bit JOY_LEFT_BIT, a
-	jr nz, +++
-	ld de, $FFF8
-	jp _LABEL_3B9C_
+    ld de, $0317
+    ld a, $0A
+    call _LABEL_3A03_
+    jr c, +
+    ld a, (v_inputData)
+    bit JOY_RIGHT_BIT, a
+    jr nz, ++
+    bit JOY_LEFT_BIT, a
+    jr nz, +++
+    ld de, $FFF8
+    jp _LABEL_3B9C_
 
 +:
-	call _LABEL_3B56_
-	ld a, (v_inputData)
-	bit JOY_LEFT_BIT, a
-	ret z
-	ld a, (v_entities.1.unknown3)
-	and $F8
-	ld (v_entities.1.unknown3), a
-	ret
+    call _LABEL_3B56_
+    ld a, (v_inputData)
+    bit JOY_LEFT_BIT, a
+    ret z
+    ld a, (v_entities.1.unknown3)
+    and $F8
+    ld (v_entities.1.unknown3), a
+    ret
 
 ++:
-	bit JOY_BTN1_BIT, a
-	jr nz, +
-	ld de, $0010
-	ld bc, $0100
-	jp _LABEL_3B7E_
+    bit JOY_BTN1_BIT, a
+    jr nz, +
+    ld de, $0010
+    ld bc, $0100
+    jp _LABEL_3B7E_
 
 +:
-	ld de, $0020
-	ld bc, $0180
-	jp _LABEL_3B7E_
+    ld de, $0020
+    ld bc, $0180
+    jp _LABEL_3B7E_
 
 +++:
-	res 0, (ix+20)
-	bit JOY_BTN1_BIT, a
-	jr nz, +
-	ld de, $FFF0
-	jp _LABEL_3BB1_
+    res 0, (ix+20)
+    bit JOY_BTN1_BIT, a
+    jr nz, +
+    ld de, $FFF0
+    jp _LABEL_3BB1_
 
 +:
-	ld de, $FFE0
-	jp _LABEL_3BB1_
+    ld de, $FFE0
+    jp _LABEL_3BB1_
 
 ; 7th entry of Jump Table from 2982 (indexed by v_entities.1.state)
 updateAlexFlyingPeticopter:
-	bit 6, (ix+28)
-	jr nz, +
-	ld a, (_RAM_C007_)
-	and $10
-	ret z
-	set 6, (ix+28)
+    bit 6, (ix+28)
+    jr nz, +
+    ld a, (_RAM_C007_)
+    and $10
+    ret z
+    set 6, (ix+28)
 +:
-	ld de, $040C
-	call _LABEL_3C48_
-	ld de, $140C
-	call _LABEL_3C48_
-	ld de, $1C0C
-	call _LABEL_3C48_
-	bit 0, (ix+28)
-	jr nz, +
-	ld a, (_RAM_C007_)
-	and $20
-	call nz, _LABEL_4453_
+    ld de, $040C
+    call _LABEL_3C48_
+    ld de, $140C
+    call _LABEL_3C48_
+    ld de, $1C0C
+    call _LABEL_3C48_
+    bit 0, (ix+28)
+    jr nz, +
+    ld a, (_RAM_C007_)
+    and $20
+    call nz, _LABEL_4453_
 +:
-	call ++
-	call _LABEL_37D5_
-	bit 0, (ix+20)
-	ld hl, _DATA_8D07_
-	jr z, +
-	ld hl, _DATA_8D10_
+    call ++
+    call _LABEL_37D5_
+    bit 0, (ix+20)
+    ld hl, _DATA_8D07_
+    jr z, +
+    ld hl, _DATA_8D10_
 +:
-	ld a, (v_entities.1.animationTimerResetValue)
-	inc a
-	cp $14
-	jp nc, _LABEL_4189_
-	ld (v_entities.1.animationTimerResetValue), a
-	jp _LABEL_4189_
+    ld a, (v_entities.1.animationTimerResetValue)
+    inc a
+    cp $14
+    jp nc, _LABEL_4189_
+    ld (v_entities.1.animationTimerResetValue), a
+    jp _LABEL_4189_
 
 ++:
-	bit 1, (ix+20)
-	jp nz, _LABEL_378F_
-	ld de, $0302
-	ld a, $0C
-	ld b, $02
-	call _LABEL_39ED_
-	jr c, +
-	ld a, (v_inputData)
-	bit JOY_LEFT_BIT, a
-	jr nz, ++
-	bit JOY_RIGHT_BIT, a
-	jr nz, +++
-	ld de, $0020
-	jp _LABEL_3B4B_
+    bit 1, (ix+20)
+    jp nz, _LABEL_378F_
+    ld de, $0302
+    ld a, $0C
+    ld b, $02
+    call _LABEL_39ED_
+    jr c, +
+    ld a, (v_inputData)
+    bit JOY_LEFT_BIT, a
+    jr nz, ++
+    bit JOY_RIGHT_BIT, a
+    jr nz, +++
+    ld de, $0020
+    jp _LABEL_3B4B_
 
 +:
-	call _LABEL_3B56_
-	ld a, (v_inputData)
-	bit JOY_RIGHT_BIT, a
-	ret z
-	ld a, (v_entities.1.unknown3)
-	or $03
-	ld (v_entities.1.unknown3), a
-	ret
+    call _LABEL_3B56_
+    ld a, (v_inputData)
+    bit JOY_RIGHT_BIT, a
+    ret z
+    ld a, (v_entities.1.unknown3)
+    or $03
+    ld (v_entities.1.unknown3), a
+    ret
 
 ++:
-	set 2, (ix+20)
-	ld de, $FFC0
-	ld bc, $FE00
-	jp _LABEL_3B2B_
+    set 2, (ix+20)
+    ld de, $FFC0
+    ld bc, $FE00
+    jp _LABEL_3B2B_
 
 +++:
-	set 0, (ix+20)
-	ld de, $0040
-	jp _LABEL_3B61_
+    set 0, (ix+20)
+    ld de, $0040
+    jp _LABEL_3B61_
 
 _LABEL_378F_:
-	ld de, $0316
-	ld a, $0C
-	ld b, $02
-	call _LABEL_39ED_
-	jr c, +
-	ld a, (v_inputData)
-	bit JOY_RIGHT_BIT, a
-	jr nz, ++
-	bit JOY_LEFT_BIT, a
-	jr nz, +++
-	ld de, $FFE0
-	jp _LABEL_3B9C_
+    ld de, $0316
+    ld a, $0C
+    ld b, $02
+    call _LABEL_39ED_
+    jr c, +
+    ld a, (v_inputData)
+    bit JOY_RIGHT_BIT, a
+    jr nz, ++
+    bit JOY_LEFT_BIT, a
+    jr nz, +++
+    ld de, $FFE0
+    jp _LABEL_3B9C_
 
 +:
-	call _LABEL_3B56_
-	ld a, (v_inputData)
-	bit JOY_LEFT_BIT, a
-	ret z
-	ld a, (v_entities.1.unknown3)
-	and $F8
-	ld (v_entities.1.unknown3), a
-	ret
+    call _LABEL_3B56_
+    ld a, (v_inputData)
+    bit JOY_LEFT_BIT, a
+    ret z
+    ld a, (v_entities.1.unknown3)
+    and $F8
+    ld (v_entities.1.unknown3), a
+    ret
 
 ++:
-	set 2, (ix+20)
-	ld de, $0040
-	ld bc, $0200
-	jp _LABEL_3B7E_
+    set 2, (ix+20)
+    ld de, $0040
+    ld bc, $0200
+    jp _LABEL_3B7E_
 
 +++:
-	res 0, (ix+20)
-	ld de, $FFC0
-	jp _LABEL_3BB1_
+    res 0, (ix+20)
+    ld de, $FFC0
+    jp _LABEL_3BB1_
 
 _LABEL_37D5_:
-	bit 3, (ix+20)
-	jp nz, _LABEL_382B_
-	ld de, $0204
-	ld a, $10
-	call _LABEL_3A41_
-	jp c, _LABEL_388E_
-	ld a, (v_entities.1.stateTimer)
-	or a
-	jr nz, ++
-	ld a, (_RAM_C007_)
-	and $10
-	jr nz, +
-	ld a, (v_entities.1.yPos.high)
-	cp $04
-	jr c, +++
-	ld de, $0020
-	jp _LABEL_3BF7_
+    bit 3, (ix+20)
+    jp nz, _LABEL_382B_
+    ld de, $0204
+    ld a, $10
+    call _LABEL_3A41_
+    jp c, _LABEL_388E_
+    ld a, (v_entities.1.stateTimer)
+    or a
+    jr nz, ++
+    ld a, (_RAM_C007_)
+    and $10
+    jr nz, +
+    ld a, (v_entities.1.yPos.high)
+    cp $04
+    jr c, +++
+    ld de, $0020
+    jp _LABEL_3BF7_
 
 +:
-	ld (ix+27), $07
+    ld (ix+27), $07
 ++:
-	dec (ix+27)
-	ld (ix+6), $02
-	ld a, (v_entities.1.yPos.high)
-	cp $04
-	jr c, +++
-	ld de, $FFC0
-	ld bc, $FE00
-	jp _LABEL_3BE1_
+    dec (ix+27)
+    ld (ix+6), $02
+    ld a, (v_entities.1.yPos.high)
+    cp $04
+    jr c, +++
+    ld de, $FFC0
+    ld bc, $FE00
+    jp _LABEL_3BE1_
 
 +++:
-	res 4, (ix+20)
-	set 3, (ix+20)
-	ld hl, $0000
-	ld (v_entities.1.ySpeed), hl
-	ret
+    res 4, (ix+20)
+    set 3, (ix+20)
+    ld hl, $0000
+    ld (v_entities.1.ySpeed), hl
+    ret
 
 _LABEL_382B_:
-	ld de, $2004
-	call getTileNearEntityWithXYOffset
-	bit 7, a
-	jr nz, _LABEL_3875_
-	ld a, (_RAM_C213_)
-	or a
-	jp nz, _LABEL_388E_
-	ld e, $08
-	call _LABEL_7C94_
-	ld a, (hl)
-	rlca
-	jr c, _LABEL_3875_
-	ld e, $08
-	call _LABEL_7C94_
-	ld a, (hl)
-	rlca
-	jr c, _LABEL_3875_
-	ld a, (v_entities.1.stateTimer)
-	or a
-	jr nz, _LABEL_3868_
-	ld a, (_RAM_C007_)
-	and $10
-	jr nz, _LABEL_3864_
-	ld de, $0020
-	ld bc, $0100
-	jp _LABEL_3C12_
+    ld de, $2004
+    call getTileNearEntityWithXYOffset
+    bit 7, a
+    jr nz, _LABEL_3875_
+    ld a, (_RAM_C213_)
+    or a
+    jp nz, _LABEL_388E_
+    ld e, $08
+    call _LABEL_7C94_
+    ld a, (hl)
+    rlca
+    jr c, _LABEL_3875_
+    ld e, $08
+    call _LABEL_7C94_
+    ld a, (hl)
+    rlca
+    jr c, _LABEL_3875_
+    ld a, (v_entities.1.stateTimer)
+    or a
+    jr nz, _LABEL_3868_
+    ld a, (_RAM_C007_)
+    and $10
+    jr nz, _LABEL_3864_
+    ld de, $0020
+    ld bc, $0100
+    jp _LABEL_3C12_
 
 _LABEL_3864_:
-	ld (ix+27), $07
+    ld (ix+27), $07
 _LABEL_3868_:
-	dec (ix+27)
-	ld (ix+6), $02
-	ld de, $FFC0
-	jp _LABEL_3C28_
+    dec (ix+27)
+    ld (ix+6), $02
+    ld de, $FFC0
+    jp _LABEL_3C28_
 
 _LABEL_3875_:
-	ld hl, $0000
-	ld (v_entities.1.ySpeed), hl
-	res 4, (ix+20)
-	ld a, (v_entities.1.stateTimer)
-	or a
-	jp nz, _LABEL_3868_
-	ld a, (_RAM_C007_)
-	and $10
-	jr nz, _LABEL_3864_
-	ret
+    ld hl, $0000
+    ld (v_entities.1.ySpeed), hl
+    res 4, (ix+20)
+    ld a, (v_entities.1.stateTimer)
+    or a
+    jp nz, _LABEL_3868_
+    ld a, (_RAM_C007_)
+    and $10
+    jr nz, _LABEL_3864_
+    ret
 
 _LABEL_388E_:
-	ld hl, (v_level)
-	ld h, $00
-	ld de, _DATA_3904_ - 1
-	add hl, de
-	ld a, (hl)
-	or a
-	jp z, _LABEL_43F2_
+    ld hl, (v_level)
+    ld h, $00
+    ld de, _DATA_3904_ - 1
+    add hl, de
+    ld a, (hl)
+    or a
+    jp z, _LABEL_43F2_
 _LABEL_389C_:
-	xor a
-	ld (_RAM_C051_), a
-	ld (_RAM_C054_), a
-	call _LABEL_4415_
-	call _LABEL_3B56_
-	ld (v_entities.1.ySpeed), hl
-	res 0, (ix+28)
-	ld a, (v_entities.1.unknown3)
-	or $18
-	ld (v_entities.1.unknown3), a
-	ld (ix+26), $1B
-	ld a, $9B
-	ld (v_soundControl), a
-	ret
+    xor a
+    ld (_RAM_C051_), a
+    ld (_RAM_C054_), a
+    call _LABEL_4415_
+    call _LABEL_3B56_
+    ld (v_entities.1.ySpeed), hl
+    res 0, (ix+28)
+    ld a, (v_entities.1.unknown3)
+    or $18
+    ld (v_entities.1.unknown3), a
+    ld (ix+26), $1B
+    ld a, $9B
+    ld (v_soundControl), a
+    ret
 
 ; 28th entry of Jump Table from 2982 (indexed by v_entities.1.state)
 alexHandler_38C2:
-	jp _LABEL_3B56_
+    jp _LABEL_3B56_
 
 ; 20th entry of Jump Table from 2982 (indexed by v_entities.1.state)
 alexHandler_38C5:
-	call _LABEL_3B56_
-	ld hl, _DATA_9122_
-	call _LABEL_41AA_
-	ld de, $1904
-	ld a, $08
-	call _LABEL_3A41_
-	ld hl, $0300
-	jr nc, +
-	ld a, (v_entities.1.yPos.high)
-	cp $04
-	jr c, +
-	ld hl, $0000
+    call _LABEL_3B56_
+    ld hl, _DATA_9122_
+    call _LABEL_41AA_
+    ld de, $1904
+    ld a, $08
+    call _LABEL_3A41_
+    ld hl, $0300
+    jr nc, +
+    ld a, (v_entities.1.yPos.high)
+    cp $04
+    jr c, +
+    ld hl, $0000
 +:
-	ld (v_entities.1.ySpeed), hl
-	ld (ix+28), $00
-	ld hl, _RAM_C20B_
-	ld a, (v_scrollFlags)
-	and $01
-	or (hl)
-	ret nz
-	ld de, $0008
-	call getTileNearEntityWithXYOffset
-	and $E0
-	cp $20
-	jp z, _LABEL_3498_
-	ret
+    ld (v_entities.1.ySpeed), hl
+    ld (ix+28), $00
+    ld hl, _RAM_C20B_
+    ld a, (v_scrollFlags)
+    and $01
+    or (hl)
+    ret nz
+    ld de, $0008
+    call getTileNearEntityWithXYOffset
+    and $E0
+    cp $20
+    jp z, _LABEL_3498_
+    ret
 
 ; Data from 3904 to 3918 (21 bytes)
 _DATA_3904_:
@@ -4573,44 +4573,44 @@ _DATA_3904_:
 
 ; 22nd entry of Jump Table from 2982 (indexed by v_entities.1.state)
 alexHandler_3919:
-	call _LABEL_3928_
-	ld a, (v_entities.1.jankenMatchDecision)
-	ld (_RAM_C677_), a
-	ld hl, _DATA_8D2A_
-	jp _LABEL_4189_
+    call _LABEL_3928_
+    ld a, (v_entities.1.jankenMatchDecision)
+    ld (_RAM_C677_), a
+    ld hl, _DATA_8D2A_
+    jp _LABEL_4189_
 
 _LABEL_3928_:
-	ld a, (_RAM_C007_)
-	bit 0, a
-	jr z, +
-	dec (ix+23)
-	ret p
-	ld (ix+23), $02
-	ret
+    ld a, (_RAM_C007_)
+    bit 0, a
+    jr z, +
+    dec (ix+23)
+    ret p
+    ld (ix+23), $02
+    ret
 
 +:
-	bit 1, a
-	ret z
-	inc (ix+23)
-	ld a, (v_entities.1.jankenMatchDecision)
-	cp $03
-	ret c
-	ld (ix+23), $00
-	ret
+    bit 1, a
+    ret z
+    inc (ix+23)
+    ld a, (v_entities.1.jankenMatchDecision)
+    cp $03
+    ret c
+    ld (ix+23), $00
+    ret
 
 ; 25th entry of Jump Table from 2982 (indexed by v_entities.1.state)
 alexHandler_3949:
-	ld a, (ix+23)
-	add a, a
-	ld e, a
-	ld d, $00
-	ld hl, _DATA_395B_
-	add hl, de
-	ld a, (hl)
-	inc hl
-	ld h, (hl)
-	ld l, a
-	jp _LABEL_41AA_
+    ld a, (ix+23)
+    add a, a
+    ld e, a
+    ld d, $00
+    ld hl, _DATA_395B_
+    add hl, de
+    ld a, (hl)
+    inc hl
+    ld h, (hl)
+    ld l, a
+    jp _LABEL_41AA_
 
 ; Pointer Table from 395B to 3960 (3 entries, indexed by _RAM_CF97_)
 _DATA_395B_:
@@ -4618,505 +4618,505 @@ _DATA_395B_:
 
 ; 23rd entry of Jump Table from 2982 (indexed by v_entities.1.state)
 alexHandler_3961:
-	ld hl, $0000
-	ld (v_entities.1.ySpeed), hl
-	ld a, (v_entities.1.xPos.high)
-	cp $28
-	jr z, ++
-	jr nc, +
-	ld hl, $0100
-	ld (v_entities.1.xSpeed), hl
-	ld hl, _DATA_8CF4_
-	jp _LABEL_4189_
+    ld hl, $0000
+    ld (v_entities.1.ySpeed), hl
+    ld a, (v_entities.1.xPos.high)
+    cp $28
+    jr z, ++
+    jr nc, +
+    ld hl, $0100
+    ld (v_entities.1.xSpeed), hl
+    ld hl, _DATA_8CF4_
+    jp _LABEL_4189_
 
 +:
-	ld hl, $FF00
-	ld (v_entities.1.xSpeed), hl
-	ld hl, _DATA_8CEB_
-	jp _LABEL_4189_
+    ld hl, $FF00
+    ld (v_entities.1.xSpeed), hl
+    ld hl, _DATA_8CEB_
+    jp _LABEL_4189_
 
 ++:
-	call _LABEL_3B56_
-	ld (v_entities.1.ySpeed), hl
-	ld (ix+26), $17
-	ld a, ($000A)
-	ld (v_entities.1.unknown3), a
-	call _LABEL_335F_
-	ld a, $01
-	ld (_RAM_C25A_), a
-	ld (ix+6), $14
-	ret
+    call _LABEL_3B56_
+    ld (v_entities.1.ySpeed), hl
+    ld (ix+26), $17
+    ld a, ($000A)
+    ld (v_entities.1.unknown3), a
+    call _LABEL_335F_
+    ld a, $01
+    ld (_RAM_C25A_), a
+    ld (ix+6), $14
+    ret
 
 ; 24th entry of Jump Table from 2982 (indexed by v_entities.1.state)
 alexHandler_39A5:
-	call _LABEL_3928_
-	ld a, (v_entities.1.jankenMatchDecision)
-	ld (_RAM_C677_), a
-	ld hl, _DATA_8CE6_
-	jp _LABEL_4189_
+    call _LABEL_3928_
+    ld a, (v_entities.1.jankenMatchDecision)
+    ld (_RAM_C677_), a
+    ld hl, _DATA_8CE6_
+    jp _LABEL_4189_
 
 ; 26th entry of Jump Table from 2982 (indexed by v_entities.1.state)
 alexHandler_39B4:
-	call _LABEL_3B56_
-	bit 6, (ix+20)
-	jr nz, +
-	call _LABEL_3A68_
-	jr ++
+    call _LABEL_3B56_
+    bit 6, (ix+20)
+    jr nz, +
+    call _LABEL_3A68_
+    jr ++
 
 +:
-	ld (v_entities.1.ySpeed), hl
+    ld (v_entities.1.ySpeed), hl
 ++:
-	ld hl, _DATA_90D1_
-	call _LABEL_41AA_
-	dec (ix+24)
-	ret nz
-	set 7, (ix+1)
-	ret
+    ld hl, _DATA_90D1_
+    call _LABEL_41AA_
+    dec (ix+24)
+    ret nz
+    set 7, (ix+1)
+    ret
 
 ; 27th entry of Jump Table from 2982 (indexed by v_entities.1.state)
 alexHandler_39D4:
-	call _LABEL_3B56_
-	ld (v_entities.1.ySpeed), hl
-	ret
+    call _LABEL_3B56_
+    ld (v_entities.1.ySpeed), hl
+    ret
 
 ; 98th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_39DB_:
-	ld (ix+6), $19
-	ld (ix+12), $D8
-	ld (ix+14), $80
-	ld hl, _DATA_9750_
-	jp handleEntityAnimation
+    ld (ix+6), $19
+    ld (ix+12), $D8
+    ld (ix+14), $80
+    ld hl, _DATA_9750_
+    jp handleEntityAnimation
 
 _LABEL_39ED_:
-	push bc
-	call _LABEL_3A03_
-	pop de
-	ret c
-	ld a, d
+    push bc
+    call _LABEL_3A03_
+    pop de
+    ret c
+    ld a, d
 -:
-	ex af, af'
-	ld d, $08
-	call _LABEL_7CA3_
-	ld a, (hl)
-	rlca
-	ret c
-	ex af, af'
-	dec a
-	jr nz, -
-	or a
-	ret
+    ex af, af'
+    ld d, $08
+    call _LABEL_7CA3_
+    ld a, (hl)
+    rlca
+    ret c
+    ex af, af'
+    dec a
+    jr nz, -
+    or a
+    ret
 
 _LABEL_3A03_:
-	ex af, af'
-	call getTileNearEntityWithXYOffset
-	rlca
-	ret c
-	ex af, af'
-	ld d, a
-	call _LABEL_7CA3_
-	ld a, (hl)
-	rlca
-	ret
+    ex af, af'
+    call getTileNearEntityWithXYOffset
+    rlca
+    ret c
+    ex af, af'
+    ld d, a
+    call _LABEL_7CA3_
+    ld a, (hl)
+    rlca
+    ret
 
 _LABEL_3A11_:
-	ld a, (v_entities.1.xPos.high)
-	add a, e
-	ld e, a
-	ex af, af'
-	ld a, (v_entities.1.yPos.high)
-	add a, $40
-	add a, d
-	add a, (ix+18)
-	cp $C0
-	ret nc
-	ld d, a
-	cp $0F
-	jr c, +
-	call _LABEL_7C7A_
-	rlca
-	ret c
-	ld d, $0C
-	ex af, af'
-	ld e, a
-	ex af, af'
+    ld a, (v_entities.1.xPos.high)
+    add a, e
+    ld e, a
+    ex af, af'
+    ld a, (v_entities.1.yPos.high)
+    add a, $40
+    add a, d
+    add a, (ix+18)
+    cp $C0
+    ret nc
+    ld d, a
+    cp $0F
+    jr c, +
+    call _LABEL_7C7A_
+    rlca
+    ret c
+    ld d, $0C
+    ex af, af'
+    ld e, a
+    ex af, af'
 +:
-	call _LABEL_7C7A_
-	rlca
-	ret c
-	ex af, af'
-	ld e, a
-	ex af, af'
-	ld d, $00
-	call _LABEL_7C7A_
-	rlca
-	ret
+    call _LABEL_7C7A_
+    rlca
+    ret c
+    ex af, af'
+    ld e, a
+    ex af, af'
+    ld d, $00
+    call _LABEL_7C7A_
+    rlca
+    ret
 
 _LABEL_3A41_:
-	ex af, af'
-	call getTileNearEntityWithXYOffset
-	rlca
-	ret c
-	ex af, af'
-	ld e, a
-	call _LABEL_7C94_
-	ld a, (hl)
-	rlca
-	ret
+    ex af, af'
+    call getTileNearEntityWithXYOffset
+    rlca
+    ret c
+    ex af, af'
+    ld e, a
+    call _LABEL_7C94_
+    ld a, (hl)
+    rlca
+    ret
 
 _LABEL_3A4F_:
-	ld a, (v_entities.1.yPos.high)
-	add a, $40
-	add a, d
-	ld d, a
-	ld a, (v_entities.1.xPos.high)
-	add a, e
-	ld e, a
-	call _LABEL_7C7A_
-	rlca
-	ret c
-	ld e, $08
-	call _LABEL_7C94_
-	ld a, (hl)
-	rlca
-	ret
+    ld a, (v_entities.1.yPos.high)
+    add a, $40
+    add a, d
+    ld d, a
+    ld a, (v_entities.1.xPos.high)
+    add a, e
+    ld e, a
+    call _LABEL_7C7A_
+    rlca
+    ret c
+    ld e, $08
+    call _LABEL_7C94_
+    ld a, (hl)
+    rlca
+    ret
 
 _LABEL_3A68_:
-	ld hl, (v_entities.1.ySpeed)
-	ld bc, ALEX_GRAVITY
-	add hl, bc
-	ld (v_entities.1.ySpeed), hl
-	jr nc, +
-	set 7, (ix+20)
+    ld hl, (v_entities.1.ySpeed)
+    ld bc, ALEX_GRAVITY
+    add hl, bc
+    ld (v_entities.1.ySpeed), hl
+    jr nc, +
+    set 7, (ix+20)
 +:
-	bit 7, (ix+20)
-	jr nz, +
+    bit 7, (ix+20)
+    jr nz, +
 _LABEL_3A7E_:
-	ld a, (v_entities.1.isOffScreenFlags.high)
-	or a
-	ret nz
-	ld a, (v_entities.1.unknown9)
-	call _LABEL_3A41_
-	ret nc
-	set 7, (ix+20)
-	ld hl, $0000
-	ld (v_entities.1.ySpeed), hl
-	ret
+    ld a, (v_entities.1.isOffScreenFlags.high)
+    or a
+    ret nz
+    ld a, (v_entities.1.unknown9)
+    call _LABEL_3A41_
+    ret nc
+    set 7, (ix+20)
+    ld hl, $0000
+    ld (v_entities.1.ySpeed), hl
+    ret
 
 +:
-	ld a, h
-	cp $04
-	jr c, +
-	ld (ix+17), $00
+    ld a, h
+    cp $04
+    jr c, +
+    ld (ix+17), $00
 +:
-	ld a, (v_entities.1.unknown11)
-	add a, h
-	ld d, a
-	ld a, (v_entities.1.isOffScreenFlags.high)
-	or a
-	jr z, +
-	ld a, (v_entities.1.yPos.high)
-	add a, $40
-	add a, d
-	ret nc
-	ld d, a
-	ld a, (v_entities.1.xPos.high)
-	add a, e
-	ld e, a
-	call _LABEL_7C7A_
-	rlca
-	jr c, _LABEL_3AD5_
-	ld e, (ix+29)
-	call _LABEL_7C94_
-	ld a, (hl)
-	rlca
-	jr c, _LABEL_3AD5_
-	ret
+    ld a, (v_entities.1.unknown11)
+    add a, h
+    ld d, a
+    ld a, (v_entities.1.isOffScreenFlags.high)
+    or a
+    jr z, +
+    ld a, (v_entities.1.yPos.high)
+    add a, $40
+    add a, d
+    ret nc
+    ld d, a
+    ld a, (v_entities.1.xPos.high)
+    add a, e
+    ld e, a
+    call _LABEL_7C7A_
+    rlca
+    jr c, _LABEL_3AD5_
+    ld e, (ix+29)
+    call _LABEL_7C94_
+    ld a, (hl)
+    rlca
+    jr c, _LABEL_3AD5_
+    ret
 
 +:
-	.IFDEF _REV1
-		ld a, d
-		add a, (ix+14)
-		cp $BF
-		ret nc
-	.ENDIF
-	ld a, (v_entities.1.unknown9)
-	call _LABEL_3A41_
-	ret nc
+    .IFDEF _REV1
+        ld a, d
+        add a, (ix+14)
+        cp $BF
+        ret nc
+    .ENDIF
+    ld a, (v_entities.1.unknown9)
+    call _LABEL_3A41_
+    ret nc
 _LABEL_3AD5_:
-	ld a, b
-	and $07
-	neg
-	add a, (ix+18)
-	ld h, a
-	ld l, $00
-	ld (v_entities.1.ySpeed), hl
-	set 6, (ix+20)
-	ret
+    ld a, b
+    and $07
+    neg
+    add a, (ix+18)
+    ld h, a
+    ld l, $00
+    ld (v_entities.1.ySpeed), hl
+    set 6, (ix+20)
+    ret
 
 _LABEL_3AE8_:
-	ld hl, (v_entities.1.ySpeed)
-	ld bc, $0040
-	add hl, bc
-	ld (v_entities.1.ySpeed), hl
-	jr nc, +
-	set 7, (ix+20)
+    ld hl, (v_entities.1.ySpeed)
+    ld bc, $0040
+    add hl, bc
+    ld (v_entities.1.ySpeed), hl
+    jr nc, +
+    set 7, (ix+20)
 +:
-	bit 7, (ix+20)
-	jr z, _LABEL_3A7E_
-	ld a, h
-	cp $04
-	jr c, +
-	ld (ix+17), $00
+    bit 7, (ix+20)
+    jr z, _LABEL_3A7E_
+    ld a, h
+    cp $04
+    jr c, +
+    ld (ix+17), $00
 +:
-	ld a, $10
-	add a, h
-	ld d, a
-	call getTileNearEntityWithXYOffset
-	bit 7, a
-	jp nz, _LABEL_389C_
-	and $E0
-	cp $20
-	jr z, _LABEL_3AD5_
-	ld e, $0F
-	call _LABEL_7C94_
-	ld a, (hl)
-	bit 7, a
-	jp nz, _LABEL_389C_
-	and $E0
-	cp $20
-	jr z, _LABEL_3AD5_
-	ret
+    ld a, $10
+    add a, h
+    ld d, a
+    call getTileNearEntityWithXYOffset
+    bit 7, a
+    jp nz, _LABEL_389C_
+    and $E0
+    cp $20
+    jr z, _LABEL_3AD5_
+    ld e, $0F
+    call _LABEL_7C94_
+    ld a, (hl)
+    bit 7, a
+    jp nz, _LABEL_389C_
+    and $E0
+    cp $20
+    jr z, _LABEL_3AD5_
+    ret
 
 _LABEL_3B2B_:
-	ld a, (v_entities.1.unknown3)
-	or $04
-	and $FC
-	ld (v_entities.1.unknown3), a
-	set 2, (ix+20)
-	ld hl, (v_entities.1.xSpeed)
-	add hl, de
-	ld e, l
-	ld d, h
-	or a
-	sbc hl, bc
-	jr nc, +
-	ld e, c
-	ld d, b
+    ld a, (v_entities.1.unknown3)
+    or $04
+    and $FC
+    ld (v_entities.1.unknown3), a
+    set 2, (ix+20)
+    ld hl, (v_entities.1.xSpeed)
+    add hl, de
+    ld e, l
+    ld d, h
+    or a
+    sbc hl, bc
+    jr nc, +
+    ld e, c
+    ld d, b
 +:
-	ld (v_entities.1.xSpeed), de
-	ret
+    ld (v_entities.1.xSpeed), de
+    ret
 
 _LABEL_3B4B_:
-	bit 2, (ix+20)
-	ret z
+    bit 2, (ix+20)
+    ret z
 _LABEL_3B50_:
-	ld hl, (v_entities.1.xSpeed)
-	add hl, de
-	jr nc, +
+    ld hl, (v_entities.1.xSpeed)
+    add hl, de
+    jr nc, +
 _LABEL_3B56_:
-	res 2, (ix+20)
-	ld hl, $0000
+    res 2, (ix+20)
+    ld hl, $0000
 +:
-	ld (v_entities.1.xSpeed), hl
-	ret
+    ld (v_entities.1.xSpeed), hl
+    ret
 
 _LABEL_3B61_:
-	ld a, (v_entities.1.unknown3)
-	bit 2, a
-	jr z, +
-	set 0, a
-	ld hl, (v_entities.1.xSpeed)
-	add hl, de
-	jr nc, ++
+    ld a, (v_entities.1.unknown3)
+    bit 2, a
+    jr z, +
+    set 0, a
+    ld hl, (v_entities.1.xSpeed)
+    add hl, de
+    jr nc, ++
 +:
-	or $03
-	and $FB
-	ld hl, $0000
+    or $03
+    and $FB
+    ld hl, $0000
 ++:
-	ld (v_entities.1.xSpeed), hl
-	ld (v_entities.1.unknown3), a
-	ret
+    ld (v_entities.1.xSpeed), hl
+    ld (v_entities.1.unknown3), a
+    ret
 
 _LABEL_3B7E_:
-	ld a, (v_entities.1.unknown3)
-	or $07
-	ld (v_entities.1.unknown3), a
-	set 2, (ix+20)
-	ld hl, (v_entities.1.xSpeed)
-	add hl, de
-	ld e, l
-	ld d, h
-	or a
-	sbc hl, bc
-	jr c, +
-	ld e, c
-	ld d, b
+    ld a, (v_entities.1.unknown3)
+    or $07
+    ld (v_entities.1.unknown3), a
+    set 2, (ix+20)
+    ld hl, (v_entities.1.xSpeed)
+    add hl, de
+    ld e, l
+    ld d, h
+    or a
+    sbc hl, bc
+    jr c, +
+    ld e, c
+    ld d, b
 +:
-	ld (v_entities.1.xSpeed), de
-	ret
+    ld (v_entities.1.xSpeed), de
+    ret
 
 _LABEL_3B9C_:
-	bit 2, (ix+20)
-	ret z
+    bit 2, (ix+20)
+    ret z
 _LABEL_3BA1_:
-	ld hl, (v_entities.1.xSpeed)
-	or a
-	adc hl, de
-	jp nc, _LABEL_3B56_
-	jp z, _LABEL_3B56_
-	ld (v_entities.1.xSpeed), hl
-	ret
+    ld hl, (v_entities.1.xSpeed)
+    or a
+    adc hl, de
+    jp nc, _LABEL_3B56_
+    jp z, _LABEL_3B56_
+    ld (v_entities.1.xSpeed), hl
+    ret
 
 _LABEL_3BB1_:
-	ld a, (v_entities.1.unknown3)
-	bit 2, a
-	jr z, +
-	and $FE
-	ld hl, (v_entities.1.xSpeed)
-	adc hl, de
-	jr z, +
-	jr c, ++
+    ld a, (v_entities.1.unknown3)
+    bit 2, a
+    jr z, +
+    and $FE
+    ld hl, (v_entities.1.xSpeed)
+    adc hl, de
+    jr z, +
+    jr c, ++
 +:
-	ld hl, $0000
-	and $F8
+    ld hl, $0000
+    and $F8
 ++:
-	ld (v_entities.1.xSpeed), hl
-	ld (v_entities.1.unknown3), a
-	ret
+    ld (v_entities.1.xSpeed), hl
+    ld (v_entities.1.unknown3), a
+    ret
 
 _LABEL_3BCF_:
-	ld hl, (v_entities.1.xSpeed)
-	add hl, de
-	ld e, l
-	ld d, h
-	or a
-	sbc hl, bc
-	jr nc, +
-	ld e, c
-	ld d, b
+    ld hl, (v_entities.1.xSpeed)
+    add hl, de
+    ld e, l
+    ld d, h
+    or a
+    sbc hl, bc
+    jr nc, +
+    ld e, c
+    ld d, b
 +:
-	ld (v_entities.1.xSpeed), de
-	ret
+    ld (v_entities.1.xSpeed), de
+    ret
 
 _LABEL_3BE1_:
-	set 4, (ix+20)
-	ld hl, (v_entities.1.ySpeed)
-	add hl, de
-	ld e, l
-	ld d, h
-	or a
-	sbc hl, bc
-	jr nc, +
-	ld e, c
-	ld d, b
+    set 4, (ix+20)
+    ld hl, (v_entities.1.ySpeed)
+    add hl, de
+    ld e, l
+    ld d, h
+    or a
+    sbc hl, bc
+    jr nc, +
+    ld e, c
+    ld d, b
 +:
-	ld (v_entities.1.ySpeed), de
-	ret
+    ld (v_entities.1.ySpeed), de
+    ret
 
 _LABEL_3BF7_:
-	ld a, (v_entities.1.unknown3)
-	bit 4, a
-	jr z, +
-	ld hl, (v_entities.1.ySpeed)
-	add hl, de
-	jr nc, ++
+    ld a, (v_entities.1.unknown3)
+    bit 4, a
+    jr z, +
+    ld hl, (v_entities.1.ySpeed)
+    add hl, de
+    jr nc, ++
 +:
-	or $08
-	and $EF
-	ld hl, $0000
+    or $08
+    and $EF
+    ld hl, $0000
 ++:
-	ld (v_entities.1.ySpeed), hl
-	ld (v_entities.1.unknown3), a
-	ret
+    ld (v_entities.1.ySpeed), hl
+    ld (v_entities.1.unknown3), a
+    ret
 
 _LABEL_3C12_:
-	set 4, (ix+20)
-	ld hl, (v_entities.1.ySpeed)
-	add hl, de
-	ld e, l
-	ld d, h
-	or a
-	sbc hl, bc
-	jr c, +
-	ld e, c
-	ld d, b
+    set 4, (ix+20)
+    ld hl, (v_entities.1.ySpeed)
+    add hl, de
+    ld e, l
+    ld d, h
+    or a
+    sbc hl, bc
+    jr c, +
+    ld e, c
+    ld d, b
 +:
-	ld (v_entities.1.ySpeed), de
-	ret
+    ld (v_entities.1.ySpeed), de
+    ret
 
 _LABEL_3C28_:
-	ld a, (v_entities.1.unknown3)
-	bit 4, a
-	jr z, +
-	ld hl, (v_entities.1.ySpeed)
-	or a
-	adc hl, de
-	jr z, +
-	jr c, ++
+    ld a, (v_entities.1.unknown3)
+    bit 4, a
+    jr z, +
+    ld hl, (v_entities.1.ySpeed)
+    or a
+    adc hl, de
+    jr z, +
+    jr c, ++
 +:
-	ld hl, $0000
-	and $E7
+    ld hl, $0000
+    and $E7
 ++:
-	ld (v_entities.1.ySpeed), hl
-	ld (v_entities.1.unknown3), a
-	ret
+    ld (v_entities.1.ySpeed), hl
+    ld (v_entities.1.unknown3), a
+    ret
 
 _LABEL_3C45_:
-	ld de, $0C08
+    ld de, $0C08
 _LABEL_3C48_:
-	xor a
-	ld (_RAM_C213_), a
-	ld a, (v_entities.1.isOffScreenFlags.high)
-	or a
-	ret nz
-	call getTileNearEntityWithXYOffset
-	bit 7, a
-	jp nz, _LABEL_3CF3_
-	bit 6, a
-	jp z, +
-	bit 5, a
-	jr nz, _LABEL_3CCF_
-	dec hl
-	ld a, (hl)
-	sub $90
-	jr nc, ++
-	ld a, l
-	and $BC
-	ld l, a
-	ld a, (_RAM_C0B0_)
-	rra
-	rra
-	add a, l
-	and $3E
-	cp $3E
-	ret z
-	push hl
-	ld l, $00
-	call takeMoney
-	ld a, $8E
-	ld (v_soundControl), a
-	pop hl
-	ld a, (_RAM_C202_)
-	or a
-	ret nz
-	ld (_RAM_C204_), hl
-	jp _LABEL_45BE_
+    xor a
+    ld (_RAM_C213_), a
+    ld a, (v_entities.1.isOffScreenFlags.high)
+    or a
+    ret nz
+    call getTileNearEntityWithXYOffset
+    bit 7, a
+    jp nz, _LABEL_3CF3_
+    bit 6, a
+    jp z, +
+    bit 5, a
+    jr nz, _LABEL_3CCF_
+    dec hl
+    ld a, (hl)
+    sub $90
+    jr nc, ++
+    ld a, l
+    and $BC
+    ld l, a
+    ld a, (_RAM_C0B0_)
+    rra
+    rra
+    add a, l
+    and $3E
+    cp $3E
+    ret z
+    push hl
+    ld l, $00
+    call takeMoney
+    ld a, $8E
+    ld (v_soundControl), a
+    pop hl
+    ld a, (_RAM_C202_)
+    or a
+    ret nz
+    ld (_RAM_C204_), hl
+    jp _LABEL_45BE_
 
 +:
-	and $E0
-	cp $20
-	ret nz
-	ld (_RAM_C213_), a
-	ret
+    and $E0
+    cp $20
+    ret nz
+    ld (_RAM_C213_), a
+    ret
 
 ++:
-	ld e, a
-	ld d, $00
-	ld hl, _DATA_3CA3_
-	add hl, de
-	ld a, (hl)
-	ld (v_shopSelectedItemIndex), a
-	ret
+    ld e, a
+    ld d, $00
+    ld hl, _DATA_3CA3_
+    add hl, de
+    ld a, (hl)
+    ld (v_shopSelectedItemIndex), a
+    ret
 
 ; Data from 3CA3 to 3CCE (44 bytes)
 _DATA_3CA3_:
@@ -5125,57 +5125,57 @@ _DATA_3CA3_:
 .db $0A $0A $0A $0A $0B $0B $0B $0B $0C $0C $0C $0C
 
 _LABEL_3CCF_:
-	dec hl
-	ld a, (hl)
-	ld (_RAM_C211_), hl
-	cp $70
-	jr c, +
-	ld a, (v_entities.1.state)
-	cp ALEX_IDLE
-	ret nz
-	ld a, (v_entities.1.xPos.high)
-	cp $18
-	ret c
-	ld a, (v_inputData)
-	bit JOY_UP_BIT, a
-	ret z
-	ld (ix+26), $0D
-	ret
+    dec hl
+    ld a, (hl)
+    ld (_RAM_C211_), hl
+    cp $70
+    jr c, +
+    ld a, (v_entities.1.state)
+    cp ALEX_IDLE
+    ret nz
+    ld a, (v_entities.1.xPos.high)
+    cp $18
+    ret c
+    ld a, (v_inputData)
+    bit JOY_UP_BIT, a
+    ret z
+    ld (ix+26), $0D
+    ret
 
 +:
-	cp $3F
-	jr z, +
+    cp $3F
+    jr z, +
 _LABEL_3CF3_:
-	set 7, (ix+1)
-	ret
+    set 7, (ix+1)
+    ret
 
 +:
-	ld a, (v_inputData)
-	bit JOY_UP_BIT, a
-	ret z
-	ld hl, $FF00
-	ld (v_entities.1.ySpeed), hl
-	jp _LABEL_3230_
+    ld a, (v_inputData)
+    bit JOY_UP_BIT, a
+    ret z
+    ld hl, $FF00
+    ld (v_entities.1.ySpeed), hl
+    jp _LABEL_3230_
 
 _LABEL_3D07_:
-	ld de, $1808
+    ld de, $1808
 _LABEL_3D0A_:
-	ld a, (v_entities.1.isOffScreenFlags.high)
-	or a
-	ret nz
-	call getTileNearEntityWithXYOffset
-	and $E0
-	cp $A0
-	jr nz, _LABEL_3D5B_
-	dec hl
-	ld (_RAM_C211_), hl
-	ld a, (hl)
-	cp $3F
-	jp nc, _LABEL_3DD4_
-	sub $0D
-	ret c
-	ld hl, _DATA_3D2B_
-	jp loadAthJumptablePointer
+    ld a, (v_entities.1.isOffScreenFlags.high)
+    or a
+    ret nz
+    call getTileNearEntityWithXYOffset
+    and $E0
+    cp $A0
+    jr nz, _LABEL_3D5B_
+    dec hl
+    ld (_RAM_C211_), hl
+    ld a, (hl)
+    cp $3F
+    jp nc, _LABEL_3DD4_
+    sub $0D
+    ret c
+    ld hl, _DATA_3D2B_
+    jp loadAthJumptablePointer
 
 ; Jump Table from 3D2B to 3D5A (24 entries, indexed by _RAM_C802_)
 _DATA_3D2B_:
@@ -5184,139 +5184,139 @@ _DATA_3D2B_:
 .dw _LABEL_3DBF_ _LABEL_3DBF_ _LABEL_3DBF_ _LABEL_3DBF_ _LABEL_3D70_ _LABEL_3D70_ _LABEL_3D70_ _LABEL_3D70_
 
 _LABEL_3D5B_:
-	xor a
-	ld (v_nextGhostSpawnTimer), a
-	ret
+    xor a
+    ld (v_nextGhostSpawnTimer), a
+    ret
 
 ; 1st entry of Jump Table from 3D2B (indexed by _RAM_C802_)
 _LABEL_3D60_:
-	ld c, $03
-	jr +
+    ld c, $03
+    jr +
 
 ; 5th entry of Jump Table from 3D2B (indexed by _RAM_C802_)
 _LABEL_3D64_:
-	ld c, $01
-	jr +
+    ld c, $01
+    jr +
 
 ; 9th entry of Jump Table from 3D2B (indexed by _RAM_C802_)
 _LABEL_3D68_:
-	ld c, $04
-	jr +
+    ld c, $04
+    jr +
 
 ; 13th entry of Jump Table from 3D2B (indexed by _RAM_C802_)
 _LABEL_3D6C_:
-	ld c, $02
-	jr +
+    ld c, $02
+    jr +
 
 ; 21st entry of Jump Table from 3D2B (indexed by _RAM_C802_)
 _LABEL_3D70_:
-	ld c, $05
+    ld c, $05
 +:
-	ld a, (v_level)
-	cp $11
-	ret nz
-	ld hl, _RAM_C22A_
-	ld a, (hl)
-	ld (hl), c
-	cp c
-	ret z
-	dec hl
-	ld a, (hl)
-	ld hl, _DATA_3DF0_
-	ld e, a
-	ld d, $00
-	add hl, de
-	ld a, (hl)
-	cp c
-	jr nz, +
-	ld hl, _RAM_C229_
-	inc (hl)
-	ld a, $8E
-	ld (v_soundControl), a
-	ld a, (hl)
-	cp $0A
-	ret c
-	ld iy, _RAM_C3A0_
-	ld (iy+0), $52
-	ld (iy+3), $00
-	ld (iy+12), $20
-	ld (iy+14), $1F
-	ret
+    ld a, (v_level)
+    cp $11
+    ret nz
+    ld hl, _RAM_C22A_
+    ld a, (hl)
+    ld (hl), c
+    cp c
+    ret z
+    dec hl
+    ld a, (hl)
+    ld hl, _DATA_3DF0_
+    ld e, a
+    ld d, $00
+    add hl, de
+    ld a, (hl)
+    cp c
+    jr nz, +
+    ld hl, _RAM_C229_
+    inc (hl)
+    ld a, $8E
+    ld (v_soundControl), a
+    ld a, (hl)
+    cp $0A
+    ret c
+    ld iy, _RAM_C3A0_
+    ld (iy+0), $52
+    ld (iy+3), $00
+    ld (iy+12), $20
+    ld (iy+14), $1F
+    ret
 
 +:
-	xor a
-	ld (_RAM_C229_), a
-	ld d, $30
-	ld a, (v_horizontalScroll)
-	add a, $30
-	ld e, a
-	ld c, $4F
-	jp _LABEL_5B90_
+    xor a
+    ld (_RAM_C229_), a
+    ld d, $30
+    ld a, (v_horizontalScroll)
+    add a, $30
+    ld e, a
+    ld c, $4F
+    jp _LABEL_5B90_
 
 ; 17th entry of Jump Table from 3D2B (indexed by _RAM_C802_)
 _LABEL_3DBF_:
-	ld hl, v_nextGhostSpawnTimer
-	dec (hl)
-	ret p
-	ld (hl), $7F
-	ld e, (ix+12)
-	ld a, (v_entities.1.yPos.high)
-	add a, $18
-	ld d, a
-	ld c, $4F
-	jp _LABEL_5B90_
+    ld hl, v_nextGhostSpawnTimer
+    dec (hl)
+    ret p
+    ld (hl), $7F
+    ld e, (ix+12)
+    ld a, (v_entities.1.yPos.high)
+    add a, $18
+    ld d, a
+    ld c, $4F
+    jp _LABEL_5B90_
 
 _LABEL_3DD4_:
-	jr z, +
-	ld a, (_RAM_C007_)
-	bit 1, a
-	ret z
-	ld (ix+26), $11
-	ret
+    jr z, +
+    ld a, (_RAM_C007_)
+    bit 1, a
+    ret z
+    ld (ix+26), $11
+    ret
 
 +:
-	ld a, (v_inputData)
-	bit JOY_DOWN_BIT, a
-	ret z
-	ld hl, $0100
-	ld (v_entities.1.ySpeed), hl
-	jp _LABEL_3230_
+    ld a, (v_inputData)
+    bit JOY_DOWN_BIT, a
+    ret z
+    ld hl, $0100
+    ld (v_entities.1.ySpeed), hl
+    jp _LABEL_3230_
 
 ; Data from 3DF0 to 3DFA (11 bytes)
 _DATA_3DF0_:
 .db $05 $01 $02 $03 $05 $02 $01 $04 $03 $04 $FF
 
 _LABEL_3DFB_:
-	ld (ix+26), $01
-	jr _LABEL_3E0B_
+    ld (ix+26), $01
+    jr _LABEL_3E0B_
 
 _LABEL_3E01_:
-	ld hl, $0000
-	ld (v_entities.1.ySpeed), hl
-	res 4, (ix+20)
+    ld hl, $0000
+    ld (v_entities.1.ySpeed), hl
+    res 4, (ix+20)
 _LABEL_3E0B_:
-	dec (ix+24)
-	jr z, ++
-	ld hl, $FF80
-	bit 1, (ix+24)
-	jr z, +
-	ld hl, $0080
+    dec (ix+24)
+    jr z, ++
+    ld hl, $FF80
+    bit 1, (ix+24)
+    jr z, +
+    ld hl, $0080
 +:
-	ld (v_entities.1.xSpeed), hl
-	ret
+    ld (v_entities.1.xSpeed), hl
+    ret
 
 ++:
-	res 2, (ix+20)
-	ld hl, $0000
-	ld (v_entities.1.xSpeed), hl
-	res 4, (ix+28)
-	ret
+    res 2, (ix+20)
+    ld hl, $0000
+    ld (v_entities.1.xSpeed), hl
+    res 4, (ix+28)
+    ret
 
 ; 96th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_3E2F_:
-	ld a, (ix+26)
-	ld hl, _DATA_3E38_
-	jp loadAthJumptablePointer
+    ld a, (ix+26)
+    ld hl, _DATA_3E38_
+    jp loadAthJumptablePointer
 
 ; Jump Table from 3E38 to 3E3F (4 entries, indexed by _RAM_CF9A_)
 _DATA_3E38_:
@@ -5324,91 +5324,91 @@ _DATA_3E38_:
 
 ; 1st entry of Jump Table from 3E38 (indexed by _RAM_CF9A_)
 _LABEL_3E40_:
-	ld (ix+9), $00
-	ld (ix+7), <_DATA_80E1_
-	ld (ix+8), >_DATA_80E1_
-	inc (ix+26)
-	ret
+    ld (ix+9), $00
+    ld (ix+7), <_DATA_80E1_
+    ld (ix+8), >_DATA_80E1_
+    inc (ix+26)
+    ret
 
 ; 2nd entry of Jump Table from 3E38 (indexed by _RAM_CF9A_)
 _LABEL_3E50_:
-	ld a, (v_entities.1.state)
-	cp ALEX_IDLE
-	ret nz
-	ld a, (ix+10)
-	or (ix+9)
-	ret nz
-	ld iy, v_entity1
-	call checkEntityCollision
-	ret c
-	ld a, $1A
-	ld (v_entities.1.state), a
-	inc (ix+26)
-	ld (ix+5), $1E
-	ld iy, _RAM_C640_
-	ld hl, $8000
-	ld c, $77
+    ld a, (v_entities.1.state)
+    cp ALEX_IDLE
+    ret nz
+    ld a, (ix+10)
+    or (ix+9)
+    ret nz
+    ld iy, v_entity1
+    call checkEntityCollision
+    ret c
+    ld a, $1A
+    ld (v_entities.1.state), a
+    inc (ix+26)
+    ld (ix+5), $1E
+    ld iy, _RAM_C640_
+    ld hl, $8000
+    ld c, $77
 -:
-	ld (iy+0), $18
-	ld a, (ix+12)
-	add a, $18
-	ld (iy+12), a
-	ld (iy+14), c
-	ld (iy+7), l
-	ld (iy+8), h
-	ret
+    ld (iy+0), $18
+    ld a, (ix+12)
+    add a, $18
+    ld (iy+12), a
+    ld (iy+14), c
+    ld (iy+7), l
+    ld (iy+8), h
+    ret
 
 ; 3rd entry of Jump Table from 3E38 (indexed by _RAM_CF9A_)
 _LABEL_3E90_:
-	dec (ix+5)
-	ret nz
-	ld (ix+5), $3C
-	inc (ix+26)
-	ld iy, _RAM_C660_
-	ld hl, $8A27
-	ld c, $87
-	jr -
+    dec (ix+5)
+    ret nz
+    ld (ix+5), $3C
+    inc (ix+26)
+    ld iy, _RAM_C660_
+    ld hl, $8A27
+    ld c, $87
+    jr -
 
 ; 4th entry of Jump Table from 3E38 (indexed by _RAM_CF9A_)
 _LABEL_3EA6_:
-	dec (ix+5)
-	ret nz
-	ld a, $01
-	ld (v_entities.1.state), a
-	ld a, $89
-	ld (_RAM_C202_), a
-	ld hl, _RAM_C640_
-	call clearEntity
-	inc hl
-	call clearEntity
-	jp clearCurrentEntity
+    dec (ix+5)
+    ret nz
+    ld a, $01
+    ld (v_entities.1.state), a
+    ld a, $89
+    ld (_RAM_C202_), a
+    ld hl, _RAM_C640_
+    call clearEntity
+    inc hl
+    call clearEntity
+    jp clearCurrentEntity
 
 ; 97th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_3EC1_:
-	ld (ix+7), <_DATA_80E1_
-	ld (ix+8), >_DATA_80E1_
-	ld a, (ix+10)
-	or (ix+9)
-	ret nz
-	ld iy, v_entity1
-	call checkEntityCollision
-	ret c
-	ld a, (_RAM_C640_)
-	ld c, a
-	ld a, (_RAM_C640_)
-	or c
-	ret z
-	ld hl, _DATA_3F00_
-	ld bc, v_money
-	call _LABEL_42D_
-	ret c
-	ld hl, _DATA_3F00_
-	ld bc, v_money
-	call _LABEL_41C_
-	ld hl, _RAM_C640_
-	call clearEntity
-	ld hl, _RAM_C660_
-	jp clearEntity
+    ld (ix+7), <_DATA_80E1_
+    ld (ix+8), >_DATA_80E1_
+    ld a, (ix+10)
+    or (ix+9)
+    ret nz
+    ld iy, v_entity1
+    call checkEntityCollision
+    ret c
+    ld a, (_RAM_C640_)
+    ld c, a
+    ld a, (_RAM_C640_)
+    or c
+    ret z
+    ld hl, _DATA_3F00_
+    ld bc, v_money
+    call _LABEL_42D_
+    ret c
+    ld hl, _DATA_3F00_
+    ld bc, v_money
+    call _LABEL_41C_
+    ld hl, _RAM_C640_
+    call clearEntity
+    ld hl, _RAM_C660_
+    jp clearEntity
 
 ; Data from 3F00 to 3F02 (3 bytes)
 _DATA_3F00_:
@@ -5416,31 +5416,31 @@ _DATA_3F00_:
 
 ; 99th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_3F03_:
-	bit 0, (ix+1)
-	jr z, +
-	call _LABEL_7D0B_
-	ret c
-	ld hl, _RAM_C202_
-	ld a, (hl)
-	or a
-	ret nz
-	ld (hl), $80
-	ld hl, _DATA_14503_
-	ld (_RAM_C206_), hl
-	ld hl, _RAM_CC08_
-	ld (_RAM_C204_), hl
-	jp clearCurrentEntity
+    bit 0, (ix+1)
+    jr z, +
+    call _LABEL_7D0B_
+    ret c
+    ld hl, _RAM_C202_
+    ld a, (hl)
+    or a
+    ret nz
+    ld (hl), $80
+    ld hl, _DATA_14503_
+    ld (_RAM_C206_), hl
+    ld hl, _RAM_CC08_
+    ld (_RAM_C204_), hl
+    jp clearCurrentEntity
 
 +:
-	ld (ix+7), <_DATA_80E1_
-	ld (ix+8), >_DATA_80E1_
-	ld a, (ix+9)
-	or a
-	ret nz
-	ld a, (ix+1)
-	or $03
-	ld (ix+1), a
-	ret
+    ld (ix+7), <_DATA_80E1_
+    ld (ix+8), >_DATA_80E1_
+    ld a, (ix+9)
+    or a
+    ret nz
+    ld a, (ix+1)
+    or $03
+    ld (ix+1), a
+    ret
 
 ; Jump Table from 3F3A to 3F5B (17 entries, indexed by v_level)
 _DATA_3F3A_:
@@ -5450,57 +5450,57 @@ _DATA_3F3A_:
 
 ; 1st entry of Jump Table from 3F3A (indexed by v_level)
 _LABEL_3F5C_:
-	call _LABEL_40E7_
-	ld hl, (v_entities.1.xSpeed)
-	add hl, hl
-	add hl, hl
-	add hl, hl
-	add hl, hl
-	ld a, $60
-	add a, h
-	ld b, a
-	jp _LABEL_4124_
+    call _LABEL_40E7_
+    ld hl, (v_entities.1.xSpeed)
+    add hl, hl
+    add hl, hl
+    add hl, hl
+    add hl, hl
+    ld a, $60
+    add a, h
+    ld b, a
+    jp _LABEL_4124_
 
 ; 13th entry of Jump Table from 3F3A (indexed by v_level)
 _LABEL_3F6D_:
-	call _LABEL_415E_
-	ld b, $80
-	jp _LABEL_4124_
+    call _LABEL_415E_
+    ld b, $80
+    jp _LABEL_4124_
 
 ; 2nd entry of Jump Table from 3F3A (indexed by v_level)
 _LABEL_3F75_:
-	call _LABEL_415E_
-	ld e, (ix+26)
-	ld hl, _DATA_3FB1_
-	ld d, $00
-	add hl, de
-	ld a, (hl)
-	or a
-	jr nz, +
-	ld hl, (v_entities.1.xSpeed)
-	add hl, hl
-	add hl, hl
-	add hl, hl
-	add hl, hl
-	ld a, $60
-	add a, h
-	ld b, a
-	jp _LABEL_4124_
+    call _LABEL_415E_
+    ld e, (ix+26)
+    ld hl, _DATA_3FB1_
+    ld d, $00
+    add hl, de
+    ld a, (hl)
+    or a
+    jr nz, +
+    ld hl, (v_entities.1.xSpeed)
+    add hl, hl
+    add hl, hl
+    add hl, hl
+    add hl, hl
+    ld a, $60
+    add a, h
+    ld b, a
+    jp _LABEL_4124_
 
 +:
-	ld a, (v_entities.1.xPos.high)
-	ld b, $40
-	cp $44
-	jp c, _LABEL_4124_
-	ld a, (v_scrollFlags)
-	and $08
-	ret z
-	ld de, (v_entities.1.xSpeed)
-	xor a
-	ld hl, $FF00
-	sbc hl, de
-	ld (v_horizontalScrollSpeed), hl
-	ret
+    ld a, (v_entities.1.xPos.high)
+    ld b, $40
+    cp $44
+    jp c, _LABEL_4124_
+    ld a, (v_scrollFlags)
+    and $08
+    ret z
+    ld de, (v_entities.1.xSpeed)
+    xor a
+    ld hl, $FF00
+    sbc hl, de
+    ld (v_horizontalScrollSpeed), hl
+    ret
 
 ; Data from 3FB1 to 3FD0 (32 bytes)
 _DATA_3FB1_:
@@ -5509,366 +5509,366 @@ _DATA_3FB1_:
 
 ; 5th entry of Jump Table from 3F3A (indexed by v_level)
 _LABEL_3FD1_:
-	ld a, (v_entities.1.state)
-	cp $1B
-	jr z, +
-	cp $13
-	jp nz, _LABEL_3F75_
-	jp +++
+    ld a, (v_entities.1.state)
+    cp $1B
+    jr z, +
+    cp $13
+    jp nz, _LABEL_3F75_
+    jp +++
 
 +:
-	ld a, (_RAM_C0B7_)
-	and $02
-	jr z, ++
-	ld a, (v_entities.1.yPos.high)
-	cp $90
-	jr c, +
-	ld hl, $0000
-	ld (v_entities.1.ySpeed), hl
+    ld a, (_RAM_C0B7_)
+    and $02
+    jr z, ++
+    ld a, (v_entities.1.yPos.high)
+    cp $90
+    jr c, +
+    ld hl, $0000
+    ld (v_entities.1.ySpeed), hl
 +:
-	ld hl, $FF00
-	ld (v_horizontalScrollSpeed), hl
-	ld hl, $0100
-	ld (v_entities.1.xSpeed), hl
-	ret
+    ld hl, $FF00
+    ld (v_horizontalScrollSpeed), hl
+    ld hl, $0100
+    ld (v_entities.1.xSpeed), hl
+    ret
 
 ++:
-	ld (ix+26), $13
-	push ix
-	call _LABEL_6671_
-	pop ix
-	ld hl, v_scrollFlags
-	set 0, (hl)
+    ld (ix+26), $13
+    push ix
+    call _LABEL_6671_
+    pop ix
+    ld hl, v_scrollFlags
+    set 0, (hl)
 +++:
-	ld a, (v_entities.1.yPos.high)
-	cp $08
-	jr nc, +
-	ld hl, $0300
-	ld (v_entities.1.ySpeed), hl
+    ld a, (v_entities.1.yPos.high)
+    cp $08
+    jr nc, +
+    ld hl, $0300
+    ld (v_entities.1.ySpeed), hl
 +:
-	ld hl, $0300
-	ld (v_verticalScrollSpeed), hl
-	ret
+    ld hl, $0300
+    ld (v_verticalScrollSpeed), hl
+    ret
 
 ; 11th entry of Jump Table from 3F3A (indexed by v_level)
 _LABEL_4025_:
-	ld hl, v_scrollFlags
-	ld a, (hl)
-	and $0F
-	jp z, +
-	rrca
-	jp c, _LABEL_40CB_
-	rrca
-	jp c, _LABEL_40E0_
-	rrca
-	jp c, _LABEL_4090_
-	jp _LABEL_40AF_
+    ld hl, v_scrollFlags
+    ld a, (hl)
+    and $0F
+    jp z, +
+    rrca
+    jp c, _LABEL_40CB_
+    rrca
+    jp c, _LABEL_40E0_
+    rrca
+    jp c, _LABEL_4090_
+    jp _LABEL_40AF_
 
 +:
-	ld a, (v_entities.1.yPos.high)
-	cp $A8
-	jr c, +
-	ld a, (v_entities.1.unknown3)
-	bit 3, a
-	jp nz, _LABEL_40B6_
-	bit 7, a
-	jp z, _LABEL_40D2_
-	bit 6, a
-	jp nz, _LABEL_40B6_
-	ld hl, (v_entities.1.ySpeed)
-	ld a, l
-	or h
-	jp z, _LABEL_40D2_
-	jp _LABEL_40B6_
+    ld a, (v_entities.1.yPos.high)
+    cp $A8
+    jr c, +
+    ld a, (v_entities.1.unknown3)
+    bit 3, a
+    jp nz, _LABEL_40B6_
+    bit 7, a
+    jp z, _LABEL_40D2_
+    bit 6, a
+    jp nz, _LABEL_40B6_
+    ld hl, (v_entities.1.ySpeed)
+    ld a, l
+    or h
+    jp z, _LABEL_40D2_
+    jp _LABEL_40B6_
 
 +:
-	ld a, (v_entities.1.state)
-	ld b, $F0
-	cp $05
-	jr nz, +
-	ld b, $E8
+    ld a, (v_entities.1.state)
+    ld b, $F0
+    cp $05
+    jr nz, +
+    ld b, $E8
 +:
-	ld a, (v_entities.1.xPos.high)
-	cp b
-	ret c
-	bit 1, (ix+20)
-	jp nz, ++
-	call _LABEL_3320_
-	ld hl, v_scrollFlags
-	set 2, (hl)
-	ld a, (v_alexStateTemporaryCopy)
-	cp $05
-	ld hl, $FFC0
-	jr nz, +
-	ld hl, $FFA0
+    ld a, (v_entities.1.xPos.high)
+    cp b
+    ret c
+    bit 1, (ix+20)
+    jp nz, ++
+    call _LABEL_3320_
+    ld hl, v_scrollFlags
+    set 2, (hl)
+    ld a, (v_alexStateTemporaryCopy)
+    cp $05
+    ld hl, $FFC0
+    jr nz, +
+    ld hl, $FFA0
 +:
-	ld (v_entities.1.xSpeed), hl
+    ld (v_entities.1.xSpeed), hl
 _LABEL_4090_:
-	ld hl, $0400
-	ld (v_horizontalScrollSpeed), hl
-	ret
+    ld hl, $0400
+    ld (v_horizontalScrollSpeed), hl
+    ret
 
 ++:
-	call _LABEL_3320_
-	ld hl, v_scrollFlags
-	set 3, (hl)
-	ld a, (v_alexStateTemporaryCopy)
-	cp $05
-	ld hl, $0040
-	jr nz, +
-	ld hl, $0060
+    call _LABEL_3320_
+    ld hl, v_scrollFlags
+    set 3, (hl)
+    ld a, (v_alexStateTemporaryCopy)
+    cp $05
+    ld hl, $0040
+    jr nz, +
+    ld hl, $0060
 +:
-	ld (v_entities.1.xSpeed), hl
+    ld (v_entities.1.xSpeed), hl
 _LABEL_40AF_:
-	ld hl, $FC00
-	ld (v_horizontalScrollSpeed), hl
-	ret
+    ld hl, $FC00
+    ld (v_horizontalScrollSpeed), hl
+    ret
 
 _LABEL_40B6_:
-	call _LABEL_3320_
-	push ix
-	call _LABEL_6671_
-	pop ix
-	ld hl, v_scrollFlags
-	set 0, (hl)
-	ld hl, $0080
-	ld (v_entities.1.ySpeed), hl
+    call _LABEL_3320_
+    push ix
+    call _LABEL_6671_
+    pop ix
+    ld hl, v_scrollFlags
+    set 0, (hl)
+    ld hl, $0080
+    ld (v_entities.1.ySpeed), hl
 _LABEL_40CB_:
-	ld hl, $0400
-	ld (v_verticalScrollSpeed), hl
-	ret
+    ld hl, $0400
+    ld (v_verticalScrollSpeed), hl
+    ret
 
 _LABEL_40D2_:
-	call _LABEL_3320_
-	ld hl, v_scrollFlags
-	set 1, (hl)
-	ld hl, $FF80
-	ld (v_entities.1.ySpeed), hl
+    call _LABEL_3320_
+    ld hl, v_scrollFlags
+    set 1, (hl)
+    ld hl, $FF80
+    ld (v_entities.1.ySpeed), hl
 _LABEL_40E0_:
-	ld hl, $FC00
-	ld (v_verticalScrollSpeed), hl
-	ret
+    ld hl, $FC00
+    ld (v_verticalScrollSpeed), hl
+    ret
 
 _LABEL_40E7_:
-	ld hl, v_scrollFlags
-	ld a, (hl)
-	and $03
-	jp z, _LABEL_415E_
-	ld a, (v_entities.1.yPos.high)
-	bit 7, (ix+18)
-	jr nz, ++
-	bit 0, (hl)
-	jr z, +
-	cp $50
-	ret c
-	ld a, (v_entities.1.isOffScreenFlags.high)
-	or a
-	ret nz
-	ld hl, (v_entities.1.ySpeed)
-	ld (v_verticalScrollSpeed), hl
-	ret
+    ld hl, v_scrollFlags
+    ld a, (hl)
+    and $03
+    jp z, _LABEL_415E_
+    ld a, (v_entities.1.yPos.high)
+    bit 7, (ix+18)
+    jr nz, ++
+    bit 0, (hl)
+    jr z, +
+    cp $50
+    ret c
+    ld a, (v_entities.1.isOffScreenFlags.high)
+    or a
+    ret nz
+    ld hl, (v_entities.1.ySpeed)
+    ld (v_verticalScrollSpeed), hl
+    ret
 
 +:
-	cp $A8
-	ret c
-	ld hl, $0000
-	ld (v_entities.1.ySpeed), hl
-	res 4, (ix+20)
-	ret
+    cp $A8
+    ret c
+    ld hl, $0000
+    ld (v_entities.1.ySpeed), hl
+    res 4, (ix+20)
+    ret
 
 ++:
-	ret
+    ret
 
 ; Data from 411B to 4123 (9 bytes)
 .db $FE $04 $D0 $DD $CB $14 $FE $18 $EB
 
 _LABEL_4124_:
-	ld a, (v_scrollFlags)
-	ld c, a
-	ld a, (v_entities.1.xPos.high)
-	ld de, (v_entities.1.xSpeed)
-	bit 7, d
-	jr z, ++
-	bit 2, c
-	jr nz, +
-	cp $04
-	ret nc
-	call _LABEL_3B56_
-	ld (v_horizontalScrollSpeed), hl
-	ret
+    ld a, (v_scrollFlags)
+    ld c, a
+    ld a, (v_entities.1.xPos.high)
+    ld de, (v_entities.1.xSpeed)
+    bit 7, d
+    jr z, ++
+    bit 2, c
+    jr nz, +
+    cp $04
+    ret nc
+    call _LABEL_3B56_
+    ld (v_horizontalScrollSpeed), hl
+    ret
 
 +:
-	cp b
-	ret nc
+    cp b
+    ret nc
 -:
-	xor a
-	ld h, a
-	ld l, a
-	sbc hl, de
-	ld (v_horizontalScrollSpeed), hl
-	ret
+    xor a
+    ld h, a
+    ld l, a
+    sbc hl, de
+    ld (v_horizontalScrollSpeed), hl
+    ret
 
 ++:
-	bit 3, c
-	jr nz, +
-	cp $F4
-	ret c
-	call _LABEL_3B56_
-	ld (v_horizontalScrollSpeed), hl
-	ret
+    bit 3, c
+    jr nz, +
+    cp $F4
+    ret c
+    call _LABEL_3B56_
+    ld (v_horizontalScrollSpeed), hl
+    ret
 
 +:
-	cp b
-	ret c
-	jr -
+    cp b
+    ret c
+    jr -
 
 _LABEL_415E_:
-	ld a, (v_entities.1.state)
-	cp $07
-	ret c
-	ld a, (v_entities.1.yPos.high)
-	bit 7, (ix+18)
-	jr nz, +
-	ld a, (v_entities.1.isOffScreenFlags.high)
-	or a
-	ret nz
-	cp $A8
-	ret c
+    ld a, (v_entities.1.state)
+    cp $07
+    ret c
+    ld a, (v_entities.1.yPos.high)
+    bit 7, (ix+18)
+    jr nz, +
+    ld a, (v_entities.1.isOffScreenFlags.high)
+    or a
+    ret nz
+    cp $A8
+    ret c
 -:
-	ld hl, $0000
-	ld (v_entities.1.ySpeed), hl
-	res 4, (ix+20)
-	ret
+    ld hl, $0000
+    ld (v_entities.1.ySpeed), hl
+    res 4, (ix+20)
+    ret
 
 +:
-	cp $04
-	ret nc
-	set 7, (ix+20)
-	jr -
+    cp $04
+    ret nc
+    set 7, (ix+20)
+    jr -
 
 _LABEL_4189_:
-	ld d, (hl)
-	inc hl
-	ld a, (v_entities.1.animationFrame)
-	dec (ix+5)
-	jr nz, +
-	ld e, (ix+6)
-	ld (ix+5), e
-	inc a
+    ld d, (hl)
+    inc hl
+    ld a, (v_entities.1.animationFrame)
+    dec (ix+5)
+    jr nz, +
+    ld e, (ix+6)
+    ld (ix+5), e
+    inc a
 +:
-	cp d
-	jr c, +
-	xor a
+    cp d
+    jr c, +
+    xor a
 +:
-	ld (v_entities.1.animationFrame), a
-	add a, a
-	ld e, a
-	ld d, $00
-	add hl, de
-	ld a, (hl)
-	inc hl
-	ld h, (hl)
-	ld l, a
+    ld (v_entities.1.animationFrame), a
+    add a, a
+    ld e, a
+    ld d, $00
+    add hl, de
+    ld a, (hl)
+    inc hl
+    ld h, (hl)
+    ld l, a
 _LABEL_41AA_:
-	ld a, (hl)
-	inc hl
-	ld (v_alexTilesIndex), a
-	ld (v_entities.1.spriteDescriptorPointer), hl
-	ret
+    ld a, (hl)
+    inc hl
+    ld (v_alexTilesIndex), a
+    ld (v_entities.1.spriteDescriptorPointer), hl
+    ret
 
 
 _LABEL_41B3_:
-	ld hl, v_alexTilesIndex
-	ld a, (hl)
-	inc hl
-	cp (hl)
-	ret z
-	ld (hl), a
-	ld hl, v_shouldUpdateTitlescreenLevelTiles
-	ld (hl), $01
+    ld hl, v_alexTilesIndex
+    ld a, (hl)
+    inc hl
+    cp (hl)
+    ret z
+    ld (hl), a
+    ld hl, v_shouldUpdateTitlescreenLevelTiles
+    ld (hl), $01
 
 ; Load tiles from Alex tile descriptors to VRAM $2000.
 ;
 ; @param a - Index to Alex tile descriptors pointers
 loadAlexTilesToVRAM2000:
-	add a, a
-	ld c, a
-	ld b, $00
-	ld de, $6000
-	rst $08	; setVDPAddress
+    add a, a
+    ld c, a
+    ld b, $00
+    ld de, $6000
+    rst $08    ; setVDPAddress
 
 ; Load tiles from Alex tile descriptors to VRAM.
 ; Assumes that VA is already set.
 ;
 ; @param bc - Offset to Alex tile descriptor
 loadAlexTilesToVRAM:
-	ld a, $84
-	ld (Mapper_Slot2), a
-	ld hl, _DATA_10000_
-	add hl, bc
-	ld e, (hl)
-	inc hl
-	ld d, (hl)
-	ex de, hl
-	ld c, Port_VDPData
-	ld a, (hl)
-	inc hl
-	ex af, af'
-	xor a
-	ex af, af'
+    ld a, $84
+    ld (Mapper_Slot2), a
+    ld hl, _DATA_10000_
+    add hl, bc
+    ld e, (hl)
+    inc hl
+    ld d, (hl)
+    ex de, hl
+    ld c, Port_VDPData
+    ld a, (hl)
+    inc hl
+    ex af, af'
+    xor a
+    ex af, af'
 -:
-	ld e, (hl)
-	inc hl
-	ld d, (hl)
-	inc hl
-	ex de, hl
-	ex af, af'
-	outi
-	outi
-	outi
-	out (Port_VDPData), a
-	outi
-	outi
-	outi
-	out (Port_VDPData), a
-	outi
-	outi
-	outi
-	out (Port_VDPData), a
-	outi
-	outi
-	outi
-	out (Port_VDPData), a
-	outi
-	outi
-	outi
-	out (Port_VDPData), a
-	outi
-	outi
-	outi
-	out (Port_VDPData), a
-	outi
-	outi
-	outi
-	out (Port_VDPData), a
-	outi
-	outi
-	outi
-	out (Port_VDPData), a
-	ex af, af'
-	ex de, hl
-	dec a
-	jp nz, -
-	ret
+    ld e, (hl)
+    inc hl
+    ld d, (hl)
+    inc hl
+    ex de, hl
+    ex af, af'
+    outi
+    outi
+    outi
+    out (Port_VDPData), a
+    outi
+    outi
+    outi
+    out (Port_VDPData), a
+    outi
+    outi
+    outi
+    out (Port_VDPData), a
+    outi
+    outi
+    outi
+    out (Port_VDPData), a
+    outi
+    outi
+    outi
+    out (Port_VDPData), a
+    outi
+    outi
+    outi
+    out (Port_VDPData), a
+    outi
+    outi
+    outi
+    out (Port_VDPData), a
+    outi
+    outi
+    outi
+    out (Port_VDPData), a
+    ex af, af'
+    ex de, hl
+    dec a
+    jp nz, -
+    ret
 
 _LABEL_4229_:
-	ld hl, _RAM_C202_
-	ld a, (hl)
-	ld (hl), $00
-	add a, a
-	ret nc
-	ld hl, _DATA_4237_
-	jp _LABEL_21_
+    ld hl, _RAM_C202_
+    ld a, (hl)
+    ld (hl), $00
+    add a, a
+    ret nc
+    ld hl, _DATA_4237_
+    jp _LABEL_21_
 
 ; Jump Table from 4237 to 424A (10 entries, indexed by _RAM_C202_)
 _DATA_4237_:
@@ -5877,411 +5877,411 @@ _DATA_4237_:
 
 ; 1st entry of Jump Table from 4237 (indexed by _RAM_C202_)
 _LABEL_424B_:
-	ld a, $85
-	ld (Mapper_Slot2), a
-	ld a, (_RAM_C08E_)
-	or a
-	jr z, ++
-	ld a, (_RAM_C0BE_)
-	and $F0
-	ld c, a
-	ld hl, (_RAM_C204_)
-	ld a, l
-	rra
-	rra
-	and $0F
-	ld d, a
-	ld a, h
-	rl l
-	rla
-	add a, a
-	add a, a
-	add a, a
-	add a, a
-	add a, d
-	sub c
-	jr nc, +
-	sub $20
+    ld a, $85
+    ld (Mapper_Slot2), a
+    ld a, (_RAM_C08E_)
+    or a
+    jr z, ++
+    ld a, (_RAM_C0BE_)
+    and $F0
+    ld c, a
+    ld hl, (_RAM_C204_)
+    ld a, l
+    rra
+    rra
+    and $0F
+    ld d, a
+    ld a, h
+    rl l
+    rla
+    add a, a
+    add a, a
+    add a, a
+    add a, a
+    add a, d
+    sub c
+    jr nc, +
+    sub $20
 +:
-	ld hl, (_RAM_C078_)
-	ld b, (hl)
-	inc b
-	dec b
-	jr z, ++
+    ld hl, (_RAM_C078_)
+    ld b, (hl)
+    inc b
+    dec b
+    jr z, ++
 -:
-	inc l
-	inc l
-	cp (hl)
-	jr z, +
-	djnz -
-	jr ++
+    inc l
+    inc l
+    cp (hl)
+    jr z, +
+    djnz -
+    jr ++
 
 +:
-	dec l
-	ld (hl), $01
+    dec l
+    ld (hl), $01
 ++:
-	ld de, (_RAM_C204_)
-	ld hl, (_RAM_C206_)
-	ldi
-	ldi
-	ldi
-	ldi
-	ld bc, $003C
-	ex de, hl
-	add hl, bc
-	ex de, hl
-	ldi
-	ldi
-	ldi
-	ldi
-	ld de, (_RAM_C204_)
-	ld hl, (_RAM_C206_)
-	ld a, d
-	sub $50
-	ld d, a
-	ld bc, $0204
-	call copyNameTableBlockToVRAM
-	ret
+    ld de, (_RAM_C204_)
+    ld hl, (_RAM_C206_)
+    ldi
+    ldi
+    ldi
+    ldi
+    ld bc, $003C
+    ex de, hl
+    add hl, bc
+    ex de, hl
+    ldi
+    ldi
+    ldi
+    ldi
+    ld de, (_RAM_C204_)
+    ld hl, (_RAM_C206_)
+    ld a, d
+    sub $50
+    ld d, a
+    ld bc, $0204
+    call copyNameTableBlockToVRAM
+    ret
 
 ; 5th entry of Jump Table from 4237 (indexed by _RAM_C202_)
 _LABEL_42B6_:
-	ld de, (_RAM_C0FD_)
-	call ++
-	ld hl, _DATA_14410_
-	jp +
+    ld de, (_RAM_C0FD_)
+    call ++
+    ld hl, _DATA_14410_
+    jp +
 
 ; 4th entry of Jump Table from 4237 (indexed by _RAM_C202_)
 _LABEL_42C3_:
-	ld de, (_RAM_C0FD_)
-	call ++
-	ld hl, _DATA_14400_
+    ld de, (_RAM_C0FD_)
+    call ++
+    ld hl, _DATA_14400_
 +:
-	ld de, (_RAM_C204_)
-	ldi
-	ldi
-	ldi
-	ldi
-	ldi
-	ldi
-	ldi
-	ldi
-	ld bc, $0038
-	ex de, hl
-	add hl, bc
-	ex de, hl
-	ldi
-	ldi
-	ldi
-	ldi
-	ldi
-	ldi
-	ldi
-	ldi
-	ret
+    ld de, (_RAM_C204_)
+    ldi
+    ldi
+    ldi
+    ldi
+    ldi
+    ldi
+    ldi
+    ldi
+    ld bc, $0038
+    ex de, hl
+    add hl, bc
+    ex de, hl
+    ldi
+    ldi
+    ldi
+    ldi
+    ldi
+    ldi
+    ldi
+    ldi
+    ret
 
 ++:
-	ld a, $85
-	ld (Mapper_Slot2), a
-	ld a, $03
+    ld a, $85
+    ld (Mapper_Slot2), a
+    ld a, $03
 -:
-	ld hl, _DATA_1450B_
-	ldi
-	ldi
-	ldi
-	ldi
-	ldi
-	ldi
-	ldi
-	ldi
-	ld hl, $0038
-	add hl, de
-	ex de, hl
-	dec a
-	jr nz, -
-	ld (_RAM_C204_), de
-	ld de, (_RAM_C0FD_)
-	ld a, d
-	sub $50
-	ld d, a
-	ld b, $03
+    ld hl, _DATA_1450B_
+    ldi
+    ldi
+    ldi
+    ldi
+    ldi
+    ldi
+    ldi
+    ldi
+    ld hl, $0038
+    add hl, de
+    ex de, hl
+    dec a
+    jr nz, -
+    ld (_RAM_C204_), de
+    ld de, (_RAM_C0FD_)
+    ld a, d
+    sub $50
+    ld d, a
+    ld b, $03
 -:
-	push bc
-	ld hl, _DATA_1450B_
-	ld b, $08
-	rst $30	; memcpyToVRAM
-	ld hl, $0040
-	add hl, de
-	ex de, hl
-	pop bc
-	djnz -
-	ld hl, _DATA_14400_
-	ld bc, $0208
-	jp copyNameTableBlockToVRAM
+    push bc
+    ld hl, _DATA_1450B_
+    ld b, $08
+    rst $30    ; memcpyToVRAM
+    ld hl, $0040
+    add hl, de
+    ex de, hl
+    pop bc
+    djnz -
+    ld hl, _DATA_14400_
+    ld bc, $0208
+    jp copyNameTableBlockToVRAM
 
 ; 2nd entry of Jump Table from 4237 (indexed by _RAM_C202_)
 _LABEL_4340_:
-	ld hl, (_RAM_C0FD_)
-	inc hl
-	ld e, l
-	ld a, h
-	sub $50
-	ld d, a
-	ld bc, $0204
-	jp _LABEL_435F_
+    ld hl, (_RAM_C0FD_)
+    inc hl
+    ld e, l
+    ld a, h
+    sub $50
+    ld d, a
+    ld bc, $0204
+    jp _LABEL_435F_
 
 ; 3rd entry of Jump Table from 4237 (indexed by _RAM_C202_)
 _LABEL_434F_:
-	ld hl, (_RAM_C0FD_)
-	inc hl
-	ld de, $00C0
-	add hl, de
-	ld e, l
-	ld a, h
-	sub $50
-	ld d, a
-	ld bc, $0404
+    ld hl, (_RAM_C0FD_)
+    inc hl
+    ld de, $00C0
+    add hl, de
+    ld e, l
+    ld a, h
+    sub $50
+    ld d, a
+    ld bc, $0404
 _LABEL_435F_:
-	rst $08	; setVDPAddress
-	push bc
-	push hl
-	push de
+    rst $08    ; setVDPAddress
+    push bc
+    push hl
+    push de
 -:
-	ld a, (hl)
-	or $10
-	out (Port_VDPData), a
-	inc hl
-	push af
-	pop af
-	in a, (Port_VDPData)
-	inc hl
-	djnz -
-	pop hl
-	ld bc, $0040
-	add hl, bc
-	ex de, hl
-	pop hl
-	add hl, bc
-	pop bc
-	dec c
-	jr nz, _LABEL_435F_
-	ret
+    ld a, (hl)
+    or $10
+    out (Port_VDPData), a
+    inc hl
+    push af
+    pop af
+    in a, (Port_VDPData)
+    inc hl
+    djnz -
+    pop hl
+    ld bc, $0040
+    add hl, bc
+    ex de, hl
+    pop hl
+    add hl, bc
+    pop bc
+    dec c
+    jr nz, _LABEL_435F_
+    ret
 
 ; 9th entry of Jump Table from 4237 (indexed by _RAM_C202_)
 _LABEL_437D_:
-	ld a, $84
-	ld (Mapper_Slot2), a
-	ld a, (_RAM_C218_)
-	ld b, a
-	and $07
-	add a, a
-	add a, a
-	ld l, a
-	ld a, b
-	and $F8
-	rra
-	rra
-	ld e, a
-	ld d, $00
-	ld h, d
-	ld (_RAM_C219_), hl
-	ld hl, _DATA_12AC2_
-	add hl, de
-	ld a, (hl)
-	inc hl
-	ld h, (hl)
-	ld l, a
-	ld a, (hl)
-	ld de, (_RAM_C21B_)
+    ld a, $84
+    ld (Mapper_Slot2), a
+    ld a, (_RAM_C218_)
+    ld b, a
+    and $07
+    add a, a
+    add a, a
+    ld l, a
+    ld a, b
+    and $F8
+    rra
+    rra
+    ld e, a
+    ld d, $00
+    ld h, d
+    ld (_RAM_C219_), hl
+    ld hl, _DATA_12AC2_
+    add hl, de
+    ld a, (hl)
+    inc hl
+    ld h, (hl)
+    ld l, a
+    ld a, (hl)
+    ld de, (_RAM_C21B_)
 -:
-	ex af, af'
-	inc hl
-	ld c, (hl)
-	inc hl
-	push hl
-	ld b, (hl)
-	ld hl, (_RAM_C219_)
-	add hl, bc
-	ex de, hl
-	ld b, $04
-	rst $30	; memcpyToVRAM
-	ex de, hl
-	pop hl
-	ex af, af'
-	dec a
-	jr nz, -
-	ld (_RAM_C21B_), de
-	ld hl, _RAM_C218_
-	inc (hl)
-	ld a, (hl)
-	cp $30
-	ret z
-	ld a, $88
-	ld (_RAM_C202_), a
-	ret
+    ex af, af'
+    inc hl
+    ld c, (hl)
+    inc hl
+    push hl
+    ld b, (hl)
+    ld hl, (_RAM_C219_)
+    add hl, bc
+    ex de, hl
+    ld b, $04
+    rst $30    ; memcpyToVRAM
+    ex de, hl
+    pop hl
+    ex af, af'
+    dec a
+    jr nz, -
+    ld (_RAM_C21B_), de
+    ld hl, _RAM_C218_
+    inc (hl)
+    ld a, (hl)
+    cp $30
+    ret z
+    ld a, $88
+    ld (_RAM_C202_), a
+    ret
 
 ; 10th entry of Jump Table from 4237 (indexed by _RAM_C202_)
 _LABEL_43CA_:
-	ld a, $85
-	ld (Mapper_Slot2), a
-	ld hl, _DATA_14420_
-	ld de, $7BB4
-	ld bc, $0608
-	call copyNameTableBlockToVRAM
-	ld hl, _DATA_14420_
-	ld de, _RAM_CBB4_
-	ld a, $06
+    ld a, $85
+    ld (Mapper_Slot2), a
+    ld hl, _DATA_14420_
+    ld de, $7BB4
+    ld bc, $0608
+    call copyNameTableBlockToVRAM
+    ld hl, _DATA_14420_
+    ld de, _RAM_CBB4_
+    ld a, $06
 -:
-	ld bc, $0008
-	ldir
-	ex de, hl
-	ld bc, $0038
-	add hl, bc
-	ex de, hl
-	dec a
-	jr nz, -
-	ret
+    ld bc, $0008
+    ldir
+    ex de, hl
+    ld bc, $0038
+    add hl, bc
+    ex de, hl
+    dec a
+    jr nz, -
+    ret
 
 _LABEL_43F2_:
-	ld a, $82
-	ld (v_soundControl), a
-	ld (ix+28), $04
-	ld (ix+26), $03
-	ld (ix+20), $03
-	ld hl, $FE00
-	ld (v_entities.1.ySpeed), hl
-	ld hl, $0000
-	ld (v_entities.1.xSpeed), hl
-	ld hl, _DATA_90BC_
-	call _LABEL_41AA_
+    ld a, $82
+    ld (v_soundControl), a
+    ld (ix+28), $04
+    ld (ix+26), $03
+    ld (ix+20), $03
+    ld hl, $FE00
+    ld (v_entities.1.ySpeed), hl
+    ld hl, $0000
+    ld (v_entities.1.xSpeed), hl
+    ld hl, _DATA_90BC_
+    call _LABEL_41AA_
 _LABEL_4415_:
-	ld (ix+31), $18
-	ld (ix+29), $08
-	xor a
-	ld (_RAM_C054_), a
-	ld iy, _RAM_C360_
-	ld a, (v_entities.1.xPos.high)
-	add a, $08
-	ld (_RAM_C36C_), a
-	ld a, (v_entities.1.yPos.high)
-	add a, $10
-	ld (_RAM_C36E_), a
-	ld (iy+0), $03
-	ld (iy+25), $14
-	ld (iy+5), $04
-	ld (iy+6), $04
-	ret
+    ld (ix+31), $18
+    ld (ix+29), $08
+    xor a
+    ld (_RAM_C054_), a
+    ld iy, _RAM_C360_
+    ld a, (v_entities.1.xPos.high)
+    add a, $08
+    ld (_RAM_C36C_), a
+    ld a, (v_entities.1.yPos.high)
+    add a, $10
+    ld (_RAM_C36E_), a
+    ld (iy+0), $03
+    ld (iy+25), $14
+    ld (iy+5), $04
+    ld (iy+6), $04
+    ret
 
 ; 3rd entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_4446_:
-	ld hl, _DATA_8372_
-	call handleEntityAnimation
-	dec (ix+25)
-	jp z, clearCurrentEntity
-	ret
+    ld hl, _DATA_8372_
+    call handleEntityAnimation
+    dec (ix+25)
+    jp z, clearCurrentEntity
+    ret
 
 ; 9th entry of Jump Table from 4523 (indexed by _RAM_C054_)
 _LABEL_4453_:
-	ld a, $A8
-	ld (v_soundControl), a
-	ld hl, v_entities.1.unknown8
-	ld a, (hl)
-	or $09
-	ld (hl), a
-	ld a, (v_entities.1.yPos.high)
-	add a, $10
-	ld (v_entities.2.yPos.high), a
-	ld a, (v_entities.1.xPos.high)
-	bit 0, (ix+20)
-	ld hl, $FC00
-	jr z, +
-	add a, $10
-	ret c
-	ld hl, $0400
+    ld a, $A8
+    ld (v_soundControl), a
+    ld hl, v_entities.1.unknown8
+    ld a, (hl)
+    or $09
+    ld (hl), a
+    ld a, (v_entities.1.yPos.high)
+    add a, $10
+    ld (v_entities.2.yPos.high), a
+    ld a, (v_entities.1.xPos.high)
+    bit 0, (ix+20)
+    ld hl, $FC00
+    jr z, +
+    add a, $10
+    ret c
+    ld hl, $0400
 +:
-	ld (v_entities.2.xPos.high), a
-	ld (v_entities.2.xSpeed), hl
-	ld a, $02
-	ld (v_entities.2), a
-	ld hl, $84E8
-	ld (v_entities.2.spriteDescriptorPointer), hl
-	ld a, $14
-	ld (v_entities.2.unknown7), a
-	ret
+    ld (v_entities.2.xPos.high), a
+    ld (v_entities.2.xSpeed), hl
+    ld a, $02
+    ld (v_entities.2), a
+    ld hl, $84E8
+    ld (v_entities.2.spriteDescriptorPointer), hl
+    ld a, $14
+    ld (v_entities.2.unknown7), a
+    ret
 
 ; 2nd entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_4490_:
-	bit 7, (ix+1)
-	jr nz, ++
-	ld a, (v_entities.2.isOffScreenFlags)
-	or (ix+10)
-	jr nz, +
-	ld a, (v_entities.2.xPos.high)
-	ld de, $0404
-	call getTileNearEntityWithXYOffset
-	rlca
-	jr nc, +
-	rlca
-	jr nc, ++
-	call _LABEL_4578_
-	ld a, (_RAM_C202_)
-	or a
-	jr nz, ++
+    bit 7, (ix+1)
+    jr nz, ++
+    ld a, (v_entities.2.isOffScreenFlags)
+    or (ix+10)
+    jr nz, +
+    ld a, (v_entities.2.xPos.high)
+    ld de, $0404
+    call getTileNearEntityWithXYOffset
+    rlca
+    jr nc, +
+    rlca
+    jr nc, ++
+    call _LABEL_4578_
+    ld a, (_RAM_C202_)
+    or a
+    jr nz, ++
 +:
-	dec (ix+25)
-	ret nz
+    dec (ix+25)
+    ret nz
 ++:
-	ld (ix+25), $05
-	ld (ix+0), $04
-	ld a, $A9
-	ld (v_soundControl), a
-	ld hl, $0000
-	ld (v_entities.2.xSpeed), hl
-	ld hl, $8380
-	ld (v_entities.2.spriteDescriptorPointer), hl
-	ret
+    ld (ix+25), $05
+    ld (ix+0), $04
+    ld a, $A9
+    ld (v_soundControl), a
+    ld hl, $0000
+    ld (v_entities.2.xSpeed), hl
+    ld hl, $8380
+    ld (v_entities.2.spriteDescriptorPointer), hl
+    ret
 
 ; 4th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_44D4_:
-	dec (ix+25)
-	ret nz
-	ld hl, v_entities.1.unknown8
-	ld a, (hl)
-	and $F6
-	ld (hl), a
-	jp clearCurrentEntity
+    dec (ix+25)
+    ret nz
+    ld hl, v_entities.1.unknown8
+    ld a, (hl)
+    and $F6
+    ld (hl), a
+    jp clearCurrentEntity
 
 _LABEL_44E2_:
-	bit 0, (ix+28)
-	ret nz
-	ld hl, v_entities.1.unknown8
-	ld a, (hl)
-	or $09
-	ld (hl), a
-	ld (ix+25), $0A
-	bit 0, (ix+20)
-	jr nz, +
-	ld hl, _DATA_8E49_
-	ld de, $0AF9
-	jr _LABEL_455E_
+    bit 0, (ix+28)
+    ret nz
+    ld hl, v_entities.1.unknown8
+    ld a, (hl)
+    or $09
+    ld (hl), a
+    ld (ix+25), $0A
+    bit 0, (ix+20)
+    jr nz, +
+    ld hl, _DATA_8E49_
+    ld de, $0AF9
+    jr _LABEL_455E_
 
 +:
-	ld hl, _DATA_8E5E_
-	ld de, $0A1F
-	jr _LABEL_455E_
+    ld hl, _DATA_8E5E_
+    ld de, $0A1F
+    jr _LABEL_455E_
 
 _LABEL_4508_:
-	bit 0, (ix+28)
-	ret nz
-	ld a, (v_entities.1.isOffScreenFlags.high)
-	or a
-	ret nz
-	ld a, (v_gameState)
-	and $0F
-	cp $05
-	ret z
-	ld a, (_RAM_C054_)
-	ld hl, _DATA_4523_
-	jp loadAthJumptablePointer
+    bit 0, (ix+28)
+    ret nz
+    ld a, (v_entities.1.isOffScreenFlags.high)
+    or a
+    ret nz
+    ld a, (v_gameState)
+    and $0F
+    cp $05
+    ret z
+    ld a, (_RAM_C054_)
+    ld hl, _DATA_4523_
+    jp loadAthJumptablePointer
 
 ; Jump Table from 4523 to 453E (14 entries, indexed by _RAM_C054_)
 _DATA_4523_:
@@ -6290,96 +6290,96 @@ _DATA_4523_:
 
 ; 1st entry of Jump Table from 4523 (indexed by _RAM_C054_)
 _LABEL_453F_:
-	ld hl, v_entities.1.unknown8
-	ld a, (hl)
-	or $09
-	ld (hl), a
-	ld (ix+25), $0A
-	bit 0, (ix+20)
-	jr nz, +
-	ld hl, _DATA_8DD1_
-	ld de, $0CF9
-	jr _LABEL_455E_
+    ld hl, v_entities.1.unknown8
+    ld a, (hl)
+    or $09
+    ld (hl), a
+    ld (ix+25), $0A
+    bit 0, (ix+20)
+    jr nz, +
+    ld hl, _DATA_8DD1_
+    ld de, $0CF9
+    jr _LABEL_455E_
 
 +:
-	ld hl, _DATA_8DE9_
-	ld de, $0C17
+    ld hl, _DATA_8DE9_
+    ld de, $0C17
 _LABEL_455E_:
-	ld a, $8A
-	ld (v_soundControl), a
-	call _LABEL_41AA_
-	ld a, (v_entities.1.xPos.high)
-	add a, e
-	cp $F8
-	ret nc
-	cp $0A
-	ret c
-	call _LABEL_7C4F_
-	and $C0
-	cp $C0
-	ret nz
+    ld a, $8A
+    ld (v_soundControl), a
+    call _LABEL_41AA_
+    ld a, (v_entities.1.xPos.high)
+    add a, e
+    cp $F8
+    ret nc
+    cp $0A
+    ret c
+    call _LABEL_7C4F_
+    and $C0
+    cp $C0
+    ret nz
 _LABEL_4578_:
-	ld a, l
-	and $BC
-	ld l, a
-	ld (_RAM_C204_), hl
-	ld a, (hl)
-	exx
-	ld d, a
-	exx
-	ld e, c
-	ld d, b
-	inc hl
-	ld b, (hl)
-	ld c, $01
-	cp $0D
-	jr c, +
-	inc c
-	cp $7C
-	jr c, +
-	inc c
+    ld a, l
+    and $BC
+    ld l, a
+    ld (_RAM_C204_), hl
+    ld a, (hl)
+    exx
+    ld d, a
+    exx
+    ld e, c
+    ld d, b
+    inc hl
+    ld b, (hl)
+    ld c, $01
+    cp $0D
+    jr c, +
+    inc c
+    cp $7C
+    jr c, +
+    inc c
 +:
-	ld a, e
-	ld hl, (v_horizontalScroll)
-	and $F0
-	add a, h
-	ld e, a
-	ld a, d
-	ld hl, (v_verticalScroll)
-	and $F0
-	sub h
-	jr nc, +
-	sub $20
+    ld a, e
+    ld hl, (v_horizontalScroll)
+    and $F0
+    add a, h
+    ld e, a
+    ld a, d
+    ld hl, (v_verticalScroll)
+    and $F0
+    sub h
+    jr nc, +
+    sub $20
 +:
-	cp $E0
-	jr c, +
-	sub $20
+    cp $E0
+    jr c, +
+    sub $20
 +:
-	ld d, a
-	ld a, c
-	call _LABEL_5C01_
-	bit 5, b
-	jr z, _LABEL_45BE_
-	exx
-	ld a, d
-	exx
-	ld c, e
-	ld b, d
-	ld hl, _DATA_45D9_ - 2
-	rst $20	; loadAthJumptablePointer
+    ld d, a
+    ld a, c
+    call _LABEL_5C01_
+    bit 5, b
+    jr z, _LABEL_45BE_
+    exx
+    ld a, d
+    exx
+    ld c, e
+    ld b, d
+    ld hl, _DATA_45D9_ - 2
+    rst $20    ; loadAthJumptablePointer
 _LABEL_45BE_:
-	ld a, (v_entities.1.state)
-	cp ALEX_SWIMING
-	ld hl, _DATA_14503_
-	jr nz, +
-	ld hl, _DATA_1450B_
+    ld a, (v_entities.1.state)
+    cp ALEX_SWIMING
+    ld hl, _DATA_14503_
+    jr nz, +
+    ld hl, _DATA_1450B_
 +:
-	ld a, $85
-	ld (_RAM_C203_), a
-	ld (_RAM_C206_), hl
-	ld a, $80
-	ld (_RAM_C202_), a
-	ret
+    ld a, $85
+    ld (_RAM_C203_), a
+    ld (_RAM_C206_), hl
+    ld a, $80
+    ld (_RAM_C202_), a
+    ret
 
 ; Jump Table from 45D9 to 45F0 (12 entries, indexed by _RAM_C804_)
 _DATA_45D9_:
@@ -6388,17 +6388,17 @@ _DATA_45D9_:
 
 ; 1st entry of Jump Table from 45D9 (indexed by _RAM_C804_)
 _LABEL_45F1_:
-	ld a, (_RAM_C054_)
-	ld e, a
-	ld d, $00
-	ld hl, _DATA_4607_
-	add hl, de
-	ld a, (hl)
-	or a
-	ret nz
-	set 4, (ix+28)
-	ld (ix+24), $3C
-	ret
+    ld a, (_RAM_C054_)
+    ld e, a
+    ld d, $00
+    ld hl, _DATA_4607_
+    add hl, de
+    ld a, (hl)
+    or a
+    ret nz
+    set 4, (ix+28)
+    ld (ix+24), $3C
+    ret
 
 ; Data from 4607 to 4614 (14 bytes)
 _DATA_4607_:
@@ -6406,1241 +6406,1241 @@ _DATA_4607_:
 
 ; 5th entry of Jump Table from 45D9 (indexed by _RAM_C804_)
 _LABEL_4615_:
-	ld e, c
-	ld d, b
-	ld hl, v_questionMarkBoxIndex
-	ld a, (hl)
-	inc (hl)
-	ld hl, _DATA_DD7_
-	ld c, a
-	ld b, $00
-	add hl, bc
-	ld c, (hl)
-	jp _LABEL_5B90_
+    ld e, c
+    ld d, b
+    ld hl, v_questionMarkBoxIndex
+    ld a, (hl)
+    inc (hl)
+    ld hl, _DATA_DD7_
+    ld c, a
+    ld b, $00
+    add hl, bc
+    ld c, (hl)
+    jp _LABEL_5B90_
 
 ; 9th entry of Jump Table from 45D9 (indexed by _RAM_C804_)
 _LABEL_4627_:
-	ld e, c
-	ld d, b
-	ld c, $3C
-	jp _LABEL_5B90_
+    ld e, c
+    ld d, b
+    ld c, $3C
+    jp _LABEL_5B90_
 
 _LABEL_462E_:
-	ld hl, v_entities.1.unknown8
-	ld a, (hl)
-	and $02
-	xor $02
-	ret z
-	dec (ix+25)
-	ret nz
-	ld a, (hl)
-	and $F6
-	ld (hl), a
-	cp a
-	ret
+    ld hl, v_entities.1.unknown8
+    ld a, (hl)
+    and $02
+    xor $02
+    ret z
+    dec (ix+25)
+    ret nz
+    ld a, (hl)
+    and $F6
+    ld (hl), a
+    cp a
+    ret
 
 ; 4th entry of Jump Table from 4523 (indexed by _RAM_C054_)
 _LABEL_4641_:
-	ld iy, _RAM_C360_
-	ld (iy+0), $05
-	ld hl, $80E6
-	jr +
+    ld iy, _RAM_C360_
+    ld (iy+0), $05
+    ld hl, $80E6
+    jr +
 
 ; 5th entry of Jump Table from 4523 (indexed by _RAM_C054_)
 _LABEL_464E_:
-	ld iy, _RAM_C360_
-	ld (iy+0), $07
-	ld hl, $80F4
+    ld iy, _RAM_C360_
+    ld (iy+0), $07
+    ld hl, $80F4
 +:
-	ld a, $90
-	ld (v_soundControl), a
-	ld (_RAM_C367_), hl
-	ld hl, v_entities.1.unknown8
-	ld a, (hl)
-	or $0B
-	ld (hl), a
-	ld a, (v_entities.1.xPos.high)
-	ld (_RAM_C36C_), a
-	ld a, (v_entities.1.yPos.high)
-	add a, $04
-	ld (_RAM_C36E_), a
-	ld a, (v_entities.1.unknown3)
-	and $02
-	ld (_RAM_C374_), a
-	ld hl, $FF00
-	jr z, +
-	ld hl, $0100
+    ld a, $90
+    ld (v_soundControl), a
+    ld (_RAM_C367_), hl
+    ld hl, v_entities.1.unknown8
+    ld a, (hl)
+    or $0B
+    ld (hl), a
+    ld a, (v_entities.1.xPos.high)
+    ld (_RAM_C36C_), a
+    ld a, (v_entities.1.yPos.high)
+    add a, $04
+    ld (_RAM_C36E_), a
+    ld a, (v_entities.1.unknown3)
+    and $02
+    ld (_RAM_C374_), a
+    ld hl, $FF00
+    jr z, +
+    ld hl, $0100
 +:
-	ld (_RAM_C36F_), hl
-	ld hl, $FE00
-	ld (_RAM_C371_), hl
+    ld (_RAM_C36F_), hl
+    ld hl, $FE00
+    ld (_RAM_C371_), hl
 ; 8th entry of Jump Table from 4523 (indexed by _RAM_C054_)
 _LABEL_468F_:
-	ret
+    ret
 
 ; 5th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_4690_:
-	ld a, (_RAM_C369_)
-	or (ix+10)
-	jp nz, _LABEL_485A_
-	ld de, $1004
-	call _LABEL_4944_
-	bit 6, (ix+20)
-	jr nz, ++
-	ld de, $0642
-	bit 1, (ix+20)
-	jr z, +
-	ld e, $0E
+    ld a, (_RAM_C369_)
+    or (ix+10)
+    jp nz, _LABEL_485A_
+    ld de, $1004
+    call _LABEL_4944_
+    bit 6, (ix+20)
+    jr nz, ++
+    ld de, $0642
+    bit 1, (ix+20)
+    jr z, +
+    ld e, $0E
 +:
-	call getTileNearEntityWithXYOffset
-	rlca
-	ret nc
-	ld hl, $0000
-	ld (_RAM_C36F_), hl
-	ret
+    call getTileNearEntityWithXYOffset
+    rlca
+    ret nc
+    ld hl, $0000
+    ld (_RAM_C36F_), hl
+    ret
 
 ++:
-	ld (ix+0), $06
-	ld (ix+30), $08
-	ld (ix+31), $0A
-	ret
+    ld (ix+0), $06
+    ld (ix+30), $08
+    ld (ix+31), $0A
+    ret
 
 ; 6th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_46C9_:
-	ld a, (_RAM_C369_)
-	or (ix+10)
-	jp nz, _LABEL_485A_
-	ld hl, $0000
-	ld (_RAM_C36F_), hl
-	ld (_RAM_C371_), hl
-	dec (ix+31)
-	ret nz
-	ld iy, v_entities.2
-	ld a, (iy+0)
-	or a
-	jr z, +
-	ld iy, _RAM_C340_
-	ld a, (iy+0)
-	or a
-	jr z, +
-	ld (ix+31), $01
-	ret
+    ld a, (_RAM_C369_)
+    or (ix+10)
+    jp nz, _LABEL_485A_
+    ld hl, $0000
+    ld (_RAM_C36F_), hl
+    ld (_RAM_C371_), hl
+    dec (ix+31)
+    ret nz
+    ld iy, v_entities.2
+    ld a, (iy+0)
+    or a
+    jr z, +
+    ld iy, _RAM_C340_
+    ld a, (iy+0)
+    or a
+    jr z, +
+    ld (ix+31), $01
+    ret
 
 +:
-	ld a, $A5
-	ld (v_soundControl), a
-	ld (ix+31), $1E
-	ld (iy+0), $09
-	ld a, (_RAM_C36C_)
-	ld (iy+12), a
-	ld a, (_RAM_C36E_)
-	ld (iy+14), a
-	ld a, (_RAM_C374_)
-	and $02
-	ld (iy+20), a
-	dec (ix+30)
-	jp z, clearCurrentEntity
-	ret
+    ld a, $A5
+    ld (v_soundControl), a
+    ld (ix+31), $1E
+    ld (iy+0), $09
+    ld a, (_RAM_C36C_)
+    ld (iy+12), a
+    ld a, (_RAM_C36E_)
+    ld (iy+14), a
+    ld a, (_RAM_C374_)
+    and $02
+    ld (iy+20), a
+    dec (ix+30)
+    jp z, clearCurrentEntity
+    ret
 
 ; 7th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_4720_:
-	ld a, (_RAM_C369_)
-	or (ix+10)
-	jp nz, _LABEL_485A_
-	ld de, $1004
-	call _LABEL_4944_
-	bit 6, (ix+20)
-	jr nz, ++
-	ld de, $0642
-	bit 1, (ix+20)
-	jr z, +
-	ld e, $0E
+    ld a, (_RAM_C369_)
+    or (ix+10)
+    jp nz, _LABEL_485A_
+    ld de, $1004
+    call _LABEL_4944_
+    bit 6, (ix+20)
+    jr nz, ++
+    ld de, $0642
+    bit 1, (ix+20)
+    jr z, +
+    ld e, $0E
 +:
-	call getTileNearEntityWithXYOffset
-	rlca
-	ret nc
-	ld hl, $0000
-	ld (_RAM_C36F_), hl
-	ret
+    call getTileNearEntityWithXYOffset
+    rlca
+    ret nc
+    ld hl, $0000
+    ld (_RAM_C36F_), hl
+    ret
 
 ++:
-	res 1, (ix+1)
-	ld a, $AB
-	ld (v_soundControl), a
-	ld (ix+0), $08
-	ld hl, $8CD2
-	ld (_RAM_C367_), hl
-	ld hl, $04B0
-	ld (_RAM_C37B_), hl
-	ld hl, $0000
-	ld (_RAM_C36F_), hl
-	ld (_RAM_C371_), hl
-	ret
+    res 1, (ix+1)
+    ld a, $AB
+    ld (v_soundControl), a
+    ld (ix+0), $08
+    ld hl, $8CD2
+    ld (_RAM_C367_), hl
+    ld hl, $04B0
+    ld (_RAM_C37B_), hl
+    ld hl, $0000
+    ld (_RAM_C36F_), hl
+    ld (_RAM_C371_), hl
+    ret
 
 ; 9th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_476F_:
-	bit 0, (ix+1)
-	jp z, _LABEL_47F1_
-	bit 7, (ix+1)
-	jp nz, _LABEL_4854_
-	ld (ix+17), $00
-	ld (ix+18), $00
-	call _LABEL_4846_
-	ret nc
-	bit 0, (ix+29)
-	jr z, +++
-	ld l, (ix+27)
-	ld h, (ix+28)
-	ld a, (hl)
-	or a
-	jr z, ++
-	push hl
-	pop iy
-	ld a, (iy+12)
-	bit 1, (ix+20)
-	jr nz, +
-	sub (ix+12)
-	cp $D0
-	jr nc, ++++
-	jr +++
+    bit 0, (ix+1)
+    jp z, _LABEL_47F1_
+    bit 7, (ix+1)
+    jp nz, _LABEL_4854_
+    ld (ix+17), $00
+    ld (ix+18), $00
+    call _LABEL_4846_
+    ret nc
+    bit 0, (ix+29)
+    jr z, +++
+    ld l, (ix+27)
+    ld h, (ix+28)
+    ld a, (hl)
+    or a
+    jr z, ++
+    push hl
+    pop iy
+    ld a, (iy+12)
+    bit 1, (ix+20)
+    jr nz, +
+    sub (ix+12)
+    cp $D0
+    jr nc, ++++
+    jr +++
 
 +:
-	sub (ix+12)
-	cp $10
-	jr c, ++++
-	jr +++
+    sub (ix+12)
+    cp $10
+    jr c, ++++
+    jr +++
 
 ++:
-	res 0, (ix+29)
+    res 0, (ix+29)
 +++:
-	ld de, $1004
-	call getTileNearEntityWithXYOffset
-	rlca
-	jr nc, +
-	bit 1, (ix+20)
-	jr nz, _LABEL_47D0_
+    ld de, $1004
+    call getTileNearEntityWithXYOffset
+    rlca
+    jr nc, +
+    bit 1, (ix+20)
+    jr nz, _LABEL_47D0_
 _LABEL_47CA_:
-	ld hl, _DATA_8522_
-	jp handleEntityAnimation
+    ld hl, _DATA_8522_
+    jp handleEntityAnimation
 
 _LABEL_47D0_:
-	ld hl, _DATA_8537_
-	jp handleEntityAnimation
+    ld hl, _DATA_8537_
+    jp handleEntityAnimation
 
 +:
-	ld (ix+0), $0A
-	set 7, (ix+20)
-	ret
+    ld (ix+0), $0A
+    set 7, (ix+20)
+    ret
 
 ++++:
-	ld a, $A7
-	ld (v_soundControl), a
-	res 0, (ix+29)
-	ld (ix+0), $0A
-	ld (ix+18), $FD
-	ret
+    ld a, $A7
+    ld (v_soundControl), a
+    res 0, (ix+29)
+    ld (ix+0), $0A
+    ld (ix+18), $FD
+    ret
 
 _LABEL_47F1_:
-	set 0, (ix+1)
-	ld (ix+6), $05
-	call +++
-	jr z, ++
-	push hl
-	pop iy
-	set 0, (ix+29)
-	ld (ix+27), l
-	ld (ix+28), h
-	ld a, (iy+12)
-	sub (ix+12)
-	jr c, +
-	set 1, (ix+20)
-	ld (ix+16), $02
-	jr _LABEL_47CA_
+    set 0, (ix+1)
+    ld (ix+6), $05
+    call +++
+    jr z, ++
+    push hl
+    pop iy
+    set 0, (ix+29)
+    ld (ix+27), l
+    ld (ix+28), h
+    ld a, (iy+12)
+    sub (ix+12)
+    jr c, +
+    set 1, (ix+20)
+    ld (ix+16), $02
+    jr _LABEL_47CA_
 
 +:
-	res 1, (ix+20)
-	ld (ix+16), $FE
-	jr _LABEL_47D0_
+    res 1, (ix+20)
+    ld (ix+16), $FE
+    jr _LABEL_47D0_
 
 ++:
-	bit 1, (ix+20)
-	ld (ix+16), $02
-	jr nz, _LABEL_47D0_
-	ld (ix+16), $FE
-	jr _LABEL_47CA_
+    bit 1, (ix+20)
+    ld (ix+16), $02
+    jr nz, _LABEL_47D0_
+    ld (ix+16), $FE
+    jr _LABEL_47CA_
 
 +++:
-	ld hl, _RAM_C3C0_
-	ld de, $0020
-	ld b, $0A
+    ld hl, _RAM_C3C0_
+    ld de, $0020
+    ld b, $0A
 -:
-	ld a, (hl)
-	or a
-	ret nz
-	add hl, de
-	djnz -
-	ret
+    ld a, (hl)
+    or a
+    ret nz
+    add hl, de
+    djnz -
+    ret
 
 _LABEL_4846_:
-	ld a, (ix+9)
-	or (ix+10)
-	jr nz, _LABEL_4854_
-	ld a, (ix+14)
-	cp $AC
-	ret c
+    ld a, (ix+9)
+    or (ix+10)
+    jr nz, _LABEL_4854_
+    ld a, (ix+14)
+    cp $AC
+    ret c
 _LABEL_4854_:
-	ld a, (_RAM_C360_)
-	or a
-	jr nz, +
+    ld a, (_RAM_C360_)
+    or a
+    jr nz, +
 _LABEL_485A_:
-	ld hl, v_entities.1.unknown8
-	ld a, (hl)
-	and $F4
-	ld (hl), a
-	xor a
-	ld (_RAM_C054_), a
+    ld hl, v_entities.1.unknown8
+    ld a, (hl)
+    and $F4
+    ld (hl), a
+    xor a
+    ld (_RAM_C054_), a
 +:
-	call clearCurrentEntity
-	or a
-	ret
+    call clearCurrentEntity
+    or a
+    ret
 
 ; 10th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_486A_:
-	bit 7, (ix+1)
-	jr nz, _LABEL_4854_
-	call _LABEL_4846_
-	ret nc
-	ld de, $1004
-	call _LABEL_4944_
-	bit 6, (ix+20)
-	ret z
-	ld a, (ix+20)
-	and $3F
-	ld (ix+20), a
-	ld (ix+0), $09
-	ret
+    bit 7, (ix+1)
+    jr nz, _LABEL_4854_
+    call _LABEL_4846_
+    ret nc
+    ld de, $1004
+    call _LABEL_4944_
+    bit 6, (ix+20)
+    ret z
+    ld a, (ix+20)
+    and $3F
+    ld (ix+20), a
+    ld (ix+0), $09
+    ret
 
 ; 8th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_488C_:
-	ld hl, (_RAM_C37B_)
-	dec hl
-	ld a, l
-	or h
-	ld (_RAM_C37B_), hl
-	jr z, +
-	ld a, (v_entities.1.xPos.high)
-	sub $04
-	ld (_RAM_C36C_), a
-	ld a, (v_entities.1.isOffScreenFlags)
-	ld (_RAM_C369_), a
-	ld a, (v_entities.1.yPos.high)
-	sub $03
-	ld (_RAM_C36E_), a
-	ld a, (v_entities.1.isOffScreenFlags.high)
-	ld (_RAM_C36A_), a
-	ret
+    ld hl, (_RAM_C37B_)
+    dec hl
+    ld a, l
+    or h
+    ld (_RAM_C37B_), hl
+    jr z, +
+    ld a, (v_entities.1.xPos.high)
+    sub $04
+    ld (_RAM_C36C_), a
+    ld a, (v_entities.1.isOffScreenFlags)
+    ld (_RAM_C369_), a
+    ld a, (v_entities.1.yPos.high)
+    sub $03
+    ld (_RAM_C36E_), a
+    ld a, (v_entities.1.isOffScreenFlags.high)
+    ld (_RAM_C36A_), a
+    ret
 
 +:
-	call _LABEL_99D3_
-	ld hl, v_entities.1.unknown8
-	ld a, (hl)
-	and $F4
-	ld (hl), a
-	xor a
-	ld (_RAM_C054_), a
-	jp clearCurrentEntity
+    call _LABEL_99D3_
+    ld hl, v_entities.1.unknown8
+    ld a, (hl)
+    and $F4
+    ld (hl), a
+    xor a
+    ld (_RAM_C054_), a
+    jp clearCurrentEntity
 
 ; 6th entry of Jump Table from 4523 (indexed by _RAM_C054_)
 _LABEL_48C5_:
-	bit 0, (ix+20)
-	ld a, (v_entities.1.xPos.high)
-	jr nz, +
-	sub $08
-	call nc, +++
-	ld hl, _DATA_8DD1_
-	jr ++
+    bit 0, (ix+20)
+    ld a, (v_entities.1.xPos.high)
+    jr nz, +
+    sub $08
+    call nc, +++
+    ld hl, _DATA_8DD1_
+    jr ++
 
 +:
-	add a, $10
-	call nc, ++++
-	ld hl, _DATA_8DE9_
+    add a, $10
+    call nc, ++++
+    ld hl, _DATA_8DE9_
 ++:
-	ld a, $A4
-	ld (v_soundControl), a
-	jp _LABEL_41AA_
+    ld a, $A4
+    ld (v_soundControl), a
+    jp _LABEL_41AA_
 
 +++:
-	ld hl, $8093
-	ld de, $FC00
-	jr +++++
+    ld hl, $8093
+    ld de, $FC00
+    jr +++++
 
 ++++:
-	ld hl, $8098
-	ld de, $0400
+    ld hl, $8098
+    ld de, $0400
 +++++:
-	ld (v_entities.2.xPos.high), a
-	ld a, (v_entities.1.yPos.high)
-	add a, $08
-	ld (v_entities.2.yPos.high), a
-	ld (v_entities.2.spriteDescriptorPointer), hl
-	ld (v_entities.2.xSpeed), de
-	ld hl, $0000
-	ld (v_entities.2.ySpeed), hl
-	ld a, $1B
-	ld (v_entities.2), a
-	ld hl, v_entities.1.unknown8
-	ld a, (hl)
-	or $0B
-	ld (hl), a
-	ret
+    ld (v_entities.2.xPos.high), a
+    ld a, (v_entities.1.yPos.high)
+    add a, $08
+    ld (v_entities.2.yPos.high), a
+    ld (v_entities.2.spriteDescriptorPointer), hl
+    ld (v_entities.2.xSpeed), de
+    ld hl, $0000
+    ld (v_entities.2.ySpeed), hl
+    ld a, $1B
+    ld (v_entities.2), a
+    ld hl, v_entities.1.unknown8
+    ld a, (hl)
+    or $0B
+    ld (hl), a
+    ret
 
 ; 27th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_491B_:
-	ld a, (v_entities.2.isOffScreenFlags)
-	or (ix+10)
-	jr nz, +
-	ld a, (v_entities.2.xPos.high)
-	cp $0C
-	jr c, +
-	cp $F4
-	jr nc, +
-	ld de, $0404
-	call getTileNearEntityWithXYOffset
-	rlca
-	ret nc
-	rlca
-	jp c, _LABEL_4578_
+    ld a, (v_entities.2.isOffScreenFlags)
+    or (ix+10)
+    jr nz, +
+    ld a, (v_entities.2.xPos.high)
+    cp $0C
+    jr c, +
+    cp $F4
+    jr nc, +
+    ld de, $0404
+    call getTileNearEntityWithXYOffset
+    rlca
+    ret nc
+    rlca
+    jp c, _LABEL_4578_
 +:
-	ld hl, v_entities.1.unknown8
-	ld a, (hl)
-	and $F4
-	ld (hl), a
-	jp clearCurrentEntity
+    ld hl, v_entities.1.unknown8
+    ld a, (hl)
+    and $F4
+    ld (hl), a
+    jp clearCurrentEntity
 
 _LABEL_4944_:
-	ld l, (ix+17)
-	ld h, (ix+18)
-	ld bc, $0040
-	add hl, bc
-	ld (ix+17), l
-	ld (ix+18), h
-	jr nc, +
-	set 7, (ix+20)
+    ld l, (ix+17)
+    ld h, (ix+18)
+    ld bc, $0040
+    add hl, bc
+    ld (ix+17), l
+    ld (ix+18), h
+    jr nc, +
+    set 7, (ix+20)
 +:
-	bit 7, (ix+20)
-	ret z
-	ld a, h
-	cp $04
-	jr c, +
-	ld (ix+17), $00
+    bit 7, (ix+20)
+    ret z
+    ld a, h
+    cp $04
+    jr c, +
+    ld (ix+17), $00
 +:
-	ld a, d
-	add a, h
-	ld d, a
-	call getTileNearEntityWithXYOffset
-	rlca
-	ret nc
-	ld a, b
-	and $07
-	neg
-	add a, (ix+18)
-	ld (ix+18), a
-	ld (ix+17), $00
-	set 6, (ix+20)
-	ret
+    ld a, d
+    add a, h
+    ld d, a
+    call getTileNearEntityWithXYOffset
+    rlca
+    ret nc
+    ld a, b
+    and $07
+    neg
+    add a, (ix+18)
+    ld (ix+18), a
+    ld (ix+17), $00
+    set 6, (ix+20)
+    ret
 
 ; 20th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_4984_:
-	set 1, (ix+1)
-	ld a, (v_scrollFlags)
-	and $0F
-	ret nz
-	dec (ix+3)
-	ret nz
-	ld a, (_RAM_C202_)
-	or a
-	jr z, +
-	inc (ix+3)
-	ret
+    set 1, (ix+1)
+    ld a, (v_scrollFlags)
+    and $0F
+    ret nz
+    dec (ix+3)
+    ret nz
+    ld a, (_RAM_C202_)
+    or a
+    jr z, +
+    inc (ix+3)
+    ret
 
 +:
-	ld a, (ix+25)
-	ld (ix+3), a
-	ld a, $A2
-	ld (v_soundControl), a
-	ld h, $00
-	ld l, (ix+30)
-	add hl, hl
-	add hl, hl
-	add hl, hl
-	add hl, hl
-	add hl, hl
-	add hl, hl
-	ld e, (ix+28)
-	ld d, (ix+29)
-	add hl, de
-	ld a, (ix+31)
-	rrca
-	dec a
-	ld b, a
-	ld a, (hl)
+    ld a, (ix+25)
+    ld (ix+3), a
+    ld a, $A2
+    ld (v_soundControl), a
+    ld h, $00
+    ld l, (ix+30)
+    add hl, hl
+    add hl, hl
+    add hl, hl
+    add hl, hl
+    add hl, hl
+    add hl, hl
+    ld e, (ix+28)
+    ld d, (ix+29)
+    add hl, de
+    ld a, (ix+31)
+    rrca
+    dec a
+    ld b, a
+    ld a, (hl)
 -:
-	inc hl
-	inc hl
-	or (hl)
-	djnz -
-	jp nz, clearCurrentEntity
-	ld l, (ix+28)
-	ld h, (ix+29)
-	call _LABEL_4C23_
-	ld (ix+28), l
-	ld (ix+29), h
-	ld (_RAM_C204_), hl
-	ld l, (ix+26)
-	ld h, (ix+27)
-	ld (_RAM_C206_), hl
-	ld l, (ix+30)
-	ld h, (ix+31)
-	ld (_RAM_C208_), hl
-	ld a, $85
-	ld (_RAM_C202_), a
-	ret
+    inc hl
+    inc hl
+    or (hl)
+    djnz -
+    jp nz, clearCurrentEntity
+    ld l, (ix+28)
+    ld h, (ix+29)
+    call _LABEL_4C23_
+    ld (ix+28), l
+    ld (ix+29), h
+    ld (_RAM_C204_), hl
+    ld l, (ix+26)
+    ld h, (ix+27)
+    ld (_RAM_C206_), hl
+    ld l, (ix+30)
+    ld h, (ix+31)
+    ld (_RAM_C208_), hl
+    ld a, $85
+    ld (_RAM_C202_), a
+    ret
 
 ; 16th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_49F2_:
-	ld hl, $BE9E
-	ld bc, $0403
-	ld (ix+25), $0F
+    ld hl, $BE9E
+    ld bc, $0403
+    ld (ix+25), $0F
 _LABEL_49FC_:
-	ld (ix+7), <_DATA_80E1_
-	ld (ix+8), >_DATA_80E1_
-	ld a, (v_scrollFlags)
-	and $0F
-	ret nz
-	ld (ix+26), l
-	ld (ix+27), h
-	ld (ix+31), b
-	ld (ix+30), c
-	ld e, (ix+12)
-	ld d, (ix+14)
-	call _LABEL_7C89_
-	ld a, l
-	and $FC
-	ld (ix+28), a
-	ld (ix+29), h
-	ld (ix+0), $14
-	ret
+    ld (ix+7), <_DATA_80E1_
+    ld (ix+8), >_DATA_80E1_
+    ld a, (v_scrollFlags)
+    and $0F
+    ret nz
+    ld (ix+26), l
+    ld (ix+27), h
+    ld (ix+31), b
+    ld (ix+30), c
+    ld e, (ix+12)
+    ld d, (ix+14)
+    call _LABEL_7C89_
+    ld a, l
+    and $FC
+    ld (ix+28), a
+    ld (ix+29), h
+    ld (ix+0), $14
+    ret
 
 ; 17th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_4A2D_:
-	ld hl, $BEAA
-	ld bc, $0809
-	ld (ix+25), $19
-	jr _LABEL_49FC_
+    ld hl, $BEAA
+    ld bc, $0809
+    ld (ix+25), $19
+    jr _LABEL_49FC_
 
 ; 18th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_4A39_:
-	ld hl, $BEF2
-	ld bc, $040B
-	ld (ix+25), $0A
-	jr _LABEL_49FC_
+    ld hl, $BEF2
+    ld bc, $040B
+    ld (ix+25), $0A
+    jr _LABEL_49FC_
 
 ; 19th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_4A45_:
-	ld hl, $BF26
-	ld bc, $2003
-	ld (ix+25), $1E
-	jr _LABEL_49FC_
+    ld hl, $BF26
+    ld bc, $2003
+    ld (ix+25), $1E
+    jr _LABEL_49FC_
 
 ; 22nd entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_4A51_:
-	ld (ix+7), <_DATA_80E1_
-	ld (ix+8), >_DATA_80E1_
-	ld a, (v_scrollFlags)
-	and $0F
-	ret nz
-	bit 0, (ix+1)
-	jr z, _LABEL_4AC2_
-	set 1, (ix+1)
-	bit 4, (ix+1)
-	jr nz, _LABEL_4A86_
-	ld a, (v_entities.1.xPos.high)
-	sub (ix+12)
-	ret c
-	cp $10
-	ret nc
+    ld (ix+7), <_DATA_80E1_
+    ld (ix+8), >_DATA_80E1_
+    ld a, (v_scrollFlags)
+    and $0F
+    ret nz
+    bit 0, (ix+1)
+    jr z, _LABEL_4AC2_
+    set 1, (ix+1)
+    bit 4, (ix+1)
+    jr nz, _LABEL_4A86_
+    ld a, (v_entities.1.xPos.high)
+    sub (ix+12)
+    ret c
+    cp $10
+    ret nc
 _LABEL_4A79_:
-	ld a, $A0
-	ld (v_soundControl), a
-	set 4, (ix+1)
-	ld (ix+5), $01
+    ld a, $A0
+    ld (v_soundControl), a
+    set 4, (ix+1)
+    ld (ix+5), $01
 _LABEL_4A86_:
-	dec (ix+5)
-	ret nz
-	ld a, (_RAM_C202_)
-	or a
-	jr z, +
-	inc (ix+5)
-	ret
+    dec (ix+5)
+    ret nz
+    ld a, (_RAM_C202_)
+    or a
+    jr z, +
+    inc (ix+5)
+    ret
 
 +:
-	ld a, (ix+25)
-	ld (ix+5), a
-	ld a, (ix+31)
-	add a, $04
-	ld (ix+31), a
-	ld h, a
-	ld l, $02
-	ld (_RAM_C208_), hl
-	ld l, (ix+28)
-	ld h, (ix+29)
-	ld (_RAM_C204_), hl
-	dec l
-	dec l
-	ld (ix+28), l
-	ld a, $87
-	ld (_RAM_C202_), a
-	dec (ix+24)
-	jp z, clearCurrentEntity
-	ret
+    ld a, (ix+25)
+    ld (ix+5), a
+    ld a, (ix+31)
+    add a, $04
+    ld (ix+31), a
+    ld h, a
+    ld l, $02
+    ld (_RAM_C208_), hl
+    ld l, (ix+28)
+    ld h, (ix+29)
+    ld (_RAM_C204_), hl
+    dec l
+    dec l
+    ld (ix+28), l
+    ld a, $87
+    ld (_RAM_C202_), a
+    dec (ix+24)
+    jp z, clearCurrentEntity
+    ret
 
 _LABEL_4AC2_:
-	ld e, (ix+12)
-	ld a, (ix+14)
-	add a, $10
-	ld d, a
-	call _LABEL_7C89_
-	ld a, l
-	and $FE
-	ld (ix+28), a
-	ld (ix+29), h
+    ld e, (ix+12)
+    ld a, (ix+14)
+    add a, $10
+    ld d, a
+    call _LABEL_7C89_
+    ld a, l
+    and $FE
+    ld (ix+28), a
+    ld (ix+29), h
 _LABEL_4AD7_:
-	set 0, (ix+1)
-	ld (ix+25), $03
-	ld a, (ix+3)
-	ld (ix+24), a
-	ld (ix+31), $00
-	ld (ix+30), $02
-	ret
+    set 0, (ix+1)
+    ld (ix+25), $03
+    ld a, (ix+3)
+    ld (ix+24), a
+    ld (ix+31), $00
+    ld (ix+30), $02
+    ret
 
 ; 23rd entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_4AEE_:
-	ld (ix+7), <_DATA_80E1_
-	ld (ix+8), >_DATA_80E1_
-	ld a, (v_scrollFlags)
-	and $0F
-	ret nz
-	bit 0, (ix+1)
-	jr z, +
-	set 1, (ix+1)
-	bit 4, (ix+1)
-	jp nz, _LABEL_4A86_
-	call _LABEL_7D0B_
-	ret c
-	jp _LABEL_4A79_
+    ld (ix+7), <_DATA_80E1_
+    ld (ix+8), >_DATA_80E1_
+    ld a, (v_scrollFlags)
+    and $0F
+    ret nz
+    bit 0, (ix+1)
+    jr z, +
+    set 1, (ix+1)
+    bit 4, (ix+1)
+    jp nz, _LABEL_4A86_
+    call _LABEL_7D0B_
+    ret c
+    jp _LABEL_4A79_
 
 +:
-	ld de, $A074
-	call _LABEL_7C89_
-	dec hl
-	ld (ix+28), l
-	ld (ix+29), h
-	jr _LABEL_4AD7_
+    ld de, $A074
+    call _LABEL_7C89_
+    dec hl
+    ld (ix+28), l
+    ld (ix+29), h
+    jr _LABEL_4AD7_
 
 ; 21st entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_4B23_:
-	ld (ix+7), <_DATA_80E1_
-	ld (ix+8), >_DATA_80E1_
-	ld a, (v_scrollFlags)
-	and $0F
-	ret nz
-	bit 0, (ix+1)
-	jr z, _LABEL_4B7A_
-	ld a, (ix+10)
-	or (ix+9)
-	jr nz, ++
-	dec (ix+5)
-	ret nz
-	ld a, (_RAM_C202_)
-	or a
-	jr z, +
-	inc (ix+5)
-	ret
+    ld (ix+7), <_DATA_80E1_
+    ld (ix+8), >_DATA_80E1_
+    ld a, (v_scrollFlags)
+    and $0F
+    ret nz
+    bit 0, (ix+1)
+    jr z, _LABEL_4B7A_
+    ld a, (ix+10)
+    or (ix+9)
+    jr nz, ++
+    dec (ix+5)
+    ret nz
+    ld a, (_RAM_C202_)
+    or a
+    jr z, +
+    inc (ix+5)
+    ret
 
 +:
-	ld (ix+5), $0F
-	ld a, $86
-	ld (_RAM_C202_), a
-	ld a, (ix+3)
-	ld (_RAM_C209_), a
-	ld l, (ix+28)
-	ld h, (ix+29)
-	ld (_RAM_C204_), hl
-	dec (ix+24)
-	jr z, ++
-	call _LABEL_4C23_
-	ld (ix+28), l
-	ld (ix+29), h
-	ret
+    ld (ix+5), $0F
+    ld a, $86
+    ld (_RAM_C202_), a
+    ld a, (ix+3)
+    ld (_RAM_C209_), a
+    ld l, (ix+28)
+    ld h, (ix+29)
+    ld (_RAM_C204_), hl
+    dec (ix+24)
+    jr z, ++
+    call _LABEL_4C23_
+    ld (ix+28), l
+    ld (ix+29), h
+    ret
 
 ++:
-	call _LABEL_99D3_
-	jp clearCurrentEntity
+    call _LABEL_99D3_
+    jp clearCurrentEntity
 
 _LABEL_4B7A_:
-	set 0, (ix+1)
-	ld (ix+25), $01
-	ld (ix+24), $12
-	ld e, (ix+12)
-	ld d, (ix+14)
-	call _LABEL_7C89_
-	ld a, l
-	and $FE
-	ld (ix+28), a
-	ld (ix+29), h
-	ld a, $9F
-	ld (v_soundControl), a
-	ret
+    set 0, (ix+1)
+    ld (ix+25), $01
+    ld (ix+24), $12
+    ld e, (ix+12)
+    ld d, (ix+14)
+    call _LABEL_7C89_
+    ld a, l
+    and $FE
+    ld (ix+28), a
+    ld (ix+29), h
+    ld a, $9F
+    ld (v_soundControl), a
+    ret
 
 ; 6th entry of Jump Table from 4237 (indexed by _RAM_C202_)
 _LABEL_4B9E_:
-	ld a, $87
-	ld (Mapper_Slot2), a
-	ld hl, (_RAM_C206_)
-	ld de, (_RAM_C204_)
-	ld bc, (_RAM_C208_)
+    ld a, $87
+    ld (Mapper_Slot2), a
+    ld hl, (_RAM_C206_)
+    ld de, (_RAM_C204_)
+    ld bc, (_RAM_C208_)
 -:
-	push bc
-	push bc
-	push de
-	ld c, b
-	ld b, $00
-	push hl
-	ldir
-	pop hl
-	pop de
-	ld a, d
-	sub $50
-	ld d, a
-	pop bc
-	rst $30	; memcpyToVRAM
-	ex de, hl
-	call _LABEL_4C23_
-	ex de, hl
-	ld a, d
-	add a, $50
-	ld d, a
-	pop bc
-	dec c
-	jr nz, -
-	ret
+    push bc
+    push bc
+    push de
+    ld c, b
+    ld b, $00
+    push hl
+    ldir
+    pop hl
+    pop de
+    ld a, d
+    sub $50
+    ld d, a
+    pop bc
+    rst $30    ; memcpyToVRAM
+    ex de, hl
+    call _LABEL_4C23_
+    ex de, hl
+    ld a, d
+    add a, $50
+    ld d, a
+    pop bc
+    dec c
+    jr nz, -
+    ret
 
 ; 8th entry of Jump Table from 4237 (indexed by _RAM_C202_)
 _LABEL_4BCD_:
-	ld hl, (_RAM_C204_)
-	ld bc, (_RAM_C208_)
+    ld hl, (_RAM_C204_)
+    ld bc, (_RAM_C208_)
 --:
-	push bc
-	push bc
-	push hl
-	ld e, l
-	ld a, h
-	sub $50
-	ld d, a
+    push bc
+    push bc
+    push hl
+    ld e, l
+    ld a, h
+    sub $50
+    ld d, a
 -:
-	ld (hl), $00
-	inc hl
-	djnz -
-	pop hl
-	pop bc
-	call setVDPAddress
+    ld (hl), $00
+    inc hl
+    djnz -
+    pop hl
+    pop bc
+    call setVDPAddress
 -:
-	xor a
-	out (Port_VDPData), a
-	djnz -
-	call _LABEL_4C23_
-	pop bc
-	dec c
-	jr nz, --
-	ret
+    xor a
+    out (Port_VDPData), a
+    djnz -
+    call _LABEL_4C23_
+    pop bc
+    dec c
+    jr nz, --
+    ret
 
 ; 7th entry of Jump Table from 4237 (indexed by _RAM_C202_)
 _LABEL_4BF3_:
-	ld hl, (_RAM_C204_)
-	ld a, (_RAM_C209_)
-	ld b, a
-	ld c, $43
-	call +
-	ld a, (_RAM_C209_)
-	ld b, a
-	ld c, $44
+    ld hl, (_RAM_C204_)
+    ld a, (_RAM_C209_)
+    ld b, a
+    ld c, $43
+    call +
+    ld a, (_RAM_C209_)
+    ld b, a
+    ld c, $44
 +:
-	push bc
-	ld e, l
-	ld a, h
-	sub $50
-	ld d, a
+    push bc
+    ld e, l
+    ld a, h
+    sub $50
+    ld d, a
 -:
-	ld a, (hl)
-	or a
-	jr z, +
-	cp $44
-	jr z, +
-	inc hl
-	jr ++
+    ld a, (hl)
+    or a
+    jr z, +
+    cp $44
+    jr z, +
+    inc hl
+    jr ++
 
 +:
-	ld (hl), c
-	inc hl
-	ld (hl), $70
+    ld (hl), c
+    inc hl
+    ld (hl), $70
 ++:
-	inc hl
-	djnz -
-	ld l, e
-	pop af
-	add a, a
-	ld b, a
-	rst $30	; memcpyToVRAM
-	ld l, e
+    inc hl
+    djnz -
+    ld l, e
+    pop af
+    add a, a
+    ld b, a
+    rst $30    ; memcpyToVRAM
+    ld l, e
 _LABEL_4C23_:
-	ld bc, $0040
-	add hl, bc
-	ld a, h
-	cp $CF
-	ret c
-	ld h, $C8
-	ret
+    ld bc, $0040
+    add hl, bc
+    ld a, h
+    cp $CF
+    ret c
+    ld h, $C8
+    ret
 
 ; 36th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_4C2E_:
-	bit 0, (ix+1)
-	jr nz, +
-	set 0, (ix+1)
-	ld (ix+3), $00
-	ld (ix+27), $C0
-	ld (ix+28), $00
-	ld (ix+29), $08
-	ld (ix+16), $00
-	ld (ix+15), $00
-	ld (ix+18), $00
-	ld (ix+17), $00
-	ld (ix+7), <_DATA_84E3_
-	ld (ix+8), >_DATA_84E3_
-	ld a, (ix+9)
-	ld (ix+26), a
-	ld a, (ix+10)
-	ld (ix+25), a
+    bit 0, (ix+1)
+    jr nz, +
+    set 0, (ix+1)
+    ld (ix+3), $00
+    ld (ix+27), $C0
+    ld (ix+28), $00
+    ld (ix+29), $08
+    ld (ix+16), $00
+    ld (ix+15), $00
+    ld (ix+18), $00
+    ld (ix+17), $00
+    ld (ix+7), <_DATA_84E3_
+    ld (ix+8), >_DATA_84E3_
+    ld a, (ix+9)
+    ld (ix+26), a
+    ld a, (ix+10)
+    ld (ix+25), a
 +:
-	ld a, (ix+9)
-	or (ix+10)
-	jp nz, _LABEL_4CDE_
-	call tryToKillAlexIfColliding
-	call _LABEL_7D0B_
-	jp c, _LABEL_4CDE_
-	ld a, (ix+21)
-	or a
-	jp nz, _LABEL_4D92_
-	ld a, (v_entities.1.unknown8)
-	bit 3, a
-	jp z, _LABEL_4CDE_
-	res 3, a
-	ld (v_entities.1.unknown8), a
-	inc (ix+3)
-	ld a, (ix+3)
-	cp $03
-	jp c, _LABEL_4CDE_
-	ld b, $08
-	ld de, $0020
+    ld a, (ix+9)
+    or (ix+10)
+    jp nz, _LABEL_4CDE_
+    call tryToKillAlexIfColliding
+    call _LABEL_7D0B_
+    jp c, _LABEL_4CDE_
+    ld a, (ix+21)
+    or a
+    jp nz, _LABEL_4D92_
+    ld a, (v_entities.1.unknown8)
+    bit 3, a
+    jp z, _LABEL_4CDE_
+    res 3, a
+    ld (v_entities.1.unknown8), a
+    inc (ix+3)
+    ld a, (ix+3)
+    cp $03
+    jp c, _LABEL_4CDE_
+    ld b, $08
+    ld de, $0020
 -:
-	ld a, (ix+0)
-	cp $24
-	jr nz, +
-	ld (ix+0), $2B
-	res 0, (ix+1)
+    ld a, (ix+0)
+    cp $24
+    jr nz, +
+    ld (ix+0), $2B
+    res 0, (ix+1)
 +:
-	add ix, de
-	djnz -
-	ld a, $95
-	ld (v_soundControl), a
-	ld ix, $C3C0
-	ld a, $83
-	ld (_RAM_C202_), a
-	ld a, (v_level)
-	cp $05
-	jr c, +
-	ld a, $84
-	ld (_RAM_C202_), a
-	ret
+    add ix, de
+    djnz -
+    ld a, $95
+    ld (v_soundControl), a
+    ld ix, $C3C0
+    ld a, $83
+    ld (_RAM_C202_), a
+    ld a, (v_level)
+    cp $05
+    jr c, +
+    ld a, $84
+    ld (_RAM_C202_), a
+    ret
 
 +:
-	ld a, (v_currentScreenNumber)
-	and $7F
-	cp $03
-	ret c
-	ld a, $84
-	ld (_RAM_C202_), a
-	ret
+    ld a, (v_currentScreenNumber)
+    and $7F
+    cp $03
+    ret c
+    ld a, $84
+    ld (_RAM_C202_), a
+    ret
 
 _LABEL_4CDE_:
-	ld bc, $0000
-	ld a, (ix+22)
-	or a
-	jr z, +
-	dec (ix+22)
-	jr ++
+    ld bc, $0000
+    ld a, (ix+22)
+    or a
+    jr z, +
+    dec (ix+22)
+    jr ++
 
 +:
-	ld bc, $0002
-	ld a, (ix+24)
-	ld d, a
-	or a
-	jr z, +
-	ld bc, $FFFE
+    ld bc, $0002
+    ld a, (ix+24)
+    ld d, a
+    or a
+    jr z, +
+    ld bc, $FFFE
 +:
-	inc (ix+23)
-	ld a, (ix+23)
-	cp $60
-	jr c, ++
-	ld a, d
-	cpl
-	ld (ix+24), a
-	ld (ix+23), $00
+    inc (ix+23)
+    ld a, (ix+23)
+    cp $60
+    jr c, ++
+    ld a, d
+    cpl
+    ld (ix+24), a
+    ld (ix+23), $00
 ++:
-	ld a, (ix+21)
-	or a
-	jr z, +
-	ld hl, (_RAM_C0F4_)
-	ld (ix+31), h
-	ld (ix+30), l
-	ld a, (_RAM_C0FF_)
-	ld (ix+25), a
-	ld a, (_RAM_C0FB_)
-	ld (ix+26), a
-	jp _LABEL_4D67_
+    ld a, (ix+21)
+    or a
+    jr z, +
+    ld hl, (_RAM_C0F4_)
+    ld (ix+31), h
+    ld (ix+30), l
+    ld a, (_RAM_C0FF_)
+    ld (ix+25), a
+    ld a, (_RAM_C0FB_)
+    ld (ix+26), a
+    jp _LABEL_4D67_
 
 +:
-	ld hl, (v_horizontalScrollSpeed)
-	ld a, h
-	or l
-	jr z, +
-	ld d, (ix+31)
-	ld e, (ix+6)
-	add hl, de
-	ld (ix+31), h
-	ld (ix+6), l
-	jr c, _LABEL_4D67_
-	inc (ix+26)
-	jr _LABEL_4D67_
+    ld hl, (v_horizontalScrollSpeed)
+    ld a, h
+    or l
+    jr z, +
+    ld d, (ix+31)
+    ld e, (ix+6)
+    add hl, de
+    ld (ix+31), h
+    ld (ix+6), l
+    jr c, _LABEL_4D67_
+    inc (ix+26)
+    jr _LABEL_4D67_
 
 +:
-	ld hl, (v_verticalScrollSpeed)
-	ld a, h
-	or l
-	jr z, _LABEL_4D67_
-	ld d, (ix+30)
-	ld e, (ix+2)
-	ex de, hl
-	or a
-	sbc hl, de
-	ld (ix+30), h
-	ld (ix+2), l
-	jr nc, _LABEL_4D67_
-	ld a, h
-	sub $40
-	ld (ix+30), a
-	dec (ix+25)
+    ld hl, (v_verticalScrollSpeed)
+    ld a, h
+    or l
+    jr z, _LABEL_4D67_
+    ld d, (ix+30)
+    ld e, (ix+2)
+    ex de, hl
+    or a
+    sbc hl, de
+    ld (ix+30), h
+    ld (ix+2), l
+    jr nc, _LABEL_4D67_
+    ld a, h
+    sub $40
+    ld (ix+30), a
+    dec (ix+25)
 _LABEL_4D67_:
-	ld l, (ix+27)
-	ld h, (ix+28)
-	add hl, bc
-	ld (ix+27), l
-	ld (ix+28), h
-	call _LABEL_4CE_
-	ld h, (ix+12)
-	ld l, (ix+14)
-	ld (_RAM_C0F4_), hl
-	ld a, (ix+10)
-	ld (_RAM_C0FF_), a
-	ld a, (ix+9)
-	ld (_RAM_C0FB_), a
-	cp $01
-	jp z, clearCurrentEntity
-	ret
+    ld l, (ix+27)
+    ld h, (ix+28)
+    add hl, bc
+    ld (ix+27), l
+    ld (ix+28), h
+    call _LABEL_4CE_
+    ld h, (ix+12)
+    ld l, (ix+14)
+    ld (_RAM_C0F4_), hl
+    ld a, (ix+10)
+    ld (_RAM_C0FF_), a
+    ld a, (ix+9)
+    ld (_RAM_C0FB_), a
+    cp $01
+    jp z, clearCurrentEntity
+    ret
 
 _LABEL_4D92_:
-	ld a, (v_entities.1.unknown8)
-	bit 3, a
-	jp z, _LABEL_4CDE_
-	res 3, a
-	ld (v_entities.1.unknown8), a
-	inc (ix+3)
-	ld a, (ix+3)
-	cp $03
-	jp c, _LABEL_4CDE_
-	jp _LABEL_55A5_
+    ld a, (v_entities.1.unknown8)
+    bit 3, a
+    jp z, _LABEL_4CDE_
+    res 3, a
+    ld (v_entities.1.unknown8), a
+    inc (ix+3)
+    ld a, (ix+3)
+    cp $03
+    jp c, _LABEL_4CDE_
+    jp _LABEL_55A5_
 
 _LABEL_4DAD_:
-	ld c, $00
-	ld a, (v_entities.1.yPos.high)
-	sub (ix+14)
-	jr nz, +
-	inc a
+    ld c, $00
+    ld a, (v_entities.1.yPos.high)
+    sub (ix+14)
+    jr nz, +
+    inc a
 +:
-	jr nc, +
-	ld c, $01
-	neg
+    jr nc, +
+    ld c, $01
+    neg
 +:
-	ld l, a
-	ld a, (v_entities.1.xPos.high)
-	sub (ix+12)
-	jr nz, +
-	inc a
+    ld l, a
+    ld a, (v_entities.1.xPos.high)
+    sub (ix+12)
+    jr nz, +
+    inc a
 +:
-	jr nc, +
-	set 1, c
-	neg
+    jr nc, +
+    set 1, c
+    neg
 +:
-	ld h, a
-	ld a, l
-	cp h
-	jr nc, +
-	set 2, c
-	ld l, h
-	ld h, a
+    ld h, a
+    ld a, l
+    cp h
+    jr nc, +
+    set 2, c
+    ld l, h
+    ld h, a
 +:
-	ld e, l
-	ld l, $00
-	call ++
-	ld h, $00
-	ld a, (ix+0)
-	cp $29
-	jp z, +
-	ld e, l
-	ld d, h
-	srl d
-	rr e
-	srl d
-	rr e
-	ld l, e
-	ld h, d
-	jp +
+    ld e, l
+    ld l, $00
+    call ++
+    ld h, $00
+    ld a, (ix+0)
+    cp $29
+    jp z, +
+    ld e, l
+    ld d, h
+    srl d
+    rr e
+    srl d
+    rr e
+    ld l, e
+    ld h, d
+    jp +
 
 +:
-	ld de, $0100
-	bit 2, c
-	jr z, +
-	ex de, hl
+    ld de, $0100
+    bit 2, c
+    jr z, +
+    ex de, hl
 +:
-	bit 0, c
-	jr z, +
-	ld a, e
-	cpl
-	ld e, a
-	ld a, d
-	cpl
-	ld d, a
-	inc de
+    bit 0, c
+    jr z, +
+    ld a, e
+    cpl
+    ld e, a
+    ld a, d
+    cpl
+    ld d, a
+    inc de
 +:
-	bit 1, c
-	ret z
-	ld a, l
-	cpl
-	ld l, a
-	ld a, h
-	cpl
-	ld h, a
-	inc hl
-	ret
+    bit 1, c
+    ret z
+    ld a, l
+    cpl
+    ld l, a
+    ld a, h
+    cpl
+    ld h, a
+    inc hl
+    ret
 
 ++:
-	ld b, $08
-	xor a
+    ld b, $08
+    xor a
 -:
-	adc hl, hl
-	ld a, h
-	jp c, +
-	cp e
-	jp c, ++
+    adc hl, hl
+    ld a, h
+    jp c, +
+    cp e
+    jp c, ++
 +:
-	sub e
-	ld h, a
-	xor a
+    sub e
+    ld h, a
+    xor a
 ++:
-	ccf
-	djnz -
-	rl l
-	sla h
-	ld a, h
-	sub e
-	ret c
-	inc l
-	ret
+    ccf
+    djnz -
+    rl l
+    sla h
+    ld a, h
+    sub e
+    ret c
+    inc l
+    ret
 
 ; 35th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_4E30_:
-	bit 0, (ix+1)
-	jr nz, +
-	ld (ix+5), $0A
-	ld (ix+6), $0A
-	ld a, (ix+9)
-	or (ix+10)
-	jr nz, ++
-	set 0, (ix+1)
-	ld (ix+18), $FF
-	ld (ix+17), $C0
-	set 1, (ix+1)
+    bit 0, (ix+1)
+    jr nz, +
+    ld (ix+5), $0A
+    ld (ix+6), $0A
+    ld a, (ix+9)
+    or (ix+10)
+    jr nz, ++
+    set 0, (ix+1)
+    ld (ix+18), $FF
+    ld (ix+17), $C0
+    set 1, (ix+1)
 +:
-	call tryToKillAlexIfColliding
-	call _LABEL_7D0B_
-	jr nc, +++
+    call tryToKillAlexIfColliding
+    call _LABEL_7D0B_
+    jr nc, +++
 -:
-	inc (ix+23)
-	ld a, (ix+23)
-	cp $C0
-	jr nz, ++
-	ld (ix+23), $00
-	ld a, (ix+18)
-	cpl
-	ld (ix+18), a
-	ld a, (ix+17)
-	cpl
-	inc a
-	ld (ix+17), a
-	call _LABEL_4FAD_
+    inc (ix+23)
+    ld a, (ix+23)
+    cp $C0
+    jr nz, ++
+    ld (ix+23), $00
+    ld a, (ix+18)
+    cpl
+    ld (ix+18), a
+    ld a, (ix+17)
+    cpl
+    inc a
+    ld (ix+17), a
+    call _LABEL_4FAD_
 ++:
-	ld hl, _DATA_8211_
-	jp handleEntityAnimation
+    ld hl, _DATA_8211_
+    jp handleEntityAnimation
 
 +++:
-	ld a, (v_entities.1.unknown8)
-	bit 3, a
-	jr z, -
-	res 3, a
-	ld (v_entities.1.unknown8), a
-	inc (ix+3)
-	ld a, (ix+3)
-	cp $03
-	jp nc, _LABEL_55A5_
-	jr -
+    ld a, (v_entities.1.unknown8)
+    bit 3, a
+    jr z, -
+    res 3, a
+    ld (v_entities.1.unknown8), a
+    inc (ix+3)
+    ld a, (ix+3)
+    cp $03
+    jp nc, _LABEL_55A5_
+    jr -
 
 ; 34th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_4E9D_:
-	bit 0, (ix+1)
-	jr nz, +
-	set 0, (ix+1)
-	ld (ix+20), $12
-	ld (ix+5), $08
-	ld (ix+6), $08
-	ld (ix+18), $FF
-	ld a, (ix+23)
-	ld c, a
-	add a, a
-	add a, c
-	ld c, a
-	ld b, $00
-	ld hl, _DATA_52CF_
-	add hl, bc
-	ld a, (hl)
-	ld (ix+17), a
-	inc hl
-	ld a, (hl)
-	ld (ix+16), a
-	inc hl
-	ld a, (hl)
-	ld (ix+15), a
-	set 1, (ix+1)
+    bit 0, (ix+1)
+    jr nz, +
+    set 0, (ix+1)
+    ld (ix+20), $12
+    ld (ix+5), $08
+    ld (ix+6), $08
+    ld (ix+18), $FF
+    ld a, (ix+23)
+    ld c, a
+    add a, a
+    add a, c
+    ld c, a
+    ld b, $00
+    ld hl, _DATA_52CF_
+    add hl, bc
+    ld a, (hl)
+    ld (ix+17), a
+    inc hl
+    ld a, (hl)
+    ld (ix+16), a
+    inc hl
+    ld a, (hl)
+    ld (ix+15), a
+    set 1, (ix+1)
 +:
-	ld a, (ix+9)
-	or (ix+10)
-	jr nz, +
-	call tryToKillAlexIfColliding
-	ld a, (ix+14)
-	cp $18
-	jp c, clearCurrentEntity
+    ld a, (ix+9)
+    or (ix+10)
+    jr nz, +
+    call tryToKillAlexIfColliding
+    ld a, (ix+14)
+    cp $18
+    jp c, clearCurrentEntity
 +:
-	ld hl, _DATA_825C_
-	jp handleEntityAnimation
+    ld hl, _DATA_825C_
+    jp handleEntityAnimation
 
 ; 32nd entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 .INC "entities/batLeft/updater.asm"
 
 ; 54th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_4F82_:
-	ld a, (ix+9)
-	or (ix+10)
-	jp nz, clearCurrentEntity
-	call tryToKillAlexIfColliding
-	call _LABEL_7D0B_
-	jp nc, _LABEL_55A5_
-	ld de, $0110
-	call getTileNearEntityWithXYOffset
-	rlca
-	jp nc, _LABEL_4F43_
-	ld (ix+0), $20
-	ld (ix+16), $FF
-	ld (ix+15), $80
-	jp _LABEL_4F43_
+    ld a, (ix+9)
+    or (ix+10)
+    jp nz, clearCurrentEntity
+    call tryToKillAlexIfColliding
+    call _LABEL_7D0B_
+    jp nc, _LABEL_55A5_
+    ld de, $0110
+    call getTileNearEntityWithXYOffset
+    rlca
+    jp nc, _LABEL_4F43_
+    ld (ix+0), $20
+    ld (ix+16), $FF
+    ld (ix+15), $80
+    jp _LABEL_4F43_
 
 _LABEL_4FAD_:
-	ld a, (ix+18)
-	cp $FF
-	ret nz
-	ld b, $05
-	ld de, $0020
-	ld iy, _RAM_C500_
+    ld a, (ix+18)
+    cp $FF
+    ret nz
+    ld b, $05
+    ld de, $0020
+    ld iy, _RAM_C500_
 -:
-	ld a, (iy+0)
-	or a
-	jr nz, +
-	ld a, $97
-	ld (v_soundControl), a
-	ld (iy+0), $22
-	ld a, (ix+14)
-	ld (iy+14), a
-	ld a, (ix+12)
-	ld (iy+12), a
-	ld a, (ix+9)
-	ld (iy+9), a
-	set 1, (iy+1)
-	inc (ix+24)
-	ld a, (ix+24)
-	and $07
-	ld (iy+23), a
+    ld a, (iy+0)
+    or a
+    jr nz, +
+    ld a, $97
+    ld (v_soundControl), a
+    ld (iy+0), $22
+    ld a, (ix+14)
+    ld (iy+14), a
+    ld a, (ix+12)
+    ld (iy+12), a
+    ld a, (ix+9)
+    ld (iy+9), a
+    set 1, (iy+1)
+    inc (ix+24)
+    ld a, (ix+24)
+    and $07
+    ld (iy+23), a
 +:
-	add iy, de
-	djnz -
-	ret
+    add iy, de
+    djnz -
+    ret
 
 ; 44th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_4FF1_:
-	bit 0, (ix+1)
-	jr nz, +
-	ld (ix+7), <_DATA_856E_
-	ld (ix+8), >_DATA_856E_
-	ld a, (ix+9)
-	or (ix+10)
-	ret nz
-	set 0, (ix+1)
-	set 1, (ix+1)
-	ld (ix+18), $FF
-	ld (ix+17), $80
-	ret
+    bit 0, (ix+1)
+    jr nz, +
+    ld (ix+7), <_DATA_856E_
+    ld (ix+8), >_DATA_856E_
+    ld a, (ix+9)
+    or (ix+10)
+    ret nz
+    set 0, (ix+1)
+    set 1, (ix+1)
+    ld (ix+18), $FF
+    ld (ix+17), $80
+    ret
 
 +:
-	call tryToKillAlexIfColliding
-	inc (ix+23)
-	ld a, (ix+23)
-	cp $40
-	ret c
-	ld a, (ix+18)
-	cpl
-	ld (ix+18), a
-	ld a, (ix+17)
-	cpl
-	inc a
-	ld (ix+17), a
-	ld (ix+23), $00
-	ret
+    call tryToKillAlexIfColliding
+    inc (ix+23)
+    ld a, (ix+23)
+    cp $40
+    ret c
+    ld a, (ix+18)
+    cpl
+    ld (ix+18), a
+    ld a, (ix+17)
+    cpl
+    inc a
+    ld (ix+17), a
+    ld (ix+23), $00
+    ret
 
 .INC "entities/monsterBirdLeft/updater.asm"
 .INC "entities/monsterBirdRight/updater.asm"
@@ -7651,121 +7651,121 @@ _LABEL_4FF1_:
 
 ; 46th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_515F_:
-	bit 0, (ix+1)
-	jr nz, +
-	ld (ix+5), $10
-	ld (ix+6), $10
-	ld a, (ix+9)
-	or (ix+10)
-	jr nz, _LABEL_51ED_
-	set 0, (ix+1)
-	ld a, (ix+14)
-	ld (ix+22), a
-	jp _LABEL_51ED_
+    bit 0, (ix+1)
+    jr nz, +
+    ld (ix+5), $10
+    ld (ix+6), $10
+    ld a, (ix+9)
+    or (ix+10)
+    jr nz, _LABEL_51ED_
+    set 0, (ix+1)
+    ld a, (ix+14)
+    ld (ix+22), a
+    jp _LABEL_51ED_
 
 +:
-	ld a, (ix+9)
-	or (ix+10)
-	jr nz, _LABEL_51ED_
-	ld (ix+16), $FF
-	ld (ix+15), $A0
-	set 1, (ix+1)
-	call tryToKillAlexIfColliding
-	call _LABEL_7D0B_
-	jp nc, _LABEL_55A5_
-	ld de, $0100
-	ld a, $08
-	call _LABEL_3A03_
-	jr nc, +
-	ld (ix+16), $00
-	ld (ix+15), $60
-	ld (ix+0), $35
-	jr _LABEL_51ED_
+    ld a, (ix+9)
+    or (ix+10)
+    jr nz, _LABEL_51ED_
+    ld (ix+16), $FF
+    ld (ix+15), $A0
+    set 1, (ix+1)
+    call tryToKillAlexIfColliding
+    call _LABEL_7D0B_
+    jp nc, _LABEL_55A5_
+    ld de, $0100
+    ld a, $08
+    call _LABEL_3A03_
+    jr nc, +
+    ld (ix+16), $00
+    ld (ix+15), $60
+    ld (ix+0), $35
+    jr _LABEL_51ED_
 
 +:
-	inc (ix+24)
-	ld a, (ix+24)
-	cp $40
-	jp nz, +
-	xor a
-	ld (ix+24), a
+    inc (ix+24)
+    ld a, (ix+24)
+    cp $40
+    jp nz, +
+    xor a
+    ld (ix+24), a
 +:
-	ld hl, _DATA_528F_
-	ld c, a
-	ld b, $00
-	add hl, bc
-	ld h, (hl)
-	ld de, (v_verticalScrollSpeed)
-	ld a, d
-	cpl
-	inc a
-	ld d, a
-	ld a, e
-	cpl
-	inc a
-	ld e, a
-	ld a, h
-	add a, d
-	ld h, (ix+22)
-	ld l, (ix+23)
-	add hl, de
-	ld (ix+22), h
-	ld (ix+23), l
-	add a, h
-	ld (ix+14), a
+    ld hl, _DATA_528F_
+    ld c, a
+    ld b, $00
+    add hl, bc
+    ld h, (hl)
+    ld de, (v_verticalScrollSpeed)
+    ld a, d
+    cpl
+    inc a
+    ld d, a
+    ld a, e
+    cpl
+    inc a
+    ld e, a
+    ld a, h
+    add a, d
+    ld h, (ix+22)
+    ld l, (ix+23)
+    add hl, de
+    ld (ix+22), h
+    ld (ix+23), l
+    add a, h
+    ld (ix+14), a
 _LABEL_51ED_:
-	ld hl, _DATA_83AB_
-	jp handleEntityAnimation
+    ld hl, _DATA_83AB_
+    jp handleEntityAnimation
 
 ; 53rd entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_51F3_:
-	ld a, (ix+9)
-	or (ix+10)
-	jr nz, _LABEL_5249_
-	call tryToKillAlexIfColliding
-	call _LABEL_7D0B_
-	jp nc, _LABEL_55A5_
-	ld de, $0118
-	ld a, $08
-	call _LABEL_3A03_
-	jr nc, +
-	ld (ix+0), $2E
-	jr _LABEL_5249_
+    ld a, (ix+9)
+    or (ix+10)
+    jr nz, _LABEL_5249_
+    call tryToKillAlexIfColliding
+    call _LABEL_7D0B_
+    jp nc, _LABEL_55A5_
+    ld de, $0118
+    ld a, $08
+    call _LABEL_3A03_
+    jr nc, +
+    ld (ix+0), $2E
+    jr _LABEL_5249_
 
 +:
-	inc (ix+24)
-	ld a, (ix+24)
-	cp $40
-	jr nz, +
-	xor a
-	ld (ix+24), a
+    inc (ix+24)
+    ld a, (ix+24)
+    cp $40
+    jr nz, +
+    xor a
+    ld (ix+24), a
 +:
-	ld hl, _DATA_528F_
-	ld c, a
-	ld b, $00
-	add hl, bc
-	ld h, (hl)
-	ld de, (v_verticalScrollSpeed)
-	ld a, d
-	cpl
-	inc a
-	ld d, a
-	ld a, e
-	cpl
-	inc a
-	ld e, a
-	ld a, h
-	add a, d
-	ld h, (ix+22)
-	ld l, (ix+23)
-	add hl, de
-	ld (ix+22), h
-	ld (ix+23), l
-	add a, h
-	ld (ix+14), a
+    ld hl, _DATA_528F_
+    ld c, a
+    ld b, $00
+    add hl, bc
+    ld h, (hl)
+    ld de, (v_verticalScrollSpeed)
+    ld a, d
+    cpl
+    inc a
+    ld d, a
+    ld a, e
+    cpl
+    inc a
+    ld e, a
+    ld a, h
+    add a, d
+    ld h, (ix+22)
+    ld l, (ix+23)
+    add hl, de
+    ld (ix+22), h
+    ld (ix+23), l
+    add a, h
+    ld (ix+14), a
 _LABEL_5249_:
-	ld hl, _DATA_83D8_
-	jp handleEntityAnimation
+    ld hl, _DATA_83D8_
+    jp handleEntityAnimation
 
 ; Data from 524F to 528E (64 bytes)
 _DATA_524F_:
@@ -7788,469 +7788,469 @@ _DATA_52CF_:
 
 ; 37th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_52E7_:
-	ld a, (ix+9)
-	or (ix+10)
-	jr nz, +
-	ld a, (v_entities.1.state)
-	cp ALEX_DEAD
-	jp z, _LABEL_5571_
+    ld a, (ix+9)
+    or (ix+10)
+    jr nz, +
+    ld a, (v_entities.1.state)
+    cp ALEX_DEAD
+    jp z, _LABEL_5571_
 +:
-	bit 0, (ix+1)
-	jr nz, +
-	ld (ix+5), $12
-	ld (ix+6), $12
-	ld (ix+4), $00
-	ld a, (ix+9)
-	or (ix+10)
-	jr nz, ++
-	set 0, (ix+1)
-	ld (ix+2), $81
-	ld (ix+15), $A0
-	ld (ix+16), $FF
+    bit 0, (ix+1)
+    jr nz, +
+    ld (ix+5), $12
+    ld (ix+6), $12
+    ld (ix+4), $00
+    ld a, (ix+9)
+    or (ix+10)
+    jr nz, ++
+    set 0, (ix+1)
+    ld (ix+2), $81
+    ld (ix+15), $A0
+    ld (ix+16), $FF
 +:
-	call tryToKillAlexIfColliding
-	ld a, (ix+19)
-	ld (ix+24), a
-	ld (ix+19), $A8
-	call _LABEL_7D0B_
-	jp nc, _LABEL_54DF_
-	ld a, (ix+24)
-	ld (ix+19), a
-	ld a, (v_entities.1.xPos.high)
-	sub (ix+12)
-	jr nc, _LABEL_5357_
-	neg
-	cp $20
-	jr c, +++
+    call tryToKillAlexIfColliding
+    ld a, (ix+19)
+    ld (ix+24), a
+    ld (ix+19), $A8
+    call _LABEL_7D0B_
+    jp nc, _LABEL_54DF_
+    ld a, (ix+24)
+    ld (ix+19), a
+    ld a, (v_entities.1.xPos.high)
+    sub (ix+12)
+    jr nc, _LABEL_5357_
+    neg
+    cp $20
+    jr c, +++
 ++:
-	ld hl, _DATA_8A35_
-	jp handleEntityAnimation
+    ld hl, _DATA_8A35_
+    jp handleEntityAnimation
 
 +++:
-	ld (ix+0), $27
-	res 0, (ix+1)
-	ret
+    ld (ix+0), $27
+    res 0, (ix+1)
+    ret
 
 _LABEL_5357_:
-	res 0, (ix+1)
-	ld (ix+0), $26
-	ret
+    res 0, (ix+1)
+    ld (ix+0), $26
+    ret
 
 ; 38th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_5360_:
-	ld a, (ix+9)
-	or (ix+10)
-	jr nz, +
-	ld a, (v_entities.1.state)
-	cp ALEX_DEAD
-	jp z, _LABEL_5571_
+    ld a, (ix+9)
+    or (ix+10)
+    jr nz, +
+    ld a, (v_entities.1.state)
+    cp ALEX_DEAD
+    jp z, _LABEL_5571_
 +:
-	bit 0, (ix+1)
-	jr nz, +
-	set 0, (ix+1)
-	ld (ix+5), $12
-	ld (ix+6), $12
-	ld (ix+4), $00
-	ld (ix+15), $60
-	ld (ix+16), $00
+    bit 0, (ix+1)
+    jr nz, +
+    set 0, (ix+1)
+    ld (ix+5), $12
+    ld (ix+6), $12
+    ld (ix+4), $00
+    ld (ix+15), $60
+    ld (ix+16), $00
 +:
-	call tryToKillAlexIfColliding
-	ld a, (ix+19)
-	ld (ix+24), a
-	ld (ix+19), $A8
-	call _LABEL_7D0B_
-	jp nc, _LABEL_54DF_
-	ld a, (ix+24)
-	ld (ix+19), a
-	ld a, $38
-	add a, (ix+12)
-	ld c, a
-	ld a, (v_entities.1.xPos.high)
-	sub c
-	jr c, _LABEL_53C6_
-	cp $20
-	jr c, +
-	ld hl, _DATA_8A3F_
-	jp handleEntityAnimation
+    call tryToKillAlexIfColliding
+    ld a, (ix+19)
+    ld (ix+24), a
+    ld (ix+19), $A8
+    call _LABEL_7D0B_
+    jp nc, _LABEL_54DF_
+    ld a, (ix+24)
+    ld (ix+19), a
+    ld a, $38
+    add a, (ix+12)
+    ld c, a
+    ld a, (v_entities.1.xPos.high)
+    sub c
+    jr c, _LABEL_53C6_
+    cp $20
+    jr c, +
+    ld hl, _DATA_8A3F_
+    jp handleEntityAnimation
 
 +:
-	ld (ix+0), $28
-	res 0, (ix+1)
-	ret
+    ld (ix+0), $28
+    res 0, (ix+1)
+    ret
 
 _LABEL_53C6_:
-	ld (ix+0), $25
-	res 0, (ix+1)
-	ret
+    ld (ix+0), $25
+    res 0, (ix+1)
+    ret
 
 ; 39th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_53CF_:
-	ld a, (ix+9)
-	or (ix+10)
-	jr nz, +
-	ld a, (v_entities.1.state)
-	cp ALEX_DEAD
-	jp z, _LABEL_5571_
+    ld a, (ix+9)
+    or (ix+10)
+    jr nz, +
+    ld a, (v_entities.1.state)
+    cp ALEX_DEAD
+    jp z, _LABEL_5571_
 +:
-	bit 0, (ix+1)
-	jr nz, +
-	set 0, (ix+1)
-	ld (ix+5), $20
-	ld (ix+6), $20
-	ld (ix+4), $00
-	ld (ix+16), $FF
-	ld (ix+15), $C0
-	jr _LABEL_543D_
+    bit 0, (ix+1)
+    jr nz, +
+    set 0, (ix+1)
+    ld (ix+5), $20
+    ld (ix+6), $20
+    ld (ix+4), $00
+    ld (ix+16), $FF
+    ld (ix+15), $C0
+    jr _LABEL_543D_
 
 +:
-	ld a, (ix+9)
-	or (ix+10)
-	jr nz, _LABEL_543D_
-	call tryToKillAlexIfColliding
-	ld a, (ix+19)
-	ld (ix+24), a
-	ld (ix+19), $A8
-	call _LABEL_7D0B_
-	jp nc, _LABEL_54DF_
-	ld a, (ix+24)
-	ld (ix+19), a
-	ld a, (ix+4)
-	or a
-	jr nz, +
-	ld a, (ix+5)
-	cp $20
-	jr nz, _LABEL_543D_
-	ld a, (v_entities.1.xPos.high)
-	sub (ix+12)
-	jp nc, _LABEL_5357_
-	neg
-	cp $20
-	jp nc, _LABEL_53C6_
+    ld a, (ix+9)
+    or (ix+10)
+    jr nz, _LABEL_543D_
+    call tryToKillAlexIfColliding
+    ld a, (ix+19)
+    ld (ix+24), a
+    ld (ix+19), $A8
+    call _LABEL_7D0B_
+    jp nc, _LABEL_54DF_
+    ld a, (ix+24)
+    ld (ix+19), a
+    ld a, (ix+4)
+    or a
+    jr nz, +
+    ld a, (ix+5)
+    cp $20
+    jr nz, _LABEL_543D_
+    ld a, (v_entities.1.xPos.high)
+    sub (ix+12)
+    jp nc, _LABEL_5357_
+    neg
+    cp $20
+    jp nc, _LABEL_53C6_
 _LABEL_543D_:
-	ld hl, _DATA_8A3A_
-	jp handleEntityAnimation
+    ld hl, _DATA_8A3A_
+    jp handleEntityAnimation
 
 +:
-	ld a, (ix+5)
-	cp $20
-	jr nz, _LABEL_543D_
-	ld a, $99
-	ld (v_soundControl), a
-	jr _LABEL_543D_
+    ld a, (ix+5)
+    cp $20
+    jr nz, _LABEL_543D_
+    ld a, $99
+    ld (v_soundControl), a
+    jr _LABEL_543D_
 
 ; 40th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_5451_:
-	ld a, (ix+9)
-	or (ix+10)
-	jr nz, +
-	ld a, (v_entities.1.state)
-	cp ALEX_DEAD
-	jp z, _LABEL_5571_
+    ld a, (ix+9)
+    or (ix+10)
+    jr nz, +
+    ld a, (v_entities.1.state)
+    cp ALEX_DEAD
+    jp z, _LABEL_5571_
 +:
-	bit 0, (ix+1)
-	jr nz, +
-	set 0, (ix+1)
-	ld (ix+5), $20
-	ld (ix+6), $20
-	ld (ix+4), $00
-	ld (ix+16), $00
-	ld (ix+15), $40
-	jp _LABEL_54C9_
+    bit 0, (ix+1)
+    jr nz, +
+    set 0, (ix+1)
+    ld (ix+5), $20
+    ld (ix+6), $20
+    ld (ix+4), $00
+    ld (ix+16), $00
+    ld (ix+15), $40
+    jp _LABEL_54C9_
 
 +:
-	ld a, (ix+9)
-	or (ix+10)
-	jp nz, _LABEL_54C9_
-	call tryToKillAlexIfColliding
-	ld a, (ix+19)
-	ld (ix+24), a
-	ld (ix+19), $A8
-	call _LABEL_7D0B_
-	jp nc, _LABEL_54DF_
-	ld a, (ix+24)
-	ld (ix+19), a
-	ld a, (ix+4)
-	or a
-	jp nz, +
-	ld a, (ix+5)
-	cp $20
-	jr nz, _LABEL_54C9_
-	ld a, $99
-	ld (v_soundControl), a
-	ld a, $38
-	add a, (ix+12)
-	ld c, a
-	ld a, (v_entities.1.xPos.high)
-	sub c
-	jp c, _LABEL_53C6_
-	cp $20
-	jp nc, _LABEL_5357_
+    ld a, (ix+9)
+    or (ix+10)
+    jp nz, _LABEL_54C9_
+    call tryToKillAlexIfColliding
+    ld a, (ix+19)
+    ld (ix+24), a
+    ld (ix+19), $A8
+    call _LABEL_7D0B_
+    jp nc, _LABEL_54DF_
+    ld a, (ix+24)
+    ld (ix+19), a
+    ld a, (ix+4)
+    or a
+    jp nz, +
+    ld a, (ix+5)
+    cp $20
+    jr nz, _LABEL_54C9_
+    ld a, $99
+    ld (v_soundControl), a
+    ld a, $38
+    add a, (ix+12)
+    ld c, a
+    ld a, (v_entities.1.xPos.high)
+    sub c
+    jp c, _LABEL_53C6_
+    cp $20
+    jp nc, _LABEL_5357_
 _LABEL_54C9_:
-	ld hl, _DATA_8A44_
-	jp handleEntityAnimation
+    ld hl, _DATA_8A44_
+    jp handleEntityAnimation
 
 +:
-	ld a, (ix+5)
-	cp $20
-	jp nz, _LABEL_54C9_
-	ld a, $99
-	ld (v_soundControl), a
-	jp _LABEL_54C9_
+    ld a, (ix+5)
+    cp $20
+    jp nz, _LABEL_54C9_
+    ld a, $99
+    ld (v_soundControl), a
+    jp _LABEL_54C9_
 
 _LABEL_54DF_:
-	ld a, (ix+0)
-	ld (ix+29), a
-	ld a, (ix+15)
-	ld (ix+30), a
-	ld a, (ix+16)
-	ld (ix+31), a
-	ld (ix+16), $01
-	ld (ix+15), $00
-	bit 7, a
-	jr nz, +
-	ld (ix+16), $FF
-	ld (ix+15), $00
+    ld a, (ix+0)
+    ld (ix+29), a
+    ld a, (ix+15)
+    ld (ix+30), a
+    ld a, (ix+16)
+    ld (ix+31), a
+    ld (ix+16), $01
+    ld (ix+15), $00
+    bit 7, a
+    jr nz, +
+    ld (ix+16), $FF
+    ld (ix+15), $00
 +:
-	ld (ix+0), $4A
-	ld (ix+23), $08
-	inc (ix+22)
-	ld a, $8B
-	ld (v_soundControl), a
+    ld (ix+0), $4A
+    ld (ix+23), $08
+    inc (ix+22)
+    ld a, $8B
+    ld (v_soundControl), a
 ; 74th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_5515_:
-	ld a, (ix+9)
-	or (ix+10)
-	jr nz, +
-	ld a, (v_entities.1.state)
-	cp ALEX_DEAD
-	jp z, _LABEL_5571_
+    ld a, (ix+9)
+    or (ix+10)
+    jr nz, +
+    ld a, (v_entities.1.state)
+    cp ALEX_DEAD
+    jp z, _LABEL_5571_
 +:
-	ld a, (ix+22)
-	cp $08
-	jr nc, _LABEL_5547_
-	dec (ix+23)
-	ret nz
-	res 0, (ix+1)
-	ld a, (ix+29)
-	ld (ix+0), a
-	ld a, (ix+30)
-	ld (ix+15), a
-	ld a, (ix+31)
-	ld (ix+16), a
-	ret
+    ld a, (ix+22)
+    cp $08
+    jr nc, _LABEL_5547_
+    dec (ix+23)
+    ret nz
+    res 0, (ix+1)
+    ld a, (ix+29)
+    ld (ix+0), a
+    ld a, (ix+30)
+    ld (ix+15), a
+    ld a, (ix+31)
+    ld (ix+16), a
+    ret
 
 _LABEL_5547_:
-	ld a, $95
-	ld (v_soundControl), a
-	call _LABEL_5768_
-	ld (ix+2), $01
-	res 0, (ix+1)
-	ld (ix+0), $43
-	ret
+    ld a, $95
+    ld (v_soundControl), a
+    call _LABEL_5768_
+    ld (ix+2), $01
+    res 0, (ix+1)
+    ld (ix+0), $43
+    ret
 
 _LABEL_555C_:
-	call _LABEL_5768_
-	ld a, $95
-	ld (v_soundControl), a
-	ld (ix+2), $00
-	res 0, (ix+1)
-	ld (ix+0), $43
-	ret
+    call _LABEL_5768_
+    ld a, $95
+    ld (v_soundControl), a
+    ld (ix+2), $00
+    res 0, (ix+1)
+    ld (ix+0), $43
+    ret
 
 _LABEL_5571_:
-	ld (ix+16), $00
-	ld (ix+15), $00
-	ret
+    ld (ix+16), $00
+    ld (ix+15), $00
+    ret
 
 ; 42nd entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_557A_:
-	bit 0, (ix+1)
-	jr nz, +
-	ld (ix+5), $40
-	ld (ix+6), $40
-	ld a, (ix+9)
-	or (ix+10)
-	jr nz, _LABEL_55ED_
-	set 0, (ix+1)
-	set 1, (ix+1)
-	jp _LABEL_55ED_
+    bit 0, (ix+1)
+    jr nz, +
+    ld (ix+5), $40
+    ld (ix+6), $40
+    ld a, (ix+9)
+    or (ix+10)
+    jr nz, _LABEL_55ED_
+    set 0, (ix+1)
+    set 1, (ix+1)
+    jp _LABEL_55ED_
 
 +:
-	call tryToKillAlexIfColliding
-	call _LABEL_7D0B_
-	jr nc, _LABEL_55A5_
-	jr +
+    call tryToKillAlexIfColliding
+    call _LABEL_7D0B_
+    jr nc, _LABEL_55A5_
+    jr +
 
 _LABEL_55A5_:
-	call _LABEL_5768_
-	ld a, $8B
-	ld (v_soundControl), a
-	ld (ix+0), $2B
-	res 0, (ix+1)
-	ret
+    call _LABEL_5768_
+    ld a, $8B
+    ld (v_soundControl), a
+    ld (ix+0), $2B
+    res 0, (ix+1)
+    ret
 
 +:
-	ld a, (ix+4)
-	or a
-	jr nz, _LABEL_55ED_
-	ld a, (ix+5)
-	cp $40
-	jr nz, _LABEL_55ED_
-	ld iy, _RAM_C500_
-	ld de, $0020
-	ld b, $05
+    ld a, (ix+4)
+    or a
+    jr nz, _LABEL_55ED_
+    ld a, (ix+5)
+    cp $40
+    jr nz, _LABEL_55ED_
+    ld iy, _RAM_C500_
+    ld de, $0020
+    ld b, $05
 -:
-	ld a, (iy+0)
-	or a
-	jr nz, +
-	ld a, $98
-	ld (v_soundControl), a
-	ld (iy+0), $29
-	ld a, (ix+12)
-	ld (iy+12), a
-	ld a, (ix+14)
-	ld (iy+14), a
-	jr _LABEL_55ED_
+    ld a, (iy+0)
+    or a
+    jr nz, +
+    ld a, $98
+    ld (v_soundControl), a
+    ld (iy+0), $29
+    ld a, (ix+12)
+    ld (iy+12), a
+    ld a, (ix+14)
+    ld (iy+14), a
+    jr _LABEL_55ED_
 
 +:
-	add iy, de
-	djnz -
+    add iy, de
+    djnz -
 _LABEL_55ED_:
-	ld hl, _DATA_84ED_
-	jp handleEntityAnimation
+    ld hl, _DATA_84ED_
+    jp handleEntityAnimation
 
 ; 41st entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_55F3_:
-	bit 0, (ix+1)
-	jr nz, +
-	set 0, (ix+1)
-	ld (ix+20), $12
-	call _LABEL_4DAD_
-	ld (ix+15), l
-	ld (ix+16), h
-	ld (ix+17), e
-	ld (ix+18), d
-	set 1, (ix+1)
-	ld (ix+7), <_DATA_851D_
-	ld (ix+8), >_DATA_851D_
-	ret
+    bit 0, (ix+1)
+    jr nz, +
+    set 0, (ix+1)
+    ld (ix+20), $12
+    call _LABEL_4DAD_
+    ld (ix+15), l
+    ld (ix+16), h
+    ld (ix+17), e
+    ld (ix+18), d
+    set 1, (ix+1)
+    ld (ix+7), <_DATA_851D_
+    ld (ix+8), >_DATA_851D_
+    ret
 
 +:
-	ld a, (ix+9)
-	or (ix+10)
-	jp nz, clearCurrentEntity
-	jp tryToKillAlexIfColliding
+    ld a, (ix+9)
+    or (ix+10)
+    jp nz, clearCurrentEntity
+    jp tryToKillAlexIfColliding
 
 ; 67th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_5629_:
-	bit 0, (ix+1)
-	jr nz, +
-	set 0, (ix+1)
-	set 1, (ix+1)
-	ld (ix+4), $00
-	ld (ix+5), $10
-	ld (ix+6), $10
-	ld (ix+16), $00
-	ld (ix+15), $00
-	ld (ix+18), $00
-	ld (ix+17), $00
+    bit 0, (ix+1)
+    jr nz, +
+    set 0, (ix+1)
+    set 1, (ix+1)
+    ld (ix+4), $00
+    ld (ix+5), $10
+    ld (ix+6), $10
+    ld (ix+16), $00
+    ld (ix+15), $00
+    ld (ix+18), $00
+    ld (ix+17), $00
 +:
-	ld a, (ix+9)
-	or (ix+10)
-	jp nz, clearCurrentEntity
-	ld a, (ix+4)
-	cp $03
-	jr nz, +
-	ld a, (ix+5)
-	cp $01
-	jr z, ++
+    ld a, (ix+9)
+    or (ix+10)
+    jp nz, clearCurrentEntity
+    ld a, (ix+4)
+    cp $03
+    jr nz, +
+    ld a, (ix+5)
+    cp $01
+    jr z, ++
 +:
-	ld hl, _DATA_8175_
-	jp handleEntityAnimation
+    ld hl, _DATA_8175_
+    jp handleEntityAnimation
 
 ++:
-	xor a
-	ld (_RAM_C07F_), a
-	ld a, (ix+2)
-	or a
-	jp z, clearCurrentEntity
-	res 0, (ix+1)
-	ld (ix+0), $44
-	ret
+    xor a
+    ld (_RAM_C07F_), a
+    ld a, (ix+2)
+    or a
+    jp z, clearCurrentEntity
+    res 0, (ix+1)
+    ld (ix+0), $44
+    ret
 
 ; 43rd entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_5684_:
-	bit 0, (ix+1)
-	jr nz, +
-	set 0, (ix+1)
-	set 1, (ix+1)
-	ld (ix+4), $00
-	ld (ix+5), $10
-	ld (ix+6), $10
-	ld (ix+16), $00
-	ld (ix+15), $00
-	ld (ix+18), $00
-	ld (ix+17), $00
+    bit 0, (ix+1)
+    jr nz, +
+    set 0, (ix+1)
+    set 1, (ix+1)
+    ld (ix+4), $00
+    ld (ix+5), $10
+    ld (ix+6), $10
+    ld (ix+16), $00
+    ld (ix+15), $00
+    ld (ix+18), $00
+    ld (ix+17), $00
 +:
-	ld a, (ix+9)
-	or (ix+10)
-	jp nz, clearCurrentEntity
-	ld a, (ix+4)
-	cp $01
-	jr nz, +
-	ld a, (ix+5)
-	cp $01
-	jp z, clearCurrentEntity
+    ld a, (ix+9)
+    or (ix+10)
+    jp nz, clearCurrentEntity
+    ld a, (ix+4)
+    cp $01
+    jr nz, +
+    ld a, (ix+5)
+    cp $01
+    jp z, clearCurrentEntity
 +:
-	ld hl, _DATA_8170_
-	jp handleEntityAnimation
+    ld hl, _DATA_8170_
+    jp handleEntityAnimation
 
 ; 47th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_56CC_:
-	bit 0, (ix+1)
-	jr nz, +
-	ld (ix+7), <_DATA_854C_
-	ld (ix+8), >_DATA_854C_
-	ld a, (ix+9)
-	or (ix+10)
-	ret nz
-	set 0, (ix+1)
-	set 1, (ix+1)
-	ld (ix+23), $10
+    bit 0, (ix+1)
+    jr nz, +
+    ld (ix+7), <_DATA_854C_
+    ld (ix+8), >_DATA_854C_
+    ld a, (ix+9)
+    or (ix+10)
+    ret nz
+    set 0, (ix+1)
+    set 1, (ix+1)
+    ld (ix+23), $10
 +:
-	ld a, (ix+9)
-	or (ix+10)
-	ret nz
-	call tryToKillAlexIfColliding
-	call _LABEL_7D0B_
-	jp nc, _LABEL_55A5_
-	dec (ix+23)
-	ret nz
-	ld a, $01
-	ld (ix+23), a
-	ld de, $1108
-	call getTileNearEntityWithXYOffset
-	rlca
-	ret nc
-	ld (ix+0), $37
-	ld (ix+18), $FE
-	ld (ix+17), $80
-	ld (ix+7), <_DATA_855A_
-	ld (ix+8), >_DATA_855A_
-	ret
+    ld a, (ix+9)
+    or (ix+10)
+    ret nz
+    call tryToKillAlexIfColliding
+    call _LABEL_7D0B_
+    jp nc, _LABEL_55A5_
+    dec (ix+23)
+    ret nz
+    ld a, $01
+    ld (ix+23), a
+    ld de, $1108
+    call getTileNearEntityWithXYOffset
+    rlca
+    ret nc
+    ld (ix+0), $37
+    ld (ix+18), $FE
+    ld (ix+17), $80
+    ld (ix+7), <_DATA_855A_
+    ld (ix+8), >_DATA_855A_
+    ret
 
 ; 55th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 .INC "entities/monsterFrog/jumpingUpdater.asm"
 
 
 _LABEL_5768_:
-	ld a, (ix+0)
-	ld c, a
-	ld b, $00
-	ld hl, _DATA_5776_ - 1
-	add hl, bc
-	ld l, (hl)
-	jp addScore
+    ld a, (ix+0)
+    ld c, a
+    ld b, $00
+    ld hl, _DATA_5776_ - 1
+    add hl, bc
+    ld l, (hl)
+    jp addScore
 
 ; Data from 5776 to 57CD (88 bytes)
 _DATA_5776_:
@@ -8263,222 +8263,222 @@ _DATA_5776_:
 
 ; 49th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_57CE_:
-	bit 0, (ix+1)
-	jr nz, +
-	ld (ix+5), $10
-	ld (ix+6), $10
-	ld a, (ix+9)
-	or (ix+10)
-	jr nz, _LABEL_5845_
-	set 0, (ix+1)
-	set 1, (ix+1)
+    bit 0, (ix+1)
+    jr nz, +
+    ld (ix+5), $10
+    ld (ix+6), $10
+    ld a, (ix+9)
+    or (ix+10)
+    jr nz, _LABEL_5845_
+    set 0, (ix+1)
+    set 1, (ix+1)
 +:
-	call tryToKillAlexIfColliding
-	call _LABEL_7D0B_
-	jp nc, _LABEL_55A5_
-	ld a, (ix+24)
-	or a
-	jr nz, +
-	ld (ix+18), $00
-	ld (ix+17), $80
-	inc (ix+23)
-	ld a, (ix+23)
-	cp $30
-	jr c, _LABEL_5845_
-	inc (ix+22)
-	ld a, (ix+22)
-	cp $02
-	jr z, _LABEL_5865_
-	ld a, (ix+14)
-	ld (ix+3), a
-	ld (ix+18), $00
-	ld (ix+17), $00
-	ld (ix+16), $FF
-	ld (ix+15), $80
+    call tryToKillAlexIfColliding
+    call _LABEL_7D0B_
+    jp nc, _LABEL_55A5_
+    ld a, (ix+24)
+    or a
+    jr nz, +
+    ld (ix+18), $00
+    ld (ix+17), $80
+    inc (ix+23)
+    ld a, (ix+23)
+    cp $30
+    jr c, _LABEL_5845_
+    inc (ix+22)
+    ld a, (ix+22)
+    cp $02
+    jr z, _LABEL_5865_
+    ld a, (ix+14)
+    ld (ix+3), a
+    ld (ix+18), $00
+    ld (ix+17), $00
+    ld (ix+16), $FF
+    ld (ix+15), $80
 +:
-	inc (ix+24)
-	ld a, (ix+24)
-	cp $40
-	jr z, +
-	ld c, a
-	ld b, $00
-	ld hl, _DATA_524F_
-	add hl, bc
-	ld a, (hl)
-	add a, (ix+3)
-	ld (ix+14), a
+    inc (ix+24)
+    ld a, (ix+24)
+    cp $40
+    jr z, +
+    ld c, a
+    ld b, $00
+    ld hl, _DATA_524F_
+    add hl, bc
+    ld a, (hl)
+    add a, (ix+3)
+    ld (ix+14), a
 _LABEL_5845_:
-	ld hl, _DATA_8BF3_
-	jp handleEntityAnimation
+    ld hl, _DATA_8BF3_
+    jp handleEntityAnimation
 
 +:
-	ld (ix+16), $00
-	ld (ix+15), $00
-	ld (ix+18), $00
-	ld (ix+17), $80
-	ld (ix+23), $00
-	ld (ix+24), $00
-	jr _LABEL_5845_
+    ld (ix+16), $00
+    ld (ix+15), $00
+    ld (ix+18), $00
+    ld (ix+17), $80
+    ld (ix+23), $00
+    ld (ix+24), $00
+    jr _LABEL_5845_
 
 _LABEL_5865_:
-	ld (ix+0), $32
-	ld (ix+18), $FF
-	ld (ix+17), $80
-	ld (ix+22), $00
-	ld (ix+23), $00
-	ld (ix+24), $FF
-	ld hl, _DATA_8BF3_
-	jp handleEntityAnimation
+    ld (ix+0), $32
+    ld (ix+18), $FF
+    ld (ix+17), $80
+    ld (ix+22), $00
+    ld (ix+23), $00
+    ld (ix+24), $FF
+    ld hl, _DATA_8BF3_
+    jp handleEntityAnimation
 
 ; 50th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_5883_:
-	call tryToKillAlexIfColliding
-	call _LABEL_7D0B_
-	jp nc, _LABEL_55A5_
-	ld a, (ix+24)
-	cp $FF
-	jr nz, +
-	inc (ix+23)
-	ld a, (ix+23)
-	cp $30
-	jr c, _LABEL_58D2_
-	inc (ix+22)
-	ld a, (ix+22)
-	cp $02
-	jr z, _LABEL_58F2_
-	ld (ix+24), $40
-	ld (ix+18), $00
-	ld (ix+17), $00
-	ld (ix+16), $00
-	ld (ix+15), $80
+    call tryToKillAlexIfColliding
+    call _LABEL_7D0B_
+    jp nc, _LABEL_55A5_
+    ld a, (ix+24)
+    cp $FF
+    jr nz, +
+    inc (ix+23)
+    ld a, (ix+23)
+    cp $30
+    jr c, _LABEL_58D2_
+    inc (ix+22)
+    ld a, (ix+22)
+    cp $02
+    jr z, _LABEL_58F2_
+    ld (ix+24), $40
+    ld (ix+18), $00
+    ld (ix+17), $00
+    ld (ix+16), $00
+    ld (ix+15), $80
 +:
-	dec (ix+24)
-	ld a, (ix+24)
-	or a
-	jr z, +
-	ld c, a
-	ld b, $00
-	ld hl, _DATA_524F_
-	add hl, bc
-	ld a, (hl)
-	add a, (ix+3)
-	ld (ix+14), a
+    dec (ix+24)
+    ld a, (ix+24)
+    or a
+    jr z, +
+    ld c, a
+    ld b, $00
+    ld hl, _DATA_524F_
+    add hl, bc
+    ld a, (hl)
+    add a, (ix+3)
+    ld (ix+14), a
 _LABEL_58D2_:
-	ld hl, _DATA_8BF3_
-	jp handleEntityAnimation
+    ld hl, _DATA_8BF3_
+    jp handleEntityAnimation
 
 +:
-	ld (ix+16), $00
-	ld (ix+15), $00
-	ld (ix+18), $FF
-	ld (ix+17), $80
-	ld (ix+23), $00
-	ld (ix+24), $FF
-	jr _LABEL_58D2_
+    ld (ix+16), $00
+    ld (ix+15), $00
+    ld (ix+18), $FF
+    ld (ix+17), $80
+    ld (ix+23), $00
+    ld (ix+24), $FF
+    jr _LABEL_58D2_
 
 _LABEL_58F2_:
-	ld (ix+0), $31
-	ld (ix+22), $00
-	ld (ix+23), $00
-	ld (ix+24), $00
-	ld hl, _DATA_8BF3_
-	jp handleEntityAnimation
+    ld (ix+0), $31
+    ld (ix+22), $00
+    ld (ix+23), $00
+    ld (ix+24), $00
+    ld hl, _DATA_8BF3_
+    jp handleEntityAnimation
 
 ; 56th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 .INCLUDE "entities/debrisTopLeft/updater.asm"
 
 ; 57th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_5996_:
-	bit 0, (ix+1)
-	jr nz, updateDebris
-	set 0, (ix+1)
-	ld a, (_RAM_C5CC_)
-	ld (ix+12), a
-	ld a, (_RAM_C5CE_)
-	add a, $08
-	ld (ix+14), a
-	ld (ix+16), $FF
-	ld (ix+15), $80
-	ld (ix+18), $FF
-	ld (ix+17), $80
-	ld (ix+5), $08
-	ld (ix+6), $08
-	jr updateDebris
+    bit 0, (ix+1)
+    jr nz, updateDebris
+    set 0, (ix+1)
+    ld a, (_RAM_C5CC_)
+    ld (ix+12), a
+    ld a, (_RAM_C5CE_)
+    add a, $08
+    ld (ix+14), a
+    ld (ix+16), $FF
+    ld (ix+15), $80
+    ld (ix+18), $FF
+    ld (ix+17), $80
+    ld (ix+5), $08
+    ld (ix+6), $08
+    jr updateDebris
 
 ; 58th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_59C8_:
-	bit 0, (ix+1)
-	jr nz, updateDebris
-	set 0, (ix+1)
-	ld a, (_RAM_C5CC_)
-	add a, $08
-	ld (ix+12), a
-	ld a, (_RAM_C5CE_)
-	ld (ix+14), a
-	ld (ix+16), $00
-	ld (ix+15), $80
-	ld (ix+18), $FF
-	ld (ix+17), $80
-	ld (ix+5), $08
-	ld (ix+6), $08
-	jp updateDebris
+    bit 0, (ix+1)
+    jr nz, updateDebris
+    set 0, (ix+1)
+    ld a, (_RAM_C5CC_)
+    add a, $08
+    ld (ix+12), a
+    ld a, (_RAM_C5CE_)
+    ld (ix+14), a
+    ld (ix+16), $00
+    ld (ix+15), $80
+    ld (ix+18), $FF
+    ld (ix+17), $80
+    ld (ix+5), $08
+    ld (ix+6), $08
+    jp updateDebris
 
 ; 59th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_59FB_:
-	bit 0, (ix+1)
-	jp nz, updateDebris
-	set 0, (ix+1)
-	ld a, (_RAM_C5CC_)
-	add a, $08
-	ld (ix+12), a
-	ld a, (_RAM_C5CE_)
-	add a, $08
-	ld (ix+14), a
-	ld (ix+16), $00
-	ld (ix+15), $80
-	ld (ix+18), $FF
-	ld (ix+17), $80
-	ld (ix+5), $08
-	ld (ix+6), $08
-	jp updateDebris
+    bit 0, (ix+1)
+    jp nz, updateDebris
+    set 0, (ix+1)
+    ld a, (_RAM_C5CC_)
+    add a, $08
+    ld (ix+12), a
+    ld a, (_RAM_C5CE_)
+    add a, $08
+    ld (ix+14), a
+    ld (ix+16), $00
+    ld (ix+15), $80
+    ld (ix+18), $FF
+    ld (ix+17), $80
+    ld (ix+5), $08
+    ld (ix+6), $08
+    jp updateDebris
 
 ; 60th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 .INC "entities/moneyBag/updater.asm"
 
 ; 77th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_5A96_:
-	bit 0, (ix+1)
-	jr nz, +
-	set 0, (ix+1)
-	ld (ix+23), $F0
-	ld (ix+7), <_DATA_8C0E_
-	ld (ix+8), >_DATA_8C0E_
-	ld (ix+15), $00
-	ld (ix+16), $00
-	ld (ix+17), $00
-	ld (ix+18), $00
-	ret
+    bit 0, (ix+1)
+    jr nz, +
+    set 0, (ix+1)
+    ld (ix+23), $F0
+    ld (ix+7), <_DATA_8C0E_
+    ld (ix+8), >_DATA_8C0E_
+    ld (ix+15), $00
+    ld (ix+16), $00
+    ld (ix+17), $00
+    ld (ix+18), $00
+    ret
 
 +:
-	ld a, (ix+9)
-	or (ix+10)
-	jp nz, clearCurrentEntity
-	ld iy, v_entity1
-	call checkEntityCollision
-	jr c, +
-	ld a, $8F
-	ld (v_soundControl), a
-	ld hl, v_lives
-	ld a, (hl)
-	add a, $01
-	daa
-	ld (hl), a
-	jp clearCurrentEntity
+    ld a, (ix+9)
+    or (ix+10)
+    jp nz, clearCurrentEntity
+    ld iy, v_entity1
+    call checkEntityCollision
+    jr c, +
+    ld a, $8F
+    ld (v_soundControl), a
+    ld hl, v_lives
+    ld a, (hl)
+    add a, $01
+    daa
+    ld (hl), a
+    jp clearCurrentEntity
 
 +:
-	dec (ix+23)
-	jp z, clearCurrentEntity
-	ret
+    dec (ix+23)
+    jp z, clearCurrentEntity
+    ret
 
 ; 78th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 .INC "entities/powerBracelet/updater.asm"
@@ -8487,230 +8487,230 @@ _LABEL_5A96_:
 .INC "entities/ghost/updater.asm"
 
 _LABEL_5B90_:
-	ld iy, _RAM_C640_
-	ld a, (iy+0)
-	or a
-	jr z, +
-	ld iy, _RAM_C660_
-	ld a, (iy+0)
-	or a
-	jr z, +
-	ld a, (_RAM_C657_)
-	cp (iy+23)
-	jr nc, +
-	ld iy, _RAM_C640_
+    ld iy, _RAM_C640_
+    ld a, (iy+0)
+    or a
+    jr z, +
+    ld iy, _RAM_C660_
+    ld a, (iy+0)
+    or a
+    jr z, +
+    ld a, (_RAM_C657_)
+    cp (iy+23)
+    jr nc, +
+    ld iy, _RAM_C640_
 +:
-	ld a, r
-	and $07
-	ld (iy+24), a
-	ld (iy+14), d
-	ld (iy+12), e
-	ld (iy+0), c
-	res 0, (iy+1)
-	ld a, (v_horizontalScroll)
-	ld (iy+11), a
-	ld a, (v_verticalScroll)
-	ld (iy+13), a
-	ret
+    ld a, r
+    and $07
+    ld (iy+24), a
+    ld (iy+14), d
+    ld (iy+12), e
+    ld (iy+0), c
+    res 0, (iy+1)
+    ld a, (v_horizontalScroll)
+    ld (iy+11), a
+    ld a, (v_verticalScroll)
+    ld (iy+13), a
+    ret
 
 ; 68th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_5BD1_:
-	bit 0, (ix+1)
-	jr nz, +
-	set 0, (ix+1)
-	ld (ix+7), <_DATA_8CC7_
-	ld (ix+8), >_DATA_8CC7_
-	ret
+    bit 0, (ix+1)
+    jr nz, +
+    set 0, (ix+1)
+    ld (ix+7), <_DATA_8CC7_
+    ld (ix+8), >_DATA_8CC7_
+    ret
 
 +:
-	ld a, (ix+9)
-	or (ix+10)
-	ret nz
-	ld iy, v_entity1
-	call checkEntityCollision
-	ret c
-	ld l, $0C
-	call addScore
-	call clearCurrentEntity
-	ld a, $04
-	ld (v_gameState), a
-	ret
+    ld a, (ix+9)
+    or (ix+10)
+    ret nz
+    ld iy, v_entity1
+    call checkEntityCollision
+    ret c
+    ld l, $0C
+    call addScore
+    call clearCurrentEntity
+    ld a, $04
+    ld (v_gameState), a
+    ret
 
 _LABEL_5C01_:
-	ex af, af'
-	ld a, $8C
-	ld (v_soundControl), a
-	ex af, af'
-	ld iy, _RAM_C5C0_
-	ld (iy+0), $38
-	ld (iy+24), a
-	cp $01
-	jr nz, +
-	ld a, $A3
-	ld (v_soundControl), a
+    ex af, af'
+    ld a, $8C
+    ld (v_soundControl), a
+    ex af, af'
+    ld iy, _RAM_C5C0_
+    ld (iy+0), $38
+    ld (iy+24), a
+    cp $01
+    jr nz, +
+    ld a, $A3
+    ld (v_soundControl), a
 +:
-	ld (iy+14), d
-	ld (iy+12), e
-	res 0, (iy+1)
-	ret
+    ld (iy+14), d
+    ld (iy+12), e
+    res 0, (iy+1)
+    ret
 
 ; Data from 5C27 to 5C35 (15 bytes)
 .db $FD $21 $40 $C6 $FD $36 $00 $44 $FD $72 $0E $FD $73 $0C $C9
 
 ; 70th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_5C36_:
-	bit 0, (ix+1)
-	jr nz, +
-	ld a, $01
-	ld (_RAM_C07F_), a
-	ld (ix+5), $01
-	ld (ix+6), $10
-	ld (ix+23), $00
-	ld a, (ix+9)
-	or (ix+10)
-	jr nz, _LABEL_5C96_
-	set 0, (ix+1)
-	ld (ix+2), $82
-	ld (ix+16), $FF
-	ld (ix+15), $80
+    bit 0, (ix+1)
+    jr nz, +
+    ld a, $01
+    ld (_RAM_C07F_), a
+    ld (ix+5), $01
+    ld (ix+6), $10
+    ld (ix+23), $00
+    ld a, (ix+9)
+    or (ix+10)
+    jr nz, _LABEL_5C96_
+    set 0, (ix+1)
+    ld (ix+2), $82
+    ld (ix+16), $FF
+    ld (ix+15), $80
 +:
-	ld a, (ix+12)
-	cp $18
-	jr c, +
-	call tryToKillAlexIfColliding
-	call _LABEL_7D0B_
-	jr c, _LABEL_5C96_
-	inc (ix+23)
-	ld a, (ix+23)
-	cp $08
-	jp nc, _LABEL_5D7B_
-	ld a, $8B
-	ld (v_soundControl), a
-	ld (ix+0), $47
-	res 0, (ix+1)
-	ld (ix+7), <_DATA_8458_
-	ld (ix+8), >_DATA_8458_
-	jr _LABEL_5CA0_
+    ld a, (ix+12)
+    cp $18
+    jr c, +
+    call tryToKillAlexIfColliding
+    call _LABEL_7D0B_
+    jr c, _LABEL_5C96_
+    inc (ix+23)
+    ld a, (ix+23)
+    cp $08
+    jp nc, _LABEL_5D7B_
+    ld a, $8B
+    ld (v_soundControl), a
+    ld (ix+0), $47
+    res 0, (ix+1)
+    ld (ix+7), <_DATA_8458_
+    ld (ix+8), >_DATA_8458_
+    jr _LABEL_5CA0_
 
 _LABEL_5C96_:
-	ld hl, _DATA_8453_
-	jp handleEntityAnimation
+    ld hl, _DATA_8453_
+    jp handleEntityAnimation
 
 +:
-	ld (ix+0), $48
+    ld (ix+0), $48
 _LABEL_5CA0_:
-	ld a, (ix+16)
-	cpl
-	ld (ix+16), a
-	ld a, (ix+15)
-	cpl
-	inc a
-	ld (ix+15), a
-	ret
+    ld a, (ix+16)
+    cpl
+    ld (ix+16), a
+    ld a, (ix+15)
+    cpl
+    inc a
+    ld (ix+15), a
+    ret
 
 ; 71st entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_5CB0_:
-	bit 0, (ix+1)
-	jr nz, +
-	set 0, (ix+1)
-	ld a, (ix+23)
-	add a, a
-	ld c, a
-	ld b, $00
-	ld hl, _DATA_5D7E_ - 2
-	add hl, bc
-	ld a, (hl)
-	ld (ix+24), a
-	inc hl
-	ld a, (hl)
-	ld (ix+22), a
-	ret
+    bit 0, (ix+1)
+    jr nz, +
+    set 0, (ix+1)
+    ld a, (ix+23)
+    add a, a
+    ld c, a
+    ld b, $00
+    ld hl, _DATA_5D7E_ - 2
+    add hl, bc
+    ld a, (hl)
+    ld (ix+24), a
+    inc hl
+    ld a, (hl)
+    ld (ix+22), a
+    ret
 
 +:
-	ld a, (ix+9)
-	or (ix+10)
-	jr nz, +
-	dec (ix+24)
-	ret nz
+    ld a, (ix+9)
+    or (ix+10)
+    jr nz, +
+    dec (ix+24)
+    ret nz
 +:
-	ld (ix+0), $46
-	call _LABEL_5CA0_
-	ld h, (ix+16)
-	ld l, (ix+15)
-	ld c, (ix+22)
-	ld b, $00
-	or a
-	sbc hl, bc
-	ld (ix+16), h
-	ld (ix+15), l
-	ret
+    ld (ix+0), $46
+    call _LABEL_5CA0_
+    ld h, (ix+16)
+    ld l, (ix+15)
+    ld c, (ix+22)
+    ld b, $00
+    or a
+    sbc hl, bc
+    ld (ix+16), h
+    ld (ix+15), l
+    ret
 
 ; 72nd entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_5CF7_:
-	ld a, (ix+12)
-	cp $D8
-	jr nc, ++
-	call tryToKillAlexIfColliding
-	call _LABEL_7D0B_
-	jr c, +
-	inc (ix+23)
-	ld a, (ix+23)
-	cp $08
-	jp nc, _LABEL_5D7B_
-	ld a, $8B
-	ld (v_soundControl), a
-	ld (ix+0), $49
-	res 0, (ix+1)
-	ld (ix+7), <_DATA_840A_
-	ld (ix+8), >_DATA_840A_
-	jp _LABEL_5CA0_
+    ld a, (ix+12)
+    cp $D8
+    jr nc, ++
+    call tryToKillAlexIfColliding
+    call _LABEL_7D0B_
+    jr c, +
+    inc (ix+23)
+    ld a, (ix+23)
+    cp $08
+    jp nc, _LABEL_5D7B_
+    ld a, $8B
+    ld (v_soundControl), a
+    ld (ix+0), $49
+    res 0, (ix+1)
+    ld (ix+7), <_DATA_840A_
+    ld (ix+8), >_DATA_840A_
+    jp _LABEL_5CA0_
 
 +:
-	ld hl, _DATA_8405_
-	jp handleEntityAnimation
+    ld hl, _DATA_8405_
+    jp handleEntityAnimation
 
 ++:
-	ld (ix+0), $46
-	jp _LABEL_5CA0_
+    ld (ix+0), $46
+    jp _LABEL_5CA0_
 
 ; 73rd entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_5D36_:
-	bit 0, (ix+1)
-	jr nz, +
-	set 0, (ix+1)
-	ld a, (ix+23)
-	add a, a
-	ld c, a
-	ld b, $00
-	ld hl, _DATA_5D7E_ - 2
-	add hl, bc
-	ld a, (hl)
-	ld (ix+24), a
-	inc hl
-	ld a, (hl)
-	ld (ix+22), a
-	ret
+    bit 0, (ix+1)
+    jr nz, +
+    set 0, (ix+1)
+    ld a, (ix+23)
+    add a, a
+    ld c, a
+    ld b, $00
+    ld hl, _DATA_5D7E_ - 2
+    add hl, bc
+    ld a, (hl)
+    ld (ix+24), a
+    inc hl
+    ld a, (hl)
+    ld (ix+22), a
+    ret
 
 +:
-	ld a, (ix+9)
-	or (ix+10)
-	jr nz, +
-	dec (ix+24)
-	ret nz
+    ld a, (ix+9)
+    or (ix+10)
+    jr nz, +
+    dec (ix+24)
+    ret nz
 +:
-	ld (ix+0), $48
-	call _LABEL_5CA0_
-	ld h, (ix+16)
-	ld l, (ix+15)
-	ld c, (ix+22)
-	ld b, $00
-	add hl, bc
-	ld (ix+16), h
-	ld (ix+15), l
-	ret
+    ld (ix+0), $48
+    call _LABEL_5CA0_
+    ld h, (ix+16)
+    ld l, (ix+15)
+    ld c, (ix+22)
+    ld b, $00
+    add hl, bc
+    ld (ix+16), h
+    ld (ix+15), l
+    ret
 
 _LABEL_5D7B_:
-	jp _LABEL_555C_
+    jp _LABEL_555C_
 
 ; Data from 5D7E to 5D8B (14 bytes)
 _DATA_5D7E_:
@@ -8722,743 +8722,743 @@ _DATA_5D8C_:
 
 ; 61st entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_5D94_:
-	bit 0, (ix+1)
-	jr nz, +
-	set 0, (ix+1)
-	ld (ix+5), $10
-	ld (ix+6), $10
-	ld a, (ix+12)
-	ld (ix+31), a
-	ld a, (ix+14)
-	ld (ix+30), a
-	ld (ix+29), $20
-	ld (ix+27), $00
-	ld (ix+28), $00
-	ld a, (ix+9)
-	ld (ix+26), a
-	ld a, (ix+10)
-	ld (ix+25), a
-	jr _LABEL_5E0E_
+    bit 0, (ix+1)
+    jr nz, +
+    set 0, (ix+1)
+    ld (ix+5), $10
+    ld (ix+6), $10
+    ld a, (ix+12)
+    ld (ix+31), a
+    ld a, (ix+14)
+    ld (ix+30), a
+    ld (ix+29), $20
+    ld (ix+27), $00
+    ld (ix+28), $00
+    ld a, (ix+9)
+    ld (ix+26), a
+    ld a, (ix+10)
+    ld (ix+25), a
+    jr _LABEL_5E0E_
 
 +:
-	ld a, (ix+9)
-	or (ix+10)
-	jr nz, +
-	call tryToKillAlexIfColliding
+    ld a, (ix+9)
+    or (ix+10)
+    jr nz, +
+    call tryToKillAlexIfColliding
 +:
-	ld hl, (v_horizontalScrollSpeed)
-	ld a, h
-	or l
-	jr z, +
-	ld d, (ix+31)
-	ld e, (ix+3)
-	add hl, de
-	ld (ix+31), h
-	ld (ix+3), l
-	jr c, +
-	inc (ix+26)
+    ld hl, (v_horizontalScrollSpeed)
+    ld a, h
+    or l
+    jr z, +
+    ld d, (ix+31)
+    ld e, (ix+3)
+    add hl, de
+    ld (ix+31), h
+    ld (ix+3), l
+    jr c, +
+    inc (ix+26)
 +:
-	ld bc, $0002
-	ld l, (ix+27)
-	ld h, (ix+28)
-	add hl, bc
-	ld (ix+27), l
-	ld (ix+28), h
-	call _LABEL_4CE_
-	ld a, (ix+9)
-	cp $01
-	jr nz, _LABEL_5E0E_
-	set 1, (ix+1)
+    ld bc, $0002
+    ld l, (ix+27)
+    ld h, (ix+28)
+    add hl, bc
+    ld (ix+27), l
+    ld (ix+28), h
+    call _LABEL_4CE_
+    ld a, (ix+9)
+    cp $01
+    jr nz, _LABEL_5E0E_
+    set 1, (ix+1)
 _LABEL_5E0E_:
-	ld hl, _DATA_85A6_
-	jp handleEntityAnimation
+    ld hl, _DATA_85A6_
+    jp handleEntityAnimation
 
 ; 62nd entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_5E14_:
-	bit 0, (ix+1)
-	jr nz, +
-	ld a, (ix+9)
-	or (ix+10)
-	jr nz, _LABEL_5E60_
-	set 0, (ix+1)
-	set 1, (ix+1)
-	ld (ix+5), $10
-	ld (ix+6), $10
-	ld (ix+15), $80
-	ld (ix+16), $FF
-	jr _LABEL_5E60_
+    bit 0, (ix+1)
+    jr nz, +
+    ld a, (ix+9)
+    or (ix+10)
+    jr nz, _LABEL_5E60_
+    set 0, (ix+1)
+    set 1, (ix+1)
+    ld (ix+5), $10
+    ld (ix+6), $10
+    ld (ix+15), $80
+    ld (ix+16), $FF
+    jr _LABEL_5E60_
 
 +:
-	call tryToKillAlexIfColliding
-	ld a, (ix+3)
-	or a
-	jr nz, +
-	call _LABEL_7D0B_
-	jp nc, _LABEL_55A5_
+    call tryToKillAlexIfColliding
+    ld a, (ix+3)
+    or a
+    jr nz, +
+    call _LABEL_7D0B_
+    jp nc, _LABEL_55A5_
 +:
-	ld de, $0900
-	call getTileNearEntityWithXYOffset
-	rlca
-	jr nc, +
+    ld de, $0900
+    call getTileNearEntityWithXYOffset
+    rlca
+    jr nc, +
 -:
-	ld (ix+0), $3F
-	ld (ix+15), $80
-	ld (ix+16), $00
+    ld (ix+0), $3F
+    ld (ix+15), $80
+    ld (ix+16), $00
 _LABEL_5E60_:
-	ld hl, _DATA_85A6_
-	ld a, (ix+3)
-	or a
-	jp nz, handleEntityAnimation
-	ld hl, _DATA_826B_
-	jp handleEntityAnimation
+    ld hl, _DATA_85A6_
+    ld a, (ix+3)
+    or a
+    jp nz, handleEntityAnimation
+    ld hl, _DATA_826B_
+    jp handleEntityAnimation
 
 +:
-	ld d, $08
-	call _LABEL_7CA3_
-	ld a, (hl)
-	rlca
-	jr c, _LABEL_5E60_
-	jr -
+    ld d, $08
+    call _LABEL_7CA3_
+    ld a, (hl)
+    rlca
+    jr c, _LABEL_5E60_
+    jr -
 
 ; 63rd entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_5E7B_:
-	call tryToKillAlexIfColliding
-	ld a, (ix+3)
-	or a
-	jr nz, +
-	call _LABEL_7D0B_
-	jp nc, _LABEL_55A5_
+    call tryToKillAlexIfColliding
+    ld a, (ix+3)
+    or a
+    jr nz, +
+    call _LABEL_7D0B_
+    jp nc, _LABEL_55A5_
 +:
-	ld de, $0910
-	call getTileNearEntityWithXYOffset
-	rlca
-	jr nc, +
+    ld de, $0910
+    call getTileNearEntityWithXYOffset
+    rlca
+    jr nc, +
 --:
-	ld (ix+0), $3E
-	ld (ix+15), $80
-	ld (ix+16), $FF
+    ld (ix+0), $3E
+    ld (ix+15), $80
+    ld (ix+16), $FF
 -:
-	ld hl, _DATA_85A6_
-	ld a, (ix+3)
-	or a
-	jp nz, handleEntityAnimation
-	ld hl, _DATA_8286_
-	jp handleEntityAnimation
+    ld hl, _DATA_85A6_
+    ld a, (ix+3)
+    or a
+    jp nz, handleEntityAnimation
+    ld hl, _DATA_8286_
+    jp handleEntityAnimation
 
 +:
-	ld d, $08
-	call _LABEL_7CA3_
-	ld a, (hl)
-	rlca
-	jr c, -
-	jr --
+    ld d, $08
+    call _LABEL_7CA3_
+    ld a, (hl)
+    rlca
+    jr c, -
+    jr --
 
 ; 64th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_5EBA_:
-	bit 0, (ix+1)
-	jr nz, +
-	ld (ix+7), <_DATA_85D5_
-	ld (ix+8), >_DATA_85D5_
-	ld a, (ix+9)
-	or (ix+10)
-	ret nz
-	set 0, (ix+1)
-	set 1, (ix+1)
-	ld (ix+24), $00
-	ld (ix+16), $FF
-	ld (ix+15), $00
-	ld (ix+5), $01
-	ld (ix+6), $01
-	ld (ix+4), $00
-	ret
+    bit 0, (ix+1)
+    jr nz, +
+    ld (ix+7), <_DATA_85D5_
+    ld (ix+8), >_DATA_85D5_
+    ld a, (ix+9)
+    or (ix+10)
+    ret nz
+    set 0, (ix+1)
+    set 1, (ix+1)
+    ld (ix+24), $00
+    ld (ix+16), $FF
+    ld (ix+15), $00
+    ld (ix+5), $01
+    ld (ix+6), $01
+    ld (ix+4), $00
+    ret
 
 +:
-	call tryToKillAlexIfColliding
-	inc (ix+24)
-	ld a, (ix+24)
-	cp $10
-	ret c
-	ld (ix+0), $41
-	ld (ix+24), $00
-	ret
+    call tryToKillAlexIfColliding
+    inc (ix+24)
+    ld a, (ix+24)
+    cp $10
+    ret c
+    ld (ix+0), $41
+    ld (ix+24), $00
+    ret
 
 ; 65th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_5F05_:
-	call tryToKillAlexIfColliding
-	ld h, (ix+16)
-	ld l, (ix+15)
-	ld de, $0008
-	add hl, de
-	ld (ix+16), h
-	ld (ix+15), l
-	ld a, h
-	cp $FF
-	ret z
-	ld a, (ix+24)
-	or a
-	jr nz, +
-	ld (ix+24), $01
-	ld a, $9E
-	ld (v_soundControl), a
+    call tryToKillAlexIfColliding
+    ld h, (ix+16)
+    ld l, (ix+15)
+    ld de, $0008
+    add hl, de
+    ld (ix+16), h
+    ld (ix+15), l
+    ld a, h
+    cp $FF
+    ret z
+    ld a, (ix+24)
+    or a
+    jr nz, +
+    ld (ix+24), $01
+    ld a, $9E
+    ld (v_soundControl), a
 +:
-	ld a, (ix+4)
-	cp $13
-	jr nz, +
-	ld a, (ix+5)
-	cp $01
-	jr nz, +
-	ld (ix+0), $40
-	res 0, (ix+1)
-	ld (ix+24), $00
-	ret
+    ld a, (ix+4)
+    cp $13
+    jr nz, +
+    ld a, (ix+5)
+    cp $01
+    jr nz, +
+    ld (ix+0), $40
+    res 0, (ix+1)
+    ld (ix+24), $00
+    ret
 
 +:
-	ld hl, _DATA_85E9_
-	jp handleEntityAnimation
+    ld hl, _DATA_85E9_
+    jp handleEntityAnimation
 
 ; 66th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_5F4C_:
-	bit 0, (ix+1)
-	jr nz, +
-	ld (ix+7), <_DATA_82BD_
-	ld (ix+8), >_DATA_82BD_
-	ld a, (ix+9)
-	or (ix+10)
-	ret nz
-	set 0, (ix+1)
-	set 1, (ix+1)
-	ld (ix+16), $FF
-	ld (ix+15), $80
-	ld (ix+18), $FF
-	ld (ix+17), $00
-	ld (ix+24), $02
-	ld a, r
-	and $07
-	cp $04
-	ret c
-	ld (ix+24), $04
-	ret
+    bit 0, (ix+1)
+    jr nz, +
+    ld (ix+7), <_DATA_82BD_
+    ld (ix+8), >_DATA_82BD_
+    ld a, (ix+9)
+    or (ix+10)
+    ret nz
+    set 0, (ix+1)
+    set 1, (ix+1)
+    ld (ix+16), $FF
+    ld (ix+15), $80
+    ld (ix+18), $FF
+    ld (ix+17), $00
+    ld (ix+24), $02
+    ld a, r
+    and $07
+    cp $04
+    ret c
+    ld (ix+24), $04
+    ret
 
 +:
-	call tryToKillAlexIfColliding
-	call _LABEL_7D0B_
-	jp nc, _LABEL_55A5_
-	ld h, (ix+18)
-	ld l, (ix+17)
-	ld d, $00
-	ld e, (ix+24)
-	add hl, de
-	ld (ix+18), h
-	ld (ix+17), l
-	ld a, h
-	bit 7, a
-	ret nz
-	ld (ix+7), <_DATA_82CB_
-	ld (ix+8), >_DATA_82CB_
-	ret
+    call tryToKillAlexIfColliding
+    call _LABEL_7D0B_
+    jp nc, _LABEL_55A5_
+    ld h, (ix+18)
+    ld l, (ix+17)
+    ld d, $00
+    ld e, (ix+24)
+    add hl, de
+    ld (ix+18), h
+    ld (ix+17), l
+    ld a, h
+    bit 7, a
+    ret nz
+    ld (ix+7), <_DATA_82CB_
+    ld (ix+8), >_DATA_82CB_
+    ret
 
 ; 81st entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_5FB1_:
-	bit 0, (ix+1)
-	jp nz, _LABEL_603E_
-	ld a, (_RAM_D800_)
-	or a
-	jp nz, clearCurrentEntity
-	bit 1, (ix+1)
-	jr nz, ++
-	ld (ix+7), <_DATA_830B_
-	ld (ix+8), >_DATA_830B_
-	ld a, (ix+3)
-	or a
-	jr nz, +
-	ld (ix+7), <_DATA_815C_
-	ld (ix+8), >_DATA_815C_
+    bit 0, (ix+1)
+    jp nz, _LABEL_603E_
+    ld a, (_RAM_D800_)
+    or a
+    jp nz, clearCurrentEntity
+    bit 1, (ix+1)
+    jr nz, ++
+    ld (ix+7), <_DATA_830B_
+    ld (ix+8), >_DATA_830B_
+    ld a, (ix+3)
+    or a
+    jr nz, +
+    ld (ix+7), <_DATA_815C_
+    ld (ix+8), >_DATA_815C_
 +:
-	ld a, (ix+9)
-	or (ix+10)
-	ret nz
-	set 1, (ix+1)
-	ld (ix+24), $40
+    ld a, (ix+9)
+    or (ix+10)
+    ret nz
+    set 1, (ix+1)
+    ld (ix+24), $40
 ++:
-	ld a, (ix+3)
-	or a
-	jr z, _LABEL_6054_
-	ld a, (_RAM_C07F_)
-	cp $02
-	ret nz
-	bit 0, (ix+1)
-	jr nz, _LABEL_603E_
-	dec (ix+24)
-	jr nz, _LABEL_603E_
+    ld a, (ix+3)
+    or a
+    jr z, _LABEL_6054_
+    ld a, (_RAM_C07F_)
+    cp $02
+    ret nz
+    bit 0, (ix+1)
+    jr nz, _LABEL_603E_
+    dec (ix+24)
+    jr nz, _LABEL_603E_
 _LABEL_6001_:
-	set 0, (ix+1)
-	ld l, $0C
-	call addScore
-	xor a
-	ld (_RAM_C07F_), a
-	ld hl, _RAM_D800_
-	set 0, (hl)
-	ld a, (ix+3)
-	or a
-	jr nz, +
-	ld a, $14
-	ld hl, _DATA_812F_
-	ld iy, _RAM_C5C0_
-	ld (iy+0), $44
-	ld (iy+12), $80
-	ld (iy+14), $80
-	jp _LABEL_60D4_
+    set 0, (ix+1)
+    ld l, $0C
+    call addScore
+    xor a
+    ld (_RAM_C07F_), a
+    ld hl, _RAM_D800_
+    set 0, (hl)
+    ld a, (ix+3)
+    or a
+    jr nz, +
+    ld a, $14
+    ld hl, _DATA_812F_
+    ld iy, _RAM_C5C0_
+    ld (iy+0), $44
+    ld (iy+12), $80
+    ld (iy+14), $80
+    jp _LABEL_60D4_
 
 +:
-	ld hl, _RAM_D802_
-	res 0, (hl)
-	ld a, $0F
-	ld hl, _DATA_8306_
-	jp _LABEL_60D4_
+    ld hl, _RAM_D802_
+    res 0, (hl)
+    ld a, $0F
+    ld hl, _DATA_8306_
+    jp _LABEL_60D4_
 
 _LABEL_603E_:
-	ld (ix+7), <_DATA_8331_
-	ld (ix+8), >_DATA_8331_
-	ld a, (ix+3)
-	or a
-	ret nz
-	ld (ix+7), <_DATA_8134_
-	ld (ix+8), >_DATA_8134_
-	ret
+    ld (ix+7), <_DATA_8331_
+    ld (ix+8), >_DATA_8331_
+    ld a, (ix+3)
+    or a
+    ret nz
+    ld (ix+7), <_DATA_8134_
+    ld (ix+8), >_DATA_8134_
+    ret
 
 _LABEL_6054_:
-	ld a, (v_scrollFlags)
-	and $7F
-	or a
-	ret nz
-	ld a, (v_entities.1.state)
-	cp ALEX_WALKING
-	ret nz
-	ld a, $80
-	ld (_RAM_C202_), a
-	ld hl, _RAM_CE84_
-	ld (_RAM_C204_), hl
-	ld a, $85
-	ld (Mapper_Slot2), a
-	ld hl, _DATA_14B5D_
-	ld (_RAM_C206_), hl
-	ld a, $82
-	ld (Mapper_Slot2), a
-	jr _LABEL_6001_
+    ld a, (v_scrollFlags)
+    and $7F
+    or a
+    ret nz
+    ld a, (v_entities.1.state)
+    cp ALEX_WALKING
+    ret nz
+    ld a, $80
+    ld (_RAM_C202_), a
+    ld hl, _RAM_CE84_
+    ld (_RAM_C204_), hl
+    ld a, $85
+    ld (Mapper_Slot2), a
+    ld hl, _DATA_14B5D_
+    ld (_RAM_C206_), hl
+    ld a, $82
+    ld (Mapper_Slot2), a
+    jr _LABEL_6001_
 
 ; 80th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_607E_:
-	ld (ix+7), <_DATA_802F_
-	ld (ix+8), >_DATA_802F_
-	ld a, (_RAM_C07F_)
-	or a
-	ret nz
-	bit 0, (ix+1)
-	jr nz, +
-	ld (ix+14), $88
-	ld iy, _RAM_C3A0_
-	ld (iy+0), $44
-	ld (iy+12), $98
-	ld (iy+14), $60
-	ld a, $0E
-	ld hl, _DATA_802A_
-	jp _LABEL_60D4_
+    ld (ix+7), <_DATA_802F_
+    ld (ix+8), >_DATA_802F_
+    ld a, (_RAM_C07F_)
+    or a
+    ret nz
+    bit 0, (ix+1)
+    jr nz, +
+    ld (ix+14), $88
+    ld iy, _RAM_C3A0_
+    ld (iy+0), $44
+    ld (iy+12), $98
+    ld (iy+14), $60
+    ld a, $0E
+    ld hl, _DATA_802A_
+    jp _LABEL_60D4_
 
 +:
-	bit 1, (ix+1)
-	ret nz
-	set 1, (ix+1)
-	ld a, $A3
-	ld (v_soundControl), a
-	ret
+    bit 1, (ix+1)
+    ret nz
+    set 1, (ix+1)
+    ld a, $A3
+    ld (v_soundControl), a
+    ret
 
 ; 69th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_60BC_:
-	ld (ix+7), <_DATA_82DE_
-	ld (ix+8), >_DATA_82DE_
-	bit 0, (ix+1)
-	jr nz, +
-	ld a, (v_scrollFlags)
-	or a
-	ret nz
-	ld a, $0D
-	ld hl, _DATA_82D9_
+    ld (ix+7), <_DATA_82DE_
+    ld (ix+8), >_DATA_82DE_
+    bit 0, (ix+1)
+    jr nz, +
+    ld a, (v_scrollFlags)
+    or a
+    ret nz
+    ld a, $0D
+    ld hl, _DATA_82D9_
 _LABEL_60D4_:
-	set 0, (ix+1)
-	ld (v_messageToShowInTheTextBoxIndex), a
-	ld a, $01
-	ld (v_shouldShowNuraiOrOldMan), a
-	ld a, $07
-	ld (v_gameState), a
-	ld (v_nuraiOrOldManEntityAnimationDescriptorTemporaryPointer), hl
-	push ix
-	pop hl
-	ld (v_nuraiOrOldManEntityTemporaryPointer), hl
-	ret
+    set 0, (ix+1)
+    ld (v_messageToShowInTheTextBoxIndex), a
+    ld a, $01
+    ld (v_shouldShowNuraiOrOldMan), a
+    ld a, $07
+    ld (v_gameState), a
+    ld (v_nuraiOrOldManEntityAnimationDescriptorTemporaryPointer), hl
+    push ix
+    pop hl
+    ld (v_nuraiOrOldManEntityTemporaryPointer), hl
+    ret
 
 +:
-	bit 1, (ix+1)
-	ret nz
-	set 1, (ix+1)
-	ld iy, _RAM_C640_
-	ld (iy+0), $52
-	ld (iy+12), $72
-	ld (iy+14), $70
-	ld (iy+3), $08
-	ret
+    bit 1, (ix+1)
+    ret nz
+    set 1, (ix+1)
+    ld iy, _RAM_C640_
+    ld (iy+0), $52
+    ld (iy+12), $72
+    ld (iy+14), $70
+    ld (iy+3), $08
+    ret
 
 ; 82nd entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_610D_:
-	bit 0, (ix+1)
-	jr nz, +
-	set 0, (ix+1)
-	ld a, (ix+3)
-	ld hl, _DATA_644A_
-	rst $10	; _LABEL_10_
-	ld a, (hl)
-	or a
-	jp nz, clearCurrentEntity
-	ld a, (ix+3)
-	ld hl, _DATA_6422_
-	rst $10	; _LABEL_10_
-	ld (ix+7), l
-	ld (ix+8), h
-	ret
+    bit 0, (ix+1)
+    jr nz, +
+    set 0, (ix+1)
+    ld a, (ix+3)
+    ld hl, _DATA_644A_
+    rst $10    ; _LABEL_10_
+    ld a, (hl)
+    or a
+    jp nz, clearCurrentEntity
+    ld a, (ix+3)
+    ld hl, _DATA_6422_
+    rst $10    ; _LABEL_10_
+    ld (ix+7), l
+    ld (ix+8), h
+    ret
 
 +:
-	ld a, (ix+9)
-	or (ix+10)
-	ret nz
-	set 1, (ix+1)
-	ld iy, v_entity1
-	call checkEntityCollision
-	ret c
-	ld a, $8F
-	ld (v_soundControl), a
-	ld a, (ix+3)
-	ld hl, _DATA_644A_
-	rst $10	; _LABEL_10_
-	set 0, (hl)
-	ld a, (ix+3)
-	or a
-	jr z, ++
-	cp $05
-	jr z, +
-	ld hl, _DATA_6436_
-	rst $10	; _LABEL_10_
-	set 0, (hl)
-	jp clearCurrentEntity
+    ld a, (ix+9)
+    or (ix+10)
+    ret nz
+    set 1, (ix+1)
+    ld iy, v_entity1
+    call checkEntityCollision
+    ret c
+    ld a, $8F
+    ld (v_soundControl), a
+    ld a, (ix+3)
+    ld hl, _DATA_644A_
+    rst $10    ; _LABEL_10_
+    set 0, (hl)
+    ld a, (ix+3)
+    or a
+    jr z, ++
+    cp $05
+    jr z, +
+    ld hl, _DATA_6436_
+    rst $10    ; _LABEL_10_
+    set 0, (hl)
+    jp clearCurrentEntity
 
 +:
-	ld hl, v_lives
-	ld a, (hl)
-	add a, $01
-	daa
-	ld (hl), a
-	jp clearCurrentEntity
+    ld hl, v_lives
+    ld a, (hl)
+    add a, $01
+    daa
+    ld (hl), a
+    jp clearCurrentEntity
 
 ++:
-	ld a, $08
-	ld (v_gameState), a
-	ret
+    ld a, $08
+    ld (v_gameState), a
+    ret
 
 ; 83rd entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_6176_:
-	bit 0, (ix+1)
-	jr nz, +
-	ld (ix+7), <_DATA_80E1_
-	ld (ix+8), >_DATA_80E1_
-	ld a, (v_scrollFlags)
-	or a
-	ret nz
-	set 0, (ix+1)
-	ld a, $07
-	ld (v_gameState), a
-	ld a, $11
-	ld (v_messageToShowInTheTextBoxIndex), a
-	ld a, (v_hasLetterToNibana)
-	or a
-	ret z
-	ld a, $10
-	ld (v_messageToShowInTheTextBoxIndex), a
-	ret
+    bit 0, (ix+1)
+    jr nz, +
+    ld (ix+7), <_DATA_80E1_
+    ld (ix+8), >_DATA_80E1_
+    ld a, (v_scrollFlags)
+    or a
+    ret nz
+    set 0, (ix+1)
+    ld a, $07
+    ld (v_gameState), a
+    ld a, $11
+    ld (v_messageToShowInTheTextBoxIndex), a
+    ld a, (v_hasLetterToNibana)
+    or a
+    ret z
+    ld a, $10
+    ld (v_messageToShowInTheTextBoxIndex), a
+    ret
 
 +:
-	bit 1, (ix+1)
-	ret nz
-	set 1, (ix+1)
-	ld iy, _RAM_C640_
-	ld b, $4F
-	ld de, $30D8
-	ld a, (v_hasLetterToNibana)
-	or a
-	jr z, +
-	ld b, $52
-	ld de, $8858
-	ld (iy+3), $03
+    bit 1, (ix+1)
+    ret nz
+    set 1, (ix+1)
+    ld iy, _RAM_C640_
+    ld b, $4F
+    ld de, $30D8
+    ld a, (v_hasLetterToNibana)
+    or a
+    jr z, +
+    ld b, $52
+    ld de, $8858
+    ld (iy+3), $03
 +:
-	ld (iy+0), b
-	ld (iy+12), e
-	ld (iy+14), d
-	ret
+    ld (iy+0), b
+    ld (iy+12), e
+    ld (iy+14), d
+    ret
 
 ; 75th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_61CD_:
-	bit 0, (ix+1)
-	jr nz, +
-	ld (ix+7), <_DATA_80E1_
-	ld (ix+8), >_DATA_80E1_
-	ld a, (ix+9)
-	or (ix+10)
-	ret nz
-	set 0, (ix+1)
-	set 1, (ix+1)
-	ld (ix+24), $00
-	ld (ix+22), $00
-	xor a
-	ld (_RAM_C07F_), a
-	ld hl, $D8A0
-	inc hl
-	ld (v_shopEntranceDoorNametablePointer), hl
+    bit 0, (ix+1)
+    jr nz, +
+    ld (ix+7), <_DATA_80E1_
+    ld (ix+8), >_DATA_80E1_
+    ld a, (ix+9)
+    or (ix+10)
+    ret nz
+    set 0, (ix+1)
+    set 1, (ix+1)
+    ld (ix+24), $00
+    ld (ix+22), $00
+    xor a
+    ld (_RAM_C07F_), a
+    ld hl, $D8A0
+    inc hl
+    ld (v_shopEntranceDoorNametablePointer), hl
 +:
-	ld a, (ix+3)
-	cp $01
-	jr z, _LABEL_6275_
-	ld a, (ix+24)
-	or a
-	jr nz, ++++
-	ld a, (ix+3)
-	cp $02
-	jr z, +
-	call _LABEL_7D0B_
-	jr ++
+    ld a, (ix+3)
+    cp $01
+    jr z, _LABEL_6275_
+    ld a, (ix+24)
+    or a
+    jr nz, ++++
+    ld a, (ix+3)
+    cp $02
+    jr z, +
+    call _LABEL_7D0B_
+    jr ++
 
 +:
-	ld iy, v_entity1
-	call checkEntityCollision
-	ret c
-	jr +++
+    ld iy, v_entity1
+    call checkEntityCollision
+    ret c
+    jr +++
 
 ++:
-	ret c
-	ld a, (v_entities.1.unknown8)
-	bit 3, a
-	ret z
+    ret c
+    ld a, (v_entities.1.unknown8)
+    bit 3, a
+    ret z
 +++:
-	ld (ix+24), $01
+    ld (ix+24), $01
 ++++:
-	ld a, (_RAM_C202_)
-	or a
-	ret nz
-	ld a, (v_entities.1.unknown8)
-	res 3, a
-	ld (v_entities.1.unknown8), a
-	ld (ix+24), $00
-	inc (ix+22)
-	ld a, (_RAM_D8A0_)
-	cp (ix+22)
-	jp c, clearCurrentEntity
-	ld a, $80
-	ld (_RAM_C202_), a
-	ld hl, (v_shopEntranceDoorNametablePointer)
-	ld de, _RAM_C204_
-	ldi
-	ldi
-	ld c, (hl)
-	ld b, $00
-	inc hl
-	ld (v_shopEntranceDoorNametablePointer), hl
-	ld a, $85
-	ld (Mapper_Slot2), a
-	ld hl, (_RAM_C087_)
-	add hl, bc
-	add hl, bc
-	ld a, (hl)
-	inc hl
-	ld h, (hl)
-	ld l, a
-	ld (_RAM_C206_), hl
-	ld a, $82
-	ld (Mapper_Slot2), a
-	ret
+    ld a, (_RAM_C202_)
+    or a
+    ret nz
+    ld a, (v_entities.1.unknown8)
+    res 3, a
+    ld (v_entities.1.unknown8), a
+    ld (ix+24), $00
+    inc (ix+22)
+    ld a, (_RAM_D8A0_)
+    cp (ix+22)
+    jp c, clearCurrentEntity
+    ld a, $80
+    ld (_RAM_C202_), a
+    ld hl, (v_shopEntranceDoorNametablePointer)
+    ld de, _RAM_C204_
+    ldi
+    ldi
+    ld c, (hl)
+    ld b, $00
+    inc hl
+    ld (v_shopEntranceDoorNametablePointer), hl
+    ld a, $85
+    ld (Mapper_Slot2), a
+    ld hl, (_RAM_C087_)
+    add hl, bc
+    add hl, bc
+    ld a, (hl)
+    inc hl
+    ld h, (hl)
+    ld l, a
+    ld (_RAM_C206_), hl
+    ld a, $82
+    ld (Mapper_Slot2), a
+    ret
 
 _LABEL_6275_:
-	call _LABEL_7D0B_
-	ret c
-	ld hl, _RAM_C07F_
-	inc (hl)
-	jp clearCurrentEntity
+    call _LABEL_7D0B_
+    ret c
+    ld hl, _RAM_C07F_
+    inc (hl)
+    jp clearCurrentEntity
 
 ; 76th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_6280_:
-	bit 0, (ix+1)
-	jr nz, +
-	set 0, (ix+1)
-	ld (ix+7), <_DATA_80E1_
-	ld (ix+8), >_DATA_80E1_
-	ld a, (ix+3)
-	ld (_RAM_C07F_), a
+    bit 0, (ix+1)
+    jr nz, +
+    set 0, (ix+1)
+    ld (ix+7), <_DATA_80E1_
+    ld (ix+8), >_DATA_80E1_
+    ld a, (ix+3)
+    ld (_RAM_C07F_), a
 +:
-	ld a, (ix+9)
-	or (ix+10)
-	ret nz
-	ld iy, v_entity1
-	call checkEntityCollision
-	ret c
-	ld a, $08
-	ld (v_gameState), a
-	jp clearCurrentEntity
+    ld a, (ix+9)
+    or (ix+10)
+    ret nz
+    ld iy, v_entity1
+    call checkEntityCollision
+    ret c
+    ld a, $08
+    ld (v_gameState), a
+    jp clearCurrentEntity
 
 ; 84th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_62AF_:
-	bit 0, (ix+1)
-	jr nz, _LABEL_62F5_
-	ld (ix+5), $08
-	ld (ix+6), $08
-	ld a, (ix+9)
-	or (ix+10)
-	jr nz, _LABEL_6341_
-	set 0, (ix+1)
-	set 1, (ix+1)
-	ld (ix+23), $00
-	ld (ix+22), $30
-	ld (ix+24), $0E
-	ld (ix+15), $60
-	ld (ix+16), $00
-	ld a, (v_entities.1.xPos.high)
-	cp (ix+12)
-	jr nc, _LABEL_62F5_
-	ld (ix+24), $02
-	ld (ix+15), $A0
-	ld (ix+16), $FF
+    bit 0, (ix+1)
+    jr nz, _LABEL_62F5_
+    ld (ix+5), $08
+    ld (ix+6), $08
+    ld a, (ix+9)
+    or (ix+10)
+    jr nz, _LABEL_6341_
+    set 0, (ix+1)
+    set 1, (ix+1)
+    ld (ix+23), $00
+    ld (ix+22), $30
+    ld (ix+24), $0E
+    ld (ix+15), $60
+    ld (ix+16), $00
+    ld a, (v_entities.1.xPos.high)
+    cp (ix+12)
+    jr nc, _LABEL_62F5_
+    ld (ix+24), $02
+    ld (ix+15), $A0
+    ld (ix+16), $FF
 _LABEL_62F5_:
-	call tryToKillAlexIfColliding
-	call _LABEL_7D0B_
-	jp nc, _LABEL_55A5_
-	ld d, $01
-	ld e, (ix+24)
-	ld a, $08
-	call _LABEL_3A03_
-	jr nc, +
-	ld a, (ix+16)
-	cpl
-	ld (ix+16), a
-	ld a, (ix+15)
-	cpl
-	inc a
-	ld (ix+15), a
-	jr ++
+    call tryToKillAlexIfColliding
+    call _LABEL_7D0B_
+    jp nc, _LABEL_55A5_
+    ld d, $01
+    ld e, (ix+24)
+    ld a, $08
+    call _LABEL_3A03_
+    jr nc, +
+    ld a, (ix+16)
+    cpl
+    ld (ix+16), a
+    ld a, (ix+15)
+    cpl
+    inc a
+    ld (ix+15), a
+    jr ++
 
 +:
-	ld a, (ix+24)
-	xor $0C
-	ld e, a
-	ld d, $11
-	call getTileNearEntityWithXYOffset
-	rlca
-	jr c, _LABEL_6341_
-	ld h, (ix+23)
-	ld l, (ix+22)
-	ld de, $0010
-	add hl, de
-	ld (ix+23), h
-	ld (ix+22), l
-	ld (ix+18), h
-	ld (ix+17), l
-	jr _LABEL_6351_
+    ld a, (ix+24)
+    xor $0C
+    ld e, a
+    ld d, $11
+    call getTileNearEntityWithXYOffset
+    rlca
+    jr c, _LABEL_6341_
+    ld h, (ix+23)
+    ld l, (ix+22)
+    ld de, $0010
+    add hl, de
+    ld (ix+23), h
+    ld (ix+22), l
+    ld (ix+18), h
+    ld (ix+17), l
+    jr _LABEL_6351_
 
 _LABEL_6341_:
-	ld (ix+23), $00
-	ld (ix+22), $30
-	ld (ix+17), $00
-	ld (ix+18), $00
+    ld (ix+23), $00
+    ld (ix+22), $30
+    ld (ix+17), $00
+    ld (ix+18), $00
 _LABEL_6351_:
-	ld hl, _DATA_8585_
-	jp handleEntityAnimation
+    ld hl, _DATA_8585_
+    jp handleEntityAnimation
 
 ++:
-	ld (ix+24), $02
-	ld a, (ix+16)
-	cp $FF
-	jr z, _LABEL_6351_
-	ld (ix+24), $0E
-	jr _LABEL_6351_
+    ld (ix+24), $02
+    ld a, (ix+16)
+    cp $FF
+    jr z, _LABEL_6351_
+    ld (ix+24), $0E
+    jr _LABEL_6351_
 
 ; 85th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_6368_:
-	bit 0, (ix+1)
-	jr nz, +
-	ld (ix+5), $08
-	ld (ix+6), $08
-	ld a, (ix+9)
-	or (ix+10)
-	jr nz, _LABEL_63EA_
-	ld (ix+15), $80
-	ld (ix+16), $FF
-	ld (ix+17), $00
-	ld (ix+18), $FF
-	set 0, (ix+1)
-	set 1, (ix+1)
-	ld (ix+24), $0E
+    bit 0, (ix+1)
+    jr nz, +
+    ld (ix+5), $08
+    ld (ix+6), $08
+    ld a, (ix+9)
+    or (ix+10)
+    jr nz, _LABEL_63EA_
+    ld (ix+15), $80
+    ld (ix+16), $FF
+    ld (ix+17), $00
+    ld (ix+18), $FF
+    set 0, (ix+1)
+    set 1, (ix+1)
+    ld (ix+24), $0E
 +:
-	call tryToKillAlexIfColliding
-	call _LABEL_7D0B_
-	jp nc, _LABEL_55A5_
-	ld a, (ix+24)
-	xor $0C
-	ld e, a
-	ld d, $01
-	ld a, $08
-	call _LABEL_3A03_
-	jr nc, +
-	ld a, (ix+16)
-	cpl
-	ld (ix+16), a
-	ld a, (ix+15)
-	cpl
-	inc a
-	ld (ix+15), a
-	ld a, (ix+24)
-	xor $0C
-	ld (ix+24), a
+    call tryToKillAlexIfColliding
+    call _LABEL_7D0B_
+    jp nc, _LABEL_55A5_
+    ld a, (ix+24)
+    xor $0C
+    ld e, a
+    ld d, $01
+    ld a, $08
+    call _LABEL_3A03_
+    jr nc, +
+    ld a, (ix+16)
+    cpl
+    ld (ix+16), a
+    ld a, (ix+15)
+    cpl
+    inc a
+    ld (ix+15), a
+    ld a, (ix+24)
+    xor $0C
+    ld (ix+24), a
 +:
-	ld de, $1108
-	call getTileNearEntityWithXYOffset
-	rlca
-	jr nc, +
-	ld (ix+17), $00
-	ld (ix+18), $FF
+    ld de, $1108
+    call getTileNearEntityWithXYOffset
+    rlca
+    jr nc, +
+    ld (ix+17), $00
+    ld (ix+18), $FF
 +:
-	ld h, (ix+18)
-	ld l, (ix+17)
-	ld de, $0010
-	add hl, de
-	ld (ix+17), l
-	ld (ix+18), h
+    ld h, (ix+18)
+    ld l, (ix+17)
+    ld de, $0010
+    add hl, de
+    ld (ix+17), l
+    ld (ix+18), h
 _LABEL_63EA_:
-	ld hl, _DATA_84C2_
-	ld a, (ix+16)
-	cp $FF
-	jp nz, handleEntityAnimation
-	ld hl, _DATA_84A1_
-	jp handleEntityAnimation
+    ld hl, _DATA_84C2_
+    ld a, (ix+16)
+    cp $FF
+    jp nz, handleEntityAnimation
+    ld hl, _DATA_84A1_
+    jp handleEntityAnimation
 
 ; 87th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_63FB_:
-	bit 0, (ix+1)
-	jr nz, +
-	ld (ix+5), $10
-	ld (ix+6), $10
-	ld a, (ix+10)
-	or (ix+9)
-	jr nz, ++
-	set 0, (ix+1)
-	set 1, (ix+1)
+    bit 0, (ix+1)
+    jr nz, +
+    ld (ix+5), $10
+    ld (ix+6), $10
+    ld a, (ix+10)
+    or (ix+9)
+    jr nz, ++
+    set 0, (ix+1)
+    set 1, (ix+1)
 +:
-	call tryToKillAlexIfColliding
+    call tryToKillAlexIfColliding
 ++:
-	ld hl, _DATA_85A6_
-	jp handleEntityAnimation
+    ld hl, _DATA_85A6_
+    jp handleEntityAnimation
 
 ; Pointer Table from 6422 to 6435 (10 entries, indexed by _RAM_CF83_)
 _DATA_6422_:
@@ -9476,626 +9476,626 @@ _DATA_644A_:
 .dw _RAM_D800_ _RAM_D807_
 
 updateScrollFlags:
-	ld hl, (scrollFlagsUpdaterPointer)
-	jp (hl)
+    ld hl, (scrollFlagsUpdaterPointer)
+    jp (hl)
 
 ; 1st entry of Jump Table from D0A (indexed by v_level)
 _LABEL_6462_:
-	ld a, (v_scrollFlags)
-	or a
-	ret z
-	bit 7, a
-	ret z
-	and $03
-	ret nz
-	di
-	ld de, $8026
-	ld a, e
-	ld (v_VDPRegister0Value), a
-	rst $08	; setVDPAddress
-	ei
-	ld a, $08
-	ld (v_scrollFlags), a
-	ret
+    ld a, (v_scrollFlags)
+    or a
+    ret z
+    bit 7, a
+    ret z
+    and $03
+    ret nz
+    di
+    ld de, $8026
+    ld a, e
+    ld (v_VDPRegister0Value), a
+    rst $08    ; setVDPAddress
+    ei
+    ld a, $08
+    ld (v_scrollFlags), a
+    ret
 
 ; 11th entry of Jump Table from D0A (indexed by v_level)
 _LABEL_647D_:
-	ld a, (v_scrollFlags)
-	and $7F
-	ret z
-	ld b, a
-	and $03
-	ld hl, (_RAM_C0C2_)
-	ld de, (_RAM_C0BB_)
-	jr nz, ++
-	ld a, (v_shouldBlankLeftmostColumn)
-	or a
-	jr nz, +
-	ld a, $01
-	ld (v_shouldBlankLeftmostColumn), a
-	di
-	ld de, $8026
-	ld a, e
-	ld (v_VDPRegister0Value), a
-	rst $08	; setVDPAddress
-	ei
+    ld a, (v_scrollFlags)
+    and $7F
+    ret z
+    ld b, a
+    and $03
+    ld hl, (_RAM_C0C2_)
+    ld de, (_RAM_C0BB_)
+    jr nz, ++
+    ld a, (v_shouldBlankLeftmostColumn)
+    or a
+    jr nz, +
+    ld a, $01
+    ld (v_shouldBlankLeftmostColumn), a
+    di
+    ld de, $8026
+    ld a, e
+    ld (v_VDPRegister0Value), a
+    rst $08    ; setVDPAddress
+    ei
 +:
-	ld hl, (v_horizontalScroll)
-	ld de, (_RAM_C0AD_)
+    ld hl, (v_horizontalScroll)
+    ld de, (_RAM_C0AD_)
 ++:
-	ld a, (v_specialLevelScrollabilityFlag)
-	or a
-	jp nz, _LABEL_6502_
-	ld a, (v_currentScreenNumber)
-	bit 7, a
-	jr z, _LABEL_6502_
-	ld a, $01
-	ld (v_specialLevelScrollabilityFlag), a
-	ld a, b
-	bit 0, a
-	ld a, (v_verticalScreenNumber)
-	jr z, +
-	inc a
+    ld a, (v_specialLevelScrollabilityFlag)
+    or a
+    jp nz, _LABEL_6502_
+    ld a, (v_currentScreenNumber)
+    bit 7, a
+    jr z, _LABEL_6502_
+    ld a, $01
+    ld (v_specialLevelScrollabilityFlag), a
+    ld a, b
+    bit 0, a
+    ld a, (v_verticalScreenNumber)
+    jr z, +
+    inc a
 +:
-	push af
-	exx
-	ld b, a
-	ld c, $00
-	ld hl, _RAM_D900_
-	add hl, bc
-	pop af
-	ld b, a
-	ld a, (v_currentScreenNumber)
-	and $7F
-	sub b
-	rlca
-	rlca
-	rlca
-	rlca
-	rlca
-	ld b, $00
-	ld c, a
-	add hl, bc
-	ld (_RAM_C078_), hl
-	ld a, (hl)
-	or a
-	jr z, ++
-	ld b, a
-	inc hl
+    push af
+    exx
+    ld b, a
+    ld c, $00
+    ld hl, _RAM_D900_
+    add hl, bc
+    pop af
+    ld b, a
+    ld a, (v_currentScreenNumber)
+    and $7F
+    sub b
+    rlca
+    rlca
+    rlca
+    rlca
+    rlca
+    ld b, $00
+    ld c, a
+    add hl, bc
+    ld (_RAM_C078_), hl
+    ld a, (hl)
+    or a
+    jr z, ++
+    ld b, a
+    inc hl
 -:
-	ld a, (hl)
-	or a
-	jr z, +
-	inc hl
-	push hl
-	ld a, (hl)
-	ld e, a
-	ld d, $00
-	ld hl, $D700
-	add hl, de
-	ld a, $00
-	ld (hl), a
-	pop hl
-	dec hl
+    ld a, (hl)
+    or a
+    jr z, +
+    inc hl
+    push hl
+    ld a, (hl)
+    ld e, a
+    ld d, $00
+    ld hl, $D700
+    add hl, de
+    ld a, $00
+    ld (hl), a
+    pop hl
+    dec hl
 +:
-	inc hl
-	inc hl
-	djnz -
+    inc hl
+    inc hl
+    djnz -
 ++:
-	exx
+    exx
 _LABEL_6502_:
-	ld a, h
-	or l
-	ret nz
-	ex de, hl
-	ld a, h
-	or l
-	ret nz
-	ld a, (v_scrollFlags)
-	bit 0, a
-	jr z, +
-	ld hl, v_currentScreenNumber
-	dec (hl)
-	res 7, (hl)
+    ld a, h
+    or l
+    ret nz
+    ex de, hl
+    ld a, h
+    or l
+    ret nz
+    ld a, (v_scrollFlags)
+    bit 0, a
+    jr z, +
+    ld hl, v_currentScreenNumber
+    dec (hl)
+    res 7, (hl)
 +:
-	and $80
-	ld (v_scrollFlags), a
-	xor a
-	ld (v_shouldBlankLeftmostColumn), a
-	ld (v_shouldAlexStartWalkingtoNextScreen), a
-	ld (v_specialLevelScrollabilityFlag), a
-	ld hl, $0000
-	ld (v_horizontalScrollSpeed), hl
-	ld (v_verticalScrollSpeed), hl
-	di
-	ld de, $8006
-	ld a, e
-	ld (v_VDPRegister0Value), a
-	rst $08	; setVDPAddress
-	ei
-	ret
+    and $80
+    ld (v_scrollFlags), a
+    xor a
+    ld (v_shouldBlankLeftmostColumn), a
+    ld (v_shouldAlexStartWalkingtoNextScreen), a
+    ld (v_specialLevelScrollabilityFlag), a
+    ld hl, $0000
+    ld (v_horizontalScrollSpeed), hl
+    ld (v_verticalScrollSpeed), hl
+    di
+    ld de, $8006
+    ld a, e
+    ld (v_VDPRegister0Value), a
+    rst $08    ; setVDPAddress
+    ei
+    ret
 
 ; 5th entry of Jump Table from D0A (indexed by v_level)
 _LABEL_6539_:
-	ld a, (v_scrollFlags)
-	or a
-	ret z
-	bit 7, a
-	jr nz, +
-	and $03
-	ret z
-	ld a, (v_scrollFlags)
-	res 3, a
-	set 7, a
-	ld (v_scrollFlags), a
-	ret
+    ld a, (v_scrollFlags)
+    or a
+    ret z
+    bit 7, a
+    jr nz, +
+    and $03
+    ret z
+    ld a, (v_scrollFlags)
+    res 3, a
+    set 7, a
+    ld (v_scrollFlags), a
+    ret
 
 +:
-	and $03
-	ret nz
-	ld a, $01
-	ld (v_verticalScreenNumber), a
-	ld hl, $0000
-	ld (_RAM_C0B4_), hl
-	ld (_RAM_C0B3_), hl
-	ld (_RAM_C0B7_), hl
-	ld a, (v_horizontalScreenNumber)
-	cp $03
-	jr nc, +
-	ld a, $08
-	ld (v_scrollFlags), a
-	ld a, $03
-	ld (v_levelWidth), a
-	ret
+    and $03
+    ret nz
+    ld a, $01
+    ld (v_verticalScreenNumber), a
+    ld hl, $0000
+    ld (_RAM_C0B4_), hl
+    ld (_RAM_C0B3_), hl
+    ld (_RAM_C0B7_), hl
+    ld a, (v_horizontalScreenNumber)
+    cp $03
+    jr nc, +
+    ld a, $08
+    ld (v_scrollFlags), a
+    ld a, $03
+    ld (v_levelWidth), a
+    ret
 
 +:
-	xor a
-	ld (v_scrollFlags), a
-	ret
+    xor a
+    ld (v_scrollFlags), a
+    ret
 
 ; 3rd entry of Jump Table from D0A (indexed by v_level)
 _LABEL_657B_:
-	ld a, (v_scrollFlags)
-	or a
-	ret z
-	bit 7, a
-	jr nz, +
-	and $03
-	ret z
-	ld a, (v_scrollFlags)
-	res 3, a
-	set 7, a
-	ld (v_scrollFlags), a
-	ret
+    ld a, (v_scrollFlags)
+    or a
+    ret z
+    bit 7, a
+    jr nz, +
+    and $03
+    ret z
+    ld a, (v_scrollFlags)
+    res 3, a
+    set 7, a
+    ld (v_scrollFlags), a
+    ret
 
 +:
-	and $03
-	ret nz
-	ld hl, $0000
-	ld (_RAM_C0B4_), hl
-	ld (_RAM_C0B3_), hl
-	ld (_RAM_C0B7_), hl
-	ld a, $01
-	ld (v_verticalScreenNumber), a
-	ld a, $01
-	ld (v_levelWidth), a
-	ld a, $08
-	ld (v_scrollFlags), a
-	ret
+    and $03
+    ret nz
+    ld hl, $0000
+    ld (_RAM_C0B4_), hl
+    ld (_RAM_C0B3_), hl
+    ld (_RAM_C0B7_), hl
+    ld a, $01
+    ld (v_verticalScreenNumber), a
+    ld a, $01
+    ld (v_levelWidth), a
+    ld a, $08
+    ld (v_scrollFlags), a
+    ret
 
 _LABEL_65B1_:
-	ld a, (v_level)
-	ld hl, LevelDescriptorPointerTable - 2
-	rst $10	; _LABEL_10_
-	ld a, (hl)
-	ld (Mapper_Slot2), a
-	ld (v_levelBankNumber), a
-	inc hl
-	ld e, (hl)
-	inc hl
-	ld d, (hl)
-	ld (v_levelLayoutPointer), de
-	inc hl
-	ld e, (hl)
-	inc hl
-	ld d, (hl)
-	ld (v_SecondLevelLayoutPointer), de
-	inc hl
-	ld a, (hl)
-	ld (v_horizontalScreenNumber), a
-	inc hl
-	ld a, (hl)
-	ld (v_verticalScreenNumber), a
-	inc hl
-	ld a, (hl)
-	ld (v_levelWidth), a
-	inc hl
-	ld a, (hl)
-	ld (v_levelHeight), a
-	inc hl
-	ld a, (hl)
-	ld (v_levelScrollability), a
-	inc hl
-	ld e, (hl)
-	inc hl
-	ld d, (hl)
-	ld (_RAM_C087_), de
-	ld hl, $7800
-	ld (_RAM_C0B7_), hl
-	ld (_RAM_C0C5_), hl
+    ld a, (v_level)
+    ld hl, LevelDescriptorPointerTable - 2
+    rst $10    ; _LABEL_10_
+    ld a, (hl)
+    ld (Mapper_Slot2), a
+    ld (v_levelBankNumber), a
+    inc hl
+    ld e, (hl)
+    inc hl
+    ld d, (hl)
+    ld (v_levelLayoutPointer), de
+    inc hl
+    ld e, (hl)
+    inc hl
+    ld d, (hl)
+    ld (v_SecondLevelLayoutPointer), de
+    inc hl
+    ld a, (hl)
+    ld (v_horizontalScreenNumber), a
+    inc hl
+    ld a, (hl)
+    ld (v_verticalScreenNumber), a
+    inc hl
+    ld a, (hl)
+    ld (v_levelWidth), a
+    inc hl
+    ld a, (hl)
+    ld (v_levelHeight), a
+    inc hl
+    ld a, (hl)
+    ld (v_levelScrollability), a
+    inc hl
+    ld e, (hl)
+    inc hl
+    ld d, (hl)
+    ld (_RAM_C087_), de
+    ld hl, $7800
+    ld (_RAM_C0B7_), hl
+    ld (_RAM_C0C5_), hl
 -:
-	ld hl, $0100
-	ld (v_horizontalScrollSpeed), hl
-	call _LABEL_67C4_
-	call _LABEL_6B49_
-	call _LABEL_6920_
-	ld hl, (v_horizontalScroll)
-	ld a, h
-	or l
-	jr nz, -
-	ld a, (v_verticalScreenNumber)
-	ld (v_currentScreenNumber), a
-	ld hl, $0000
-	ld (v_horizontalScrollSpeed), hl
-	ld a, (v_level)
-	cp $01
-	jr nz, +
+    ld hl, $0100
+    ld (v_horizontalScrollSpeed), hl
+    call _LABEL_67C4_
+    call _LABEL_6B49_
+    call _LABEL_6920_
+    ld hl, (v_horizontalScroll)
+    ld a, h
+    or l
+    jr nz, -
+    ld a, (v_verticalScreenNumber)
+    ld (v_currentScreenNumber), a
+    ld hl, $0000
+    ld (v_horizontalScrollSpeed), hl
+    ld a, (v_level)
+    cp $01
+    jr nz, +
 -:
-	xor a
-	ld (v_verticalScreenNumber), a
-	ld a, $81
-	ld (v_currentScreenNumber), a
-	ld a, $10
-	ld (v_columnsToLoadToNametable), a
-	call _LABEL_6A73_
-	call _LABEL_6B49_
-	call _LABEL_6920_
-	ld de, $8006
-	ld a, e
-	ld (v_VDPRegister0Value), a
-	rst $08	; setVDPAddress
-	ld a, (v_levelScrollability)
-	ld (v_scrollFlags), a
-	ret
+    xor a
+    ld (v_verticalScreenNumber), a
+    ld a, $81
+    ld (v_currentScreenNumber), a
+    ld a, $10
+    ld (v_columnsToLoadToNametable), a
+    call _LABEL_6A73_
+    call _LABEL_6B49_
+    call _LABEL_6920_
+    ld de, $8006
+    ld a, e
+    ld (v_VDPRegister0Value), a
+    rst $08    ; setVDPAddress
+    ld a, (v_levelScrollability)
+    ld (v_scrollFlags), a
+    ret
 
 +:
-	cp $11
-	jp z, -
-	cp $0D
-	jr z, +
-	ld a, (v_levelScrollability)
-	ld (v_scrollFlags), a
-	rlca
-	ret nc
-	ld a, $01
-	ld (v_shouldAlexStartWalkingtoNextScreen), a
-	ld a, (v_levelHeight)
-	ld (v_entityIndex), a
-	ret
+    cp $11
+    jp z, -
+    cp $0D
+    jr z, +
+    ld a, (v_levelScrollability)
+    ld (v_scrollFlags), a
+    rlca
+    ret nc
+    ld a, $01
+    ld (v_shouldAlexStartWalkingtoNextScreen), a
+    ld a, (v_levelHeight)
+    ld (v_entityIndex), a
+    ret
 
 +:
-	ld a, $07
-	ld (v_currentScreenNumber), a
-	ld a, (v_levelScrollability)
-	ld (v_scrollFlags), a
-	ret
+    ld a, $07
+    ld (v_currentScreenNumber), a
+    ld a, (v_levelScrollability)
+    ld (v_scrollFlags), a
+    ret
 
 _LABEL_6671_:
-	ld a, $01
-	ld (v_isScrollingDownToNextScreen), a
-	ld ix, _RAM_C3A0_
-	ld de, $0020
-	ld b, $19
+    ld a, $01
+    ld (v_isScrollingDownToNextScreen), a
+    ld ix, _RAM_C3A0_
+    ld de, $0020
+    ld b, $19
 -:
-	ld a, (ix+0)
-	or a
-	jr z, +
-	ld a, (ix+9)
-	or (ix+10)
-	jr z, +
-	call clearCurrentEntity
+    ld a, (ix+0)
+    or a
+    jr z, +
+    ld a, (ix+9)
+    or (ix+10)
+    jr z, +
+    call clearCurrentEntity
 +:
-	add ix, de
-	djnz -
-	ld a, (v_scrollFlags)
-	and $E0
-	ret z
-	rlca
-	jr c, +++
-	rlca
-	jr c, +
-	xor a
-	ld (v_horizontalScreenNumber), a
-	ld a, $86
-	ld (v_currentScreenNumber), a
-	jr ++
+    add ix, de
+    djnz -
+    ld a, (v_scrollFlags)
+    and $E0
+    ret z
+    rlca
+    jr c, +++
+    rlca
+    jr c, +
+    xor a
+    ld (v_horizontalScreenNumber), a
+    ld a, $86
+    ld (v_currentScreenNumber), a
+    jr ++
 
 +:
-	ld a, (v_horizontalScreenNumber)
-	rrca
-	rrca
-	and $3F
-	ld (v_horizontalScreenNumber), a
-	add a, $90
-	ld (v_currentScreenNumber), a
+    ld a, (v_horizontalScreenNumber)
+    rrca
+    rrca
+    and $3F
+    ld (v_horizontalScreenNumber), a
+    add a, $90
+    ld (v_currentScreenNumber), a
 ++:
-	ld a, (_RAM_C0B0_)
-	ld (v_newEntityHorizontalOffset), a
+    ld a, (_RAM_C0B0_)
+    ld (v_newEntityHorizontalOffset), a
 -:
-	ld a, $10
-	ld (v_columnsToLoadToNametable), a
-	call _LABEL_6A73_
-	ld a, $82
-	ld (Mapper_Slot2), a
-	ret
+    ld a, $10
+    ld (v_columnsToLoadToNametable), a
+    call _LABEL_6A73_
+    ld a, $82
+    ld (Mapper_Slot2), a
+    ret
 
 +++:
-	ld hl, v_currentScreenNumber
-	inc (hl)
-	set 7, (hl)
-	jr -
+    ld hl, v_currentScreenNumber
+    inc (hl)
+    set 7, (hl)
+    jr -
 
 .INCLUDE "data/levels/descriptors.asm"
 
 _LABEL_67C4_:
-	ld de, (v_horizontalScrollSpeed)
-	ld a, d
-	or e
-	jp z, _LABEL_69CB_
-	ld a, $0C
-	ld (v_linesToLoadToNametable), a
-	ld bc, (_RAM_C0AD_)
-	ld hl, (v_horizontalScroll)
-	add hl, de
-	ld (v_horizontalScroll), hl
-	ex de, hl
-	bit 7, h
-	jp nz, _LABEL_68A7_
-	add hl, bc
-	ld a, h
-	cp $08
-	ld (_RAM_C0AD_), hl
-	ret c
-	and $07
-	ld (_RAM_C0AE_), a
-	ld a, (_RAM_C0B7_)
-	sub $02
-	jp nc, +
-	ld a, $3E
+    ld de, (v_horizontalScrollSpeed)
+    ld a, d
+    or e
+    jp z, _LABEL_69CB_
+    ld a, $0C
+    ld (v_linesToLoadToNametable), a
+    ld bc, (_RAM_C0AD_)
+    ld hl, (v_horizontalScroll)
+    add hl, de
+    ld (v_horizontalScroll), hl
+    ex de, hl
+    bit 7, h
+    jp nz, _LABEL_68A7_
+    add hl, bc
+    ld a, h
+    cp $08
+    ld (_RAM_C0AD_), hl
+    ret c
+    and $07
+    ld (_RAM_C0AE_), a
+    ld a, (_RAM_C0B7_)
+    sub $02
+    jp nc, +
+    ld a, $3E
 +:
-	ld (_RAM_C0B7_), a
-	ld hl, (_RAM_C0B4_)
-	ld bc, $0080
-	or a
-	sbc hl, bc
-	jp nc, +
-	ld hl, $0F80
+    ld (_RAM_C0B7_), a
+    ld hl, (_RAM_C0B4_)
+    ld bc, $0080
+    or a
+    sbc hl, bc
+    jp nc, +
+    ld hl, $0F80
 +:
-	ex af, af'
-	ld (_RAM_C0B4_), hl
-	ld a, (_RAM_C0B3_)
-	dec a
-	and $01
-	ld (_RAM_C0B3_), a
-	ld hl, v_horizontalScreenNumber
-	ex af, af'
-	jp nc, _LABEL_6865_
-	ld a, (hl)
-	sub $01
-	ld (hl), a
-	ld hl, v_currentScreenNumber
-	dec (hl)
-	set 7, (hl)
-	jp nc, _LABEL_6841_
-	inc (hl)
-	res 7, (hl)
-	ld hl, v_scrollFlags
-	res 2, (hl)
-	ld hl, $0000
-	ld (v_horizontalScrollSpeed), hl
-	ld a, $08
-	ld (_RAM_C0B0_), a
-	ret
+    ex af, af'
+    ld (_RAM_C0B4_), hl
+    ld a, (_RAM_C0B3_)
+    dec a
+    and $01
+    ld (_RAM_C0B3_), a
+    ld hl, v_horizontalScreenNumber
+    ex af, af'
+    jp nc, _LABEL_6865_
+    ld a, (hl)
+    sub $01
+    ld (hl), a
+    ld hl, v_currentScreenNumber
+    dec (hl)
+    set 7, (hl)
+    jp nc, _LABEL_6841_
+    inc (hl)
+    res 7, (hl)
+    ld hl, v_scrollFlags
+    res 2, (hl)
+    ld hl, $0000
+    ld (v_horizontalScrollSpeed), hl
+    ld a, $08
+    ld (_RAM_C0B0_), a
+    ret
 
 _LABEL_6841_:
-	add a, a
-	ld c, a
-	ld b, $00
-	ld a, (v_verticalScreenNumber)
-	add a, a
-	ld e, a
-	ld d, $00
-	ld a, (v_levelBankNumber)
-	ld (Mapper_Slot2), a
-	ld hl, (v_levelLayoutPointer)
-	add hl, de
-	ld a, (hl)
-	inc hl
-	ld h, (hl)
-	ld l, a
-	add hl, bc
-	ld a, (hl)
-	inc hl
-	ld h, (hl)
-	ld l, a
-	ld de, _RAM_D700_
-	call _LABEL_6BEF_
+    add a, a
+    ld c, a
+    ld b, $00
+    ld a, (v_verticalScreenNumber)
+    add a, a
+    ld e, a
+    ld d, $00
+    ld a, (v_levelBankNumber)
+    ld (Mapper_Slot2), a
+    ld hl, (v_levelLayoutPointer)
+    add hl, de
+    ld a, (hl)
+    inc hl
+    ld h, (hl)
+    ld l, a
+    add hl, bc
+    ld a, (hl)
+    inc hl
+    ld h, (hl)
+    ld l, a
+    ld de, _RAM_D700_
+    call _LABEL_6BEF_
 _LABEL_6865_:
-	ld a, $01
-	ld (v_UpdateNameTableFlags), a
-	ld hl, _RAM_D700_
-	ld a, (_RAM_C0B5_)
-	ld c, a
-	ld b, $00
-	add hl, bc
-	ld de, _RAM_CF00_
-	ld a, $85
-	ld (Mapper_Slot2), a
+    ld a, $01
+    ld (v_UpdateNameTableFlags), a
+    ld hl, _RAM_D700_
+    ld a, (_RAM_C0B5_)
+    ld c, a
+    ld b, $00
+    add hl, bc
+    ld de, _RAM_CF00_
+    ld a, $85
+    ld (Mapper_Slot2), a
 -:
-	push hl
-	ld c, (hl)
-	ld hl, (_RAM_C087_)
-	add hl, bc
-	add hl, bc
-	ld a, (hl)
-	inc hl
-	ld h, (hl)
-	ld l, a
-	ld a, (_RAM_C0B3_)
-	add a, a
-	ld c, a
-	add hl, bc
-	ldi
-	ldi
-	inc hl
-	inc hl
-	ldi
-	ldi
-	ld a, (v_linesToLoadToNametable)
-	dec a
-	ld (v_linesToLoadToNametable), a
-	pop hl
-	ret z
-	ld bc, $0010
-	add hl, bc
-	jp -
+    push hl
+    ld c, (hl)
+    ld hl, (_RAM_C087_)
+    add hl, bc
+    add hl, bc
+    ld a, (hl)
+    inc hl
+    ld h, (hl)
+    ld l, a
+    ld a, (_RAM_C0B3_)
+    add a, a
+    ld c, a
+    add hl, bc
+    ldi
+    ldi
+    inc hl
+    inc hl
+    ldi
+    ldi
+    ld a, (v_linesToLoadToNametable)
+    dec a
+    ld (v_linesToLoadToNametable), a
+    pop hl
+    ret z
+    ld bc, $0010
+    add hl, bc
+    jp -
 
 _LABEL_68A7_:
-	add hl, bc
-	ld (_RAM_C0AD_), hl
-	ret c
-	ld a, (v_scrollFlags)
-	bit 3, a
-	jp nz, +
-	ld hl, $0000
-	ld (v_horizontalScrollSpeed), hl
-	ret
+    add hl, bc
+    ld (_RAM_C0AD_), hl
+    ret c
+    ld a, (v_scrollFlags)
+    bit 3, a
+    jp nz, +
+    ld hl, $0000
+    ld (v_horizontalScrollSpeed), hl
+    ret
 
 +:
-	ld a, h
-	and $07
-	ld (_RAM_C0AE_), a
-	ld a, (_RAM_C0B7_)
-	or a
-	jp nz, +
-	ld hl, v_currentScreenNumber
-	inc (hl)
-	set 7, (hl)
-	ld hl, v_horizontalScreenNumber
-	ld a, (hl)
-	inc a
-	call _LABEL_6841_
-	jp ++
+    ld a, h
+    and $07
+    ld (_RAM_C0AE_), a
+    ld a, (_RAM_C0B7_)
+    or a
+    jp nz, +
+    ld hl, v_currentScreenNumber
+    inc (hl)
+    set 7, (hl)
+    ld hl, v_horizontalScreenNumber
+    ld a, (hl)
+    inc a
+    call _LABEL_6841_
+    jp ++
 
 +:
-	call _LABEL_6865_
+    call _LABEL_6865_
 ++:
-	ld a, (_RAM_C0B7_)
-	add a, $02
-	cp $40
-	jp c, +
-	xor a
+    ld a, (_RAM_C0B7_)
+    add a, $02
+    cp $40
+    jp c, +
+    xor a
 +:
-	ld (_RAM_C0B7_), a
-	ld hl, (_RAM_C0B4_)
-	ld bc, $0080
-	add hl, bc
-	ld a, h
-	cp $10
-	jp c, +
-	ld hl, $0000
+    ld (_RAM_C0B7_), a
+    ld hl, (_RAM_C0B4_)
+    ld bc, $0080
+    add hl, bc
+    ld a, h
+    cp $10
+    jp c, +
+    ld hl, $0000
 +:
-	ex af, af'
-	ld (_RAM_C0B4_), hl
-	ld a, (_RAM_C0B3_)
-	inc a
-	and $01
-	ld (_RAM_C0B3_), a
-	ld hl, v_horizontalScreenNumber
-	ld bc, (v_levelWidth)
-	ex af, af'
-	ret c
-	inc (hl)
-	ld a, (hl)
-	cp c
-	ret c
-	ld hl, v_scrollFlags
-	res 3, (hl)
-	ld hl, v_currentScreenNumber
-	dec (hl)
-	res 7, (hl)
-	ret
+    ex af, af'
+    ld (_RAM_C0B4_), hl
+    ld a, (_RAM_C0B3_)
+    inc a
+    and $01
+    ld (_RAM_C0B3_), a
+    ld hl, v_horizontalScreenNumber
+    ld bc, (v_levelWidth)
+    ex af, af'
+    ret c
+    inc (hl)
+    ld a, (hl)
+    cp c
+    ret c
+    ld hl, v_scrollFlags
+    res 3, (hl)
+    ld hl, v_currentScreenNumber
+    dec (hl)
+    res 7, (hl)
+    ret
 
 _LABEL_6920_:
-	ld a, (v_UpdateNameTableFlags)
-	rrca
-	jp nc, _LABEL_6968_
-	ld a, (_RAM_C0B0_)
-	ld b, a
-	ld a, (_RAM_C0AC_)
-	bit 7, a
-	jp nz, +
-	ld a, b
-	sub $08
-	ld b, a
+    ld a, (v_UpdateNameTableFlags)
+    rrca
+    jp nc, _LABEL_6968_
+    ld a, (_RAM_C0B0_)
+    ld b, a
+    ld a, (_RAM_C0AC_)
+    bit 7, a
+    jp nz, +
+    ld a, b
+    sub $08
+    ld b, a
 +:
-	ld a, b
-	cpl
-	rrca
-	rrca
-	and $3E
-	ld c, a
-	ld b, $00
-	ld hl, (_RAM_C0C5_)
-	add hl, bc
-	ex de, hl
-	ld hl, _RAM_CF00_
-	ld bc, $0040
-	ld a, $18
+    ld a, b
+    cpl
+    rrca
+    rrca
+    and $3E
+    ld c, a
+    ld b, $00
+    ld hl, (_RAM_C0C5_)
+    add hl, bc
+    ex de, hl
+    ld hl, _RAM_CF00_
+    ld bc, $0040
+    ld a, $18
 -:
-	ex af, af'
-	call setVDPAddress
-	ld a, (hl)
-	out (Port_VDPData), a
-	inc hl
-	ld a, (hl)
-	inc hl
-	out (Port_VDPData), a
-	ex de, hl
-	add hl, bc
-	ld a, h
-	cp $7F
-	jp nz, +
-	ld h, $78
+    ex af, af'
+    call setVDPAddress
+    ld a, (hl)
+    out (Port_VDPData), a
+    inc hl
+    ld a, (hl)
+    inc hl
+    out (Port_VDPData), a
+    ex de, hl
+    add hl, bc
+    ld a, h
+    cp $7F
+    jp nz, +
+    ld h, $78
 +:
-	ex de, hl
-	ex af, af'
-	dec a
-	jr nz, -
+    ex de, hl
+    ex af, af'
+    dec a
+    jr nz, -
 _LABEL_6968_:
-	ld a, (v_UpdateNameTableFlags)
-	rrca
-	rrca
-	jp nc, _LABEL_69B5_
-	ld a, (_RAM_C0BA_)
-	bit 7, a
-	ld a, (_RAM_C0BE_)
-	jp z, +
-	and $F8
-	jp ++
+    ld a, (v_UpdateNameTableFlags)
+    rrca
+    rrca
+    jp nc, _LABEL_69B5_
+    ld a, (_RAM_C0BA_)
+    bit 7, a
+    ld a, (_RAM_C0BE_)
+    jp z, +
+    and $F8
+    jp ++
 
 +:
-	and $F8
-	sub $20
-	jp nc, ++
-	sub $20
+    and $F8
+    sub $20
+    jp nc, ++
+    sub $20
 ++:
-	ld h, $00
-	ld l, a
-	add hl, hl
-	add hl, hl
-	add hl, hl
-	ex de, hl
+    ld h, $00
+    ld l, a
+    add hl, hl
+    add hl, hl
+    add hl, hl
+    ex de, hl
 	ld hl, (_RAM_C0B7_)
 	add hl, de
 	ld a, (_RAM_C0B7_)

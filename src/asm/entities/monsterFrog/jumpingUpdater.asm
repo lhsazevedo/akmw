@@ -1,42 +1,42 @@
 ; 55th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 updateMonsterFrogJumping:
-	; Return if offscreen
-	ld a, (ix + Entity.isOffScreenFlags.low)
-	or (ix + Entity.isOffScreenFlags.high)
-	ret nz
+    ; Return if offscreen
+    ld a, (ix + Entity.isOffScreenFlags.low)
+    or (ix + Entity.isOffScreenFlags.high)
+    ret nz
 
-	call tryToKillAlexIfColliding
-	; @TODO
-	call _LABEL_7D0B_
-	jp nc, _LABEL_55A5_
+    call tryToKillAlexIfColliding
+    ; @TODO
+    call _LABEL_7D0B_
+    jp nc, _LABEL_55A5_
 
-	; Update Y velocity
-	; @TODO: Understand better
-	ld h, (ix + Entity.ySpeed.high)
-	ld l, (ix + Entity.ySpeed.low)
-	ld de, $0008
-	add hl, de
-	ld (ix + Entity.ySpeed.high), h
-	ld (ix + Entity.ySpeed.low), l
-	ld a, h
-	cp $FF
-	ret z
+    ; Update Y velocity
+    ; @TODO: Understand better
+    ld h, (ix + Entity.ySpeed.high)
+    ld l, (ix + Entity.ySpeed.low)
+    ld de, $0008
+    add hl, de
+    ld (ix + Entity.ySpeed.high), h
+    ld (ix + Entity.ySpeed.low), l
+    ld a, h
+    cp $FF
+    ret z
 
-	; Return if not directly above a solid tile.
-	; This is needed so the frog can continue falling
-	; whean the block underneath it is broken
-	; PS: Solid tile are the ones with charcode less than 128
-	ld de, $1108
-	call getTileNearEntityWithXYOffset
-	rlca
-	ret nc
+    ; Return if not directly above a solid tile.
+    ; This is needed so the frog can continue falling
+    ; whean the block underneath it is broken
+    ; PS: Solid tile are the ones with charcode less than 128
+    ld de, $1108
+    call getTileNearEntityWithXYOffset
+    rlca
+    ret nc
 
-	; Change entity to the normal still frog
-	ld (ix + Entity.ySpeed.high), $00
-	ld (ix + Entity.ySpeed.low), $00
-	ld (ix + Entity.type), ENTITY_MONSTER_FROG
-	ld (ix + Entity.spriteDescriptorPointer.low), <_DATA_854C_
-	ld (ix + Entity.spriteDescriptorPointer.high), >_DATA_854C_
-	; @TODO: Fix entity var name below.
-	ld (ix + Entity.jankenMatchDecision), $10
-	ret
+    ; Change entity to the normal still frog
+    ld (ix + Entity.ySpeed.high), $00
+    ld (ix + Entity.ySpeed.low), $00
+    ld (ix + Entity.type), ENTITY_MONSTER_FROG
+    ld (ix + Entity.spriteDescriptorPointer.low), <_DATA_854C_
+    ld (ix + Entity.spriteDescriptorPointer.high), >_DATA_854C_
+    ; @TODO: Fix entity var name below.
+    ld (ix + Entity.jankenMatchDecision), $10
+    ret
