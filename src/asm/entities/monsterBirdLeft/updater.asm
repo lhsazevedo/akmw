@@ -1,34 +1,3 @@
-; 45th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
-;
-; function handleMonterbirdLeft(Entity entity)
-; 	if not entity.flags and 1 then
-;	begin
-;   	entity.unknown3 = $04
-; 		entity.animationTimer = $10
-; 		entity.animationTimerResetValue = $1;
-;	end
-;
-;	if entity.isOffScreenFlags then
-;	begin
-;		entity.xSpeed = $FF80
-;		entity.flags := entity.flags or %10
-; 		tryToKillAlexIfColliding
-;		_LABEL_7D0B_
-;		if something then
-; 			goto _LABEL_55A5_
-;		de := $0100
-;		a := $08
-;		r := _LABEL_3A03_
-;		if (r) then
-;		begin
-;			ld (ix + Entity.type), ENTITY_MONSTERBIRD_RIGHT
-;			ld (ix + Entity.xSpeed.high), $00
-;			ld (ix + Entity.xSpeed.low), $80
-;		end
-;	end
-;	hl = monsterbirdLeftAnimationDescriptor
-;	goto handleEntityAnimation
-;
 updateMonsterbirdLeft:
 	; Reset animation if bit 0 is set
 	bit 0, (ix + Entity.flags)
