@@ -38,11 +38,11 @@ tiles_bagOfGoldCoinsAndCloud:
 
 ; Data from C583 to C9E0 (1118 bytes)
 tiles_aditionalSet1:
-.incbin "src/graphics/aditionalSet1.bin"
+; .incbin "src/graphics/aditionalSet1.bin"
 
 ; Data from C9E1 to CE64 (1156 bytes)
 tiles_aditionalSet2:
-.incbin "src/graphics/aditionalSet2.bin"
+; .incbin "src/graphics/aditionalSet2.bin"
 
 ; Data from CE65 to CECD (105 bytes)
 tiles_aditionalSet3:

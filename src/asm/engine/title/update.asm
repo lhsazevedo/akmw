@@ -1,3 +1,6 @@
+abDebounce = $c080
+prevNextDebounce = $c082
+
 ; 1st entry of Jump Table from 3B (indexed by v_gameState)
 updateTitleScreenState:
     exx
@@ -10,6 +13,7 @@ updateTitleScreenState:
     
     xor a
     ld (_RAM_C10A_), a
+    ld ($C080), a
     call clearVDPTablesAndDisableScreen
     
     ld de, $6000
@@ -74,6 +78,7 @@ updateTitleScreenState:
 
     ; Play intro sound
     ld a, SOUND_INTRO
+    ld ($C081), a
     ld (v_soundControl), a
 
 
@@ -82,24 +87,86 @@ realUpdateTitleScreenState:
     call setAndWaitForInterruptFlags
     call updateEntities
 
-    ; Exit title on button press
+;     ld a, (v_inputData)
+;     and JOY_UP
+;     jr z, +++
+;     ld a, ($c081)
+;     inc a
+;     ld ($c081), a
+; +++:
+
+    ; Load input data
     ld a, (v_inputData)
     ld b, a
-    and (JOY_FIREA + JOY_FIREB)
-    jr nz, startGame
+    ; Next music
+    and (JOY_UP + JOY_DOWN)
+    jr z, _decPrevNext    
+        ld a, (prevNextDebounce)
+        cp a, $0
+        jr nz, _decPrevNext
+            ld a, $10
+            ld (prevNextDebounce), a
+            ld a, b
+            and JOY_UP
+            jr z, +
+                ld a, ($c081)
+                inc a
+                jr ++
+            +:
+                ld a, ($c081)
+                dec a
+        ++:
+            ld ($c081), a
+            ld (v_soundControl), a
+            jr _calcPlay
+    _decPrevNext:
+        ld a, (prevNextDebounce)
+        cp $0
+        jr z, _calcPlay
+            dec a
+            ld (prevNextDebounce), a
 
-    ; Tick intro timer
-    ld hl, (v_introTimer)
-    dec hl
-    ld (v_introTimer), hl
+_calcPlay:
+    ; Prev music
+    ; Play music
+;     and (JOY_FIREA + JOY_FIREB)
+;     jr z, +
+;     ld a, ($c080)
+;     cp a, $0
+;     jr nz, +
 
-    ; Start demo on timer end
-    ld a, h
-    or l
-    ret nz
-    ld a, $02
-    ld (v_gameState), a
+;     ld a, ($C081)
+;     ld (v_soundControl), a
+;     ld a, $20
+;     ld ($c080), a
+;     jr ++
+; +:
+;     ld a, ($c080)
+;     cp a, $0
+;     jr z, ++
+;     dec a
+;     ld ($c080), a
+; ++:
     ret
+
+    ; ; Exit title on button press
+    ; ld a, (v_inputData)
+    ; ld b, a
+    ; and (JOY_FIREA + JOY_FIREB)
+    ; jr nz, startGame
+
+    ; ; Tick intro timer
+    ; ld hl, (v_introTimer)
+    ; dec hl
+    ; ld (v_introTimer), hl
+
+    ; ; Start demo on timer end
+    ; ld a, h
+    ; or l
+    ; ret nz
+    ; ld a, $02
+    ; ld (v_gameState), a
+    ; ret
 
 
 startGame:
