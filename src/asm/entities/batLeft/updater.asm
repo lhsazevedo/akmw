@@ -47,7 +47,7 @@ bat_LABEL_4F43_:
     ld (ix + Entity.unknown6), a
 +:
     ; Apply sine movement
-    ld hl, _DATA_524F_
+    ld hl, lowSine
     ld c, a
     ld b, $00
     add hl, bc

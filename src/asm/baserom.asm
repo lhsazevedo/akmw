@@ -7676,7 +7676,7 @@ _LABEL_515F_:
     xor a
     ld (ix+24), a
 +:
-    ld hl, _DATA_528F_
+    ld hl, highSine
     ld c, a
     ld b, $00
     add hl, bc
@@ -7726,7 +7726,7 @@ _LABEL_51F3_:
     xor a
     ld (ix+24), a
 +:
-    ld hl, _DATA_528F_
+    ld hl, highSine
     ld c, a
     ld b, $00
     add hl, bc
@@ -7755,14 +7755,14 @@ _LABEL_5249_:
 
 ; Data from 524F to 528E (64 bytes)
 ; Sine table used on bat (at least)
-_DATA_524F_:
+lowSine:
 .db $00 $01 $02 $02 $03 $04 $04 $05 $06 $06 $07 $07 $07 $08 $08 $08
 .db $08 $08 $08 $08 $07 $07 $07 $06 $06 $05 $04 $04 $03 $02 $02 $01
 .db $00 $FF $FE $FE $FD $FC $FC $FB $FA $FA $F9 $F9 $F9 $F8 $F8 $F8
 .db $F8 $F8 $F8 $F8 $F9 $F9 $F9 $FA $FA $FB $FC $FC $FD $FE $FE $FF
 
 ; Data from 528F to 52CE (64 bytes)
-_DATA_528F_:
+highSine:
 .db $00 $02 $05 $07 $09 $0B $0D $0F $11 $13 $14 $15 $16 $17 $18 $18
 .db $18 $18 $18 $17 $16 $15 $14 $13 $11 $0F $0D $0B $09 $07 $05 $02
 .db $00 $FE $FB $F9 $F7 $F5 $F3 $F1 $EF $ED $EC $EB $EA $E9 $E8 $E8
@@ -8289,7 +8289,7 @@ _LABEL_57CE_:
     jr z, +
     ld c, a
     ld b, $00
-    ld hl, _DATA_524F_
+    ld hl, lowSine
     add hl, bc
     ld a, (hl)
     add a, (ix+3)
@@ -8345,7 +8345,7 @@ _LABEL_5883_:
     jr z, +
     ld c, a
     ld b, $00
-    ld hl, _DATA_524F_
+    ld hl, lowSine
     add hl, bc
     ld a, (hl)
     add a, (ix+3)
