@@ -13,7 +13,7 @@ updateDemoState:
     ld (v_nextDemoIndex), a
     ld c, a
     ld b, $00
-    ld hl, _DATA_A7C_ - 1
+    ld hl, demoLevels - 1
     add hl, bc
     ld a, (hl)
     ld (v_level), a

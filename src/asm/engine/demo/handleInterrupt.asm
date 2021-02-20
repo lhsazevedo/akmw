@@ -41,5 +41,5 @@ handleInterruptDemoState:
     jp handleInterruptGameplayState
 
 ; Data from A7C to A7F (4 bytes)
-_DATA_A7C_:
+demoLevels:
 .db $02 $03 $04 $05
