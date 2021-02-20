@@ -53,7 +53,7 @@ entityTypeJumpTable:
 .dw updateMonsterbirdRight
 .dw updateSmallFishRight
 .dw _LABEL_51F3_
-.dw _LABEL_4F82_
+.dw updateBatRight
 .dw updateMonsterFrogJumping
 .dw updateDebrisTopLeft
 .dw _LABEL_5996_
