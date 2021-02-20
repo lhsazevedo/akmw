@@ -61,8 +61,8 @@ entityTypeJumpTable:
 .dw _LABEL_59FB_
 .dw updateMoneyBag
 .dw _LABEL_5D94_
-.dw _LABEL_5E14_
-.dw _LABEL_5E7B_
+.dw updateFlameLeft
+.dw updateFlameRight
 .dw _LABEL_5EBA_
 .dw _LABEL_5F05_
 .dw _LABEL_5F4C_
