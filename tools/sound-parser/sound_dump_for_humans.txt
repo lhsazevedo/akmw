@@ -1,0 +1,1608 @@
+*****************************
+* Sound 1
+*****************************
+Channels:      4
+Flags:         10000000
+HW ch.         128
+Duration mult. 4
+Data pointer   0x9ef2
+Transpose      236
+Vibrato index  1
+Envelope index 4
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+D#3 D#3 G3  A#3 __  F3  F3  G#3 C4  __  A#3 A#3 D4  A#3 D#4 __  
+End of channel 1
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+B3  __  B3  F#3 B3  F#3 C#4 __  C#4 G#3 C#4 G#3 __  F#4 __  A#4 
+__  F#4 __  __  B4  B4  B4  B4  __  
+End of channel 2
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+A#2 A#2 D#3 G3  __  C3  C3  F3  G#3 __  G3  G3  G#3 G3  C4  __  
+End of channel 3
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+A#2 A#2 A#2 __  __  __  A3  __  A3  __  A3  
+End of channel 4
+
+
+
+*****************************
+* Sound 2
+*****************************
+Channels:      4
+Flags:         10000000
+HW ch.         128
+Duration mult. 4
+Data pointer   0x9fa6
+Transpose      236
+Vibrato index  1
+Envelope index 4
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+D#3 D#3 A#2 A#2 A#2 D3  D#5 D#3 __  D#3 __  __  D3  D#5 D#3 D#3 
+G3  A#3 __  F3  F3  G#3 C4  __  A#3 A#3 C4  D4  C4  A#3 G#3 G3  
+D#3 D#3 G3  A#3 __  F3  F3  G#3 C4  __  A#3 A#3 D4  A#3 D#4 __  
+C4  C4  C4  D4  D4  C4  A#3 __  G#3 G#3 G#3 A#3 A#3 G#3 G3  __  
+C4  C4  C4  D4  D4  C4  A#3 D#4 A#3 __  C4  A#3 G#3 A#3 D#4 D4  
+D#3 D#3 G3  A#3 __  F3  F3  G#3 C4  __  A#3 A#3 D4  A#3 D#4 __  
+D#5 B3  B3  __  F#3 __  F#4 __  B3  B3  __  F#4 __  F#3 __  __  
+__  __  B3  __  B3  F#3 B3  F#3 C#4 __  C#4 G#3 C#4 G#3 F#4 __  
+F#4 E4  F#4 G#4 __  F#4 __  B4  __  F#4 __  B3  __  B3  F#3 B3  
+F#3 C#4 __  C#4 G#3 C#4 G#3 F#4 __  F#4 E4  B4  A#4 G#4 __  G#4 
+A#4 F#4 __  F#4 __  E4  __  E4  __  D#4 __  E4  __  F#4 __  E4  
+__  G#4 __  G#4 __  F#4 __  B4  __  F#4 __  __  E4  __  D#4 __  
+B4  __  A#4 B3  __  B3  F#3 B3  F#3 C#4 __  C#4 G#3 C#4 G#3 __  
+F#4 __  A#4 __  F#4 __  __  B4  B4  B4  B4  __  __  D#3 D#3 __  
+D#3 __  A#3 __  D#3 D#3 __  D#3 __  A#2 __  __  __  A2  A#2 A#2 
+D#3 G3  __  C3  C3  F3  G#3 __  G3  G3  G#3 A#3 __  G#3 __  G3  
+__  F3  __  D#3 A#2 A#2 D#3 G3  __  C3  C3  F3  G#3 __  G3  G3  
+G#3 __  F3  __  G3  __  D#3 D#3 D#3 F3  F3  D#3 D3  __  C3  C3  
+C3  D3  D3  C3  A#2 C3  D3  __  D#3 D#3 D#3 F3  F3  D#3 D3  G3  
+D#3 __  F3  G3  F3  G3  G#3 G#3 G3  A#2 A#2 D#3 G3  __  C3  C3  
+F3  G#3 __  G3  G3  G#3 G3  C4  __  A2  A#2 A#2 A#2 A#2 A#2 A#2 
+A#2 A#2 A#2 A#2 A#2 A#2 A#2 A#2 A#2 A#2 A#2 A#2 A#2 A#2 A#2 A#2 
+A#2 __  __  __  A3  __  A3  __  A3  A#2 A3  A3  A3  A3  A3  A3  
+A3  A3  A3  A3  A3  A3  A3  A3  A3  A3  A3  A3  A3  A3  A3  A3  
+A3  A3  A3  A3  A3  A3  A3  A3  A3  A3  A3  A3  A3  A3  A3  A3  
+A3  A3  A3  A3  A3  A3  A3  A3  __  A3  __  A3  __  __  A3  A3  
+A3  A3  A3  A3  A3  A3  A3  A3  A3  A3  A3  A3  A3  A3  A3  A3  
+A3  A3  A3  A3  A3  A3  A3  A3  A3  A3  A3  A3  A3  A3  A3  A3  
+A3  A3  A3  A3  A3  
+
+*****************************
+* Sound 3
+*****************************
+Channels:      4
+Flags:         10000000
+HW ch.         128
+Duration mult. 8
+Data pointer   0xa3e2
+Transpose      250
+Vibrato index  1
+Envelope index 5
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+B2  __  B2  __  __  A#2 C3  C3  B2  F3  __  F3  D#3 __  D#3 C#3 
+__  C#3 C#3 C3  C#3 C#3 C3  __  D#3 __  D#3 C#3 __  C#3 C3  __  
+C3  F3  F3  D#3 C#3 C#3 C3  __  __  A#2 C3  C3  __  __  C3  A#2 
+C3  C#3 C3  D#3 C#3 C3  C3  A#2 __  C3  A#2 __  A#2 C3  __  F3  
+F3  D#3 C#3 D3  C3  C3  C3  A3  E3  F#3 G#3 C3  A3  E4  D4  C#4 
+C3  A3  __  A3  E3  A3  A3  D3  C3  A3  B3  A3  E3  __  E3  B2  
+E3  E3  G#4 C3  E3  E3  F#3 G#3 A3  __  A3  E3  A3  A3  F3  C3  
+E3  E4  D4  C#4 C#4 __  A3  E3  A3  A3  B4  C3  B3  A3  G#3 F#3 
+__  F#3 C#3 F#3 F#3 C#4 C3  F#3 F#3 G#3 F#3 E3  __  E3  B2  E3  
+E3  
+End of channel 1
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+C3  E3  E3  F#3 G#3 A3  __  A3  E3  A3  A3  A3  C#3 C#3 C3  C#3 
+C#3 __  C#3 C3  __  C3  A#2 __  A#2 A#2 __  A#2 A#2 __  __  C3  
+__  C3  A#2 __  A#2 __  __  __  C#3 C#3 C3  A#2 __  __  A3  A3  
+A3  A3  A3  C#3 C#3 C#3 __  A3  __  A3  C#3 __  __  A#2 C#3 C#3 
+C#3 __  __  __  __  __  __  __  D3  D3  D3  __  __  D#3 D#3 D#3 
+D#3 __  D#5 __  __  C3  B2  __  A#2 A2  __  D#3 D3  __  __  D#5 
+__  __  C3  B2  __  A#2 A2  __  D#3 D3  __  __  A#2 C#3 D#5 A#2 
+A2  D5  D#5 __  D#5 A#2 A2  C3  B2  __  C#3 E3  D#3 C#3 C#3 __  
+D#3 G3  F#3 D#3 F#3 __  C#3 E3  D#3 E3  __  G#3 G3  __  F#3 F3  
+__  B3  A#3 __  E3  D#3 E3  __  G#3 G3  __  F#3 F3  __  B3  A#3 
+__  __  F#3 F#3 __  D#3 D#3 D#3 __  B3  __  F#3 F#3 __  D#3 D#3 
+D#3 __  F#3 F#3 __  D#3 D#3 D#3 __  B3  __  F#3 F#3 __  D#3 D#3 
+D#3 __  A3  A3  __  F3  F#3 G3  __  C#4 __  A3  A3  __  F3  F#3 
+G3  __  B3  B3  __  G3  G#3 A3  __  D4  __  B3  B3  __  G3  G#3 
+A3  __  C#3 C#5 C5  C#5 __  __  D#5 __  B4  A4  __  A#2 A2  __  
+C#5 C5  C#5 __  __  D#5 __  B4  A4  __  A#2 A2  __  __  __  D3  
+C#5 C#5 __  B4  A#4 B4  C#5 D#5 __  A#2 __  D#5 __  C#5 C#5 __  
+B4  A#4 B4  C#5 D#5 A#2 __  C#5 C#5 __  B4  A#4 B4  C#5 D#5 __  
+A#2 __  B2  A#2 __  A#2 __  D#5 B4  __  __  __  __  D#5 __  A#2 
+B2  A#2 __  __  __  C#5 B4  A#4 B4  C#5 __  __  C#5 B4  __  A#2 
+A#2 __  D3  B2  A#2 B2  A#2 __  __  A#2 A#2 __  C#3 B2  A#2 B2  
+__  A#2 __  A#2 __  D3  A#2 D#3 __  __  __  D#3 D#3 D#3 D#3 __  
+__  __  __  __  __  __  __  __  E3  E3  E3  E3  __  B2  E3  E3  
+E3  E3  D#3 A2  A2  C#5 D#3 A2  D#5 C#5 D#3 D#5 D#5 C#5 D#5 D#5 
+A2  D#5 C#5 D#5 A2  D#3 D#5 D#5 C#5 D#5 A2  A#2 __  C#5 __  A#2 
+__  D#3 A#2 C#5 C#5 C#5 C#5 C#5 D#5 B4  D#5 C#5 A#4 B4  G#4 G#4 
+G#4 G#4 G#4 G#4 G#4 A2  A#2 A#2 A#2 C3  A#2 A2  C#5 C#5 C#5 C#5 
+__  
+
+*****************************
+* Sound 4
+*****************************
+Channels:      4
+Flags:         10000000
+HW ch.         128
+Duration mult. 7
+Data pointer   0xa5a2
+Transpose      253
+Vibrato index  1
+Envelope index 8
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+__  D#5 __  __  C3  B2  __  A#2 A2  __  D#3 D3  __  __  D#5 __  
+__  C3  B2  __  A#2 A2  __  D#3 D3  __  __  A#2 C#3 D#5 A#2 A2  
+D5  D#5 __  D#5 A#2 A2  C3  B2  __  C#3 E3  D#3 C#3 C#3 __  D#3 
+G3  F#3 D#3 F#3 __  C#3 E3  D#3 E3  __  G#3 G3  __  F#3 F3  __  
+B3  A#3 __  E3  D#3 E3  __  G#3 G3  __  F#3 F3  __  B3  A#3 __  
+__  F#3 F#3 __  D#3 D#3 D#3 __  B3  __  F#3 F#3 __  D#3 D#3 D#3 
+__  F#3 F#3 __  D#3 D#3 D#3 __  B3  __  F#3 F#3 __  D#3 D#3 D#3 
+__  A3  A3  __  F3  F#3 G3  __  C#4 __  A3  A3  __  F3  F#3 G3  
+__  B3  B3  __  G3  G#3 A3  __  D4  __  B3  B3  __  G3  G#3 A3  
+__  C#3 C#5 C5  C#5 __  __  D#5 __  B4  A4  __  A#2 A2  __  C#5 
+C5  C#5 __  __  D#5 __  B4  A4  __  A#2 A2  __  __  __  D3  C#5 
+C#5 __  B4  A#4 B4  C#5 D#5 __  A#2 __  D#5 __  C#5 C#5 __  B4  
+A#4 B4  C#5 D#5 A#2 __  C#5 C#5 __  B4  A#4 B4  C#5 D#5 __  A#2 
+__  B2  A#2 __  A#2 __  D#5 B4  __  __  __  __  D#5 __  A#2 B2  
+A#2 __  __  __  C#5 B4  A#4 B4  C#5 __  __  C#5 B4  __  A#2 A#2 
+__  D3  B2  A#2 B2  A#2 __  __  A#2 A#2 __  C#3 B2  A#2 B2  __  
+A#2 __  A#2 __  D3  A#2 D#3 __  __  __  D#3 D#3 D#3 D#3 __  __  
+__  __  __  __  __  __  __  E3  E3  E3  E3  __  B2  E3  E3  E3  
+E3  D#3 A2  A2  C#5 D#3 A2  D#5 C#5 D#3 D#5 D#5 C#5 D#5 D#5 A2  
+D#5 C#5 D#5 A2  D#3 D#5 D#5 C#5 D#5 A2  A#2 __  C#5 __  A#2 __  
+D#3 A#2 C#5 C#5 C#5 C#5 C#5 D#5 B4  D#5 C#5 A#4 B4  G#4 G#4 G#4 
+G#4 G#4 G#4 G#4 A2  A#2 A#2 A#2 C3  A#2 A2  C#5 C#5 C#5 C#5 __  
+__  E3  F3  F3  C#3 C#3 E3  F3  F3  D#3 C#3 C#3 F#3 F#3 F#3 F#3 
+F#3 C#3 C#3 C#3 C#3 C#3 D#3 D#3 D#3 D#3 C#3 D#3 F3  C#3 F#3 F#3 
+F#3 F#3 F#3 C#3 C#3 C#3 C#3 __  B2  B2  B2  C#3 C#3 D#3 F3  F#3 
+C#3 F#3 __  D#3 F#3 F#3 F#3 F#3 B2  B2  F#3 F#3 C#3 C#3 C#3 D#3 
+D#3 E3  C#5 C#5 A#4 __  E3  C#5 B4  A#4 __  E3  B4  B4  A#4 B4  
+B4  C#5 B4  A#4 B4  C#5 __  E3  G#4 G#4 G#4 A#4 B4  C#5 __  G#4 
+__  C#5 __  E3  D#5 A#4 A#4 A#4 A#4 A#4 B4  G#4 B4  A#4 F#4 G#4 
+F4  F4  F4  F4  F4  F4  F4  B4  C#5 C#5 C#5 D#5 C#5 B4  A#4 A#4 
+A#4 A#4 __  __  B2  B2  B2  B2  B2  B2  B2  B2  A#2 B2  A#2 A#2 
+A#2 A#2 A#2 B2  A#2 A#2 A#2 A#2 E3  __  __  __  F3  F3  F3  F3  
+__  __  __  F3  F3  F3  F3  __  __  __  F3  F3  F3  F3  __  __  
+F3  F3  F3  F3  D#5 D#5 C#5 D#5 A2  A#2 __  C#5 __  A#2 __  
+End of channel 1
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+B2  B2  B2  C#3 C#3 D#3 F3  F#3 C#3 F#3 __  
+End of channel 2
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+G#4 G#4 G#4 A#4 B4  C#5 __  G#4 __  C#5 __  
+End of channel 3
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+__  __  __  __  F3  F3  F3  F3  __  __  G#3 F3  F3  F3  F3  __  
+__  __  F#3 F#3 F#3 F#3 __  A2  F#3 F#3 F#3 F#3 __  A#2 C#5 __  
+A#2 A#2 C#5 __  __  C#3 A#2 __  A#2 __  A#2 __  __  __  B4  C#5 
+__  __  B4  C#5 __  __  A#2 __  A#2 __  __  __  __  A#2 C#5 __  
+A#2 A#2 C#5 __  
+
+*****************************
+* Sound 5
+*****************************
+Channels:      4
+Flags:         10000000
+HW ch.         128
+Duration mult. 4
+Data pointer   0xa77c
+Transpose      3
+Vibrato index  1
+Envelope index 4
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+D#3 A2  A2  C#5 D#3 A2  D#5 C#5 D#3 D#5 D#5 C#5 D#5 D#5 A2  D#5 
+C#5 D#5 A2  D#3 D#5 D#5 C#5 D#5 A2  A#2 __  C#5 __  A#2 __  D#3 
+A#2 C#5 C#5 C#5 C#5 C#5 D#5 B4  D#5 C#5 A#4 B4  G#4 G#4 G#4 G#4 
+G#4 G#4 G#4 A2  A#2 A#2 A#2 C3  A#2 A2  C#5 C#5 C#5 C#5 __  __  
+E3  F3  F3  C#3 C#3 E3  F3  F3  D#3 C#3 C#3 F#3 F#3 F#3 F#3 F#3 
+C#3 C#3 C#3 C#3 C#3 D#3 D#3 D#3 D#3 C#3 D#3 F3  C#3 F#3 F#3 F#3 
+F#3 F#3 C#3 C#3 C#3 C#3 __  B2  B2  B2  C#3 C#3 D#3 F3  F#3 C#3 
+F#3 __  D#3 F#3 F#3 F#3 F#3 B2  B2  F#3 F#3 C#3 C#3 C#3 D#3 D#3 
+E3  C#5 C#5 A#4 __  E3  C#5 B4  A#4 __  E3  B4  B4  A#4 B4  B4  
+C#5 B4  A#4 B4  C#5 __  E3  G#4 G#4 G#4 A#4 B4  C#5 __  G#4 __  
+C#5 __  E3  D#5 A#4 A#4 A#4 A#4 A#4 B4  G#4 B4  A#4 F#4 G#4 F4  
+F4  F4  F4  F4  F4  F4  B4  C#5 C#5 C#5 D#5 C#5 B4  A#4 A#4 A#4 
+A#4 __  __  B2  B2  B2  B2  B2  B2  B2  B2  A#2 B2  A#2 A#2 A#2 
+A#2 A#2 B2  A#2 A#2 A#2 A#2 E3  __  __  __  F3  F3  F3  F3  __  
+__  __  F3  F3  F3  F3  __  __  __  F3  F3  F3  F3  __  __  F3  
+F3  F3  F3  D#5 D#5 C#5 D#5 A2  A#2 __  C#5 __  A#2 __  
+End of channel 1
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+B2  B2  B2  C#3 C#3 D#3 F3  F#3 C#3 F#3 __  
+End of channel 2
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+G#4 G#4 G#4 A#4 B4  C#5 __  G#4 __  C#5 __  
+End of channel 3
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+__  __  __  __  F3  F3  F3  F3  __  __  G#3 F3  F3  F3  F3  __  
+__  __  F#3 F#3 F#3 F#3 __  A2  F#3 F#3 F#3 F#3 __  A#2 C#5 __  
+A#2 A#2 C#5 __  __  C#3 A#2 __  A#2 __  A#2 __  __  __  B4  C#5 
+__  __  B4  C#5 __  __  A#2 __  A#2 __  __  __  __  A#2 C#5 __  
+A#2 A#2 C#5 __  __  C#3 A#2 __  A#2 __  A#2 __  __  B4  C#5 __  
+A#2 __  A#2 __  __  A#2 C#3 __  C#3 __  __  F#3 F#3 C#3 F#3 C#3 
+F#3 C#3 __  F#3 F#3 C#3 F#3 C#3 F#3 __  __  E3  E3  B2  E3  B2  
+E3  B2  __  E3  E3  B2  E3  __  G#3 E3  __  F#3 F#3 C#3 F#3 C#3 
+F#3 C#3 __  F#3 F#3 C#3 F#3 C#3 F#3 __  __  B2  B2  __  C#3 __  
+E3  C#3 __  A3  __  A3  __  
+End of channel 4
+
+
+
+*****************************
+* Sound 6
+*****************************
+Channels:      3
+Flags:         10000000
+HW ch.         128
+Duration mult. 4
+Data pointer   0xa905
+Transpose      3
+Vibrato index  1
+Envelope index 4
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+D#5 D#5 C#5 D#5 A2  A#2 __  C#5 __  A#2 __  
+End of channel 1
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+B2  B2  B2  C#3 C#3 D#3 F3  F#3 C#3 F#3 __  
+End of channel 2
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+G#4 G#4 G#4 A#4 B4  C#5 __  G#4 __  C#5 __  
+End of channel 3
+
+
+
+*****************************
+* Sound 7
+*****************************
+Channels:      4
+Flags:         10000000
+HW ch.         128
+Duration mult. 4
+Data pointer   0xa95c
+Transpose      3
+Vibrato index  1
+Envelope index 7
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+__  A#2 C#5 __  A#2 A#2 C#5 __  __  C#3 A#2 __  A#2 __  A#2 __  
+__  __  B4  C#5 __  __  B4  C#5 __  __  A#2 __  A#2 __  __  __  
+__  A#2 C#5 __  A#2 A#2 C#5 __  __  C#3 A#2 __  A#2 __  A#2 __  
+__  B4  C#5 __  A#2 __  A#2 __  __  A#2 C#3 __  C#3 __  __  F#3 
+F#3 C#3 F#3 C#3 F#3 C#3 __  F#3 F#3 C#3 F#3 C#3 F#3 __  __  E3  
+E3  B2  E3  B2  E3  B2  __  E3  E3  B2  E3  __  G#3 E3  __  F#3 
+F#3 C#3 F#3 C#3 F#3 C#3 __  F#3 F#3 C#3 F#3 C#3 F#3 __  __  B2  
+B2  __  C#3 __  E3  C#3 __  A3  __  A3  __  
+End of channel 1
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+__  C#5 G#4 B4  C#5 C#5 G#4 B4  __  C#5 B4  C#5 __  __  C#5 __  
+__  F#4 C#4 E4  F#4 F#4 C#4 E4  __  F#4 B4  F#4 C#5 __  B4  __  
+__  C#5 G#4 B4  C#5 C#5 G#4 B4  __  C#5 B4  C#5 __  __  C#5 __  
+__  F#4 G#4 __  B4  __  C#5 __  __  __  __  __  __  
+End of channel 2
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+B2  B2  B2  F#3 A3  A3  A3  A3  A3  A3  A3  A3  A3  A3  A3  
+End of channel 3
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+A3  __  __  __  __  __  __  __  __  __  G3  G3  G3  G3  __  __  
+D#5 G3  G3  G3  G3  __  __  G#3 G#3 G#3 G#3 __  C#3 __  A#2 C3  
+A#2 A#2 __  __  C#3 __  A#2 C3  A#2 C3  C#3 __  C#3 __  A#2 C3  
+A#2 A#2 __  C#3 D#3 C#3 D#3 C3  C3  __  C#3 D5  D#3 __  __  D5  
+C3  C#5 A#2 D5  D#3 D5  C#3 B4  C3  C3  A#2 C#5 C#3 __  D5  C#5 
+A#2 B4  __  A4  C#3 B4  C3  C#5 A#2 A#2 A#2 D5  D#3 __  __  D5  
+C3  C#5 A#2 D5  D#3 D5  C#3 B4  C3  C#3 C3  A4  C#3 D5  A#2 A#2 
+C3  __  A#2 C#3 D#3 C#3 D#3 C3  D#3 D#3 D#3 F#3 A3  __  A3  E3  
+A3  A3  A3  G3  B3  __  B3  F#3 B3  B3  __  B3  F#3 F#3 B3  __  
+B3  F#3 B3  B3  B3  G3  B3  __  B3  F#3 F#3 A3  __  A3  E3  A3  
+A3  __  A3  E3  A3  A3  __  B3  E3  A3  A3  __  A3  E3  E3  B3  
+__  B3  F#3 C#4 B3  __  B3  F#3 F#3 F#3 B3  G3  A3  __  A3  E3  
+E3  A3  __  A3  B3  A3  D4  __  D4  D4  C#4 C#4 C#4 C#4 G3  C#5 
+__  C#5 C#5 __  C#5 C#5 C#5 __  C#5 C#5 C#5 __  C#5 C#5 __  C#5 
+C#5 A#2 __  A#2 __  __  B4  __  B4  B4  __  A4  __  B4  __  B4  
+__  G#4 A4  __  A4  A4  __  G#4 __  F#4 __  G#4 __  A4  B4  __  
+B4  B4  __  A4  __  B4  __  B4  __  G#4 F#4 __  B4  __  D5  __  
+C#5 __  A#2 __  A#2 __  __  G3  A#2 A#2 A#2 G#3 A#2 B2  G#3 __  
+__  __  G#3 G#3 G#3 G#3 __  __  __  G#3 G#3 G#3 G#3 __  __  __  
+G#3 G#3 G#3 C#3 A#2 __  __  __  __  G#3 G#3 E3  __  G3  G#3 G#3 
+G#3 G#3 G#3 __  __  __  __  C4  C4  C4  C4  C4  
+End of channel 4
+
+
+
+*****************************
+* Sound 8
+*****************************
+Channels:      4
+Flags:         10000000
+HW ch.         128
+Duration mult. 8
+Data pointer   0xaaf6
+Transpose      3
+Vibrato index  1
+Envelope index 4
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+__  C#3 __  A#2 C3  A#2 A#2 __  __  C#3 __  A#2 C3  A#2 C3  C#3 
+__  C#3 __  A#2 C3  A#2 A#2 __  C#3 D#3 C#3 D#3 C3  C3  __  C#3 
+D5  D#3 __  __  D5  C3  C#5 A#2 D5  D#3 D5  C#3 B4  C3  C3  A#2 
+C#5 C#3 __  D5  C#5 A#2 B4  __  A4  C#3 B4  C3  C#5 A#2 A#2 A#2 
+D5  D#3 __  __  D5  C3  C#5 A#2 D5  D#3 D5  C#3 B4  C3  C#3 C3  
+A4  C#3 D5  A#2 A#2 C3  __  A#2 C#3 D#3 C#3 D#3 C3  D#3 D#3 D#3 
+F#3 A3  __  A3  E3  A3  A3  A3  G3  B3  __  B3  F#3 B3  B3  __  
+B3  F#3 F#3 B3  __  B3  F#3 B3  B3  B3  G3  B3  __  B3  F#3 F#3 
+A3  __  A3  E3  A3  A3  __  A3  E3  A3  A3  __  B3  E3  A3  A3  
+__  A3  E3  E3  B3  __  B3  F#3 C#4 B3  __  B3  F#3 F#3 F#3 B3  
+G3  A3  __  A3  E3  E3  A3  __  A3  B3  A3  D4  __  D4  D4  C#4 
+C#4 C#4 C#4 G3  C#5 __  C#5 C#5 __  C#5 C#5 C#5 __  C#5 C#5 C#5 
+__  C#5 C#5 __  C#5 C#5 A#2 __  A#2 __  __  B4  __  B4  B4  __  
+A4  __  B4  __  B4  __  G#4 A4  __  A4  A4  __  G#4 __  F#4 __  
+G#4 __  A4  B4  __  B4  B4  __  A4  __  B4  __  B4  __  G#4 F#4 
+__  B4  __  D5  __  C#5 __  A#2 __  A#2 __  __  G3  A#2 A#2 A#2 
+G#3 A#2 B2  G#3 __  __  __  G#3 G#3 G#3 G#3 __  __  __  G#3 G#3 
+G#3 G#3 __  __  __  G#3 G#3 G#3 C#3 A#2 __  __  __  __  G#3 G#3 
+E3  __  G3  G#3 G#3 G#3 G#3 G#3 __  __  __  __  C4  C4  C4  C4  
+C4  
+End of channel 1
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+C4  E3  C#3 G#3 G#3 G#3 G#3 G#3 G#3 G#3 G#3 G#3 G#3 G#3 G#3 G#3 
+G#3 
+End of channel 2
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+G#3 __  C5  G#3 G#3 G#3 G#3 __  __  B4  __  A4  
+End of channel 3
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+A4  __  __  C5  G#3 G#3 G#3 G#3 __  __  C5  G#3 G#3 G#3 G#3 C#3 
+B4  
+End of channel 4
+
+
+
+*****************************
+* Sound 9
+*****************************
+Channels:      3
+Flags:         10100000
+HW ch.         128
+Duration mult. 4
+Data pointer   0xac72
+Transpose      3
+Vibrato index  1
+Envelope index 0
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+C#3 A#2 __  __  __  __  G#3 G#3 E3  __  G3  G#3 G#3 G#3 G#3 G#3 
+__  __  __  __  C4  C4  C4  C4  C4  
+End of channel 1
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+C4  E3  C#3 G#3 G#3 G#3 G#3 G#3 G#3 G#3 G#3 G#3 G#3 G#3 G#3 G#3 
+G#3 
+End of channel 2
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+G#3 __  C5  G#3 G#3 G#3 G#3 __  __  B4  __  A4  
+End of channel 3
+
+
+
+*****************************
+* Sound 10
+*****************************
+Channels:      1
+Flags:         10101000
+HW ch.         192
+Duration mult. 1
+Data pointer   0xac8b
+Transpose      3
+Vibrato index  1
+Envelope index 1
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  __  __  __  __  C4  C4  C4  C4  C4  
+End of channel 1
+
+
+
+*****************************
+* Sound 11
+*****************************
+Channels:      1
+Flags:         10101000
+HW ch.         224
+Duration mult. 1
+Data pointer   0xaca5
+Transpose      0
+Vibrato index  1
+Envelope index 2
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+End of channel 1
+
+
+
+*****************************
+* Sound 12
+*****************************
+Channels:      1
+Flags:         10000000
+HW ch.         224
+Duration mult. 1
+Data pointer   0xacbc
+Transpose      3
+Vibrato index  0
+Envelope index 0
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+__  __  B4  __  A4  
+End of channel 1
+
+
+
+*****************************
+* Sound 13
+*****************************
+Channels:      2
+Flags:         10000000
+HW ch.         160
+Duration mult. 1
+Data pointer   0xacdc
+Transpose      5
+Vibrato index  0
+Envelope index 2
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+C#3 B4  
+End of channel 1
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+B4  E3  __  __  __  __  __  E3  __  __  __  __  __  __  __  __  
+__  __  __  
+End of channel 2
+
+
+
+*****************************
+* Sound 14
+*****************************
+Channels:      2
+Flags:         10001000
+HW ch.         160
+Duration mult. 1
+Data pointer   0xacf4
+Transpose      0
+Vibrato index  0
+Envelope index 7
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+End of channel 1
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+End of channel 2
+
+
+
+*****************************
+* Sound 15
+*****************************
+Channels:      2
+Flags:         10000000
+HW ch.         160
+Duration mult. 3
+Data pointer   0xad15
+Transpose      5
+Vibrato index  1
+Envelope index 4
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+A4  C#5 D#5 C#5 B4  __  
+End of channel 1
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+__  __  __  __  A3  A3  A3  A3  C#3 A4  
+End of channel 2
+
+
+
+*****************************
+* Sound 16
+*****************************
+Channels:      1
+Flags:         10100000
+HW ch.         192
+Duration mult. 4
+Data pointer   0xad28
+Transpose      3
+Vibrato index  0
+Envelope index 3
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+C#3 A4  
+End of channel 1
+
+
+
+*****************************
+* Sound 17
+*****************************
+Channels:      1
+Flags:         10101000
+HW ch.         192
+Duration mult. 1
+Data pointer   0xad36
+Transpose      3
+Vibrato index  0
+Envelope index 0
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  C4  C4  C4  C4  C4  C4  E3  E3  E3  
+End of channel 1
+
+
+
+*****************************
+* Sound 18
+*****************************
+Channels:      2
+Flags:         10101000
+HW ch.         160
+Duration mult. 1
+Data pointer   0xad59
+Transpose      3
+Vibrato index  0
+Envelope index 0
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  __  __  __  __  __  
+__  __  __  __  __  __  __  __  __  __  __  __  __  __  __  __  
+__  __  __  __  __  __  __  __  
+End of channel 1
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+__  E3  __  G4  A3  A3  A3  A3  A3  A3  A3  __  __  __  __  __  
+__  
+End of channel 2
+
+
+
+*****************************
+* Sound 19
+*****************************
+Channels:      1
+Flags:         10101000
+HW ch.         192
+Duration mult. 1
+Data pointer   0xad97
+Transpose      3
+Vibrato index  0
+Envelope index 8
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  __  __  __  __  __  __  
+End of channel 1
+
+
+
+*****************************
+* Sound 20
+*****************************
+Channels:      1
+Flags:         10000000
+HW ch.         192
+Duration mult. 1
+Data pointer   0xadb1
+Transpose      3
+Vibrato index  0
+Envelope index 4
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+A4  C#5 __  B2  B2  C#4 A3  A4  C#5 __  B2  B2  C#5 A3  A3  E3  
+__  D#5 A3  A3  A3  A3  E3  __  __  A#3 A#3 A#3 A#3 A#3 A#3 A#3 
+A#3 A#3 A#3 A#3 A#3 A#3 A#3 A#3 A#3 A#3 A#3 A#3 A#3 C4  C4  C4  
+C4  C4  C4  C4  C4  C4  C4  C4  C4  C4  C4  __  __  __  __  __  
+__  __  __  __  __  __  __  __  __  __  __  __  __  __  __  __  
+__  __  __  
+End of channel 1
+
+
+
+*****************************
+* Sound 21
+*****************************
+Channels:      2
+Flags:         10101000
+HW ch.         160
+Duration mult. 2
+Data pointer   0xaddf
+Transpose      3
+Vibrato index  0
+Envelope index 3
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+C4  C4  C4  C4  C4  C4  C4  C4  C4  C4  C4  C4  C4  C4  __  __  
+__  __  __  __  __  __  __  __  __  __  __  __  __  __  __  __  
+__  __  __  __  __  __  
+End of channel 1
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+__  __  __  __  __  C4  C4  C4  C4  C4  C4  C4  C4  C4  __  __  
+__  __  __  __  __  __  __  __  __  __  __  __  __  __  __  C4  
+C4  C4  C4  C4  C4  C4  C4  C4  C4  C4  C4  C4  C4  C4  C4  C4  
+C4  C4  __  
+End of channel 2
+
+
+
+*****************************
+* Sound 22
+*****************************
+Channels:      1
+Flags:         10101000
+HW ch.         192
+Duration mult. 2
+Data pointer   0xae63
+Transpose      0
+Vibrato index  0
+Envelope index 4
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  C4  C4  C4  C4  C4  C4  __  C4  
+C4  __  A#3 E3  __  F3  A#3 A#3 A#3 A#3 A#3 C4  C4  C4  C4  C4  
+C4  C4  C4  C4  C4  C4  __  __  __  __  __  __  __  __  __  
+End of channel 1
+
+
+
+*****************************
+* Sound 23
+*****************************
+Channels:      1
+Flags:         10101000
+HW ch.         192
+Duration mult. 2
+Data pointer   0xae89
+Transpose      3
+Vibrato index  0
+Envelope index 8
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  C4  C4  C4  C4  C4  C4  C4  C4  C4  C4  C4  __  __  __  __  
+__  __  __  __  __  
+End of channel 1
+
+
+
+*****************************
+* Sound 24
+*****************************
+Channels:      1
+Flags:         10101000
+HW ch.         192
+Duration mult. 1
+Data pointer   0xaead
+Transpose      0
+Vibrato index  0
+Envelope index 9
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+End of channel 1
+
+
+
+*****************************
+* Sound 25
+*****************************
+Channels:      1
+Flags:         10101000
+HW ch.         224
+Duration mult. 1
+Data pointer   0xaebd
+Transpose      3
+Vibrato index  0
+Envelope index 8
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+End of channel 1
+
+
+
+*****************************
+* Sound 26
+*****************************
+Channels:      1
+Flags:         10001000
+HW ch.         192
+Duration mult. 1
+Data pointer   0xaed6
+Transpose      3
+Vibrato index  1
+Envelope index 1
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  __  
+End of channel 1
+
+
+
+*****************************
+* Sound 27
+*****************************
+Channels:      2
+Flags:         10100000
+HW ch.         160
+Duration mult. 4
+Data pointer   0xaef6
+Transpose      3
+Vibrato index  1
+Envelope index 0
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+C#4 A4  
+End of channel 1
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+A4  E3  __  __  B3  B3  B3  B3  B3  B3  B3  B3  B3  B3  B3  B3  
+B3  B3  B3  A#2 C4  
+End of channel 2
+
+
+
+*****************************
+* Sound 28
+*****************************
+Channels:      1
+Flags:         10101000
+HW ch.         192
+Duration mult. 1
+Data pointer   0xaf04
+Transpose      0
+Vibrato index  1
+Envelope index 2
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  A#2 C4  
+End of channel 1
+
+
+
+*****************************
+* Sound 29
+*****************************
+Channels:      1
+Flags:         10101000
+HW ch.         192
+Duration mult. 1
+Data pointer   0xaf1e
+Transpose      0
+Vibrato index  1
+Envelope index 0
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  __  C4  C4  C4  C4  C4  __  __  __  __  __  B3  B3  
+End of channel 1
+
+
+
+*****************************
+* Sound 30
+*****************************
+Channels:      2
+Flags:         10101000
+HW ch.         160
+Duration mult. 2
+Data pointer   0xaf49
+Transpose      3
+Vibrato index  1
+Envelope index 0
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  __  __  __  __  __  __  
+End of channel 1
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+__  __  __  __  __  __  __  __  __  __  __  C4  
+End of channel 2
+
+
+
+*****************************
+* Sound 31
+*****************************
+Channels:      1
+Flags:         10000000
+HW ch.         224
+Duration mult. 1
+Data pointer   0xaf77
+Transpose      3
+Vibrato index  1
+Envelope index 0
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+A3  A3  A3  A3  A3  A3  B3  
+End of channel 1
+
+
+
+*****************************
+* Sound 32
+*****************************
+Channels:      2
+Flags:         10101000
+HW ch.         160
+Duration mult. 1
+Data pointer   0xaf97
+Transpose      3
+Vibrato index  0
+Envelope index 3
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  __  
+End of channel 1
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+__  __  __  __  __  
+End of channel 2
+
+
+
+*****************************
+* Sound 33
+*****************************
+Channels:      1
+Flags:         10000000
+HW ch.         192
+Duration mult. 4
+Data pointer   0xafc7
+Transpose      3
+Vibrato index  0
+Envelope index 3
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+C#3 
+End of channel 1
+
+
+
+*****************************
+* Sound 34
+*****************************
+Channels:      2
+Flags:         10101000
+HW ch.         160
+Duration mult. 1
+Data pointer   0xafdd
+Transpose      0
+Vibrato index  0
+Envelope index 9
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  __  
+End of channel 1
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+__  __  __  
+End of channel 2
+
+
+
+*****************************
+* Sound 35
+*****************************
+Channels:      2
+Flags:         10101000
+HW ch.         160
+Duration mult. 1
+Data pointer   0xaffc
+Transpose      0
+Vibrato index  1
+Envelope index 0
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+End of channel 1
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+End of channel 2
+
+
+
+*****************************
+* Sound 36
+*****************************
+Channels:      1
+Flags:         10101000
+HW ch.         224
+Duration mult. 1
+Data pointer   0xb03e
+Transpose      3
+Vibrato index  0
+Envelope index 8
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  __  __  __  __  C4  C4  C4  
+End of channel 1
+
+
+
+*****************************
+* Sound 37
+*****************************
+Channels:      1
+Flags:         10101000
+HW ch.         192
+Duration mult. 1
+Data pointer   0xb057
+Transpose      3
+Vibrato index  0
+Envelope index 3
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  C4  C4  C4  C4  C4  C4  
+End of channel 1
+
+
+
+*****************************
+* Sound 38
+*****************************
+Channels:      1
+Flags:         10001000
+HW ch.         192
+Duration mult. 1
+Data pointer   0xb06c
+Transpose      3
+Vibrato index  0
+Envelope index 1
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  __  
+End of channel 1
+
+
+
+*****************************
+* Sound 39
+*****************************
+Channels:      1
+Flags:         10101000
+HW ch.         192
+Duration mult. 1
+Data pointer   0xb080
+Transpose      3
+Vibrato index  0
+Envelope index 3
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  __  __  __  __  __  __  __  __  __  __  __  
+End of channel 1
+
+
+
+*****************************
+* Sound 40
+*****************************
+Channels:      1
+Flags:         10101000
+HW ch.         192
+Duration mult. 1
+Data pointer   0xb09a
+Transpose      3
+Vibrato index  0
+Envelope index 7
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  C4  C4  C4  C4  C4  C4  C4  C4  C4  
+End of channel 1
+
+
+
+*****************************
+* Sound 41
+*****************************
+Channels:      1
+Flags:         10001000
+HW ch.         192
+Duration mult. 1
+Data pointer   0xb0b4
+Transpose      3
+Vibrato index  0
+Envelope index 3
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  __  
+End of channel 1
+
+
+
+*****************************
+* Sound 42
+*****************************
+Channels:      1
+Flags:         10101000
+HW ch.         192
+Duration mult. 1
+Data pointer   0xb0c8
+Transpose      3
+Vibrato index  1
+Envelope index 8
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  C4  C4  C4  C4  C4  C4  C4  C4  C4  C4  C4  C4  
+End of channel 1
+
+
+
+*****************************
+* Sound 43
+*****************************
+Channels:      1
+Flags:         10001000
+HW ch.         192
+Duration mult. 1
+Data pointer   0xb0e7
+Transpose      3
+Vibrato index  0
+Envelope index 1
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  C4  
+End of channel 1
+
+
+
+*****************************
+* Sound 44
+*****************************
+Channels:      1
+Flags:         10101000
+HW ch.         192
+Duration mult. 2
+Data pointer   0xb0fe
+Transpose      3
+Vibrato index  1
+Envelope index 0
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  __  __  __  __  __  __  __  __  __  __  __  __  __  
+__  __  __  __  __  
+End of channel 1
+
+
+
+*****************************
+* Sound 45
+*****************************
+Channels:      1
+Flags:         10101000
+HW ch.         192
+Duration mult. 1
+Data pointer   0xb127
+Transpose      3
+Vibrato index  1
+Envelope index 0
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  C4  __  __  __  __  __  __  __  __  __  __  __  
+__  __  __  __  __  __  __  __  __  __  __  __  __  __  __  C4  
+__  __  __  __  __  __  __  __  __  __  __  __  __  __  __  __  
+__  __  __  __  __  __  __  E3  __  __  C#4 C#4 C#4 C#4 C#4 C#4 
+C#4 C4  C4  C4  C4  __  __  __  __  __  __  
+End of channel 1
+
+
+
+*****************************
+* Sound 46
+*****************************
+Channels:      1
+Flags:         10101000
+HW ch.         192
+Duration mult. 1
+Data pointer   0xb179
+Transpose      0
+Vibrato index  1
+Envelope index 0
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  
+Warning: A non-numeric value encountered in /app/soundviz.php on line 95
+__  C4  C4  C4  C4  __  __  __  __  __  __  
+End of channel 1
+
+
+
+*****************************
+* Sound 47
+*****************************
+Channels:      3
+Flags:         10000000
+HW ch.         128
+Duration mult. 6
+Data pointer   0xb1a5
+Transpose      0
+Vibrato index  1
+Envelope index 4
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+__  D5  C#5 A4  C#5 B4  A4  
+End of channel 1
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+C#5 B4  A4  E4  A4  E4  E4  
+End of channel 2
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+A3  A3  E3  C#4 E3  A3  C#4 
+End of channel 3
+
+
+
+*****************************
+* Sound 48
+*****************************
+Channels:      4
+Flags:         10000000
+HW ch.         128
+Duration mult. 6
+Data pointer   0x9fb9
+Transpose      236
+Vibrato index  1
+Envelope index 4
+
+---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+D#3 D#3 G3  A#3 __  F3  F3  G#3 C4  __  A#3 A#3 C4  D4  C4  A#3 
+G#3 G3  D#3 D#3 G3  A#3 __  F3  F3  G#3 C4  __  A#3 A#3 D4  A#3 
+D#4 __  C4  C4  C4  D4  D4  C4  A#3 __  G#3 G#3 G#3 A#3 A#3 G#3 
+G3  __  C4  C4  C4  D4  D4  C4  A#3 D#4 A#3 __  C4  A#3 G#3 A#3 
+D#4 D4  D#3 D#3 G3  A#3 __  F3  F3  G#3 C4  __  A#3 A#3 D4  A#3 
+D#4 __  D#5 B3  B3  __  F#3 __  F#4 __  B3  B3  __  F#4 __  F#3 
+__  __  __  __  B3  __  B3  F#3 B3  F#3 C#4 __  C#4 G#3 C#4 G#3 
+F#4 __  F#4 E4  F#4 G#4 __  F#4 __  B4  __  F#4 __  B3  __  B3  
+F#3 B3  F#3 C#4 __  C#4 G#3 C#4 G#3 F#4 __  F#4 E4  B4  A#4 G#4 
+__  G#4 A#4 F#4 __  F#4 __  E4  __  E4  __  D#4 __  E4  __  F#4 
+__  E4  __  G#4 __  G#4 __  F#4 __  B4  __  F#4 __  __  E4  __  
+D#4 __  B4  __  A#4 B3  __  B3  F#3 B3  F#3 C#4 __  C#4 G#3 C#4 
+G#3 __  F#4 __  A#4 __  F#4 __  __  B4  B4  B4  B4  __  __  D#3 
+D#3 __  D#3 __  A#3 __  D#3 D#3 __  D#3 __  A#2 __  __  __  A2  
+A#2 A#2 D#3 G3  __  C3  C3  F3  G#3 __  G3  G3  G#3 A#3 __  G#3 
+__  G3  __  F3  __  D#3 A#2 A#2 D#3 G3  __  C3  C3  F3  G#3 __  
+G3  G3  G#3 __  F3  __  G3  __  D#3 D#3 D#3 F3  F3  D#3 D3  __  
+C3  C3  C3  D3  D3  C3  A#2 C3  D3  __  D#3 D#3 D#3 F3  F3  D#3 
+D3  G3  D#3 __  F3  G3  F3  G3  G#3 G#3 G3  A#2 A#2 D#3 G3  __  
+C3  C3  F3  G#3 __  G3  G3  G#3 G3  C4  __  A2  A#2 A#2 A#2 A#2 
+A#2 A#2 A#2 A#2 A#2 A#2 A#2 A#2 A#2 A#2 A#2 A#2 A#2 A#2 A#2 A#2 
+A#2 A#2 A#2 __  __  __  A3  __  A3  __  A3  A#2 A3  A3  A3  A3  
+A3  A3  A3  A3  A3  A3  A3  A3  A3  A3  A3  A3  A3  A3  A3  A3  
+A3  A3  A3  A3  A3  A3  A3  A3  A3  A3  A3  A3  A3  A3  A3  A3  
+A3  A3  A3  A3  A3  A3  A3  A3  A3  A3  __  A3  __  A3  __  __  
+A3  A3  A3  A3  A3  A3  A3  A3  A3  A3  A3  A3  A3  A3  A3  A3  
+A3  A3  A3  A3  A3  A3  A3  A3  A3  A3  A3  A3  A3  A3  A3  A3  
+A3  A3  A3  A3  A3  A3  A3  A3  A3  A3  A3  A3  A3  A3  
+
