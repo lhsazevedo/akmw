@@ -1762,7 +1762,7 @@ loadLevelPalette:
     ld a, $87
     ld (Mapper_Slot2), a
     ld a, (v_level)
-    ld hl, _DATA_1112_ - 2
+    ld hl, levelPalettes - 2
     rst $10    ; _LABEL_10_
     ld de, $C000
     ld b, $20
@@ -1770,7 +1770,7 @@ loadLevelPalette:
     ret
 
 ; Pointer Table from 1112 to 1133 (17 entries, indexed by v_level)
-_DATA_1112_:
+levelPalettes:
 .dw mtEthernalStage1Palette _DATA_1FE1E_ _DATA_1FCDE_ _DATA_1FCFE_ _DATA_1FD1E_ _DATA_1FD3E_ _DATA_1FD5E_ _DATA_1FD7E_
 .dw _DATA_1FDBE_ _DATA_1FDDE_ _DATA_1FD9E_ _DATA_1FDFE_ _DATA_1FE1E_ _DATA_1FE3E_ _DATA_1FCBE_ _DATA_1FE5E_
 .dw _DATA_1FE7E_
