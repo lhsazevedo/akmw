@@ -15,14 +15,19 @@ initGameplayState:
 	ld (v_entitydataArrayPointer), hl
 	call loadLevelPalette
 	call loadLevelSpriteTiles
+
+	; Load Rice Ball tiles
 	ld hl, _DATA_1F0A9_
 	ld de, $61A0
 	ld bc, $0060
 	call writeBcBytesToVRAM
+
+	; Load Money Bag tiles (plus another one)
 	ld hl, _DATA_1D349_
 	ld de, $66C0
 	ld bc, $0100
 	call writeBcBytesToVRAM
+
 	ld a, (v_level)
 	ld hl, _DATA_E1F_ - 1
 	ld c, a
@@ -50,19 +55,27 @@ initGameplayState:
 	ld bc, $01C0
 	call writeBcBytesToVRAM
 +++:
+	; Load character tiles
 	ld a, $85
 	ld (Mapper_Slot2), a
 	ld de, $5600
 	ld hl, _DATA_172B1_
 	call decompress4BitplanesToVRAM
+
+	; Load boxes tiles
 	ld a, $83
 	ld (Mapper_Slot2), a
 	ld hl, _DATA_C000_
 	ld de, $4020
 	ld bc, $0480
 	call writeBcBytesToVRAM
+
+	; Load level tiles
 	call _LABEL_E6C_
+
+	; @TODO
 	call _LABEL_65B1_
+
 	ld a, (v_level)
 	ld hl, _DATA_D70_ - 3
 	ld c, a
