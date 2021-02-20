@@ -13,7 +13,7 @@ initGameplayState:
 	ld (v_entitydataArrayLength), a
 	ld hl, v_entity1
 	ld (v_entitydataArrayPointer), hl
-	call _LABEL_10FF_
+	call loadLevelPalette
 	call _LABEL_1134_
 	ld hl, _DATA_1F0A9_
 	ld de, $61A0

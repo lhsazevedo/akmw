@@ -79,7 +79,7 @@ _LABEL_1C33_:
 	ld ix, v_entity1
 	call updateAlexSpawning
 	call updateEntities
-	call _LABEL_10FF_
+	call loadLevelPalette
 	ld a, $83
 	ld (Mapper_Slot2), a
 	call _LABEL_E6C_

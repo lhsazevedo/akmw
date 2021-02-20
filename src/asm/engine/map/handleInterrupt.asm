@@ -32,7 +32,7 @@ _LABEL_1FE9_:
 	ld hl, v_level
 	inc (hl)
 +:
-	call _LABEL_10FF_
+	call loadLevelPalette
 	ld a, $83
 	ld (Mapper_Slot2), a
 	call _LABEL_E6C_

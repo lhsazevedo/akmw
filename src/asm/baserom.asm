@@ -1758,7 +1758,7 @@ _LABEL_10F9_:
 _LABEL_10FC_:
     jp _LABEL_10B0_
 
-_LABEL_10FF_:
+loadLevelPalette:
     ld a, $87
     ld (Mapper_Slot2), a
     ld a, (v_level)
@@ -2549,7 +2549,7 @@ _LABEL_1735_:
     inc a
     ld (v_level), a
     call _LABEL_E6C_
-    call _LABEL_10FF_
+    call loadLevelPalette
     ld a, $87
     ld (Mapper_Slot2), a
     call _LABEL_1134_
