@@ -103,7 +103,7 @@ _LABEL_1FE9_:
 +:
 	ld a, $87
 	ld (Mapper_Slot2), a
-	call _LABEL_1134_
+	call loadLevelSpriteTiles
 	pop af
 	ld (v_level), a
 	ld a, $82

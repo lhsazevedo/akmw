@@ -14,7 +14,7 @@ initGameplayState:
 	ld hl, v_entity1
 	ld (v_entitydataArrayPointer), hl
 	call loadLevelPalette
-	call _LABEL_1134_
+	call loadLevelSpriteTiles
 	ld hl, _DATA_1F0A9_
 	ld de, $61A0
 	ld bc, $0060

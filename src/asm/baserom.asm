@@ -1775,7 +1775,7 @@ levelPalettes:
 .dw _DATA_1FDBE_ _DATA_1FDDE_ _DATA_1FD9E_ _DATA_1FDFE_ _DATA_1FE1E_ _DATA_1FE3E_ _DATA_1FCBE_ _DATA_1FE5E_
 .dw _DATA_1FE7E_
 
-_LABEL_1134_:
+loadLevelSpriteTiles:
     ld a, $87
     ld (Mapper_Slot2), a
     ld a, (v_level)
@@ -2552,7 +2552,7 @@ _LABEL_1735_:
     call loadLevelPalette
     ld a, $87
     ld (Mapper_Slot2), a
-    call _LABEL_1134_
+    call loadLevelSpriteTiles
     pop af
     ld (v_level), a
     ld hl, $8AD6
