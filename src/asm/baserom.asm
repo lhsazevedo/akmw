@@ -8219,7 +8219,7 @@ _LABEL_56CC_:
     call getTileNearEntityWithXYOffset
     rlca
     ret nc
-    ld (ix+0), $37
+    ld (ix+0), ENTITY_MONSTER_FROG_JUMPING
     ld (ix+18), $FE
     ld (ix+17), $80
     ld (ix+7), <_DATA_855A_

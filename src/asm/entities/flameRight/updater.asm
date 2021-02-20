@@ -11,7 +11,7 @@ updateFlameRight:
     rlca
     jr nc, +
 --:
-    ld (ix+0), $3E
+    ld (ix+0), ENTITY_FLAME_LEFT
     ld (ix+15), $80
     ld (ix+16), $FF
 -:

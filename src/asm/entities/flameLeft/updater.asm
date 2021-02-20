@@ -25,7 +25,7 @@ updateFlameLeft:
     rlca
     jr nc, +
 -:
-    ld (ix+0), $3F
+    ld (ix+0), ENTITY_FLAME_RIGHT
     ld (ix+15), $80
     ld (ix+16), $00
 _LABEL_5E60_:
