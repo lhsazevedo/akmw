@@ -7379,7 +7379,7 @@ _LABEL_4D92_:
     jp c, _LABEL_4CDE_
     jp _LABEL_55A5_
 
-_LABEL_4DAD_:
+getVelocitiesToPursuitAlex:
     ld c, $00
     ld a, (v_entities.1.yPos.high)
     sub (ix+14)
@@ -8112,7 +8112,7 @@ _LABEL_55F3_:
     jr nz, +
     set 0, (ix+1)
     ld (ix+20), $12
-    call _LABEL_4DAD_
+    call getVelocitiesToPursuitAlex
     ld (ix+15), l
     ld (ix+16), h
     ld (ix+17), e

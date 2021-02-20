@@ -29,8 +29,8 @@ updateGhost:
     ret z
 
     call tryToKillAlexIfColliding
-    ; Calculate x/y speed to pursuit Alex
-    call _LABEL_4DAD_
+
+    call getVelocitiesToPursuitAlex
     ld (ix + Entity.xSpeed.high), h
     ld (ix + Entity.xSpeed.low), l
     ld (ix + Entity.ySpeed.high), d
