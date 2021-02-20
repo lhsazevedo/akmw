@@ -32,13 +32,13 @@ updateBatLeft:
     ld de, $0100
     call getTileNearEntityWithXYOffset
     rlca
-    jr nc, _LABEL_4F43_
+    jr nc, bat_LABEL_4F43_
         ; Change entity type and
         ; velocity to bat right.
         ld (ix + Entity.type), ENTITY_BAT_RIGHT
         ld (ix + Entity.xSpeed.high), $00
         ld (ix + Entity.xSpeed.low), $80
-_LABEL_4F43_:
+bat_LABEL_4F43_:
     inc (ix + Entity.unknown6)
     ld a, (ix + Entity.unknown6)
     cp $40

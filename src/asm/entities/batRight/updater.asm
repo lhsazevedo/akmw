@@ -8,8 +8,8 @@ updateBatRight:
     ld de, $0110
     call getTileNearEntityWithXYOffset
     rlca
-    jp nc, _LABEL_4F43_
+    jp nc, bat_LABEL_4F43_
     ld (ix+0), ENTITY_BAT_LEFT
     ld (ix+16), $FF
     ld (ix+15), $80
-    jp _LABEL_4F43_
+    jp bat_LABEL_4F43_
