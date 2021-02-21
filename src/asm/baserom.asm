@@ -10833,6 +10833,8 @@ _LABEL_6F8F_:
 
 +:
 	ld b, c
+
+; Entity loading related
 _LABEL_6FA6_:
 	inc hl
 	ld a, (hl)
@@ -10863,6 +10865,7 @@ _LABEL_6FA6_:
 	djnz _LABEL_6F8F_
 	ret
 
+; Entity loading related
 _LABEL_6FDF_:
 	rrca
 	jp c, ++
