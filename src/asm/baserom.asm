@@ -8029,14 +8029,14 @@ _LABEL_5515_:
 _LABEL_5547_:
     ld a, $95
     ld (v_soundControl), a
-    call _LABEL_5768_
+    call earnEnemyScore
     ld (ix+2), $01
     res 0, (ix+1)
     ld (ix+0), $43
     ret
 
 _LABEL_555C_:
-    call _LABEL_5768_
+    call earnEnemyScore
     ld a, $95
     ld (v_soundControl), a
     ld (ix+2), $00
@@ -8069,7 +8069,7 @@ _LABEL_557A_:
     jr +
 
 _LABEL_55A5_:
-    call _LABEL_5768_
+    call earnEnemyScore
     ld a, SOUND_SMOKE_PUFF
     ld (v_soundControl), a
     ld (ix+0), ENTITY_SMOKE_PUFF
@@ -8206,7 +8206,7 @@ _LABEL_56CC_:
 .INC "entities/monsterFrog/jumpingUpdater.asm"
 
 
-_LABEL_5768_:
+earnEnemyScore:
     ld a, (ix+0)
     ld c, a
     ld b, $00
