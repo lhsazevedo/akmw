@@ -8072,7 +8072,7 @@ _LABEL_55A5_:
     call _LABEL_5768_
     ld a, $8B
     ld (v_soundControl), a
-    ld (ix+0), $2B
+    ld (ix+0), ENTITY_SMOKE_PUFF
     res 0, (ix+1)
     ret
 
@@ -8166,31 +8166,7 @@ _LABEL_5629_:
     ret
 
 ; 43rd entry of Jump Table from 2892 (indexed by _RAM_CF80_)
-_LABEL_5684_:
-    bit 0, (ix+1)
-    jr nz, +
-    set 0, (ix+1)
-    set 1, (ix+1)
-    ld (ix+4), $00
-    ld (ix+5), $10
-    ld (ix+6), $10
-    ld (ix+16), $00
-    ld (ix+15), $00
-    ld (ix+18), $00
-    ld (ix+17), $00
-+:
-    ld a, (ix+9)
-    or (ix+10)
-    jp nz, clearCurrentEntity
-    ld a, (ix+4)
-    cp $01
-    jr nz, +
-    ld a, (ix+5)
-    cp $01
-    jp z, clearCurrentEntity
-+:
-    ld hl, _DATA_8170_
-    jp handleEntityAnimation
+.INC "src/asm/entities/smokePuff/updater.asm"
 
 ; 47th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_56CC_:
