@@ -18,7 +18,7 @@ _LABEL_1FE9_:
 	call _LABEL_69B5_
 	ld hl, v_entity1
 	ld (v_entitydataArrayPointer), hl
-	ld a, $1E
+	ld a, ENTITY_ARRAY_SIZE
 	ld (v_entitydataArrayLength), a
 	ld hl, v_temporaryLevelDataCopy
 	ld de, v_levelWidth

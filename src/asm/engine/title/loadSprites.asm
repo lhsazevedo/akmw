@@ -1,6 +1,6 @@
 loadTitleSprites:
     ; Reset entity data array length and pointer
-    ld a, $1E
+    ld a, ENTITY_ARRAY_SIZE
     ld (v_entitydataArrayLength), a
     ld hl, v_entity1
     ld (v_entitydataArrayPointer), hl

@@ -9,7 +9,7 @@ initGameplayState:
 	ld bc, $002A
 	ld (hl), $00
 	ldir
-	ld a, $1E
+	ld a, ENTITY_ARRAY_SIZE
 	ld (v_entitydataArrayLength), a
 	ld hl, v_entity1
 	ld (v_entitydataArrayPointer), hl

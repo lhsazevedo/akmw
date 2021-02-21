@@ -70,7 +70,7 @@ _LABEL_1C33_:
 	add hl, bc
 	ld a, (hl)
 	ld (v_soundControl), a
-	ld a, $1E
+	ld a, ENTITY_ARRAY_SIZE
 	ld (v_entitydataArrayLength), a
 	ld de, v_entity1
 	ld hl, _RAM_CFA0_
