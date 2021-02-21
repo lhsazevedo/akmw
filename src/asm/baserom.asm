@@ -8070,7 +8070,7 @@ _LABEL_557A_:
 
 _LABEL_55A5_:
     call _LABEL_5768_
-    ld a, $8B
+    ld a, SOUND_SMOKE_PUFF
     ld (v_soundControl), a
     ld (ix+0), ENTITY_SMOKE_PUFF
     res 0, (ix+1)
