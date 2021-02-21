@@ -741,7 +741,7 @@ addScore:
     ret nz
 
     ld bc, v_score
-    ld de, _DATA_489_
+    ld de, scores
     ld h, $00
     add hl, de
     call sumBCD
@@ -883,7 +883,7 @@ data_moneyBagValueTable:
 .db BIG_MONEY_BAG_VALUE
 
 ; Data from 489 to 4A0 (24 bytes)
-_DATA_489_:
+scores:
 .db $20 $00 $00 ; $489
 .db $40 $00 $00 ; $48C
 .db $60 $00 $00 ; $48F
