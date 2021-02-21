@@ -8761,10 +8761,10 @@ _LABEL_5E0E_:
     jp handleEntityAnimation
 
 ; 62nd entry of Jump Table from 2892 (indexed by _RAM_CF80_)
-.INC "src/asm/entities/flameLeft/updater.asm"
+.INC "src/asm/entities/flameOrScorpionLeft/updater.asm"
 
 ; 63rd entry of Jump Table from 2892 (indexed by _RAM_CF80_)
-.INC "src/asm/entities/flameRight/updater.asm"
+.INC "src/asm/entities/flameOrScorpionRight/updater.asm"
 
 ; 64th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_5EBA_:

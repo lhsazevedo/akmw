@@ -1,4 +1,4 @@
-updateFlameLeft:
+updateflameOrScorpionLeft:
     ; if not initialized
     bit 0, (ix + Entity.flags)
     jr nz, +

@@ -1,4 +1,4 @@
-updateFlameRight:
+updateflameOrScorpionRight:
     call tryToKillAlexIfColliding
     ld a, (ix + Entity.data)
     or a
