@@ -39,8 +39,8 @@ function getEntityType($n) {
         0x3A => 'ENTITY_DEBRIS_TOP_RIGHT',
         0x3B => 'ENTITY_DEBRIS_BOTTOM_RIGHT',
         0x3C => 'ENTITY_MONEY_BAG',
-        0x3E => 'ENTITY_FLAME_LEFT',
-        0x3F => 'ENTITY_FLAME_RIGHT',
+        0x3E => 'ENTITY_FLAME_OR_SCORPION_LEFT',
+        0x3F => 'ENTITY_FLAME_OR_SCORPION_RIGHT',
         0x4F => 'ENTITY_GHOST',
         0x56 => 'ENTITY_ARROW',
         0x58 => 'ENTITY_JANKENS_CASTLE'

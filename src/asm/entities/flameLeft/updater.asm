@@ -1,20 +1,22 @@
 updateFlameLeft:
-    bit 0, (ix+1)
+    ; if not initialized
+    bit 0, (ix + Entity.flags)
     jr nz, +
-    ld a, (ix+9)
-    or (ix+10)
-    jr nz, _LABEL_5E60_
-    set 0, (ix+1)
-    set 1, (ix+1)
-    ld (ix+5), $10
-    ld (ix+6), $10
-    ld (ix+15), $80
-    ld (ix+16), $FF
-    jr _LABEL_5E60_
+        ; Initialize
+        ld a, (ix + Entity.isOffScreenFlags.low)
+        or (ix + Entity.isOffScreenFlags.high)
+        jr nz, _LABEL_5E60_
+        set 0, (ix + Entity.flags)
+        set 1, (ix + Entity.flags)
+        ld (ix + Entity.animationTimer), $10
+        ld (ix + Entity.animationTimerResetValue), $10
+        ld (ix + Entity.xSpeed.low), $80
+        ld (ix + Entity.xSpeed.high), $FF
+        jr _LABEL_5E60_
 
 +:
     call tryToKillAlexIfColliding
-    ld a, (ix+3)
+    ld a, (ix + Entity.data)
     or a
     jr nz, +
     call _LABEL_7D0B_
@@ -25,12 +27,12 @@ updateFlameLeft:
     rlca
     jr nc, +
 -:
-    ld (ix+0), ENTITY_FLAME_RIGHT
-    ld (ix+15), $80
-    ld (ix+16), $00
+    ld (ix + Entity.type), ENTITY_FLAME_OR_SCORPION_RIGHT
+    ld (ix + Entity.xSpeed.low), $80
+    ld (ix + Entity.xSpeed.high), $00
 _LABEL_5E60_:
     ld hl, _DATA_85A6_
-    ld a, (ix+3)
+    ld a, (ix + Entity.data)
     or a
     jp nz, handleEntityAnimation
     ld hl, _DATA_826B_

@@ -1,6 +1,6 @@
 updateFlameRight:
     call tryToKillAlexIfColliding
-    ld a, (ix+3)
+    ld a, (ix + Entity.data)
     or a
     jr nz, +
     call _LABEL_7D0B_
@@ -11,12 +11,12 @@ updateFlameRight:
     rlca
     jr nc, +
 --:
-    ld (ix+0), ENTITY_FLAME_LEFT
-    ld (ix+15), $80
-    ld (ix+16), $FF
+    ld (ix + Entity.type), ENTITY_FLAME_OR_SCORPION_LEFT
+    ld (ix + Entity.xSpeed.low), $80
+    ld (ix + Entity.xSpeed.high), $FF
 -:
     ld hl, _DATA_85A6_
-    ld a, (ix+3)
+    ld a, (ix + Entity.data)
     or a
     jp nz, handleEntityAnimation
     ld hl, _DATA_8286_
