@@ -1,6 +1,6 @@
 updateBatRight:
-    ld a, (ix+9)
-    or (ix+10)
+    ld a, (ix + Entity.isOffScreenFlags.low)
+    or (ix + Entity.isOffScreenFlags.high)
     jp nz, clearCurrentEntity
     call tryToKillAlexIfColliding
     call _LABEL_7D0B_
@@ -9,7 +9,7 @@ updateBatRight:
     call getTileNearEntityWithXYOffset
     rlca
     jp nc, bat_LABEL_4F43_
-    ld (ix+0), ENTITY_BAT_LEFT
-    ld (ix+16), $FF
-    ld (ix+15), $80
+    ld (ix + Entity.type), ENTITY_BAT_LEFT
+    ld (ix + Entity.xSpeed.high), $FF
+    ld (ix + Entity.xSpeed.low), $80
     jp bat_LABEL_4F43_
