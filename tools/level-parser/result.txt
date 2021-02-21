@@ -1,0 +1,1135 @@
+> Reading screensEntityDescriptorsPointers...
+0xb527
+0xb53f
+0xb563
+0xb579
+0xb583
+0xb5ab
+0xb5bd
+0xb5cf
+0xb5e7
+0xb60f
+0xb62d
+0xb655
+0xb65b
+0xb66b
+0xb66f
+0xb685
+0xb6d9
+> Done.
+
+****************************
+* Reading lvl 1 screens.
+****************************
+
+> Screen 0 entities:
+Count: 0
+
+> Screen 1 entities:
+Count: 1
+Entity 0: ENTITY_MONSTERBIRD_LEFT, X: 104, Y: 120, d: 0x0
+
+> Screen 2 entities:
+Count: 2
+Entity 0: ENTITY_MONSTERBIRD_LEFT, X: 136, Y: 32, d: 0x0
+Entity 1: ENTITY_MONSTERBIRD_LEFT, X: 64, Y: 152, d: 0x0
+
+> Screen 3 entities:
+Count: 2
+Entity 0: ENTITY_MONSTERBIRD_LEFT, X: 136, Y: 16, d: 0x0
+Entity 1: ENTITY_MONSTERBIRD_LEFT, X: 96, Y: 160, d: 0x0
+
+> Screen 4 entities:
+Count: 2
+Entity 0: ENTITY_MONSTERBIRD_LEFT, X: 208, Y: 32, d: 0x0
+Entity 1: ENTITY_MONSTERBIRD_LEFT, X: 136, Y: 112, d: 0x0
+
+> Screen 5 entities:
+Count: 1
+Entity 0: ENTITY_MONSTERBIRD_LEFT, X: 80, Y: 64, d: 0x0
+
+> Screen 6 entities:
+Count: 2
+Entity 0: ENTITY_MONSTERBIRD_LEFT, X: 208, Y: 32, d: 0x0
+Entity 1: ENTITY_MONSTERBIRD_LEFT, X: 48, Y: 144, d: 0x0
+
+> Screen 7 entities:
+Count: 2
+Entity 0: ENTITY_MONSTERBIRD_LEFT, X: 40, Y: 112, d: 0x0
+Entity 1: ENTITY_MONSTERBIRD_LEFT, X: 176, Y: 152, d: 0x0
+
+> Screen 8 entities:
+Count: 0
+
+> Screen 9 entities:
+Count: 3
+Entity 0: ENTITY_SMALL_FISH_LEFT, X: 56, Y: 104, d: 0x0
+Entity 1: ENTITY_SMALL_FISH_LEFT, X: 128, Y: 80, d: 0x0
+Entity 2: ENTITY_SMALL_FISH_LEFT, X: 224, Y: 120, d: 0x0
+
+> Screen 10 entities:
+Count: 2
+Entity 0: ENTITY_SMALL_FISH_LEFT, X: 160, Y: 48, d: 0x0
+Entity 1: ENTITY_SMALL_FISH_LEFT, X: 144, Y: 128, d: 0x0
+
+> Screen 11 entities:
+Count: 4
+Skipping strange screen...
+
+****************************
+* Reading lvl 2 screens.
+****************************
+
+> Screen 0 entities:
+Count: 0
+
+> Screen 1 entities:
+Count: 1
+Entity 0: ENTITY_FLAME_LEFT, X: 176, Y: 144, d: 0x0
+
+> Screen 2 entities:
+Count: 2
+Entity 0: ENTITY_FLAME_LEFT, X: 112, Y: 144, d: 0x0
+Entity 1: ENTITY_FLAME_LEFT, X: 208, Y: 144, d: 0x0
+
+> Screen 3 entities:
+Count: 3
+Entity 0: ENTITY_MONSTER_FROG, X: 64, Y: 112, d: 0x0
+Entity 1: ENTITY_MONSTER_FROG, X: 120, Y: 64, d: 0x0
+Entity 2: ENTITY_MONSTER_FROG, X: 176, Y: 112, d: 0x0
+
+> Screen 4 entities:
+Count: 3
+Entity 0: ENTITY_MONSTER_FROG, X: 64, Y: 112, d: 0x0
+Entity 1: ENTITY_MONSTER_FROG, X: 120, Y: 64, d: 0x0
+Entity 2: ENTITY_MONSTER_FROG, X: 176, Y: 112, d: 0x0
+
+> Screen 5 entities:
+Count: 1
+Entity 0: ENTITY_FLAME_LEFT, X: 96, Y: 144, d: 0x0
+
+> Screen 6 entities:
+Count: 2
+Entity 0: ENTITY_FLAME_LEFT, X: 64, Y: 144, d: 0x0
+Entity 1: ENTITY_FLAME_LEFT, X: 128, Y: 144, d: 0x0
+
+> Screen 7 entities:
+Count: 3
+Entity 0: ENTITY_MONSTER_FROG, X: 64, Y: 112, d: 0x0
+Entity 1: ENTITY_MONSTER_FROG, X: 120, Y: 64, d: 0x0
+Entity 2: ENTITY_MONSTER_FROG, X: 176, Y: 112, d: 0x0
+
+> Screen 8 entities:
+Count: 3
+Entity 0: ENTITY_MONSTER_FROG, X: 64, Y: 112, d: 0x0
+Entity 1: ENTITY_MONSTER_FROG, X: 120, Y: 64, d: 0x0
+Entity 2: ENTITY_MONSTER_FROG, X: 176, Y: 112, d: 0x0
+
+> Screen 9 entities:
+Count: 3
+Entity 0: ENTITY_FLAME_LEFT, X: 64, Y: 144, d: 0x0
+Entity 1: ENTITY_FLAME_LEFT, X: 112, Y: 144, d: 0x0
+Entity 2: ENTITY_MONSTER_FROG, X: 192, Y: 144, d: 0x0
+
+> Screen 10 entities:
+Count: 2
+Entity 0: ENTITY_FLAME_LEFT, X: 112, Y: 144, d: 0x0
+Entity 1: ENTITY_FLAME_LEFT, X: 192, Y: 144, d: 0x0
+
+> Screen 11 entities:
+Count: 2
+Entity 0: ENTITY_MONSTER_FROG, X: 64, Y: 144, d: 0x0
+Entity 1: ENTITY_MONSTER_FROG, X: 128, Y: 144, d: 0x0
+
+> Screen 12 entities:
+Count: 2
+Entity 0: ENTITY_FLAME_LEFT, X: 80, Y: 144, d: 0x0
+Entity 1: ENTITY_MONSTER_FROG, X: 160, Y: 144, d: 0x0
+
+> Screen 13 entities:
+Count: 2
+Entity 0: ENTITY_MONSTER_FROG, X: 136, Y: 144, d: 0x0
+Entity 1: ENTITY_MONSTER_FROG, X: 184, Y: 144, d: 0x0
+
+> Screen 14 entities:
+Count: 3
+Entity 0: ENTITY_MONSTER_FROG, X: 64, Y: 112, d: 0x0
+Entity 1: ENTITY_MONSTER_FROG, X: 120, Y: 64, d: 0x0
+Entity 2: ENTITY_MONSTER_FROG, X: 176, Y: 112, d: 0x0
+
+> Screen 15 entities:
+Count: 2
+Entity 0: ENTITY_FLAME_LEFT, X: 80, Y: 144, d: 0x0
+Entity 1: ENTITY_MONSTER_FROG, X: 128, Y: 144, d: 0x0
+
+> Screen 16 entities:
+Count: 1
+Entity 0: ENTITY_FLAME_LEFT, X: 128, Y: 144, d: 0x0
+
+> Screen 17 entities:
+Count: 4
+Skipping strange screen...
+
+****************************
+* Reading lvl 3 screens.
+****************************
+
+> Screen 0 entities:
+Count: 0
+
+> Screen 1 entities:
+Count: 2
+Skipping strange screen...
+
+> Screen 2 entities:
+Count: 3
+Entity 0: 0x31, X: 144, Y: 40, d: 0x0
+Entity 1: 0x31, X: 112, Y: 32, d: 0x0
+Entity 2: ENTITY_SMALL_FISH_LEFT, X: 160, Y: 112, d: 0x0
+
+> Screen 3 entities:
+Count: 0
+
+> Screen 4 entities:
+Count: 2
+Skipping strange screen...
+
+> Screen 5 entities:
+Count: 4
+Skipping strange screen...
+
+> Screen 6 entities:
+Count: 2
+Entity 0: ENTITY_SMALL_FISH_LEFT, X: 176, Y: 16, d: 0x0
+Entity 1: ENTITY_SMALL_FISH_LEFT, X: 128, Y: 144, d: 0x0
+
+> Screen 7 entities:
+Count: 1
+Skipping strange screen...
+
+> Screen 8 entities:
+Count: 0
+
+> Screen 9 entities:
+Count: 8
+Skipping strange screen...
+
+> Screen 10 entities:
+Count: 4
+Skipping strange screen...
+
+****************************
+* Reading lvl 4 screens.
+****************************
+
+> Screen 0 entities:
+Count: 0
+
+> Screen 1 entities:
+Count: 1
+Entity 0: 0x2c, X: 168, Y: 168, d: 0x0
+
+> Screen 2 entities:
+Count: 1
+Entity 0: ENTITY_FLAME_LEFT, X: 224, Y: 152, d: 0x0
+
+> Screen 3 entities:
+Count: 3
+Entity 0: ENTITY_FLAME_LEFT, X: 48, Y: 152, d: 0x0
+Entity 1: ENTITY_FLAME_LEFT, X: 176, Y: 64, d: 0x0
+Entity 2: ENTITY_MONSTERBIRD_LEFT, X: 216, Y: 112, d: 0x0
+
+> Screen 4 entities:
+Count: 4
+Skipping strange screen...
+
+****************************
+* Reading lvl 5 screens.
+****************************
+
+> Screen 0 entities:
+Count: 2
+Entity 0: ENTITY_MONSTERBIRD_LEFT, X: 160, Y: 56, d: 0x0
+Entity 1: 0x42, X: 208, Y: 191, d: 0x0
+
+> Screen 1 entities:
+Count: 2
+Entity 0: ENTITY_MONSTERBIRD_LEFT, X: 176, Y: 96, d: 0x0
+Entity 1: 0x42, X: 112, Y: 191, d: 0x0
+
+> Screen 2 entities:
+Count: 2
+Entity 0: ENTITY_MONSTERBIRD_LEFT, X: 96, Y: 24, d: 0x0
+Entity 1: 0x42, X: 176, Y: 191, d: 0x0
+
+> Screen 3 entities:
+Count: 1
+Entity 0: 0x42, X: 176, Y: 191, d: 0x0
+
+> Screen 4 entities:
+Count: 2
+Entity 0: ENTITY_MONSTERBIRD_LEFT, X: 160, Y: 56, d: 0x0
+Entity 1: 0x42, X: 208, Y: 191, d: 0x0
+
+> Screen 5 entities:
+Count: 2
+Entity 0: ENTITY_MONSTERBIRD_LEFT, X: 176, Y: 96, d: 0x0
+Entity 1: 0x42, X: 112, Y: 191, d: 0x0
+
+> Screen 6 entities:
+Count: 2
+Entity 0: ENTITY_MONSTERBIRD_LEFT, X: 96, Y: 24, d: 0x0
+Entity 1: 0x42, X: 176, Y: 191, d: 0x0
+
+> Screen 7 entities:
+Count: 1
+Entity 0: 0x42, X: 176, Y: 191, d: 0x0
+
+> Screen 8 entities:
+Count: 2
+Entity 0: ENTITY_MONSTERBIRD_LEFT, X: 160, Y: 56, d: 0x0
+Entity 1: 0x42, X: 208, Y: 191, d: 0x0
+
+> Screen 9 entities:
+Count: 2
+Entity 0: ENTITY_MONSTERBIRD_LEFT, X: 176, Y: 96, d: 0x0
+Entity 1: 0x42, X: 112, Y: 191, d: 0x0
+
+> Screen 10 entities:
+Count: 2
+Entity 0: ENTITY_MONSTERBIRD_LEFT, X: 96, Y: 24, d: 0x0
+Entity 1: 0x42, X: 176, Y: 191, d: 0x0
+
+> Screen 11 entities:
+Count: 1
+Entity 0: 0x42, X: 176, Y: 191, d: 0x0
+
+> Screen 12 entities:
+Count: 2
+Entity 0: ENTITY_MONSTERBIRD_LEFT, X: 160, Y: 56, d: 0x0
+Entity 1: 0x42, X: 208, Y: 191, d: 0x0
+
+> Screen 13 entities:
+Count: 2
+Entity 0: ENTITY_MONSTERBIRD_LEFT, X: 176, Y: 96, d: 0x0
+Entity 1: 0x42, X: 112, Y: 191, d: 0x0
+
+> Screen 14 entities:
+Count: 2
+Entity 0: ENTITY_MONSTERBIRD_LEFT, X: 96, Y: 24, d: 0x0
+Entity 1: 0x42, X: 176, Y: 191, d: 0x0
+
+> Screen 15 entities:
+Count: 4
+Skipping strange screen...
+
+> Screen 16 entities:
+Count: 1
+Entity 0: ENTITY_SMALL_FISH_LEFT, X: 80, Y: 136, d: 0x0
+
+> Screen 17 entities:
+Count: 3
+Entity 0: ENTITY_SMALL_FISH_LEFT, X: 136, Y: 104, d: 0x0
+Entity 1: ENTITY_SMALL_FISH_LEFT, X: 200, Y: 40, d: 0x0
+Entity 2: ENTITY_SMALL_FISH_LEFT, X: 56, Y: 24, d: 0x0
+
+> Screen 18 entities:
+Count: 3
+Entity 0: ENTITY_SMALL_FISH_LEFT, X: 168, Y: 112, d: 0x0
+Entity 1: ENTITY_SMALL_FISH_LEFT, X: 88, Y: 48, d: 0x0
+Entity 2: ENTITY_SMALL_FISH_LEFT, X: 112, Y: 136, d: 0x0
+
+> Screen 19 entities:
+Count: 4
+Skipping strange screen...
+
+****************************
+* Reading lvl 6 screens.
+****************************
+
+> Screen 0 entities:
+Count: 0
+
+> Screen 1 entities:
+Count: 1
+Entity 0: 0x55, X: 144, Y: 144, d: 0x0
+
+> Screen 2 entities:
+Count: 2
+Entity 0: 0x55, X: 160, Y: 144, d: 0x0
+Entity 1: ENTITY_FLAME_LEFT, X: 160, Y: 96, d: 0x0
+
+> Screen 3 entities:
+Count: 1
+Entity 0: ENTITY_FLAME_LEFT, X: 208, Y: 144, d: 0x0
+
+> Screen 4 entities:
+Count: 2
+Entity 0: 0x55, X: 176, Y: 80, d: 0x0
+Entity 1: ENTITY_FLAME_LEFT, X: 192, Y: 144, d: 0x0
+
+> Screen 5 entities:
+Count: 3
+Entity 0: 0x55, X: 112, Y: 144, d: 0x0
+Entity 1: 0x55, X: 160, Y: 64, d: 0x0
+Entity 2: 0x3d, X: 224, Y: 120, d: 0x0
+
+> Screen 6 entities:
+Count: 3
+Entity 0: 0x55, X: 224, Y: 64, d: 0x0
+Entity 1: ENTITY_FLAME_LEFT, X: 160, Y: 144, d: 0x0
+Entity 2: 0x3d, X: 144, Y: 112, d: 0x0
+
+> Screen 7 entities:
+Count: 3
+Entity 0: 0x55, X: 96, Y: 144, d: 0x0
+Entity 1: 0x55, X: 128, Y: 144, d: 0x0
+Entity 2: 0x55, X: 160, Y: 144, d: 0x0
+
+> Screen 8 entities:
+Count: 2
+Entity 0: 0x46, X: 208, Y: 136, d: 0x1
+Entity 1: 0x50, X: 193, Y: 192, d: 0x0
+
+****************************
+* Reading lvl 7 screens.
+****************************
+
+> Screen 0 entities:
+Count: 0
+
+> Screen 1 entities:
+Count: 2
+Entity 0: 0x54, X: 96, Y: 64, d: 0x0
+Entity 1: ENTITY_BAT_LEFT, X: 184, Y: 104, d: 0x0
+
+> Screen 2 entities:
+Count: 3
+Entity 0: ENTITY_FLAME_LEFT, X: 24, Y: 144, d: 0x0
+Entity 1: 0x54, X: 176, Y: 64, d: 0x0
+Entity 2: 0x63, X: 240, Y: 48, d: 0x0
+
+> Screen 3 entities:
+Count: 8
+Skipping strange screen...
+
+> Screen 4 entities:
+Count: 2
+Entity 0: 0x3d, X: 120, Y: 96, d: 0x0
+Entity 1: ENTITY_FLAME_LEFT, X: 96, Y: 144, d: 0x0
+
+> Screen 5 entities:
+Count: 8
+Skipping strange screen...
+
+> Screen 6 entities:
+Count: 1
+Entity 0: ENTITY_FLAME_LEFT, X: 64, Y: 80, d: 0x0
+
+> Screen 7 entities:
+Count: 3
+Entity 0: ENTITY_FLAME_LEFT, X: 16, Y: 144, d: 0x0
+Entity 1: ENTITY_BAT_LEFT, X: 144, Y: 96, d: 0x0
+Entity 2: ENTITY_FLAME_LEFT, X: 176, Y: 144, d: 0x0
+
+> Screen 8 entities:
+Count: 4
+Skipping strange screen...
+
+****************************
+* Reading lvl 8 screens.
+****************************
+
+> Screen 0 entities:
+Count: 0
+
+> Screen 1 entities:
+Count: 1
+Entity 0: ENTITY_BAT_LEFT, X: 144, Y: 72, d: 0x0
+
+> Screen 2 entities:
+Count: 1
+Entity 0: ENTITY_BAT_LEFT, X: 128, Y: 64, d: 0x0
+
+> Screen 3 entities:
+Count: 1
+Entity 0: 0x2a, X: 85, Y: 16, d: 0x0
+
+> Screen 4 entities:
+Count: 1
+Entity 0: ENTITY_BAT_LEFT, X: 176, Y: 56, d: 0x0
+
+> Screen 5 entities:
+Count: 2
+Entity 0: ENTITY_BAT_LEFT, X: 96, Y: 112, d: 0x0
+Entity 1: ENTITY_BAT_LEFT, X: 192, Y: 40, d: 0x0
+
+> Screen 6 entities:
+Count: 2
+Entity 0: ENTITY_BAT_LEFT, X: 160, Y: 128, d: 0x0
+Entity 1: 0x2a, X: 91, Y: 16, d: 0x0
+
+> Screen 7 entities:
+Count: 0
+
+> Screen 8 entities:
+Count: 1
+Entity 0: ENTITY_BAT_LEFT, X: 176, Y: 32, d: 0x0
+
+> Screen 9 entities:
+Count: 1
+Entity 0: 0x2a, X: 40, Y: 32, d: 0x0
+
+> Screen 10 entities:
+Count: 1
+Entity 0: 0x2a, X: 35, Y: 16, d: 0x0
+
+> Screen 11 entities:
+Count: 2
+Entity 0: 0x25, X: 208, Y: 112, d: 0x0
+Entity 1: 0x2a, X: 72, Y: 16, d: 0x0
+
+****************************
+* Reading lvl 9 screens.
+****************************
+
+> Screen 0 entities:
+Count: 0
+
+> Screen 1 entities:
+Count: 1
+Entity 0: ENTITY_MONSTERBIRD_LEFT, X: 176, Y: 64, d: 0x0
+
+> Screen 2 entities:
+Count: 2
+Entity 0: 0x42, X: 128, Y: 191, d: 0x0
+Entity 1: ENTITY_MONSTERBIRD_LEFT, X: 192, Y: 80, d: 0x0
+
+> Screen 3 entities:
+Count: 3
+Entity 0: ENTITY_MONSTERBIRD_LEFT, X: 128, Y: 96, d: 0x0
+Entity 1: ENTITY_MONSTERBIRD_LEFT, X: 160, Y: 64, d: 0x0
+Entity 2: 0x42, X: 208, Y: 191, d: 0x0
+
+> Screen 4 entities:
+Count: 1
+Entity 0: ENTITY_MONSTERBIRD_LEFT, X: 176, Y: 48, d: 0x0
+
+> Screen 5 entities:
+Count: 1
+Entity 0: ENTITY_MONSTERBIRD_LEFT, X: 144, Y: 80, d: 0x0
+
+> Screen 6 entities:
+Count: 2
+Entity 0: 0x42, X: 144, Y: 191, d: 0x0
+Entity 1: ENTITY_MONSTERBIRD_LEFT, X: 160, Y: 96, d: 0x0
+
+> Screen 7 entities:
+Count: 2
+Entity 0: ENTITY_MONSTERBIRD_LEFT, X: 176, Y: 80, d: 0x0
+Entity 1: 0x42, X: 144, Y: 191, d: 0x0
+
+> Screen 8 entities:
+Count: 1
+Entity 0: ENTITY_MONSTERBIRD_LEFT, X: 128, Y: 80, d: 0x0
+
+> Screen 9 entities:
+Count: 1
+Entity 0: ENTITY_MONSTERBIRD_LEFT, X: 112, Y: 72, d: 0x0
+
+> Screen 10 entities:
+Count: 2
+Entity 0: 0x42, X: 160, Y: 191, d: 0x0
+Entity 1: ENTITY_MONSTERBIRD_LEFT, X: 176, Y: 64, d: 0x0
+
+> Screen 11 entities:
+Count: 1
+Entity 0: ENTITY_MONSTERBIRD_LEFT, X: 128, Y: 96, d: 0x0
+
+> Screen 12 entities:
+Count: 1
+Entity 0: ENTITY_MONSTERBIRD_LEFT, X: 176, Y: 64, d: 0x0
+
+> Screen 13 entities:
+Count: 2
+Entity 0: ENTITY_MONSTERBIRD_LEFT, X: 160, Y: 112, d: 0x0
+Entity 1: 0x42, X: 176, Y: 191, d: 0x0
+
+> Screen 14 entities:
+Count: 1
+Entity 0: ENTITY_MONSTERBIRD_LEFT, X: 176, Y: 64, d: 0x0
+
+> Screen 15 entities:
+Count: 4
+Skipping strange screen...
+
+> Screen 16 entities:
+Count: 3
+Entity 0: ENTITY_SMALL_FISH_LEFT, X: 184, Y: 48, d: 0x0
+Entity 1: ENTITY_SMALL_FISH_LEFT, X: 184, Y: 128, d: 0x0
+Entity 2: ENTITY_SMALL_FISH_LEFT, X: 96, Y: 80, d: 0x0
+
+> Screen 17 entities:
+Count: 1
+Entity 0: ENTITY_SMALL_FISH_LEFT, X: 112, Y: 160, d: 0x0
+
+> Screen 18 entities:
+Count: 3
+Entity 0: ENTITY_SMALL_FISH_LEFT, X: 48, Y: 64, d: 0x0
+Entity 1: ENTITY_SMALL_FISH_LEFT, X: 16, Y: 96, d: 0x0
+Entity 2: 0x23, X: 124, Y: 120, d: 0x0
+
+> Screen 19 entities:
+Count: 4
+Skipping strange screen...
+
+****************************
+* Reading lvl 10 screens.
+****************************
+
+> Screen 0 entities:
+Count: 0
+
+> Screen 1 entities:
+Count: 2
+Entity 0: ENTITY_FLAME_LEFT, X: 136, Y: 80, d: 0x0
+Entity 1: ENTITY_FLAME_LEFT, X: 192, Y: 80, d: 0x0
+
+> Screen 2 entities:
+Count: 2
+Entity 0: 0x2c, X: 48, Y: 160, d: 0x0
+Entity 1: 0x2c, X: 144, Y: 160, d: 0x0
+
+> Screen 3 entities:
+Count: 4
+Entity 0: 0x40, X: 192, Y: 16, d: 0x0
+Entity 1: 0x2c, X: 56, Y: 160, d: 0x0
+Entity 2: 0x2c, X: 128, Y: 160, d: 0x0
+Entity 3: 0x2c, X: 200, Y: 160, d: 0x0
+
+> Screen 4 entities:
+Count: 1
+Entity 0: 0x40, X: 56, Y: 16, d: 0x0
+
+> Screen 5 entities:
+Count: 1
+Entity 0: ENTITY_FLAME_LEFT, X: 224, Y: 144, d: 0x0
+
+> Screen 6 entities:
+Count: 3
+Entity 0: 0x40, X: 128, Y: 32, d: 0x0
+Entity 1: ENTITY_FLAME_LEFT, X: 48, Y: 144, d: 0x0
+Entity 2: ENTITY_FLAME_LEFT, X: 192, Y: 144, d: 0x0
+
+> Screen 7 entities:
+Count: 3
+Entity 0: 0x40, X: 192, Y: 32, d: 0x0
+Entity 1: ENTITY_FLAME_LEFT, X: 96, Y: 144, d: 0x0
+Entity 2: ENTITY_FLAME_LEFT, X: 192, Y: 144, d: 0x0
+
+> Screen 8 entities:
+Count: 3
+Entity 0: 0x40, X: 160, Y: 16, d: 0x0
+Entity 1: 0x57, X: 48, Y: 128, d: 0x0
+Entity 2: 0x57, X: 192, Y: 144, d: 0x0
+
+> Screen 9 entities:
+Count: 2
+Entity 0: 0x40, X: 176, Y: 32, d: 0x0
+Entity 1: 0x3d, X: 112, Y: 120, d: 0x0
+
+> Screen 10 entities:
+Count: 2
+Entity 0: 0x57, X: 64, Y: 144, d: 0x0
+Entity 1: 0x3d, X: 160, Y: 120, d: 0x0
+
+> Screen 11 entities:
+Count: 2
+Entity 0: 0x3d, X: 128, Y: 120, d: 0x0
+Entity 1: 0x3d, X: 192, Y: 120, d: 0x0
+
+> Screen 12 entities:
+Count: 4
+Entity 0: 0x40, X: 32, Y: 16, d: 0x0
+Entity 1: 0x57, X: 96, Y: 128, d: 0x0
+Entity 2: 0x3d, X: 160, Y: 88, d: 0x0
+Entity 3: 0x57, X: 224, Y: 96, d: 0x0
+
+> Screen 13 entities:
+Count: 4
+Entity 0: 0x40, X: 192, Y: 32, d: 0x0
+Entity 1: 0x3d, X: 40, Y: 56, d: 0x0
+Entity 2: 0x3d, X: 128, Y: 64, d: 0x0
+Entity 3: 0x3d, X: 176, Y: 80, d: 0x0
+
+> Screen 14 entities:
+Count: 4
+Skipping strange screen...
+
+****************************
+* Reading lvl 11 screens.
+****************************
+
+> Screen 0 entities:
+Count: 0
+
+> Screen 1 entities:
+Count: 1
+Entity 0: ENTITY_MONSTER_FROG, X: 112, Y: 64, d: 0x0
+
+> Screen 2 entities:
+Count: 3
+Entity 0: ENTITY_FLAME_LEFT, X: 128, Y: 64, d: 0x0
+Entity 1: ENTITY_BAT_LEFT, X: 128, Y: 32, d: 0x0
+Entity 2: ENTITY_BAT_LEFT, X: 80, Y: 112, d: 0x0
+
+> Screen 3 entities:
+Count: 5
+Entity 0: 0x52, X: 224, Y: 80, d: 0x5
+Entity 1: ENTITY_FLAME_LEFT, X: 96, Y: 48, d: 0x1
+Entity 2: ENTITY_FLAME_LEFT, X: 176, Y: 48, d: 0x1
+Entity 3: ENTITY_BAT_LEFT, X: 96, Y: 120, d: 0x0
+Entity 4: ENTITY_BAT_LEFT, X: 176, Y: 120, d: 0x0
+
+> Screen 4 entities:
+Count: 1
+Skipping strange screen...
+
+> Screen 5 entities:
+Count: 0
+
+> Screen 6 entities:
+Count: 2
+Entity 0: ENTITY_FLAME_LEFT, X: 160, Y: 160, d: 0x1
+Entity 1: ENTITY_BAT_LEFT, X: 144, Y: 24, d: 0x0
+
+> Screen 7 entities:
+Count: 2
+Entity 0: ENTITY_BAT_LEFT, X: 24, Y: 32, d: 0x0
+Entity 1: 0x52, X: 16, Y: 48, d: 0x2
+
+> Screen 8 entities:
+Count: 3
+Entity 0: 0x16, X: 32, Y: 32, d: 0x3
+Entity 1: ENTITY_FLAME_LEFT, X: 40, Y: 160, d: 0x1
+Entity 2: ENTITY_FLAME_LEFT, X: 128, Y: 160, d: 0x0
+
+> Screen 9 entities:
+Count: 1
+Entity 0: ENTITY_BAT_LEFT, X: 192, Y: 24, d: 0x0
+
+> Screen 10 entities:
+Count: 0
+
+> Screen 11 entities:
+Count: 5
+Entity 0: 0x10, X: 32, Y: 56, d: 0x1
+Entity 1: 0x10, X: 64, Y: 88, d: 0x20
+Entity 2: 0x10, X: 96, Y: 120, d: 0x3f
+Entity 3: 0x10, X: 128, Y: 88, d: 0x22
+Entity 4: 0x10, X: 160, Y: 56, d: 0x5
+
+> Screen 12 entities:
+Count: 3
+Entity 0: ENTITY_FLAME_LEFT, X: 216, Y: 160, d: 0x1
+Entity 1: ENTITY_FLAME_LEFT, X: 96, Y: 160, d: 0x1
+Entity 2: ENTITY_FLAME_LEFT, X: 160, Y: 160, d: 0x1
+
+> Screen 13 entities:
+Count: 3
+Entity 0: ENTITY_FLAME_LEFT, X: 216, Y: 160, d: 0x1
+Entity 1: ENTITY_FLAME_LEFT, X: 96, Y: 160, d: 0x1
+Entity 2: ENTITY_FLAME_LEFT, X: 160, Y: 160, d: 0x1
+
+> Screen 14 entities:
+Count: 4
+Skipping strange screen...
+
+> Screen 15 entities:
+Count: 0
+
+> Screen 16 entities:
+Count: 4
+Entity 0: 0x57, X: 80, Y: 80, d: 0x0
+Entity 1: 0x57, X: 160, Y: 80, d: 0x0
+Entity 2: 0x57, X: 32, Y: 160, d: 0x0
+Entity 3: 0x52, X: 128, Y: 144, d: 0x1
+
+> Screen 17 entities:
+Count: 1
+Entity 0: ENTITY_FLAME_LEFT, X: 112, Y: 160, d: 0x0
+
+> Screen 18 entities:
+Count: 2
+Entity 0: 0x11, X: 88, Y: 40, d: 0x3c
+Entity 1: 0x11, X: 168, Y: 40, d: 0x79
+
+> Screen 19 entities:
+Count: 4
+Entity 0: ENTITY_FLAME_LEFT, X: 64, Y: 128, d: 0x1
+Entity 1: ENTITY_FLAME_LEFT, X: 128, Y: 80, d: 0x1
+Entity 2: ENTITY_FLAME_LEFT, X: 80, Y: 32, d: 0x1
+Entity 3: ENTITY_FLAME_LEFT, X: 160, Y: 128, d: 0x1
+
+****************************
+* Reading lvl 12 screens.
+****************************
+
+> Screen 0 entities:
+Count: 0
+
+> Screen 1 entities:
+Count: 3
+Entity 0: ENTITY_FLAME_LEFT, X: 64, Y: 144, d: 0x0
+Entity 1: ENTITY_FLAME_LEFT, X: 112, Y: 144, d: 0x0
+Entity 2: 0x3d, X: 192, Y: 88, d: 0x0
+
+> Screen 2 entities:
+Count: 4
+Skipping strange screen...
+
+****************************
+* Reading lvl 13 screens.
+****************************
+
+> Screen 0 entities:
+Count: 4
+Skipping strange screen...
+
+> Screen 1 entities:
+Count: 3
+Entity 0: ENTITY_MONSTERBIRD_RIGHT, X: 64, Y: 24, d: 0x0
+Entity 1: ENTITY_MONSTERBIRD_RIGHT, X: 104, Y: 64, d: 0x0
+Entity 2: ENTITY_MONSTERBIRD_RIGHT, X: 144, Y: 96, d: 0x0
+
+> Screen 2 entities:
+Count: 5
+Entity 0: ENTITY_MONSTERBIRD_RIGHT, X: 64, Y: 32, d: 0x0
+Entity 1: ENTITY_MONSTERBIRD_RIGHT, X: 176, Y: 80, d: 0x0
+Entity 2: 0x2c, X: 64, Y: 160, d: 0x0
+Entity 3: 0x2c, X: 120, Y: 160, d: 0x0
+Entity 4: 0x2c, X: 176, Y: 160, d: 0x0
+
+> Screen 3 entities:
+Count: 3
+Entity 0: ENTITY_MONSTERBIRD_RIGHT, X: 128, Y: 40, d: 0x0
+Entity 1: 0x2c, X: 160, Y: 160, d: 0x0
+Entity 2: 0x2c, X: 72, Y: 160, d: 0x0
+
+> Screen 4 entities:
+Count: 4
+Entity 0: ENTITY_MONSTERBIRD_RIGHT, X: 208, Y: 32, d: 0x0
+Entity 1: ENTITY_MONSTERBIRD_RIGHT, X: 128, Y: 80, d: 0x0
+Entity 2: 0x2c, X: 72, Y: 160, d: 0x0
+Entity 3: 0x2c, X: 168, Y: 160, d: 0x0
+
+> Screen 5 entities:
+Count: 2
+Entity 0: 0x2c, X: 176, Y: 160, d: 0x0
+Entity 1: 0x2c, X: 96, Y: 160, d: 0x0
+
+> Screen 6 entities:
+Count: 2
+Entity 0: 0x2c, X: 160, Y: 160, d: 0x0
+Entity 1: 0x2c, X: 72, Y: 160, d: 0x0
+
+> Screen 7 entities:
+Count: 0
+
+****************************
+* Reading lvl 14 screens.
+****************************
+
+> Screen 0 entities:
+Count: 0
+
+> Screen 1 entities:
+Count: 4
+Skipping strange screen...
+
+****************************
+* Reading lvl 15 screens.
+****************************
+
+> Screen 0 entities:
+Count: 0
+
+> Screen 1 entities:
+Count: 0
+
+> Screen 2 entities:
+Count: 2
+Entity 0: ENTITY_FLAME_LEFT, X: 80, Y: 144, d: 0x0
+Entity 1: ENTITY_FLAME_LEFT, X: 160, Y: 144, d: 0x0
+
+> Screen 3 entities:
+Count: 3
+Entity 0: ENTITY_MONSTER_FROG, X: 32, Y: 112, d: 0x0
+Entity 1: ENTITY_FLAME_LEFT, X: 96, Y: 80, d: 0x0
+Entity 2: ENTITY_FLAME_LEFT, X: 144, Y: 128, d: 0x0
+
+> Screen 4 entities:
+Count: 4
+Entity 0: ENTITY_FLAME_LEFT, X: 32, Y: 144, d: 0x0
+Entity 1: ENTITY_FLAME_LEFT, X: 112, Y: 144, d: 0x0
+Entity 2: ENTITY_MONSTER_FROG, X: 176, Y: 144, d: 0x0
+Entity 3: 0x2c, X: 208, Y: 160, d: 0x0
+
+> Screen 5 entities:
+Count: 3
+Entity 0: ENTITY_FLAME_LEFT, X: 120, Y: 144, d: 0x0
+Entity 1: 0x2c, X: 160, Y: 160, d: 0x0
+Entity 2: ENTITY_FLAME_LEFT, X: 224, Y: 144, d: 0x0
+
+> Screen 6 entities:
+Count: 3
+Entity 0: ENTITY_FLAME_LEFT, X: 96, Y: 144, d: 0x0
+Entity 1: ENTITY_FLAME_LEFT, X: 160, Y: 144, d: 0x0
+Entity 2: ENTITY_MONSTER_FROG, X: 240, Y: 96, d: 0x0
+
+> Screen 7 entities:
+Count: 2
+Entity 0: ENTITY_FLAME_LEFT, X: 128, Y: 64, d: 0x0
+Entity 1: ENTITY_FLAME_LEFT, X: 96, Y: 144, d: 0x0
+
+> Screen 8 entities:
+Count: 2
+Entity 0: ENTITY_FLAME_LEFT, X: 96, Y: 144, d: 0x0
+Entity 1: 0x2c, X: 176, Y: 160, d: 0x0
+
+> Screen 9 entities:
+Count: 2
+Entity 0: ENTITY_MONSTER_FROG, X: 176, Y: 80, d: 0x0
+Entity 1: ENTITY_FLAME_LEFT, X: 32, Y: 144, d: 0x0
+
+> Screen 10 entities:
+Count: 4
+Skipping strange screen...
+
+****************************
+* Reading lvl 16 screens.
+****************************
+
+> Screen 0 entities:
+Count: 0
+
+> Screen 1 entities:
+Count: 0
+
+> Screen 2 entities:
+Count: 3
+Entity 0: ENTITY_MONSTER_FROG, X: 128, Y: 160, d: 0x0
+Entity 1: ENTITY_MONSTER_FROG, X: 96, Y: 160, d: 0x0
+Entity 2: ENTITY_MONSTER_FROG, X: 160, Y: 80, d: 0x0
+
+> Screen 3 entities:
+Count: 8
+Skipping strange screen...
+
+> Screen 4 entities:
+Count: 8
+Skipping strange screen...
+
+> Screen 5 entities:
+Count: 5
+Entity 0: ENTITY_FLAME_LEFT, X: 208, Y: 112, d: 0x1
+Entity 1: ENTITY_FLAME_LEFT, X: 144, Y: 112, d: 0x1
+Entity 2: 0x57, X: 216, Y: 48, d: 0x1
+Entity 3: ENTITY_MONSTER_FROG, X: 176, Y: 64, d: 0x0
+Entity 4: ENTITY_FLAME_LEFT, X: 176, Y: 112, d: 0x1
+
+> Screen 6 entities:
+Count: 1
+Entity 0: 0x51, X: 160, Y: 152, d: 0x0
+
+> Screen 7 entities:
+Count: 0
+
+> Screen 8 entities:
+Count: 1
+Entity 0: 0x16, X: 124, Y: 144, d: 0x6
+
+> Screen 9 entities:
+Count: 8
+Skipping strange screen...
+
+> Screen 10 entities:
+Count: 8
+Skipping strange screen...
+
+> Screen 11 entities:
+Count: 8
+Skipping strange screen...
+
+> Screen 12 entities:
+Count: 4
+Entity 0: ENTITY_FLAME_LEFT, X: 96, Y: 160, d: 0x0
+Entity 1: ENTITY_MONSTER_FROG, X: 192, Y: 80, d: 0x0
+Entity 2: ENTITY_FLAME_LEFT, X: 144, Y: 160, d: 0x1
+Entity 3: ENTITY_FLAME_LEFT, X: 192, Y: 160, d: 0x1
+
+> Screen 13 entities:
+Count: 4
+Skipping strange screen...
+
+> Screen 14 entities:
+Count: 0
+
+> Screen 15 entities:
+Count: 0
+
+> Screen 16 entities:
+Count: 5
+Entity 0: 0x16, X: 204, Y: 80, d: 0x4
+Entity 1: 0x57, X: 96, Y: 160, d: 0x0
+Entity 2: 0x57, X: 160, Y: 160, d: 0x0
+Entity 3: 0x57, X: 208, Y: 160, d: 0x0
+Entity 4: 0x57, X: 160, Y: 80, d: 0x0
+
+> Screen 17 entities:
+Count: 8
+Skipping strange screen...
+
+> Screen 18 entities:
+Count: 0
+
+> Screen 19 entities:
+Count: 3
+Entity 0: 0x12, X: 68, Y: 40, d: 0x3c
+Entity 1: 0x12, X: 212, Y: 40, d: 0x79
+Entity 2: 0x13, X: 84, Y: 56, d: 0xf2
+
+> Screen 20 entities:
+Count: 4
+Entity 0: 0x57, X: 144, Y: 160, d: 0x0
+Entity 1: 0x57, X: 112, Y: 160, d: 0x0
+Entity 2: ENTITY_FLAME_LEFT, X: 80, Y: 80, d: 0x1
+Entity 3: 0x52, X: 208, Y: 64, d: 0x5
+
+> Screen 21 entities:
+Count: 0
+
+> Screen 22 entities:
+Count: 0
+
+> Screen 23 entities:
+Count: 2
+Entity 0: ENTITY_FLAME_LEFT, X: 96, Y: 160, d: 0x1
+Entity 1: 0x16, X: 104, Y: 112, d: 0x4
+
+> Screen 24 entities:
+Count: 8
+Skipping strange screen...
+
+> Screen 25 entities:
+Count: 4
+Entity 0: 0x2c, X: 80, Y: 104, d: 0x0
+Entity 1: 0x2c, X: 128, Y: 72, d: 0x0
+Entity 2: 0x2c, X: 160, Y: 136, d: 0x0
+Entity 3: 0x2c, X: 208, Y: 88, d: 0x0
+
+> Screen 26 entities:
+Count: 3
+Entity 0: 0x2c, X: 32, Y: 168, d: 0x0
+Entity 1: 0x2c, X: 80, Y: 88, d: 0x0
+Entity 2: 0x2c, X: 144, Y: 120, d: 0x0
+
+> Screen 27 entities:
+Count: 0
+
+> Screen 28 entities:
+Count: 0
+
+> Screen 29 entities:
+Count: 1
+Entity 0: 0x57, X: 192, Y: 96, d: 0x0
+
+> Screen 30 entities:
+Count: 1
+Entity 0: ENTITY_FLAME_LEFT, X: 192, Y: 96, d: 0x1
+
+> Screen 31 entities:
+Count: 0
+
+> Screen 32 entities:
+Count: 4
+Entity 0: 0x2c, X: 200, Y: 96, d: 0x0
+Entity 1: 0x2c, X: 144, Y: 96, d: 0x0
+Entity 2: 0x2c, X: 72, Y: 96, d: 0x0
+Entity 3: 0x2c, X: 24, Y: 96, d: 0x0
+
+> Screen 33 entities:
+Count: 8
+Skipping strange screen...
+
+> Screen 34 entities:
+Count: 0
+
+> Screen 35 entities:
+Count: 0
+
+> Screen 36 entities:
+Count: 8
+Skipping strange screen...
+
+> Screen 37 entities:
+Count: 3
+Entity 0: ENTITY_FLAME_LEFT, X: 152, Y: 112, d: 0x0
+Entity 1: 0x16, X: 184, Y: 32, d: 0x2
+Entity 2: ENTITY_FLAME_LEFT, X: 80, Y: 96, d: 0x0
+
+> Screen 38 entities:
+Count: 3
+Entity 0: ENTITY_FLAME_LEFT, X: 120, Y: 48, d: 0x0
+Entity 1: ENTITY_FLAME_LEFT, X: 64, Y: 160, d: 0x1
+Entity 2: ENTITY_FLAME_LEFT, X: 176, Y: 160, d: 0x1
+
+> Screen 39 entities:
+Count: 1
+Entity 0: 0x15, X: 32, Y: 32, d: 0x18
+
+> Screen 40 entities:
+Count: 1
+Entity 0: ENTITY_MONSTER_FROG, X: 176, Y: 128, d: 0x0
+
+> Screen 41 entities:
+Count: 2
+Entity 0: ENTITY_FLAME_LEFT, X: 104, Y: 128, d: 0x1
+Entity 1: ENTITY_FLAME_LEFT, X: 160, Y: 160, d: 0x0
+
+****************************
+* Reading lvl 17 screens.
+****************************
+
+> Screen 0 entities:
+Count: 0
+
+> Screen 1 entities:
+Count: 1
+Skipping strange screen...
+
+> Screen 2 entities:
+Count: 0
+
+> Screen 3 entities:
+Count: 0
+
+> Screen 4 entities:
+Count: 0
+
+> Screen 5 entities:
+Count: 1
+Skipping strange screen...
+
+> Screen 6 entities:
+Count: 0
+
+> Screen 7 entities:
+Count: 0
+
+> Screen 8 entities:
+Count: 0
+
+> Screen 9 entities:
+Count: 0
+
