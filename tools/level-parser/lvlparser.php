@@ -27,9 +27,12 @@ function getEntityType($n) {
     $entities = [
         0x18 => 'ENTITY_STATIC',
         0x20 => 'ENTITY_BAT_LEFT',
+        0x2B => 'ENTITY_SMOKE_PUFF',
         0x2D => 'ENTITY_MONSTERBIRD_LEFT',
         0x2F => 'ENTITY_MONSTER_FROG',
         0x30 => 'ENTITY_SMALL_FISH_LEFT',
+        0x31 => 'ENTITY_KILLER_FISH_LEFT',
+        0x32 => 'ENTITY_KILLER_FISH_RIGHT',
         0x33 => 'ENTITY_MONSTERBIRD_RIGHT',
         0x34 => 'ENTITY_SMALL_FISH_RIGHT',
         0x36 => 'ENTITY_BAT_RIGHT',
@@ -43,7 +46,7 @@ function getEntityType($n) {
         0x3F => 'ENTITY_FLAME_OR_SCORPION_RIGHT',
         0x4F => 'ENTITY_GHOST',
         0x56 => 'ENTITY_ARROW',
-        0x58 => 'ENTITY_JANKENS_CASTLE'
+        0x58 => 'ENTITY_JANKENS_CASTLE',
     ];
     
     return $entities[$n] ?? '0x' . dechex($n);

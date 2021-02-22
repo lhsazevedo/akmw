@@ -85,12 +85,12 @@ Count: 0
 
 > Screen 1 entities:
 Count: 1
-Entity 0: ENTITY_FLAME_LEFT, X: 176, Y: 144, d: 0x0
+Entity 0: ENTITY_FLAME_OR_SCORPION_LEFT, X: 176, Y: 144, d: 0x0
 
 > Screen 2 entities:
 Count: 2
-Entity 0: ENTITY_FLAME_LEFT, X: 112, Y: 144, d: 0x0
-Entity 1: ENTITY_FLAME_LEFT, X: 208, Y: 144, d: 0x0
+Entity 0: ENTITY_FLAME_OR_SCORPION_LEFT, X: 112, Y: 144, d: 0x0
+Entity 1: ENTITY_FLAME_OR_SCORPION_LEFT, X: 208, Y: 144, d: 0x0
 
 > Screen 3 entities:
 Count: 3
@@ -106,12 +106,12 @@ Entity 2: ENTITY_MONSTER_FROG, X: 176, Y: 112, d: 0x0
 
 > Screen 5 entities:
 Count: 1
-Entity 0: ENTITY_FLAME_LEFT, X: 96, Y: 144, d: 0x0
+Entity 0: ENTITY_FLAME_OR_SCORPION_LEFT, X: 96, Y: 144, d: 0x0
 
 > Screen 6 entities:
 Count: 2
-Entity 0: ENTITY_FLAME_LEFT, X: 64, Y: 144, d: 0x0
-Entity 1: ENTITY_FLAME_LEFT, X: 128, Y: 144, d: 0x0
+Entity 0: ENTITY_FLAME_OR_SCORPION_LEFT, X: 64, Y: 144, d: 0x0
+Entity 1: ENTITY_FLAME_OR_SCORPION_LEFT, X: 128, Y: 144, d: 0x0
 
 > Screen 7 entities:
 Count: 3
@@ -127,14 +127,14 @@ Entity 2: ENTITY_MONSTER_FROG, X: 176, Y: 112, d: 0x0
 
 > Screen 9 entities:
 Count: 3
-Entity 0: ENTITY_FLAME_LEFT, X: 64, Y: 144, d: 0x0
-Entity 1: ENTITY_FLAME_LEFT, X: 112, Y: 144, d: 0x0
+Entity 0: ENTITY_FLAME_OR_SCORPION_LEFT, X: 64, Y: 144, d: 0x0
+Entity 1: ENTITY_FLAME_OR_SCORPION_LEFT, X: 112, Y: 144, d: 0x0
 Entity 2: ENTITY_MONSTER_FROG, X: 192, Y: 144, d: 0x0
 
 > Screen 10 entities:
 Count: 2
-Entity 0: ENTITY_FLAME_LEFT, X: 112, Y: 144, d: 0x0
-Entity 1: ENTITY_FLAME_LEFT, X: 192, Y: 144, d: 0x0
+Entity 0: ENTITY_FLAME_OR_SCORPION_LEFT, X: 112, Y: 144, d: 0x0
+Entity 1: ENTITY_FLAME_OR_SCORPION_LEFT, X: 192, Y: 144, d: 0x0
 
 > Screen 11 entities:
 Count: 2
@@ -143,7 +143,7 @@ Entity 1: ENTITY_MONSTER_FROG, X: 128, Y: 144, d: 0x0
 
 > Screen 12 entities:
 Count: 2
-Entity 0: ENTITY_FLAME_LEFT, X: 80, Y: 144, d: 0x0
+Entity 0: ENTITY_FLAME_OR_SCORPION_LEFT, X: 80, Y: 144, d: 0x0
 Entity 1: ENTITY_MONSTER_FROG, X: 160, Y: 144, d: 0x0
 
 > Screen 13 entities:
@@ -159,12 +159,12 @@ Entity 2: ENTITY_MONSTER_FROG, X: 176, Y: 112, d: 0x0
 
 > Screen 15 entities:
 Count: 2
-Entity 0: ENTITY_FLAME_LEFT, X: 80, Y: 144, d: 0x0
+Entity 0: ENTITY_FLAME_OR_SCORPION_LEFT, X: 80, Y: 144, d: 0x0
 Entity 1: ENTITY_MONSTER_FROG, X: 128, Y: 144, d: 0x0
 
 > Screen 16 entities:
 Count: 1
-Entity 0: ENTITY_FLAME_LEFT, X: 128, Y: 144, d: 0x0
+Entity 0: ENTITY_FLAME_OR_SCORPION_LEFT, X: 128, Y: 144, d: 0x0
 
 > Screen 17 entities:
 Count: 4
@@ -183,8 +183,8 @@ Skipping strange screen...
 
 > Screen 2 entities:
 Count: 3
-Entity 0: 0x31, X: 144, Y: 40, d: 0x0
-Entity 1: 0x31, X: 112, Y: 32, d: 0x0
+Entity 0: ENTITY_KILLER_FISH_LEFT, X: 144, Y: 40, d: 0x0
+Entity 1: ENTITY_KILLER_FISH_LEFT, X: 112, Y: 32, d: 0x0
 Entity 2: ENTITY_SMALL_FISH_LEFT, X: 160, Y: 112, d: 0x0
 
 > Screen 3 entities:
@@ -231,12 +231,12 @@ Entity 0: 0x2c, X: 168, Y: 168, d: 0x0
 
 > Screen 2 entities:
 Count: 1
-Entity 0: ENTITY_FLAME_LEFT, X: 224, Y: 152, d: 0x0
+Entity 0: ENTITY_FLAME_OR_SCORPION_LEFT, X: 224, Y: 152, d: 0x0
 
 > Screen 3 entities:
 Count: 3
-Entity 0: ENTITY_FLAME_LEFT, X: 48, Y: 152, d: 0x0
-Entity 1: ENTITY_FLAME_LEFT, X: 176, Y: 64, d: 0x0
+Entity 0: ENTITY_FLAME_OR_SCORPION_LEFT, X: 48, Y: 152, d: 0x0
+Entity 1: ENTITY_FLAME_OR_SCORPION_LEFT, X: 176, Y: 64, d: 0x0
 Entity 2: ENTITY_MONSTERBIRD_LEFT, X: 216, Y: 112, d: 0x0
 
 > Screen 4 entities:
@@ -357,16 +357,16 @@ Entity 0: 0x55, X: 144, Y: 144, d: 0x0
 > Screen 2 entities:
 Count: 2
 Entity 0: 0x55, X: 160, Y: 144, d: 0x0
-Entity 1: ENTITY_FLAME_LEFT, X: 160, Y: 96, d: 0x0
+Entity 1: ENTITY_FLAME_OR_SCORPION_LEFT, X: 160, Y: 96, d: 0x0
 
 > Screen 3 entities:
 Count: 1
-Entity 0: ENTITY_FLAME_LEFT, X: 208, Y: 144, d: 0x0
+Entity 0: ENTITY_FLAME_OR_SCORPION_LEFT, X: 208, Y: 144, d: 0x0
 
 > Screen 4 entities:
 Count: 2
 Entity 0: 0x55, X: 176, Y: 80, d: 0x0
-Entity 1: ENTITY_FLAME_LEFT, X: 192, Y: 144, d: 0x0
+Entity 1: ENTITY_FLAME_OR_SCORPION_LEFT, X: 192, Y: 144, d: 0x0
 
 > Screen 5 entities:
 Count: 3
@@ -377,7 +377,7 @@ Entity 2: 0x3d, X: 224, Y: 120, d: 0x0
 > Screen 6 entities:
 Count: 3
 Entity 0: 0x55, X: 224, Y: 64, d: 0x0
-Entity 1: ENTITY_FLAME_LEFT, X: 160, Y: 144, d: 0x0
+Entity 1: ENTITY_FLAME_OR_SCORPION_LEFT, X: 160, Y: 144, d: 0x0
 Entity 2: 0x3d, X: 144, Y: 112, d: 0x0
 
 > Screen 7 entities:
@@ -405,7 +405,7 @@ Entity 1: ENTITY_BAT_LEFT, X: 184, Y: 104, d: 0x0
 
 > Screen 2 entities:
 Count: 3
-Entity 0: ENTITY_FLAME_LEFT, X: 24, Y: 144, d: 0x0
+Entity 0: ENTITY_FLAME_OR_SCORPION_LEFT, X: 24, Y: 144, d: 0x0
 Entity 1: 0x54, X: 176, Y: 64, d: 0x0
 Entity 2: 0x63, X: 240, Y: 48, d: 0x0
 
@@ -416,7 +416,7 @@ Skipping strange screen...
 > Screen 4 entities:
 Count: 2
 Entity 0: 0x3d, X: 120, Y: 96, d: 0x0
-Entity 1: ENTITY_FLAME_LEFT, X: 96, Y: 144, d: 0x0
+Entity 1: ENTITY_FLAME_OR_SCORPION_LEFT, X: 96, Y: 144, d: 0x0
 
 > Screen 5 entities:
 Count: 8
@@ -424,13 +424,13 @@ Skipping strange screen...
 
 > Screen 6 entities:
 Count: 1
-Entity 0: ENTITY_FLAME_LEFT, X: 64, Y: 80, d: 0x0
+Entity 0: ENTITY_FLAME_OR_SCORPION_LEFT, X: 64, Y: 80, d: 0x0
 
 > Screen 7 entities:
 Count: 3
-Entity 0: ENTITY_FLAME_LEFT, X: 16, Y: 144, d: 0x0
+Entity 0: ENTITY_FLAME_OR_SCORPION_LEFT, X: 16, Y: 144, d: 0x0
 Entity 1: ENTITY_BAT_LEFT, X: 144, Y: 96, d: 0x0
-Entity 2: ENTITY_FLAME_LEFT, X: 176, Y: 144, d: 0x0
+Entity 2: ENTITY_FLAME_OR_SCORPION_LEFT, X: 176, Y: 144, d: 0x0
 
 > Screen 8 entities:
 Count: 4
@@ -592,8 +592,8 @@ Count: 0
 
 > Screen 1 entities:
 Count: 2
-Entity 0: ENTITY_FLAME_LEFT, X: 136, Y: 80, d: 0x0
-Entity 1: ENTITY_FLAME_LEFT, X: 192, Y: 80, d: 0x0
+Entity 0: ENTITY_FLAME_OR_SCORPION_LEFT, X: 136, Y: 80, d: 0x0
+Entity 1: ENTITY_FLAME_OR_SCORPION_LEFT, X: 192, Y: 80, d: 0x0
 
 > Screen 2 entities:
 Count: 2
@@ -613,19 +613,19 @@ Entity 0: 0x40, X: 56, Y: 16, d: 0x0
 
 > Screen 5 entities:
 Count: 1
-Entity 0: ENTITY_FLAME_LEFT, X: 224, Y: 144, d: 0x0
+Entity 0: ENTITY_FLAME_OR_SCORPION_LEFT, X: 224, Y: 144, d: 0x0
 
 > Screen 6 entities:
 Count: 3
 Entity 0: 0x40, X: 128, Y: 32, d: 0x0
-Entity 1: ENTITY_FLAME_LEFT, X: 48, Y: 144, d: 0x0
-Entity 2: ENTITY_FLAME_LEFT, X: 192, Y: 144, d: 0x0
+Entity 1: ENTITY_FLAME_OR_SCORPION_LEFT, X: 48, Y: 144, d: 0x0
+Entity 2: ENTITY_FLAME_OR_SCORPION_LEFT, X: 192, Y: 144, d: 0x0
 
 > Screen 7 entities:
 Count: 3
 Entity 0: 0x40, X: 192, Y: 32, d: 0x0
-Entity 1: ENTITY_FLAME_LEFT, X: 96, Y: 144, d: 0x0
-Entity 2: ENTITY_FLAME_LEFT, X: 192, Y: 144, d: 0x0
+Entity 1: ENTITY_FLAME_OR_SCORPION_LEFT, X: 96, Y: 144, d: 0x0
+Entity 2: ENTITY_FLAME_OR_SCORPION_LEFT, X: 192, Y: 144, d: 0x0
 
 > Screen 8 entities:
 Count: 3
@@ -679,15 +679,15 @@ Entity 0: ENTITY_MONSTER_FROG, X: 112, Y: 64, d: 0x0
 
 > Screen 2 entities:
 Count: 3
-Entity 0: ENTITY_FLAME_LEFT, X: 128, Y: 64, d: 0x0
+Entity 0: ENTITY_FLAME_OR_SCORPION_LEFT, X: 128, Y: 64, d: 0x0
 Entity 1: ENTITY_BAT_LEFT, X: 128, Y: 32, d: 0x0
 Entity 2: ENTITY_BAT_LEFT, X: 80, Y: 112, d: 0x0
 
 > Screen 3 entities:
 Count: 5
 Entity 0: 0x52, X: 224, Y: 80, d: 0x5
-Entity 1: ENTITY_FLAME_LEFT, X: 96, Y: 48, d: 0x1
-Entity 2: ENTITY_FLAME_LEFT, X: 176, Y: 48, d: 0x1
+Entity 1: ENTITY_FLAME_OR_SCORPION_LEFT, X: 96, Y: 48, d: 0x1
+Entity 2: ENTITY_FLAME_OR_SCORPION_LEFT, X: 176, Y: 48, d: 0x1
 Entity 3: ENTITY_BAT_LEFT, X: 96, Y: 120, d: 0x0
 Entity 4: ENTITY_BAT_LEFT, X: 176, Y: 120, d: 0x0
 
@@ -700,7 +700,7 @@ Count: 0
 
 > Screen 6 entities:
 Count: 2
-Entity 0: ENTITY_FLAME_LEFT, X: 160, Y: 160, d: 0x1
+Entity 0: ENTITY_FLAME_OR_SCORPION_LEFT, X: 160, Y: 160, d: 0x1
 Entity 1: ENTITY_BAT_LEFT, X: 144, Y: 24, d: 0x0
 
 > Screen 7 entities:
@@ -711,8 +711,8 @@ Entity 1: 0x52, X: 16, Y: 48, d: 0x2
 > Screen 8 entities:
 Count: 3
 Entity 0: 0x16, X: 32, Y: 32, d: 0x3
-Entity 1: ENTITY_FLAME_LEFT, X: 40, Y: 160, d: 0x1
-Entity 2: ENTITY_FLAME_LEFT, X: 128, Y: 160, d: 0x0
+Entity 1: ENTITY_FLAME_OR_SCORPION_LEFT, X: 40, Y: 160, d: 0x1
+Entity 2: ENTITY_FLAME_OR_SCORPION_LEFT, X: 128, Y: 160, d: 0x0
 
 > Screen 9 entities:
 Count: 1
@@ -731,15 +731,15 @@ Entity 4: 0x10, X: 160, Y: 56, d: 0x5
 
 > Screen 12 entities:
 Count: 3
-Entity 0: ENTITY_FLAME_LEFT, X: 216, Y: 160, d: 0x1
-Entity 1: ENTITY_FLAME_LEFT, X: 96, Y: 160, d: 0x1
-Entity 2: ENTITY_FLAME_LEFT, X: 160, Y: 160, d: 0x1
+Entity 0: ENTITY_FLAME_OR_SCORPION_LEFT, X: 216, Y: 160, d: 0x1
+Entity 1: ENTITY_FLAME_OR_SCORPION_LEFT, X: 96, Y: 160, d: 0x1
+Entity 2: ENTITY_FLAME_OR_SCORPION_LEFT, X: 160, Y: 160, d: 0x1
 
 > Screen 13 entities:
 Count: 3
-Entity 0: ENTITY_FLAME_LEFT, X: 216, Y: 160, d: 0x1
-Entity 1: ENTITY_FLAME_LEFT, X: 96, Y: 160, d: 0x1
-Entity 2: ENTITY_FLAME_LEFT, X: 160, Y: 160, d: 0x1
+Entity 0: ENTITY_FLAME_OR_SCORPION_LEFT, X: 216, Y: 160, d: 0x1
+Entity 1: ENTITY_FLAME_OR_SCORPION_LEFT, X: 96, Y: 160, d: 0x1
+Entity 2: ENTITY_FLAME_OR_SCORPION_LEFT, X: 160, Y: 160, d: 0x1
 
 > Screen 14 entities:
 Count: 4
@@ -757,7 +757,7 @@ Entity 3: 0x52, X: 128, Y: 144, d: 0x1
 
 > Screen 17 entities:
 Count: 1
-Entity 0: ENTITY_FLAME_LEFT, X: 112, Y: 160, d: 0x0
+Entity 0: ENTITY_FLAME_OR_SCORPION_LEFT, X: 112, Y: 160, d: 0x0
 
 > Screen 18 entities:
 Count: 2
@@ -766,10 +766,10 @@ Entity 1: 0x11, X: 168, Y: 40, d: 0x79
 
 > Screen 19 entities:
 Count: 4
-Entity 0: ENTITY_FLAME_LEFT, X: 64, Y: 128, d: 0x1
-Entity 1: ENTITY_FLAME_LEFT, X: 128, Y: 80, d: 0x1
-Entity 2: ENTITY_FLAME_LEFT, X: 80, Y: 32, d: 0x1
-Entity 3: ENTITY_FLAME_LEFT, X: 160, Y: 128, d: 0x1
+Entity 0: ENTITY_FLAME_OR_SCORPION_LEFT, X: 64, Y: 128, d: 0x1
+Entity 1: ENTITY_FLAME_OR_SCORPION_LEFT, X: 128, Y: 80, d: 0x1
+Entity 2: ENTITY_FLAME_OR_SCORPION_LEFT, X: 80, Y: 32, d: 0x1
+Entity 3: ENTITY_FLAME_OR_SCORPION_LEFT, X: 160, Y: 128, d: 0x1
 
 ****************************
 * Reading lvl 12 screens.
@@ -780,8 +780,8 @@ Count: 0
 
 > Screen 1 entities:
 Count: 3
-Entity 0: ENTITY_FLAME_LEFT, X: 64, Y: 144, d: 0x0
-Entity 1: ENTITY_FLAME_LEFT, X: 112, Y: 144, d: 0x0
+Entity 0: ENTITY_FLAME_OR_SCORPION_LEFT, X: 64, Y: 144, d: 0x0
+Entity 1: ENTITY_FLAME_OR_SCORPION_LEFT, X: 112, Y: 144, d: 0x0
 Entity 2: 0x3d, X: 192, Y: 88, d: 0x0
 
 > Screen 2 entities:
@@ -859,48 +859,48 @@ Count: 0
 
 > Screen 2 entities:
 Count: 2
-Entity 0: ENTITY_FLAME_LEFT, X: 80, Y: 144, d: 0x0
-Entity 1: ENTITY_FLAME_LEFT, X: 160, Y: 144, d: 0x0
+Entity 0: ENTITY_FLAME_OR_SCORPION_LEFT, X: 80, Y: 144, d: 0x0
+Entity 1: ENTITY_FLAME_OR_SCORPION_LEFT, X: 160, Y: 144, d: 0x0
 
 > Screen 3 entities:
 Count: 3
 Entity 0: ENTITY_MONSTER_FROG, X: 32, Y: 112, d: 0x0
-Entity 1: ENTITY_FLAME_LEFT, X: 96, Y: 80, d: 0x0
-Entity 2: ENTITY_FLAME_LEFT, X: 144, Y: 128, d: 0x0
+Entity 1: ENTITY_FLAME_OR_SCORPION_LEFT, X: 96, Y: 80, d: 0x0
+Entity 2: ENTITY_FLAME_OR_SCORPION_LEFT, X: 144, Y: 128, d: 0x0
 
 > Screen 4 entities:
 Count: 4
-Entity 0: ENTITY_FLAME_LEFT, X: 32, Y: 144, d: 0x0
-Entity 1: ENTITY_FLAME_LEFT, X: 112, Y: 144, d: 0x0
+Entity 0: ENTITY_FLAME_OR_SCORPION_LEFT, X: 32, Y: 144, d: 0x0
+Entity 1: ENTITY_FLAME_OR_SCORPION_LEFT, X: 112, Y: 144, d: 0x0
 Entity 2: ENTITY_MONSTER_FROG, X: 176, Y: 144, d: 0x0
 Entity 3: 0x2c, X: 208, Y: 160, d: 0x0
 
 > Screen 5 entities:
 Count: 3
-Entity 0: ENTITY_FLAME_LEFT, X: 120, Y: 144, d: 0x0
+Entity 0: ENTITY_FLAME_OR_SCORPION_LEFT, X: 120, Y: 144, d: 0x0
 Entity 1: 0x2c, X: 160, Y: 160, d: 0x0
-Entity 2: ENTITY_FLAME_LEFT, X: 224, Y: 144, d: 0x0
+Entity 2: ENTITY_FLAME_OR_SCORPION_LEFT, X: 224, Y: 144, d: 0x0
 
 > Screen 6 entities:
 Count: 3
-Entity 0: ENTITY_FLAME_LEFT, X: 96, Y: 144, d: 0x0
-Entity 1: ENTITY_FLAME_LEFT, X: 160, Y: 144, d: 0x0
+Entity 0: ENTITY_FLAME_OR_SCORPION_LEFT, X: 96, Y: 144, d: 0x0
+Entity 1: ENTITY_FLAME_OR_SCORPION_LEFT, X: 160, Y: 144, d: 0x0
 Entity 2: ENTITY_MONSTER_FROG, X: 240, Y: 96, d: 0x0
 
 > Screen 7 entities:
 Count: 2
-Entity 0: ENTITY_FLAME_LEFT, X: 128, Y: 64, d: 0x0
-Entity 1: ENTITY_FLAME_LEFT, X: 96, Y: 144, d: 0x0
+Entity 0: ENTITY_FLAME_OR_SCORPION_LEFT, X: 128, Y: 64, d: 0x0
+Entity 1: ENTITY_FLAME_OR_SCORPION_LEFT, X: 96, Y: 144, d: 0x0
 
 > Screen 8 entities:
 Count: 2
-Entity 0: ENTITY_FLAME_LEFT, X: 96, Y: 144, d: 0x0
+Entity 0: ENTITY_FLAME_OR_SCORPION_LEFT, X: 96, Y: 144, d: 0x0
 Entity 1: 0x2c, X: 176, Y: 160, d: 0x0
 
 > Screen 9 entities:
 Count: 2
 Entity 0: ENTITY_MONSTER_FROG, X: 176, Y: 80, d: 0x0
-Entity 1: ENTITY_FLAME_LEFT, X: 32, Y: 144, d: 0x0
+Entity 1: ENTITY_FLAME_OR_SCORPION_LEFT, X: 32, Y: 144, d: 0x0
 
 > Screen 10 entities:
 Count: 4
@@ -932,11 +932,11 @@ Skipping strange screen...
 
 > Screen 5 entities:
 Count: 5
-Entity 0: ENTITY_FLAME_LEFT, X: 208, Y: 112, d: 0x1
-Entity 1: ENTITY_FLAME_LEFT, X: 144, Y: 112, d: 0x1
+Entity 0: ENTITY_FLAME_OR_SCORPION_LEFT, X: 208, Y: 112, d: 0x1
+Entity 1: ENTITY_FLAME_OR_SCORPION_LEFT, X: 144, Y: 112, d: 0x1
 Entity 2: 0x57, X: 216, Y: 48, d: 0x1
 Entity 3: ENTITY_MONSTER_FROG, X: 176, Y: 64, d: 0x0
-Entity 4: ENTITY_FLAME_LEFT, X: 176, Y: 112, d: 0x1
+Entity 4: ENTITY_FLAME_OR_SCORPION_LEFT, X: 176, Y: 112, d: 0x1
 
 > Screen 6 entities:
 Count: 1
@@ -963,10 +963,10 @@ Skipping strange screen...
 
 > Screen 12 entities:
 Count: 4
-Entity 0: ENTITY_FLAME_LEFT, X: 96, Y: 160, d: 0x0
+Entity 0: ENTITY_FLAME_OR_SCORPION_LEFT, X: 96, Y: 160, d: 0x0
 Entity 1: ENTITY_MONSTER_FROG, X: 192, Y: 80, d: 0x0
-Entity 2: ENTITY_FLAME_LEFT, X: 144, Y: 160, d: 0x1
-Entity 3: ENTITY_FLAME_LEFT, X: 192, Y: 160, d: 0x1
+Entity 2: ENTITY_FLAME_OR_SCORPION_LEFT, X: 144, Y: 160, d: 0x1
+Entity 3: ENTITY_FLAME_OR_SCORPION_LEFT, X: 192, Y: 160, d: 0x1
 
 > Screen 13 entities:
 Count: 4
@@ -1003,7 +1003,7 @@ Entity 2: 0x13, X: 84, Y: 56, d: 0xf2
 Count: 4
 Entity 0: 0x57, X: 144, Y: 160, d: 0x0
 Entity 1: 0x57, X: 112, Y: 160, d: 0x0
-Entity 2: ENTITY_FLAME_LEFT, X: 80, Y: 80, d: 0x1
+Entity 2: ENTITY_FLAME_OR_SCORPION_LEFT, X: 80, Y: 80, d: 0x1
 Entity 3: 0x52, X: 208, Y: 64, d: 0x5
 
 > Screen 21 entities:
@@ -1014,7 +1014,7 @@ Count: 0
 
 > Screen 23 entities:
 Count: 2
-Entity 0: ENTITY_FLAME_LEFT, X: 96, Y: 160, d: 0x1
+Entity 0: ENTITY_FLAME_OR_SCORPION_LEFT, X: 96, Y: 160, d: 0x1
 Entity 1: 0x16, X: 104, Y: 112, d: 0x4
 
 > Screen 24 entities:
@@ -1046,7 +1046,7 @@ Entity 0: 0x57, X: 192, Y: 96, d: 0x0
 
 > Screen 30 entities:
 Count: 1
-Entity 0: ENTITY_FLAME_LEFT, X: 192, Y: 96, d: 0x1
+Entity 0: ENTITY_FLAME_OR_SCORPION_LEFT, X: 192, Y: 96, d: 0x1
 
 > Screen 31 entities:
 Count: 0
@@ -1074,15 +1074,15 @@ Skipping strange screen...
 
 > Screen 37 entities:
 Count: 3
-Entity 0: ENTITY_FLAME_LEFT, X: 152, Y: 112, d: 0x0
+Entity 0: ENTITY_FLAME_OR_SCORPION_LEFT, X: 152, Y: 112, d: 0x0
 Entity 1: 0x16, X: 184, Y: 32, d: 0x2
-Entity 2: ENTITY_FLAME_LEFT, X: 80, Y: 96, d: 0x0
+Entity 2: ENTITY_FLAME_OR_SCORPION_LEFT, X: 80, Y: 96, d: 0x0
 
 > Screen 38 entities:
 Count: 3
-Entity 0: ENTITY_FLAME_LEFT, X: 120, Y: 48, d: 0x0
-Entity 1: ENTITY_FLAME_LEFT, X: 64, Y: 160, d: 0x1
-Entity 2: ENTITY_FLAME_LEFT, X: 176, Y: 160, d: 0x1
+Entity 0: ENTITY_FLAME_OR_SCORPION_LEFT, X: 120, Y: 48, d: 0x0
+Entity 1: ENTITY_FLAME_OR_SCORPION_LEFT, X: 64, Y: 160, d: 0x1
+Entity 2: ENTITY_FLAME_OR_SCORPION_LEFT, X: 176, Y: 160, d: 0x1
 
 > Screen 39 entities:
 Count: 1
@@ -1094,13 +1094,35 @@ Entity 0: ENTITY_MONSTER_FROG, X: 176, Y: 128, d: 0x0
 
 > Screen 41 entities:
 Count: 2
-Entity 0: ENTITY_FLAME_LEFT, X: 104, Y: 128, d: 0x1
-Entity 1: ENTITY_FLAME_LEFT, X: 160, Y: 160, d: 0x0
+Entity 0: ENTITY_FLAME_OR_SCORPION_LEFT, X: 104, Y: 128, d: 0x1
+Entity 1: ENTITY_FLAME_OR_SCORPION_LEFT, X: 160, Y: 160, d: 0x0
 
 ****************************
 * Reading lvl 17 screens.
 ****************************
 
+
+Warning: Undefined array key 17 in /app/tools/level-parser/lvlparser.php on line 82
+
+Warning: Undefined array key 17 in /app/tools/level-parser/lvlparser.php on line 82
+
+Warning: Undefined array key 17 in /app/tools/level-parser/lvlparser.php on line 82
+
+Warning: Undefined array key 17 in /app/tools/level-parser/lvlparser.php on line 82
+
+Warning: Undefined array key 17 in /app/tools/level-parser/lvlparser.php on line 82
+
+Warning: Undefined array key 17 in /app/tools/level-parser/lvlparser.php on line 82
+
+Warning: Undefined array key 17 in /app/tools/level-parser/lvlparser.php on line 82
+
+Warning: Undefined array key 17 in /app/tools/level-parser/lvlparser.php on line 82
+
+Warning: Undefined array key 17 in /app/tools/level-parser/lvlparser.php on line 82
+
+Warning: Undefined array key 17 in /app/tools/level-parser/lvlparser.php on line 82
+
+Warning: Undefined array key 17 in /app/tools/level-parser/lvlparser.php on line 82
 > Screen 0 entities:
 Count: 0
 
