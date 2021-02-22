@@ -13,6 +13,9 @@ State for Alex mechanics
 - 08: 
 - 09: Flying peticopter
 
+# Entities
+$43 probably is rice ball
+
 # Trivia
 - Level #07 Actually has a seven on it
 - I dont actually need to use Magic Capsule B to became invincible, just buy and equip it (but you cannot punch)
