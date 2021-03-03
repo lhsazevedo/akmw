@@ -1,0 +1,106 @@
+bank prg @ 0x0000 : [constdata; 0x8000];
+
+struct Word {
+    low: u8,
+    high: u8
+}
+
+struct Entity {
+    type: u8,
+    flags: u8,
+    unknown1: u8,
+    data: u8,
+    animationFrame: u8,
+    animationTimer: u8,
+    animationTimerResetValue: u8,
+    // spriteDescriptorPointer: u16,
+    spriteDescriptorPointer: Word,
+    // isOffScreenFlags: u16,
+    isOffScreenFlags: Word,
+    // xPos: u16,
+    xPos: Word,
+    // yPos: u16,
+    yPos: Word,
+    // xSpeed: u16,
+    xSpeed: Word,
+    // ySpeed: u16,
+    ySpeed: Word,
+    unknown2: u8,
+    unknown3: u8,
+    unknown4: u8,
+    unknown5: u8,
+    jankenMatchDecision: u8,
+    unknown6: u8,
+    unknown7: u8,
+    state: u8,
+    stateTimer: u8,
+    unknown8: u8,
+    unknown9: u8,
+    unknown10: u8,
+    unknown11: u8
+}
+
+in prg @ 0x5037 {
+
+    #[fallthrough]
+    func updateMonsterbirdLeft(monster: *Entity in ix) {
+        if (!monster.flags $ 0) {
+            monster.flags $ 0 = true;
+            monster.unknown3 = 0x04;
+            monster.animationTimer = 0x10;
+            monster.animationTimerResetValue = 0x10;
+        } else {
+            a = monster.isOffScreenFlags.low;
+            a |= monster.isOffScreenFlags.high;
+            if (zero) {
+                monster.xSpeed.high = 0xFF;
+                monster.xSpeed.low = 0x80;
+                monster.flags $ 1 = true;
+
+                // (*(0x7D99 as *func))();
+                (*(0x7D99 as *func))();
+                // tryToKillAlexIfColliding();
+                _LABEL_7D0B_();
+
+                ^goto _LABEL_55A5_ if !carry;
+
+                de = 0x0100;
+                a = 0x08;
+                _LABEL_3A03_();
+                if (carry) {
+                    monster.type = 0x33;
+                    monster.xSpeed.high = 0x00;
+                    monster.xSpeed.low = 0x80;
+                }
+            }
+        }
+
+        hl = 0x81B7; // monsterbirdLeftAnimationDescriptor
+        ^return _LABEL_280E_(); // handleEntityAnimation
+    }
+
+}
+
+in prg @ 0x7D0B {
+    #[fallthrough]
+    func _LABEL_7D0B_() {}
+}
+
+in prg @ 0x280E {
+    #[fallthrough]
+    func _LABEL_280E_() {}
+}
+
+in prg @ 0x3A03 {
+    #[fallthrough]
+    func _LABEL_3A03_() {}
+}
+
+in prg @ 0x7D99 {
+    #[fallthrough]
+    func tryToKillAlexIfColliding() {}
+}
+
+in prg @ 0x55A5 {
+    func _LABEL_55A5_() {}
+}
