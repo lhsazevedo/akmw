@@ -1,0 +1,39 @@
+struct Word {
+    low: u8,
+    high: u8
+}
+
+struct Entity {
+    type: u8,
+    flags: u8,
+    unknown1: u8,
+    data: u8,
+    animationFrame: u8,
+    animationTimer: u8,
+    animationTimerResetValue: u8,
+    // spriteDescriptorPointer: u16,
+    spriteDescriptorPointer: Word,
+    // isOffScreenFlags: u16,
+    isOffScreenFlags: Word,
+    // xPos: u16,
+    xPos: Word,
+    // yPos: u16,
+    yPos: Word,
+    // xSpeed: u16,
+    xSpeed: Word,
+    // ySpeed: u16,
+    ySpeed: Word,
+    unknown2: u8,
+    unknown3: u8,
+    unknown4: u8,
+    unknown5: u8,
+    jankenMatchDecision: u8,
+    unknown6: u8,
+    unknown7: u8,
+    state: u8,
+    stateTimer: u8,
+    unknown8: u8,
+    unknown9: u8,
+    unknown10: u8,
+    unknown11: u8
+}

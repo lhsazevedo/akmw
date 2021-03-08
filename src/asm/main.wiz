@@ -1,0 +1,11 @@
+import "sms";
+import "banks";
+
+in prg @ 0x293 {
+    import "decompress.wiz";
+}
+
+in prg @ 0x5037 {
+    import "entities/monsterBirdLeft/updater.wiz";
+}
+

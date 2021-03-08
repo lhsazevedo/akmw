@@ -1,0 +1,35 @@
+import "banks";
+
+in prg @ 0x7D0B {
+    namespace baserom {
+        #[fallthrough]
+        func _LABEL_7D0B_() {}
+    }
+}
+
+in prg @ 0x280E {
+    namespace baserom {
+        #[fallthrough]
+        func _LABEL_280E_() {}
+    }
+}
+
+in prg @ 0x3A03 {
+    namespace baserom {
+        #[fallthrough]
+        func _LABEL_3A03_() {}
+    }
+}
+
+in prg @ 0x7D99 {
+    namespace baserom {
+        #[fallthrough]
+        func tryToKillAlexIfColliding() {}
+    }
+}
+
+in prg @ 0x55A5 {
+    namespace baserom {
+        func _LABEL_55A5_() {}
+    }
+}
