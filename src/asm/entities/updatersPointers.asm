@@ -45,14 +45,14 @@ entityTypeJumpTable:
 .dw updateSmokePuff
 .dw _LABEL_4FF1_
 .dw updateMonsterbirdLeft
-.dw _LABEL_515F_
+.dw updateKillerFishLeft
 .dw _LABEL_56CC_
 .dw updateSmallFishLeft
 .dw _LABEL_57CE_
 .dw _LABEL_5883_
 .dw updateMonsterbirdRight
 .dw updateSmallFishRight
-.dw _LABEL_51F3_
+.dw updateKillerFishRight
 .dw updateBatRight
 .dw updateMonsterFrogJumping
 .dw updateDebrisTopLeft
