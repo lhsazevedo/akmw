@@ -23,29 +23,34 @@ function rb($arr, $addr) {
     return $arr[$addr];
 }
 
+function readEntityTypes() {
+    $entities = [];
+
+    $efh = fopen('../../src/asm/constants.asm', 'r');
+
+    $reading = false;
+    while (!feof($efh)) {
+        $line = fgets($efh);
+
+        if ($reading === true and $line === "\n") {
+            return $entities;
+        }
+
+        if ($reading === false and strpos($line, '; Entity types') === 0) {
+            $reading = true;  
+        } elseif ($reading === true) {
+            if (preg_match('/(\w+)\s+=\s\$(\w\w)/i', $line, $matches)) {
+                $entities[hexdec($matches[2])] = $matches[1];
+            }
+        }
+    }
+}
+
+$entities = readEntityTypes();
+
 function getEntityType($n) {
-    $entities = [
-        0x18 => 'ENTITY_STATIC',
-        0x20 => 'ENTITY_BAT_LEFT',
-        0x2D => 'ENTITY_MONSTERBIRD_LEFT',
-        0x2F => 'ENTITY_MONSTER_FROG',
-        0x30 => 'ENTITY_SMALL_FISH_LEFT',
-        0x33 => 'ENTITY_MONSTERBIRD_RIGHT',
-        0x34 => 'ENTITY_SMALL_FISH_RIGHT',
-        0x36 => 'ENTITY_BAT_RIGHT',
-        0x37 => 'ENTITY_MONSTER_FROG_JUMPING',
-        0x38 => 'ENTITY_DEBRIS_TOP_LEFT',
-        0x39 => 'ENTITY_DEBRIS_BOTTOM_LEFT',
-        0x3A => 'ENTITY_DEBRIS_TOP_RIGHT',
-        0x3B => 'ENTITY_DEBRIS_BOTTOM_RIGHT',
-        0x3C => 'ENTITY_MONEY_BAG',
-        0x3E => 'ENTITY_FLAME_OR_SCORPION_LEFT',
-        0x3F => 'ENTITY_FLAME_OR_SCORPION_RIGHT',
-        0x4F => 'ENTITY_GHOST',
-        0x56 => 'ENTITY_ARROW',
-        0x58 => 'ENTITY_JANKENS_CASTLE'
-    ];
-    
+    global $entities;
+
     return $entities[$n] ?? '0x' . dechex($n);
 }
 
@@ -94,11 +99,34 @@ foreach ($levelsPointers as $key => $levelPointer) {
 
         // echo dechex($screenPointer) . "\n";
         $rawCount = rb($rom, $screenPointer);
-        echo "Count: " . ($rawCount & 0x7F) . "\n";
+        // echo "Count: " . ($rawCount & 0x7F) . "\n";
+
+        if ($rawCount === 0) {
+            echo "No entities.\n\n";
+            continue;
+        }
 
         if ($rawCount & 0x80) {
-            echo "Skipping strange screen...\n\n";
-            continue;
+            echo "Special screen found: 0x" . dechex($rawCount & 0x75) . "\n";
+
+            if ($rawCount === 0x84) {
+                // $screenPointer++;
+                echo "Special type: Always present entity (bit 3)\n";
+                echo "Type: ";
+                echo getEntityType(rb($rom, $screenPointer + 1)) . ", ";
+                echo "X: " . rb($rom, $screenPointer + 3) . ", ";
+                echo "Y: " . rb($rom, $screenPointer + 2) . ", ";
+                echo "d: 0x" . dechex(rb($rom, $screenPointer + 4)) . "\n";
+
+                $screenPointer += 5;
+                $rawCount = rb($rom, $screenPointer);
+                echo "Real count: " . $rawCount . "\n";
+            } else {
+                echo "Skipping unknown special entity...\n\n";
+                continue;
+            }
+        } else {
+            echo "Count: " . ($rawCount & 0x7F) . "\n";
         }
 
         for ($entityIndex = 0; $entityIndex < $rawCount; $entityIndex++) {
