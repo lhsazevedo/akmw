@@ -1225,7 +1225,7 @@ initialValues:
 
 .INC "engine/states/title/createEntities.asm"
 
-.INC "engine/clearEntities.asm"
+.INC "engine/entity/clearEntities.asm"
 
 ; 3rd entry of Jump Table from 3B (indexed by v_gameState)
 .INC "engine/states/demo/update.asm"
@@ -2818,7 +2818,7 @@ _DATA_2674_:
 .db $30 $00 $3F $2A $25 $0F $03 $0B $3C $02 $00 $00 $00 $00 $00 $00
 .db $30 $00 $3F $2A $25 $0F $03 $0B $3C $02 $00 $00 $00 $00 $00 $00
 
-.INC "engine/entity.asm"
+.INC "engine/entity/entity.asm"
 
 .INC "entities/updatersPointers.asm"
 
@@ -12389,7 +12389,7 @@ _LABEL_7CBC_:
 	ret z
 
 
-.INC "engine/checkEntityCollision.asm"
+.INC "engine/entity/checkEntityCollision.asm"
 
 
 _LABEL_7D0B_:
