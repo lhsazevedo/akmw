@@ -8477,27 +8477,7 @@ _LABEL_5B90_:
     ret
 
 ; 68th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
-_LABEL_5BD1_:
-    bit 0, (ix+1)
-    jr nz, +
-    set 0, (ix+1)
-    ld (ix+7), <_DATA_8CC7_
-    ld (ix+8), >_DATA_8CC7_
-    ret
-
-+:
-    ld a, (ix+9)
-    or (ix+10)
-    ret nz
-    ld iy, v_entity1
-    call checkEntityCollision
-    ret c
-    ld l, $0C
-    call addScore
-    call clearCurrentEntity
-    ld a, $04
-    ld (v_gameState), a
-    ret
+.INC "entities/riceBall/updater.asm"
 
 _LABEL_5C01_:
     ex af, af'

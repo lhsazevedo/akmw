@@ -67,7 +67,7 @@ entityTypeJumpTable:
 .dw _LABEL_5F05_
 .dw _LABEL_5F4C_
 .dw _LABEL_5629_
-.dw _LABEL_5BD1_
+.dw updateRiceBall
 .dw _LABEL_60BC_
 .dw _LABEL_5C36_
 .dw _LABEL_5CB0_
