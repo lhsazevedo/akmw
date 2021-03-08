@@ -9437,7 +9437,7 @@ _LABEL_657B_:
     ld (v_scrollFlags), a
     ret
 
-_LABEL_65B1_:
+loadLevel:
     ld a, (v_level)
     ld hl, LevelDescriptorPointerTable - 2
     rst $10    ; _LABEL_10_

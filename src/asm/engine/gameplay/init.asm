@@ -74,7 +74,7 @@ initGameplayState:
 	call _LABEL_E6C_
 
 	; @TODO
-	call _LABEL_65B1_
+	call loadLevel
 
 	ld a, (v_level)
 	ld hl, _DATA_D70_ - 3
