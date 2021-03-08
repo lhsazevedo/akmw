@@ -110,23 +110,27 @@ MtEternalScreen10EntitiesDescriptor:
     .db $00
 
 ; Data at B73C (18 bytes)
-; @FIXME Theres something wrong here!
 MtEternalScreen11EntitiesDescriptor:
-    .db $84 ; @TODO: Why bit 7 is set?
-    .db $44 ; And why this extra value?
-    ; Entity 1
-    .db ENTITY_SMALL_FISH_LEFT
-    .db $E0 $00
+    ; Special descriptor
+    .db $84 ; 0x84 entities are always the 6th entity
+
+    ; Special entity
+    .db $44
+    .db $30 $E0
+    .db $00
+
+    ; Length
     .db $03
-    ; Entity 2
+
+    ; Entity 1
     .db $2E
     .db $28 $A0
     .db $00
-    ; Entity 3
+    ; Entity 2
     .db ENTITY_SMALL_FISH_LEFT
     .db $68 $80
     .db $00
-    ; Entity 4
+    ; Entity 3
     .db $23
     .db $80 $30
     .db $00
