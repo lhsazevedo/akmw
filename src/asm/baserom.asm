@@ -10768,14 +10768,20 @@ _LABEL_6F7E_:
 	ld (v_isScrollingDownToNextScreen), a
 	ld (v_addedEntitiesShouldBeOffscreenHorizontally), de
 _LABEL_6F86_:
+    ; Here the screen entities descriptor entity count is read
 	ld a, (hl)
 	or a
 	ret z
+
+    ; If unknown bit 7 is set
 	bit 7, a
 	jp nz, _LABEL_6FDF_
+
 	ld b, a
 _LABEL_6F8F_:
 	ld c, b
+
+    ; Find an empty entity slot
 	ld ix, _RAM_C3C0_
 	ld de, $0020
 	ld b, $0A
@@ -10823,12 +10829,17 @@ _LABEL_6FA6_:
 
 ; Entity loading related
 _LABEL_6FDF_:
+    ; If bit 1 is set (0x81)
 	rrca
 	jp c, ++
+    ; If bit 2 is set (0x82)
 	rrca
 	jp c, _LABEL_702F_
+    ; If bit 3 is set (0x84)
 	rrca
 	jp c, +
+    
+    ; Else
 	inc hl
 	ld a, (hl)
 	ld c, a
