@@ -1205,7 +1205,7 @@ _LABEL_74C_:
 .db $6A $10 $F3 $C9
 
 ; 1st entry of Jump Table from 3B (indexed by v_gameState)
-.INC "engine/title/update.asm"
+.INC "engine/states/title/update.asm"
 
 ; Data from 824 to 841 (30 bytes)
 initialValues:
@@ -1219,27 +1219,27 @@ initialValues:
 .db $03 $00 $00 $00 $00 $00 $00 $00
 
 ; 1st entry of Jump Table from 127 (indexed by v_gameState)
-.INC "engine/title/handleInterrupt.asm"
+.INC "engine/states/title/handleInterrupt.asm"
 
-.INC "engine/title/loadSprites.asm"
+.INC "engine/states/title/loadSprites.asm"
 
-.INC "engine/title/createEntities.asm"
+.INC "engine/states/title/createEntities.asm"
 
 .INC "engine/clearEntities.asm"
 
 ; 3rd entry of Jump Table from 3B (indexed by v_gameState)
-.INC "engine/demo/update.asm"
+.INC "engine/states/demo/update.asm"
 
 ; Data from A34 to A34 (1 bytes)
 .db $C9
 
 ; 3rd entry of Jump Table from 127 (indexed by v_gameState)
-.INC "engine/demo/handleInterrupt.asm"
+.INC "engine/states/demo/handleInterrupt.asm"
 .INC "src/data/demoInputPointers.asm"
 
-.INC "engine/gameplay/update.asm"
-.INC "engine/gameplay/handleInterrupt.asm"
-.INC "engine/gameplay/init.asm"
+.INC "engine/states/gameplay/update.asm"
+.INC "engine/states/gameplay/handleInterrupt.asm"
+.INC "engine/states/gameplay/init.asm"
 
 _LABEL_C43_:
     ld ix, v_entity1
@@ -2761,9 +2761,9 @@ updateLevelCompletedState:
     jp enableDisplay
 
 
-.INC "engine/levelStarting/update.asm"
-.INC "engine/levelStarting/handleInterrupt.asm"
-.INC "engine/levelStarting/init.asm"
+.INC "engine/states/levelStarting/update.asm"
+.INC "engine/states/levelStarting/handleInterrupt.asm"
+.INC "engine/states/levelStarting/init.asm"
 
 
 ; 86th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
@@ -2780,15 +2780,15 @@ levelStartingPalette:
 .INC "src/data/mapArrowPositions.asm"
 
 ; 6th entry of Jump Table from 3B (indexed by v_gameState)
-.INC "engine/shop/update.asm"
+.INC "engine/states/shop/update.asm"
 ; 6th entry of Jump Table from 127 (indexed by v_gameState)
-.INC "engine/shop/handleInterrupt.asm"
+.INC "engine/states/shop/handleInterrupt.asm"
 
 ; 12th entry of Jump Table from 3B (indexed by v_gameState)
-.INC "engine/map/update.asm"
+.INC "engine/states/map/update.asm"
 
 ; 12th entry of Jump Table from 127 (indexed by v_gameState)
-.INC "engine/map/handleInterrupt.asm"
+.INC "engine/states/map/handleInterrupt.asm"
 
 _LABEL_264F_:
     ld a, (_RAM_C054_)
