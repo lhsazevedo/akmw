@@ -107,7 +107,7 @@ foreach ($levelsPointers as $key => $levelPointer) {
         }
 
         if ($rawCount & 0x80) {
-            echo "Special screen found: 0x" . dechex($rawCount & 0x75) . "\n";
+            echo "Special screen found: 0x" . dechex($rawCount & 0x77) . "\n";
 
             if ($rawCount === 0x84) {
                 // $screenPointer++;
@@ -119,6 +119,14 @@ foreach ($levelsPointers as $key => $levelPointer) {
                 echo "d: 0x" . dechex(rb($rom, $screenPointer + 4)) . "\n";
 
                 $screenPointer += 5;
+                $rawCount = rb($rom, $screenPointer);
+                echo "Real count: " . $rawCount . "\n";
+            } elseif ($rawCount === 0x82) {
+                // $screenPointer++;
+                echo "Special type: Octopus Arm (bit 2)\n";
+                echo "Octopus type: " . rb($rom, $screenPointer + 1) . "\n";
+
+                $screenPointer += 2;
                 $rawCount = rb($rom, $screenPointer);
                 echo "Real count: " . $rawCount . "\n";
             } else {

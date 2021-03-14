@@ -185,8 +185,10 @@ Real count: 0
 No entities.
 
 > Screen 1 entities:
-Special screen found: 0x0
-Skipping unknown special entity...
+Special screen found: 0x2
+Special type: Octopus Arm (bit 2)
+Octopus type: 1
+Real count: 0
 
 > Screen 2 entities:
 Count: 3
@@ -198,8 +200,10 @@ Entity 2: ENTITY_SMALL_FISH_LEFT, X: 160, Y: 112, d: 0x0
 No entities.
 
 > Screen 4 entities:
-Special screen found: 0x0
-Skipping unknown special entity...
+Special screen found: 0x2
+Special type: Octopus Arm (bit 2)
+Octopus type: 2
+Real count: 0
 
 > Screen 5 entities:
 Special screen found: 0x4
