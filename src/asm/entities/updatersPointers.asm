@@ -35,7 +35,7 @@ entityTypeJumpTable:
 .dw _LABEL_2439_
 .dw _LABEL_4E9D_
 .dw _LABEL_4E30_
-.dw _LABEL_4C2E_
+.dw updateOctopusArm
 .dw _LABEL_52E7_
 .dw _LABEL_5360_
 .dw _LABEL_53CF_
