@@ -19,3 +19,9 @@ $43 probably is rice ball
 # Trivia
 - Level #07 Actually has a seven on it
 - I dont actually need to use Magic Capsule B to became invincible, just buy and equip it (but you cannot punch)
+
+
+# Relação isOffScreenFlags e v_addedEntitiesShouldBeOffscreenXXXX
+v_addedEntitiesShouldBeOffscreenHorizontally vai pra Entity.isOffScreenFlags.low
+v_addedEntitiesShouldBeOffscreenVertically vai pra Entity.isOffScreenFlags.high
+
