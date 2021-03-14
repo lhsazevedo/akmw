@@ -10719,7 +10719,7 @@ _LABEL_6FDF_:
 	jp c, ++
     ; If bit 2 is set (0x82)
 	rrca
-	jp c, _LABEL_702F_
+	jp c, createOctopusArms
     ; If bit 3 is set (0x84)
 	rrca
 	jp c, +
@@ -10758,7 +10758,7 @@ _LABEL_6FDF_:
 	inc hl
 	jp _LABEL_6F86_
 
-_LABEL_702F_:
+createOctopusArms:
 	inc hl
 	ld a, (hl)
 	exx
@@ -10867,22 +10867,41 @@ _LABEL_70F6_:
 	jp _LABEL_6F7E_
 
 ; Pointer Table from 7102 to 7105 (2 entries, indexed by unknown)
+; Octopus arms
 _DATA_7102_:
 .dw _DATA_7106_ _DATA_7128_
 
+; Octopus arms 1
 ; 1st entry of Pointer Table from 7102 (indexed by unknown)
 ; Data from 7106 to 7127 (34 bytes)
 _DATA_7106_:
-.db $5C $CC $00 $98 $74 $00 $08 $98 $6C $01 $10 $98 $64 $01 $18 $98
-.db $5C $01 $20 $98 $54 $01 $28 $98 $4C $01 $30 $98 $44 $01 $38 $98
-.db $3C $01
+; Is copied to RAM C0FD
+.db $5C $CC
+; Arms are created from slot 7 to 14
+; unknown5 / unknown10 / unknown11 / unknown4
+.db $00 $98 $74 $00
+.db $08 $98 $6C $01
+.db $10 $98 $64 $01
+.db $18 $98 $5C $01
+.db $20 $98 $54 $01
+.db $28 $98 $4C $01
+.db $30 $98 $44 $01
+.db $38 $98 $3C $01
 
+; Octopus arms 1
 ; 2nd entry of Pointer Table from 7102 (indexed by unknown)
 ; Data from 7128 to 7149 (34 bytes)
 _DATA_7128_:
-.db $58 $CC $00 $98 $66 $00 $08 $98 $5E $01 $10 $98 $56 $01 $18 $98
-.db $4E $01 $20 $98 $46 $01 $28 $98 $3E $01 $30 $98 $36 $01 $38 $98
-.db $2E $01
+; Is copied to RAM C0FD
+.db $58 $CC
+.db $00 $98 $66 $00
+.db $08 $98 $5E $01
+.db $10 $98 $56 $01
+.db $18 $98 $4E $01
+.db $20 $98 $46 $01
+.db $28 $98 $3E $01
+.db $30 $98 $36 $01
+.db $38 $98 $2E $01
 
 ; 28th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_714A_:
