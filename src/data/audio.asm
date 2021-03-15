@@ -1,14 +1,23 @@
 ; 1st entry of Pointer Table from 98DD (indexed by v_soundControl)
 ; Data from 9ECD to 9ED0 (4 bytes)
 _DATA_9ECD_:
-.db $04 $80 $80 $04
+.db $04
 
-; Pointer Table from 9ED1 to 9ED2 (1 entries, indexed by unknown)
+.db $80 $80 $04
 .dw _DATA_9EF2_
+.db $EC $01 $04 $0B
 
-; Data from 9ED3 to 9EF1 (31 bytes)
-.db $EC $01 $04 $0B $80 $A0 $04 $18 $9F $F8 $01 $03 $0A $80 $C0 $04
-.db $3F $9F $EC $01 $04 $0B $80 $E0 $04 $67 $9F $00 $00 $00 $00
+.db $80 $A0 $04
+.db $18 $9F
+.db $F8 $01 $03 $0A
+
+.db $80 $C0 $04
+.db $3F $9F
+.db $EC $01 $04 $0B
+
+.db $80 $E0 $04
+.db $67 $9F
+.db $00 $00 $00 $00
 
 ; 1st entry of Pointer Table from 9ED1 (indexed by unknown)
 ; Data from 9EF2 to 9F80 (143 bytes)

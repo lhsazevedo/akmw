@@ -69,11 +69,16 @@ _LABEL_98AE_:
     ld hl, _DATA_98DD_
     add hl, bc
     add hl, bc
+    ; Load sound channel count
     ld c, (hl)
+    ; b = ch1 flags
     inc hl
     ld b, (hl)
+    ; de = 0x5F 
     ld de, $005F
+    ; hl (flags) += 0x005f
     add hl, de
+
     ld a, (hl)
     inc hl
     ld h, (hl)
@@ -278,27 +283,41 @@ _LABEL_9A8B_:
 _LABEL_9A9D_:
     ld (v_soundEffectPriority), a
     call _LABEL_9E0F_
+; Load sound data from bc
 _LABEL_9AA3_:
     ld h, b
     ld l, c
+    ; b = ch count
     ld b, (hl)
     inc hl
 -:
     push bc
+    ; Copy 9 bytes from sound data to software channel current struct
     ld bc, $0009
     ldir
+
+    ; unknow = 0x20
     ld a, $20
     ld (de), a
+
+    ; note duration low = 0x01
     inc de
     ld a, $01
     ld (de), a
+
+    ; note duration high = 0x00
     inc de
     xor a
     ld (de), a
+
+    ; current play duration high = 0x00
     inc de
     ld (de), a
+
+    ; current play duration low = 0x00
     inc de
     ld (de), a
+
     push hl
     ld hl, $0012
     add hl, de
@@ -535,20 +554,29 @@ _LABEL_9BF8_:
     ld (ix+19), h
     ret
 
+; Load sound data from software channel in IX
 _LABEL_9C39_:
     ld e, (ix+3)
     ld d, (ix+4)
+
+; Load sound data from rom pointed by DE
+; Expects IX to be software channel pointer
 _LABEL_9C3F_:
     ld a, (de)
     inc de
     cp $E0
     jp nc, _LABEL_9CCD_
+
     bit 3, (ix+0)
     jr nz, _LABEL_9CAC_
+
     or a
     jp p, ++
+
     sub $80
     jr z, +
+
+    ; Transpose
     add a, (ix+5)
 +:
     ld hl, _DATA_9E1C_
@@ -871,13 +899,52 @@ _DATA_9E18_:
 .db $9F $BF $DF $FF
 
 ; Data from 9E1C to 9E74 (89 bytes)
+; PSG notes
 _DATA_9E1C_:
-.db $00 $00 $FF $03 $C7 $03 $90 $03 $5D $03 $2D $03 $FF $02 $D4 $02
-.db $AB $02 $85 $02 $61 $02 $3F $02 $1E $02 $00 $02 $E3 $01 $C8 $01
-.db $AF $01 $96 $01 $80 $01 $6A $01 $56 $01 $43 $01 $30 $01 $1F $01
-.db $0F $01 $00 $01 $F2 $00 $E4 $00 $D7 $00 $CB $00 $C0 $00 $B5 $00
-.db $AB $00 $A1 $00 $98 $00 $90 $00 $88 $00 $80 $00 $79 $00 $72 $00
-.db $6C $00 $66 $00 $60 $00 $5B $00 $55
+.db $00 $00
+.db $FF $03
+.db $C7 $03
+.db $90 $03
+.db $5D $03
+.db $2D $03
+.db $FF $02
+.db $D4 $02
+.db $AB $02
+.db $85 $02
+.db $61 $02
+.db $3F $02
+.db $1E $02
+.db $00 $02
+.db $E3 $01
+.db $C8 $01
+.db $AF $01
+.db $96 $01
+.db $80 $01
+.db $6A $01
+.db $56 $01
+.db $43 $01
+.db $30 $01
+.db $1F $01
+.db $0F $01
+.db $00 $01
+.db $F2 $00
+.db $E4 $00
+.db $D7 $00
+.db $CB $00
+.db $C0 $00
+.db $B5 $00
+.db $AB $00
+.db $A1 $00
+.db $98 $00
+.db $90 $00
+.db $88 $00
+.db $80 $00
+.db $79 $00
+.db $72 $00
+.db $6C $00
+.db $66 $00
+.db $60 $00
+.db $5B $00 $55
 
 ; Data from 9E75 to 9E98 (36 bytes)
 _DATA_9E75_:
