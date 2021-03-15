@@ -7315,42 +7315,7 @@ getVelocitiesToPursuitAlex:
 .INC "entities/merman/updater.asm"
 
 ; 34th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
-_LABEL_4E9D_:
-    bit 0, (ix+1)
-    jr nz, +
-    set 0, (ix+1)
-    ld (ix+20), $12
-    ld (ix+5), $08
-    ld (ix+6), $08
-    ld (ix+18), $FF
-    ld a, (ix+23)
-    ld c, a
-    add a, a
-    add a, c
-    ld c, a
-    ld b, $00
-    ld hl, _DATA_52CF_
-    add hl, bc
-    ld a, (hl)
-    ld (ix+17), a
-    inc hl
-    ld a, (hl)
-    ld (ix+16), a
-    inc hl
-    ld a, (hl)
-    ld (ix+15), a
-    set 1, (ix+1)
-+:
-    ld a, (ix+9)
-    or (ix+10)
-    jr nz, +
-    call tryToKillAlexIfColliding
-    ld a, (ix+14)
-    cp $18
-    jp c, clearCurrentEntity
-+:
-    ld hl, _DATA_825C_
-    jp handleEntityAnimation
+.INC "entities/mermanBubbles/updater.asm"
 
 ; 32nd entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 .INC "entities/batLeft/updater.asm"
@@ -7358,35 +7323,7 @@ _LABEL_4E9D_:
 ; 54th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 .INC "entities/batRight/updater.asm"
 
-_LABEL_4FAD_:
-    ld a, (ix+18)
-    cp $FF
-    ret nz
-    ld b, $05
-    ld de, $0020
-    ld iy, _RAM_C500_
--:
-    ld a, (iy+0)
-    or a
-    jr nz, +
-    ld a, $97
-    ld (v_soundControl), a
-    ld (iy+0), $22
-    ld a, (ix+14)
-    ld (iy+14), a
-    ld a, (ix+12)
-    ld (iy+12), a
-    ld a, (ix+9)
-    ld (iy+9), a
-    set 1, (iy+1)
-    inc (ix+24)
-    ld a, (ix+24)
-    and $07
-    ld (iy+23), a
-+:
-    add iy, de
-    djnz -
-    ret
+.INC "entities/merman/spawnBubbles.asm"
 
 ; 44th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_4FF1_:

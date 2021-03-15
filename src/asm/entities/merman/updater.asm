@@ -28,7 +28,7 @@ updateMerman:
     cpl
     inc a
     ld (ix+17), a
-    call _LABEL_4FAD_
+    call spawnMermanBubbles
 ++:
     ld hl, _DATA_8211_
     jp handleEntityAnimation

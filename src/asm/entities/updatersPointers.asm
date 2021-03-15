@@ -33,7 +33,7 @@ entityTypeJumpTable:
 .dw _LABEL_78A8_
 .dw updateBatLeft
 .dw _LABEL_2439_
-.dw _LABEL_4E9D_
+.dw updateMermanBubbles
 .dw updateMerman
 .dw updateOctopusArm
 .dw _LABEL_52E7_
