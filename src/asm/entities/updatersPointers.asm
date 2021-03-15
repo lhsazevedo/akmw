@@ -34,7 +34,7 @@ entityTypeJumpTable:
 .dw updateBatLeft
 .dw _LABEL_2439_
 .dw _LABEL_4E9D_
-.dw _LABEL_4E30_
+.dw updateMerman
 .dw updateOctopusArm
 .dw _LABEL_52E7_
 .dw _LABEL_5360_

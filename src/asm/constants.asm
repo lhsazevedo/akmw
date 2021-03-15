@@ -61,6 +61,7 @@ ENTITY_ARRAY_SIZE = $1E
 ; Entity types
 ENTITY_STATIC                   = $18
 ENTITY_BAT_LEFT                 = $20
+ENTITY_MERMAN                   = $23
 ENTITY_OCTOPUS_ARM              = $24
 ENTITY_SMOKE_PUFF               = $2B
 ENTITY_MONSTERBIRD_LEFT         = $2D
