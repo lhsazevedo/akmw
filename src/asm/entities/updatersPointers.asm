@@ -48,8 +48,8 @@ entityTypeJumpTable:
 .dw updateKillerFishLeft
 .dw _LABEL_56CC_
 .dw updateSmallFishLeft
-.dw _LABEL_57CE_
-.dw _LABEL_5883_
+.dw updateSeaHorseLeft
+.dw updateSeaHorseRight
 .dw updateMonsterbirdRight
 .dw updateSmallFishRight
 .dw updateKillerFishRight
