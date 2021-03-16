@@ -8,7 +8,7 @@ audio_LABEL_984F_:
     ld b, $07
 -:
     push bc
-    bit 7, (ix+0)
+    bit 7, (ix + SoftwareChannel.flags)
     call nz, _LABEL_9ACC_
     ld de, $0020
     add ix, de
@@ -350,32 +350,32 @@ _LABEL_9AC6_:
 
 ; Run soft channel
 _LABEL_9ACC_:
-    ld e, (ix+12)
-    ld d, (ix+13)
+    ld e, (ix + SoftwareChannel.currentPlayDuration.low)
+    ld d, (ix + SoftwareChannel.currentPlayDuration.high)
     inc de
-    ld (ix+12), e
-    ld (ix+13), d
-    ld l, (ix+10)
-    ld h, (ix+11)
+    ld (ix + SoftwareChannel.currentPlayDuration.low), e
+    ld (ix + SoftwareChannel.currentPlayDuration.high), d
+    ld l, (ix + SoftwareChannel.noteDuration.low)
+    ld h, (ix + SoftwareChannel.noteDuration.high)
     or a
     sbc hl, de
     call z, _LABEL_9C39_
-    ld e, (ix+16)
-    ld d, (ix+17)
+    ld e, (ix + SoftwareChannel.noteFrequency.low)
+    ld d, (ix + SoftwareChannel.noteFrequency.high)
     ld a, e
     or d
     jr nz, +
-    ld (ix+22), $0F
+    ld (ix + SoftwareChannel.volumeToWrite), $0F
     jp _LABEL_9BA0_
 
 +:
-    bit 5, (ix+0)
+    bit 5, (ix + SoftwareChannel.flags)
     jr nz, +
-    ld a, (ix+6)
+    ld a, (ix + SoftwareChannel.vibrato)
     or a
     jr nz, _LABEL_9B16_
-    ld (ix+18), e
-    ld (ix+19), d
+    ld (ix + SoftwareChannel.frequencyToWrite.low), e
+    ld (ix + SoftwareChannel.frequencyToWrite.high), d
     jp _LABEL_9B5E_
 
 _LABEL_9B0B_:
@@ -398,8 +398,8 @@ _LABEL_9B16_:
 
 +:
     push de
-    ld l, (ix+20)
-    ld h, (ix+21)
+    ld l, (ix + SoftwareChannel.noteFrequency2.low)
+    ld h, (ix + SoftwareChannel.noteFrequency2.high)
     or a
     sbc hl, de
     push af
@@ -408,9 +408,9 @@ _LABEL_9B16_:
     neg
 +:
     ld h, a
-    ld e, (ix+12)
+    ld e, (ix + SoftwareChannel.currentPlayDuration.low)
     call _LABEL_9EAE_
-    ld e, (ix+10)
+    ld e, (ix + SoftwareChannel.noteDuration.low)
     dec e
     call _LABEL_9EBA_
     ld e, a
@@ -426,19 +426,19 @@ _LABEL_9B16_:
     pop hl
     add hl, de
     ex de, hl
-    ld (ix+18), e
-    ld (ix+19), d
-    ld a, (ix+6)
+    ld (ix + SoftwareChannel.frequencyToWrite.low), e
+    ld (ix + SoftwareChannel.frequencyToWrite.high), d
+    ld a, (ix + SoftwareChannel.vibrato)
     or a
     jp nz, _LABEL_9B16_
 _LABEL_9B5E_:
-    ld a, (ix+7)
+    ld a, (ix + SoftwareChannel.envelope)
     or a
     jr nz, +
-    ld a, (ix+8)
+    ld a, (ix + SoftwareChannel.volume)
     cpl
     and $0F
-    ld (ix+22), a
+    ld (ix + SoftwareChannel.volumeToWrite), a
     jr ++
 
 +:
@@ -446,40 +446,40 @@ _LABEL_9B5E_:
     call _LABEL_9B0B_
     call _LABEL_9BB2_
 ++:
-    bit 6, (ix+0)
+    bit 6, (ix + SoftwareChannel.flags)
     jr nz, _LABEL_9BA0_
-    ld a, (ix+1)
+    ld a, (ix + SoftwareChannel.hardwareChannel)
     cp $E0
     jr nz, +
     ld a, $C0
 +:
     ld c, a
-    ld a, (ix+18)
+    ld a, (ix + SoftwareChannel.frequencyToWrite.low)
     and $0F
     or c
     call _LABEL_9DEB_
-    ld a, (ix+18)
+    ld a, (ix + SoftwareChannel.frequencyToWrite.low)
     and $F0
-    or (ix+19)
+    or (ix + SoftwareChannel.frequencyToWrite.high)
     rrca
     rrca
     rrca
     rrca
     call _LABEL_9DEB_
 _LABEL_9BA0_:
-    ld a, (ix+1)
+    ld a, (ix + SoftwareChannel.hardwareChannel)
     add a, $10
-    or (ix+22)
+    or (ix + SoftwareChannel.volumeToWrite)
     jp _LABEL_9DEB_
 
 ; Data from 9BAB to 9BAE (4 bytes)
 .db $90 $B0 $D0 $F0
 
 -:
-    ld (ix+14), a
+    ld (ix + SoftwareChannel.envelopeCounter), a
 _LABEL_9BB2_:
     push hl
-    ld a, (ix+14)
+    ld a, (ix + SoftwareChannel.envelopeCounter)
     srl a
     push af
     ld c, a
@@ -498,7 +498,7 @@ _LABEL_9BB2_:
     jr z, -
     cp $10
     jr nz, +
-    dec (ix+14)
+    dec (ix + SoftwareChannel.envelopeCounter)
     jr _LABEL_9BB2_
 
 +:
@@ -508,13 +508,13 @@ _LABEL_9BB2_:
     jr nz, ++
     inc de
     ld a, (de)
-    ld (ix+14), a
+    ld (ix + SoftwareChannel.envelopeCounter), a
     jr _LABEL_9BB2_
 
 ++:
-    inc (ix+14)
+    inc (ix + SoftwareChannel.envelopeCounter)
     or $F0
-    add a, (ix+8)
+    add a, (ix + SoftwareChannel.volume)
     inc a
     jr c, ++++
 +++:
@@ -522,14 +522,14 @@ _LABEL_9BB2_:
 ++++:
     cpl
     and $0F
-    ld (ix+22), a
+    ld (ix + SoftwareChannel.volumeToWrite), a
     ret
 
 -:
-    ld (ix+15), a
+    ld (ix + SoftwareChannel.vibratoCounter), a
 _LABEL_9BF8_:
     push hl
-    ld a, (ix+15)
+    ld a, (ix + SoftwareChannel.vibratoCounter)
     srl a
     push af
     ld c, a
@@ -549,7 +549,7 @@ _LABEL_9BF8_:
     jp z, -
     cp $10
     jr nz, +
-    dec (ix+15)
+    dec (ix + SoftwareChannel.vibratoCounter)
     jr _LABEL_9BF8_
 
 +:
@@ -559,23 +559,23 @@ _LABEL_9BF8_:
     jr nz, ++
     inc bc
     ld a, (bc)
-    ld (ix+15), a
+    ld (ix + SoftwareChannel.vibratoCounter), a
 ++:
-    inc (ix+15)
+    inc (ix + SoftwareChannel.vibratoCounter)
     cpl
     and $0F
     ld l, a
     ld h, $00
     ex de, hl
     add hl, de
-    ld (ix+18), l
-    ld (ix+19), h
+    ld (ix + SoftwareChannel.frequencyToWrite.low), l
+    ld (ix + SoftwareChannel.frequencyToWrite.high), h
     ret
 
 ; Load sound data from software channel in IX
 _LABEL_9C39_:
-    ld e, (ix+3)
-    ld d, (ix+4)
+    ld e, (ix + SoftwareChannel.dataPointer.low)
+    ld d, (ix + SoftwareChannel.dataPointer.high)
 
 ; Load sound data from rom pointed by DE
 ; Expects IX to be software channel pointer
@@ -585,7 +585,7 @@ _LABEL_9C3F_:
     cp $E0
     jp nc, _LABEL_9CCD_
 
-    bit 3, (ix+0)
+    bit 3, (ix + SoftwareChannel.flags)
     jr nz, _LABEL_9CAC_
 
     or a
@@ -595,7 +595,7 @@ _LABEL_9C3F_:
     jr z, +
 
     ; Transpose
-    add a, (ix+5)
+    add a, (ix + SoftwareChannel.transpose)
 +:
     ld hl, _DATA_9E1C_
     ld c, a
@@ -603,26 +603,26 @@ _LABEL_9C3F_:
     add hl, bc
     add hl, bc
     ld a, (hl)
-    ld (ix+16), a
+    ld (ix + SoftwareChannel.noteFrequency.low), a
     inc hl
     ld a, (hl)
-    ld (ix+17), a
-    bit 5, (ix+0)
+    ld (ix + SoftwareChannel.noteFrequency.high), a
+    bit 5, (ix + SoftwareChannel.flags)
     jr z, _LABEL_9CC6_
     ld a, (de)
     inc de
     sub $80
-    add a, (ix+5)
+    add a, (ix + SoftwareChannel.transpose)
     ld hl, _DATA_9E1C_
     ld c, a
     ld b, $00
     add hl, bc
     add hl, bc
     ld a, (hl)
-    ld (ix+20), a
+    ld (ix + SoftwareChannel.noteFrequency2.low), a
     inc hl
     ld a, (hl)
-    ld (ix+21), a
+    ld (ix + SoftwareChannel.noteFrequency2.high), a
 --:
     ld a, (de)
 _LABEL_9C87_:
@@ -630,35 +630,35 @@ _LABEL_9C87_:
 ++:
     push de
     ld h, a
-    ld e, (ix+2)
+    ld e, (ix + SoftwareChannel.duration)
     call _LABEL_9EAE_
     pop de
-    ld (ix+10), l
-    ld (ix+11), h
+    ld (ix + SoftwareChannel.noteDuration.low), l
+    ld (ix + SoftwareChannel.noteDuration.high), h
 -:
     xor a
-    ld (ix+14), a
-    ld (ix+15), a
-    ld (ix+3), e
-    ld (ix+4), d
+    ld (ix + SoftwareChannel.envelopeCounter), a
+    ld (ix + SoftwareChannel.vibratoCounter), a
+    ld (ix + SoftwareChannel.dataPointer.low), e
+    ld (ix + SoftwareChannel.dataPointer.high), d
     xor a
-    ld (ix+12), a
-    ld (ix+13), a
+    ld (ix + SoftwareChannel.currentPlayDuration.low), a
+    ld (ix + SoftwareChannel.currentPlayDuration.high), a
     ret
 
 _LABEL_9CAC_:
-    ld (ix+17), a
+    ld (ix + SoftwareChannel.noteFrequency.high), a
     ld a, (de)
     inc de
-    ld (ix+16), a
-    bit 5, (ix+0)
+    ld (ix + SoftwareChannel.noteFrequency.low), a
+    bit 5, (ix + SoftwareChannel.flags)
     jr z, --
     ld a, (de)
     inc de
-    ld (ix+21), a
+    ld (ix + SoftwareChannel.noteFrequency2.high), a
     ld a, (de)
     inc de
-    ld (ix+20), a
+    ld (ix + SoftwareChannel.noteFrequency2.low), a
     jr --
 
 _LABEL_9CC6_:
@@ -706,20 +706,20 @@ _LABEL_9D08_:
 ; 15th entry of Jump Table from 9CE4 (indexed by unknown)
 _LABEL_9D17_:
     ld a, (de)
-    add a, (ix+5)
-    ld (ix+5), a
+    add a, (ix + SoftwareChannel.transpose)
+    ld (ix + SoftwareChannel.transpose), a
     ret
 
 ; 1st entry of Jump Table from 9CE4 (indexed by unknown)
 _LABEL_9D1F_:
     ld a, (de)
-    ld (ix+2), a
+    ld (ix + SoftwareChannel.duration), a
     ret
 
 ; 2nd entry of Jump Table from 9CE4 (indexed by unknown)
 _LABEL_9D24_:
     ld a, (de)
-    ld (ix+8), a
+    ld (ix + SoftwareChannel.volume), a
     ret
 
 ; 4th entry of Jump Table from 9CE4 (indexed by unknown)
@@ -732,23 +732,23 @@ _LABEL_9D29_:
     or $FC
     inc a
     jr nz, +
-    res 6, (ix+0)
+    res 6, (ix + SoftwareChannel.flags)
     ret
 
 +:
-    set 6, (ix+0)
+    set 6, (ix + SoftwareChannel.flags)
     ret
 
 ; 5th entry of Jump Table from 9CE4 (indexed by unknown)
 _LABEL_9D40_:
     ld a, (de)
-    ld (ix+7), a
+    ld (ix + SoftwareChannel.envelope), a
     ret
 
 ; 14th entry of Jump Table from 9CE4 (indexed by unknown)
 _LABEL_9D45_:
     ld a, (de)
-    ld (ix+6), a
+    ld (ix + SoftwareChannel.vibrato), a
     ret
 
 ; 6th entry of Jump Table from 9CE4 (indexed by unknown)
@@ -762,25 +762,25 @@ _LABEL_9D4A_:
 
 ; 7th entry of Jump Table from 9CE4 (indexed by unknown)
 _LABEL_9D50_:
-    set 5, (ix+0)
+    set 5, (ix + SoftwareChannel.flags)
     dec de
     ret
 
 ; 8th entry of Jump Table from 9CE4 (indexed by unknown)
 _LABEL_9D56_:
-    res 5, (ix+0)
+    res 5, (ix + SoftwareChannel.flags)
     dec de
     ret
 
 ; 9th entry of Jump Table from 9CE4 (indexed by unknown)
 _LABEL_9D5C_:
-    set 3, (ix+0)
+    set 3, (ix + SoftwareChannel.flags)
     dec de
     ret
 
 ; 10th entry of Jump Table from 9CE4 (indexed by unknown)
 _LABEL_9D62_:
-    res 3, (ix+0)
+    res 3, (ix + SoftwareChannel.flags)
     dec de
     ret
 
@@ -799,7 +799,7 @@ _LABEL_9D72_:
     xor a
     ld (v_soundEffectPriority), a
 +:
-    ld (ix+0), a
+    ld (ix + SoftwareChannel.flags), a
     ld hl, v_soundMusicChannels.2.flags
     res 2, (hl)
     ld hl, v_soundMusicChannels.3.flags
@@ -829,9 +829,9 @@ _LABEL_9D9E_:
     push bc
     push ix
     pop hl
-    dec (ix+9)
-    ld c, (ix+9)
-    dec (ix+9)
+    dec (ix + SoftwareChannel.unknown1)
+    ld c, (ix + SoftwareChannel.unknown1)
+    dec (ix + SoftwareChannel.unknown1)
     ld b, $00
     add hl, bc
     ld (hl), d
@@ -845,14 +845,14 @@ _LABEL_9D9E_:
 _LABEL_9DB9_:
     push ix
     pop hl
-    ld c, (ix+9)
+    ld c, (ix + SoftwareChannel.unknown1)
     ld b, $00
     add hl, bc
     ld e, (hl)
     inc hl
     ld d, (hl)
-    inc (ix+9)
-    inc (ix+9)
+    inc (ix + SoftwareChannel.unknown1)
+    inc (ix + SoftwareChannel.unknown1)
     ret
 
 ; 13th entry of Jump Table from 9CE4 (indexed by unknown)
@@ -878,11 +878,11 @@ _LABEL_9DCC_:
     ret
 
 _LABEL_9DE4_:
-    ld a, (ix+1)
+    ld a, (ix + SoftwareChannel.hardwareChannel)
     add a, $10
     or $0F
 _LABEL_9DEB_:
-    bit 2, (ix+0)
+    bit 2, (ix + SoftwareChannel.flags)
     ret nz
     out (Port_PSG), a
     ret

@@ -74,19 +74,31 @@
     flags db                ; Flags of the software channel
     hardwareChannel db      ; Hardware channel used by the software channel
     duration db             ; Duration multiplier
-    dataPointer dw          ; Pointer to sound data
+    dataPointer .dw         ; Pointer to sound data
+    dataPointer.low db
+    dataPointer.high db
     transpose db            ; Transposition Value
     vibrato db              ; Vibrato Index
     envelope db             ; Envelope Index
     volume db               ; Volume of the software channel
     unknown1 db             ; Unknown
-    noteDuration dw         ; Note duration
-    currentPlayDuration dw  ; Current play duration
+    noteDuration .dw         ; Note duration
+    noteDuration.low db
+    noteDuration.high db
+    currentPlayDuration .dw  ; Current play duration
+    currentPlayDuration.low db
+    currentPlayDuration.high db
     envelopeCounter db      ; Envelope Counter
     vibratoCounter db       ; Vibrato Counter
-    noteFrequency dw        ; Note PSG Frequency Value
-    frequencyToWrite dw     ; PSG Frequency Value to write to the hardware channel
-    noteFrequency2 dw       ; Note PSG Frequency Value 2
+    noteFrequency .dw        ; Note PSG Frequency Value
+    noteFrequency.low db
+    noteFrequency.high db
+    frequencyToWrite .dw     ; PSG Frequency Value to write to the hardware channel
+    frequencyToWrite.low db
+    frequencyToWrite.high db
+    noteFrequency2 .dw       ; Note PSG Frequency Value 2
+    noteFrequency2.low db
+    noteFrequency2.high db
     volumeToWrite db        ; PSG Volume Value to write to the hardware channel
     repetitionCouters dsb 9 ; bytes	Repetition Counters
 .ENDST
