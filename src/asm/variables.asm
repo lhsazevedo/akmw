@@ -215,33 +215,15 @@ v_soundNumber db
 .ende
 
 .enum $C118 export
-v_soundMusicSoftwareChannels dsb $8
-_RAM_C120_ db
+    v_soundMusicChannels INSTANCEOF SoftwareChannel $04
+; v_soundMusicSoftwareChannels dsb $8
 .ende
 
-.enum $C138 export
-_RAM_C138_ dsb $8
-_RAM_C140_ db
-.ende
-
-.enum $C158 export
-_RAM_C158_ db
-.ende
-
-.enum $C160 export
-_RAM_C160_ db
-.ende
-
-.enum $C178 export
-_RAM_C178_ db
-.ende
+.DEFINE v_soundMusicSoftwareChannels v_soundMusicChannels.1
 
 .enum $C198 export
-v_soundEffectsSoftwareChannels dsb $9
-.ende
-
-.enum $C1B8 export
-_RAM_C1B8_ dsb $9
+    v_soundEffectsChannels INSTANCEOF SoftwareChannel $03
+; v_soundMusicSoftwareChannels dsb $8
 .ende
 
 .enum $C1D8 export

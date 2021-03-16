@@ -69,3 +69,24 @@
     xPos db
     characterCode db
 .ENDST
+
+.STRUCT SoftwareChannel
+    flags db                ; Flags of the software channel
+    hardwareChannel db      ; Hardware channel used by the software channel
+    duration db             ; Duration multiplier
+    dataPointer dw          ; Pointer to sound data
+    transpose db            ; Transposition Value
+    vibrato db              ; Vibrato Index
+    envelope db             ; Envelope Index
+    volume db               ; Volume of the software channel
+    unknown1 db             ; Unknown
+    noteDuration dw         ; Note duration
+    currentPlayDuration dw  ; Current play duration
+    envelopeCounter db      ; Envelope Counter
+    vibratoCounter db       ; Vibrato Counter
+    noteFrequency dw        ; Note PSG Frequency Value
+    frequencyToWrite dw     ; PSG Frequency Value to write to the hardware channel
+    noteFrequency2 dw       ; Note PSG Frequency Value 2
+    volumeToWrite db        ; PSG Volume Value to write to the hardware channel
+    repetitionCouters dsb 9 ; bytes	Repetition Counters
+.ENDST

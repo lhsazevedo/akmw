@@ -36,9 +36,9 @@ audio_LABEL_984F_:
     xor a
 +:
     ld (v_soundFadeOutVolume), a
-    ld (_RAM_C120_), a
-    ld (_RAM_C140_), a
-    ld (_RAM_C160_), a
+    ld (v_soundMusicChannels.1.volume), a
+    ld (v_soundMusicChannels.2.volume), a
+    ld (v_soundMusicChannels.3.volume), a
 ++:
     ; @TODO
     ld hl, _RAM_C1D8_
@@ -47,12 +47,12 @@ audio_LABEL_984F_:
     inc hl
     bit 5, (hl)
     jr z, +
-    ld hl, _RAM_C178_
+    ld hl, v_soundMusicChannels.4.flags
     set 2, (hl)
     ret
 
 +:
-    ld hl, _RAM_C158_
+    ld hl, v_soundMusicChannels.3.flags
     set 2, (hl)
     ret
 
@@ -126,9 +126,9 @@ _LABEL_99A3_:
     ret nz
 +:
     xor a
-    ld (_RAM_C1B8_), a
+    ld (v_soundEffectsChannels.2.flags), a
     ld a, $80
-    ld (_RAM_C158_), a
+    ld (v_soundMusicChannels.3.flags), a
     ld hl, _RAM_C1D8_
     res 2, (hl)
     jp _LABEL_9AC6_
@@ -140,7 +140,7 @@ _LABEL_99BE_:
     ld a, $1E
     ld (v_soundFadeOutTimer), a
     xor a
-    ld (_RAM_C178_), a
+    ld (v_soundMusicChannels.4.flags), a
     ld a, $FF
     out (Port_PSG), a
     jp _LABEL_9AC6_
@@ -152,11 +152,11 @@ audio_LABEL_99D3_:
     ld (v_soundSoftwareChannelSevenState), a
     ld a, $DF
     ld a, $80
-    ld (_RAM_C158_), a
+    ld (v_soundMusicChannels.3.flags), a
     out (Port_PSG), a
     ld a, $C0
-    ld (_RAM_C178_), a
-    ld hl, _RAM_C1B8_
+    ld (v_soundMusicChannels.4.flags), a
+    ld hl, v_soundEffectsChannels.2.flags
     res 2, (hl)
     jp _LABEL_9AC6_
 
@@ -188,13 +188,13 @@ _LABEL_9A04_:
 +:
     cp e
     jp c, _LABEL_9AC6_
-    ld hl, _RAM_C138_
+    ld hl, v_soundMusicChannels.2.flags
     set 2, (hl)
-    ld hl, _RAM_C158_
+    ld hl, v_soundMusicChannels.3.flags
     set 2, (hl)
     ld hl, _RAM_C1D8_
     set 2, (hl)
-    ld de, v_soundEffectsSoftwareChannels
+    ld de, v_soundEffectsChannels.1
     jp _LABEL_9A9D_
 
 ; 27th entry of Jump Table from 993D (indexed by v_soundControl)
@@ -207,16 +207,16 @@ _LABEL_9A24_:
     ld a, $70
     cp e
     jp c, _LABEL_9AC6_
-    ld hl, _RAM_C138_
+    ld hl, v_soundMusicChannels.2.flags
     set 2, (hl)
-    ld hl, _RAM_C158_
+    ld hl, v_soundMusicChannels.3.flags
     set 2, (hl)
-    ld hl, _RAM_C178_
+    ld hl, v_soundMusicChannels.4.flags
     set 2, (hl)
     ld hl, _RAM_C1D8_
     set 2, (hl)
 +:
-    ld de, v_soundEffectsSoftwareChannels
+    ld de, v_soundEffectsChannels.1
     jr _LABEL_9A9D_
 
 ; 36th entry of Jump Table from 993D (indexed by v_soundControl)
@@ -230,13 +230,13 @@ _LABEL_9A47_:
 +:
     cp e
     jr c, _LABEL_9AC6_
-    ld hl, _RAM_C178_
+    ld hl, v_soundMusicChannels.4.flags
     set 2, (hl)
-    ld hl, _RAM_C158_
+    ld hl, v_soundMusicChannels.3.flags
     set 2, (hl)
     ld hl, _RAM_C1D8_
     set 2, (hl)
-    ld de, _RAM_C1B8_
+    ld de, v_soundEffectsChannels.2
     jr _LABEL_9A9D_
 
 ; 29th entry of Jump Table from 993D (indexed by v_soundControl)
@@ -252,7 +252,7 @@ _LABEL_9A68_:
     ld (v_soundSoftwareChannelSevenState), a
 ; 22nd entry of Jump Table from 993D (indexed by v_soundControl)
 _LABEL_9A6D_:
-    ld hl, _RAM_C1B8_
+    ld hl, v_soundEffectsChannels.2.flags
     set 2, (hl)
     call _LABEL_9E0F_
     ld de, _RAM_C1D8_
@@ -285,11 +285,11 @@ _LABEL_9A89_:
 _LABEL_9A8B_:
     cp e
     jr c, _LABEL_9AC6_
-    ld hl, _RAM_C158_
+    ld hl, v_soundMusicChannels.3.flags
     set 2, (hl)
     ld hl, _RAM_C1D8_
     set 2, (hl)
-    ld de, _RAM_C1B8_
+    ld de, v_soundEffectsChannels.2
     jr _LABEL_9A9D_
 
 _LABEL_9A9D_:
@@ -800,15 +800,15 @@ _LABEL_9D72_:
     ld (v_soundEffectPriority), a
 +:
     ld (ix+0), a
-    ld hl, _RAM_C138_
+    ld hl, v_soundMusicChannels.2.flags
     res 2, (hl)
-    ld hl, _RAM_C158_
+    ld hl, v_soundMusicChannels.3.flags
     res 2, (hl)
-    ld hl, _RAM_C178_
+    ld hl, v_soundMusicChannels.4.flags
     res 2, (hl)
     ld hl, _RAM_C1D8_
     res 2, (hl)
-    ld a, (_RAM_C1B8_)
+    ld a, (v_soundEffectsChannels.2.flags)
     bit 7, a
     jr nz, +
     ld a, $E4
