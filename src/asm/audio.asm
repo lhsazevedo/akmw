@@ -1,7 +1,9 @@
 ; Audio engine entry
 audio_LABEL_984F_:
-    call _LABEL_98AE_
+    call readSoundRequest
     call +
+
+    ; For each soft channel
     ld ix, v_soundMusicSoftwareChannels
     ld b, $07
 -:
@@ -38,6 +40,7 @@ audio_LABEL_984F_:
     ld (_RAM_C140_), a
     ld (_RAM_C160_), a
 ++:
+    ; @TODO
     ld hl, _RAM_C1D8_
     bit 7, (hl)
     ret z
@@ -53,37 +56,44 @@ audio_LABEL_984F_:
     set 2, (hl)
     ret
 
-_LABEL_98AE_:
+readSoundRequest:
     ld a, (v_soundControl)
+
+    ; Deactivage engine if bit 7 is not set or sound > 0xB3
     bit 7, a
     jp z, resetSoundAndInitVolume
     cp $B4
     jp nc, resetSoundAndInitVolume
+
+    ; a -= 0x81
     sub $81
+
+    ; Return if a < 0x81
     ret m
+
+    ; Do not save soundNumber if a >= 0x30
     cp $30
     jr nc, +
     ld (v_soundNumber), a
 +:
+    ; Load sound data pointer into BC from table at 98DD indexed by sound
     ld c, a
     ld b, $00
     ld hl, _DATA_98DD_
     add hl, bc
     add hl, bc
-    ; Load sound channel count
     ld c, (hl)
-    ; b = ch1 flags
     inc hl
     ld b, (hl)
-    ; de = 0x5F 
-    ld de, $005F
-    ; hl (flags) += 0x005f
-    add hl, de
 
+    ; Jump to the respective sound handler at table 993D
+    ld de, $005F
+    add hl, de
     ld a, (hl)
     inc hl
     ld h, (hl)
     ld l, a
+
     ld a, (v_soundEffectPriority)
     ld e, a
     jp (hl)
@@ -151,6 +161,7 @@ audio_LABEL_99D3_:
     jp _LABEL_9AC6_
 
 ; 1st entry of Jump Table from 993D (indexed by v_soundControl)
+; Music handler
 _LABEL_99F0_:
     call resetSoundAndInitVolume
     ld de, v_soundMusicSoftwareChannels
@@ -285,12 +296,15 @@ _LABEL_9A9D_:
     ld (v_soundEffectPriority), a
     call _LABEL_9E0F_
 ; Load sound data from bc
+; Real music handler tail called from 99F0
 _LABEL_9AA3_:
     ld h, b
     ld l, c
     ; b = ch count
     ld b, (hl)
     inc hl
+
+; Music channel init loop
 -:
     push bc
     ; Copy 9 bytes from sound data to software channel current struct
@@ -306,16 +320,16 @@ _LABEL_9AA3_:
     ld a, $01
     ld (de), a
 
-    ; note duration high = 0x00
+    ; Note duration high = 0x00
     inc de
     xor a
     ld (de), a
 
-    ; current play duration high = 0x00
+    ; Current play duration high = 0x00
     inc de
     ld (de), a
 
-    ; current play duration low = 0x00
+    ; Current play duration low = 0x00
     inc de
     ld (de), a
 
@@ -327,11 +341,14 @@ _LABEL_9AA3_:
     inc de
     pop bc
     djnz -
+
+; Reset sound control
 _LABEL_9AC6_:
     ld a, $80
     ld (v_soundControl), a
     ret
 
+; Run soft channel
 _LABEL_9ACC_:
     ld e, (ix+12)
     ld d, (ix+13)
