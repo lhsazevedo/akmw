@@ -1,4 +1,5 @@
-_LABEL_984F_:
+; Audio engine entry
+audio_LABEL_984F_:
     call _LABEL_98AE_
     call +
     ld ix, v_soundMusicSoftwareChannels
@@ -104,7 +105,7 @@ _DATA_993D_:
 .dw _LABEL_9A47_ _LABEL_9A7A_ _LABEL_9A1F_ _LABEL_9A81_ _LABEL_9A60_ _LABEL_9A24_ _LABEL_9A60_ _LABEL_9A24_
 .dw _LABEL_9A7A_ _LABEL_9A00_ _LABEL_99F9_ _LABEL_9A43_ _LABEL_9A7D_ _LABEL_9A89_ _LABEL_9A89_ _LABEL_9A7D_
 .dw _LABEL_9A89_ _LABEL_9A68_ _LABEL_9A68_ _LABEL_9A85_ _LABEL_9A7D_ _LABEL_9A7D_ _LABEL_99F0_ _LABEL_99F0_
-.dw _LABEL_99A3_ _LABEL_99D3_ _LABEL_99BE_
+.dw _LABEL_99A3_ audio_LABEL_99D3_ _LABEL_99BE_
 
 ; 49th entry of Jump Table from 993D (indexed by v_soundControl)
 _LABEL_99A3_:
@@ -135,7 +136,7 @@ _LABEL_99BE_:
     jp _LABEL_9AC6_
 
 ; 50th entry of Jump Table from 993D (indexed by v_soundControl)
-_LABEL_99D3_:
+audio_LABEL_99D3_:
     xor a
     ld (_RAM_C1D8_), a
     ld (v_soundSoftwareChannelSevenState), a

@@ -238,7 +238,7 @@ handleInterrupt:
     call c, _LABEL_1B_
     ld a, $82
     ld (Mapper_Slot2), a
-    call _LABEL_984F_
+    call audio_LABEL_984F_
     xor a
     ld (v_interruptFlags), a
     pop af
@@ -6741,7 +6741,7 @@ _LABEL_488C_:
     ret
 
 +:
-    call _LABEL_99D3_
+    call audio_LABEL_99D3_
     ld hl, v_entities.1.unknown8
     ld a, (hl)
     and $F4
@@ -7084,7 +7084,7 @@ _LABEL_4B23_:
     ret
 
 ++:
-    call _LABEL_99D3_
+    call audio_LABEL_99D3_
     jp clearCurrentEntity
 
 _LABEL_4B7A_:
@@ -10506,7 +10506,7 @@ _LABEL_73D8_:
 
 ; 16th entry of Jump Table from 7152 (indexed by _RAM_C3BA_)
 _LABEL_7447_:
-	call _LABEL_99D3_
+	call audio_LABEL_99D3_
 	ld a, $95
 	ld (v_soundControl), a
 	inc (ix+26)
@@ -10596,7 +10596,7 @@ _DATA_74DF_:
 	res 7, (iy+1)
 	ld (iy+26), $19
 	ld (iy+24), $3C
-	call _LABEL_99D3_
+	call audio_LABEL_99D3_
 	ld a, $93
 	ld (v_soundControl), a
 	ld hl, _RAM_C3C0_
