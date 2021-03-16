@@ -9,7 +9,7 @@ spawnMermanBubbles:
     ld a, (iy+0)
     or a
     jr nz, +
-    ld a, $97
+    ld a, SOUND_MERMAN_BUBBLES
     ld (v_soundControl), a
     ld (iy+0), ENTITY_MERMAN_BUBBLES
     ld a, (ix+14)
