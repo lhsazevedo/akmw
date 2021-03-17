@@ -238,7 +238,7 @@ handleInterrupt:
     call c, _LABEL_1B_
     ld a, $82
     ld (Mapper_Slot2), a
-    call audio_LABEL_984F_
+    call audioEntry_LABEL_984F_
     xor a
     ld (v_interruptFlags), a
     pop af
