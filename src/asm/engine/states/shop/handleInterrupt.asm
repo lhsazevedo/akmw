@@ -44,7 +44,7 @@ handleInterruptShopState:
 	ret
 
 _LABEL_1C33_:
-	call resetSoundAndInitVolume
+	call resetSoundAndVolume
 	call clearVDPTablesAndDisableScreen
 	ld a, $82
 	ld (Mapper_Slot2), a
@@ -128,7 +128,7 @@ _LABEL_1C33_:
 
 _LABEL_1D04_:
 	set 7, (hl)
-	call resetSoundAndInitVolume
+	call resetSoundAndVolume
 	ld hl, v_levelWidth
 	ld de, v_temporaryLevelDataCopy
 	ld bc, $002A

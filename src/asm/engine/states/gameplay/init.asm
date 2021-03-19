@@ -3,7 +3,7 @@ initGameplayState:
 	call clearEntities
 	ld a, $82
 	ld (Mapper_Slot2), a
-	call resetSoundAndInitVolume
+	call resetSoundAndVolume
 	ld hl, v_levelWidth
 	ld de, v_levelWidth + 1
 	ld bc, $002A

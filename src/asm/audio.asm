@@ -16,6 +16,7 @@ audioEntry_LABEL_984F_:
     djnz -
     ret
 
+; @TODO
 +:
     ld a, (v_soundFadeOutVolume)
     or a
@@ -61,9 +62,9 @@ readSoundRequest:
 
     ; Deactivage engine if bit 7 is not set or sound > 0xB3
     bit 7, a
-    jp z, resetSoundAndInitVolume
+    jp z, resetSoundAndVolume
     cp $B4
-    jp nc, resetSoundAndInitVolume
+    jp nc, resetSoundAndVolume
 
     ; a -= 0x81
     sub $81
@@ -79,7 +80,7 @@ readSoundRequest:
     ; Load sound data pointer into BC from table at 98DD indexed by sound
     ld c, a
     ld b, $00
-    ld hl, _DATA_98DD_
+    ld hl, sounds
     add hl, bc
     add hl, bc
     ld c, (hl)
@@ -87,7 +88,7 @@ readSoundRequest:
     ld b, (hl)
 
     ; Jump to the respective sound handler at table 993D
-    ld de, $005F
+    ld de, _sizeof_sounds - 1
     add hl, de
     ld a, (hl)
     inc hl
@@ -99,7 +100,7 @@ readSoundRequest:
     jp (hl)
 
 ; Pointer Table from 98DD to 993C (48 entries, indexed by v_soundControl)
-_DATA_98DD_:
+sounds:
 .dw _DATA_9ECD_ _DATA_9F81_ _DATA_A3BD_ _DATA_A57D_ _DATA_A757_ _DATA_A8E0_ _DATA_A937_ _DATA_AAD1_
 .dw _DATA_AC56_ _DATA_AC81_ _DATA_AC9B_ _DATA_ACB2_ _DATA_ACC9_ _DATA_ACE1_ _DATA_AD02_ _DATA_AD1E_
 .dw _DATA_AD2C_ _DATA_AD46_ _DATA_AD8D_ _DATA_ADA7_ _DATA_ADCC_ _DATA_AE59_ _DATA_AE7F_ _DATA_AEA3_
@@ -109,12 +110,12 @@ _DATA_98DD_:
 
 ; Jump Table from 993D to 99A2 (51 entries, indexed by v_soundControl)
 _DATA_993D_:
-.dw musicHandler_LABEL_99F0_ musicHandler_LABEL_99F0_ musicHandler_LABEL_99F0_ musicHandler_LABEL_99F0_ musicHandler_LABEL_99F0_ musicHandler_LABEL_99F0_ musicHandler_LABEL_99F0_ musicHandler_LABEL_99F0_
-.dw musicHandler_LABEL_99F0_ _LABEL_9A7A_ _LABEL_9A7A_ _LABEL_9A7A_ _LABEL_99F9_ _LABEL_99FC_ _LABEL_99FC_ _LABEL_9A7D_
+.dw handleMusic handleMusic handleMusic handleMusic handleMusic handleMusic handleMusic handleMusic
+.dw handleMusic _LABEL_9A7A_ _LABEL_9A7A_ _LABEL_9A7A_ _LABEL_99F9_ _LABEL_99FC_ _LABEL_99FC_ _LABEL_9A7D_
 .dw _LABEL_9A7A_ _LABEL_9A00_ _LABEL_9A8B_ _LABEL_9A8B_ _LABEL_9A04_ _LABEL_9A6D_ _LABEL_9A85_ _LABEL_9A85_
 .dw _LABEL_9A47_ _LABEL_9A7A_ _LABEL_9A1F_ _LABEL_9A81_ _LABEL_9A60_ _LABEL_9A24_ _LABEL_9A60_ _LABEL_9A24_
 .dw _LABEL_9A7A_ _LABEL_9A00_ _LABEL_99F9_ _LABEL_9A43_ _LABEL_9A7D_ _LABEL_9A89_ _LABEL_9A89_ _LABEL_9A7D_
-.dw _LABEL_9A89_ _LABEL_9A68_ _LABEL_9A68_ _LABEL_9A85_ _LABEL_9A7D_ _LABEL_9A7D_ musicHandler_LABEL_99F0_ musicHandler_LABEL_99F0_
+.dw _LABEL_9A89_ _LABEL_9A68_ _LABEL_9A68_ _LABEL_9A85_ _LABEL_9A7D_ _LABEL_9A7D_ handleMusic handleMusic
 .dw _LABEL_99A3_ audio_LABEL_99D3_ _LABEL_99BE_
 
 ; 49th entry of Jump Table from 993D (indexed by v_soundControl)
@@ -131,7 +132,7 @@ _LABEL_99A3_:
     ld (v_soundMusicChannels.3.flags), a
     ld hl, _RAM_C1D8_
     res 2, (hl)
-    jp _LABEL_9AC6_
+    jp resetSoundControl
 
 ; 51st entry of Jump Table from 993D (indexed by v_soundControl)
 _LABEL_99BE_:
@@ -143,7 +144,7 @@ _LABEL_99BE_:
     ld (v_soundMusicChannels.4.flags), a
     ld a, $FF
     out (Port_PSG), a
-    jp _LABEL_9AC6_
+    jp resetSoundControl
 
 ; 50th entry of Jump Table from 993D (indexed by v_soundControl)
 audio_LABEL_99D3_:
@@ -158,14 +159,14 @@ audio_LABEL_99D3_:
     ld (v_soundMusicChannels.4.flags), a
     ld hl, v_soundEffectsChannels.2.flags
     res 2, (hl)
-    jp _LABEL_9AC6_
+    jp resetSoundControl
 
 ; 1st entry of Jump Table from 993D (indexed by v_soundControl)
 ; Music handler
-musicHandler_LABEL_99F0_:
-    call resetSoundAndInitVolume
+handleMusic:
+    call resetSoundAndVolume
     ld de, v_soundMusicSoftwareChannels
-    jp realMusicHandler_LABEL_9AA3_
+    jp realHandleMusic
 
 ; 13th entry of Jump Table from 993D (indexed by v_soundControl)
 _LABEL_99F9_:
@@ -187,7 +188,7 @@ _LABEL_9A04_:
     ld a, $20
 +:
     cp e
-    jp c, _LABEL_9AC6_
+    jp c, resetSoundControl
     ld hl, v_soundMusicChannels.2.flags
     set 2, (hl)
     ld hl, v_soundMusicChannels.3.flags
@@ -199,14 +200,14 @@ _LABEL_9A04_:
 
 ; 27th entry of Jump Table from 993D (indexed by v_soundControl)
 _LABEL_9A1F_:
-    call resetSoundAndInitVolume
+    call resetSoundAndVolume
     jr +
 
 ; 30th entry of Jump Table from 993D (indexed by v_soundControl)
 _LABEL_9A24_:
     ld a, $70
     cp e
-    jp c, _LABEL_9AC6_
+    jp c, resetSoundControl
     ld hl, v_soundMusicChannels.2.flags
     set 2, (hl)
     ld hl, v_soundMusicChannels.3.flags
@@ -229,7 +230,7 @@ _LABEL_9A47_:
     ld a, $40
 +:
     cp e
-    jr c, _LABEL_9AC6_
+    jr c, resetSoundControl
     ld hl, v_soundMusicChannels.4.flags
     set 2, (hl)
     ld hl, v_soundMusicChannels.3.flags
@@ -243,7 +244,7 @@ _LABEL_9A47_:
 _LABEL_9A60_:
     ld a, (v_soundSoftwareChannelSevenState)
     or a
-    jr nz, _LABEL_9AC6_
+    jr nz, resetSoundControl
     jr _LABEL_9A6D_
 
 ; 42nd entry of Jump Table from 993D (indexed by v_soundControl)
@@ -256,7 +257,7 @@ _LABEL_9A6D_:
     set 2, (hl)
     call _LABEL_9E0F_
     ld de, _RAM_C1D8_
-    jr realMusicHandler_LABEL_9AA3_
+    jr realHandleMusic
 
 ; 10th entry of Jump Table from 993D (indexed by v_soundControl)
 _LABEL_9A7A_:
@@ -284,7 +285,7 @@ _LABEL_9A89_:
 ; 19th entry of Jump Table from 993D (indexed by v_soundControl)
 _LABEL_9A8B_:
     cp e
-    jr c, _LABEL_9AC6_
+    jr c, resetSoundControl
     ld hl, v_soundMusicChannels.3.flags
     set 2, (hl)
     ld hl, _RAM_C1D8_
@@ -297,7 +298,7 @@ _LABEL_9A9D_:
     call _LABEL_9E0F_
 ; Load sound data from bc
 ; Real music handler tail called from 99F0
-realMusicHandler_LABEL_9AA3_:
+realHandleMusic:
     ld h, b
     ld l, c
     ; b = ch count
@@ -343,7 +344,7 @@ realMusicHandler_LABEL_9AA3_:
     djnz -
 
 ; Reset sound control
-_LABEL_9AC6_:
+resetSoundControl:
     ld a, $80
     ld (v_soundControl), a
     ret
@@ -357,19 +358,21 @@ runChannel_LABEL_9ACC_:
     ld (ix + SoftwareChannel.currentPlayDuration.low), e
     ld (ix + SoftwareChannel.currentPlayDuration.high), d
 
-
+    ; Read next note if current one has ended
     ld l, (ix + SoftwareChannel.noteDuration.low)
     ld h, (ix + SoftwareChannel.noteDuration.high)
     or a
     sbc hl, de
     call z, _LABEL_9C39_
+
+    ; Mute volume if frequency is 0x0000 (and call 9C87)
     ld e, (ix + SoftwareChannel.noteFrequency.low)
     ld d, (ix + SoftwareChannel.noteFrequency.high)
     ld a, e
     or d
     jr nz, +
     ld (ix + SoftwareChannel.volumeToWrite), $0F
-    jp _LABEL_9BA0_
+    jp chWriteSomething_LABEL_9C87_
 
 +:
     bit 5, (ix + SoftwareChannel.flags)
@@ -413,7 +416,7 @@ applyVibratoThenEnvelope_LABEL_9B16_:
 +:
     ld h, a
     ld e, (ix + SoftwareChannel.currentPlayDuration.low)
-    call _LABEL_9EAE_
+    call littleEndianMultiply_LABEL_9EAE_
     ld e, (ix + SoftwareChannel.noteDuration.low)
     dec e
     call _LABEL_9EBA_
@@ -452,7 +455,7 @@ _LABEL_9B5E_:
     call applyEnvelope_LABEL_9BB2_
 ++:
     bit 6, (ix + SoftwareChannel.flags)
-    jr nz, _LABEL_9BA0_
+    jr nz, chWriteSomething_LABEL_9C87_
     ld a, (ix + SoftwareChannel.hardwareChannel)
     cp $E0
     jr nz, +
@@ -471,7 +474,7 @@ _LABEL_9B5E_:
     rrca
     rrca
     call writeAToPsgIfFlagBit2_LABEL_9DEB_
-_LABEL_9BA0_:
+chWriteSomething_LABEL_9C87_:
     ld a, (ix + SoftwareChannel.hardwareChannel)
     add a, $10
     or (ix + SoftwareChannel.volumeToWrite)
@@ -585,24 +588,33 @@ _LABEL_9C39_:
 ; Load sound data from rom pointed by DE
 ; Expects IX to be software channel pointer
 _LABEL_9C3F_:
+    ; Read byte
     ld a, (de)
+
+    ; Jump to _LABEL_9CCD_ if byte >= $E0
     inc de
     cp $E0
     jp nc, _LABEL_9CCD_
 
+    ; Jump to _LABEL_9CAC_ if flag 3 is set 
     bit 3, (ix + SoftwareChannel.flags)
     jr nz, _LABEL_9CAC_
 
+    ; Jump to ++ if byte is even
     or a
     jp p, ++
 
+    ; Remove control bit
     sub $80
+
+    ; Skip transpose if command is disable
     jr z, +
 
     ; Transpose
     add a, (ix + SoftwareChannel.transpose)
 +:
-    ld hl, _DATA_9E1C_
+    ; Load note PSG frequency
+    ld hl, noteFrequencies
     ld c, a
     ld b, $00
     add hl, bc
@@ -612,13 +624,16 @@ _LABEL_9C3F_:
     inc hl
     ld a, (hl)
     ld (ix + SoftwareChannel.noteFrequency.high), a
+
+    ; Jump to _LABEL_9CC6_ if bit 5 of flags is set
     bit 5, (ix + SoftwareChannel.flags)
     jr z, _LABEL_9CC6_
+
     ld a, (de)
     inc de
     sub $80
     add a, (ix + SoftwareChannel.transpose)
-    ld hl, _DATA_9E1C_
+    ld hl, noteFrequencies
     ld c, a
     ld b, $00
     add hl, bc
@@ -631,23 +646,39 @@ _LABEL_9C3F_:
 --:
     ld a, (de)
 
-; Probrably note related
-_LABEL_9C87_:
+; Apply duration
+; Reset envelope and vibrato
+; Increment data pointer
+; Reset play duration 
+note_LABEL_9C87_:
     inc de
 ++:
     push de
+
+    ; Load next duration into h,
+    ; duration multiplier into e
+    ; and call littleEndianMultiply_LABEL_9EAE_
     ld h, a
     ld e, (ix + SoftwareChannel.duration)
-    call _LABEL_9EAE_
+    call littleEndianMultiply_LABEL_9EAE_
+
     pop de
+
+    ; Save the duration
     ld (ix + SoftwareChannel.noteDuration.low), l
     ld (ix + SoftwareChannel.noteDuration.high), h
+
 -:
+    ; Reset envelope and vibrato counters
     xor a
     ld (ix + SoftwareChannel.envelopeCounter), a
     ld (ix + SoftwareChannel.vibratoCounter), a
+
+    ; Update data pointer
     ld (ix + SoftwareChannel.dataPointer.low), e
-    ld (ix + SoftwareChannel.dataPointer.high), d
+    ld (ix + SoftwareChannel.dataPointer.high), D
+
+    ; Reset current play duration
     xor a
     ld (ix + SoftwareChannel.currentPlayDuration.low), a
     ld (ix + SoftwareChannel.currentPlayDuration.high), a
@@ -669,9 +700,10 @@ _LABEL_9CAC_:
     jr --
 
 _LABEL_9CC6_:
+    ; Jump to note_LABEL_9C87_ if byte pointed by DE is even
     ld a, (de)
     or a
-    jp p, _LABEL_9C87_
+    jp p, note_LABEL_9C87_
     jr -
 
 _LABEL_9CCD_:
@@ -706,7 +738,7 @@ _LABEL_9D08_:
     ret z
     push de
     ld bc, _DATA_A3BD_
-    call musicHandler_LABEL_99F0_
+    call handleMusic
     pop de
     ret
 
@@ -894,7 +926,7 @@ writeAToPsgIfFlagBit2_LABEL_9DEB_:
     out (Port_PSG), a
     ret
 
-resetSoundAndInitVolume:
+resetSoundAndVolume:
     exx
     ld hl, v_soundFadeOutVolume
     ld de, v_soundFadeOutVolume + 1
@@ -902,89 +934,194 @@ resetSoundAndInitVolume:
     ld (hl), $00
     ldir
     exx
-initVolume:
+resetVolume:
     exx
-    ld hl, _DATA_9E18_
+    ld hl, psgResetVolumeBytes
     ld c, Port_PSG
-    ld b, $04
+    ld b, _sizeof_psgResetVolumeBytes
     otir
     xor a
     exx
     ret
 
 _LABEL_9E0F_:
-    ld a, $DF
+    ld a, PSG_CONTROL_LATCH | PSG_CHANNEL_2 | PSG_LATCH_VOLUME | $F
     out (Port_PSG), a
-    ld a, $FF
+    ld a, PSG_CONTROL_LATCH | PSG_CHANNEL_3 | PSG_LATCH_VOLUME | $F
     out (Port_PSG), a
     ret
 
 ; Data from 9E18 to 9E1B (4 bytes)
-_DATA_9E18_:
-.db $9F $BF $DF $FF
+psgResetVolumeBytes:
+.db PSG_CONTROL_LATCH | PSG_CHANNEL_0 | PSG_LATCH_VOLUME | $F
+.db PSG_CONTROL_LATCH | PSG_CHANNEL_1 | PSG_LATCH_VOLUME | $F
+.db PSG_CONTROL_LATCH | PSG_CHANNEL_2 | PSG_LATCH_VOLUME | $F
+.db PSG_CONTROL_LATCH | PSG_CHANNEL_3 | PSG_LATCH_VOLUME | $F
 
-; Data from 9E1C to 9E74 (89 bytes)
 ; PSG notes
-_DATA_9E1C_:
+noteFrequencies:
+; --
 .db $00 $00
+; A2
 .db $FF $03
+; A#2
 .db $C7 $03
+; B2
 .db $90 $03
+; C3
 .db $5D $03
+; C#3
 .db $2D $03
+; D3
 .db $FF $02
+; D#3
 .db $D4 $02
+; E3
 .db $AB $02
+; F3
 .db $85 $02
+; F#3
 .db $61 $02
+; G3
 .db $3F $02
+; G#3
 .db $1E $02
+; A3
 .db $00 $02
+; A#3
 .db $E3 $01
+; B3
 .db $C8 $01
+; C4
 .db $AF $01
+; C#4
 .db $96 $01
+; D4
 .db $80 $01
+; D#4
 .db $6A $01
+; E4
 .db $56 $01
+; F4
 .db $43 $01
+; F#4
 .db $30 $01
+; G4
 .db $1F $01
+; G#4
 .db $0F $01
+; A4
 .db $00 $01
+; A#4
 .db $F2 $00
+; B4
 .db $E4 $00
+; C5
 .db $D7 $00
+; C#5
 .db $CB $00
+; D5
 .db $C0 $00
+; D#5
 .db $B5 $00
+; E5
 .db $AB $00
+; F5
 .db $A1 $00
+; F#5
 .db $98 $00
+; G5
 .db $90 $00
+; G#5
 .db $88 $00
+; A5
 .db $80 $00
+; A#5
 .db $79 $00
+; B5
 .db $72 $00
+; C6
 .db $6C $00
+; C#6
 .db $66 $00
+; D6
 .db $60 $00
-.db $5B $00 $55
+; D#6
+.db $5B $00
+; E6
+.db $55 $00
+; F6
+.db $51 $00
+; F#6
+.db $4C $00
+; G6
+.db $48 $00
+; G#6
+.db $44 $00
+; A6
+.db $40 $00
+; A#6
+.db $3C $00
+; B6
+.db $39 $00
+; C7
+.db $36 $00
+; C#7
+.db $33 $00
+; D7
+.db $30 $00
+; D#7
+.db $2D $00
+; E7
+.db $2B $00
+; F7
+.db $28 $00
+; F#7
+.db $26 $00
+; G7
+.db $24 $00
+; G#7
+.db $22 $00
+; A7
+.db $20 $00
+; A#7
+.db $1E $00
+; B7
+.db $1C $00
+; C8
+.db $1B $00
+; C#8
+.db $19 $00
+; D8
+.db $18 $00
+; D#8
+.db $16 $00
+; E8
+.db $15 $00
+; F8
+.db $14 $00
+; F#8
+.db $13 $00
+; G8
+.db $12 $00
+; G#8
+.db $11 $00
 
-; Data from 9E75 to 9E98 (36 bytes)
-_DATA_9E75_:
-.db $00 $51 $00 $4C $00 $48 $00 $44 $00 $40 $00 $3C $00 $39 $00 $36
-.db $00 $33 $00 $30 $00 $2D $00 $2B $00 $28 $00 $26 $00 $24 $00 $22
-.db $00 $20 $00 $1E
+; h = Next duration
+; e = Channel duration multiplier
+littleEndianMultiply_LABEL_9EAE_:
+    ; hl = d $00
+    ; for (i = 0; i < 8; i++) {
+    ;   hl += hl
+    ;   if (carry) {
+    ;     hl += de
+    ;   }
+    ; }
+    ; return
 
-; Data from 9E99 to 9EAD (21 bytes)
-_DATA_9E99_:
-.db $00 $1C $00 $1B $00 $19 $00 $18 $00 $16 $00 $15 $00 $14 $00 $13
-.db $00 $12 $00 $11 $00
-
-_LABEL_9EAE_:
     ld d, $00
     ld l, d
+
     ld b, $08
 -:
     add hl, hl

@@ -12,7 +12,7 @@ updateLifeLostState:
 	call disableDisplay
 	ld b, $05
 	call _LABEL_343_
-	call resetSoundAndInitVolume
+	call resetSoundAndVolume
 	ld hl, v_lives
 	ld a, (hl)
 	sub $01

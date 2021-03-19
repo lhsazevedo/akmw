@@ -21,7 +21,7 @@ updateTitleScreenState:
     ld a, $82
     ld (Mapper_Slot2), a
 
-    call resetSoundAndInitVolume
+    call resetSoundAndVolume
     call updateHighScore
 
     ; Clear some RAM

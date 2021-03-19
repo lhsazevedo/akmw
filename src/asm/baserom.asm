@@ -163,7 +163,7 @@ handlePauseInterrupt:
 init:
     ld a, $82
     ld (Mapper_Slot2), a
-    call initVolume
+    call resetVolume
 
     ; Clear RAM
     ld hl, $C000
@@ -180,7 +180,7 @@ init:
 
     ; Reset stack pointer
     ld sp, $DFF0
-    call initVolume
+    call resetVolume
     call initVDPRegisters
 
     ; Clear VRAM tiles
@@ -2423,7 +2423,7 @@ updateBonusLevelState:
     jp nz, -
     ld a, $82
     ld (Mapper_Slot2), a
-    call resetSoundAndInitVolume
+    call resetSoundAndVolume
     ld hl, v_money
     ld de, v_moneyByteTwo
     ld (hl), $00
@@ -2526,7 +2526,7 @@ _LABEL_1730_:
     ret
 
 _LABEL_1735_:
-    call resetSoundAndInitVolume
+    call resetSoundAndVolume
     ld b, $05
     call _LABEL_343_
     call clearVDPTablesAndDisableScreen
@@ -2720,7 +2720,7 @@ updateLevelCompletedState:
 
 +:
     set 7, (hl)
-    call resetSoundAndInitVolume
+    call resetSoundAndVolume
     ld b, $05
     call _LABEL_343_
     call clearVDPTablesAndDisableScreen
@@ -11101,7 +11101,7 @@ _LABEL_7924_:
 	call clearEntity
 	inc hl
 	djnz -
-	call resetSoundAndInitVolume
+	call resetSoundAndVolume
 	ld a, $84
 	ld (Mapper_Slot2), a
 	ld hl, _DATA_118E9_

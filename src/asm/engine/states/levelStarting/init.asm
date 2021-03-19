@@ -8,7 +8,7 @@ initLevelStartingState:
     ld a, $82
     ld (Mapper_Slot2), a
 
-    call resetSoundAndInitVolume
+    call resetSoundAndVolume
 
     ; Init state
     xor a
