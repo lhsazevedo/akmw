@@ -107,7 +107,7 @@ foreach ($levelsPointers as $key => $levelPointer) {
         }
 
         if ($rawCount & 0x80) {
-            echo "Special screen found: 0x" . dechex($rawCount & 0x77) . "\n";
+            echo "Special screen found: 0x" . dechex($rawCount & 0x7F) . "\n";
 
             if ($rawCount === 0x84) {
                 // $screenPointer++;

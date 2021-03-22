@@ -226,7 +226,7 @@ Skipping unknown special entity...
 No entities.
 
 > Screen 9 entities:
-Special screen found: 0x0
+Special screen found: 0x8
 Skipping unknown special entity...
 
 > Screen 10 entities:
@@ -441,7 +441,7 @@ Entity 1: 0x54, X: 176, Y: 64, d: 0x0
 Entity 2: 0x63, X: 240, Y: 48, d: 0x0
 
 > Screen 3 entities:
-Special screen found: 0x0
+Special screen found: 0x8
 Skipping unknown special entity...
 
 > Screen 4 entities:
@@ -450,7 +450,7 @@ Entity 0: 0x3d, X: 120, Y: 96, d: 0x0
 Entity 1: ENTITY_FLAME_OR_SCORPION_LEFT, X: 96, Y: 144, d: 0x0
 
 > Screen 5 entities:
-Special screen found: 0x0
+Special screen found: 0x8
 Skipping unknown special entity...
 
 > Screen 6 entities:
@@ -976,11 +976,11 @@ Entity 1: ENTITY_MONSTER_FROG, X: 96, Y: 160, d: 0x0
 Entity 2: ENTITY_MONSTER_FROG, X: 160, Y: 80, d: 0x0
 
 > Screen 3 entities:
-Special screen found: 0x0
+Special screen found: 0x8
 Skipping unknown special entity...
 
 > Screen 4 entities:
-Special screen found: 0x0
+Special screen found: 0x8
 Skipping unknown special entity...
 
 > Screen 5 entities:
@@ -1003,15 +1003,15 @@ Count: 1
 Entity 0: 0x16, X: 124, Y: 144, d: 0x6
 
 > Screen 9 entities:
-Special screen found: 0x0
+Special screen found: 0x8
 Skipping unknown special entity...
 
 > Screen 10 entities:
-Special screen found: 0x0
+Special screen found: 0x8
 Skipping unknown special entity...
 
 > Screen 11 entities:
-Special screen found: 0x0
+Special screen found: 0x8
 Skipping unknown special entity...
 
 > Screen 12 entities:
@@ -1042,7 +1042,7 @@ Entity 3: 0x57, X: 208, Y: 160, d: 0x0
 Entity 4: 0x57, X: 160, Y: 80, d: 0x0
 
 > Screen 17 entities:
-Special screen found: 0x0
+Special screen found: 0x8
 Skipping unknown special entity...
 
 > Screen 18 entities:
@@ -1073,7 +1073,7 @@ Entity 0: ENTITY_FLAME_OR_SCORPION_LEFT, X: 96, Y: 160, d: 0x1
 Entity 1: 0x16, X: 104, Y: 112, d: 0x4
 
 > Screen 24 entities:
-Special screen found: 0x0
+Special screen found: 0x8
 Skipping unknown special entity...
 
 > Screen 25 entities:
@@ -1114,7 +1114,7 @@ Entity 2: 0x2c, X: 72, Y: 96, d: 0x0
 Entity 3: 0x2c, X: 24, Y: 96, d: 0x0
 
 > Screen 33 entities:
-Special screen found: 0x0
+Special screen found: 0x8
 Skipping unknown special entity...
 
 > Screen 34 entities:
@@ -1124,7 +1124,7 @@ No entities.
 No entities.
 
 > Screen 36 entities:
-Special screen found: 0x0
+Special screen found: 0x8
 Skipping unknown special entity...
 
 > Screen 37 entities:
