@@ -43,7 +43,7 @@ entityTypeJumpTable:
 .dw _LABEL_55F3_
 .dw _LABEL_557A_
 .dw updateSmokePuff
-.dw _LABEL_4FF1_
+.dw updatePlant
 .dw updateMonsterbirdLeft
 .dw updateKillerFishLeft
 .dw _LABEL_56CC_

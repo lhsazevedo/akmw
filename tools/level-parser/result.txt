@@ -248,7 +248,7 @@ No entities.
 
 > Screen 1 entities:
 Count: 1
-Entity 0: 0x2c, X: 168, Y: 168, d: 0x0
+Entity 0: ENTITY_PLANT, X: 168, Y: 168, d: 0x0
 
 > Screen 2 entities:
 Count: 1
@@ -635,15 +635,15 @@ Entity 1: ENTITY_FLAME_OR_SCORPION_LEFT, X: 192, Y: 80, d: 0x0
 
 > Screen 2 entities:
 Count: 2
-Entity 0: 0x2c, X: 48, Y: 160, d: 0x0
-Entity 1: 0x2c, X: 144, Y: 160, d: 0x0
+Entity 0: ENTITY_PLANT, X: 48, Y: 160, d: 0x0
+Entity 1: ENTITY_PLANT, X: 144, Y: 160, d: 0x0
 
 > Screen 3 entities:
 Count: 4
 Entity 0: 0x40, X: 192, Y: 16, d: 0x0
-Entity 1: 0x2c, X: 56, Y: 160, d: 0x0
-Entity 2: 0x2c, X: 128, Y: 160, d: 0x0
-Entity 3: 0x2c, X: 200, Y: 160, d: 0x0
+Entity 1: ENTITY_PLANT, X: 56, Y: 160, d: 0x0
+Entity 2: ENTITY_PLANT, X: 128, Y: 160, d: 0x0
+Entity 3: ENTITY_PLANT, X: 200, Y: 160, d: 0x0
 
 > Screen 4 entities:
 Count: 1
@@ -842,7 +842,7 @@ Special type: Always present entity (bit 3)
 Type: ENTITY_RICE_BALL, X: 16, Y: 112, d: 0x0
 Real count: 2
 Entity 0: ENTITY_MONSTERBIRD_RIGHT, X: 96, Y: 32, d: 0x0
-Entity 1: 0x2c, X: 176, Y: 160, d: 0x0
+Entity 1: ENTITY_PLANT, X: 176, Y: 160, d: 0x0
 
 > Screen 1 entities:
 Count: 3
@@ -854,32 +854,32 @@ Entity 2: ENTITY_MONSTERBIRD_RIGHT, X: 144, Y: 96, d: 0x0
 Count: 5
 Entity 0: ENTITY_MONSTERBIRD_RIGHT, X: 64, Y: 32, d: 0x0
 Entity 1: ENTITY_MONSTERBIRD_RIGHT, X: 176, Y: 80, d: 0x0
-Entity 2: 0x2c, X: 64, Y: 160, d: 0x0
-Entity 3: 0x2c, X: 120, Y: 160, d: 0x0
-Entity 4: 0x2c, X: 176, Y: 160, d: 0x0
+Entity 2: ENTITY_PLANT, X: 64, Y: 160, d: 0x0
+Entity 3: ENTITY_PLANT, X: 120, Y: 160, d: 0x0
+Entity 4: ENTITY_PLANT, X: 176, Y: 160, d: 0x0
 
 > Screen 3 entities:
 Count: 3
 Entity 0: ENTITY_MONSTERBIRD_RIGHT, X: 128, Y: 40, d: 0x0
-Entity 1: 0x2c, X: 160, Y: 160, d: 0x0
-Entity 2: 0x2c, X: 72, Y: 160, d: 0x0
+Entity 1: ENTITY_PLANT, X: 160, Y: 160, d: 0x0
+Entity 2: ENTITY_PLANT, X: 72, Y: 160, d: 0x0
 
 > Screen 4 entities:
 Count: 4
 Entity 0: ENTITY_MONSTERBIRD_RIGHT, X: 208, Y: 32, d: 0x0
 Entity 1: ENTITY_MONSTERBIRD_RIGHT, X: 128, Y: 80, d: 0x0
-Entity 2: 0x2c, X: 72, Y: 160, d: 0x0
-Entity 3: 0x2c, X: 168, Y: 160, d: 0x0
+Entity 2: ENTITY_PLANT, X: 72, Y: 160, d: 0x0
+Entity 3: ENTITY_PLANT, X: 168, Y: 160, d: 0x0
 
 > Screen 5 entities:
 Count: 2
-Entity 0: 0x2c, X: 176, Y: 160, d: 0x0
-Entity 1: 0x2c, X: 96, Y: 160, d: 0x0
+Entity 0: ENTITY_PLANT, X: 176, Y: 160, d: 0x0
+Entity 1: ENTITY_PLANT, X: 96, Y: 160, d: 0x0
 
 > Screen 6 entities:
 Count: 2
-Entity 0: 0x2c, X: 160, Y: 160, d: 0x0
-Entity 1: 0x2c, X: 72, Y: 160, d: 0x0
+Entity 0: ENTITY_PLANT, X: 160, Y: 160, d: 0x0
+Entity 1: ENTITY_PLANT, X: 72, Y: 160, d: 0x0
 
 > Screen 7 entities:
 No entities.
@@ -924,12 +924,12 @@ Count: 4
 Entity 0: ENTITY_FLAME_OR_SCORPION_LEFT, X: 32, Y: 144, d: 0x0
 Entity 1: ENTITY_FLAME_OR_SCORPION_LEFT, X: 112, Y: 144, d: 0x0
 Entity 2: ENTITY_MONSTER_FROG, X: 176, Y: 144, d: 0x0
-Entity 3: 0x2c, X: 208, Y: 160, d: 0x0
+Entity 3: ENTITY_PLANT, X: 208, Y: 160, d: 0x0
 
 > Screen 5 entities:
 Count: 3
 Entity 0: ENTITY_FLAME_OR_SCORPION_LEFT, X: 120, Y: 144, d: 0x0
-Entity 1: 0x2c, X: 160, Y: 160, d: 0x0
+Entity 1: ENTITY_PLANT, X: 160, Y: 160, d: 0x0
 Entity 2: ENTITY_FLAME_OR_SCORPION_LEFT, X: 224, Y: 144, d: 0x0
 
 > Screen 6 entities:
@@ -946,7 +946,7 @@ Entity 1: ENTITY_FLAME_OR_SCORPION_LEFT, X: 96, Y: 144, d: 0x0
 > Screen 8 entities:
 Count: 2
 Entity 0: ENTITY_FLAME_OR_SCORPION_LEFT, X: 96, Y: 144, d: 0x0
-Entity 1: 0x2c, X: 176, Y: 160, d: 0x0
+Entity 1: ENTITY_PLANT, X: 176, Y: 160, d: 0x0
 
 > Screen 9 entities:
 Count: 2
@@ -1078,16 +1078,16 @@ Skipping unknown special entity...
 
 > Screen 25 entities:
 Count: 4
-Entity 0: 0x2c, X: 80, Y: 104, d: 0x0
-Entity 1: 0x2c, X: 128, Y: 72, d: 0x0
-Entity 2: 0x2c, X: 160, Y: 136, d: 0x0
-Entity 3: 0x2c, X: 208, Y: 88, d: 0x0
+Entity 0: ENTITY_PLANT, X: 80, Y: 104, d: 0x0
+Entity 1: ENTITY_PLANT, X: 128, Y: 72, d: 0x0
+Entity 2: ENTITY_PLANT, X: 160, Y: 136, d: 0x0
+Entity 3: ENTITY_PLANT, X: 208, Y: 88, d: 0x0
 
 > Screen 26 entities:
 Count: 3
-Entity 0: 0x2c, X: 32, Y: 168, d: 0x0
-Entity 1: 0x2c, X: 80, Y: 88, d: 0x0
-Entity 2: 0x2c, X: 144, Y: 120, d: 0x0
+Entity 0: ENTITY_PLANT, X: 32, Y: 168, d: 0x0
+Entity 1: ENTITY_PLANT, X: 80, Y: 88, d: 0x0
+Entity 2: ENTITY_PLANT, X: 144, Y: 120, d: 0x0
 
 > Screen 27 entities:
 No entities.
@@ -1108,10 +1108,10 @@ No entities.
 
 > Screen 32 entities:
 Count: 4
-Entity 0: 0x2c, X: 200, Y: 96, d: 0x0
-Entity 1: 0x2c, X: 144, Y: 96, d: 0x0
-Entity 2: 0x2c, X: 72, Y: 96, d: 0x0
-Entity 3: 0x2c, X: 24, Y: 96, d: 0x0
+Entity 0: ENTITY_PLANT, X: 200, Y: 96, d: 0x0
+Entity 1: ENTITY_PLANT, X: 144, Y: 96, d: 0x0
+Entity 2: ENTITY_PLANT, X: 72, Y: 96, d: 0x0
+Entity 3: ENTITY_PLANT, X: 24, Y: 96, d: 0x0
 
 > Screen 33 entities:
 Special screen found: 0x8

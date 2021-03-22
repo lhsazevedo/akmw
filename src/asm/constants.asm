@@ -65,6 +65,7 @@ ENTITY_MERMAN_BUBBLE           = $22
 ENTITY_MERMAN                   = $23
 ENTITY_OCTOPUS_ARM              = $24
 ENTITY_SMOKE_PUFF               = $2B
+ENTITY_PLANT                    = $2C
 ENTITY_MONSTERBIRD_LEFT         = $2D
 ENTITY_KILLER_FISH_LEFT         = $2E
 ENTITY_MONSTER_FROG             = $2F
