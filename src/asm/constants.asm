@@ -61,7 +61,7 @@ ENTITY_ARRAY_SIZE = $1E
 ; Entity types
 ENTITY_STATIC                   = $18
 ENTITY_BAT_LEFT                 = $20
-ENTITY_MERMAN_BUBBLE           = $22
+ENTITY_MERMAN_BUBBLE            = $22
 ENTITY_MERMAN                   = $23
 ENTITY_OCTOPUS_ARM              = $24
 ENTITY_SMOKE_PUFF               = $2B
@@ -85,25 +85,26 @@ ENTITY_MONEY_BAG                = $3C
 ENTITY_FLAME_OR_SCORPION_LEFT   = $3E
 ENTITY_FLAME_OR_SCORPION_RIGHT  = $3F
 ENTITY_RICE_BALL                = $44
+ENTITY_SAINT_NURARI             = $45
 ENTITY_GHOST                    = $4F
 ENTITY_ARROW                    = $56
 ENTITY_JANKENS_CASTLE           = $58
 
 ; VDP Register constants
-VDP_R0_DISABLE_VSCROLL_COLS_24_TO_32 = 1 << 7
-VDP_R0_DISABLE_HSCROLL_ROWS_0_AND_1  = 1 << 6
-VDP_R0_ENABLE_LINE_INTERRUPT          = 1 << 4
-VDP_R0_MASK_COL_0                      = 1 << 5
-VDP_R0_SHIFT_SPRITES_LEFT              = 1 << 3
-VDP_R0_USE_MODE_4                      = 1 << 2
+VDP_R0_DISABLE_VSCROLL_COLS_24_TO_32    = 1 << 7
+VDP_R0_DISABLE_HSCROLL_ROWS_0_AND_1     = 1 << 6
+VDP_R0_ENABLE_LINE_INTERRUPT            = 1 << 4
+VDP_R0_MASK_COL_0                       = 1 << 5
+VDP_R0_SHIFT_SPRITES_LEFT               = 1 << 3
+VDP_R0_USE_MODE_4                       = 1 << 2
 VDP_R0_CHANGE_HEIGHT_IN_MODE_4          = 1 << 1
-VDP_R0_NOSYNC_MONO                     = 1
+VDP_R0_NOSYNC_MONO                      = 1
 
-VDP_R1_DISPLAY_VISIBLE            = 1 << 6
-VDP_R1_ENABLE_FRAME_INTERRUPT     = 1 << 5
-VDP_R1_224_LINE_MODE4             = 1 << 4
-VDP_R1_240_LINE_MODE4             = 1 << 3
-VDP_R1_SPRITES_8_x_16             = 1 << 1
+VDP_R1_DISPLAY_VISIBLE          = 1 << 6
+VDP_R1_ENABLE_FRAME_INTERRUPT   = 1 << 5
+VDP_R1_224_LINE_MODE4           = 1 << 4
+VDP_R1_240_LINE_MODE4           = 1 << 3
+VDP_R1_SPRITES_8_x_16           = 1 << 1
 VDP_R1_DOUBLE_SPRITE_PIXELS     = 1
 
 ; Audio
@@ -122,10 +123,10 @@ DEBRIS_GRAVITY = $0030
 PSG_CONTROL_DATA  = 0
 PSG_CONTROL_LATCH = 1 << 7
 
-PSG_CHANNEL_0          = 0
-PSG_CHANNEL_1          = 1 << 5
-PSG_CHANNEL_2          = 2 << 5
-PSG_CHANNEL_3          = 3 << 5
+PSG_CHANNEL_0 = 0
+PSG_CHANNEL_1 = 1 << 5
+PSG_CHANNEL_2 = 2 << 5
+PSG_CHANNEL_3 = 3 << 5
 
-PSG_LATCH_DATA    = 0
-PSG_LATCH_VOLUME  = 1 << 4
+PSG_LATCH_DATA   = 0
+PSG_LATCH_VOLUME = 1 << 4

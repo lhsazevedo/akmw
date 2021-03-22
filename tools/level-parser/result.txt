@@ -265,7 +265,7 @@ Special screen found: 0x4
 Special type: Always present entity (bit 3)
 Type: ENTITY_RICE_BALL, X: 192, Y: 112, d: 0x0
 Real count: 1
-Entity 0: 0x45, X: 152, Y: 136, d: 0x0
+Entity 0: ENTITY_SAINT_NURARI, X: 152, Y: 136, d: 0x0
 
 ****************************
 * Reading lvl 5 screens.
