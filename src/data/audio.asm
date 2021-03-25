@@ -1,6 +1,6 @@
 ; 1st entry of Pointer Table from 98DD (indexed by v_soundControl)
 ; Data from 9ECD to 9ED0 (4 bytes)
-_DATA_9ECD_:
+musicIntro:
 .db $04
 
 .db $80
@@ -42,7 +42,7 @@ _DATA_9EF2_:
 
 ; 2nd entry of Pointer Table from 98DD (indexed by v_soundControl)
 ; Data from 9F81 to 9F84 (4 bytes)
-_DATA_9F81_:
+musicDefault:
 .db $04 $80 $80 $04
 
 ; Pointer Table from 9F85 to 9F86 (1 entries, indexed by unknown)
@@ -65,7 +65,7 @@ _DATA_9FB9_:
 
 ; 3rd entry of Pointer Table from 98DD (indexed by v_soundControl)
 ; Data from A3BD to A3C0 (4 bytes)
-_DATA_A3BD_:
+musicUnderwater:
 .db $04 $80 $80 $08
 
 ; Pointer Table from A3C1 to A3C2 (1 entries, indexed by unknown)
@@ -107,7 +107,7 @@ _DATA_A3E2_:
 
 ; 4th entry of Pointer Table from 98DD (indexed by v_soundControl)
 ; Data from A57D to A580 (4 bytes)
-_DATA_A57D_:
+musicCastle_DATA_A57D_:
 .db $04 $80 $80 $07
 
 ; Pointer Table from A581 to A582 (1 entries, indexed by unknown)
@@ -151,7 +151,7 @@ _DATA_A5A2_:
 
 ; 5th entry of Pointer Table from 98DD (indexed by v_soundControl)
 ; Data from A757 to A75A (4 bytes)
-_DATA_A757_:
+musicBike_DATA_A57D_:
 .db $04 $80 $80 $04
 
 ; Pointer Table from A75B to A75C (1 entries, indexed by unknown)
@@ -190,7 +190,7 @@ _DATA_A77C_:
 
 ; 6th entry of Pointer Table from 98DD (indexed by v_soundControl)
 ; Data from A8E0 to A8E3 (4 bytes)
-_DATA_A8E0_:
+musicLevelStarting:
 .db $03 $80 $80 $04
 
 ; Pointer Table from A8E4 to A8E5 (1 entries, indexed by unknown)
@@ -210,7 +210,7 @@ _DATA_A905_:
 
 ; 7th entry of Pointer Table from 98DD (indexed by v_soundControl)
 ; Data from A937 to A93A (4 bytes)
-_DATA_A937_:
+musicJankenMatch:
 .db $04 $80 $80 $04
 
 ; Pointer Table from A93B to A93C (1 entries, indexed by unknown)
@@ -250,7 +250,7 @@ _DATA_A95C_:
 
 ; 8th entry of Pointer Table from 98DD (indexed by v_soundControl)
 ; Data from AAD1 to AAD4 (4 bytes)
-_DATA_AAD1_:
+musicPeticopter:
 .db $04 $80 $80 $08
 
 ; Pointer Table from AAD5 to AAD6 (1 entries, indexed by unknown)
@@ -288,7 +288,7 @@ _DATA_AAF6_:
 
 ; 9th entry of Pointer Table from 98DD (indexed by v_soundControl)
 ; Data from AC56 to AC59 (4 bytes)
-_DATA_AC56_:
+musicDead:
 .db $03 $A0 $80 $04
 
 ; Pointer Table from AC5A to AC5B (1 entries, indexed by unknown)

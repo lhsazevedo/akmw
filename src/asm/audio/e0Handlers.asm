@@ -10,7 +10,7 @@ handleF1:
     cp $10
     ret z
     push de
-    ld bc, _DATA_A3BD_
+    ld bc, musicUnderwater
     call handleMusic
     pop de
     ret
