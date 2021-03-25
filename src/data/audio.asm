@@ -3,19 +3,27 @@
 _DATA_9ECD_:
 .db $04
 
-.db $80 $80 $04
+.db $80
+.db PSG_CONTROL_LATCH | PSG_CHANNEL_0
+.db $04
 .dw _DATA_9EF2_
 .db $EC $01 $04 $0B
 
-.db $80 $A0 $04
+.db $80
+.db PSG_CONTROL_LATCH | PSG_CHANNEL_1
+.db $04
 .db $18 $9F
 .db $F8 $01 $03 $0A
 
-.db $80 $C0 $04
+.db $80
+.db PSG_CONTROL_LATCH | PSG_CHANNEL_2
+.db $04
 .db $3F $9F
 .db $EC $01 $04 $0B
 
-.db $80 $E0 $04
+.db $80
+.db PSG_CONTROL_LATCH | PSG_CHANNEL_3
+.db $04
 .db $67 $9F
 .db $00 $00 $00 $00
 

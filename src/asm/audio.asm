@@ -363,7 +363,7 @@ runChannel_LABEL_9ACC_:
     ld h, (ix + SoftwareChannel.noteDuration.high)
     or a
     sbc hl, de
-    call z, _LABEL_9C39_
+    call z, readChannelInstruction
 
     ; Mute volume if frequency is 0x0000 (and call 9C87)
     ld e, (ix + SoftwareChannel.noteFrequency.low)
@@ -372,17 +372,19 @@ runChannel_LABEL_9ACC_:
     or d
     jr nz, +
     ld (ix + SoftwareChannel.volumeToWrite), $0F
-    jp chWriteSomething_LABEL_9C87_
+    jp writeChannelVolume
 
 +:
+    ; @TODO: What bit 5 means?
     bit 5, (ix + SoftwareChannel.flags)
     jr nz, +
+
     ld a, (ix + SoftwareChannel.vibrato)
     or a
     jr nz, applyVibratoThenEnvelope_LABEL_9B16_
     ld (ix + SoftwareChannel.frequencyToWrite.low), e
     ld (ix + SoftwareChannel.frequencyToWrite.high), d
-    jp _LABEL_9B5E_
+    jp envelopeOrVolume_LABEL_9B5E_
 
 ; Calc address to word table entry a-1 
 tbl_addr_LABEL_9B0B_:
@@ -401,7 +403,7 @@ applyVibratoThenEnvelope_LABEL_9B16_:
     ld hl, vibratos
     call tbl_addr_LABEL_9B0B_
     call vibrato_LABEL_9BF8_
-    jr _LABEL_9B5E_
+    jr envelopeOrVolume_LABEL_9B5E_
 
 +:
     push de
@@ -439,42 +441,58 @@ applyVibratoThenEnvelope_LABEL_9B16_:
     or a
     jp nz, applyVibratoThenEnvelope_LABEL_9B16_
 
-_LABEL_9B5E_:
+envelopeOrVolume_LABEL_9B5E_:
+    ; If channel has an envelope, apply it. If not, just channel volume
     ld a, (ix + SoftwareChannel.envelope)
     or a
-    jr nz, +
+    jr nz, @envelope
+
     ld a, (ix + SoftwareChannel.volume)
     cpl
     and $0F
     ld (ix + SoftwareChannel.volumeToWrite), a
-    jr ++
+    jr @done
 
-+:
+@envelope:
     ld hl, envelopes
     call tbl_addr_LABEL_9B0B_
     call applyEnvelope_LABEL_9BB2_
-++:
+
+@done:
     bit 6, (ix + SoftwareChannel.flags)
-    jr nz, chWriteSomething_LABEL_9C87_
+    jr nz, writeChannelVolume
+
     ld a, (ix + SoftwareChannel.hardwareChannel)
-    cp $E0
+
+    ; @TODO: Why set a to 0xC0 (0b11000000) if noise channel?
+    ; Shouldn't it be 0xE0 (0b11100000) ? 
+    cp PSG_CONTROL_LATCH | PSG_CHANNEL_3
     jr nz, +
     ld a, $C0
+
 +:
+    ; Here we put together the channel and low nibble
+    ; of the low frequency byte, then write it.
     ld c, a
     ld a, (ix + SoftwareChannel.frequencyToWrite.low)
     and $0F
     or c
     call writeAToPsgIfFlagBit2_LABEL_9DEB_
+
+    ; Now we load the high nibble of the low frequency
+    ; byte and add it to the high frequency byte.
     ld a, (ix + SoftwareChannel.frequencyToWrite.low)
     and $F0
     or (ix + SoftwareChannel.frequencyToWrite.high)
+
+    ; Swap the nibbles and write it
     rrca
     rrca
     rrca
     rrca
     call writeAToPsgIfFlagBit2_LABEL_9DEB_
-chWriteSomething_LABEL_9C87_:
+
+writeChannelVolume:
     ld a, (ix + SoftwareChannel.hardwareChannel)
     add a, $10
     or (ix + SoftwareChannel.volumeToWrite)
@@ -581,22 +599,23 @@ vibrato_LABEL_9BF8_:
     ret
 
 ; Load sound data from software channel in IX
-_LABEL_9C39_:
+readChannelInstruction:
     ld e, (ix + SoftwareChannel.dataPointer.low)
     ld d, (ix + SoftwareChannel.dataPointer.high)
 
 ; Load sound data from rom pointed by DE
 ; Expects IX to be software channel pointer
-_LABEL_9C3F_:
+readInstruction:
     ; Read byte
     ld a, (de)
 
-    ; Jump to _LABEL_9CCD_ if byte >= $E0
+    ; Jump to handleEXCommands_LABEL_9CCD_ if byte >= $E0
     inc de
     cp $E0
-    jp nc, _LABEL_9CCD_
+    jp nc, handleEXCommands_LABEL_9CCD_
 
-    ; Jump to _LABEL_9CAC_ if flag 3 is set 
+    ; Jump to _LABEL_9CAC_ if flag 3 is set
+    ; @TODO: What flag 3 controls?
     bit 3, (ix + SoftwareChannel.flags)
     jr nz, _LABEL_9CAC_
 
@@ -706,11 +725,11 @@ _LABEL_9CC6_:
     jp p, note_LABEL_9C87_
     jr -
 
-_LABEL_9CCD_:
+handleEXCommands_LABEL_9CCD_:
     ld hl, +    ; Overriding return address
     push hl
     and $1F
-    ld hl, _DATA_9CE4_
+    ld hl, eXCommandHandlers_DATA_9CE4_
     ld c, a
     ld b, $00
     add hl, bc
@@ -723,10 +742,10 @@ _LABEL_9CCD_:
 
 +:
     inc de
-    jp _LABEL_9C3F_
+    jp readInstruction
 
 ; Jump Table from 9CE4 to 9D07 (18 entries, indexed by unknown)
-_DATA_9CE4_:
+eXCommandHandlers_DATA_9CE4_:
 .dw _LABEL_9D1F_ _LABEL_9D24_ _LABEL_9D72_ _LABEL_9D29_ _LABEL_9D40_ _LABEL_9D4A_ _LABEL_9D50_ _LABEL_9D56_
 .dw _LABEL_9D5C_ _LABEL_9D62_ _LABEL_9D9E_ _LABEL_9DB9_ _LABEL_9DCC_ _LABEL_9D45_ _LABEL_9D17_ _LABEL_9D68_
 .dw _LABEL_9D6E_ _LABEL_9D08_
