@@ -93,4 +93,4 @@ _LABEL_19CB_:
 
     ; @TODO Sleep?
     ld b, $05
-    jp _LABEL_343_
+    jp sleepTenthsOfSecond

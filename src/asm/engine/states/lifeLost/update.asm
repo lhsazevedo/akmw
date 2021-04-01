@@ -10,35 +10,48 @@ updateLifeLostState:
 
 +:
 	call disableDisplay
+
+	; Sleep half a second
 	ld b, $05
-	call _LABEL_343_
+	call sleepTenthsOfSecond
+
 	call resetSoundAndVolume
+
+	; Decrement lives
 	ld hl, v_lives
 	ld a, (hl)
 	sub $01
-	jp z, _LABEL_6DC9_
+	jp z, gameOver_LABEL_6DC9_
 	daa
 	ld (hl), a
+
+	; Memory mapping
 	ld a, $82
 	ld (Mapper_Slot2), a
-	ld ix, v_entity1
+
+	; Clear the first 5 entities
+	ld ix, v_entities
 	ld de, $0020
 	ld b, $05
--:
+-:	
 	call clearCurrentEntity
 	add ix, de
 	djnz -
-	ld ix, _RAM_C500_
+
+	; Clear entity 17 through 28
+	ld ix, v_entities.17
 	ld de, $0020
 	ld b, $0C
 -:
 	call clearCurrentEntity
 	add ix, de
 	djnz -
-	ld ix, _RAM_C3C0_
+
+	; For entities 7 to 17, update their type and position based on unkown1
+	ld ix, v_entities.7
 	ld b, $0A
 -:
-	ld a, (ix+2)
+	ld a, (ix + Entity.unknown1)
 	bit 7, a
 	jp z, +
 	and $7F
@@ -50,59 +63,83 @@ updateLifeLostState:
 	exx
 	ld b, e
 	ld a, (hl)
-	ld (ix+0), a
+	ld (ix + Entity.type), a
 	inc hl
 	ld a, (hl)
-	ld (ix+12), a
+	ld (ix + Entity.xPos.high), a
 	inc hl
 	ld a, (hl)
-	ld (ix+14), a
+	ld (ix + Entity.yPos.high), a
 +:
 	ld de, $0020
 	add ix, de
 	djnz -
+
+	; If scroll flag 7 is set...
 	ld a, (v_scrollFlags)
 	bit 7, a
 	jp z, +
+
+	; And isn't first level...
 	ld a, (v_level)
 	cp $01
 	jp z, +
+
+	; @TODO: Test on levels 2+
+	; Restore temporary Alex copy
 	ld de, v_entity1
-	ld hl, _RAM_C240_
+	ld hl, temporaryAlexCopy
 	ld bc, $0020
 	ldir
+
+	; @TODO
 	ld hl, (v_entities.1.spriteDescriptorPointer)
 	dec hl
 	ld a, (hl)
 	ld (v_alexTilesIndex), a
+
+	; @TODO
 	ld a, $02
 	ld (_RAM_C054_), a
-	; @TODO: Add respaw grace period constant (max here)
+
+	; @TODO: Add respaw grace period constant (max, here)
 	ld a, $FF
 	ld (v_invincibilityTimer), a
 	jp _LABEL_6D73_
 
+
 +:
+	; Set alex
 	ld ix, v_entity1
-	ld (ix+0), $01
+	ld (ix + Entity.type), ENTITY_ALEX
+
+	; Jump to _LABEL_6D26_ if:
+	; Level is 0x0D (13)
+	; OR (v_shouldSpawnRidingBoat_RAM_C051_) is not 0
+	; OR (_RAM_C054_) >= 7
 	ld a, (v_level)
 	cp $0D
 	jp z, _LABEL_6D26_
-	ld a, (_RAM_C051_)
+	ld a, (v_shouldSpawnRidingBoat_RAM_C051_)
 	or a
 	jp nz, _LABEL_6D26_
 	ld a, (_RAM_C054_)
 	cp $07
 	jp nc, _LABEL_6D26_
+
+
 	ld a, (v_alexStateBeforeHit)
-	cp $05
-	jp z, _LABEL_6D3C_
-	cp $06
+	cp ALEX_SWIMING
+	jp z, lifeLostAlexSwiming_LABEL_6D3C_
+
+	cp ALEX_FLYING_PETICOPTER
 	jp z, _LABEL_6D26_
-	ld (ix+24), $10
-	ld (ix+22), $10
-	ld (ix+23), $01
-	ld (ix+26), $01
+
+	; @TODO
+	ld (ix + Entity.unknown6), $10
+	ld (ix + Entity.unknown5), $10
+	ld (ix + Entity.jankenMatchDecision), $01
+	ld (ix + Entity.state), $01
 --:
 	call _LABEL_6EAF_
 -:
@@ -116,8 +153,8 @@ updateLifeLostState:
 	jp c, _LABEL_6D4F_
 +:
 	ld a, $08
-	add a, (ix+14)
-	ld (ix+14), a
+	add a, (ix + Entity.yPos.high)
+	ld (ix + Entity.yPos.high), a
 	cp $90
 	jp nc, +
 	call _LABEL_6EBB_
@@ -125,14 +162,14 @@ updateLifeLostState:
 
 +:
 	ld a, $08
-	add a, (ix+22)
-	ld (ix+22), a
+	add a, (ix + Entity.unknown5)
+	ld (ix + Entity.unknown5), a
 	jp --
 
 _LABEL_6D26_:
-	ld ix, v_entity1
+	ld ix, v_entities
 	ld de, $0020
-	ld b, $1E
+	ld b, ENTITY_ARRAY_SIZE
 -:
 	call clearCurrentEntity
 	add ix, de
@@ -141,22 +178,22 @@ _LABEL_6D26_:
 	ld (v_gameState), a
 	ret
 
-_LABEL_6D3C_:
-	ld (ix+24), $10
-	ld (ix+22), $10
-	ld (ix+23), $01
-	ld (ix+26), $02
+lifeLostAlexSwiming_LABEL_6D3C_:
+	ld (ix + Entity.unknown6), $10
+	ld (ix + Entity.unknown5), $10
+	ld (ix + Entity.jankenMatchDecision), $01
+	ld (ix + Entity.state), $02
 	call _LABEL_6EAF_
 _LABEL_6D4F_:
 	ld a, $02
 	ld (_RAM_C054_), a
 	ld a, $FF
 	ld (v_invincibilityTimer), a
-	ld (ix+24), $00
-	ld (ix+22), $00
-	ld (ix+23), $00
-	ld (ix+25), $00
-	ld (ix+26), $00
+	ld (ix + Entity.unknown6), $00
+	ld (ix + Entity.unknown5), $00
+	ld (ix + Entity.jankenMatchDecision), $00
+	ld (ix + Entity.unknown7), $00
+	ld (ix + Entity.state), $00
 	call _LABEL_6F21_
 	call updateAlexSpawning
 _LABEL_6D73_:
@@ -202,10 +239,10 @@ _LABEL_6D73_:
 	ld (v_gameState), a
 	jp enableDisplay
 
-_LABEL_6DC9_:
+gameOver_LABEL_6DC9_:
 	call clearVDPTablesAndDisableScreen
 	ld b, $05
-	call _LABEL_343_
+	call sleepTenthsOfSecond
 	call clearScroll
 	xor a
 	ld de, $C000
@@ -287,7 +324,7 @@ _LABEL_6E41_:
 	ld a, $8F
 	ld (v_soundControl), a
 	ld b, $1E
-	call _LABEL_343_
+	call sleepTenthsOfSecond
 	ld a, $03
 	ld (v_lives), a
 	ld a, $0A

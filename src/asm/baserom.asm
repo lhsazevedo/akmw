@@ -616,7 +616,7 @@ clearVDPTablesAndDisableScreen:
 ; Wait almost a second
 sleepOneSecond:
     ld b, $0A
-_LABEL_343_:
+sleepTenthsOfSecond:
     push bc
     ld bc, $3333
 -:
@@ -625,7 +625,7 @@ _LABEL_343_:
     or c
     jr nz, -
     pop bc
-    djnz _LABEL_343_
+    djnz sleepTenthsOfSecond
     ret
 
 configurePPI:
@@ -1417,23 +1417,54 @@ _LABEL_E4B_:
     inc hl
     jp _LABEL_E4B_
 
-_LABEL_E6C_:
+loadLevelTiles:
     ld hl, tiles_bagOfGoldCoinsAndCloud
     ld de, $44A0
     call decompress4BitplanesToVRAM
     ld a, (v_level)
-    ld hl, _DATA_E7D_ - 2
+    ld hl, levelTileLoaders - 2
     rst $20    ; loadAthJumptablePointer
     ret
 
 ; Jump Table from E7D to E9E (17 entries, indexed by v_level)
-_DATA_E7D_:
-.dw _LABEL_E9F_ _LABEL_FF9_ _LABEL_F21_ _LABEL_F54_ _LABEL_F99_ _LABEL_F6C_ _LABEL_FAE_ _LABEL_EC9_
-.dw _LABEL_FC6_ _LABEL_F00_ _LABEL_F54_ _LABEL_F6C_ _LABEL_FF9_ _LABEL_1058_ _LABEL_F00_ _LABEL_EDF_
-.dw _LABEL_1022_
+levelTileLoaders:
+; MtEthernal
+.dw loadLevelTiles_LABEL_E9F_
+; mtEthernalStage2
+.dw loadLevelTiles_LABEL_FF9_
+; lakeFathom
+.dw loadLevelTiles_LABEL_F21_
+; theIslandOfStNurari
+.dw loadLevelTiles_LABEL_F54_
+; lakeFathomPart2
+.dw loadLevelTiles_LABEL_F99_
+; theVillageOfNamui
+.dw loadLevelTiles_LABEL_F6C_
+; mtKave
+.dw loadLevelTiles_LABEL_FAE_
+; theBlakwoods
+.dw loadLevelTiles_LABEL_EC9_
+; river
+.dw loadLevelTiles_LABEL_FC6_
+; bingooLowland
+.dw loadLevelTiles_LABEL_F00_
+; theRadactianCastle
+.dw loadLevelTiles_LABEL_F54_
+; theCityOfRadactian
+.dw loadLevelTiles_LABEL_F6C_
+; swamp
+.dw loadLevelTiles_LABEL_FF9_
+; theKingdomOfNibanaPart1
+.dw loadLevelTiles_LABEL_1058_
+; theKingdomOfNibanaPart2
+.dw loadLevelTiles_LABEL_F00_
+; jankensCastle
+.dw loadLevelTiles_LABEL_EDF_
+; craggLake
+.dw loadLevelTiles_LABEL_1022_
 
 ; 1st entry of Jump Table from E7D (indexed by v_level)
-_LABEL_E9F_:
+loadLevelTiles_LABEL_E9F_:
     ld de, $46A0
     ld bc, $0080
     ld l, $00
@@ -1452,7 +1483,7 @@ _LABEL_E9F_:
     jp decompress4BitplanesToVRAM
 
 ; 8th entry of Jump Table from E7D (indexed by v_level)
-_LABEL_EC9_:
+loadLevelTiles_LABEL_EC9_:
     ld hl, tiles_aditionalSet2
     ld de, $4EC0
     call decompress4BitplanesToVRAM
@@ -1463,7 +1494,7 @@ _LABEL_EC9_:
     jp decompress4BitplanesToVRAM
 
 ; 16th entry of Jump Table from E7D (indexed by v_level)
-_LABEL_EDF_:
+loadLevelTiles_LABEL_EDF_:
     ld de, $46A0
     ld bc, $0080
     ld l, $00
@@ -1478,7 +1509,7 @@ _LABEL_EDF_:
     jp decompress4BitplanesToVRAM
 
 ; 10th entry of Jump Table from E7D (indexed by v_level)
-_LABEL_F00_:
+loadLevelTiles_LABEL_F00_:
     ld de, $46A0
     ld bc, $0080
     ld l, $00
@@ -1493,7 +1524,7 @@ _LABEL_F00_:
     jp decompress4BitplanesToVRAM
 
 ; 3rd entry of Jump Table from E7D (indexed by v_level)
-_LABEL_F21_:
+loadLevelTiles_LABEL_F21_:
     ld de, $46A0
     ld bc, $0200
     ld l, $00
@@ -1515,7 +1546,7 @@ _LABEL_F21_:
     jp decompress4BitplanesToVRAM
 
 ; 4th entry of Jump Table from E7D (indexed by v_level)
-_LABEL_F54_:
+loadLevelTiles_LABEL_F54_:
     ld de, $46A0
     ld bc, $0080
     ld l, $00
@@ -1527,7 +1558,7 @@ _LABEL_F54_:
     jp decompress4BitplanesToVRAM
 
 ; 6th entry of Jump Table from E7D (indexed by v_level)
-_LABEL_F6C_:
+loadLevelTiles_LABEL_F6C_:
     ld de, $46A0
     ld bc, $0080
     ld l, $00
@@ -1547,8 +1578,8 @@ _LABEL_F6C_:
     jp decompress4BitplanesToVRAM
 
 ; 5th entry of Jump Table from E7D (indexed by v_level)
-_LABEL_F99_:
-    call _LABEL_E9F_
+loadLevelTiles_LABEL_F99_:
+    call loadLevelTiles_LABEL_E9F_
     ld hl, tiles_aditionalSet5
     ld de, $4D00
     call decompress4BitplanesToVRAM
@@ -1557,7 +1588,7 @@ _LABEL_F99_:
     jp decompress4BitplanesToVRAM
 
 ; 7th entry of Jump Table from E7D (indexed by v_level)
-_LABEL_FAE_:
+loadLevelTiles_LABEL_FAE_:
     ld de, $46A0
     ld bc, $0080
     ld l, $0A
@@ -1569,7 +1600,7 @@ _LABEL_FAE_:
     jp decompress4BitplanesToVRAM
 
 ; 9th entry of Jump Table from E7D (indexed by v_level)
-_LABEL_FC6_:
+loadLevelTiles_LABEL_FC6_:
     ld de, $46A0
     ld bc, $0080
     ld l, $00
@@ -1590,7 +1621,7 @@ _LABEL_FC6_:
     jp decompress4BitplanesToVRAM
 
 ; 2nd entry of Jump Table from E7D (indexed by v_level)
-_LABEL_FF9_:
+loadLevelTiles_LABEL_FF9_:
     ld de, $46A0
     ld bc, $0080
     ld l, $00
@@ -1608,7 +1639,7 @@ _LABEL_FF9_:
     jp decompress4BitplanesToVRAM
 
 ; 17th entry of Jump Table from E7D (indexed by v_level)
-_LABEL_1022_:
+loadLevelTiles_LABEL_1022_:
     ld de, $46A0
     ld bc, $0200
     ld l, $00
@@ -1631,7 +1662,7 @@ _LABEL_1022_:
     jp decompress4BitplanesToVRAM
 
 ; 14th entry of Jump Table from E7D (indexed by v_level)
-_LABEL_1058_:
+loadLevelTiles_LABEL_1058_:
     ld de, $46A0
     ld bc, $0080
     ld l, $00
@@ -2405,7 +2436,7 @@ updateBonusLevelState:
     ld a, $8A
     ld (v_gameState), a
     ld b, $0A
-    jp _LABEL_343_
+    jp sleepTenthsOfSecond
 
 +:
     ld a, (_RAM_C095_)
@@ -2528,7 +2559,7 @@ _LABEL_1730_:
 _LABEL_1735_:
     call resetSoundAndVolume
     ld b, $05
-    call _LABEL_343_
+    call sleepTenthsOfSecond
     call clearVDPTablesAndDisableScreen
     ld hl, v_levelWidth
     ld de, v_levelWidth + 1
@@ -2548,7 +2579,7 @@ _LABEL_1735_:
     push af
     inc a
     ld (v_level), a
-    call _LABEL_E6C_
+    call loadLevelTiles
     call loadLevelPalette
     ld a, $87
     ld (Mapper_Slot2), a
@@ -2722,7 +2753,7 @@ updateLevelCompletedState:
     set 7, (hl)
     call resetSoundAndVolume
     ld b, $05
-    call _LABEL_343_
+    call sleepTenthsOfSecond
     call clearVDPTablesAndDisableScreen
     ld hl, _RAM_D7D0_
     ld de, _RAM_D7D0_ + 1
@@ -2751,12 +2782,15 @@ updateLevelCompletedState:
 +:
     ld de, $8026
     call setVDPAddress
+
+    ; Reset some values
     xor a
     ld (v_newEntityHorizontalOffset), a
     ld (v_shopFlags), a
     ld (_RAM_C054_), a
-    ld (_RAM_C051_), a
+    ld (v_shouldSpawnRidingBoat_RAM_C051_), a
     ld (v_currentLevelIsBonusLevel), a
+
     ei
     jp enableDisplay
 
@@ -3869,11 +3903,11 @@ alexHandler_3340:
     ld a, (v_alexStateTemporaryCopy)
     ld (v_entities.1.state), a
     cp $14
-    jr nz, _LABEL_335F_
+    jr nz, saveTempAlexCopy
     call _LABEL_2BFA_
-_LABEL_335F_:
+saveTempAlexCopy:
     ld hl, v_entity1
-    ld de, _RAM_C240_
+    ld de, temporaryAlexCopy
     ld bc, $0020
     ldir
     xor a
@@ -4518,8 +4552,9 @@ _LABEL_388E_:
     or a
     jp z, _LABEL_43F2_
 _LABEL_389C_:
+    ; Reset v_shouldSpawnRidingBoat_RAM_C051_ and _RAM_C054_
     xor a
-    ld (_RAM_C051_), a
+    ld (v_shouldSpawnRidingBoat_RAM_C051_), a
     ld (_RAM_C054_), a
     call _LABEL_4415_
     call _LABEL_3B56_
@@ -4641,7 +4676,7 @@ alexHandler_3961:
     ld (ix+26), $17
     ld a, ($000A)
     ld (v_entities.1.unknown3), a
-    call _LABEL_335F_
+    call saveTempAlexCopy
     ld a, $01
     ld (_RAM_C25A_), a
     ld (ix+6), $14
@@ -8989,9 +9024,12 @@ _LABEL_657B_:
     ret
 
 loadLevel:
+    ; Get level descriptor pointer
     ld a, (v_level)
     ld hl, LevelDescriptorPointerTable - 2
     rst $10    ; _LABEL_10_
+    
+    ; @TODO...
     ld a, (hl)
     ld (Mapper_Slot2), a
     ld (v_levelBankNumber), a

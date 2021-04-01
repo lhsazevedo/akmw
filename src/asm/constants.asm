@@ -59,6 +59,7 @@ ALEX_AUTO_WALKING_RIGHT       = $14
 ENTITY_ARRAY_SIZE = $1E
 
 ; Entity types
+ENTITY_ALEX                     = $01
 ENTITY_STATIC                   = $18
 ENTITY_BAT_LEFT                 = $20
 ENTITY_MERMAN_BUBBLE            = $22

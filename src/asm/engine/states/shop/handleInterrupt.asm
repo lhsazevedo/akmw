@@ -82,7 +82,7 @@ _LABEL_1C33_:
 	call loadLevelPalette
 	ld a, $83
 	ld (Mapper_Slot2), a
-	call _LABEL_E6C_
+	call loadLevelTiles
 	ld a, $85
 	ld (Mapper_Slot2), a
 	ld hl, _DATA_172B1_
@@ -124,7 +124,7 @@ _LABEL_1C33_:
 	call setAndWaitForInterruptFlags
 	call enableDisplay
 	ld b, $0A
-	jp _LABEL_343_
+	jp sleepTenthsOfSecond
 
 _LABEL_1D04_:
 	set 7, (hl)
@@ -142,7 +142,7 @@ _LABEL_1D04_:
 	lddr
 	call clearVDPTablesAndDisableScreen
 	ld b, $05
-	call _LABEL_343_
+	call sleepTenthsOfSecond
 	call clearScroll
 	ld hl, _RAM_C800_
 	ld de, _RAM_D000_

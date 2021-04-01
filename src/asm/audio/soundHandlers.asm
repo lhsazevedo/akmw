@@ -83,6 +83,7 @@ _LABEL_9A04_:
     set 2, (hl)
     ld hl, v_soundMusicChannels.3.flags
     set 2, (hl)
+    ; @TODO
     ld hl, _RAM_C1D8_
     set 2, (hl)
     ld de, v_soundEffectsChannels.1

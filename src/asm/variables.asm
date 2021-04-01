@@ -59,7 +59,7 @@ v_hasSunstoneMedallion db
 .ende
 
 .enum $C051 export
-_RAM_C051_ db
+v_shouldSpawnRidingBoat_RAM_C051_ db
 .ende
 
 .enum $C053 export
@@ -284,7 +284,7 @@ _RAM_C23E_ db
 .ende
 
 .enum $C240 export
-_RAM_C240_ dsb $1a
+temporaryAlexCopy dsb $1a
 _RAM_C25A_ db
 .ende
 

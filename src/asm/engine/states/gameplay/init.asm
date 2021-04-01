@@ -28,6 +28,10 @@ initGameplayState:
 	ld bc, $0100
 	call writeBcBytesToVRAM
 
+	; If current level data is 1:
+	;	Set v_shouldSpawnRidingBoat_RAM_C051_ to $1 and load bullet tiles
+	; If current level data is > 1:
+	;   Set _RAM_C054_ to $9 and load bullet tiles
 	ld a, (v_level)
 	ld hl, _DATA_E1F_ - 1
 	ld c, a
@@ -35,17 +39,20 @@ initGameplayState:
 	add hl, bc
 	ld a, (hl)
 	or a
-	jp z, +++
-	cp $01
-	jp nz, +
-	ld a, $01
-	ld (_RAM_C051_), a
-	jp ++
 
-+:
+	jp z, @done
+	cp $01
+	jp nz, @dataIsBiggerThanOne
+
+	ld a, $01
+	ld (v_shouldSpawnRidingBoat_RAM_C051_), a
+	jp @loadBulletTiles
+
+@dataIsBiggerThanOne:
 	ld a, $09
 	ld (_RAM_C054_), a
-++:
+
+@loadBulletTiles
 	ld hl, _DATA_1DB29_
 	ld de, $6200
 	ld bc, $0020
@@ -54,7 +61,8 @@ initGameplayState:
 	ld de, $6220
 	ld bc, $01C0
 	call writeBcBytesToVRAM
-+++:
+
+@done:
 	; Load character tiles
 	ld a, $85
 	ld (Mapper_Slot2), a
@@ -71,7 +79,7 @@ initGameplayState:
 	call writeBcBytesToVRAM
 
 	; Load level tiles
-	call _LABEL_E6C_
+	call loadLevelTiles
 
 	; @TODO
 	call loadLevel

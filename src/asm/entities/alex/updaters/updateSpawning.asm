@@ -10,7 +10,7 @@ updateAlexSpawning:
     ld a, (v_shouldAlexStartWalkingtoNextScreen)
     or a
     jp nz, startAutoWalkRight
-    ld a, (_RAM_C051_)
+    ld a, (v_shouldSpawnRidingBoat_RAM_C051_)
     or a
     jr nz, _spawnRidingBoat
     ld a, (_RAM_C054_)

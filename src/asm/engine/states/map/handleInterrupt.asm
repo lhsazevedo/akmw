@@ -35,7 +35,7 @@ _LABEL_1FE9_:
 	call loadLevelPalette
 	ld a, $83
 	ld (Mapper_Slot2), a
-	call _LABEL_E6C_
+	call loadLevelTiles
 	ld hl, _DATA_C000_
 	ld de, $4020
 	ld bc, $0480
@@ -185,7 +185,7 @@ _LABEL_1FE9_:
 ++:
 	call enableDisplay
 	ld b, $0A
-	jp _LABEL_343_
+	jp sleepTenthsOfSecond
 
 initMapState:
 	set 7, (hl)
@@ -203,7 +203,7 @@ initMapState:
 	lddr
 	call clearVDPTablesAndDisableScreen
 	ld b, $05
-	call _LABEL_343_
+	call sleepTenthsOfSecond
 	ld hl, _RAM_C800_
 	ld de, _RAM_D000_
 	ld bc, $0700
@@ -466,7 +466,7 @@ _LABEL_2439_:
 	ld a, (_RAM_C054_)
 	cp $07
 	ret nc
-	ld a, (_RAM_C051_)
+	ld a, (v_shouldSpawnRidingBoat_RAM_C051_)
 	or a
 	ret nz
 	ld a, (v_inventoryItemSelectionState)
