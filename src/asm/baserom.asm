@@ -2898,7 +2898,7 @@ _LABEL_2A6E_:
     ld (ix + Entity.unknown9), $08
     ld (ix + Entity.state), $07
     ld hl, _DATA_90BC_
-    jp _LABEL_41AA_
+    jp loadAlexAnimationDescriptor
 
 startAutoWalkRight:
     ld (ix + Entity.animationTimerResetValue), $05
@@ -2907,7 +2907,7 @@ startAutoWalkRight:
     ld (ix + Entity.state), ALEX_AUTO_WALKING_RIGHT
     ld (ix + Entity.yPos.high), $98
     ld hl, _DATA_90BC_
-    jp _LABEL_41AA_
+    jp loadAlexAnimationDescriptor
 
 ; 2nd entry of Jump Table from 2982 (indexed by v_entities.1.state)
 .INC "entities/alex/updaters/updateAlexIdle.asm"
@@ -2916,9 +2916,9 @@ crouch:
     ld (ix + Entity.state), ALEX_CROUCHED
     bit 0, (ix + Entity.unknown3)
     ld hl, _DATA_8DA7_
-    jp z, _LABEL_41AA_
+    jp z, loadAlexAnimationDescriptor
     ld hl, _DATA_8DBC_
-    jp _LABEL_41AA_
+    jp loadAlexAnimationDescriptor
 
 walkLeft:
     res 1, (ix + Entity.unknown3)
@@ -3034,9 +3034,9 @@ _LABEL_2C04_:
     ld hl, _DATA_90A7_
     ld a, (v_entities.1.unknown3)
     bit 0, a
-    jp z, _LABEL_41AA_
+    jp z, loadAlexAnimationDescriptor
     ld hl, _DATA_90BC_
-    jp _LABEL_41AA_
+    jp loadAlexAnimationDescriptor
 
 +:
     set 0, (ix + Entity.unknown3)
@@ -3124,7 +3124,7 @@ _LABEL_2CAE_:
     jr z, +
     ld hl, _DATA_8F15_
 +:
-    call _LABEL_41AA_
+    call loadAlexAnimationDescriptor
 ; 4th entry of Jump Table from 2982 (indexed by v_entities.1.state)
 updateAlexInAir:
     call _LABEL_3C45_
@@ -3143,7 +3143,7 @@ updateAlexInAir:
     jr z, +
     ld hl, _DATA_8F15_
 +:
-    call _LABEL_41AA_
+    call loadAlexAnimationDescriptor
     jr +++
 
 ++:
@@ -3258,7 +3258,7 @@ _LABEL_2D7F_:
     jr nz, +
     ld hl, _DATA_8DE9_
 +:
-    call _LABEL_41AA_
+    call loadAlexAnimationDescriptor
     ld de, $0010
     jp _LABEL_3B61_
 
@@ -3314,7 +3314,7 @@ _LABEL_2DF3_:
     jr nz, +
     ld hl, _DATA_8DD1_
 +:
-    call _LABEL_41AA_
+    call loadAlexAnimationDescriptor
     ld de, $FFF0
     jp _LABEL_3BB1_
 
@@ -3387,7 +3387,7 @@ updateAlexCrouched:
     ld (v_entities.1.unknown3), a
     ret nz
     ld hl, _DATA_8DBC_
-    jp _LABEL_41AA_
+    jp loadAlexAnimationDescriptor
 
 ++:
     bit 1, c
@@ -3405,7 +3405,7 @@ updateAlexCrouched:
     ld (v_entities.1.unknown3), a
     ret z
     ld hl, _DATA_8DA7_
-    jp _LABEL_41AA_
+    jp loadAlexAnimationDescriptor
 
 _LABEL_2F22_:
     bit 2, (ix + Entity.unknown3)
@@ -3519,7 +3519,7 @@ _LABEL_301D_:
 +:
     ld (ix + Entity.state), ALEX_RIDING_MOTORCYCLE_IN_AIR
     ld hl, _DATA_8F60_
-    call _LABEL_41AA_
+    call loadAlexAnimationDescriptor
 ; 10th entry of Jump Table from 2982 (indexed by v_entities.1.state)
 alexHandler_302F:
     ld de, $0C0C
@@ -3612,7 +3612,7 @@ _LABEL_30F5_:
     res 7, (ix+20)
     ld (ix+26), $0C
     ld hl, _DATA_9137_
-    call _LABEL_41AA_
+    call loadAlexAnimationDescriptor
 ; 13th entry of Jump Table from 2982 (indexed by v_entities.1.state)
 updateAlexRidingBoatInAir:
     ld de, $0C0C
@@ -3932,11 +3932,11 @@ _LABEL_3392_:
     bit 1, (ix+20)
     jr z, +
     ld hl, _DATA_90BC_
-    jp _LABEL_41AA_
+    jp loadAlexAnimationDescriptor
 
 +:
     ld hl, _DATA_90A7_
-    jp _LABEL_41AA_
+    jp loadAlexAnimationDescriptor
 
 ++:
     ld a, (_RAM_C007_)
@@ -4113,7 +4113,7 @@ updateAlexSwiming:
     jr z, +
     ld hl, _DATA_8E25_
 +:
-    call _LABEL_41AA_
+    call loadAlexAnimationDescriptor
     jr +++
 
 ++:
@@ -4576,7 +4576,7 @@ alexHandler_38C2:
 alexHandler_38C5:
     call _LABEL_3B56_
     ld hl, _DATA_9122_
-    call _LABEL_41AA_
+    call loadAlexAnimationDescriptor
     ld de, $1904
     ld a, $08
     call _LABEL_3A41_
@@ -4645,7 +4645,7 @@ alexHandler_3949:
     inc hl
     ld h, (hl)
     ld l, a
-    jp _LABEL_41AA_
+    jp loadAlexAnimationDescriptor
 
 ; Pointer Table from 395B to 3960 (3 entries, indexed by _RAM_CF97_)
 _DATA_395B_:
@@ -4702,7 +4702,7 @@ alexHandler_39B4:
     ld (v_entities.1.ySpeed), hl
 ++:
     ld hl, _DATA_90D1_
-    call _LABEL_41AA_
+    call loadAlexAnimationDescriptor
     dec (ix+24)
     ret nz
     set 7, (ix+1)
@@ -5804,7 +5804,7 @@ _LABEL_4189_:
     inc hl
     ld h, (hl)
     ld l, a
-_LABEL_41AA_:
+loadAlexAnimationDescriptor:
     ld a, (hl)
     inc hl
     ld (v_alexTilesIndex), a
@@ -6187,7 +6187,7 @@ _LABEL_43F2_:
     ld hl, $0000
     ld (v_entities.1.xSpeed), hl
     ld hl, _DATA_90BC_
-    call _LABEL_41AA_
+    call loadAlexAnimationDescriptor
 _LABEL_4415_:
     ld (ix+31), $18
     ld (ix+29), $08
@@ -6342,7 +6342,7 @@ _LABEL_453F_:
 _LABEL_455E_:
     ld a, $8A
     ld (v_soundControl), a
-    call _LABEL_41AA_
+    call loadAlexAnimationDescriptor
     ld a, (v_entities.1.xPos.high)
     add a, e
     cp $F8
@@ -6802,7 +6802,7 @@ _LABEL_48C5_:
 ++:
     ld a, $A4
     ld (v_soundControl), a
-    jp _LABEL_41AA_
+    jp loadAlexAnimationDescriptor
 
 +++:
     ld hl, $8093
