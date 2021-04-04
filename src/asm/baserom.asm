@@ -1279,7 +1279,7 @@ _LABEL_C43_:
     call _LABEL_10_
     ld (scrollFlagsUpdaterPointer), hl
     ld a, (v_level)
-    ld hl, _DATA_D4E_ - 2
+    ld hl, levelEntityLoaders - 2
     call _LABEL_10_
     ld (newEntitiesLoaderPointer), hl
     ld a, (v_level)
@@ -1338,7 +1338,7 @@ _DATA_D2C_:
 .dw _LABEL_1089_
 
 ; Jump Table from D4E to D6F (17 entries, indexed by v_level)
-_DATA_D4E_:
+levelEntityLoaders:
 .dw _LABEL_6F48_ _LABEL_6F48_ _LABEL_6F48_ _LABEL_6F48_ _LABEL_6F48_ _LABEL_6F48_ _LABEL_6F48_ _LABEL_6F48_
 .dw _LABEL_6F48_ _LABEL_6F48_ _LABEL_7084_ _LABEL_6F48_ _LABEL_6F48_ _LABEL_6F48_ _LABEL_6F48_ _LABEL_7084_
 .dw _LABEL_6F48_
