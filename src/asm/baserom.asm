@@ -1339,9 +1339,23 @@ _DATA_D2C_:
 
 ; Jump Table from D4E to D6F (17 entries, indexed by v_level)
 levelEntityLoaders:
-.dw _LABEL_6F48_ _LABEL_6F48_ _LABEL_6F48_ _LABEL_6F48_ _LABEL_6F48_ _LABEL_6F48_ _LABEL_6F48_ _LABEL_6F48_
-.dw _LABEL_6F48_ _LABEL_6F48_ _LABEL_7084_ _LABEL_6F48_ _LABEL_6F48_ _LABEL_6F48_ _LABEL_6F48_ _LABEL_7084_
-.dw _LABEL_6F48_
+.dw loadEntitiesNormal_LABEL_6F48_
+.dw loadEntitiesNormal_LABEL_6F48_
+.dw loadEntitiesNormal_LABEL_6F48_
+.dw loadEntitiesNormal_LABEL_6F48_
+.dw loadEntitiesNormal_LABEL_6F48_
+.dw loadEntitiesNormal_LABEL_6F48_
+.dw loadEntitiesNormal_LABEL_6F48_
+.dw loadEntitiesNormal_LABEL_6F48_
+.dw loadEntitiesNormal_LABEL_6F48_
+.dw loadEntitiesNormal_LABEL_6F48_
+.dw loadEntitiesSpecial_LABEL_6F48_
+.dw loadEntitiesNormal_LABEL_6F48_
+.dw loadEntitiesNormal_LABEL_6F48_
+.dw loadEntitiesNormal_LABEL_6F48_
+.dw loadEntitiesNormal_LABEL_6F48_
+.dw loadEntitiesSpecial_LABEL_6F48_
+.dw loadEntitiesNormal_LABEL_6F48_
 
 ; Data from D70 to DA2 (51 bytes)
 _DATA_D70_:
@@ -9821,7 +9835,7 @@ loadNewEntities:
 	jp (hl)
 
 ; 1st entry of Jump Table from D4E (indexed by v_level)
-_LABEL_6F48_:
+loadEntitiesNormal_LABEL_6F48_:
 	ld hl, v_currentScreenNumber
 	bit 7, (hl)
 	ret z
@@ -9999,7 +10013,7 @@ createOctopusArms:
 	jp _LABEL_6F86_
 
 ; 11th entry of Jump Table from D4E (indexed by v_level)
-_LABEL_7084_:
+loadEntitiesSpecial_LABEL_6F48_:
 	ld hl, v_currentScreenNumber
 	bit 7, (hl)
 	ret z
