@@ -9872,7 +9872,7 @@ _LABEL_6F86_:
 
     ; If unknown bit 7 is set
 	bit 7, a
-	jp nz, _LABEL_6FDF_
+	jp nz, loadSpecialScreenEntitiesDescriptor
 
 	ld b, a
 _LABEL_6F8F_:
@@ -9925,16 +9925,16 @@ _LABEL_6FA6_:
 	ret
 
 ; Entity loading related
-_LABEL_6FDF_:
+loadSpecialScreenEntitiesDescriptor:
     ; If bit 1 is set (0x81)
 	rrca
 	jp c, ++
     ; If bit 2 is set (0x82)
 	rrca
-	jp c, createOctopusArms
+	jp c, loadOctopusArms
     ; If bit 3 is set (0x84)
 	rrca
-	jp c, +
+	jp c, @loadAlwaysPresentEntity
     
     ; Else
 	inc hl
@@ -9946,7 +9946,7 @@ _LABEL_6FDF_:
 	ldir
 	jp _LABEL_6F86_
 
-+:
+@loadAlwaysPresentEntity:
 	ld ix, _RAM_C3A0_
 	res 0, (ix+1)
 	res 1, (ix+1)
@@ -9970,7 +9970,7 @@ _LABEL_6FDF_:
 	inc hl
 	jp _LABEL_6F86_
 
-createOctopusArms:
+loadOctopusArms:
 	inc hl
 	ld a, (hl)
 	exx

@@ -47,9 +47,24 @@ _DATA_B82F_:
 ; 10th entry of Pointer Table from B563 (indexed by v_entityIndex)
 ; Data from B830 to B85D (46 bytes)
 _DATA_B830_:
-.db $88 $16 $07 $10 $CA $03 $14 $CA $03 $18 $CA $03 $1C $CA $03 $28
-.db $CA $03 $2C $CA $03 $30 $CA $03 $81 $4B $78 $C0 $00 $04 $2D $20
-.db $90 $00 $2D $58 $70 $00 $3E $98 $60 $00 $3E $98 $F0 $00
+; Special screen type 0x08
+.db $88
+; Bytes to copy to _RAM_D8A0_
+.db $16
+; Bytes that will be copied.
+.db $07 $10 $CA $03 $14 $CA $03 $18 $CA $03 $1C $CA $03 $28 $CA $03
+.db $2C $CA $03 $30 $CA $03
+
+; Another special entity
+.db $81
+.db $4B $78 $C0 $00
+
+; Remaining entities
+.db $04
+.db $2D $20 $90 $00
+.db $2D $58 $70 $00
+.db $3E $98 $60 $00
+.db $3E $98 $F0 $00
 
 ; 11th entry of Pointer Table from B563 (indexed by v_entityIndex)
 ; Data from B85E to B873 (22 bytes)
