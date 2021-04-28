@@ -73,7 +73,7 @@ Entity 0: ENTITY_SMALL_FISH_LEFT, X: 160, Y: 48, d: 0x0
 Entity 1: ENTITY_SMALL_FISH_LEFT, X: 144, Y: 128, d: 0x0
 
 > Screen 11 entities:
-Special screen found: 0x4
+Special screen found: 0x4 at 0xb73c
 Special type: Always present entity (bit 3)
 Type: ENTITY_RICE_BALL, X: 224, Y: 48, d: 0x0
 Real count: 3
@@ -172,7 +172,7 @@ Count: 1
 Entity 0: ENTITY_FLAME_OR_SCORPION_LEFT, X: 128, Y: 144, d: 0x0
 
 > Screen 17 entities:
-Special screen found: 0x4
+Special screen found: 0x4 at 0xb7eb
 Special type: Always present entity (bit 3)
 Type: 0x1d, X: 176, Y: 128, d: 0x2
 Real count: 0
@@ -185,7 +185,7 @@ Real count: 0
 No entities.
 
 > Screen 1 entities:
-Special screen found: 0x2
+Special screen found: 0x2 at 0xb7f2
 Special type: Octopus Arm (bit 2)
 Octopus type: 1
 Real count: 0
@@ -200,13 +200,13 @@ Entity 2: ENTITY_SMALL_FISH_LEFT, X: 160, Y: 112, d: 0x0
 No entities.
 
 > Screen 4 entities:
-Special screen found: 0x2
+Special screen found: 0x2 at 0xb803
 Special type: Octopus Arm (bit 2)
 Octopus type: 2
 Real count: 0
 
 > Screen 5 entities:
-Special screen found: 0x4
+Special screen found: 0x4 at 0xb806
 Special type: Always present entity (bit 3)
 Type: ENTITY_RICE_BALL, X: 208, Y: 48, d: 0x0
 Real count: 2
@@ -219,18 +219,18 @@ Entity 0: ENTITY_SMALL_FISH_LEFT, X: 176, Y: 16, d: 0x0
 Entity 1: ENTITY_SMALL_FISH_LEFT, X: 128, Y: 144, d: 0x0
 
 > Screen 7 entities:
-Special screen found: 0x1
+Special screen found: 0x1 at 0xb81d
 Skipping unknown special entity...
 
 > Screen 8 entities:
 No entities.
 
 > Screen 9 entities:
-Special screen found: 0x8
+Special screen found: 0x8 at 0xb830
 Skipping unknown special entity...
 
 > Screen 10 entities:
-Special screen found: 0x4
+Special screen found: 0x4 at 0xb85e
 Special type: Always present entity (bit 3)
 Type: ENTITY_RICE_BALL, X: 224, Y: 48, d: 0x0
 Real count: 4
@@ -261,7 +261,7 @@ Entity 1: ENTITY_FLAME_OR_SCORPION_LEFT, X: 176, Y: 64, d: 0x0
 Entity 2: ENTITY_MONSTERBIRD_LEFT, X: 216, Y: 112, d: 0x0
 
 > Screen 4 entities:
-Special screen found: 0x4
+Special screen found: 0x4 at 0xb88c
 Special type: Always present entity (bit 3)
 Type: ENTITY_RICE_BALL, X: 192, Y: 112, d: 0x0
 Real count: 1
@@ -344,7 +344,7 @@ Entity 0: ENTITY_MONSTERBIRD_LEFT, X: 96, Y: 24, d: 0x0
 Entity 1: 0x42, X: 176, Y: 191, d: 0x0
 
 > Screen 15 entities:
-Special screen found: 0x4
+Special screen found: 0x4 at 0xb8b6
 Special type: Always present entity (bit 3)
 Type: ENTITY_RICE_BALL, X: 112, Y: 32, d: 0x0
 Real count: 0
@@ -366,7 +366,7 @@ Entity 1: ENTITY_SMALL_FISH_LEFT, X: 88, Y: 48, d: 0x0
 Entity 2: ENTITY_SMALL_FISH_LEFT, X: 112, Y: 136, d: 0x0
 
 > Screen 19 entities:
-Special screen found: 0x4
+Special screen found: 0x4 at 0xb8df
 Special type: Always present entity (bit 3)
 Type: ENTITY_RICE_BALL, X: 192, Y: 32, d: 0x0
 Real count: 3
@@ -441,7 +441,7 @@ Entity 1: 0x54, X: 176, Y: 64, d: 0x0
 Entity 2: 0x63, X: 240, Y: 48, d: 0x0
 
 > Screen 3 entities:
-Special screen found: 0x8
+Special screen found: 0x8 at 0xb955
 Skipping unknown special entity...
 
 > Screen 4 entities:
@@ -450,7 +450,7 @@ Entity 0: 0x3d, X: 120, Y: 96, d: 0x0
 Entity 1: ENTITY_FLAME_OR_SCORPION_LEFT, X: 96, Y: 144, d: 0x0
 
 > Screen 5 entities:
-Special screen found: 0x8
+Special screen found: 0x8 at 0xb97b
 Skipping unknown special entity...
 
 > Screen 6 entities:
@@ -464,7 +464,7 @@ Entity 1: ENTITY_BAT_LEFT, X: 144, Y: 96, d: 0x0
 Entity 2: ENTITY_FLAME_OR_SCORPION_LEFT, X: 176, Y: 144, d: 0x0
 
 > Screen 8 entities:
-Special screen found: 0x4
+Special screen found: 0x4 at 0xb99d
 Special type: Always present entity (bit 3)
 Type: 0x1e, X: 176, Y: 128, d: 0x4
 Real count: 0
@@ -593,7 +593,7 @@ Count: 1
 Entity 0: ENTITY_MONSTERBIRD_LEFT, X: 176, Y: 64, d: 0x0
 
 > Screen 15 entities:
-Special screen found: 0x4
+Special screen found: 0x4 at 0xba56
 Special type: Always present entity (bit 3)
 Type: ENTITY_RICE_BALL, X: 160, Y: 112, d: 0x0
 Real count: 0
@@ -615,7 +615,7 @@ Entity 1: ENTITY_SMALL_FISH_LEFT, X: 16, Y: 96, d: 0x0
 Entity 2: ENTITY_MERMAN, X: 124, Y: 120, d: 0x0
 
 > Screen 19 entities:
-Special screen found: 0x4
+Special screen found: 0x4 at 0xba7b
 Special type: Always present entity (bit 3)
 Type: ENTITY_RICE_BALL, X: 160, Y: 80, d: 0x0
 Real count: 1
@@ -701,7 +701,7 @@ Entity 2: 0x3d, X: 128, Y: 64, d: 0x0
 Entity 3: 0x3d, X: 176, Y: 80, d: 0x0
 
 > Screen 14 entities:
-Special screen found: 0x4
+Special screen found: 0x4 at 0xbb17
 Special type: Always present entity (bit 3)
 Type: 0x1f, X: 176, Y: 128, d: 0x6
 Real count: 0
@@ -732,7 +732,7 @@ Entity 3: ENTITY_BAT_LEFT, X: 96, Y: 120, d: 0x0
 Entity 4: ENTITY_BAT_LEFT, X: 176, Y: 120, d: 0x0
 
 > Screen 4 entities:
-Special screen found: 0x1
+Special screen found: 0x1 at 0xbc43
 Skipping unknown special entity...
 
 > Screen 5 entities:
@@ -782,7 +782,7 @@ Entity 1: ENTITY_FLAME_OR_SCORPION_LEFT, X: 96, Y: 160, d: 0x1
 Entity 2: ENTITY_FLAME_OR_SCORPION_LEFT, X: 160, Y: 160, d: 0x1
 
 > Screen 14 entities:
-Special screen found: 0x4
+Special screen found: 0x4 at 0xbca5
 Special type: Always present entity (bit 3)
 Type: 0x1d, X: 192, Y: 144, d: 0x3
 Real count: 0
@@ -827,7 +827,7 @@ Entity 1: ENTITY_FLAME_OR_SCORPION_LEFT, X: 112, Y: 144, d: 0x0
 Entity 2: 0x3d, X: 192, Y: 88, d: 0x0
 
 > Screen 2 entities:
-Special screen found: 0x4
+Special screen found: 0x4 at 0xbb2b
 Special type: Always present entity (bit 3)
 Type: 0x1e, X: 192, Y: 128, d: 0x5
 Real count: 0
@@ -837,7 +837,7 @@ Real count: 0
 ****************************
 
 > Screen 0 entities:
-Special screen found: 0x4
+Special screen found: 0x4 at 0xbb31
 Special type: Always present entity (bit 3)
 Type: ENTITY_RICE_BALL, X: 16, Y: 112, d: 0x0
 Real count: 2
@@ -892,7 +892,7 @@ No entities.
 No entities.
 
 > Screen 1 entities:
-Special screen found: 0x4
+Special screen found: 0x4 at 0xbb93
 Special type: Always present entity (bit 3)
 Type: ENTITY_RICE_BALL, X: 192, Y: 144, d: 0x0
 Real count: 1
@@ -954,7 +954,7 @@ Entity 0: ENTITY_MONSTER_FROG, X: 176, Y: 80, d: 0x0
 Entity 1: ENTITY_FLAME_OR_SCORPION_LEFT, X: 32, Y: 144, d: 0x0
 
 > Screen 10 entities:
-Special screen found: 0x4
+Special screen found: 0x4 at 0xbbfa
 Special type: Always present entity (bit 3)
 Type: 0x1f, X: 176, Y: 128, d: 0x7
 Real count: 0
@@ -976,11 +976,11 @@ Entity 1: ENTITY_MONSTER_FROG, X: 96, Y: 160, d: 0x0
 Entity 2: ENTITY_MONSTER_FROG, X: 160, Y: 80, d: 0x0
 
 > Screen 3 entities:
-Special screen found: 0x8
+Special screen found: 0x8 at 0xbce9
 Skipping unknown special entity...
 
 > Screen 4 entities:
-Special screen found: 0x8
+Special screen found: 0x8 at 0xbd0b
 Skipping unknown special entity...
 
 > Screen 5 entities:
@@ -1003,15 +1003,15 @@ Count: 1
 Entity 0: 0x16, X: 124, Y: 144, d: 0x6
 
 > Screen 9 entities:
-Special screen found: 0x8
+Special screen found: 0x8 at 0xbd46
 Skipping unknown special entity...
 
 > Screen 10 entities:
-Special screen found: 0x8
+Special screen found: 0x8 at 0xbd59
 Skipping unknown special entity...
 
 > Screen 11 entities:
-Special screen found: 0x8
+Special screen found: 0x8 at 0xbd70
 Skipping unknown special entity...
 
 > Screen 12 entities:
@@ -1022,7 +1022,7 @@ Entity 2: ENTITY_FLAME_OR_SCORPION_LEFT, X: 144, Y: 160, d: 0x1
 Entity 3: ENTITY_FLAME_OR_SCORPION_LEFT, X: 192, Y: 160, d: 0x1
 
 > Screen 13 entities:
-Special screen found: 0x4
+Special screen found: 0x4 at 0xbd95
 Special type: Always present entity (bit 3)
 Type: 0x1c, X: 192, Y: 152, d: 0x1
 Real count: 0
@@ -1042,7 +1042,7 @@ Entity 3: 0x57, X: 208, Y: 160, d: 0x0
 Entity 4: 0x57, X: 160, Y: 80, d: 0x0
 
 > Screen 17 entities:
-Special screen found: 0x8
+Special screen found: 0x8 at 0xbdb0
 Skipping unknown special entity...
 
 > Screen 18 entities:
@@ -1073,7 +1073,7 @@ Entity 0: ENTITY_FLAME_OR_SCORPION_LEFT, X: 96, Y: 160, d: 0x1
 Entity 1: 0x16, X: 104, Y: 112, d: 0x4
 
 > Screen 24 entities:
-Special screen found: 0x8
+Special screen found: 0x8 at 0xbde7
 Skipping unknown special entity...
 
 > Screen 25 entities:
@@ -1114,7 +1114,7 @@ Entity 2: ENTITY_PLANT, X: 72, Y: 96, d: 0x0
 Entity 3: ENTITY_PLANT, X: 24, Y: 96, d: 0x0
 
 > Screen 33 entities:
-Special screen found: 0x8
+Special screen found: 0x8 at 0xbe34
 Skipping unknown special entity...
 
 > Screen 34 entities:
@@ -1124,7 +1124,7 @@ No entities.
 No entities.
 
 > Screen 36 entities:
-Special screen found: 0x8
+Special screen found: 0x8 at 0xbe40
 Skipping unknown special entity...
 
 > Screen 37 entities:
@@ -1160,7 +1160,7 @@ Entity 1: ENTITY_FLAME_OR_SCORPION_LEFT, X: 160, Y: 160, d: 0x0
 No entities.
 
 > Screen 1 entities:
-Special screen found: 0x1
+Special screen found: 0x1 at 0xbc01
 Skipping unknown special entity...
 
 > Screen 2 entities:
@@ -1173,7 +1173,7 @@ No entities.
 No entities.
 
 > Screen 5 entities:
-Special screen found: 0x1
+Special screen found: 0x1 at 0xbc01
 Skipping unknown special entity...
 
 > Screen 6 entities:
