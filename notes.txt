@@ -25,3 +25,4 @@ $43 probably is rice ball
 v_addedEntitiesShouldBeOffscreenHorizontally vai pra Entity.isOffScreenFlags.low
 v_addedEntitiesShouldBeOffscreenVertically vai pra Entity.isOffScreenFlags.high
 
+0xB81D é passagem em fase bonus 

@@ -1,0 +1,36 @@
+$07 compare to ix+22 (ix = 0x680 special entity)
+
+$10 from pointer + 1 (1º _RAM_D8A1_) to 0xc204
+$CA from pointer + 2 (1º _RAM_D8A2_ to 0xc205
+
+$03 pointer + 3 (1º _RAM_D8A3_) to c
+(bc = 00XX)
+
+pointer = pointer + 4 (1º _RAM_D8A3_)
+
+hl = 0x8000 + c + c
+    1º = 0x8006
+
+hl = (hl) u16
+
+_RAM_C206_ = hl
+    1º = 0x8468
+
+
+$14 $CA
+$03
+
+$18 $CA
+$03
+
+$1C $CA
+$03
+
+$28 $CA
+$03
+
+$2C $CA
+$03
+
+$30 $CA
+$03
