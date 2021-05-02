@@ -106,10 +106,26 @@ foreach ($levelsPointers as $key => $levelPointer) {
             continue;
         }
 
+        readEntityData:
+
         if ($rawCount & 0x80) {
+            
             echo "Special screen found: 0x" . dechex($rawCount & 0x7F) . " at 0x" . dechex($screenPointer) . "\n";
 
-            if ($rawCount === 0x84) {
+            if ($rawCount === 0x88) {
+                echo "Special type: Copy data to _RAM_D8A0_ (bit 4)\n";
+                $dataSize = rb($rom, $screenPointer + 1);
+                echo "Data size: " . $dataSize . "\n";
+
+                for ($i = 0; $i < $dataSize; $i++) {
+                    echo '0x' . strtoupper(str_pad(dechex(rb($rom, $screenPointer + 2 + $i)), 2, '0', STR_PAD_LEFT)) . ' ';
+                }
+                echo "\n";
+
+                $screenPointer += $dataSize + 2;
+                $rawCount = rb($rom, $screenPointer);
+                goto readEntityData; // Yeah, I'm sorry...
+            } elseif ($rawCount === 0x84) {
                 // $screenPointer++;
                 echo "Special type: Always present entity (bit 3)\n";
                 echo "Type: ";

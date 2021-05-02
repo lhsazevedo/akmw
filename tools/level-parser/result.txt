@@ -227,6 +227,10 @@ No entities.
 
 > Screen 9 entities:
 Special screen found: 0x8 at 0xb830
+Special type: Copy data to _RAM_D8A0_ (bit 4)
+Data size: 22
+0x07 0x10 0xCA 0x03 0x14 0xCA 0x03 0x18 0xCA 0x03 0x1C 0xCA 0x03 0x28 0xCA 0x03 0x2C 0xCA 0x03 0x30 0xCA 0x03 
+Special screen found: 0x1 at 0xb848
 Skipping unknown special entity...
 
 > Screen 10 entities:
@@ -442,6 +446,10 @@ Entity 2: 0x63, X: 240, Y: 48, d: 0x0
 
 > Screen 3 entities:
 Special screen found: 0x8 at 0xb955
+Special type: Copy data to _RAM_D8A0_ (bit 4)
+Data size: 13
+0x04 0xA0 0xCC 0x00 0xA4 0xCC 0x00 0x20 0xCD 0x00 0x24 0xCD 0x00 
+Special screen found: 0x1 at 0xb964
 Skipping unknown special entity...
 
 > Screen 4 entities:
@@ -451,6 +459,10 @@ Entity 1: ENTITY_FLAME_OR_SCORPION_LEFT, X: 96, Y: 144, d: 0x0
 
 > Screen 5 entities:
 Special screen found: 0x8 at 0xb97b
+Special type: Copy data to _RAM_D8A0_ (bit 4)
+Data size: 4
+0x01 0x38 0xCA 0x00 
+Special screen found: 0x1 at 0xb981
 Skipping unknown special entity...
 
 > Screen 6 entities:
@@ -977,10 +989,18 @@ Entity 2: ENTITY_MONSTER_FROG, X: 160, Y: 80, d: 0x0
 
 > Screen 3 entities:
 Special screen found: 0x8 at 0xbce9
+Special type: Copy data to _RAM_D8A0_ (bit 4)
+Data size: 10
+0x03 0x84 0xCB 0x51 0x04 0xCC 0x52 0x84 0xCC 0x52 
+Special screen found: 0x1 at 0xbcf5
 Skipping unknown special entity...
 
 > Screen 4 entities:
 Special screen found: 0x8 at 0xbd0b
+Special type: Copy data to _RAM_D8A0_ (bit 4)
+Data size: 4
+0x01 0x88 0xCE 0x00 
+Special screen found: 0x1 at 0xbd11
 Skipping unknown special entity...
 
 > Screen 5 entities:
@@ -1004,14 +1024,26 @@ Entity 0: 0x16, X: 124, Y: 144, d: 0x6
 
 > Screen 9 entities:
 Special screen found: 0x8 at 0xbd46
+Special type: Copy data to _RAM_D8A0_ (bit 4)
+Data size: 7
+0x02 0xB0 0xCC 0x00 0x30 0xCD 0x00 
+Special screen found: 0x1 at 0xbd4f
 Skipping unknown special entity...
 
 > Screen 10 entities:
 Special screen found: 0x8 at 0xbd59
+Special type: Copy data to _RAM_D8A0_ (bit 4)
+Data size: 7
+0x02 0x38 0xCC 0x00 0xB8 0xCC 0x00 
+Special screen found: 0x1 at 0xbd62
 Skipping unknown special entity...
 
 > Screen 11 entities:
 Special screen found: 0x8 at 0xbd70
+Special type: Copy data to _RAM_D8A0_ (bit 4)
+Data size: 4
+0x01 0x08 0xC8 0x50 
+Special screen found: 0x1 at 0xbd76
 Skipping unknown special entity...
 
 > Screen 12 entities:
@@ -1043,6 +1075,10 @@ Entity 4: 0x57, X: 160, Y: 80, d: 0x0
 
 > Screen 17 entities:
 Special screen found: 0x8 at 0xbdb0
+Special type: Copy data to _RAM_D8A0_ (bit 4)
+Data size: 4
+0x01 0xA0 0xCA 0x10 
+Special screen found: 0x1 at 0xbdb6
 Skipping unknown special entity...
 
 > Screen 18 entities:
@@ -1074,6 +1110,10 @@ Entity 1: 0x16, X: 104, Y: 112, d: 0x4
 
 > Screen 24 entities:
 Special screen found: 0x8 at 0xbde7
+Special type: Copy data to _RAM_D8A0_ (bit 4)
+Data size: 4
+0x01 0x90 0xC8 0x00 
+Special screen found: 0x1 at 0xbded
 Skipping unknown special entity...
 
 > Screen 25 entities:
@@ -1115,6 +1155,10 @@ Entity 3: ENTITY_PLANT, X: 24, Y: 96, d: 0x0
 
 > Screen 33 entities:
 Special screen found: 0x8 at 0xbe34
+Special type: Copy data to _RAM_D8A0_ (bit 4)
+Data size: 4
+0x01 0x94 0xC9 0x10 
+Special screen found: 0x1 at 0xbe3a
 Skipping unknown special entity...
 
 > Screen 34 entities:
@@ -1125,7 +1169,14 @@ No entities.
 
 > Screen 36 entities:
 Special screen found: 0x8 at 0xbe40
-Skipping unknown special entity...
+Special type: Copy data to _RAM_D8A0_ (bit 4)
+Data size: 7
+0x02 0x80 0xC8 0x00 0x00 0xC9 0x00 
+Count: 4
+Entity 0: ENTITY_FLAME_OR_SCORPION_LEFT, X: 128, Y: 160, d: 0x0
+Entity 1: ENTITY_MONSTER_FROG, X: 112, Y: 48, d: 0x0
+Entity 2: ENTITY_MONSTER_FROG, X: 160, Y: 96, d: 0x0
+Entity 3: ENTITY_MONSTER_FROG, X: 176, Y: 128, d: 0x0
 
 > Screen 37 entities:
 Count: 3
