@@ -1,7 +1,11 @@
 $07 compare to ix+22 (ix = 0x680 special entity)
 
 $10 from pointer + 1 (1º _RAM_D8A1_) to 0xc204
-$CA from pointer + 2 (1º _RAM_D8A2_ to 0xc205
+$CA from pointer + 2 (1º _RAM_D8A2_) to 0xc205
+
+    Obs: $CA10 is a pointer.
+    4 bytes will be copied **to** it from address pointed by _RAM_C206_ below.
+
 
 $03 pointer + 3 (1º _RAM_D8A3_) to c
 (bc = 00XX)
@@ -14,8 +18,10 @@ hl = 0x8000 + c + c
 hl = (hl) u16
 
 _RAM_C206_ = hl
-    1º = 0x8468
-
+Here 4 bytes are copied from _DATA_14468_ to $CA10.
+    1º = $CA10 <- (0x8468)
+    $CA10 is nametable
+    
 
 $14 $CA
 $03

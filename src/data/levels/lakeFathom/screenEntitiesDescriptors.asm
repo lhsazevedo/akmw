@@ -49,7 +49,7 @@ _DATA_B82F_:
 _DATA_B830_:
 ; Special screen type 0x08
 .db $88
-; Bytes to copy to _RAM_D8A0_
+; Bytes to copy to v_unknownEntityByteCount_RAM_D8A0_
 .db $16
 ; Bytes that will be copied.
 .db $07 $10 $CA $03 $14 $CA $03 $18 $CA $03 $1C $CA $03 $28 $CA $03

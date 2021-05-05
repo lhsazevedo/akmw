@@ -51,12 +51,12 @@ updateOctopusArm:
     ld (v_soundControl), a
     ld ix, $C3C0
     ld a, $83
-    ld (_RAM_C202_), a
+    ld (v_nametableChangeRequest), a
     ld a, (v_level)
     cp $05
     jr c, +
     ld a, $84
-    ld (_RAM_C202_), a
+    ld (v_nametableChangeRequest), a
     ret
 
 +:
@@ -65,7 +65,7 @@ updateOctopusArm:
     cp $03
     ret c
     ld a, $84
-    ld (_RAM_C202_), a
+    ld (v_nametableChangeRequest), a
     ret
 
 _LABEL_4CDE_:

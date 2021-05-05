@@ -110,7 +110,7 @@ v_levelBankNumber db
 
 .enum $C085 export
 scrollFlagsUpdaterPointer dw
-_RAM_C087_ dw
+v_metatileNametablePointer dw
 newEntitiesLoaderPointer dw
 .ende
 
@@ -235,10 +235,10 @@ v_alexTilesIndex db
 .ende
 
 .enum $C202 export
-_RAM_C202_ db
+v_nametableChangeRequest db
 _RAM_C203_ db
 _RAM_C204_ dw
-_RAM_C206_ dw
+v_pointerToANametableEntry_RAM_C206_ dw
 _RAM_C208_ db
 _RAM_C209_ db
 .ende
@@ -655,7 +655,7 @@ _RAM_D807_ db
 .ende
 
 .enum $D8A0 export
-_RAM_D8A0_ db
+v_unknownEntityByteCount_RAM_D8A0_ db
 .ende
 
 .enum $D900 export

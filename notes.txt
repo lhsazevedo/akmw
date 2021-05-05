@@ -25,4 +25,12 @@ $43 probably is rice ball
 v_addedEntitiesShouldBeOffscreenHorizontally vai pra Entity.isOffScreenFlags.low
 v_addedEntitiesShouldBeOffscreenVertically vai pra Entity.isOffScreenFlags.high
 
-0xB81D é passagem em fase bonus 
+0xB81D é passagem em fase bonus
+
+
+_RAM_C054_ is 7 on bike, 9 on peticopter and 2 when invincible
+
+
+Alex unknown8 bit 0 is punching
+              bit 3 is punchEminent?
+ 

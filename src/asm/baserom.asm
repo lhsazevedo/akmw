@@ -3696,7 +3696,7 @@ alexHandler_3180:
     ld (ix+26), $0E
     ld (ix+27), $21
     ld a, $81
-    ld (_RAM_C202_), a
+    ld (v_nametableChangeRequest), a
     ret
 
 ; 15th entry of Jump Table from 2982 (indexed by v_entities.1.state)
@@ -3750,7 +3750,7 @@ alexHandler_31CC:
     ld (ix+26), $12
     ld (ix+27), $40
     ld a, $82
-    ld (_RAM_C202_), a
+    ld (v_nametableChangeRequest), a
     ld hl, $00D0
     ld (v_entities.1.ySpeed), hl
     call _LABEL_3B56_
@@ -5145,7 +5145,7 @@ _LABEL_3C48_:
     ld a, $8E
     ld (v_soundControl), a
     pop hl
-    ld a, (_RAM_C202_)
+    ld a, (v_nametableChangeRequest)
     or a
     ret nz
     ld (_RAM_C204_), hl
@@ -5425,7 +5425,7 @@ _LABEL_3EA6_:
     ld a, $01
     ld (v_entities.1.state), a
     ld a, $89
-    ld (_RAM_C202_), a
+    ld (v_nametableChangeRequest), a
     ld hl, _RAM_C640_
     call clearEntity
     inc hl
@@ -5469,13 +5469,13 @@ _LABEL_3F03_:
     jr z, +
     call _LABEL_7D0B_
     ret c
-    ld hl, _RAM_C202_
+    ld hl, v_nametableChangeRequest
     ld a, (hl)
     or a
     ret nz
     ld (hl), $80
     ld hl, _DATA_14503_
-    ld (_RAM_C206_), hl
+    ld (v_pointerToANametableEntry_RAM_C206_), hl
     ld hl, _RAM_CC08_
     ld (_RAM_C204_), hl
     jp clearCurrentEntity
@@ -5910,8 +5910,8 @@ loadAlexTilesToVRAM:
     jp nz, -
     ret
 
-_LABEL_4229_:
-    ld hl, _RAM_C202_
+handleNametableChangeRequest:
+    ld hl, v_nametableChangeRequest
     ld a, (hl)
     ld (hl), $00
     add a, a
@@ -5919,12 +5919,12 @@ _LABEL_4229_:
     ld hl, _DATA_4237_
     jp _LABEL_21_
 
-; Jump Table from 4237 to 424A (10 entries, indexed by _RAM_C202_)
+; Jump Table from 4237 to 424A (10 entries, indexed by v_nametableChangeRequest)
 _DATA_4237_:
 .dw _LABEL_424B_ _LABEL_4340_ _LABEL_434F_ _LABEL_42C3_ _LABEL_42B6_ _LABEL_4B9E_ _LABEL_4BF3_ _LABEL_4BCD_
 .dw _LABEL_437D_ _LABEL_43CA_
 
-; 1st entry of Jump Table from 4237 (indexed by _RAM_C202_)
+; 1st entry of Jump Table from 4237 (indexed by v_nametableChangeRequest)
 _LABEL_424B_:
     ld a, $85
     ld (Mapper_Slot2), a
@@ -5970,7 +5970,7 @@ _LABEL_424B_:
     ld (hl), $01
 ++:
     ld de, (_RAM_C204_)
-    ld hl, (_RAM_C206_)
+    ld hl, (v_pointerToANametableEntry_RAM_C206_)
     ldi
     ldi
     ldi
@@ -5984,7 +5984,7 @@ _LABEL_424B_:
     ldi
     ldi
     ld de, (_RAM_C204_)
-    ld hl, (_RAM_C206_)
+    ld hl, (v_pointerToANametableEntry_RAM_C206_)
     ld a, d
     sub $50
     ld d, a
@@ -5992,14 +5992,14 @@ _LABEL_424B_:
     call copyNameTableBlockToVRAM
     ret
 
-; 5th entry of Jump Table from 4237 (indexed by _RAM_C202_)
+; 5th entry of Jump Table from 4237 (indexed by v_nametableChangeRequest)
 _LABEL_42B6_:
     ld de, (_RAM_C0FD_)
     call ++
     ld hl, _DATA_14410_
     jp +
 
-; 4th entry of Jump Table from 4237 (indexed by _RAM_C202_)
+; 4th entry of Jump Table from 4237 (indexed by v_nametableChangeRequest)
 _LABEL_42C3_:
     ld de, (_RAM_C0FD_)
     call ++
@@ -6067,7 +6067,7 @@ _LABEL_42C3_:
     ld bc, $0208
     jp copyNameTableBlockToVRAM
 
-; 2nd entry of Jump Table from 4237 (indexed by _RAM_C202_)
+; 2nd entry of Jump Table from 4237 (indexed by v_nametableChangeRequest)
 _LABEL_4340_:
     ld hl, (_RAM_C0FD_)
     inc hl
@@ -6078,7 +6078,7 @@ _LABEL_4340_:
     ld bc, $0204
     jp _LABEL_435F_
 
-; 3rd entry of Jump Table from 4237 (indexed by _RAM_C202_)
+; 3rd entry of Jump Table from 4237 (indexed by v_nametableChangeRequest)
 _LABEL_434F_:
     ld hl, (_RAM_C0FD_)
     inc hl
@@ -6115,7 +6115,7 @@ _LABEL_435F_:
     jr nz, _LABEL_435F_
     ret
 
-; 9th entry of Jump Table from 4237 (indexed by _RAM_C202_)
+; 9th entry of Jump Table from 4237 (indexed by v_nametableChangeRequest)
 _LABEL_437D_:
     ld a, $84
     ld (Mapper_Slot2), a
@@ -6165,10 +6165,10 @@ _LABEL_437D_:
     cp $30
     ret z
     ld a, $88
-    ld (_RAM_C202_), a
+    ld (v_nametableChangeRequest), a
     ret
 
-; 10th entry of Jump Table from 4237 (indexed by _RAM_C202_)
+; 10th entry of Jump Table from 4237 (indexed by v_nametableChangeRequest)
 _LABEL_43CA_:
     ld a, $85
     ld (Mapper_Slot2), a
@@ -6272,7 +6272,7 @@ _LABEL_4490_:
     rlca
     jr nc, ++
     call _LABEL_4578_
-    ld a, (_RAM_C202_)
+    ld a, (v_nametableChangeRequest)
     or a
     jr nz, ++
 +:
@@ -6425,9 +6425,9 @@ _LABEL_45BE_:
 +:
     ld a, $85
     ld (_RAM_C203_), a
-    ld (_RAM_C206_), hl
+    ld (v_pointerToANametableEntry_RAM_C206_), hl
     ld a, $80
-    ld (_RAM_C202_), a
+    ld (v_nametableChangeRequest), a
     ret
 
 ; Jump Table from 45D9 to 45F0 (12 entries, indexed by _RAM_C804_)
@@ -6906,7 +6906,7 @@ _LABEL_4984_:
     ret nz
     dec (ix+3)
     ret nz
-    ld a, (_RAM_C202_)
+    ld a, (v_nametableChangeRequest)
     or a
     jr z, +
     inc (ix+3)
@@ -6947,12 +6947,12 @@ _LABEL_4984_:
     ld (_RAM_C204_), hl
     ld l, (ix+26)
     ld h, (ix+27)
-    ld (_RAM_C206_), hl
+    ld (v_pointerToANametableEntry_RAM_C206_), hl
     ld l, (ix+30)
     ld h, (ix+31)
     ld (_RAM_C208_), hl
     ld a, $85
-    ld (_RAM_C202_), a
+    ld (v_nametableChangeRequest), a
     ret
 
 ; 16th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
@@ -7026,7 +7026,7 @@ _LABEL_4A79_:
 _LABEL_4A86_:
     dec (ix+5)
     ret nz
-    ld a, (_RAM_C202_)
+    ld a, (v_nametableChangeRequest)
     or a
     jr z, +
     inc (ix+5)
@@ -7048,7 +7048,7 @@ _LABEL_4A86_:
     dec l
     ld (ix+28), l
     ld a, $87
-    ld (_RAM_C202_), a
+    ld (v_nametableChangeRequest), a
     dec (ix+24)
     jp z, clearCurrentEntity
     ret
@@ -7110,7 +7110,7 @@ _LABEL_4B23_:
     jr nz, ++
     dec (ix+5)
     ret nz
-    ld a, (_RAM_C202_)
+    ld a, (v_nametableChangeRequest)
     or a
     jr z, +
     inc (ix+5)
@@ -7119,7 +7119,7 @@ _LABEL_4B23_:
 +:
     ld (ix+5), $0F
     ld a, $86
-    ld (_RAM_C202_), a
+    ld (v_nametableChangeRequest), a
     ld a, (ix+3)
     ld (_RAM_C209_), a
     ld l, (ix+28)
@@ -7151,11 +7151,11 @@ _LABEL_4B7A_:
     ld (v_soundControl), a
     ret
 
-; 6th entry of Jump Table from 4237 (indexed by _RAM_C202_)
+; 6th entry of Jump Table from 4237 (indexed by v_nametableChangeRequest)
 _LABEL_4B9E_:
     ld a, $87
     ld (Mapper_Slot2), a
-    ld hl, (_RAM_C206_)
+    ld hl, (v_pointerToANametableEntry_RAM_C206_)
     ld de, (_RAM_C204_)
     ld bc, (_RAM_C208_)
 -:
@@ -7184,7 +7184,7 @@ _LABEL_4B9E_:
     jr nz, -
     ret
 
-; 8th entry of Jump Table from 4237 (indexed by _RAM_C202_)
+; 8th entry of Jump Table from 4237 (indexed by v_nametableChangeRequest)
 _LABEL_4BCD_:
     ld hl, (_RAM_C204_)
     ld bc, (_RAM_C208_)
@@ -7213,7 +7213,7 @@ _LABEL_4BCD_:
     jr nz, --
     ret
 
-; 7th entry of Jump Table from 4237 (indexed by _RAM_C202_)
+; 7th entry of Jump Table from 4237 (indexed by v_nametableChangeRequest)
 _LABEL_4BF3_:
     ld hl, (_RAM_C204_)
     ld a, (_RAM_C209_)
@@ -8421,13 +8421,13 @@ _LABEL_6054_:
     cp ALEX_WALKING
     ret nz
     ld a, $80
-    ld (_RAM_C202_), a
+    ld (v_nametableChangeRequest), a
     ld hl, _RAM_CE84_
     ld (_RAM_C204_), hl
     ld a, $85
     ld (Mapper_Slot2), a
     ld hl, _DATA_14B5D_
-    ld (_RAM_C206_), hl
+    ld (v_pointerToANametableEntry_RAM_C206_), hl
     ld a, $82
     ld (Mapper_Slot2), a
     jr _LABEL_6001_
@@ -8557,91 +8557,7 @@ _LABEL_6176_:
     ret
 
 ; 75th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
-_LABEL_61CD_:
-    bit 0, (ix+1)
-    jr nz, +
-    ld (ix+7), <_DATA_80E1_
-    ld (ix+8), >_DATA_80E1_
-    ld a, (ix+9)
-    or (ix+10)
-    ret nz
-    set 0, (ix+1)
-    set 1, (ix+1)
-    ld (ix+24), $00
-    ld (ix+22), $00
-    xor a
-    ld (_RAM_C07F_), a
-    ld hl, $D8A0
-    inc hl
-    ld (v_shopEntranceDoorNametablePointer), hl
-+:
-    ld a, (ix+3)
-    cp $01
-    jr z, _LABEL_6275_
-    ld a, (ix+24)
-    or a
-    jr nz, ++++
-    ld a, (ix+3)
-    cp $02
-    jr z, +
-    call _LABEL_7D0B_
-    jr ++
-
-+:
-    ld iy, v_entity1
-    call checkEntityCollision
-    ret c
-    jr +++
-
-++:
-    ret c
-    ld a, (v_entities.1.unknown8)
-    bit 3, a
-    ret z
-+++:
-    ld (ix+24), $01
-++++:
-    ld a, (_RAM_C202_)
-    or a
-    ret nz
-    ld a, (v_entities.1.unknown8)
-    res 3, a
-    ld (v_entities.1.unknown8), a
-    ld (ix+24), $00
-    inc (ix+22)
-    ld a, (_RAM_D8A0_)
-    cp (ix+22)
-    jp c, clearCurrentEntity
-    ld a, $80
-    ld (_RAM_C202_), a
-    ld hl, (v_shopEntranceDoorNametablePointer)
-    ld de, _RAM_C204_
-    ldi
-    ldi
-    ld c, (hl)
-    ld b, $00
-    inc hl
-    ld (v_shopEntranceDoorNametablePointer), hl
-    ld a, $85
-    ld (Mapper_Slot2), a
-    ld hl, (_RAM_C087_)
-    add hl, bc
-    add hl, bc
-    ld a, (hl)
-    inc hl
-    ld h, (hl)
-    ld l, a
-    ld (_RAM_C206_), hl
-    ld a, $82
-    ld (Mapper_Slot2), a
-    ret
-
-_LABEL_6275_:
-    call _LABEL_7D0B_
-    ret c
-    ld hl, _RAM_C07F_
-    inc (hl)
-    jp clearCurrentEntity
+.INC "entities/unknown/updater.asm"
 
 ; 76th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 _LABEL_6280_:
@@ -9076,7 +8992,7 @@ loadLevel:
     ld e, (hl)
     inc hl
     ld d, (hl)
-    ld (_RAM_C087_), de
+    ld (v_metatileNametablePointer), de
     ld hl, $7800
     ld (_RAM_C0B7_), hl
     ld (_RAM_C0C5_), hl
@@ -9291,7 +9207,7 @@ _LABEL_6865_:
 -:
     push hl
     ld c, (hl)
-    ld hl, (_RAM_C087_)
+    ld hl, (v_metatileNametablePointer)
     add hl, bc
     add hl, bc
     ld a, (hl)
@@ -9589,7 +9505,7 @@ _LABEL_6A76_:
 	ld a, (hl)
 	ld c, a
 	ld b, $00
-	ld hl, (_RAM_C087_)
+	ld hl, (v_metatileNametablePointer)
 	add hl, bc
 	add hl, bc
 	ld a, (hl)
@@ -9942,7 +9858,7 @@ loadSpecialScreenEntitiesDescriptor:
 	ld c, a
 	ld b, $00
 	inc hl
-	ld de, _RAM_D8A0_
+	ld de, v_unknownEntityByteCount_RAM_D8A0_
 	ldir
 	jp _LABEL_6F86_
 
@@ -10514,7 +10430,7 @@ _LABEL_7453_:
 	ld hl, _DATA_12AFE_
 	ld (_RAM_C21B_), hl
 	ld a, $88
-	ld (_RAM_C202_), a
+	ld (v_nametableChangeRequest), a
 	xor a
 	ld (_RAM_C218_), a
 	inc (ix+26)
@@ -10522,7 +10438,7 @@ _LABEL_7453_:
 
 ; 19th entry of Jump Table from 7152 (indexed by _RAM_C3BA_)
 _LABEL_746F_:
-	ld a, (_RAM_C202_)
+	ld a, (v_nametableChangeRequest)
 	or a
 	ret nz
 	ld hl, _DATA_777A_
@@ -10543,7 +10459,7 @@ _LABEL_746F_:
 
 ; 14th entry of Jump Table from 779E (indexed by _RAM_C3BA_)
 _LABEL_74A4_:
-	ld a, (_RAM_C202_)
+	ld a, (v_nametableChangeRequest)
 	or a
 	ret nz
 	ld hl, _RAM_C218_
@@ -10560,7 +10476,7 @@ _LABEL_74A4_:
 	ld bc, $0004
 	ldir
 	ld a, $80
-	ld (_RAM_C202_), a
+	ld (v_nametableChangeRequest), a
 	ret
 
 +:

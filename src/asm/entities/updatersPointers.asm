@@ -74,7 +74,7 @@ entityTypeJumpTable:
 .dw _LABEL_5CF7_
 .dw _LABEL_5D36_
 .dw _LABEL_5515_
-.dw _LABEL_61CD_
+.dw unknownUpdater
 .dw _LABEL_6280_
 .dw _LABEL_5A96_
 .dw updatePowerBracelet

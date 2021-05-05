@@ -3,7 +3,7 @@ handleInterruptShopState:
 	ld hl, $C032
 	ld de, $7D48
 	call _LABEL_454_
-	call _LABEL_4229_
+	call handleNametableChangeRequest
 	ld a, (v_itemBeignBoughtIndex)
 	or a
 	ret z
