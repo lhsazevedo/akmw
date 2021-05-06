@@ -124,9 +124,7 @@ foreach ($levelsPointers as $key => $levelPointer) {
 
                 $screenPointer += $dataSize + 2;
                 $rawCount = rb($rom, $screenPointer);
-                goto readEntityData; // Yeah, I'm sorry...
             } elseif ($rawCount === 0x84) {
-                // $screenPointer++;
                 echo "Special type: Always present entity (bit 3)\n";
                 echo "Type: ";
                 echo getEntityType(rb($rom, $screenPointer + 1)) . ", ";
@@ -136,19 +134,28 @@ foreach ($levelsPointers as $key => $levelPointer) {
 
                 $screenPointer += 5;
                 $rawCount = rb($rom, $screenPointer);
-                echo "Real count: " . $rawCount . "\n";
             } elseif ($rawCount === 0x82) {
-                // $screenPointer++;
                 echo "Special type: Octopus Arm (bit 2)\n";
                 echo "Octopus type: " . rb($rom, $screenPointer + 1) . "\n";
 
                 $screenPointer += 2;
                 $rawCount = rb($rom, $screenPointer);
-                echo "Real count: " . $rawCount . "\n";
+            } elseif ($rawCount === 0x81) {
+                echo "Special type: 29th or 30th entity (bit 1)\n";
+                echo "Type: ";
+                echo getEntityType(rb($rom, $screenPointer + 1)) . ", ";
+                echo "X: " . rb($rom, $screenPointer + 3) . ", ";
+                echo "Y: " . rb($rom, $screenPointer + 2) . ", ";
+                echo "d: 0x" . dechex(rb($rom, $screenPointer + 4)) . "\n";
+
+                $screenPointer += 5;
+                $rawCount = rb($rom, $screenPointer);
             } else {
                 echo "Skipping unknown special entity...\n\n";
                 continue;
             }
+
+            goto readEntityData; // Yeah, I'm sorry...
         } else {
             echo "Count: " . ($rawCount & 0x7F) . "\n";
         }
