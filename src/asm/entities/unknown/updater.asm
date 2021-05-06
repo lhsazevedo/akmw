@@ -37,21 +37,24 @@ unknownUpdater:
     ld a, (ix+24)
     or a
     jr nz, @unkown6IsNotZero
+
+    ; If data is 0x02, handle collision kind
     ld a, (ix + Entity.data)
     cp $02
-    jr z, @dataIsTwo
+    jr z, @updateCollisionKind
 
-    // @TODO
+    ; Else, handle punch kind
+    ; @TODO
     call _LABEL_7D0B_
-    jr +
+    jr @updatePunchKind
 
-    @dataIsTwo:
+    @updateCollisionKind:
     ld iy, v_entity1
     call checkEntityCollision
     ret c
     jr @setUnknown6ToOne
 
-    +:
+    @updatePunchKind:
     ret c
     ld a, (v_entities.1.unknown8)
     bit 3, a

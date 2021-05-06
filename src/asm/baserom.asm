@@ -9844,7 +9844,7 @@ _LABEL_6FA6_:
 loadSpecialScreenEntitiesDescriptor:
     ; If bit 1 is set (0x81)
 	rrca
-	jp c, ++
+	jp c, @loadEntity28Or29
     ; If bit 2 is set (0x82)
 	rrca
 	jp c, loadOctopusArms
@@ -9871,12 +9871,12 @@ loadSpecialScreenEntitiesDescriptor:
 	inc hl
 	jp _LABEL_6F86_
 
-++:
-	ld ix, _RAM_C680_
+@loadEntity28Or29:
+	ld ix, v_entities.29
 	ld a, (ix+0)
 	or a
 	jp z, +
-	ld de, $0020
+	ld de, _sizeof_Entity
 	add ix, de
 +:
 	res 0, (ix+1)
