@@ -9,4 +9,4 @@ riverDescriptor:
 .db $01 $00 $0F $01 $48
 
 ; Pointer Table from 6762 to 6763 (1 entries, indexed by unknown)
-.dw _DATA_14000_
+.dw metatilesTableA

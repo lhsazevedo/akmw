@@ -9,4 +9,4 @@ theVillageOfNamuiDescriptor:
 .db $01 $00 $08 $00 $08
 
 ; Pointer Table from 673E to 673F (1 entries, indexed by unknown)
-.dw _DATA_14000_
+.dw metatilesTableA

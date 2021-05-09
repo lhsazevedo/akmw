@@ -9,4 +9,4 @@ bingooLowlandDescriptor:
 .db $01 $00 $0E $00 $08
 
 ; Pointer Table from 676E to 676F (1 entries, indexed by unknown)
-.dw _DATA_14000_
+.dw metatilesTableA

@@ -50,7 +50,7 @@
 ; .db $01 $01 $02 $09 $81
 
 ; ; Pointer Table from 6702 to 6703 (1 entries, indexed by unknown)
-; .dw _DATA_14000_
+; .dw metatilesTableA
 
 .STRUCT LevelDescriptor
     bank db ; 66f8

@@ -7,5 +7,5 @@
 	xScreenCount: .db $0F
 	yScreenCount: .db $01
 	scrollability: .db $48
-	metatileNameTablePointer: .dw _DATA_14000_
+	metatileNameTablePointer: .dw metatilesTableA
 .ENDST

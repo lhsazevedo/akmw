@@ -9,4 +9,4 @@ swampDescriptor:
 .db $08 $00 $FF $00 $04
 
 ; Pointer Table from 6792 to 6793 (1 entries, indexed by unknown)
-.dw _DATA_14000_
+.dw metatilesTableA

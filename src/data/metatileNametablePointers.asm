@@ -1,6 +1,6 @@
 ; 1st entry of Pointer Table from 6702 (indexed by unknown)
 ; Pointer Table from 14000 to 141FF (256 entries, indexed by unknown)
-_DATA_14000_:
+metatilesTableA:
 .dw _DATA_14450_ _DATA_14458_ _DATA_14460_ _DATA_14468_ _DATA_14470_ _DATA_14478_ _DATA_14480_ _DATA_14488_
 .dw _DATA_14490_ _DATA_14498_ _DATA_144A0_ _DATA_144A8_ _DATA_144B0_ _DATA_144B8_ _DATA_144B8_ _DATA_144B8_
 .dw _DATA_144B9_ _DATA_144C1_ _DATA_144C9_ _DATA_144C9_ _DATA_144CA_ _DATA_144D2_ _DATA_144DA_ _DATA_144E2_
@@ -36,7 +36,7 @@ _DATA_14000_:
 
 ; 1st entry of Pointer Table from 679E (indexed by unknown)
 ; Pointer Table from 14200 to 143FF (256 entries, indexed by unknown)
-_DATA_14200_:
+metatilesTableB:
 .dw _DATA_14450_ _DATA_14458_ _DATA_14460_ _DATA_14468_ _DATA_14470_ _DATA_14478_ _DATA_14480_ _DATA_14488_
 .dw _DATA_14490_ _DATA_14498_ _DATA_144A0_ _DATA_144A8_ _DATA_144B0_ _DATA_144B8_ _DATA_144B8_ _DATA_144B8_
 .dw _DATA_144B9_ _DATA_144C1_ _DATA_144C9_ _DATA_144C9_ _DATA_144CA_ _DATA_144D2_ _DATA_144DA_ _DATA_144E2_

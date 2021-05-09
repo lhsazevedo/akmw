@@ -9,4 +9,4 @@ theKingdomOfNibanaPart1Descriptor:
 .db $01 $00 $01 $00 $08
 
 ; Pointer Table from 679E to 679F (1 entries, indexed by unknown)
-.dw _DATA_14200_
+.dw metatilesTableB

@@ -9,4 +9,4 @@ theRadactianCastleDescriptor:
 .db $01 $02 $05 $0A $80
 
 ; Pointer Table from 677A to 677B (1 entries, indexed by unknown)
-.dw _DATA_14000_
+.dw metatilesTableA

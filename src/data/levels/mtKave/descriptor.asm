@@ -9,4 +9,4 @@ mtKaveDescriptor:
 .db $01 $00 $08 $00 $08
 
 ; Pointer Table from 674A to 674B (1 entries, indexed by unknown)
-.dw _DATA_14000_
+.dw metatilesTableA

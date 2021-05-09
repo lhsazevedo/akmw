@@ -9,4 +9,4 @@ craggLakeDescriptor:
 .db $01 $00 $01 $01 $01
 
 ; Pointer Table from 67C2 to 67C3 (1 entries, indexed by unknown)
-.dw _DATA_14200_
+.dw metatilesTableB

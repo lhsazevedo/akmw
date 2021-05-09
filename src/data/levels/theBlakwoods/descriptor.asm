@@ -9,4 +9,4 @@ theBlakwoodsDescriptor:
 .db $01 $00 $0B $00 $08
 
 ; Pointer Table from 6756 to 6757 (1 entries, indexed by unknown)
-.dw _DATA_14000_
+.dw metatilesTableA
