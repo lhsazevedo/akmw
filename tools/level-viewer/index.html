@@ -8,7 +8,7 @@
 
     <style>
         #canvas {
-            width: 600px;
+            width: 3840px;
             height: 3840px;
             image-rendering: optimizeSpeed;             /* Older versions of FF          */
             image-rendering: -moz-crisp-edges;          /* FF 6.0+                       */
@@ -17,6 +17,16 @@
             image-rendering: pixelated;                 /* Awesome future-browsers       */
             -ms-interpolation-mode: nearest-neighbor;   /* IE                            */
         }
+
+        #entities > div {
+            position: absolute;
+            padding: 2px;
+            background-color: rgba(0,0,0,0.5);
+            font-family: 'monospace';
+            color: #fff;
+            font-size: 10px;
+            border-radius: 4px;
+        }
     </style>
 </head>
 <body>
@@ -24,8 +34,10 @@
         <input type="file" id="file">
     </div>
 
-    <div>
-        <canvas id="canvas" width="300" height="1920" style="margin-top: 16px;"></canvas>
+    <div style="position: relative; margin-top: 16px;">
+        <canvas id="canvas" width="1920" height="1920"></canvas>
+        <div id="entities">
+        </div>
     </div>
 
     <script type="module" async src="main.js"></script>
