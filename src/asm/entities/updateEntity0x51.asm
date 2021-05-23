@@ -1,45 +1,45 @@
 ; 81st entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 updateEntity0x51:
-    bit 0, (ix+1)
+    bit 0, (ix + Entity.flags)
     jp nz, _LABEL_603E_
     ld a, (_RAM_D800_)
     or a
     jp nz, clearCurrentEntity
-    bit 1, (ix+1)
+    bit 1, (ix + Entity.flags)
     jr nz, ++
-    ld (ix+7), <_DATA_830B_
-    ld (ix+8), >_DATA_830B_
-    ld a, (ix+3)
+    ld (ix + Entity.spriteDescriptorPointer.low), <_DATA_830B_
+    ld (ix + Entity.spriteDescriptorPointer.high), >_DATA_830B_
+    ld a, (ix + Entity.data)
     or a
     jr nz, +
-    ld (ix+7), <_DATA_815C_
-    ld (ix+8), >_DATA_815C_
+    ld (ix + Entity.spriteDescriptorPointer.low), <_DATA_815C_
+    ld (ix + Entity.spriteDescriptorPointer.high), >_DATA_815C_
 +:
-    ld a, (ix+9)
-    or (ix+10)
+    ld a, (ix + Entity.isOffScreenFlags.low)
+    or (ix + Entity.isOffScreenFlags.high)
     ret nz
-    set 1, (ix+1)
-    ld (ix+24), $40
+    set 1, (ix + Entity.flags)
+    ld (ix + Entity.unknown6), $40
 ++:
-    ld a, (ix+3)
+    ld a, (ix + Entity.data)
     or a
     jr z, _LABEL_6054_
     ld a, (_RAM_C07F_)
     cp $02
     ret nz
-    bit 0, (ix+1)
+    bit 0, (ix + Entity.flags)
     jr nz, _LABEL_603E_
-    dec (ix+24)
+    dec (ix + Entity.unknown6)
     jr nz, _LABEL_603E_
 _LABEL_6001_:
-    set 0, (ix+1)
+    set 0, (ix + Entity.flags)
     ld l, $0C
     call addScore
     xor a
     ld (_RAM_C07F_), a
     ld hl, _RAM_D800_
     set 0, (hl)
-    ld a, (ix+3)
+    ld a, (ix + Entity.data)
     or a
     jr nz, +
     ld a, $14
@@ -58,13 +58,13 @@ _LABEL_6001_:
     jp _LABEL_60D4_
 
 _LABEL_603E_:
-    ld (ix+7), <_DATA_8331_
-    ld (ix+8), >_DATA_8331_
-    ld a, (ix+3)
+    ld (ix + Entity.spriteDescriptorPointer.low), <_DATA_8331_
+    ld (ix + Entity.spriteDescriptorPointer.high), >_DATA_8331_
+    ld a, (ix + Entity.data)
     or a
     ret nz
-    ld (ix+7), <_DATA_8134_
-    ld (ix+8), >_DATA_8134_
+    ld (ix + Entity.spriteDescriptorPointer.low), <_DATA_8134_
+    ld (ix + Entity.spriteDescriptorPointer.high), >_DATA_8134_
     ret
 
 _LABEL_6054_:

@@ -1,13 +1,13 @@
 ; 83rd entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 updateEntity0x53:
-    bit 0, (ix+1)
+    bit 0, (ix + Entity.flags)
     jr nz, +
-    ld (ix+7), <_DATA_80E1_
-    ld (ix+8), >_DATA_80E1_
+    ld (ix + Entity.spriteDescriptorPointer.low), <_DATA_80E1_
+    ld (ix + Entity.spriteDescriptorPointer.high), >_DATA_80E1_
     ld a, (v_scrollFlags)
     or a
     ret nz
-    set 0, (ix+1)
+    set 0, (ix + Entity.flags)
     ld a, $07
     ld (v_gameState), a
     ld a, $11
@@ -20,9 +20,9 @@ updateEntity0x53:
     ret
 
 +:
-    bit 1, (ix+1)
+    bit 1, (ix + Entity.flags)
     ret nz
-    set 1, (ix+1)
+    set 1, (ix + Entity.flags)
     ld iy, _RAM_C640_
     ld b, $4F
     ld de, $30D8

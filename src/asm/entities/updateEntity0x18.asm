@@ -3,7 +3,7 @@ updateEntity0x19:
 	call tryToKillAlexIfColliding
 	bit 7, (iy+1)
 	jr nz, +
-	ld a, (ix+26)
+	ld a, (ix + Entity.state)
 	ld hl, _DATA_74DF_
 	rst $20	; loadAthJumptablePointer
 	ret

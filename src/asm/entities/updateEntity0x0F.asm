@@ -4,19 +4,19 @@ updateEntity0x0F:
 	ld a, (_RAM_C3DB_)
 	or a
 	jr z, +
-	dec (ix+27)
+	dec (ix + Entity.stateTimer)
 	jr ++
 
 +:
 	call _LABEL_7D0B_
 	jr c, ++
-	inc (ix+2)
+	inc (ix + Entity.unknown1)
 	ld a, (_RAM_C3C2_)
 	cp $03
 	jp nc, _LABEL_55A5_
 	ld a, $8D
 	ld (v_soundControl), a
-	ld (ix+27), $1E
+	ld (ix + Entity.stateTimer), $1E
 ++:
 	ld a, (_RAM_C3DA_)
 	ld hl, _DATA_7B64_
@@ -35,7 +35,7 @@ _LABEL_7B78_:
 	ld a, (_RAM_C3CE_)
 	cp $70
 	ret nc
-	inc (ix+26)
+	inc (ix + Entity.state)
 	ret
 
 ; 2nd entry of Jump Table from 7B64 (indexed by _RAM_C3DA_)
@@ -45,7 +45,7 @@ _LABEL_7B88_:
 	ret nz
 	ld hl, $FE00
 	ld (_RAM_C3CF_), hl
-	inc (ix+26)
+	inc (ix + Entity.state)
 	ret
 
 ; 3rd entry of Jump Table from 7B64 (indexed by _RAM_C3DA_)
@@ -55,7 +55,7 @@ _LABEL_7B99_:
 	ret nz
 	ld hl, $FE00
 	ld (_RAM_C3D1_), hl
-	inc (ix+26)
+	inc (ix + Entity.state)
 	ret
 
 ; 5th entry of Jump Table from 7B64 (indexed by _RAM_C3DA_)
@@ -63,7 +63,7 @@ _LABEL_7BAA_:
 	ld a, (_RAM_C3CC_)
 	cp $48
 	ret nc
-	inc (ix+26)
+	inc (ix + Entity.state)
 	ret
 
 ; 6th entry of Jump Table from 7B64 (indexed by _RAM_C3DA_)
@@ -73,7 +73,7 @@ _LABEL_7BB4_:
 	ret nz
 	ld hl, $0200
 	ld (_RAM_C3D1_), hl
-	inc (ix+26)
+	inc (ix + Entity.state)
 	ret
 
 ; 7th entry of Jump Table from 7B64 (indexed by _RAM_C3DA_)
@@ -83,7 +83,7 @@ _LABEL_7BC5_:
 	ret nz
 	ld hl, $0200
 	ld (_RAM_C3D1_), hl
-	inc (ix+26)
+	inc (ix + Entity.state)
 	ret
 
 ; 9th entry of Jump Table from 7B64 (indexed by _RAM_C3DA_)
@@ -95,7 +95,7 @@ _LABEL_7BD6_:
 	ld (_RAM_C3D1_), hl
 	ld hl, $0400
 	ld (_RAM_C3CF_), hl
-	inc (ix+26)
+	inc (ix + Entity.state)
 	ret
 
 ; 10th entry of Jump Table from 7B64 (indexed by _RAM_C3DA_)
@@ -107,7 +107,7 @@ _LABEL_7BEC_:
 	ld (_RAM_C3CF_), hl
 	ld hl, $FE00
 	ld (_RAM_C3D1_), hl
-	ld (ix+26), $00
+	ld (ix + Entity.state), $00
 	ret
 
 _LABEL_7C03_:

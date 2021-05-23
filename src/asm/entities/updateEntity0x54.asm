@@ -1,74 +1,74 @@
 ; 84th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 updateEntity0x54:
-    bit 0, (ix+1)
+    bit 0, (ix + Entity.flags)
     jr nz, _LABEL_62F5_
-    ld (ix+5), $08
-    ld (ix+6), $08
-    ld a, (ix+9)
-    or (ix+10)
+    ld (ix + Entity.animationTimer), $08
+    ld (ix + Entity.animationTimerResetValue), $08
+    ld a, (ix + Entity.isOffScreenFlags.low)
+    or (ix + Entity.isOffScreenFlags.high)
     jr nz, _LABEL_6341_
-    set 0, (ix+1)
-    set 1, (ix+1)
-    ld (ix+23), $00
-    ld (ix+22), $30
-    ld (ix+24), $0E
-    ld (ix+15), $60
-    ld (ix+16), $00
+    set 0, (ix + Entity.flags)
+    set 1, (ix + Entity.flags)
+    ld (ix + Entity.jankenMatchDecision), $00
+    ld (ix + Entity.unknown5), $30
+    ld (ix + Entity.unknown6), $0E
+    ld (ix + Entity.xSpeed.low), $60
+    ld (ix + Entity.xSpeed.high), $00
     ld a, (v_entities.1.xPos.high)
-    cp (ix+12)
+    cp (ix + Entity.xPos.high)
     jr nc, _LABEL_62F5_
-    ld (ix+24), $02
-    ld (ix+15), $A0
-    ld (ix+16), $FF
+    ld (ix + Entity.unknown6), $02
+    ld (ix + Entity.xSpeed.low), $A0
+    ld (ix + Entity.xSpeed.high), $FF
 _LABEL_62F5_:
     call tryToKillAlexIfColliding
     call _LABEL_7D0B_
     jp nc, _LABEL_55A5_
     ld d, $01
-    ld e, (ix+24)
+    ld e, (ix + Entity.unknown6)
     ld a, $08
     call _LABEL_3A03_
     jr nc, +
-    ld a, (ix+16)
+    ld a, (ix + Entity.xSpeed.high)
     cpl
-    ld (ix+16), a
-    ld a, (ix+15)
+    ld (ix + Entity.xSpeed.high), a
+    ld a, (ix + Entity.xSpeed.low)
     cpl
     inc a
-    ld (ix+15), a
+    ld (ix + Entity.xSpeed.low), a
     jr ++
 
 +:
-    ld a, (ix+24)
+    ld a, (ix + Entity.unknown6)
     xor $0C
     ld e, a
     ld d, $11
     call getTileNearEntityWithXYOffset
     rlca
     jr c, _LABEL_6341_
-    ld h, (ix+23)
-    ld l, (ix+22)
+    ld h, (ix + Entity.jankenMatchDecision)
+    ld l, (ix + Entity.unknown5)
     ld de, $0010
     add hl, de
-    ld (ix+23), h
-    ld (ix+22), l
-    ld (ix+18), h
-    ld (ix+17), l
+    ld (ix + Entity.jankenMatchDecision), h
+    ld (ix + Entity.unknown5), l
+    ld (ix + Entity.ySpeed.high), h
+    ld (ix + Entity.ySpeed.low), l
     jr _LABEL_6351_
 
 _LABEL_6341_:
-    ld (ix+23), $00
-    ld (ix+22), $30
-    ld (ix+17), $00
-    ld (ix+18), $00
+    ld (ix + Entity.jankenMatchDecision), $00
+    ld (ix + Entity.unknown5), $30
+    ld (ix + Entity.ySpeed.low), $00
+    ld (ix + Entity.ySpeed.high), $00
 _LABEL_6351_:
     ld hl, _DATA_8585_
     jp handleEntityAnimation
 
 ++:
-    ld (ix+24), $02
-    ld a, (ix+16)
+    ld (ix + Entity.unknown6), $02
+    ld a, (ix + Entity.xSpeed.high)
     cp $FF
     jr z, _LABEL_6351_
-    ld (ix+24), $0E
+    ld (ix + Entity.unknown6), $0E
     jr _LABEL_6351_

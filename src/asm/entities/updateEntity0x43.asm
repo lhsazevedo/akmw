@@ -1,24 +1,24 @@
 ; 67th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 updateEntity0x43:
-    bit 0, (ix+1)
+    bit 0, (ix + Entity.flags)
     jr nz, +
-    set 0, (ix+1)
-    set 1, (ix+1)
-    ld (ix+4), $00
-    ld (ix+5), $10
-    ld (ix+6), $10
-    ld (ix+16), $00
-    ld (ix+15), $00
-    ld (ix+18), $00
-    ld (ix+17), $00
+    set 0, (ix + Entity.flags)
+    set 1, (ix + Entity.flags)
+    ld (ix + Entity.animationFrame), $00
+    ld (ix + Entity.animationTimer), $10
+    ld (ix + Entity.animationTimerResetValue), $10
+    ld (ix + Entity.xSpeed.high), $00
+    ld (ix + Entity.xSpeed.low), $00
+    ld (ix + Entity.ySpeed.high), $00
+    ld (ix + Entity.ySpeed.low), $00
 +:
-    ld a, (ix+9)
-    or (ix+10)
+    ld a, (ix + Entity.isOffScreenFlags.low)
+    or (ix + Entity.isOffScreenFlags.high)
     jp nz, clearCurrentEntity
-    ld a, (ix+4)
+    ld a, (ix + Entity.animationFrame)
     cp $03
     jr nz, +
-    ld a, (ix+5)
+    ld a, (ix + Entity.animationTimer)
     cp $01
     jr z, ++
 +:
@@ -28,9 +28,9 @@ updateEntity0x43:
 ++:
     xor a
     ld (_RAM_C07F_), a
-    ld a, (ix+2)
+    ld a, (ix + Entity.unknown1)
     or a
     jp z, clearCurrentEntity
-    res 0, (ix+1)
-    ld (ix+0), $44
+    res 0, (ix + Entity.flags)
+    ld (ix + Entity.type), $44
     ret

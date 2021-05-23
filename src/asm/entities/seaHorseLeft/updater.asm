@@ -1,40 +1,40 @@
 ; 49th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 updateSeaHorseLeft:
-    bit 0, (ix+1)
+    bit 0, (ix + Entity.flags)
     jr nz, +
-    ld (ix+5), $10
-    ld (ix+6), $10
-    ld a, (ix+9)
-    or (ix+10)
+    ld (ix + Entity.animationTimer), $10
+    ld (ix + Entity.animationTimerResetValue), $10
+    ld a, (ix + Entity.isOffScreenFlags.low)
+    or (ix + Entity.isOffScreenFlags.high)
     jr nz, _LABEL_5845_
-    set 0, (ix+1)
-    set 1, (ix+1)
+    set 0, (ix + Entity.flags)
+    set 1, (ix + Entity.flags)
 +:
     call tryToKillAlexIfColliding
     call _LABEL_7D0B_
     jp nc, _LABEL_55A5_
-    ld a, (ix+24)
+    ld a, (ix + Entity.unknown6)
     or a
     jr nz, +
-    ld (ix+18), $00
-    ld (ix+17), $80
-    inc (ix+23)
-    ld a, (ix+23)
+    ld (ix + Entity.ySpeed.high), $00
+    ld (ix + Entity.ySpeed.low), $80
+    inc (ix + Entity.jankenMatchDecision)
+    ld a, (ix + Entity.jankenMatchDecision)
     cp $30
     jr c, _LABEL_5845_
-    inc (ix+22)
-    ld a, (ix+22)
+    inc (ix + Entity.unknown5)
+    ld a, (ix + Entity.unknown5)
     cp $02
     jr z, _LABEL_5865_
-    ld a, (ix+14)
-    ld (ix+3), a
-    ld (ix+18), $00
-    ld (ix+17), $00
-    ld (ix+16), $FF
-    ld (ix+15), $80
+    ld a, (ix + Entity.yPos.high)
+    ld (ix + Entity.data), a
+    ld (ix + Entity.ySpeed.high), $00
+    ld (ix + Entity.ySpeed.low), $00
+    ld (ix + Entity.xSpeed.high), $FF
+    ld (ix + Entity.xSpeed.low), $80
 +:
-    inc (ix+24)
-    ld a, (ix+24)
+    inc (ix + Entity.unknown6)
+    ld a, (ix + Entity.unknown6)
     cp $40
     jr z, +
     ld c, a
@@ -42,27 +42,27 @@ updateSeaHorseLeft:
     ld hl, lowSine
     add hl, bc
     ld a, (hl)
-    add a, (ix+3)
-    ld (ix+14), a
+    add a, (ix + Entity.data)
+    ld (ix + Entity.yPos.high), a
 _LABEL_5845_:
     ld hl, _DATA_8BF3_
     jp handleEntityAnimation
 
 +:
-    ld (ix+16), $00
-    ld (ix+15), $00
-    ld (ix+18), $00
-    ld (ix+17), $80
-    ld (ix+23), $00
-    ld (ix+24), $00
+    ld (ix + Entity.xSpeed.high), $00
+    ld (ix + Entity.xSpeed.low), $00
+    ld (ix + Entity.ySpeed.high), $00
+    ld (ix + Entity.ySpeed.low), $80
+    ld (ix + Entity.jankenMatchDecision), $00
+    ld (ix + Entity.unknown6), $00
     jr _LABEL_5845_
 
 _LABEL_5865_:
-    ld (ix+0), ENTITY_SEA_HORSE_RIGHT
-    ld (ix+18), $FF
-    ld (ix+17), $80
-    ld (ix+22), $00
-    ld (ix+23), $00
-    ld (ix+24), $FF
+    ld (ix + Entity.type), ENTITY_SEA_HORSE_RIGHT
+    ld (ix + Entity.ySpeed.high), $FF
+    ld (ix + Entity.ySpeed.low), $80
+    ld (ix + Entity.unknown5), $00
+    ld (ix + Entity.jankenMatchDecision), $00
+    ld (ix + Entity.unknown6), $FF
     ld hl, _DATA_8BF3_
     jp handleEntityAnimation

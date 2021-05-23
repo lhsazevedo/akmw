@@ -1,20 +1,20 @@
 ; 77th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 updateEntity0x4D:
-    bit 0, (ix+1)
+    bit 0, (ix + Entity.flags)
     jr nz, +
-    set 0, (ix+1)
-    ld (ix+23), $F0
-    ld (ix+7), <_DATA_8C0E_
-    ld (ix+8), >_DATA_8C0E_
-    ld (ix+15), $00
-    ld (ix+16), $00
-    ld (ix+17), $00
-    ld (ix+18), $00
+    set 0, (ix + Entity.flags)
+    ld (ix + Entity.jankenMatchDecision), $F0
+    ld (ix + Entity.spriteDescriptorPointer.low), <_DATA_8C0E_
+    ld (ix + Entity.spriteDescriptorPointer.high), >_DATA_8C0E_
+    ld (ix + Entity.xSpeed.low), $00
+    ld (ix + Entity.xSpeed.high), $00
+    ld (ix + Entity.ySpeed.low), $00
+    ld (ix + Entity.ySpeed.high), $00
     ret
 
 +:
-    ld a, (ix+9)
-    or (ix+10)
+    ld a, (ix + Entity.isOffScreenFlags.low)
+    or (ix + Entity.isOffScreenFlags.high)
     jp nz, clearCurrentEntity
     ld iy, v_entity1
     call checkEntityCollision
@@ -29,6 +29,6 @@ updateEntity0x4D:
     jp clearCurrentEntity
 
 +:
-    dec (ix+23)
+    dec (ix + Entity.jankenMatchDecision)
     jp z, clearCurrentEntity
     ret

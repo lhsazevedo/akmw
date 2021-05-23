@@ -1,21 +1,21 @@
 ; 41st entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 updateEntity0x29:
-    bit 0, (ix+1)
+    bit 0, (ix + Entity.flags)
     jr nz, +
-    set 0, (ix+1)
-    ld (ix+20), $12
+    set 0, (ix + Entity.flags)
+    ld (ix + Entity.unknown3), $12
     call getVelocitiesToPursuitAlex
-    ld (ix+15), l
-    ld (ix+16), h
-    ld (ix+17), e
-    ld (ix+18), d
-    set 1, (ix+1)
-    ld (ix+7), <_DATA_851D_
-    ld (ix+8), >_DATA_851D_
+    ld (ix + Entity.xSpeed.low), l
+    ld (ix + Entity.xSpeed.high), h
+    ld (ix + Entity.ySpeed.low), e
+    ld (ix + Entity.ySpeed.high), d
+    set 1, (ix + Entity.flags)
+    ld (ix + Entity.spriteDescriptorPointer.low), <_DATA_851D_
+    ld (ix + Entity.spriteDescriptorPointer.high), >_DATA_851D_
     ret
 
 +:
-    ld a, (ix+9)
-    or (ix+10)
+    ld a, (ix + Entity.isOffScreenFlags.low)
+    or (ix + Entity.isOffScreenFlags.high)
     jp nz, clearCurrentEntity
     jp tryToKillAlexIfColliding

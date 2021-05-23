@@ -1,36 +1,36 @@
 ; 71st entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 updateEntity0x47:
-    bit 0, (ix+1)
+    bit 0, (ix + Entity.flags)
     jr nz, +
-    set 0, (ix+1)
-    ld a, (ix+23)
+    set 0, (ix + Entity.flags)
+    ld a, (ix + Entity.jankenMatchDecision)
     add a, a
     ld c, a
     ld b, $00
     ld hl, _DATA_5D7E_ - 2
     add hl, bc
     ld a, (hl)
-    ld (ix+24), a
+    ld (ix + Entity.unknown6), a
     inc hl
     ld a, (hl)
-    ld (ix+22), a
+    ld (ix + Entity.unknown5), a
     ret
 
 +:
-    ld a, (ix+9)
-    or (ix+10)
+    ld a, (ix + Entity.isOffScreenFlags.low)
+    or (ix + Entity.isOffScreenFlags.high)
     jr nz, +
-    dec (ix+24)
+    dec (ix + Entity.unknown6)
     ret nz
 +:
-    ld (ix+0), $46
+    ld (ix + Entity.type), $46
     call _LABEL_5CA0_
-    ld h, (ix+16)
-    ld l, (ix+15)
-    ld c, (ix+22)
+    ld h, (ix + Entity.xSpeed.high)
+    ld l, (ix + Entity.xSpeed.low)
+    ld c, (ix + Entity.unknown5)
     ld b, $00
     or a
     sbc hl, bc
-    ld (ix+16), h
-    ld (ix+15), l
+    ld (ix + Entity.xSpeed.high), h
+    ld (ix + Entity.xSpeed.low), l
     ret

@@ -1,14 +1,14 @@
 ; 5th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 updateEntity0x05:
     ld a, (_RAM_C369_)
-    or (ix+10)
+    or (ix + Entity.isOffScreenFlags.high)
     jp nz, _LABEL_485A_
     ld de, $1004
     call _LABEL_4944_
-    bit 6, (ix+20)
+    bit 6, (ix + Entity.unknown3)
     jr nz, ++
     ld de, $0642
-    bit 1, (ix+20)
+    bit 1, (ix + Entity.unknown3)
     jr z, +
     ld e, $0E
 +:
@@ -20,7 +20,7 @@ updateEntity0x05:
     ret
 
 ++:
-    ld (ix+0), $06
-    ld (ix+30), $08
-    ld (ix+31), $0A
+    ld (ix + Entity.type), $06
+    ld (ix + Entity.unknown10), $08
+    ld (ix + Entity.unknown11), $0A
     ret

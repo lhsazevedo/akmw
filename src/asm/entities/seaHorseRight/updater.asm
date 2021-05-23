@@ -3,25 +3,25 @@ updateSeaHorseRight:
     call tryToKillAlexIfColliding
     call _LABEL_7D0B_
     jp nc, _LABEL_55A5_
-    ld a, (ix+24)
+    ld a, (ix + Entity.unknown6)
     cp $FF
     jr nz, +
-    inc (ix+23)
-    ld a, (ix+23)
+    inc (ix + Entity.jankenMatchDecision)
+    ld a, (ix + Entity.jankenMatchDecision)
     cp $30
     jr c, _LABEL_58D2_
-    inc (ix+22)
-    ld a, (ix+22)
+    inc (ix + Entity.unknown5)
+    ld a, (ix + Entity.unknown5)
     cp $02
     jr z, _LABEL_58F2_
-    ld (ix+24), $40
-    ld (ix+18), $00
-    ld (ix+17), $00
-    ld (ix+16), $00
-    ld (ix+15), $80
+    ld (ix + Entity.unknown6), $40
+    ld (ix + Entity.ySpeed.high), $00
+    ld (ix + Entity.ySpeed.low), $00
+    ld (ix + Entity.xSpeed.high), $00
+    ld (ix + Entity.xSpeed.low), $80
 +:
-    dec (ix+24)
-    ld a, (ix+24)
+    dec (ix + Entity.unknown6)
+    ld a, (ix + Entity.unknown6)
     or a
     jr z, +
     ld c, a
@@ -29,25 +29,25 @@ updateSeaHorseRight:
     ld hl, lowSine
     add hl, bc
     ld a, (hl)
-    add a, (ix+3)
-    ld (ix+14), a
+    add a, (ix + Entity.data)
+    ld (ix + Entity.yPos.high), a
 _LABEL_58D2_:
     ld hl, _DATA_8BF3_
     jp handleEntityAnimation
 
 +:
-    ld (ix+16), $00
-    ld (ix+15), $00
-    ld (ix+18), $FF
-    ld (ix+17), $80
-    ld (ix+23), $00
-    ld (ix+24), $FF
+    ld (ix + Entity.xSpeed.high), $00
+    ld (ix + Entity.xSpeed.low), $00
+    ld (ix + Entity.ySpeed.high), $FF
+    ld (ix + Entity.ySpeed.low), $80
+    ld (ix + Entity.jankenMatchDecision), $00
+    ld (ix + Entity.unknown6), $FF
     jr _LABEL_58D2_
 
 _LABEL_58F2_:
-    ld (ix+0), ENTITY_SEA_HORSE_LEFT
-    ld (ix+22), $00
-    ld (ix+23), $00
-    ld (ix+24), $00
+    ld (ix + Entity.type), ENTITY_SEA_HORSE_LEFT
+    ld (ix + Entity.unknown5), $00
+    ld (ix + Entity.jankenMatchDecision), $00
+    ld (ix + Entity.unknown6), $00
     ld hl, _DATA_8BF3_
     jp handleEntityAnimation

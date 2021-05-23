@@ -1,43 +1,43 @@
 updateEntity0x09:
-    bit 0, (ix+1)
+    bit 0, (ix + Entity.flags)
     jp z, _LABEL_47F1_
-    bit 7, (ix+1)
+    bit 7, (ix + Entity.flags)
     jp nz, _LABEL_4854_
-    ld (ix+17), $00
-    ld (ix+18), $00
+    ld (ix + Entity.ySpeed.low), $00
+    ld (ix + Entity.ySpeed.high), $00
     call _LABEL_4846_
     ret nc
-    bit 0, (ix+29)
+    bit 0, (ix + Entity.unknown9)
     jr z, +++
-    ld l, (ix+27)
-    ld h, (ix+28)
+    ld l, (ix + Entity.stateTimer)
+    ld h, (ix + Entity.unknown8)
     ld a, (hl)
     or a
     jr z, ++
     push hl
     pop iy
     ld a, (iy+12)
-    bit 1, (ix+20)
+    bit 1, (ix + Entity.unknown3)
     jr nz, +
-    sub (ix+12)
+    sub (ix + Entity.xPos.high)
     cp $D0
     jr nc, ++++
     jr +++
 
 +:
-    sub (ix+12)
+    sub (ix + Entity.xPos.high)
     cp $10
     jr c, ++++
     jr +++
 
 ++:
-    res 0, (ix+29)
+    res 0, (ix + Entity.unknown9)
 +++:
     ld de, $1004
     call getTileNearEntityWithXYOffset
     rlca
     jr nc, +
-    bit 1, (ix+20)
+    bit 1, (ix + Entity.unknown3)
     jr nz, _LABEL_47D0_
 _LABEL_47CA_:
     ld hl, _DATA_8522_
@@ -48,45 +48,45 @@ _LABEL_47D0_:
     jp handleEntityAnimation
 
 +:
-    ld (ix+0), $0A
-    set 7, (ix+20)
+    ld (ix + Entity.type), $0A
+    set 7, (ix + Entity.unknown3)
     ret
 
 ++++:
     ld a, $A7
     ld (v_soundControl), a
-    res 0, (ix+29)
-    ld (ix+0), $0A
-    ld (ix+18), $FD
+    res 0, (ix + Entity.unknown9)
+    ld (ix + Entity.type), $0A
+    ld (ix + Entity.ySpeed.high), $FD
     ret
 
 _LABEL_47F1_:
-    set 0, (ix+1)
-    ld (ix+6), $05
+    set 0, (ix + Entity.flags)
+    ld (ix + Entity.animationTimerResetValue), $05
     call +++
     jr z, ++
     push hl
     pop iy
-    set 0, (ix+29)
-    ld (ix+27), l
-    ld (ix+28), h
+    set 0, (ix + Entity.unknown9)
+    ld (ix + Entity.stateTimer), l
+    ld (ix + Entity.unknown8), h
     ld a, (iy+12)
-    sub (ix+12)
+    sub (ix + Entity.xPos.high)
     jr c, +
-    set 1, (ix+20)
-    ld (ix+16), $02
+    set 1, (ix + Entity.unknown3)
+    ld (ix + Entity.xSpeed.high), $02
     jr _LABEL_47CA_
 
 +:
-    res 1, (ix+20)
-    ld (ix+16), $FE
+    res 1, (ix + Entity.unknown3)
+    ld (ix + Entity.xSpeed.high), $FE
     jr _LABEL_47D0_
 
 ++:
-    bit 1, (ix+20)
-    ld (ix+16), $02
+    bit 1, (ix + Entity.unknown3)
+    ld (ix + Entity.xSpeed.high), $02
     jr nz, _LABEL_47D0_
-    ld (ix+16), $FE
+    ld (ix + Entity.xSpeed.high), $FE
     jr _LABEL_47CA_
 
 +++:
@@ -102,10 +102,10 @@ _LABEL_47F1_:
     ret
 
 _LABEL_4846_:
-    ld a, (ix+9)
-    or (ix+10)
+    ld a, (ix + Entity.isOffScreenFlags.low)
+    or (ix + Entity.isOffScreenFlags.high)
     jr nz, _LABEL_4854_
-    ld a, (ix+14)
+    ld a, (ix + Entity.yPos.high)
     cp $AC
     ret c
 _LABEL_4854_:

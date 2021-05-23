@@ -1,5 +1,5 @@
 spawnMermanBubbles:
-    ld a, (ix+18)
+    ld a, (ix + Entity.ySpeed.high)
     cp $FF
     ret nz
     ld b, $05
@@ -12,15 +12,15 @@ spawnMermanBubbles:
     ld a, SOUND_MERMAN_BUBBLES
     ld (v_soundControl), a
     ld (iy+0), ENTITY_MERMAN_BUBBLE
-    ld a, (ix+14)
+    ld a, (ix + Entity.yPos.high)
     ld (iy+14), a
-    ld a, (ix+12)
+    ld a, (ix + Entity.xPos.high)
     ld (iy+12), a
-    ld a, (ix+9)
+    ld a, (ix + Entity.isOffScreenFlags.low)
     ld (iy+9), a
     set 1, (iy+1)
-    inc (ix+24)
-    ld a, (ix+24)
+    inc (ix + Entity.unknown6)
+    ld a, (ix + Entity.unknown6)
     and $07
     ld (iy+23), a
 +:

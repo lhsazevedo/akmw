@@ -1,13 +1,13 @@
 ; 34th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 updateMermanBubbles:
-    bit 0, (ix+1)
+    bit 0, (ix + Entity.flags)
     jr nz, +
-    set 0, (ix+1)
-    ld (ix+20), $12
-    ld (ix+5), $08
-    ld (ix+6), $08
-    ld (ix+18), $FF
-    ld a, (ix+23)
+    set 0, (ix + Entity.flags)
+    ld (ix + Entity.unknown3), $12
+    ld (ix + Entity.animationTimer), $08
+    ld (ix + Entity.animationTimerResetValue), $08
+    ld (ix + Entity.ySpeed.high), $FF
+    ld a, (ix + Entity.jankenMatchDecision)
     ld c, a
     add a, a
     add a, c
@@ -16,20 +16,20 @@ updateMermanBubbles:
     ld hl, _DATA_52CF_
     add hl, bc
     ld a, (hl)
-    ld (ix+17), a
+    ld (ix + Entity.ySpeed.low), a
     inc hl
     ld a, (hl)
-    ld (ix+16), a
+    ld (ix + Entity.xSpeed.high), a
     inc hl
     ld a, (hl)
-    ld (ix+15), a
-    set 1, (ix+1)
+    ld (ix + Entity.xSpeed.low), a
+    set 1, (ix + Entity.flags)
 +:
-    ld a, (ix+9)
-    or (ix+10)
+    ld a, (ix + Entity.isOffScreenFlags.low)
+    or (ix + Entity.isOffScreenFlags.high)
     jr nz, +
     call tryToKillAlexIfColliding
-    ld a, (ix+14)
+    ld a, (ix + Entity.yPos.high)
     cp $18
     jp c, clearCurrentEntity
 +:

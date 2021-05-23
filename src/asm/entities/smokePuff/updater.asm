@@ -3,7 +3,7 @@ updateSmokePuff:
     jr nz, +
         set 0, (ix + Entity.flags)
         set 1, (ix + Entity.flags)
-        ld (ix+4), $00
+        ld (ix + Entity.animationFrame), $00
         ld (ix + Entity.animationTimer), $10
         ld (ix + Entity.animationTimerResetValue), $10
         ld (ix + Entity.xSpeed.high), $00

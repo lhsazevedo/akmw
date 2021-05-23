@@ -1,36 +1,36 @@
 ; 82nd entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 updateEntity0x52:
-    bit 0, (ix+1)
+    bit 0, (ix + Entity.flags)
     jr nz, +
-    set 0, (ix+1)
-    ld a, (ix+3)
+    set 0, (ix + Entity.flags)
+    ld a, (ix + Entity.data)
     ld hl, _DATA_644A_
     rst $10    ; _LABEL_10_
     ld a, (hl)
     or a
     jp nz, clearCurrentEntity
-    ld a, (ix+3)
+    ld a, (ix + Entity.data)
     ld hl, _DATA_6422_
     rst $10    ; _LABEL_10_
-    ld (ix+7), l
-    ld (ix+8), h
+    ld (ix + Entity.spriteDescriptorPointer.low), l
+    ld (ix + Entity.spriteDescriptorPointer.high), h
     ret
 
 +:
-    ld a, (ix+9)
-    or (ix+10)
+    ld a, (ix + Entity.isOffScreenFlags.low)
+    or (ix + Entity.isOffScreenFlags.high)
     ret nz
-    set 1, (ix+1)
+    set 1, (ix + Entity.flags)
     ld iy, v_entity1
     call checkEntityCollision
     ret c
     ld a, $8F
     ld (v_soundControl), a
-    ld a, (ix+3)
+    ld a, (ix + Entity.data)
     ld hl, _DATA_644A_
     rst $10    ; _LABEL_10_
     set 0, (hl)
-    ld a, (ix+3)
+    ld a, (ix + Entity.data)
     or a
     jr z, ++
     cp $05

@@ -1,30 +1,30 @@
 ; 36th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 updateOctopusArm:
-    bit 0, (ix+1)
+    bit 0, (ix + Entity.flags)
     jr nz, +
-    set 0, (ix+1)
-    ld (ix+3), $00
-    ld (ix+27), $C0
-    ld (ix+28), $00
-    ld (ix+29), $08
-    ld (ix+16), $00
-    ld (ix+15), $00
-    ld (ix+18), $00
-    ld (ix+17), $00
-    ld (ix+7), <_DATA_84E3_
-    ld (ix+8), >_DATA_84E3_
-    ld a, (ix+9)
-    ld (ix+26), a
-    ld a, (ix+10)
-    ld (ix+25), a
+    set 0, (ix + Entity.flags)
+    ld (ix + Entity.data), $00
+    ld (ix + Entity.stateTimer), $C0
+    ld (ix + Entity.unknown8), $00
+    ld (ix + Entity.unknown9), $08
+    ld (ix + Entity.xSpeed.high), $00
+    ld (ix + Entity.xSpeed.low), $00
+    ld (ix + Entity.ySpeed.high), $00
+    ld (ix + Entity.ySpeed.low), $00
+    ld (ix + Entity.spriteDescriptorPointer.low), <_DATA_84E3_
+    ld (ix + Entity.spriteDescriptorPointer.high), >_DATA_84E3_
+    ld a, (ix + Entity.isOffScreenFlags.low)
+    ld (ix + Entity.state), a
+    ld a, (ix + Entity.isOffScreenFlags.high)
+    ld (ix + Entity.unknown7), a
 +:
-    ld a, (ix+9)
-    or (ix+10)
+    ld a, (ix + Entity.isOffScreenFlags.low)
+    or (ix + Entity.isOffScreenFlags.high)
     jp nz, _LABEL_4CDE_
     call tryToKillAlexIfColliding
     call _LABEL_7D0B_
     jp c, _LABEL_4CDE_
-    ld a, (ix+21)
+    ld a, (ix + Entity.unknown4)
     or a
     jp nz, _LABEL_4D92_
     ld a, (v_entities.1.unknown8)
@@ -32,18 +32,18 @@ updateOctopusArm:
     jp z, _LABEL_4CDE_
     res 3, a
     ld (v_entities.1.unknown8), a
-    inc (ix+3)
-    ld a, (ix+3)
+    inc (ix + Entity.data)
+    ld a, (ix + Entity.data)
     cp $03
     jp c, _LABEL_4CDE_
     ld b, $08
     ld de, $0020
 -:
-    ld a, (ix+0)
+    ld a, (ix + Entity.type)
     cp $24
     jr nz, +
-    ld (ix+0), $2B
-    res 0, (ix+1)
+    ld (ix + Entity.type), $2B
+    res 0, (ix + Entity.flags)
 +:
     add ix, de
     djnz -
@@ -70,39 +70,39 @@ updateOctopusArm:
 
 _LABEL_4CDE_:
     ld bc, $0000
-    ld a, (ix+22)
+    ld a, (ix + Entity.unknown5)
     or a
     jr z, +
-    dec (ix+22)
+    dec (ix + Entity.unknown5)
     jr ++
 
 +:
     ld bc, $0002
-    ld a, (ix+24)
+    ld a, (ix + Entity.unknown6)
     ld d, a
     or a
     jr z, +
     ld bc, $FFFE
 +:
-    inc (ix+23)
-    ld a, (ix+23)
+    inc (ix + Entity.jankenMatchDecision)
+    ld a, (ix + Entity.jankenMatchDecision)
     cp $60
     jr c, ++
     ld a, d
     cpl
-    ld (ix+24), a
-    ld (ix+23), $00
+    ld (ix + Entity.unknown6), a
+    ld (ix + Entity.jankenMatchDecision), $00
 ++:
-    ld a, (ix+21)
+    ld a, (ix + Entity.unknown4)
     or a
     jr z, +
     ld hl, (_RAM_C0F4_)
-    ld (ix+31), h
-    ld (ix+30), l
+    ld (ix + Entity.unknown11), h
+    ld (ix + Entity.unknown10), l
     ld a, (_RAM_C0FF_)
-    ld (ix+25), a
+    ld (ix + Entity.unknown7), a
     ld a, (_RAM_C0FB_)
-    ld (ix+26), a
+    ld (ix + Entity.state), a
     jp _LABEL_4D67_
 
 +:
@@ -110,13 +110,13 @@ _LABEL_4CDE_:
     ld a, h
     or l
     jr z, +
-    ld d, (ix+31)
-    ld e, (ix+6)
+    ld d, (ix + Entity.unknown11)
+    ld e, (ix + Entity.animationTimerResetValue)
     add hl, de
-    ld (ix+31), h
-    ld (ix+6), l
+    ld (ix + Entity.unknown11), h
+    ld (ix + Entity.animationTimerResetValue), l
     jr c, _LABEL_4D67_
-    inc (ix+26)
+    inc (ix + Entity.state)
     jr _LABEL_4D67_
 
 +:
@@ -124,31 +124,31 @@ _LABEL_4CDE_:
     ld a, h
     or l
     jr z, _LABEL_4D67_
-    ld d, (ix+30)
-    ld e, (ix+2)
+    ld d, (ix + Entity.unknown10)
+    ld e, (ix + Entity.unknown1)
     ex de, hl
     or a
     sbc hl, de
-    ld (ix+30), h
-    ld (ix+2), l
+    ld (ix + Entity.unknown10), h
+    ld (ix + Entity.unknown1), l
     jr nc, _LABEL_4D67_
     ld a, h
     sub $40
-    ld (ix+30), a
-    dec (ix+25)
+    ld (ix + Entity.unknown10), a
+    dec (ix + Entity.unknown7)
 _LABEL_4D67_:
-    ld l, (ix+27)
-    ld h, (ix+28)
+    ld l, (ix + Entity.stateTimer)
+    ld h, (ix + Entity.unknown8)
     add hl, bc
-    ld (ix+27), l
-    ld (ix+28), h
+    ld (ix + Entity.stateTimer), l
+    ld (ix + Entity.unknown8), h
     call _LABEL_4CE_
-    ld h, (ix+12)
-    ld l, (ix+14)
+    ld h, (ix + Entity.xPos.high)
+    ld l, (ix + Entity.yPos.high)
     ld (_RAM_C0F4_), hl
-    ld a, (ix+10)
+    ld a, (ix + Entity.isOffScreenFlags.high)
     ld (_RAM_C0FF_), a
-    ld a, (ix+9)
+    ld a, (ix + Entity.isOffScreenFlags.low)
     ld (_RAM_C0FB_), a
     cp $01
     jp z, clearCurrentEntity
@@ -160,8 +160,8 @@ _LABEL_4D92_:
     jp z, _LABEL_4CDE_
     res 3, a
     ld (v_entities.1.unknown8), a
-    inc (ix+3)
-    ld a, (ix+3)
+    inc (ix + Entity.data)
+    ld a, (ix + Entity.data)
     cp $03
     jp c, _LABEL_4CDE_
     jp _LABEL_55A5_

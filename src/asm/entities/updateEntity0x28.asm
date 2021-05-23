@@ -1,44 +1,44 @@
 ; 40th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 updateEntity0x28:
-    ld a, (ix+9)
-    or (ix+10)
+    ld a, (ix + Entity.isOffScreenFlags.low)
+    or (ix + Entity.isOffScreenFlags.high)
     jr nz, +
     ld a, (v_entities.1.state)
     cp ALEX_DEAD
     jp z, _LABEL_5571_
 +:
-    bit 0, (ix+1)
+    bit 0, (ix + Entity.flags)
     jr nz, +
-    set 0, (ix+1)
-    ld (ix+5), $20
-    ld (ix+6), $20
-    ld (ix+4), $00
-    ld (ix+16), $00
-    ld (ix+15), $40
+    set 0, (ix + Entity.flags)
+    ld (ix + Entity.animationTimer), $20
+    ld (ix + Entity.animationTimerResetValue), $20
+    ld (ix + Entity.animationFrame), $00
+    ld (ix + Entity.xSpeed.high), $00
+    ld (ix + Entity.xSpeed.low), $40
     jp _LABEL_54C9_
 
 +:
-    ld a, (ix+9)
-    or (ix+10)
+    ld a, (ix + Entity.isOffScreenFlags.low)
+    or (ix + Entity.isOffScreenFlags.high)
     jp nz, _LABEL_54C9_
     call tryToKillAlexIfColliding
-    ld a, (ix+19)
-    ld (ix+24), a
-    ld (ix+19), $A8
+    ld a, (ix + Entity.unknown2)
+    ld (ix + Entity.unknown6), a
+    ld (ix + Entity.unknown2), $A8
     call _LABEL_7D0B_
     jp nc, _LABEL_54DF_
-    ld a, (ix+24)
-    ld (ix+19), a
-    ld a, (ix+4)
+    ld a, (ix + Entity.unknown6)
+    ld (ix + Entity.unknown2), a
+    ld a, (ix + Entity.animationFrame)
     or a
     jp nz, +
-    ld a, (ix+5)
+    ld a, (ix + Entity.animationTimer)
     cp $20
     jr nz, _LABEL_54C9_
     ld a, $99
     ld (v_soundControl), a
     ld a, $38
-    add a, (ix+12)
+    add a, (ix + Entity.xPos.high)
     ld c, a
     ld a, (v_entities.1.xPos.high)
     sub c
@@ -50,7 +50,7 @@ _LABEL_54C9_:
     jp handleEntityAnimation
 
 +:
-    ld a, (ix+5)
+    ld a, (ix + Entity.animationTimer)
     cp $20
     jp nz, _LABEL_54C9_
     ld a, $99

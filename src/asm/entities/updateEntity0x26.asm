@@ -1,31 +1,31 @@
 ; 38th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 updateEntity0x26:
-    ld a, (ix+9)
-    or (ix+10)
+    ld a, (ix + Entity.isOffScreenFlags.low)
+    or (ix + Entity.isOffScreenFlags.high)
     jr nz, +
     ld a, (v_entities.1.state)
     cp ALEX_DEAD
     jp z, _LABEL_5571_
 +:
-    bit 0, (ix+1)
+    bit 0, (ix + Entity.flags)
     jr nz, +
-    set 0, (ix+1)
-    ld (ix+5), $12
-    ld (ix+6), $12
-    ld (ix+4), $00
-    ld (ix+15), $60
-    ld (ix+16), $00
+    set 0, (ix + Entity.flags)
+    ld (ix + Entity.animationTimer), $12
+    ld (ix + Entity.animationTimerResetValue), $12
+    ld (ix + Entity.animationFrame), $00
+    ld (ix + Entity.xSpeed.low), $60
+    ld (ix + Entity.xSpeed.high), $00
 +:
     call tryToKillAlexIfColliding
-    ld a, (ix+19)
-    ld (ix+24), a
-    ld (ix+19), $A8
+    ld a, (ix + Entity.unknown2)
+    ld (ix + Entity.unknown6), a
+    ld (ix + Entity.unknown2), $A8
     call _LABEL_7D0B_
     jp nc, _LABEL_54DF_
-    ld a, (ix+24)
-    ld (ix+19), a
+    ld a, (ix + Entity.unknown6)
+    ld (ix + Entity.unknown2), a
     ld a, $38
-    add a, (ix+12)
+    add a, (ix + Entity.xPos.high)
     ld c, a
     ld a, (v_entities.1.xPos.high)
     sub c
@@ -36,6 +36,6 @@ updateEntity0x26:
     jp handleEntityAnimation
 
 +:
-    ld (ix+0), $28
-    res 0, (ix+1)
+    ld (ix + Entity.type), $28
+    res 0, (ix + Entity.flags)
     ret

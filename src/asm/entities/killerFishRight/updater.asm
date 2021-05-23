@@ -1,7 +1,7 @@
 ; 53rd entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 updateKillerFishRight:
-    ld a, (ix+9)
-    or (ix+10)
+    ld a, (ix + Entity.isOffScreenFlags.low)
+    or (ix + Entity.isOffScreenFlags.high)
     jr nz, _LABEL_5249_
     call tryToKillAlexIfColliding
     call _LABEL_7D0B_
@@ -10,16 +10,16 @@ updateKillerFishRight:
     ld a, $08
     call _LABEL_3A03_
     jr nc, +
-    ld (ix+0), $2E
+    ld (ix + Entity.type), $2E
     jr _LABEL_5249_
 
 +:
-    inc (ix+24)
-    ld a, (ix+24)
+    inc (ix + Entity.unknown6)
+    ld a, (ix + Entity.unknown6)
     cp $40
     jr nz, +
     xor a
-    ld (ix+24), a
+    ld (ix + Entity.unknown6), a
 +:
     ld hl, highSine
     ld c, a
@@ -37,13 +37,13 @@ updateKillerFishRight:
     ld e, a
     ld a, h
     add a, d
-    ld h, (ix+22)
-    ld l, (ix+23)
+    ld h, (ix + Entity.unknown5)
+    ld l, (ix + Entity.jankenMatchDecision)
     add hl, de
-    ld (ix+22), h
-    ld (ix+23), l
+    ld (ix + Entity.unknown5), h
+    ld (ix + Entity.jankenMatchDecision), l
     add a, h
-    ld (ix+14), a
+    ld (ix + Entity.yPos.high), a
 _LABEL_5249_:
     ld hl, _DATA_83D8_
     jp handleEntityAnimation

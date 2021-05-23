@@ -3,7 +3,7 @@ updateSmallFishLeft:
     bit 0, (ix + Entity.flags)
     jr nz, +
     set 0, (ix + Entity.flags)
-    ld (ix+20), $04
+    ld (ix + Entity.unknown3), $04
     ld (ix + Entity.animationTimer), $10
     ld (ix + Entity.animationTimerResetValue), $10
     jr ++

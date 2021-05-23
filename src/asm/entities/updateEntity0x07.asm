@@ -1,14 +1,14 @@
 ; 7th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 updateEntity0x07:
     ld a, (_RAM_C369_)
-    or (ix+10)
+    or (ix + Entity.isOffScreenFlags.high)
     jp nz, _LABEL_485A_
     ld de, $1004
     call _LABEL_4944_
-    bit 6, (ix+20)
+    bit 6, (ix + Entity.unknown3)
     jr nz, ++
     ld de, $0642
-    bit 1, (ix+20)
+    bit 1, (ix + Entity.unknown3)
     jr z, +
     ld e, $0E
 +:
@@ -20,10 +20,10 @@ updateEntity0x07:
     ret
 
 ++:
-    res 1, (ix+1)
+    res 1, (ix + Entity.flags)
     ld a, $AB
     ld (v_soundControl), a
-    ld (ix+0), $08
+    ld (ix + Entity.type), $08
     ld hl, $8CD2
     ld (_RAM_C367_), hl
     ld hl, $04B0

@@ -1,57 +1,57 @@
 ; 85th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 updateEntity0x55:
-    bit 0, (ix+1)
+    bit 0, (ix + Entity.flags)
     jr nz, +
-    ld (ix+5), $08
-    ld (ix+6), $08
-    ld a, (ix+9)
-    or (ix+10)
+    ld (ix + Entity.animationTimer), $08
+    ld (ix + Entity.animationTimerResetValue), $08
+    ld a, (ix + Entity.isOffScreenFlags.low)
+    or (ix + Entity.isOffScreenFlags.high)
     jr nz, _LABEL_63EA_
-    ld (ix+15), $80
-    ld (ix+16), $FF
-    ld (ix+17), $00
-    ld (ix+18), $FF
-    set 0, (ix+1)
-    set 1, (ix+1)
-    ld (ix+24), $0E
+    ld (ix + Entity.xSpeed.low), $80
+    ld (ix + Entity.xSpeed.high), $FF
+    ld (ix + Entity.ySpeed.low), $00
+    ld (ix + Entity.ySpeed.high), $FF
+    set 0, (ix + Entity.flags)
+    set 1, (ix + Entity.flags)
+    ld (ix + Entity.unknown6), $0E
 +:
     call tryToKillAlexIfColliding
     call _LABEL_7D0B_
     jp nc, _LABEL_55A5_
-    ld a, (ix+24)
+    ld a, (ix + Entity.unknown6)
     xor $0C
     ld e, a
     ld d, $01
     ld a, $08
     call _LABEL_3A03_
     jr nc, +
-    ld a, (ix+16)
+    ld a, (ix + Entity.xSpeed.high)
     cpl
-    ld (ix+16), a
-    ld a, (ix+15)
+    ld (ix + Entity.xSpeed.high), a
+    ld a, (ix + Entity.xSpeed.low)
     cpl
     inc a
-    ld (ix+15), a
-    ld a, (ix+24)
+    ld (ix + Entity.xSpeed.low), a
+    ld a, (ix + Entity.unknown6)
     xor $0C
-    ld (ix+24), a
+    ld (ix + Entity.unknown6), a
 +:
     ld de, $1108
     call getTileNearEntityWithXYOffset
     rlca
     jr nc, +
-    ld (ix+17), $00
-    ld (ix+18), $FF
+    ld (ix + Entity.ySpeed.low), $00
+    ld (ix + Entity.ySpeed.high), $FF
 +:
-    ld h, (ix+18)
-    ld l, (ix+17)
+    ld h, (ix + Entity.ySpeed.high)
+    ld l, (ix + Entity.ySpeed.low)
     ld de, $0010
     add hl, de
-    ld (ix+17), l
-    ld (ix+18), h
+    ld (ix + Entity.ySpeed.low), l
+    ld (ix + Entity.ySpeed.high), h
 _LABEL_63EA_:
     ld hl, _DATA_84C2_
-    ld a, (ix+16)
+    ld a, (ix + Entity.xSpeed.high)
     cp $FF
     jp nz, handleEntityAnimation
     ld hl, _DATA_84A1_

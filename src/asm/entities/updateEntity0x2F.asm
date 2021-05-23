@@ -1,33 +1,33 @@
 ; 47th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 updateEntity0x2F:
-    bit 0, (ix+1)
+    bit 0, (ix + Entity.flags)
     jr nz, +
-    ld (ix+7), <_DATA_854C_
-    ld (ix+8), >_DATA_854C_
-    ld a, (ix+9)
-    or (ix+10)
+    ld (ix + Entity.spriteDescriptorPointer.low), <_DATA_854C_
+    ld (ix + Entity.spriteDescriptorPointer.high), >_DATA_854C_
+    ld a, (ix + Entity.isOffScreenFlags.low)
+    or (ix + Entity.isOffScreenFlags.high)
     ret nz
-    set 0, (ix+1)
-    set 1, (ix+1)
-    ld (ix+23), $10
+    set 0, (ix + Entity.flags)
+    set 1, (ix + Entity.flags)
+    ld (ix + Entity.jankenMatchDecision), $10
 +:
-    ld a, (ix+9)
-    or (ix+10)
+    ld a, (ix + Entity.isOffScreenFlags.low)
+    or (ix + Entity.isOffScreenFlags.high)
     ret nz
     call tryToKillAlexIfColliding
     call _LABEL_7D0B_
     jp nc, _LABEL_55A5_
-    dec (ix+23)
+    dec (ix + Entity.jankenMatchDecision)
     ret nz
     ld a, $01
-    ld (ix+23), a
+    ld (ix + Entity.jankenMatchDecision), a
     ld de, $1108
     call getTileNearEntityWithXYOffset
     rlca
     ret nc
-    ld (ix+0), ENTITY_MONSTER_FROG_JUMPING
-    ld (ix+18), $FE
-    ld (ix+17), $80
-    ld (ix+7), <_DATA_855A_
-    ld (ix+8), >_DATA_855A_
+    ld (ix + Entity.type), ENTITY_MONSTER_FROG_JUMPING
+    ld (ix + Entity.ySpeed.high), $FE
+    ld (ix + Entity.ySpeed.low), $80
+    ld (ix + Entity.spriteDescriptorPointer.low), <_DATA_855A_
+    ld (ix + Entity.spriteDescriptorPointer.high), >_DATA_855A_
     ret

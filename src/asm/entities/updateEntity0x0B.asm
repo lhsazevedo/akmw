@@ -1,5 +1,5 @@
 updateEntity0x0B:
-	ld a, (ix+23)
+	ld a, (ix + Entity.jankenMatchDecision)
 	add a, a
 	ld e, a
 	ld d, $00
@@ -8,6 +8,6 @@ updateEntity0x0B:
 	ld a, (hl)
 	inc hl
 	ld h, (hl)
-	ld (ix+7), a
-	ld (ix+8), h
+	ld (ix + Entity.spriteDescriptorPointer.low), a
+	ld (ix + Entity.spriteDescriptorPointer.high), h
 	ret

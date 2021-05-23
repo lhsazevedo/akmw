@@ -1,9 +1,9 @@
 ; 2nd entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 updateEntity0x02:
-    bit 7, (ix+1)
+    bit 7, (ix + Entity.flags)
     jr nz, ++
     ld a, (v_entities.2.isOffScreenFlags)
-    or (ix+10)
+    or (ix + Entity.isOffScreenFlags.high)
     jr nz, +
     ld a, (v_entities.2.xPos.high)
     ld de, $0404
@@ -17,11 +17,11 @@ updateEntity0x02:
     or a
     jr nz, ++
 +:
-    dec (ix+25)
+    dec (ix + Entity.unknown7)
     ret nz
 ++:
-    ld (ix+25), $05
-    ld (ix+0), $04
+    ld (ix + Entity.unknown7), $05
+    ld (ix + Entity.type), $04
     ld a, $A9
     ld (v_soundControl), a
     ld hl, $0000

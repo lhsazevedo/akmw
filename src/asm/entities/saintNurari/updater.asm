@@ -1,8 +1,8 @@
 ; 69th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 updateSaintNurari:
-    ld (ix+7), <_DATA_82DE_
-    ld (ix+8), >_DATA_82DE_
-    bit 0, (ix+1)
+    ld (ix + Entity.spriteDescriptorPointer.low), <_DATA_82DE_
+    ld (ix + Entity.spriteDescriptorPointer.high), >_DATA_82DE_
+    bit 0, (ix + Entity.flags)
     jr nz, +
     ld a, (v_scrollFlags)
     or a
@@ -10,7 +10,7 @@ updateSaintNurari:
     ld a, $0D
     ld hl, _DATA_82D9_
 _LABEL_60D4_:
-    set 0, (ix+1)
+    set 0, (ix + Entity.flags)
     ld (v_messageToShowInTheTextBoxIndex), a
     ld a, $01
     ld (v_shouldShowNuraiOrOldMan), a
@@ -23,9 +23,9 @@ _LABEL_60D4_:
     ret
 
 +:
-    bit 1, (ix+1)
+    bit 1, (ix + Entity.flags)
     ret nz
-    set 1, (ix+1)
+    set 1, (ix + Entity.flags)
     ld iy, _RAM_C640_
     ld (iy+0), $52
     ld (iy+12), $72

@@ -16,10 +16,10 @@ _LABEL_78CE_:
 	ret z
 	call _LABEL_2BFA_
 	call _LABEL_7641_
-	bit 0, (ix+3)
+	bit 0, (ix + Entity.data)
 	jp z, _LABEL_5547_
-	inc (ix+26)
-	ld (ix+22), $28
+	inc (ix + Entity.state)
+	ld (ix + Entity.unknown5), $28
 	ld a, $0B
 	ld (v_messageToShowInTheTextBoxIndex), a
 	ld a, $07
@@ -30,7 +30,7 @@ _LABEL_78CE_:
 _LABEL_78F1_:
 	ld hl, $936D
 	ld (_RAM_C3A7_), hl
-	dec (ix+22)
+	dec (ix + Entity.unknown5)
 	ret nz
 	ld hl, $9395
 	ld (_RAM_C3A7_), hl
@@ -42,7 +42,7 @@ _LABEL_78F1_:
 	ld (_RAM_C3CE_), a
 	ld hl, $9387
 	ld (_RAM_C3C7_), hl
-	inc (ix+26)
+	inc (ix + Entity.state)
 	ld a, $AC
 	ld (v_soundControl), a
 	ret

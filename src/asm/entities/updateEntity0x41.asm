@@ -1,31 +1,31 @@
 ; 65th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 updateEntity0x41:
     call tryToKillAlexIfColliding
-    ld h, (ix+16)
-    ld l, (ix+15)
+    ld h, (ix + Entity.xSpeed.high)
+    ld l, (ix + Entity.xSpeed.low)
     ld de, $0008
     add hl, de
-    ld (ix+16), h
-    ld (ix+15), l
+    ld (ix + Entity.xSpeed.high), h
+    ld (ix + Entity.xSpeed.low), l
     ld a, h
     cp $FF
     ret z
-    ld a, (ix+24)
+    ld a, (ix + Entity.unknown6)
     or a
     jr nz, +
-    ld (ix+24), $01
+    ld (ix + Entity.unknown6), $01
     ld a, $9E
     ld (v_soundControl), a
 +:
-    ld a, (ix+4)
+    ld a, (ix + Entity.animationFrame)
     cp $13
     jr nz, +
-    ld a, (ix+5)
+    ld a, (ix + Entity.animationTimer)
     cp $01
     jr nz, +
-    ld (ix+0), $40
-    res 0, (ix+1)
-    ld (ix+24), $00
+    ld (ix + Entity.type), $40
+    res 0, (ix + Entity.flags)
+    ld (ix + Entity.unknown6), $00
     ret
 
 +:

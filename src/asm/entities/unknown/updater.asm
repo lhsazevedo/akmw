@@ -1,24 +1,24 @@
 ; 75th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 unknownUpdater:
-    bit 0, (ix+1)
+    bit 0, (ix + Entity.flags)
     jr nz, @skipInit
 
     ; Load sprite descriptor
-    ld (ix+7), <_DATA_80E1_
-    ld (ix+8), >_DATA_80E1_
+    ld (ix + Entity.spriteDescriptorPointer.low), <_DATA_80E1_
+    ld (ix + Entity.spriteDescriptorPointer.high), >_DATA_80E1_
 
     ; Return if offscreen
-    ld a, (ix+9)
-    or (ix+10)
+    ld a, (ix + Entity.isOffScreenFlags.low)
+    or (ix + Entity.isOffScreenFlags.high)
     ret nz
 
     ; Otherwise mark as initialized
-    set 0, (ix+1)
-    set 1, (ix+1)
+    set 0, (ix + Entity.flags)
+    set 1, (ix + Entity.flags)
 
     ; Set some unkown data
-    ld (ix+24), $00
-    ld (ix+22), $00
+    ld (ix + Entity.unknown6), $00
+    ld (ix + Entity.unknown5), $00
 
     ; @TODO
     xor a
@@ -34,7 +34,7 @@ unknownUpdater:
     cp $01
     jr z, @maybeDelete
 
-    ld a, (ix+24)
+    ld a, (ix + Entity.unknown6)
     or a
     jr nz, @unkown6IsNotZero
 
@@ -79,9 +79,9 @@ unknownUpdater:
 
     ; Increment _RAM_D8A0_ and self destroy
     ; if all bytes data is handled
-    inc (ix+22)
+    inc (ix + Entity.unknown5)
     ld a, (v_unknownEntityByteCount_RAM_D8A0_)
-    cp (ix+22)
+    cp (ix + Entity.unknown5)
     jp c, clearCurrentEntity
 
     ; @TODO

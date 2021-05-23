@@ -2,6 +2,6 @@
 updateEntity0x03:
     ld hl, _DATA_8372_
     call handleEntityAnimation
-    dec (ix+25)
+    dec (ix + Entity.unknown7)
     jp z, clearCurrentEntity
     ret

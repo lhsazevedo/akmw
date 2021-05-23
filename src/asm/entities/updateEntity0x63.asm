@@ -1,6 +1,6 @@
 ; 99th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 updateEntity0x63:
-    bit 0, (ix+1)
+    bit 0, (ix + Entity.flags)
     jr z, +
     call _LABEL_7D0B_
     ret c
@@ -16,12 +16,12 @@ updateEntity0x63:
     jp clearCurrentEntity
 
 +:
-    ld (ix+7), <_DATA_80E1_
-    ld (ix+8), >_DATA_80E1_
-    ld a, (ix+9)
+    ld (ix + Entity.spriteDescriptorPointer.low), <_DATA_80E1_
+    ld (ix + Entity.spriteDescriptorPointer.high), >_DATA_80E1_
+    ld a, (ix + Entity.isOffScreenFlags.low)
     or a
     ret nz
-    ld a, (ix+1)
+    ld a, (ix + Entity.flags)
     or $03
-    ld (ix+1), a
+    ld (ix + Entity.flags), a
     ret

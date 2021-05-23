@@ -2,7 +2,7 @@
 updateAlexIdle:
     call _LABEL_3B56_
     ld (v_entities.1.ySpeed), hl
-    bit 4, (ix+28)
+    bit 4, (ix + Entity.unknown8)
     jp nz, _LABEL_3E0B_
     call _LABEL_3C45_
     ld a, (v_entities.1.state)
@@ -28,9 +28,9 @@ updateAlexIdle:
     ld a, (_RAM_C213_)
     or a
     jp nz, _LABEL_3498_
-    bit 0, (ix+28)
+    bit 0, (ix + Entity.unknown8)
     jr z, +
-    bit 1, (ix+28)
+    bit 1, (ix + Entity.unknown8)
     jr nz, +
     call _LABEL_462E_
     ret nz

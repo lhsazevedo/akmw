@@ -1,7 +1,7 @@
 ; 27th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 updateEntity0x1B:
     ld a, (v_entities.2.isOffScreenFlags)
-    or (ix+10)
+    or (ix + Entity.isOffScreenFlags.high)
     jr nz, +
     ld a, (v_entities.2.xPos.high)
     cp $0C

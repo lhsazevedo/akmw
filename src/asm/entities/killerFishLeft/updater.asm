@@ -1,24 +1,24 @@
 ; 46th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 updateKillerFishLeft:
-    bit 0, (ix+1)
+    bit 0, (ix + Entity.flags)
     jr nz, +
-    ld (ix+5), $10
-    ld (ix+6), $10
-    ld a, (ix+9)
-    or (ix+10)
+    ld (ix + Entity.animationTimer), $10
+    ld (ix + Entity.animationTimerResetValue), $10
+    ld a, (ix + Entity.isOffScreenFlags.low)
+    or (ix + Entity.isOffScreenFlags.high)
     jr nz, _LABEL_51ED_
-    set 0, (ix+1)
-    ld a, (ix+14)
-    ld (ix+22), a
+    set 0, (ix + Entity.flags)
+    ld a, (ix + Entity.yPos.high)
+    ld (ix + Entity.unknown5), a
     jp _LABEL_51ED_
 
 +:
-    ld a, (ix+9)
-    or (ix+10)
+    ld a, (ix + Entity.isOffScreenFlags.low)
+    or (ix + Entity.isOffScreenFlags.high)
     jr nz, _LABEL_51ED_
-    ld (ix+16), $FF
-    ld (ix+15), $A0
-    set 1, (ix+1)
+    ld (ix + Entity.xSpeed.high), $FF
+    ld (ix + Entity.xSpeed.low), $A0
+    set 1, (ix + Entity.flags)
     call tryToKillAlexIfColliding
     call _LABEL_7D0B_
     jp nc, _LABEL_55A5_
@@ -26,18 +26,18 @@ updateKillerFishLeft:
     ld a, $08
     call _LABEL_3A03_
     jr nc, +
-    ld (ix+16), $00
-    ld (ix+15), $60
-    ld (ix+0), $35
+    ld (ix + Entity.xSpeed.high), $00
+    ld (ix + Entity.xSpeed.low), $60
+    ld (ix + Entity.type), $35
     jr _LABEL_51ED_
 
 +:
-    inc (ix+24)
-    ld a, (ix+24)
+    inc (ix + Entity.unknown6)
+    ld a, (ix + Entity.unknown6)
     cp $40
     jp nz, +
     xor a
-    ld (ix+24), a
+    ld (ix + Entity.unknown6), a
 +:
     ld hl, highSine
     ld c, a
@@ -55,13 +55,13 @@ updateKillerFishLeft:
     ld e, a
     ld a, h
     add a, d
-    ld h, (ix+22)
-    ld l, (ix+23)
+    ld h, (ix + Entity.unknown5)
+    ld l, (ix + Entity.jankenMatchDecision)
     add hl, de
-    ld (ix+22), h
-    ld (ix+23), l
+    ld (ix + Entity.unknown5), h
+    ld (ix + Entity.jankenMatchDecision), l
     add a, h
-    ld (ix+14), a
+    ld (ix + Entity.yPos.high), a
 _LABEL_51ED_:
     ld hl, _DATA_83AB_
     jp handleEntityAnimation
