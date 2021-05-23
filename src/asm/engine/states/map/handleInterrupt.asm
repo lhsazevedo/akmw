@@ -442,7 +442,7 @@ _DATA_2431_:
 .db $BC $08 $BD $08 $BE $08 $BF $08
 
 ; 33rd entry of Jump Table from 2892 (indexed by _RAM_CF80_)
-_LABEL_2439_:
+updateEntity0x21:
 	ld b, (ix+20)
 	ld (ix+7), <arrowSprite0Descriptor
 	ld (ix+8), >arrowSprite0Descriptor
