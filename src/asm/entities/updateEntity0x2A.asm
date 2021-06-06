@@ -13,6 +13,6 @@ updateEntity0x2A:
 
 +:
     call tryToKillAlexIfColliding
-    call _LABEL_7D0B_
+    call checkAlexEntityCollision_LABEL_7D0B_
     jr nc, _LABEL_55A5_
     jr _LABEL_55B6_

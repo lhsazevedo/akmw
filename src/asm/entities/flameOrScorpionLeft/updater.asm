@@ -21,7 +21,7 @@ updateflameOrScorpionLeft:
     ld a, (ix + Entity.data)
     or a
     jr nz, +
-    call _LABEL_7D0B_
+    call checkAlexEntityCollision_LABEL_7D0B_
     jp nc, _LABEL_55A5_
     ; else
 +:

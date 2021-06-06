@@ -52,8 +52,14 @@ _DATA_B830_:
 ; Bytes to copy to v_unknownEntityByteCount_RAM_D8A0_
 .db $16
 ; Bytes that will be copied.
-.db $07 $10 $CA $03 $14 $CA $03 $18 $CA $03 $1C $CA $03 $28 $CA $03
-.db $2C $CA $03 $30 $CA $03
+.db $07 
+.db $10 $CA $03
+.db $14 $CA $03
+.db $18 $CA $03
+.db $1C $CA $03
+.db $28 $CA $03
+.db $2C $CA $03
+.db $30 $CA $03
 
 ; Another special entity
 .db $81

@@ -3,7 +3,7 @@ import "banks";
 in prg @ 0x7D0B {
     namespace baserom {
         #[fallthrough]
-        func _LABEL_7D0B_() {}
+        func checkAlexEntityCollision_LABEL_7D0B_() {}
     }
 }
 

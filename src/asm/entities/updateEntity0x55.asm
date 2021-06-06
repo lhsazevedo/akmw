@@ -16,7 +16,7 @@ updateEntity0x55:
     ld (ix + Entity.unknown6), $0E
 +:
     call tryToKillAlexIfColliding
-    call _LABEL_7D0B_
+    call checkAlexEntityCollision_LABEL_7D0B_
     jp nc, _LABEL_55A5_
     ld a, (ix + Entity.unknown6)
     xor $0C

@@ -74,7 +74,7 @@ entityTypeJumpTable:
 .dw updateEntity0x48
 .dw updateEntity0x49
 .dw updateEntity0x4A
-.dw unknownUpdater
+.dw updateEntity0x4B
 .dw updateEntity0x4C
 .dw updateEntity0x4D
 .dw updatePowerBracelet

@@ -1,8 +1,15 @@
-; 75th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
-unknownUpdater:
-    bit 0, (ix + Entity.flags)
-    jr nz, @skipInit
+; Indicates if the entity is waiting an
+; opportunity to request a nametable change.
+Entity4b.changeQueued = Entity.unknown6
 
+; Counter to the nametable changes processed
+Entity4b.updatesCount = Entity.unknown5
+
+updateEntity0x4B:
+    bit 0, (ix + Entity.flags)
+    jr nz, @checkKind
+
+    ; Initialize entity
     ; Load sprite descriptor
     ld (ix + Entity.spriteDescriptorPointer.low), <_DATA_80E1_
     ld (ix + Entity.spriteDescriptorPointer.high), >_DATA_80E1_
@@ -17,24 +24,24 @@ unknownUpdater:
     set 1, (ix + Entity.flags)
 
     ; Set some unkown data
-    ld (ix + Entity.unknown6), $00
-    ld (ix + Entity.unknown5), $00
+    ld (ix + Entity4b.changeQueued), $00
+    ld (ix + Entity4b.updatesCount), $00
 
-    ; @TODO
+    ; Reset counter used by increment kind 
     xor a
     ld (_RAM_C07F_), a
 
-    ; @TODO
+    ; Set requests pointer
     ld hl, $D8A0
     inc hl
     ld (v_shopEntranceDoorNametablePointer), hl
 
-    @skipInit:
+    @checkKind:
     ld a, (ix + Entity.data)
     cp $01
-    jr z, @maybeDelete
+    jr z, @updateIncrementKind
 
-    ld a, (ix + Entity.unknown6)
+    ld a, (ix + Entity4b.changeQueued)
     or a
     jr nz, @unkown6IsNotZero
 
@@ -44,8 +51,7 @@ unknownUpdater:
     jr z, @updateCollisionKind
 
     ; Else, handle punch kind
-    ; @TODO
-    call _LABEL_7D0B_
+    call checkAlexEntityCollision_LABEL_7D0B_
     jr @updatePunchKind
 
     @updateCollisionKind:
@@ -61,7 +67,7 @@ unknownUpdater:
     ret z
 
     @setUnknown6ToOne:
-    ld (ix + Entity.unknown6), $01
+    ld (ix + Entity4b.changeQueued), $01
 
     @unkown6IsNotZero:
     ; Return if nametable change was already requested
@@ -69,22 +75,21 @@ unknownUpdater:
     or a
     ret nz
 
-    ; Unset alex unknown8 3rd bit
-    ; @TODO (punchEminent?)
+    ; Unset alex unknown8 3rd bit (punch)
     ld a, (v_entities.1.unknown8)
     res 3, a
     ld (v_entities.1.unknown8), a
 
-    ld (ix + Entity.unknown6), $00
+    ld (ix + Entity4b.changeQueued), $00
 
     ; Increment _RAM_D8A0_ and self destroy
     ; if all bytes data is handled
-    inc (ix + Entity.unknown5)
+    inc (ix + Entity4b.updatesCount)
     ld a, (v_unknownEntityByteCount_RAM_D8A0_)
-    cp (ix + Entity.unknown5)
+    cp (ix + Entity4b.updatesCount)
     jp c, clearCurrentEntity
 
-    ; @TODO
+    ; Request change
     ld a, $80
     ld (v_nametableChangeRequest), a
 
@@ -117,8 +122,8 @@ unknownUpdater:
     ld (Mapper_Slot2), a
     ret
 
-    @maybeDelete:
-    call _LABEL_7D0B_
+    @updateIncrementKind:
+    call checkAlexEntityCollision_LABEL_7D0B_
     ret c
     ld hl, _RAM_C07F_
     inc (hl)

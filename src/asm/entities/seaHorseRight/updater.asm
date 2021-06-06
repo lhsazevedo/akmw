@@ -1,7 +1,7 @@
 ; 50th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 updateSeaHorseRight:
     call tryToKillAlexIfColliding
-    call _LABEL_7D0B_
+    call checkAlexEntityCollision_LABEL_7D0B_
     jp nc, _LABEL_55A5_
     ld a, (ix + Entity.unknown6)
     cp $FF

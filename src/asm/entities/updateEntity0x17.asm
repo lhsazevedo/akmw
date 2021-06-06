@@ -10,7 +10,7 @@ updateEntity0x17:
     set 1, (ix + Entity.flags)
     bit 4, (ix + Entity.flags)
     jp nz, _LABEL_4A86_
-    call _LABEL_7D0B_
+    call checkAlexEntityCollision_LABEL_7D0B_
     ret c
     jp _LABEL_4A79_
 

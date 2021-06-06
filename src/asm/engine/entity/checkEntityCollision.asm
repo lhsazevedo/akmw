@@ -20,9 +20,9 @@ checkEntityCollision:
     ld a, (de)
     add a, b
     add a, (iy + Entity.xPos.high)
-    jr nc, _LABEL_7CE6_
+    jr nc, checkEntityCollisionSub_LABEL_7CE6_
     ld a, $FF
-_LABEL_7CE6_:
+checkEntityCollisionSub_LABEL_7CE6_:
     sub (hl)
     sub (ix + Entity.xPos.high)
     ret c

@@ -4,7 +4,7 @@ updateEntity0x48:
     cp $D8
     jr nc, ++
     call tryToKillAlexIfColliding
-    call _LABEL_7D0B_
+    call checkAlexEntityCollision_LABEL_7D0B_
     jr c, +
     inc (ix + Entity.jankenMatchDecision)
     ld a, (ix + Entity.jankenMatchDecision)

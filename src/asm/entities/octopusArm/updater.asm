@@ -22,7 +22,7 @@ updateOctopusArm:
     or (ix + Entity.isOffScreenFlags.high)
     jp nz, _LABEL_4CDE_
     call tryToKillAlexIfColliding
-    call _LABEL_7D0B_
+    call checkAlexEntityCollision_LABEL_7D0B_
     jp c, _LABEL_4CDE_
     ld a, (ix + Entity.unknown4)
     or a

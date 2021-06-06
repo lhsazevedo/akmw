@@ -15,7 +15,7 @@ updateEntity0x2F:
     or (ix + Entity.isOffScreenFlags.high)
     ret nz
     call tryToKillAlexIfColliding
-    call _LABEL_7D0B_
+    call checkAlexEntityCollision_LABEL_7D0B_
     jp nc, _LABEL_55A5_
     dec (ix + Entity.jankenMatchDecision)
     ret nz

@@ -11,7 +11,7 @@ updateSeaHorseLeft:
     set 1, (ix + Entity.flags)
 +:
     call tryToKillAlexIfColliding
-    call _LABEL_7D0B_
+    call checkAlexEntityCollision_LABEL_7D0B_
     jp nc, _LABEL_55A5_
     ld a, (ix + Entity.unknown6)
     or a

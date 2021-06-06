@@ -22,7 +22,7 @@ updateEntity0x54:
     ld (ix + Entity.xSpeed.high), $FF
 _LABEL_62F5_:
     call tryToKillAlexIfColliding
-    call _LABEL_7D0B_
+    call checkAlexEntityCollision_LABEL_7D0B_
     jp nc, _LABEL_55A5_
     ld d, $01
     ld e, (ix + Entity.unknown6)

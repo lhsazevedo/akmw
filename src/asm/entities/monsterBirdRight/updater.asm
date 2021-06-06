@@ -22,7 +22,7 @@ updateMonsterbirdRight:
     jr nz, ++
     call tryToKillAlexIfColliding
     ; Something related to alex state being $05
-    call _LABEL_7D0B_
+    call checkAlexEntityCollision_LABEL_7D0B_
     jp nc, _LABEL_55A5_
     ld de, $0118
     ld a, $08

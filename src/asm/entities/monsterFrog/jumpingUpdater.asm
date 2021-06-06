@@ -7,7 +7,7 @@ updateMonsterFrogJumping:
 
     call tryToKillAlexIfColliding
     ; @TODO
-    call _LABEL_7D0B_
+    call checkAlexEntityCollision_LABEL_7D0B_
     jp nc, _LABEL_55A5_
 
     ; Update Y velocity

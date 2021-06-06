@@ -6974,7 +6974,7 @@ _DATA_5D8C_:
 .INC "entities/saintNurari/updater.asm"
 .INC "entities/updateEntity0x52.asm"
 .INC "entities/updateEntity0x53.asm"
-.INC "entities/unknown/updater.asm"
+.INC "entities/updateEntity0x4B.asm"
 .INC "entities/updateEntity0x4C.asm"
 .INC "entities/updateEntity0x54.asm"
 .INC "entities/updateEntity0x55.asm"
@@ -8617,7 +8617,7 @@ _LABEL_73D8_:
 	jr z, ++
 	res 3, (hl)
 	ld (ix+19), $D0
-	call _LABEL_7D0B_
+	call checkAlexEntityCollision_LABEL_7D0B_
 	jr c, ++
 	inc (ix+2)
 	ld a, (_RAM_C3A2_)
@@ -9277,7 +9277,7 @@ _LABEL_79F0_:
 
 _LABEL_7A10_:
 	call tryToKillAlexIfColliding
-	call _LABEL_7D0B_
+	call checkAlexEntityCollision_LABEL_7D0B_
 	jr nc, _LABEL_7A40_
 	bit 1, (ix+20)
 	jr z, +
@@ -9387,7 +9387,7 @@ _LABEL_7AC2_:
 ; 3rd entry of Jump Table from 7A98 (indexed by _RAM_C3DA_)
 _LABEL_7AF3_:
 	call tryToKillAlexIfColliding
-	call _LABEL_7D0B_
+	call checkAlexEntityCollision_LABEL_7D0B_
 	jp nc, _LABEL_7A41_
 	ld a, (_RAM_C3CE_)
 	cp $28
@@ -9406,7 +9406,7 @@ _LABEL_7AF3_:
 
 _LABEL_7B18_:
 	call tryToKillAlexIfColliding
-	call _LABEL_7D0B_
+	call checkAlexEntityCollision_LABEL_7D0B_
 	jp nc, _LABEL_7A40_
 	bit 1, (ix+20)
 	ld de, $0028
@@ -9529,7 +9529,7 @@ _LABEL_7CBC_:
 .INC "engine/entity/checkEntityCollision.asm"
 
 
-_LABEL_7D0B_:
+checkAlexEntityCollision_LABEL_7D0B_:
 	ld a, (v_entities.1.state)
 	cp ALEX_SWIMING
 	jp z, _LABEL_7D38_
@@ -9544,10 +9544,13 @@ _DATA_7D1C_:
 
 ; 1st entry of Jump Table from 7D1C (indexed by _RAM_C054_)
 _LABEL_7D38_:
+    ; Return if alex unkown8 is not set
 	ld a, (v_entities.1.unknown8)
 	bit 0, a
 	scf
 	ret z
+
+    ; hl = alex.unkown2 + _DATA_91D0_ + 4
 	ld iy, v_entity1
 	ld a, (v_entities.1.unknown2)
 	add a, $04
@@ -9555,17 +9558,23 @@ _LABEL_7D38_:
 	ld h, $00
 	ld bc, _DATA_91D0_
 	add hl, bc
+
+    ; Save hl into de
 	ex de, hl
-	ld l, (ix+19)
+
+    ; hl = ix.unknown2 + _DATA_91D0_
+	ld l, (ix + Entity.unknown2)
 	ld h, $00
 	add hl, bc
+
+    ; a = (de) + (++de) + alex.xPos.high
 	ld a, (de)
 	ld b, a
 	inc de
 	ld a, (de)
 	add a, b
-	add a, (iy+12)
-	jp _LABEL_7CE6_
+	add a, (iy + Entity.xPos.high)
+	jp checkEntityCollisionSub_LABEL_7CE6_
 
 ; 9th entry of Jump Table from 7D1C (indexed by _RAM_C054_)
 _LABEL_7D61_:

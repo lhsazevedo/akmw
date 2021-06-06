@@ -8,7 +8,7 @@ updateEntity0x0F:
 	jr ++
 
 +:
-	call _LABEL_7D0B_
+	call checkAlexEntityCollision_LABEL_7D0B_
 	jr c, ++
 	inc (ix + Entity.unknown1)
 	ld a, (_RAM_C3C2_)

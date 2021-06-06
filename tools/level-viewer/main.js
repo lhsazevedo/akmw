@@ -123,10 +123,20 @@ function handleFile(ev) {
 
     // const r = xrle(rom.slice(0x18022))
     for (const [s, screen] of screens.entries()) {
+
         const r = xrle(rom.slice(screen))
 
         const yPad = Math.floor(s/5) * 192
         const xPad = (s % 5) * 256
+
+        const eEl = document.createElement('div')
+        eEl.textContent = `${s}`
+        eEl.style.setProperty('left', (xPad*2 + 10) + 'px')
+        eEl.style.setProperty('top',  (yPad*2 + 10) + 'px')
+        eEl.classList.add('screen-number')
+
+        
+        document.getElementById('entities').appendChild(eEl)
 
         for (const [i, metatile] of r.entries()) {
             const ptr = rw(rom, 0x14000 + metatile * 2) + 0xc000
@@ -162,12 +172,14 @@ function handleFile(ev) {
                 const type = rom[ePtr + 1];
                 const eYPos = rom[ePtr + 1 + 1];
                 const eXPos = rom[ePtr + 1 + 2];
+                const eData = rom[ePtr + 1 + 3];
 
                 const eEl = document.createElement('div')
-                eEl.textContent = hex(type)
+                eEl.textContent = hex(type) + ' d: ' + hex(eData)
                 eEl.style.setProperty('left', (xPad + eXPos)*2 + 'px')
                 eEl.style.setProperty('top',  (yPad + eYPos)*2 + 'px')
-                
+                eEl.classList.add('entity')
+
                 document.getElementById('entities').appendChild(eEl)
 
                 ePtr += 5
@@ -176,12 +188,14 @@ function handleFile(ev) {
                     const type = rom[ePtr + 1 + ei*4];
                     const eYPos = rom[ePtr + 1 + ei*4 + 1];
                     const eXPos = rom[ePtr + 1 + ei*4 + 2];
+                    const eData = rom[ePtr + 1 + ei*4 + 3];
 
                     const eEl = document.createElement('div')
-                    eEl.textContent = hex(type)
+                    eEl.textContent = hex(type) + ' d: ' + hex(eData)
                     eEl.style.setProperty('left', (xPad + eXPos)*2 + 'px')
                     eEl.style.setProperty('top',  (yPad + eYPos)*2 + 'px')
-                    
+                    eEl.classList.add('entity')
+
                     document.getElementById('entities').appendChild(eEl)
                 }
 
