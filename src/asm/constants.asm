@@ -61,6 +61,7 @@ ENTITY_ARRAY_SIZE = $1E
 ; Entity types
 ENTITY_ALEX                     = $01
 ENTITY_STATIC                   = $18
+ENTITY_GOOSEKA                  = $1D
 ENTITY_BAT_LEFT                 = $20
 ENTITY_MERMAN_BUBBLE            = $22
 ENTITY_MERMAN                   = $23

@@ -9063,7 +9063,7 @@ _DATA_777A_:
 _DATA_778E_:
 .db $04 $C9 $75 $8B $8C $CD $65 $8A
 
-.INC "entities/updateEntity0x1D.asm"
+.INC "entities/updateGooseka.asm"
 
 ; Jump Table from 779E to 77BD (16 entries, indexed by _RAM_C3BA_)
 _DATA_779E_:

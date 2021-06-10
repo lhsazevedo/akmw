@@ -174,7 +174,7 @@ Entity 0: ENTITY_FLAME_OR_SCORPION_LEFT, X: 128, Y: 144, d: 0x0
 > Screen 17 entities:
 Special screen found: 0x4 at 0xb7eb
 Special type: Always present entity (bit 3)
-Type: 0x1d, X: 176, Y: 128, d: 0x2
+Type: ENTITY_GOOSEKA, X: 176, Y: 128, d: 0x2
 Count: 0
 
 ****************************
@@ -820,7 +820,7 @@ Entity 2: ENTITY_FLAME_OR_SCORPION_LEFT, X: 160, Y: 160, d: 0x1
 > Screen 14 entities:
 Special screen found: 0x4 at 0xbca5
 Special type: Always present entity (bit 3)
-Type: 0x1d, X: 192, Y: 144, d: 0x3
+Type: ENTITY_GOOSEKA, X: 192, Y: 144, d: 0x3
 Count: 0
 
 > Screen 15 entities:

@@ -28,7 +28,7 @@ entityTypeJumpTable:
 .dw updateEntity0x1A
 .dw updateEntity0x1B
 .dw updateEntity0x1C
-.dw updateEntity0x1D
+.dw updateGooseka
 .dw updateEntity0x1E
 .dw updateEntity0x1F
 .dw updateBatLeft
