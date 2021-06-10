@@ -1,11 +1,11 @@
 ; Indicates if the entity is waiting an
 ; opportunity to request a nametable change.
-Entity4b.changeQueued = Entity.unknown6
+NabetableChanger.changeQueued = Entity.unknown6
 
 ; Counter to the nametable changes processed
-Entity4b.updatesCount = Entity.unknown5
+NabetableChanger.updatesCount = Entity.unknown5
 
-updateEntity0x4B:
+updateNametableChanger:
     bit 0, (ix + Entity.flags)
     jr nz, @checkKind
 
@@ -24,8 +24,8 @@ updateEntity0x4B:
     set 1, (ix + Entity.flags)
 
     ; Set some unkown data
-    ld (ix + Entity4b.changeQueued), $00
-    ld (ix + Entity4b.updatesCount), $00
+    ld (ix + NabetableChanger.changeQueued), $00
+    ld (ix + NabetableChanger.updatesCount), $00
 
     ; Reset counter used by increment kind 
     xor a
@@ -41,7 +41,7 @@ updateEntity0x4B:
     cp $01
     jr z, @updateIncrementKind
 
-    ld a, (ix + Entity4b.changeQueued)
+    ld a, (ix + NabetableChanger.changeQueued)
     or a
     jr nz, @unkown6IsNotZero
 
@@ -67,7 +67,7 @@ updateEntity0x4B:
     ret z
 
     @setUnknown6ToOne:
-    ld (ix + Entity4b.changeQueued), $01
+    ld (ix + NabetableChanger.changeQueued), $01
 
     @unkown6IsNotZero:
     ; Return if nametable change was already requested
@@ -80,13 +80,13 @@ updateEntity0x4B:
     res 3, a
     ld (v_entities.1.unknown8), a
 
-    ld (ix + Entity4b.changeQueued), $00
+    ld (ix + NabetableChanger.changeQueued), $00
 
     ; Increment _RAM_D8A0_ and self destroy
     ; if all bytes data is handled
-    inc (ix + Entity4b.updatesCount)
+    inc (ix + NabetableChanger.updatesCount)
     ld a, (v_unknownEntityByteCount_RAM_D8A0_)
-    cp (ix + Entity4b.updatesCount)
+    cp (ix + NabetableChanger.updatesCount)
     jp c, clearCurrentEntity
 
     ; Request change

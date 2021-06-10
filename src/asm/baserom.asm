@@ -6974,7 +6974,7 @@ _DATA_5D8C_:
 .INC "entities/saintNurari/updater.asm"
 .INC "entities/updateEntity0x52.asm"
 .INC "entities/updateEntity0x53.asm"
-.INC "entities/updateEntity0x4B.asm"
+.INC "entities/updateNametableChanger.asm"
 .INC "entities/updateEntity0x4C.asm"
 .INC "entities/updateEntity0x54.asm"
 .INC "entities/updateEntity0x55.asm"
