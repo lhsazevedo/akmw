@@ -6470,7 +6470,7 @@ _LABEL_48C5_:
     ld (hl), a
     ret
 
-.INC "entities/updateEntity0x1A.asm"
+.INC "entities/updateEntity0x1B.asm"
 
 ; Shared
 _LABEL_4944_:
@@ -8281,7 +8281,7 @@ _DATA_7128_:
 .db $30 $98 $36 $01
 .db $38 $98 $2E $01
 
-.INC "entities/updateEntity0x1B.asm"
+.INC "entities/updateEntity0x1C.asm"
 
 ; Jump Table from 7152 to 717B (21 entries, indexed by _RAM_C3BA_)
 _DATA_7152_:
@@ -8731,7 +8731,7 @@ _LABEL_74A4_:
 _LABEL_74CD_:
 	ret
 
-.INC "entities/updateEntity0x18.asm"
+.INC "entities/updateEntity0x19.asm"
 
 ; Jump Table from 74DF to 74EA (6 entries, indexed by _RAM_CF9A_)
 _DATA_74DF_:
@@ -9063,7 +9063,7 @@ _DATA_777A_:
 _DATA_778E_:
 .db $04 $C9 $75 $8B $8C $CD $65 $8A
 
-.INC "entities/updateEntity0x1C.asm"
+.INC "entities/updateEntity0x1D.asm"
 
 ; Jump Table from 779E to 77BD (16 entries, indexed by _RAM_C3BA_)
 _DATA_779E_:
@@ -9112,7 +9112,7 @@ _LABEL_780B_:
 	jp z, _LABEL_5547_
 	ret
 
-.INC "entities/updateEntity0x1D.asm"
+.INC "entities/updateEntity0x1E.asm"
 
 ; Jump Table from 781E to 783B (15 entries, indexed by _RAM_C3BA_)
 _DATA_781E_:
@@ -9163,9 +9163,9 @@ _LABEL_786F_:
 	set 1, (iy+1)
 	ret
 
-.INC "entities/updateEntity0x19.asm"
+.INC "entities/updateEntity0x1A.asm"
 
-.INC "entities/updateEntity0x1E.asm"
+.INC "entities/updateEntity0x1F.asm"
 
 _LABEL_7924_:
 	ld hl, _RAM_C3C0_
