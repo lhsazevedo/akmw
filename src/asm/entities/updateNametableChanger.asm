@@ -11,8 +11,8 @@ updateNametableChanger:
 
     ; Initialize entity
     ; Load sprite descriptor
-    ld (ix + Entity.spriteDescriptorPointer.low), <_DATA_80E1_
-    ld (ix + Entity.spriteDescriptorPointer.high), >_DATA_80E1_
+    ld (ix + Entity.spriteDescriptorPointer.low), <nullSpriteDescriptor_DATA_80E1_
+    ld (ix + Entity.spriteDescriptorPointer.high), >nullSpriteDescriptor_DATA_80E1_
 
     ; Return if offscreen
     ld a, (ix + Entity.isOffScreenFlags.low)

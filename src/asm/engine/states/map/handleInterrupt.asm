@@ -220,7 +220,7 @@ initMapState:
 	ld b, $18
 	ld de, _RAM_C808_
 	ld (v_currentMapNametableDestinationPointer), de
-	ld hl, _DATA_11E75_
+	ld hl, chokkinnaTilesB
 	ld (v_currentMapOrTextNametablePointer), hl
 -:
 	push bc

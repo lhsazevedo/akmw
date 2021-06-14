@@ -218,7 +218,7 @@ tiles_AlexKiddEatingRiceBall:
 .INC "src/graphics/alexKidd.asm"
 
 ; Data from 118E9 to 11BB4 (716 bytes)
-_DATA_118E9_:
+jankenMatchTiles:
 .db $02 $00 $82 $07 $1F $02 $3F $02 $7F $84 $01 $07 $8F $EF $04 $FF
 .db $83 $E0 $F8 $FC $05 $FF $02 $00 $83 $E0 $F8 $FC $02 $FE $08 $FF
 .db $81 $7F $05 $FF $02 $FE $83 $FC $7F $3F $02 $1F $02 $3F $02 $7F
@@ -267,7 +267,7 @@ _DATA_118E9_:
 
 ; 1st entry of Pointer Table from 7663 (indexed by _RAM_C3A3_)
 ; Data from 11BB5 to 11E66 (690 bytes)
-_DATA_11BB5_:
+goosekaTiles:
 .db $03 $00 $88 $07 $1F $3F $3F $7F $00 $00 $F0 $02 $FC $03 $FE $02
 .db $7F $86 $61 $23 $3F $1E $01 $1F $02 $CE $02 $FC $86 $F8 $F0 $00
 .db $F8 $1F $5F $03 $6F $8B $7C $78 $20 $FA $F2 $F6 $F6 $EE $FE $7E
@@ -315,11 +315,11 @@ _DATA_11BB5_:
 
 ; 1st entry of Pointer Table from 7673 (indexed by _RAM_C3A3_)
 ; Data from 11E67 to 11E74 (14 bytes)
-_DATA_11E67_:
+chokkinnaTilesA:
 .db $8E $00 $1C $3E $32 $16 $1E $0E $3F $00 $38 $7C $4C $6C
 
 ; Data from 11E75 to 120A7 (563 bytes)
-_DATA_11E75_:
+chokkinnaTilesB:
 .db $F8 $02 $F0 $05 $7F $83 $3F $0F $00 $02 $F8 $03 $FC $83 $F8 $70
 .db $00 $02 $08 $02 $0C $84 $1E $7F $7E $7C $02 $20 $02 $60 $86 $F0
 .db $FC $FC $7C $78 $30 $06 $00 $82 $3C $18 $06 $00 $02 $08 $90 $0C
@@ -359,7 +359,7 @@ _DATA_11E75_:
 
 ; 1st entry of Pointer Table from 7683 (indexed by _RAM_C3A3_)
 ; Data from 120A8 to 12356 (687 bytes)
-_DATA_120A8_:
+parplinTiles:
 .db $92 $00 $03 $33 $3B $19 $1D $6D $63 $00 $0C $9C $98 $B8 $B0 $B0
 .db $8E $3D $1B $03 $1F $8B $0E $31 $7F $7E $BC $FC $F8 $F8 $F0 $0C
 .db $FE $03 $7F $85 $6F $70 $70 $6F $0F $03 $FE $85 $EE $1E $1E $EE

@@ -12,7 +12,7 @@ _DATA_78B0_:
 
 ; 12th entry of Jump Table from 78B0 (indexed by _RAM_C3BA_)
 _LABEL_78CE_:
-	call _LABEL_722F_
+	call isTextboxGameState
 	ret z
 	call _LABEL_2BFA_
 	call _LABEL_7641_

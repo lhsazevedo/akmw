@@ -2,8 +2,8 @@
 updateEntity0x53:
     bit 0, (ix + Entity.flags)
     jr nz, +
-    ld (ix + Entity.spriteDescriptorPointer.low), <_DATA_80E1_
-    ld (ix + Entity.spriteDescriptorPointer.high), >_DATA_80E1_
+    ld (ix + Entity.spriteDescriptorPointer.low), <nullSpriteDescriptor_DATA_80E1_
+    ld (ix + Entity.spriteDescriptorPointer.high), >nullSpriteDescriptor_DATA_80E1_
     ld a, (v_scrollFlags)
     or a
     ret nz

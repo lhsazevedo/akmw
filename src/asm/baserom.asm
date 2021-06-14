@@ -4058,19 +4058,26 @@ updateAutoWalkingRight:
     jp _LABEL_4189_
 
 _LABEL_3478_:
+    ; Clear entities 2, 3 and 4.
     ld hl, v_entities.2
     call clearEntity
     inc hl
     call clearEntity
     inc hl
     call clearEntity
+
+    ; Keep only bits 0, 1 and 3 of alex unknown8 byte
     ld a, (v_entities.1.unknown8)
     and $F4
     ld (v_entities.1.unknown8), a
+
+    ; Return if _RAM_C054_ is 2
     ld hl, _RAM_C054_
     ld a, (hl)
     cp $02
     ret z
+
+    ; Otherwise, set it to 0
     xor a
     ld (hl), a
     ret
@@ -5364,8 +5371,8 @@ _DATA_3E38_:
 ; 1st entry of Jump Table from 3E38 (indexed by _RAM_CF9A_)
 _LABEL_3E40_:
     ld (ix+9), $00
-    ld (ix+7), <_DATA_80E1_
-    ld (ix+8), >_DATA_80E1_
+    ld (ix+7), <nullSpriteDescriptor_DATA_80E1_
+    ld (ix+8), >nullSpriteDescriptor_DATA_80E1_
     inc (ix+26)
     ret
 
@@ -8291,110 +8298,152 @@ _DATA_7152_:
 
 ; 1st entry of Jump Table from 78B0 (indexed by _RAM_C3BA_)
 _LABEL_717C_:
-	inc (ix+26)
+	inc (ix + Entity.state)
+
+    ; Set some variables to 0
 	xor a
 	ld (_RAM_C216_), a
 	ld (v_hasJankenMatchStarted), a
+
+    ; Set some variables to 1
 	inc a
-	ld (_RAM_C3A5_), a
-	ld (_RAM_C3BF_), a
-	ld a, (_RAM_C3A3_)
+	ld (v_entities.6.animationTimer), a
+	ld (v_entities.6.unknown11), a
+
+    ; Choose sprite descriptor based on boss data
+	ld a, (v_entities.6.data)
 	and $FE
 	add a, a
 	add a, a
 	add a, a
-	ld hl, $80E1
+	ld hl, nullSpriteDescriptor_DATA_80E1_
 	jr nz, +
-	ld hl, $8134
+	ld hl, _DATA_8134_
 +:
-	ld (_RAM_C3A7_), hl
+	ld (v_entities.6.spriteDescriptorPointer), hl
+
+    ; Copy opponent data to 0xc230. @TODO: Analyse more.
 	ld l, a
 	ld h, $00
 	ld de, _DATA_7651_
 	add hl, de
-	ld de, _RAM_C230_
+	ld de, v_jankenMatchOpponentSpriteDescriptorPointer
 	ld bc, $0010
 	ldir
 	ret
 
 ; 2nd entry of Jump Table from 78B0 (indexed by _RAM_C3BA_)
 _LABEL_71B0_:
-	ld a, (_RAM_C3AA_)
-	or (ix+9)
+    ; Return of offscreen
+	ld a, (v_entities.6.isOffScreenFlags.high)
+	or (ix + Entity.isOffScreenFlags.low)
 	ret nz
+
+    ; Return if screen is scrolling
 	ld a, (v_scrollFlags)
 	and $0F
 	ret nz
+
+    ; Return if alex isn't walking
 	ld a, (v_entities.1.state)
 	cp ALEX_IN_AIR 
 	ret nc
-	inc (ix+26)
+
+    ; Increment state
+	inc (ix + Entity.state)
+
+    ; Set alex state to walk left
 	ld a, $16
 	ld (v_entities.1.state), a
 	ret
 
 ; 3rd entry of Jump Table from 78B0 (indexed by _RAM_C3BA_)
 _LABEL_71CC_:
+    ; Wait alex stop walking left
 	ld a, (v_entities.1.state)
 	cp $17
 	ret nz
-	inc (ix+26)
+
+	inc (ix + Entity.state)
+
+    ; Delete entities 2 to 4, and maybe set an byte of alex data 
 	call _LABEL_3478_
-	ld hl, (_RAM_C230_)
-	ld (_RAM_C3A7_), hl
-	ld a, (_RAM_C3A3_)
+
+    ; Load opponent sprite descriptor
+	ld hl, (v_jankenMatchOpponentSpriteDescriptorPointer)
+    ld (v_entities.6.spriteDescriptorPointer), hl
+    ld a, (v_entities.6.data)
 	cp $01
+
+    ; Adjust opponent position if bit 1 is set.
 	jr nz, +
-	ld (ix+12), $B8
-	ld (ix+14), $80
+	ld (ix + Entity.xPos.high), $B8
+	ld (ix + Entity.yPos.high), $80
 +:
+
 	ld a, $01
 	ld (v_hasJankenMatchStarted), a
-	call _LABEL_7924_
-	ld hl, (_RAM_C232_)
+
+	call prepareForJankenMatch
+
+    ; Load opponent tiles
+	ld hl, (jankenMatchOpponentTilesPointer)
 	ld de, $6400
 	call decompress4BitplanesToVRAM
 	ei
+
 	ld a, $82
 	ld (Mapper_Slot2), a
-	ld a, $07
+
+    ; Set up text message
+	ld a, STATE_TEXT_BOX
 	ld (v_gameState), a
-	ld a, (_RAM_C23E_)
+	ld a, (jankenMatchOpponentMessagePointer)
 	ld (v_messageToShowInTheTextBoxIndex), a
 	ret
 
 ; 4th entry of Jump Table from 78B0 (indexed by _RAM_C3BA_)
+; Handles match first textbox (opponent text box)
 _LABEL_7210_:
-	call _LABEL_722F_
+	call isTextboxGameState
 	ret z
 	ld hl, (_RAM_C234_)
+
+    // @TODO
 	call _LABEL_75C6_
 	call _LABEL_7941_
-	ld a, $07
+
+	ld a, STATE_TEXT_BOX
 	ld (v_gameState), a
 	ld a, $07
 	ld (v_messageToShowInTheTextBoxIndex), a
-	inc (ix+26)
-	ld (ix+6), $10
+
+	inc (ix + Entity.state)
+	ld (ix + Entity.animationTimerResetValue), $10
 	ret
 
-_LABEL_722F_:
+isTextboxGameState:
 	ld a, (v_gameState)
 	and $0F
 	cp $07
 	ret
 
 ; 5th entry of Jump Table from 78B0 (indexed by _RAM_C3BA_)
+; Handles match second textbox "You must choose..."
 _LABEL_7237_:
-	call _LABEL_722F_
+	call isTextboxGameState
 	ret z
+
 	ld a, $17
 	ld (v_entities.1.state), a
+
+    ; Request music
 	ld a, $87
 	ld (v_soundControl), a
-	inc (ix+26)
-	ld (ix+31), $FF
-	ld (ix+24), $14
+
+	inc (ix + Entity.state)
+	ld (ix + Entity.unknown11), $FF
+	ld (ix + Entity.unknown6), $14
 	ret
 
 ; 6th entry of Jump Table from 78B0 (indexed by _RAM_C3BA_)
@@ -8529,7 +8578,7 @@ _LABEL_7314_:
 
 ; 9th entry of Jump Table from 78B0 (indexed by _RAM_C3BA_)
 _LABEL_7342_:
-	call _LABEL_722F_
+	call isTextboxGameState
 	ret z
 	call _LABEL_7641_
 	ld a, $15
@@ -8541,7 +8590,7 @@ _LABEL_7342_:
 
 ; 10th entry of Jump Table from 78B0 (indexed by _RAM_C3BA_)
 _LABEL_7357_:
-	call _LABEL_722F_
+	call isTextboxGameState
 	ret z
 	ld (ix+6), $14
 	ld a, $93
@@ -8598,7 +8647,7 @@ _LABEL_73AE_:
 
 ; 13th entry of Jump Table from 78B0 (indexed by _RAM_C3BA_)
 _LABEL_73CB_:
-	call _LABEL_722F_
+	call isTextboxGameState
 	ret z
 	ld a, $84
 	ld (v_soundControl), a
@@ -8933,33 +8982,49 @@ _DATA_7651_:
 .dw _DATA_76E3_
 
 ; Data from 765F to 7662 (4 bytes)
-.db $0C $00 $16 $93
+.db $0C $00 
 
-; Pointer Table from 7663 to 7664 (1 entries, indexed by _RAM_C3A3_)
-.dw _DATA_11BB5_
+; The following 16 bytes are copied to 0xC230 - 0xC23F
+.db $16 $93         ; Pointer to opponent sprite descriptor
+.dw goosekaTiles    ; Pointer to Gooseka tiles
 
-; Data from 7665 to 7672 (14 bytes)
+; @Unknown
+; REV0 0xB2 0x76
+; REV1 0xB9 0x76
 .IFDEF _REV1
 	.db $B9
 .ELSE
 	.db $B2
 .ENDIF
-.db $76 $F2 $92 $F7 $92
+.db $76
+
+.db $F2 $92         ; Pointer to opponent animation descriptor
+.db $F7 $92         ; Pointer to countdown animation descriptor
+
+; Pointer to show-decision sprite descriptor
+; REV0 0x90 0x76
+; REV1 0x97 0x76
 .IFDEF _REV1
 	.db $97
 .ELSE
 	.db $90
 .ENDIF
 .db $76
+
+; Pointer to decisions
 .IFDEF _REV1
 	.db $03 $77
 .ELSE
 	.db $FC $76
 .ENDIF
-.db $04 $00 $16 $93
+
+.db $04             ; Index to message to show to the opponent 
+.db $00             ; @Unknown
+
+.db $16 $93
 
 ; Pointer Table from 7673 to 7674 (1 entries, indexed by _RAM_C3A3_)
-.dw _DATA_11E67_
+.dw chokkinnaTilesA
 
 ; Data from 7675 to 7682 (14 bytes)
 .IFDEF _REV1
@@ -8982,7 +9047,7 @@ _DATA_7651_:
 .db $77 $05 $00 $16 $93
 
 ; Pointer Table from 7683 to 7684 (1 entries, indexed by _RAM_C3A3_)
-.dw _DATA_120A8_
+.dw parplinTiles
 
 ; Data from 7685 to 7690 (12 bytes)
 .IFDEF _REV1
@@ -9066,7 +9131,7 @@ _DATA_778E_:
 .INC "entities/updateGooseka.asm"
 
 ; Jump Table from 779E to 77BD (16 entries, indexed by _RAM_C3BA_)
-_DATA_779E_:
+goosekaUpdaters:
 .dw _LABEL_717C_ _LABEL_71B0_ _LABEL_71CC_ _LABEL_7210_ _LABEL_7237_ _LABEL_7251_ _LABEL_727F_ _LABEL_72B3_
 .dw _LABEL_7342_ _LABEL_7357_ _LABEL_7372_ _LABEL_77BE_ _LABEL_73CB_ _LABEL_74A4_ _LABEL_77CD_ _LABEL_780B_
 
@@ -9167,17 +9232,22 @@ _LABEL_786F_:
 
 .INC "entities/updateEntity0x1F.asm"
 
-_LABEL_7924_:
-	ld hl, _RAM_C3C0_
+; Clear entities, reset sound, load janken match tiles
+prepareForJankenMatch:
+    ; Clear entities 7 through 28
+	ld hl, v_entities.7
 	ld b, $16
--:
+    @loopClear:
 	call clearEntity
 	inc hl
-	djnz -
+	djnz @loopClear
+
 	call resetSoundAndVolume
-	ld a, $84
+
+	ld a, :jankenMatchTiles | $80
 	ld (Mapper_Slot2), a
-	ld hl, _DATA_118E9_
+
+	ld hl, jankenMatchTiles
 	ld de, $7000
 	di
 	jp decompress4BitplanesToVRAM
