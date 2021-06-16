@@ -52,7 +52,13 @@ ALEX_RIDING_MOTORCYCLE_IN_AIR = $09
 ALEX_RIDING_BOAT              = $0B
 ALEX_RIDING_BOAT_IN_AIR       = $0C 
 ALEX_DEAD                     = $0F
+ALEX_DIVING                   = $13
 ALEX_AUTO_WALKING_RIGHT       = $14
+ALEX_JANKEN_COUNTING          = $15
+ALEX_JANKEN_WALK_TO_POSITION  = $16
+ALEX_JANKEN_MUSIC             = $17
+ALEX_JANKEN_THROW             = $18
+ALEX_JANKEN_STATUE            = $19
 
 
 ; Entity
@@ -61,7 +67,10 @@ ENTITY_ARRAY_SIZE = $1E
 ; Entity types
 ENTITY_ALEX                     = $01
 ENTITY_STATIC                   = $18
+ENTITY_JANKEN                   = $1C
 ENTITY_GOOSEKA                  = $1D
+ENTITY_CHOKKINNA                = $1E
+ENTITY_PARPLIN                  = $1F
 ENTITY_BAT_LEFT                 = $20
 ENTITY_MERMAN_BUBBLE            = $22
 ENTITY_MERMAN                   = $23
@@ -117,6 +126,7 @@ SOUND_COINS          = $8E
 SOUND_POWERUP        = $8F
 SOUND_LEVEL_STARTING = $86
 SOUND_MERMAN_BUBBLES = $97
+SOUND_JANKEN_MUSIC   = $87
 
 ; Others
 ALEX_GRAVITY = $0040

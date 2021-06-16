@@ -496,7 +496,7 @@ Entity 2: ENTITY_FLAME_OR_SCORPION_LEFT, X: 176, Y: 144, d: 0x0
 > Screen 8 entities:
 Special screen found: 0x4 at 0xb99d
 Special type: Always present entity (bit 3)
-Type: 0x1e, X: 176, Y: 128, d: 0x4
+Type: ENTITY_CHOKKINNA, X: 176, Y: 128, d: 0x4
 Count: 0
 
 ****************************
@@ -733,7 +733,7 @@ Entity 3: 0x3d, X: 176, Y: 80, d: 0x0
 > Screen 14 entities:
 Special screen found: 0x4 at 0xbb17
 Special type: Always present entity (bit 3)
-Type: 0x1f, X: 176, Y: 128, d: 0x6
+Type: ENTITY_PARPLIN, X: 176, Y: 128, d: 0x6
 Count: 0
 
 ****************************
@@ -865,7 +865,7 @@ Entity 2: 0x3d, X: 192, Y: 88, d: 0x0
 > Screen 2 entities:
 Special screen found: 0x4 at 0xbb2b
 Special type: Always present entity (bit 3)
-Type: 0x1e, X: 192, Y: 128, d: 0x5
+Type: ENTITY_CHOKKINNA, X: 192, Y: 128, d: 0x5
 Count: 0
 
 ****************************
@@ -992,7 +992,7 @@ Entity 1: ENTITY_FLAME_OR_SCORPION_LEFT, X: 32, Y: 144, d: 0x0
 > Screen 10 entities:
 Special screen found: 0x4 at 0xbbfa
 Special type: Always present entity (bit 3)
-Type: 0x1f, X: 176, Y: 128, d: 0x7
+Type: ENTITY_PARPLIN, X: 176, Y: 128, d: 0x7
 Count: 0
 
 ****************************
@@ -1103,7 +1103,7 @@ Entity 3: ENTITY_FLAME_OR_SCORPION_LEFT, X: 192, Y: 160, d: 0x1
 > Screen 13 entities:
 Special screen found: 0x4 at 0xbd95
 Special type: Always present entity (bit 3)
-Type: 0x1c, X: 192, Y: 152, d: 0x1
+Type: ENTITY_JANKEN, X: 192, Y: 152, d: 0x1
 Count: 0
 
 > Screen 14 entities:

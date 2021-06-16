@@ -27,10 +27,10 @@ entityTypeJumpTable:
 .dw updateEntity0x19
 .dw updateEntity0x1A
 .dw updateEntity0x1B
-.dw updateEntity0x1C
+.dw updateJanken
 .dw updateGooseka
-.dw updateEntity0x1E
-.dw updateEntity0x1F
+.dw updateChokkinna
+.dw updateParplin
 .dw updateBatLeft
 .dw updateEntity0x21
 .dw updateMermanBubbles

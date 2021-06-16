@@ -1,14 +1,14 @@
 ; 31st entry of Jump Table from 2892 (indexed by _RAM_CF80_)
-updateEntity0x1F:
+updateParplin:
 	ld a, (_RAM_C3BA_)
-	ld hl, _DATA_78B0_
+	ld hl, parplinUpdaters
 	rst $20	; loadAthJumptablePointer
 	ret
 
 ; Jump Table from 78B0 to 78CD (15 entries, indexed by _RAM_C3BA_)
-_DATA_78B0_:
-.dw _LABEL_717C_ _LABEL_71B0_ _LABEL_71CC_ _LABEL_7210_ _LABEL_7237_ _LABEL_7251_ _LABEL_727F_ _LABEL_72B3_
-.dw _LABEL_7342_ _LABEL_7357_ _LABEL_7372_ _LABEL_78CE_ _LABEL_73CB_ _LABEL_78F1_ _LABEL_780B_
+parplinUpdaters:
+.dw updateOpponentInit updateOpponentMakeAlexGetIntoPosition updateOpponentLoadOpponentTilesAndShowTextbox1 updateOpponentShowTextbox2 updateOpponentStartRound updateOpponentCount updateOpponentThrow _LABEL_72B3_
+.dw updateOpponentShowStatueTextbox updateOpponentTurnAlexIntoStatue _LABEL_7372_ _LABEL_78CE_ _LABEL_73CB_ _LABEL_78F1_ _LABEL_780B_
 
 ; 12th entry of Jump Table from 78B0 (indexed by _RAM_C3BA_)
 _LABEL_78CE_:
