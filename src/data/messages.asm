@@ -1,32 +1,45 @@
 ; 1st entry of Pointer Table from 7F50 (indexed by v_messageToShowInTheTextBoxIndex)
 ; Data from 1F109 to 1F154 (76 bytes)
 _DATA_1F109_:
-;;                                                           W   E 
-.db $9C $20 $B0 $84 $80 $B0 $9A $60 $B0 $83 $C0 $B0 $19 $20 $E7 $D5
-;    L   C   O   M   E   !       P   L   E   A   S   E       B   U 
-.db $DC $D3 $DF $DD $D5 $B1 $B0 $E0 $DC $D5 $D1 $E3 $D5 $B0 $D2 $E5
-;    Y                                                           T
-.db $E9 $B0 $B0 $B0 $B0 $B0 $B0 $01 $80 $B0 $98 $60 $B0 $01 $80 $E4
-;             H   E      T   H   I   N   G   S       T   H   A   T
-.db $18 $20 $D8 $D5 $B0 $E4 $D8 $D9 $DE $D7 $E3 $B0 $E4 $D8 $D1 $E4
-;        Y   O   U       L   I   K   E   .
-.db $B0 $E9 $DF $E5 $B0 $DC $D9 $DB $D5 $BE $00 $00
+.db $9C $20 $B0 ; Top border
+.db $84 $80 $B0 ; Right border
+.db $9A $60 $B0 ; Bottom border
+.db $83 $C0 $B0 ; Left border
+;            W   E   L   C   O   M   E   !       P   L   E   A   S   E       B   U   Y
+.db $19 $20 $E7 $D5 $DC $D3 $DF $DD $D5 $B1 $B0 $E0 $DC $D5 $D1 $E3 $D5 $B0 $D2 $E5 $E9 $B0 $B0 $B0 $B0 $B0 $B0 
+.db $01 $80 $B0
+.db $98 $60 $B0
+.db $01 $80 $E4 ; "T"
+;            H   E       T   H   I   N   G   S       T   H   A   T       Y   O   U       L   I   K   E   .
+.db $18 $20 $D8 $D5 $B0 $E4 $D8 $D9 $DE $D7 $E3 $B0 $E4 $D8 $D1 $E4 $B0 $E9 $DF $E5 $B0 $DC $D9 $DB $D5 $BE
+.db $00 $00
 
 ; 2nd entry of Pointer Table from 7F50 (indexed by v_messageToShowInTheTextBoxIndex)
 ; Data from 1F155 to 1F19C (72 bytes)
 _DATA_1F155_:
-.db $9A $20 $B0 $84 $80 $B0 $98 $60 $B0 $83 $C0 $B0 $17 $20 $E9 $DF
-.db $E5 $B0 $D1 $E2 $D5 $B0 $E3 $D8 $DF $E2 $E4 $B0 $DF $D6 $B0 $DD
-.db $DF $DE $D5 $E9 $BC $01 $80 $B0 $96 $60 $B0 $01 $80 $D1 $16 $20
-.db $E2 $D5 $DE $B7 $E4 $B0 $E9 $DF $E5 $CF
-.dsb 12, $B0
+.db $9A $20 $B0
+.db $84 $80 $B0
+.db $98 $60 $B0
+.db $83 $C0 $B0
+;            Y   O   U       A   R   E       S   H   O   R   T       O   N       M   O   N   E   Y   ,
+.db $17 $20 $E9 $DF $E5 $B0 $D1 $E2 $D5 $B0 $E3 $D8 $DF $E2 $E4 $B0 $DF $D6 $B0 $DD $DF $DE $D5 $E9 $BC
+.db $01 $80 $B0
+.db $96 $60 $B0
+.db $01 $80 $D1 ; "A"
+;            R   E   N   '   T       Y   O   U   ?
+.db $16 $20 $E2 $D5 $DE $B7 $E4 $B0 $E9 $DF $E5 $CF $B0 $B0 $B0 $B0 $B0 $B0 $B0 $B0 $B0 $B0 $B0 $B0
 .db $00 $00
 
 ; 3rd entry of Pointer Table from 7F50 (indexed by v_messageToShowInTheTextBoxIndex)
 ; Data from 1F19D to 1F1B7 (27 bytes)
 _DATA_1F19D_:
-.db $8D $20 $B0 $02 $80 $B0 $B0 $8B $60 $B0 $01 $C0 $B0 $0A $20 $E4
-.db $D8 $D1 $DE $DB $B0 $E9 $DF $E5 $BE $00 $00
+.db $8D $20 $B0
+.db $02 $80 $B0 $B0
+.db $8B $60 $B0
+.db $01 $C0 $B0
+;            T   H   A   N   K       Y   O   U   .
+.db $0A $20 $E4 $D8 $D1 $DE $DB $B0 $E9 $DF $E5 $BE
+.db $00 $00
 
 ; 6th entry of Pointer Table from 7F50 (indexed by v_messageToShowInTheTextBoxIndex)
 ; Data from 1F1B8 to 1F271 (186 bytes)
