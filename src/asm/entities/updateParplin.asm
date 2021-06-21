@@ -7,8 +7,8 @@ updateParplin:
 
 ; Jump Table from 78B0 to 78CD (15 entries, indexed by _RAM_C3BA_)
 parplinUpdaters:
-.dw updateOpponentInit updateOpponentMakeAlexGetIntoPosition updateOpponentLoadOpponentTilesAndShowTextbox1 updateOpponentShowTextbox2 updateOpponentStartRound updateOpponentCount updateOpponentThrow _LABEL_72B3_
-.dw updateOpponentShowStatueTextbox updateOpponentTurnAlexIntoStatue _LABEL_7372_ _LABEL_78CE_ _LABEL_73CB_ _LABEL_78F1_ _LABEL_780B_
+.dw updateOpponentInit updateOpponentMakeAlexGetIntoPosition updateOpponentLoadOpponentTilesAndShowTextbox1 updateOpponentShowTextbox2 updateOpponentStartRound updateOpponentDance updateOpponentThrow updateOpponentHandleThrows
+.dw updateOpponentShowStatueOrTieTextbox updateOpponentTurnAlexIntoStatue _LABEL_7372_ _LABEL_78CE_ _LABEL_73CB_ _LABEL_78F1_ _LABEL_780B_
 
 ; 12th entry of Jump Table from 78B0 (indexed by _RAM_C3BA_)
 _LABEL_78CE_:

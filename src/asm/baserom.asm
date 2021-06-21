@@ -4057,7 +4057,7 @@ updateAutoWalkingRight:
     ld hl, _DATA_8CF4_
     jp _LABEL_4189_
 
-_LABEL_3478_:
+clearEntities2to4AndMaybeReset0xC054:
     ; Clear entities 2, 3 and 4.
     ld hl, v_entities.2
     call clearEntity
@@ -4066,7 +4066,7 @@ _LABEL_3478_:
     inc hl
     call clearEntity
 
-    ; Keep only bits 0, 1 and 3 of alex unknown8 byte
+    ; Clear bits 0, 1 e 3 of Alex unknown8 byte 
     ld a, (v_entities.1.unknown8)
     and $F4
     ld (v_entities.1.unknown8), a
@@ -4087,7 +4087,7 @@ _LABEL_3498_:
     ld (v_soundControl), a
     ld (ix+26), $05
     ld (ix+6), $0A
-    call _LABEL_3478_
+    call clearEntities2to4AndMaybeReset0xC054
     bit 7, (ix+18)
     set 3, (ix+20)
     jr z, updateAlexSwiming
@@ -8293,33 +8293,39 @@ _DATA_7128_:
 
 .INC "entities/updateJanken.asm"
 
-; 1st entry of Jump Table from 78B0 (indexed by _RAM_C3BA_)
+; - Increment state (0x0 to 0x1: updateOpponentMakeAlexGetIntoPosition)
+; - Maybe set opponent sprite descriptor pointer
+; - Copy opponent settings
 updateOpponentInit:
 	inc (ix + Entity.state)
 
-    ; Set some variables to 0
+    ; a = 0
 	xor a
+    ; _RAM_C216_ is checked on some janken result thing
 	ld (_RAM_C216_), a
 	ld (v_hasJankenMatchStarted), a
 
-    ; Set some variables to 1
+    ; a = 1
 	inc a
 	ld (v_entities.6.animationTimer), a
 	ld (v_entities.6.unknown11), a
 
-    ; Choose sprite descriptor based on boss data
 	ld a, (v_entities.6.data)
-	and $FE
+	and 0b11111110
 	add a, a
 	add a, a
 	add a, a
+
+    ; Choose sprite descriptor based on opponent data
+    ; If data greater than 1, then a null descriptor is loaded.  
 	ld hl, nullSpriteDescriptor_DATA_80E1_
 	jr nz, +
 	ld hl, _DATA_8134_
 +:
 	ld (v_entities.6.spriteDescriptorPointer), hl
 
-    ; Copy opponent data to 0xc230. @TODO: Analyse more.
+    ; Copy opponent settings
+    ; Address is _DATA_7651_ + a raised to the 4th power. (@TODO: Why?)
 	ld l, a
 	ld h, $00
 	ld de, _DATA_7651_
@@ -8329,7 +8335,10 @@ updateOpponentInit:
 	ldir
 	ret
 
-; 2nd entry of Jump Table from 78B0 (indexed by _RAM_C3BA_)
+; - Wait until the opponent is on screen, scrolling stops, alex is on ground
+;   (e.g.: he can be on a Peticopter)
+; - Increment state (0x1 to 0x2: updateOpponentLoadOpponentTilesAndShowTextbox1)
+; - Set alex state to ALEX_JANKEN_WALK_TO_POSITION
 updateOpponentMakeAlexGetIntoPosition:
     ; Return if offscreen
 	ld a, (v_entities.6.isOffScreenFlags.high)
@@ -8350,11 +8359,17 @@ updateOpponentMakeAlexGetIntoPosition:
 	inc (ix + Entity.state)
 
     ; Set alex state to walk left
-	ld a, $16
+	ld a, ALEX_JANKEN_WALK_TO_POSITION
 	ld (v_entities.1.state), a
 	ret
 
-; 3rd entry of Jump Table from 78B0 (indexed by _RAM_C3BA_)
+; - Wait for Alex to start dancing
+; - Increment state (0x2 to 0x3: updateOpponentShowTextbox2)
+; - Load opponent sprite descriptor and maybe adjust position
+; - Mark match as started
+; - Destroy entities, reset sound and load match tiles
+; - Load opponent tiles
+; - Request textbox message
 updateOpponentLoadOpponentTilesAndShowTextbox1:
     ; Wait alex stop walking left
 	ld a, (v_entities.1.state)
@@ -8363,8 +8378,8 @@ updateOpponentLoadOpponentTilesAndShowTextbox1:
 
 	inc (ix + Entity.state)
 
-    ; Delete entities 2 to 4, and maybe set an byte of alex data 
-	call _LABEL_3478_
+    ; Delete entities 2 to 4, and maybe clear _RAM_C054_
+	call clearEntities2to4AndMaybeReset0xC054
 
     ; Load opponent sprite descriptor
 	ld hl, (v_jankenMatchOpponentSpriteDescriptorPointer)
@@ -8399,16 +8414,17 @@ updateOpponentLoadOpponentTilesAndShowTextbox1:
 	ld (v_messageToShowInTheTextBoxIndex), a
 	ret
 
-; 4th entry of Jump Table from 78B0 (indexed by _RAM_C3BA_)
-; Handles match first textbox (opponent text box)
+; - Wait for player to close first textbox 
+; - Draw thought clouds, names and spaw entity 0x0C
+; - Request second textbox ("You must choose...")
+; - Increment state (0x4 to 0x5: updateOpponentStartRound)
 updateOpponentShowTextbox2:
 	call isTextboxGameState
 	ret z
 	ld hl, (_RAM_C234_)
 
-    // @TODO
-	call _LABEL_75C6_
-	call _LABEL_7941_
+	call drawThoughtClouds
+	call drawAlexName_LABEL_7941_
 
 	ld a, STATE_TEXT_BOX
 	ld (v_gameState), a
@@ -8425,8 +8441,9 @@ isTextboxGameState:
 	cp $07
 	ret
 
-; 5th entry of Jump Table from 78B0 (indexed by _RAM_C3BA_)
-; Handles match second textbox "You must choose..."
+; - Wait for player to close textbox
+; - Request music
+; - Increment state (0x5 to 0x6: updateOpponentDance)
 updateOpponentStartRound:
 	call isTextboxGameState
 	ret z
@@ -8443,47 +8460,68 @@ updateOpponentStartRound:
 	ld (ix + Entity.unknown6), $14
 	ret
 
-; 6th entry of Jump Table from 78B0 (indexed by _RAM_C3BA_)
-updateOpponentCount:
-	call _LABEL_7591_
+; - Simulates opponent deciding
+; - Wait for dance music to end
+; - Request match counting sound
+; - Increment state (0x6 to 0x7: updateOpponentThrow)
+updateOpponentDance:
+	call simulateOpponentChoosing_LABEL_7941_
+    
 	ld a, (v_soundJankenMatchSoundFlags)
 	cp $80
-	jr z, +
-	ld hl, (_RAM_C236_)
-	jp handleEntityAnimation
+	jr z, @musicEnded
 
-+:
-	ld a, $AD
+    ld hl, (_RAM_C236_)
+    jp handleEntityAnimation
+
+    @musicEnded:
+    ; Request match counting sfx
+	ld a, SOUND_JANKEN_COUNT
 	ld (v_soundControl), a
+
 	inc (ix + Entity.state)
-	ld (ix+6), $14
+
+	ld (ix + Entity.animationTimerResetValue), $14
+
 	ld a, $01
-	ld (_RAM_C3A5_), a
+	ld (v_entities.6.animationTimer), a
 	ld (v_entities.1.animationTimer), a
 
 	ld a, ALEX_JANKEN_COUNTING
 	ld (v_entities.1.state), a
-	ld (ix+31), $46
+
+    ; @TODO
+	ld (ix + Entity.unknown11), $46
 	ret
 
-; 7th entry of Jump Table from 78B0 (indexed by _RAM_C3BA_)
+; - Simulate opponent deciding while couting
+; - Request throw sound effect
+; - Increment state (0x7 to 0x8: updateOpponentHandleThrows)
+; - Set alex throw state
+; - Load opponent sprite descriptor for the current throw 
 updateOpponentThrow:
-	call _LABEL_7591_
+	call simulateOpponentChoosing_LABEL_7941_
+
 	ld a, (v_soundJankenMatchSoundFlags)
 	cp $10
-	jr z, +
+	jr z, @countingEnded
+
 	ld hl, (_RAM_C238_)
 	jp handleEntityAnimation
 
-+:
+    @countingEnded:
 	ld hl, (_RAM_C23A_)
-	ld a, $AE
+
+	ld a, SOUND_JANKEN_THROW
 	ld (v_soundControl), a
+
 	inc (ix + Entity.state)
 
 	ld a, ALEX_JANKEN_THROW
 	ld (v_entities.1.state), a
-	ld a, (_RAM_C3B7_)
+
+    ; Load opponent sprite descriptor for throw
+	ld a, (v_entities.6.jankenMatchDecision)
 	add a, a
 	ld e, a
 	ld d, $00
@@ -8492,16 +8530,21 @@ updateOpponentThrow:
 	inc hl
 	ld d, (hl)
 	ex de, hl
-	ld (_RAM_C3A7_), hl
-	ld (ix+24), $1E
+	ld (v_entities.6.spriteDescriptorPointer), hl
+
+    ; @TODO
+	ld (ix + Entity.unknown6), $1E
 	ret
 
-; 8th entry of Jump Table from 78B0 (indexed by _RAM_C3BA_)
-_LABEL_72B3_:
-	dec (ix+24)
+; - Wait for unknown6 timer
+; - Choose a handler based on decisions (?)
+; - Set textbox gamestate
+updateOpponentHandleThrows:
+	dec (ix + Entity.unknown6)
 	ret nz
+
 	ld a, (v_entities.1.jankenMatchDecision)
-	ld e, (ix+23)
+	ld e, (ix + Entity.jankenMatchDecision)
 	add a, e
 	add a, e
 	add a, e
@@ -8513,19 +8556,26 @@ _LABEL_72B3_:
 
 ; Jump Table from 72CA to 72DB (9 entries, indexed by v_entities.1.jankenMatchDecision)
 _DATA_72CA_:
-.dw _LABEL_72DC_ _LABEL_72E6_ _LABEL_7314_ _LABEL_7314_ _LABEL_72DC_ _LABEL_72E6_ _LABEL_72E6_ _LABEL_7314_
+.dw _LABEL_72DC_
+.dw _LABEL_72E6_
+.dw updateOpponentLostRound
+.dw updateOpponentLostRound
+.dw _LABEL_72DC_
+.dw _LABEL_72E6_
+.dw _LABEL_72E6_
+.dw updateOpponentLostRound
 .dw _LABEL_72DC_
 
 ; 1st entry of Jump Table from 72CA (indexed by v_entities.1.jankenMatchDecision)
 _LABEL_72DC_:
-	ld a, $0A
+	ld a, TXT_JANKEN_MATCH_TIE
 	ld (v_messageToShowInTheTextBoxIndex), a
-	ld (ix+26), $04
+	ld (ix + Entity.state), $04
 	ret
 
 ; 2nd entry of Jump Table from 72CA (indexed by v_entities.1.jankenMatchDecision)
 _LABEL_72E6_:
-	ld a, $08
+	ld a, TXT_JANKEN_MATCH_OPPONENT_WIN
 	ld (v_messageToShowInTheTextBoxIndex), a
 	ld e, (ix+25)
 	ld d, $00
@@ -8547,36 +8597,47 @@ _LABEL_72E6_:
 
 +:
 	ld (ix+26), $08
-	jp _LABEL_796D_
+	jp restoreSomeNametableStuff_LABEL_796D_
 
-; 3rd entry of Jump Table from 72CA (indexed by v_entities.1.jankenMatchDecision)
-_LABEL_7314_:
-	ld a, $09
+; - Show opponent lost textbox
+; - Update results
+; - Decide next state (0x04 updateOpponentStartRound or 0x0B _LABEL_77BE_)
+updateOpponentLostRound:
+    ; "Darn it. I lose. - Opponent"
+	ld a, TXT_JANKEN_MATCH_OPPONENT_LOST
 	ld (v_messageToShowInTheTextBoxIndex), a
-	ld e, (ix+25)
+
+    ; Patch temporary results sprite descriptor
+	ld e, (ix + Entity.unknown7)
 	ld d, $00
 	ld hl, $C2A6
 	add hl, de
 	add hl, de
 	ld (hl), $A4
+
+    ; Alex wins match on two consecutive round wins
 	dec hl
 	dec hl
 	ld a, (hl)
 	cp $A4
-	jr z, +
-	inc (ix+25)
-	ld a, (_RAM_C3B9_)
+	jr z, @alexWon
+
+    ; Alex wins match on three round wins 
+	inc (ix + Entity.unknown7)
+	ld a, (v_entities.6.unknown7)
 	cp $03
-	jr nc, +
-	ld (ix+26), $04
+	jr nc, @alexWon
+
+    ; @TODO
+	ld (ix + Entity.state), $04
 	ret
 
-+:
-	ld (ix+26), $0B
-	jp _LABEL_796D_
+@alexWon:
+	ld (ix + Entity.state), $0B
+	jp restoreSomeNametableStuff_LABEL_796D_
 
 ; 9th entry of Jump Table from 78B0 (indexed by _RAM_C3BA_)
-updateOpponentShowStatueTextbox:
+updateOpponentShowStatueOrTieTextbox:
 	call isTextboxGameState
 	ret z
 	call _LABEL_7641_
@@ -8871,21 +8932,26 @@ _LABEL_7588_:
 	ld (ix+26), $02
 	ret
 
-_LABEL_7591_:
-	ld hl, _RAM_C3BF_
+simulateOpponentChoosing_LABEL_7941_:
+    ; Return if opponent unknown11 is 0 
+	ld hl, v_entities.6.unknown11
 	ld a, (hl)
 	or a
 	ret z
+
+    ; @TODO: Probably simulates opponent choosing a throw
 	dec (hl)
-	ld c, (ix+3)
+
+	ld c, (ix + Entity.data)
 	ld b, $00
 	ld hl, _DATA_7763_
 	add hl, bc
 	ld c, (hl)
 	ld de, (_RAM_C23C_)
-	dec (ix+24)
+	dec (ix + Entity.unknown6)
 	ret p
-	ld (ix+24), c
+
+	ld (ix + Entity.unknown6), c
 	ld hl, v_JankenMatchOpponentDecisionIndex
 	inc (hl)
 	ld a, (hl)
@@ -8894,46 +8960,60 @@ _LABEL_7591_:
 	ld h, $00
 	add hl, de
 	ld l, (hl)
-	ld (ix+23), l
+	ld (ix + Entity.jankenMatchDecision), l
+
+    ; Update thought preview if Alex has Telapathy Ball
 	ld a, (v_hasTelepathyBall)
 	or a
 	ret z
 	ld a, l
-	ld (_RAM_C657_), a
+    ld (v_entities.27.jankenMatchDecision), a
 	ret
 
-_LABEL_75C6_:
-	ld hl, _RAM_C640_
+; Used only on updateOpponentShowTextbox2
+drawThoughtClouds:
+    ; Clear entities 27 and 28
+	ld hl, v_entities.27
 	call clearEntity
 	inc hl
 	call clearEntity
+
+    ; Copy 0xEC bytes from nametable at 0xCA08 to nametableCopy
 	ld hl, _RAM_CA08_
-	ld de, _RAM_D000_
+	ld de, nametableCopy
 	ld bc, $00EC
 	ldir
+
+    ; Add Alex thought cloud
 	ld de, _RAM_CA08_
-	call +
-	ld iy, _RAM_C660_
-	ld (iy+0), $0B
+	call @patchNametableWithThoughtCloud
+
+    ; Create Janken option preview entity
+	ld iy, v_entities.28
+	ld (iy + Entity.type), $0B
 	ld hl, (v_horizontalScroll)
 	ld a, $20
 	add a, h
-	ld (iy+12), a
-	ld (iy+14), $3F
+	ld (iy + Entity.xPos.high), a
+	ld (iy + Entity.yPos.high), $3F
+
+    ; Return if Alex doesn't have a Telepaty Ball
 	ld a, (v_hasTelepathyBall)
 	or a
 	ret z
-	ld iy, _RAM_C640_
-	ld (iy+0), $0B
+
+    ; Add opponent thought cloud
+    ld iy, v_entities.27
+	ld (iy + Entity.type), $0B
 	ld a, $B0
 	add a, h
-	ld (iy+12), a
-	ld (iy+14), $3F
+	ld (iy + Entity.xPos.high), a
+	ld (iy + Entity.yPos.high), $3F
 	ld de, _RAM_CA2C_
-+:
+@patchNametableWithThoughtCloud:
 	ld hl, _DATA_92A8_
 	ld bc, $0408
--:
+@lineLoop:
 	push bc
 	push de
 	ld b, $00
@@ -8944,7 +9024,7 @@ _LABEL_75C6_:
 	add hl, bc
 	ex de, hl
 	pop bc
-	djnz -
+	djnz @lineLoop
 	ret
 
 .INC "entities/updateEntity0x0B.asm"
@@ -9152,37 +9232,48 @@ prepareForJankenMatch:
 	di
 	jp decompress4BitplanesToVRAM
 
-_LABEL_7941_:
+drawAlexName_LABEL_7941_:
+    ; Backup nametable to draw names
 	ld hl, _RAM_C908_
 	ld de, _RAM_C260_
 	ld bc, $002E
 	ldir
+
+    ; Draw "Alex" name
 	ld hl, _DATA_76A3_
 	ld de, _RAM_C908_
 	ld bc, $0008
 	ldir
+
+    ; @TODO
+    ; Related to entity 0x0C
 	ld hl, _DATA_776B_
 	ld de, _RAM_C2A0_
 	ld bc, $000B
 	ldir
-	ld hl, _RAM_C5C0_
+
+    ; Spaw entity 0x0C
+	ld hl, v_entities.23
 	push hl
 	call clearEntity
 	pop hl
 	ld (hl), $0C
 	ret
 
-_LABEL_796D_:
+restoreSomeNametableStuff_LABEL_796D_:
 	ld de, _RAM_C908_
 	ld hl, _RAM_C260_
 	ld bc, $002E
 	ldir
-	ld hl, _RAM_D000_
+
+	ld hl, nametableCopy
 	ld de, _RAM_CA08_
 	ld bc, $00EC
 	ldir
+
 	ld a, $01
 	ld (_RAM_C216_), a
+
 	ret
 
 .INC "entities/updateEntity0x0C.asm"

@@ -1,4 +1,3 @@
-; 29th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 updateGooseka:
 	ld a, (v_entities.6.state)
 	ld hl, goosekaUpdaters
@@ -12,10 +11,10 @@ goosekaUpdaters:
 .dw updateOpponentLoadOpponentTilesAndShowTextbox1
 .dw updateOpponentShowTextbox2
 .dw updateOpponentStartRound
-.dw updateOpponentCount
+.dw updateOpponentDance
 .dw updateOpponentThrow
-.dw _LABEL_72B3_
-.dw updateOpponentShowStatueTextbox
+.dw updateOpponentHandleThrows
+.dw updateOpponentShowStatueOrTieTextbox
 .dw updateOpponentTurnAlexIntoStatue
 .dw _LABEL_7372_
 .dw _LABEL_77BE_

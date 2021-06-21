@@ -51,7 +51,7 @@ _LABEL_1C33_:
 	ld a, $8A
 	ld (v_gameState), a
 	ld de, _RAM_C800_
-	ld hl, _RAM_D000_
+	ld hl, nametableCopy
 	ld bc, $0700
 	ldir
 	ld hl, _RAM_C800_
@@ -145,7 +145,7 @@ _LABEL_1D04_:
 	call sleepTenthsOfSecond
 	call clearScroll
 	ld hl, _RAM_C800_
-	ld de, _RAM_D000_
+	ld de, nametableCopy
 	ld bc, $0700
 	ldir
 	ld a, $85

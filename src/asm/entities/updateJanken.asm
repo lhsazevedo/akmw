@@ -12,10 +12,10 @@ jankenUpdaters:
 .dw updateOpponentLoadOpponentTilesAndShowTextbox1
 .dw updateOpponentShowTextbox2
 .dw updateOpponentStartRound
-.dw updateOpponentCount
+.dw updateOpponentDance
 .dw updateOpponentThrow
-.dw _LABEL_72B3_
-.dw updateOpponentShowStatueTextbox
+.dw updateOpponentHandleThrows
+.dw updateOpponentShowStatueOrTieTextbox
 .dw updateOpponentTurnAlexIntoStatue
 .dw _LABEL_7372_
 .dw _LABEL_73AE_

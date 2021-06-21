@@ -621,7 +621,7 @@ v_textboxCursor db
 .ende
 
 .enum $D000 export
-_RAM_D000_ dsb $503
+nametableCopy dsb $503
 _RAM_D503_ db
 _RAM_D504_ db
 .ende

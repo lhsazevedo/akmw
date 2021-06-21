@@ -8,7 +8,7 @@ _LABEL_1FE9_:
 	ld (Mapper_Slot2), a
 	call clearVDPTablesAndDisableScreen
 	ld de, _RAM_C800_
-	ld hl, _RAM_D000_
+	ld hl, nametableCopy
 	ld bc, $0700
 	ldir
 	ld hl, _RAM_C800_
@@ -205,7 +205,7 @@ initMapState:
 	ld b, $05
 	call sleepTenthsOfSecond
 	ld hl, _RAM_C800_
-	ld de, _RAM_D000_
+	ld de, nametableCopy
 	ld bc, $0700
 	ldir
 	ld hl, _RAM_C800_
