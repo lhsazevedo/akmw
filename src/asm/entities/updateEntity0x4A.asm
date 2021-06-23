@@ -29,7 +29,7 @@ updateEntity0x4A:
 +:
     ld a, (ix + Entity.unknown5)
     cp $08
-    jr nc, _LABEL_5547_
+    jr nc, updateOpponentDefeated
     dec (ix + Entity.jankenMatchDecision)
     ret nz
     res 0, (ix + Entity.flags)

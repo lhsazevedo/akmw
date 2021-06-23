@@ -6805,13 +6805,22 @@ _LABEL_53C6_:
 .INC "entities/updateEntity0x4A.asm"
 
 ; Shared
-_LABEL_5547_:
+; - Request boss defeated sfx
+; - Earn enemy score
+; - Spaw boss smoke puff (that will spaw the onigiri)
+updateOpponentDefeated:
+    ; Request boss defeated sfx
     ld a, $95
     ld (v_soundControl), a
+
     call earnEnemyScore
-    ld (ix+2), $01
-    res 0, (ix+1)
-    ld (ix+0), $43
+
+    ; @TODO
+    ld (ix + Entity.unknown1), $01
+    res 0, (ix + Entity.flags)
+
+    ; @TODO: Spawn boss smoke puff
+    ld (ix + Entity.type), $43
     ret
 
 _LABEL_555C_:
@@ -8548,62 +8557,73 @@ updateOpponentHandleThrows:
 	add a, e
 	add a, e
 	add a, e
-	ld hl, _DATA_72CA_
+	ld hl, opponentResultHandlers
 	rst $20	; loadAthJumptablePointer
 	ld a, STATE_TEXT_BOX
 	ld (v_gameState), a
 	ret
 
-; Jump Table from 72CA to 72DB (9 entries, indexed by v_entities.1.jankenMatchDecision)
-_DATA_72CA_:
-.dw _LABEL_72DC_
-.dw _LABEL_72E6_
-.dw updateOpponentLostRound
-.dw updateOpponentLostRound
-.dw _LABEL_72DC_
-.dw _LABEL_72E6_
-.dw _LABEL_72E6_
-.dw updateOpponentLostRound
-.dw _LABEL_72DC_
+;           Alex | Opponent
+;           -----|---------
+; Rock        0  |    0
+; Scissors    1  |    3
+; Paper       2  |    6
+opponentResultHandlers:
+.dw updateOpponentTie           ; 0: Rock/Rock
+.dw updateOpponentWinRound      ; 1: Scissors/Rock
+.dw updateOpponentLostRound     ; 2: Paper/Rock.
+.dw updateOpponentLostRound     ; 3: Rock/Scissors
+.dw updateOpponentTie           ; 4: Scissors/Scissors
+.dw updateOpponentWinRound      ; 5: Paper/Scissors
+.dw updateOpponentWinRound      ; 6: Rock/Paper
+.dw updateOpponentLostRound     ; 7: Scissors/Paper
+.dw updateOpponentTie           ; 8: Papel/Papel
 
-; 1st entry of Jump Table from 72CA (indexed by v_entities.1.jankenMatchDecision)
-_LABEL_72DC_:
+updateOpponentTie:
 	ld a, TXT_JANKEN_MATCH_TIE
 	ld (v_messageToShowInTheTextBoxIndex), a
 	ld (ix + Entity.state), $04
 	ret
 
-; 2nd entry of Jump Table from 72CA (indexed by v_entities.1.jankenMatchDecision)
-_LABEL_72E6_:
+updateOpponentWinRound:
+    ; "I win. You got it." - Opponent
 	ld a, TXT_JANKEN_MATCH_OPPONENT_WIN
 	ld (v_messageToShowInTheTextBoxIndex), a
-	ld e, (ix+25)
+
+    ; Patch temporary results sprite descriptor
+	ld e, (ix + Entity.unknown7)
 	ld d, $00
 	ld hl, $C2A6
 	add hl, de
 	add hl, de
 	ld (hl), $A5
+
 	dec hl
 	dec hl
 	ld a, (hl)
 	cp $A5
-	jr z, +
-	inc (ix+25)
-	ld a, (_RAM_C3B9_)
+	jr z, @opponentWon
+
+    ; Sudden-death from round 3 onwards
+	inc (ix + Entity.unknown7)
+	ld a, (v_entities.6.unknown7)
 	cp $03
-	jr nc, +
-	ld (ix+26), $04
+	jr nc, @opponentWon
+
+    ; updateOpponentStartRound
+	ld (ix + Entity.state), $04
 	ret
 
-+:
-	ld (ix+26), $08
+    @opponentWon:
+    ; updateOpponentShowStatueOrTieTextbox
+	ld (ix + Entity.state), $08
 	jp restoreSomeNametableStuff_LABEL_796D_
 
 ; - Show opponent lost textbox
 ; - Update results
 ; - Decide next state (0x04 updateOpponentStartRound or 0x0B _LABEL_77BE_)
 updateOpponentLostRound:
-    ; "Darn it. I lose. - Opponent"
+    ; "Darn it. I lose." - Opponent
 	ld a, TXT_JANKEN_MATCH_OPPONENT_LOST
 	ld (v_messageToShowInTheTextBoxIndex), a
 
@@ -8620,19 +8640,20 @@ updateOpponentLostRound:
 	dec hl
 	ld a, (hl)
 	cp $A4
-	jr z, @alexWon
+	jr z, @opponentLost
 
-    ; Alex wins match on three round wins 
+    ; Sudden-death from round 3 onwards
 	inc (ix + Entity.unknown7)
 	ld a, (v_entities.6.unknown7)
 	cp $03
-	jr nc, @alexWon
+	jr nc, @opponentLost
 
-    ; @TODO
+    ; updateOpponentStartRound
 	ld (ix + Entity.state), $04
 	ret
 
-@alexWon:
+    @opponentLost:
+    ; _LABEL_77BE_
 	ld (ix + Entity.state), $0B
 	jp restoreSomeNametableStuff_LABEL_796D_
 
@@ -8640,7 +8661,7 @@ updateOpponentLostRound:
 updateOpponentShowStatueOrTieTextbox:
 	call isTextboxGameState
 	ret z
-	call _LABEL_7641_
+	call destroyBattleEntities
 	ld a, $15
 	ld (v_messageToShowInTheTextBoxIndex), a
 	ld a, STATE_TEXT_BOX
@@ -9033,7 +9054,7 @@ drawThoughtClouds:
 _DATA_763B_:
 .dw _DATA_92C8_ _DATA_92D6_ _DATA_92E4_
 
-_LABEL_7641_:
+destroyBattleEntities:
 	ld hl, _RAM_C640_
 	call clearEntity
 	inc hl

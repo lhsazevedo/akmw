@@ -10,19 +10,29 @@ parplinUpdaters:
 .dw updateOpponentInit updateOpponentMakeAlexGetIntoPosition updateOpponentLoadOpponentTilesAndShowTextbox1 updateOpponentShowTextbox2 updateOpponentStartRound updateOpponentDance updateOpponentThrow updateOpponentHandleThrows
 .dw updateOpponentShowStatueOrTieTextbox updateOpponentTurnAlexIntoStatue _LABEL_7372_ _LABEL_78CE_ _LABEL_73CB_ _LABEL_78F1_ _LABEL_780B_
 
-; 12th entry of Jump Table from 78B0 (indexed by _RAM_C3BA_)
+; - Wait for textbox
+; - Maybe go to bossfight
+; - @TODO
 _LABEL_78CE_:
 	call isTextboxGameState
 	ret z
+
+	; @TODO Set some alex descriptors
 	call _LABEL_2BFA_
-	call _LABEL_7641_
+	call destroyBattleEntities
+
+	; Skip boss fight if data bit 0 is zero
 	bit 0, (ix + Entity.data)
-	jp z, _LABEL_5547_
+	jp z, updateOpponentDefeated
+
 	inc (ix + Entity.state)
+
 	ld (ix + Entity.unknown5), $28
+
+	; "Well it looks like..."
 	ld a, $0B
 	ld (v_messageToShowInTheTextBoxIndex), a
-	ld a, $07
+	ld a, STATE_TEXT_BOX
 	ld (v_gameState), a
 	ret
 

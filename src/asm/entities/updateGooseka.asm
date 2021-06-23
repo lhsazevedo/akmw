@@ -6,22 +6,22 @@ updateGooseka:
 
 ; Jump Table from 779E to 77BD (16 entries, indexed by _RAM_C3BA_)
 goosekaUpdaters:
-.dw updateOpponentInit
-.dw updateOpponentMakeAlexGetIntoPosition
-.dw updateOpponentLoadOpponentTilesAndShowTextbox1
-.dw updateOpponentShowTextbox2
-.dw updateOpponentStartRound
-.dw updateOpponentDance
-.dw updateOpponentThrow
-.dw updateOpponentHandleThrows
-.dw updateOpponentShowStatueOrTieTextbox
-.dw updateOpponentTurnAlexIntoStatue
-.dw _LABEL_7372_
-.dw _LABEL_77BE_
-.dw _LABEL_73CB_
-.dw _LABEL_74A4_
-.dw _LABEL_77CD_
-.dw _LABEL_780B_
+.dw updateOpponentInit	                            ; 0x0
+.dw updateOpponentMakeAlexGetIntoPosition	        ; 0x1
+.dw updateOpponentLoadOpponentTilesAndShowTextbox1	; 0x2
+.dw updateOpponentShowTextbox2	                    ; 0x3
+.dw updateOpponentStartRound	                    ; 0x4
+.dw updateOpponentDance	                            ; 0x5
+.dw updateOpponentThrow	                            ; 0x6
+.dw updateOpponentHandleThrows	                    ; 0x7
+.dw updateOpponentShowStatueOrTieTextbox	        ; 0x8
+.dw updateOpponentTurnAlexIntoStatue	            ; 0x9
+.dw _LABEL_7372_	                                ; 0xA
+.dw _LABEL_77BE_	                                ; 0xB
+.dw _LABEL_73CB_	                                ; 0xC
+.dw _LABEL_74A4_	                                ; 0xD
+.dw _LABEL_77CD_	                                ; 0xE
+.dw _LABEL_780B_	                                ; 0xF
 
 ; 12th entry of Jump Table from 779E (indexed by _RAM_C3BA_)
 _LABEL_77BE_:
@@ -63,5 +63,5 @@ _LABEL_780B_:
 	call tryToKillAlexIfColliding
 	ld a, (_RAM_C3C0_)
 	or a
-	jp z, _LABEL_5547_
+	jp z, updateOpponentDefeated
 	ret

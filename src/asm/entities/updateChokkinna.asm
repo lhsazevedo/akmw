@@ -49,7 +49,7 @@ _LABEL_786F_:
 	call tryToKillAlexIfColliding
 	ld a, (_RAM_C3C0_)
 	or a
-	jp z, _LABEL_5547_
+	jp z, updateOpponentDefeated
 	ld a, (_RAM_C3E0_)
 	or a
 	ret nz
