@@ -24,7 +24,26 @@ handleInterruptTextBoxState:
 	ret
 
 ; Pointer Table from 7F50 to 7F7B (22 entries, indexed by v_messageToShowInTheTextBoxIndex)
-_DATA_7F50_:
-.dw _DATA_1F109_ _DATA_1F155_ _DATA_1F19D_ _DATA_1F32C_ _DATA_1F272_ _DATA_1F1B8_ _DATA_1F3E6_ _DATA_1F474_
-.dw _DATA_1F497_ _DATA_1F4B8_ _DATA_1F4FA_ _DATA_1F569_ _DATA_1F664_ _DATA_1F7DC_ _DATA_1F8E5_ _DATA_1FA5D_
-.dw _DATA_1FB41_ _DATA_1FB89_ _DATA_1FB89_ _DATA_1FB89_ _DATA_1FC48_ _DATA_1FC84_
+textPointers:
+.dw txtShopWelcome
+.dw txtShopInsufficientFunds
+.dw txtShopItemPurchased
+.dw txtGoosekaIntroduction
+.dw txtChokkinnaIntroduction
+.dw txtParplinIntroduction
+.dw txtBattleGuide
+.dw txtBattleRoundLost
+.dw txtBattleRoundWon
+.dw txtBattleRoundTie
+.dw txtBossFight
+.dw txtJankenIntroduction
+.dw txtSaintNurari
+.dw txtVillageElder
+.dw txtEgle
+.dw txtKingHighStone
+.dw txtKingHighStoneNoLetter
+.dw txtPrincessLora
+.dw txtPrincessLora
+.dw txtPrincessLora
+.dw txtBattleLost
+.dw txtShopSoldOut

@@ -147,7 +147,7 @@ _LABEL_7ED3_:
 	ld a, $87
 	ld (Mapper_Slot2), a
 	ld a, (v_messageToShowInTheTextBoxIndex)
-	ld hl, _DATA_7F50_ - 2
+	ld hl, textPointers - 2
 	rst $10	; _LABEL_10_
 	ld a, (hl)
 	ld (v_textBoxCounter), a

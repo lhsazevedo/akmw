@@ -1,59 +1,59 @@
-_DATA_1F109_:
-.INCBIN "src/data/txt/bin/message1.bin"
+txtShopWelcome:
+.INCBIN "src/data/txt/bin/shopWelcome.bin"
 
-_DATA_1F155_:
-.INCBIN "src/data/txt/bin/message2.bin"
+txtShopInsufficientFunds:
+.INCBIN "src/data/txt/bin/shopInsufficientFunds.bin"
 
-_DATA_1F19D_:
-.INCBIN "src/data/txt/bin/message3.bin"
+txtShopItemPurchased:
+.INCBIN "src/data/txt/bin/shopItemPurchased.bin"
 
-_DATA_1F1B8_:
-.INCBIN "src/data/txt/bin/message4.bin"
+txtParplinIntroduction:
+.INCBIN "src/data/txt/bin/parplinIntroduction.bin"
 
-_DATA_1F272_:
-.INCBIN "src/data/txt/bin/message5.bin"
+txtChokkinnaIntroduction:
+.INCBIN "src/data/txt/bin/chokkinnaIntroduction.bin"
 
-_DATA_1F32C_:
-.INCBIN "src/data/txt/bin/message6.bin"
+txtGoosekaIntroduction:
+.INCBIN "src/data/txt/bin/goosekaIntroduction.bin"
 
-_DATA_1F3E6_:
-.INCBIN "src/data/txt/bin/message7.bin"
+txtBattleGuide:
+.INCBIN "src/data/txt/bin/battleGuide.bin"
 
-_DATA_1F474_:
-.INCBIN "src/data/txt/bin/message8.bin"
+txtBattleRoundLost:
+.INCBIN "src/data/txt/bin/battleRoundLost.bin"
 
-_DATA_1F497_:
-.INCBIN "src/data/txt/bin/message9.bin"
+txtBattleRoundWon:
+.INCBIN "src/data/txt/bin/battleRoundWon.bin"
 
-_DATA_1F4B8_:
-.INCBIN "src/data/txt/bin/message10.bin"
+txtBattleRoundTie:
+.INCBIN "src/data/txt/bin/battleRoundTie.bin"
 
-_DATA_1F4FA_:
-.INCBIN "src/data/txt/bin/message11.bin"
+txtBossFight:
+.INCBIN "src/data/txt/bin/bossFight.bin"
 
-_DATA_1F569_:
-.INCBIN "src/data/txt/bin/message12.bin"
+txtJankenIntroduction:
+.INCBIN "src/data/txt/bin/jankenIntroduction.bin"
 
-_DATA_1F664_:
-.INCBIN "src/data/txt/bin/message13.bin"
+txtSaintNurari:
+.INCBIN "src/data/txt/bin/saintNurari.bin"
 
-_DATA_1F7DC_:
-.INCBIN "src/data/txt/bin/message14.bin"
+txtVillageElder:
+.INCBIN "src/data/txt/bin/villageElder.bin"
 
-_DATA_1F8E5_:
-.INCBIN "src/data/txt/bin/message15.bin"
+txtEgle:
+.INCBIN "src/data/txt/bin/egle.bin"
 
-_DATA_1FA5D_:
-.INCBIN "src/data/txt/bin/message16.bin"
+txtKingHighStone:
+.INCBIN "src/data/txt/bin/kingHighStone.bin"
 
-_DATA_1FB41_:
-.INCBIN "src/data/txt/bin/message17.bin"
+txtKingHighStoneNoLetter:
+.INCBIN "src/data/txt/bin/kingHighStoneNoLetter.bin"
 
-_DATA_1FB89_:
-.INCBIN "src/data/txt/bin/message18.bin"
+txtPrincessLora:
+.INCBIN "src/data/txt/bin/princessLora.bin"
 
-_DATA_1FC48_:
-.INCBIN "src/data/txt/bin/message19.bin"
+txtBattleLost:
+.INCBIN "src/data/txt/bin/battleLost.bin"
 
-_DATA_1FC84_:
-.INCBIN "src/data/txt/bin/message20.bin"
+txtShopSoldOut:
+.INCBIN "src/data/txt/bin/shopSoldOut.bin"
