@@ -8,14 +8,14 @@ updateEntity0x08:
     jr z, +
     ld a, (v_entities.1.xPos.high)
     sub $04
-    ld (_RAM_C36C_), a
+    ld (v_entities.4.xPos.high), a
     ld a, (v_entities.1.isOffScreenFlags)
-    ld (_RAM_C369_), a
+    ld (v_entities.4.isOffScreenFlags.low), a
     ld a, (v_entities.1.yPos.high)
     sub $03
-    ld (_RAM_C36E_), a
+    ld (v_entities.4.yPos.high), a
     ld a, (v_entities.1.isOffScreenFlags.high)
-    ld (_RAM_C36A_), a
+    ld (v_entities.4.isOffScreenFlags.high), a
     ret
 
 +:

@@ -306,38 +306,6 @@ _RAM_C2A0_ dsb $b
 
 .DEFINE v_entity1 v_entities
 
-.enum $C340 export
-_RAM_C340_ db
-.ende
-
-.enum $C347 export
-_RAM_C347_ dw
-.ende
-
-.enum $C360 export
-_RAM_C360_ db
-.ende
-
-.enum $C367 export
-_RAM_C367_ dw
-_RAM_C369_ db
-_RAM_C36A_ db
-.ende
-
-.enum $C36C export
-_RAM_C36C_ db
-.ende
-
-.enum $C36E export
-_RAM_C36E_ db
-_RAM_C36F_ dw
-_RAM_C371_ dw
-.ende
-
-.enum $C374 export
-_RAM_C374_ db
-.ende
-
 .enum $C37B export
 _RAM_C37B_ dw
 .ende

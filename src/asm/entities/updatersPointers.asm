@@ -12,9 +12,9 @@ entityTypeJumpTable:
 .dw updateEntity0x0A
 .dw updateEntity0x0B
 .dw updateEntity0x0C
-.dw updateEntity0x0D
-.dw updateEntity0x0E
-.dw updateEntity0x0F
+.dw updateGoosekaHead
+.dw updateChokkinnaHead
+.dw updateParplinHead
 .dw updateEntity0x10
 .dw updateEntity0x11
 .dw updateEntity0x12

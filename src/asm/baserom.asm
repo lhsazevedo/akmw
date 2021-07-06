@@ -3015,7 +3015,7 @@ updateAlexWalking:
     jp nz, walkRight
     bit JOY_LEFT_BIT, a
     jr nz, _LABEL_2BDC_
-    jp _LABEL_2BFA_
+    jp alex_LABEL_2BFA_
 
 +++:
     ld a, (v_inputData)
@@ -3035,11 +3035,12 @@ _LABEL_2BDC_:
     bit JOY_DOWN_BIT, a
     jp nz, crouch
     bit 2, (ix + Entity.unknown3)
-    jr z, _LABEL_2BFA_
+    jr z, alex_LABEL_2BFA_
     ld de, $0020
     call _LABEL_3B50_
     jr nc, _LABEL_2BDC_
-_LABEL_2BFA_:
+
+alex_LABEL_2BFA_:
     ld a, $05
     ld (v_entities.1.animationTimerResetValue), a
     ld a, ALEX_IDLE
@@ -3083,7 +3084,7 @@ _LABEL_2C25_:
     jp nz, walkLeft
     bit JOY_RIGHT_BIT, a
     jr nz, _LABEL_2C6C_
-    jp _LABEL_2BFA_
+    jp alex_LABEL_2BFA_
 
 +++:
     ld a, (v_inputData)
@@ -3103,11 +3104,11 @@ _LABEL_2C6C_:
     bit JOY_DOWN_BIT, a
     jp nz, crouch
     bit 2, (ix+20)
-    jp z, _LABEL_2BFA_
+    jp z, alex_LABEL_2BFA_
     ld de, $FFE0
     call _LABEL_3BA1_
     jr c, _LABEL_2C6C_
-    jp _LABEL_2BFA_
+    jp alex_LABEL_2BFA_
 
 +:
     set 2, (ix+20)
@@ -3212,11 +3213,11 @@ _LABEL_2D4A_:
     jr nz, +
     res 2, (ix+20)
     ld (ix + Entity.state), $01
-    jp _LABEL_2BFA_
+    jp alex_LABEL_2BFA_
 
 +:
     bit 2, (ix+20)
-    jp z, _LABEL_2BFA_
+    jp z, alex_LABEL_2BFA_
     call walk
 _LABEL_2D7F_:
     bit 1, (ix+20)
@@ -3423,7 +3424,7 @@ updateAlexCrouched:
 
 _LABEL_2F22_:
     bit 2, (ix + Entity.unknown3)
-    jp z, _LABEL_2BFA_
+    jp z, alex_LABEL_2BFA_
     jp walk
 
 _LABEL_2F2C_:
@@ -3849,7 +3850,7 @@ alexHandler_3256:
     dec hl
     ld a, (hl)
     cp $3F
-    jp nz, _LABEL_2BFA_
+    jp nz, alex_LABEL_2BFA_
 +:
     res 3, (ix+20)
     ld hl, $FF00
@@ -3875,7 +3876,7 @@ _LABEL_32DC_:
     dec hl
     ld a, (hl)
     cp $3F
-    jp nz, _LABEL_2BFA_
+    jp nz, alex_LABEL_2BFA_
 _LABEL_3301_:
     set 3, (ix+20)
     ld hl, $0100
@@ -3918,7 +3919,7 @@ alexHandler_3340:
     ld (v_entities.1.state), a
     cp $14
     jr nz, saveTempAlexCopy
-    call _LABEL_2BFA_
+    call alex_LABEL_2BFA_
 saveTempAlexCopy:
     ld hl, v_entity1
     ld de, temporaryAlexCopy
@@ -6151,13 +6152,13 @@ _LABEL_4415_:
     ld (ix+29), $08
     xor a
     ld (_RAM_C054_), a
-    ld iy, _RAM_C360_
+    ld iy, v_entities.4
     ld a, (v_entities.1.xPos.high)
     add a, $08
-    ld (_RAM_C36C_), a
+    ld (v_entities.4.xPos.high), a
     ld a, (v_entities.1.yPos.high)
     add a, $10
-    ld (_RAM_C36E_), a
+    ld (v_entities.4.yPos.high), a
     ld (iy+0), $03
     ld (iy+25), $14
     ld (iy+5), $04
@@ -6390,39 +6391,39 @@ _LABEL_462E_:
 
 ; 4th entry of Jump Table from 4523 (indexed by _RAM_C054_)
 _LABEL_4641_:
-    ld iy, _RAM_C360_
+    ld iy, v_entities.4
     ld (iy+0), $05
     ld hl, $80E6
     jr +
 
 ; 5th entry of Jump Table from 4523 (indexed by _RAM_C054_)
 _LABEL_464E_:
-    ld iy, _RAM_C360_
+    ld iy, v_entities.4
     ld (iy+0), $07
     ld hl, $80F4
 +:
     ld a, $90
     ld (v_soundControl), a
-    ld (_RAM_C367_), hl
+    ld (v_entities.4.spriteDescriptorPointer), hl
     ld hl, v_entities.1.unknown8
     ld a, (hl)
     or $0B
     ld (hl), a
     ld a, (v_entities.1.xPos.high)
-    ld (_RAM_C36C_), a
+    ld (v_entities.4.xPos.high), a
     ld a, (v_entities.1.yPos.high)
     add a, $04
-    ld (_RAM_C36E_), a
+    ld (v_entities.4.yPos.high), a
     ld a, (v_entities.1.unknown3)
     and $02
-    ld (_RAM_C374_), a
+    ld (v_entities.4.unknown3), a
     ld hl, $FF00
     jr z, +
     ld hl, $0100
 +:
-    ld (_RAM_C36F_), hl
+    ld (v_entities.4.xSpeed), hl
     ld hl, $FE00
-    ld (_RAM_C371_), hl
+    ld (v_entities.4.ySpeed), hl
 ; 8th entry of Jump Table from 4523 (indexed by _RAM_C054_)
 _LABEL_468F_:
     ret
@@ -6808,7 +6809,7 @@ _LABEL_53C6_:
 ; - Request boss defeated sfx
 ; - Earn enemy score
 ; - Spaw boss smoke puff (that will spaw the onigiri)
-updateOpponentDefeated:
+killOpponent:
     ; Request boss defeated sfx
     ld a, $95
     ld (v_soundControl), a
@@ -8735,24 +8736,28 @@ updateOpponentRespawOpponent:
 
 ; 12th entry of Jump Table from 7152 (indexed by _RAM_C3BA_)
 _LABEL_73AE_:
-    call _LABEL_78CE_
+    call updateOpponentBattleWon
     ld (ix+24), $60
     ld hl, _DATA_7772_
     ld (_RAM_C219_), hl
     ld a, $03
     ld (_RAM_C218_), a
     xor a
-    ld (_RAM_C3A2_), a
+    ld (v_entities.6.unknown1), a
     ld hl, $961A
     ld (v_entities.6.spriteDescriptorPointer), hl
     ret
 
-; 13th entry of Jump Table from 78B0 (indexed by _RAM_C3BA_)
-_LABEL_73CB_:
+; - Wait for player to close textbox
+; - Request sfx
+; - Advance state
+updateOpponentStartFight:
     call isTextboxGameState
     ret z
-    ld a, $84
+
+    ld a, SOUND_CASTLE_MUSIC
     ld (v_soundControl), a
+
     inc (ix + Entity.state)
     ret
 
@@ -8771,7 +8776,7 @@ _LABEL_73D8_:
     call checkAlexEntityCollision_LABEL_7D0B_
     jr c, ++
     inc (ix+2)
-    ld a, (_RAM_C3A2_)
+    ld a, (v_entities.6.unknown1)
     cp $03
     jr c, +
     inc (ix + Entity.state)
@@ -8791,17 +8796,17 @@ _LABEL_73D8_:
     ld a, (v_entities.7.type)
     or a
     jr z, +
-    ld iy, _RAM_C3E0_
-    ld a, (_RAM_C3E0_)
+    ld iy, v_entities.8
+    ld a, (v_entities.8.type)
     or a
     ret nz
 +:
     ld (ix+24), $60
     ld (iy+0), $19
-    ld a, (_RAM_C3AC_)
+    ld a, (v_entities.6.xPos.high)
     add a, $08
     ld (iy+12), a
-    ld a, (_RAM_C3AE_)
+    ld a, (v_entities.6.yPos.high)
     add a, $10
     ld (iy+14), a
     ld a, $96
@@ -8853,14 +8858,20 @@ _LABEL_746F_:
     ld l, $15
     jp addScore
 
-; 14th entry of Jump Table from 779E (indexed by _RAM_C3BA_)
+; - Wait namespace change opportunity
+; - Remove ladder
+; - Advance state
+; - Fallthrough
 _LABEL_74A4_:
     ld a, (v_nametableChangeRequest)
     or a
     ret nz
+
     ld hl, _RAM_C218_
     dec (hl)
     jr z, +
+
+    ; Remove ladder
     ld a, (hl)
     add a, a
     add a, a
@@ -8871,15 +8882,16 @@ _LABEL_74A4_:
     ld de, _RAM_C204_
     ld bc, $0004
     ldir
+
     ld a, $80
     ld (v_nametableChangeRequest), a
     ret
 
 +:
-    call _LABEL_2BFA_
+    call alex_LABEL_2BFA_
     inc (ix + Entity.state)
-; 21st entry of Jump Table from 7152 (indexed by _RAM_C3BA_)
-_LABEL_74CD_:
+
+updateOpponentNop:
     ret
 
 .INC "entities/updateEntity0x19.asm"
@@ -8908,7 +8920,7 @@ _LABEL_7509_:
     ld (ix+16), $FF
     ld (ix+22), $08
     ld (ix+23), $01
-    inc (ix+26)
+    inc (ix + Entity.state)
     ret
 
 ; 2nd entry of Jump Table from 74DF (indexed by _RAM_CF9A_)
@@ -8917,7 +8929,7 @@ _LABEL_7525_:
     ret nz
     ld (ix+17), $00
     ld (ix+18), $FE
-    inc (ix+26)
+    inc (ix + Entity.state)
     ret
 
 ; 3rd entry of Jump Table from 74DF (indexed by _RAM_CF9A_)
@@ -8937,7 +8949,7 @@ _LABEL_7535_:
 -:
     ld (ix+17), e
     ld (ix+18), d
-    inc (ix+26)
+    inc (ix + Entity.state)
     ld a, (ix+23)
     add a, $02
     ld (ix+23), a
@@ -8948,7 +8960,7 @@ _LABEL_7535_:
 _LABEL_7564_:
     dec (ix+22)
     ret nz
-    inc (ix+26)
+    inc (ix + Entity.state)
     ret
 
 ; 5th entry of Jump Table from 74DF (indexed by _RAM_CF9A_)
@@ -9319,87 +9331,7 @@ restoreSomeNametableStuff_LABEL_796D_:
     ret
 
 .INC "entities/updateEntity0x0C.asm"
-.INC "entities/updateEntity0x0D.asm"
-
-; Jump Table from 79A9 to 79B0 (4 entries, indexed by _RAM_C3DA_)
-_DATA_79A9_:
-.dw _LABEL_79B1_ _LABEL_79D0_ _LABEL_79F0_ _LABEL_7A79_
-
-; 1st entry of Jump Table from 79A9 (indexed by _RAM_C3DA_)
-_LABEL_79B1_:
-    ld a, (_RAM_C3CE_)
-    cp (ix+23)
-    jr nc, +
-    inc (ix+26)
-    ld hl, $FF00
-    ld (_RAM_C3CF_), hl
-    ld hl, $FE00
-    ld (_RAM_C3D1_), hl
-    ret
-
-+:
-    ld hl, $FF00
-    ld (_RAM_C3D1_), hl
-    ret
-
-; 2nd entry of Jump Table from 79A9 (indexed by _RAM_C3DA_)
-_LABEL_79D0_:
-    call _LABEL_7A10_
-    ld a, (_RAM_C3CE_)
-    cp (ix+23)
-    jr c, +
-    inc (ix+26)
-    ld hl, $0200
-    ld (_RAM_C3D1_), hl
-    ret
-
-+:
-    ld hl, (_RAM_C3D1_)
-    ld de, $0010
-    add hl, de
-    ld (_RAM_C3D1_), hl
-    ret
-
-; 3rd entry of Jump Table from 79A9 (indexed by _RAM_C3DA_)
-_LABEL_79F0_:
-    call _LABEL_7A10_
-    ld a, (_RAM_C3CE_)
-    cp (ix+23)
-    jr nc, +
-    dec (ix+26)
-    ld hl, $FE00
-    ld (_RAM_C3D1_), hl
-    ret
-
-+:
-    ld hl, (_RAM_C3D1_)
-    ld de, $FFF0
-    add hl, de
-    ld (_RAM_C3D1_), hl
-    ret
-
-_LABEL_7A10_:
-    call tryToKillAlexIfColliding
-    call checkAlexEntityCollision_LABEL_7D0B_
-    jr nc, _LABEL_7A40_
-    bit 1, (ix+20)
-    jr z, +
-    ld hl, $0100
-    ld (_RAM_C3CF_), hl
-    ld a, (_RAM_C3CC_)
-    cp $E0
-    ret c
-    res 1, (ix+20)
-    ret
-
-+:
-    ld hl, $FF00
-    ld (_RAM_C3CF_), hl
-    ld a, (_RAM_C3CC_)
-    cp $11
-    ret nc
-    set 1, (ix+20)
-    ret
+.INC "entities/updateGoosekaHead.asm"
 
 _LABEL_7A40_:
     pop af
@@ -9425,7 +9357,8 @@ _LABEL_7A41_:
     ret
 
 ; 4th entry of Jump Table from 79A9 (indexed by _RAM_C3DA_)
-_LABEL_7A79_:
+; Shared
+updateOpponentHeadState3:
     dec (ix+22)
     ret nz
     ld a, (_RAM_C3D8_)
@@ -9436,92 +9369,8 @@ _LABEL_7A79_:
     ld (_RAM_C3CF_), hl
     ret
 
-.INC "entities/updateEntity0x0E.asm"
-
-; Jump Table from 7A98 to 7A9F (4 entries, indexed by _RAM_C3DA_)
-_DATA_7A98_:
-.dw _LABEL_7AA0_ _LABEL_7AC2_ _LABEL_7AF3_ _LABEL_7A79_
-
-; 1st entry of Jump Table from 7A98 (indexed by _RAM_C3DA_)
-_LABEL_7AA0_:
-    ld a, (_RAM_C3CE_)
-    cp $28
-    jr nc, +
-    inc (ix+26)
-    ld hl, $0200
-    ld (_RAM_C3CF_), hl
-    ld hl, $FB34
-    ld (_RAM_C3D1_), hl
-    set 1, (ix+20)
-    ret
-
-+:
-    ld hl, $FF00
-    ld (_RAM_C3D1_), hl
-    ret
-
-; 2nd entry of Jump Table from 7A98 (indexed by _RAM_C3DA_)
-_LABEL_7AC2_:
-    call _LABEL_7B18_
-    ld a, (_RAM_C3CE_)
-    cp $28
-    jr c, ++
-    inc (ix+26)
-    ld hl, $04CC
-    ld (_RAM_C3D1_), hl
-    ld hl, _RAM_C3D4_
-    ld a, (hl)
-    xor $02
-    ld (hl), a
-    ld hl, $FE00
-    jr z, +
-    ld hl, $0200
-+:
-    ld (_RAM_C3CF_), hl
-    ret
-
-++:
-    ld hl, (_RAM_C3D1_)
-    ld de, $005E
-    add hl, de
-    ld (_RAM_C3D1_), hl
-    ret
-
-; 3rd entry of Jump Table from 7A98 (indexed by _RAM_C3DA_)
-_LABEL_7AF3_:
-    call tryToKillAlexIfColliding
-    call checkAlexEntityCollision_LABEL_7D0B_
-    jp nc, _LABEL_7A41_
-    ld a, (_RAM_C3CE_)
-    cp $28
-    jr nc, +
-    dec (ix+26)
-    ld hl, $FB34
-    ld (_RAM_C3D1_), hl
-    ret
-
-+:
-    ld hl, (_RAM_C3D1_)
-    ld de, $FFE2
-    add hl, de
-    ld (_RAM_C3D1_), hl
-    ret
-
-_LABEL_7B18_:
-    call tryToKillAlexIfColliding
-    call checkAlexEntityCollision_LABEL_7D0B_
-    jp nc, _LABEL_7A40_
-    bit 1, (ix+20)
-    ld de, $0028
-    jr z, +
-    ld de, $FFD8
-+:
-    ld hl, (_RAM_C3CF_)
-    add hl, de
-    ld (_RAM_C3CF_), hl
-    ret
-
-.INC "entities/updateEntity0x0F.asm"
+.INC "entities/updateChokkinnaHead.asm"
+.INC "entities/updateParplinHead.asm"
 
 getTileNearEntityWithXYOffset:
     ld a, (ix + Entity.xPos.high)
@@ -9689,7 +9538,7 @@ _LABEL_7D61_:
 
 ; 4th entry of Jump Table from 7D1C (indexed by _RAM_C054_)
 _LABEL_7D6E_:
-    ld iy, _RAM_C340_
+    ld iy, v_entities.3
     call checkEntityCollision
     jr nc, +
     ld iy, v_entities.2
@@ -9701,7 +9550,7 @@ _LABEL_7D6E_:
 
 ; 5th entry of Jump Table from 7D1C (indexed by _RAM_C054_)
 _LABEL_7D84_:
-    ld iy, _RAM_C360_
+    ld iy, v_entities.4
     jp checkEntityCollision
 
 ; 8th entry of Jump Table from 7D1C (indexed by _RAM_C054_)

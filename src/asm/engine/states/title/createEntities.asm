@@ -20,7 +20,7 @@ createTitleEntitiesJankenFlight:
     ld ix, v_entities.3
     ld (ix + Entity.type), ENTITY_STATIC
     ld hl, $C850
-    ld (_RAM_C347_), hl
+    ld (v_entities.3.spriteDescriptorPointer), hl
     ld (ix + Entity.xPos.high), $18
     ld (ix + Entity.yPos.high), $4F
 
@@ -36,7 +36,7 @@ createTitleEntityAlexSwiming:
     ld ix, v_entities.4
     ld (ix + Entity.type), ENTITY_STATIC
     ld hl, $C878
-    ld (_RAM_C367_), hl
+    ld (v_entities.4.spriteDescriptorPointer), hl
     ld (ix + Entity.xPos.high), $C9
     ld (ix + Entity.yPos.high), $0C
     ret

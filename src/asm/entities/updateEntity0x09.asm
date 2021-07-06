@@ -109,7 +109,7 @@ _LABEL_4846_:
     cp $AC
     ret c
 _LABEL_4854_:
-    ld a, (_RAM_C360_)
+    ld a, (v_entities.4.type)
     or a
     jr nz, +
 

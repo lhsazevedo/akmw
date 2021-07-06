@@ -1,5 +1,5 @@
 ; 15th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
-updateEntity0x0F:
+updateParplinHead:
     call tryToKillAlexIfColliding
     ld a, (_RAM_C3DB_)
     or a

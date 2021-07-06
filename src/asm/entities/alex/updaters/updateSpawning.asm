@@ -20,7 +20,7 @@ updateAlexSpawning:
     jr z, _spawnFlyingPeticopter
     ld (ix + Entity.unknown11), $18
     ld (ix + Entity.unknown9), $08
-    call _LABEL_2BFA_
+    call alex_LABEL_2BFA_
     ret
 
 _spawnRidingMotorcycle:

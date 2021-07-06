@@ -66,7 +66,11 @@ ENTITY_ARRAY_SIZE = $1E
 
 ; Entity types
 ENTITY_ALEX                     = $01
+ENTITY_GOOSEKA_HEAD             = $0D
+ENTITY_CHOKKINNA_HEAD           = $0E
+ENTITY_PARPLIN_HEAD             = $0F
 ENTITY_STATIC                   = $18
+ENTITY_CHOKKINNA_SPELL          = $1A
 ENTITY_JANKEN                   = $1C
 ENTITY_GOOSEKA                  = $1D
 ENTITY_CHOKKINNA                = $1E
@@ -121,6 +125,7 @@ VDP_R1_DOUBLE_SPRITE_PIXELS     = 1
 
 ; Audio
 SOUND_INTRO          = $81
+SOUND_CASTLE_MUSIC   = $84
 SOUND_SMOKE_PUFF     = $8B
 SOUND_COINS          = $8E
 SOUND_POWERUP        = $8F
@@ -128,6 +133,7 @@ SOUND_LEVEL_STARTING = $86
 SOUND_BATTLE_LOST    = $93
 SOUND_MERMAN_BUBBLES = $97
 SOUND_JANKEN_MUSIC   = $87
+SOUND_BOSS_HEAD      = $AC
 SOUND_JANKEN_COUNT   = $AD
 SOUND_JANKEN_THROW   = $AE
 

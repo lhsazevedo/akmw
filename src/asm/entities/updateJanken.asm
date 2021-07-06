@@ -19,7 +19,7 @@ jankenUpdaters:
 .dw updateOpponentTurnAlexIntoStatue
 .dw updateOpponentRespawOpponent
 .dw _LABEL_73AE_
-.dw _LABEL_73CB_
+.dw updateOpponentStartFight
 .dw _LABEL_74A4_
 .dw _LABEL_73D8_
 .dw _LABEL_7447_
@@ -27,4 +27,4 @@ jankenUpdaters:
 .dw _LABEL_7453_
 .dw _LABEL_746F_
 .dw _LABEL_74A4_
-.dw _LABEL_74CD_
+.dw updateOpponentNop

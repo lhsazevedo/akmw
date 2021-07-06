@@ -1,6 +1,6 @@
 ; 7th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 updateEntity0x07:
-    ld a, (_RAM_C369_)
+    ld a, (v_entities.4.isOffScreenFlags.low)
     or (ix + Entity.isOffScreenFlags.high)
     jp nz, _LABEL_485A_
     ld de, $1004
@@ -16,7 +16,7 @@ updateEntity0x07:
     rlca
     ret nc
     ld hl, $0000
-    ld (_RAM_C36F_), hl
+    ld (v_entities.4.xSpeed), hl
     ret
 
 ++:
@@ -25,10 +25,10 @@ updateEntity0x07:
     ld (v_soundControl), a
     ld (ix + Entity.type), $08
     ld hl, $8CD2
-    ld (_RAM_C367_), hl
+    ld (v_entities.4.spriteDescriptorPointer), hl
     ld hl, $04B0
     ld (_RAM_C37B_), hl
     ld hl, $0000
-    ld (_RAM_C36F_), hl
-    ld (_RAM_C371_), hl
+    ld (v_entities.4.xSpeed), hl
+    ld (v_entities.4.ySpeed), hl
     ret

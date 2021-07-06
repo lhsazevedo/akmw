@@ -6,27 +6,29 @@ updateGooseka:
 
 ; Jump Table from 779E to 77BD (16 entries, indexed by _RAM_C3BA_)
 goosekaUpdaters:
-.dw updateOpponentInit                                ; 0x0
-.dw updateOpponentMakeAlexGetIntoPosition            ; 0x1
-.dw updateOpponentLoadOpponentTilesAndShowTextbox1    ; 0x2
-.dw updateOpponentShowTextbox2                        ; 0x3
-.dw updateOpponentStartRound                        ; 0x4
-.dw updateOpponentDance                                ; 0x5
-.dw updateOpponentThrow                                ; 0x6
-.dw updateOpponentHandleThrows                        ; 0x7
-.dw updateOpponentShowBattleLostTextbox            ; 0x8
-.dw updateOpponentTurnAlexIntoStatue                ; 0x9
-.dw updateOpponentRespawOpponent                                    ; 0xA
-.dw _LABEL_77BE_                                    ; 0xB
-.dw _LABEL_73CB_                                    ; 0xC
-.dw _LABEL_74A4_                                    ; 0xD
-.dw _LABEL_77CD_                                    ; 0xE
-.dw _LABEL_780B_                                    ; 0xF
+.dw updateOpponentInit                                  ; 0x0
+.dw updateOpponentMakeAlexGetIntoPosition               ; 0x1
+.dw updateOpponentLoadOpponentTilesAndShowTextbox1      ; 0x2
+.dw updateOpponentShowTextbox2                          ; 0x3
+.dw updateOpponentStartRound                            ; 0x4
+.dw updateOpponentDance                                 ; 0x5
+.dw updateOpponentThrow                                 ; 0x6
+.dw updateOpponentHandleThrows                          ; 0x7
+.dw updateOpponentShowBattleLostTextbox                 ; 0x8
+.dw updateOpponentTurnAlexIntoStatue                    ; 0x9
+.dw updateOpponentRespawOpponent                        ; 0xA
+.dw _LABEL_77BE_                                        ; 0xB
+.dw updateOpponentStartFight                            ; 0xC
+.dw _LABEL_74A4_                                        ; 0xD
+.dw updateGoosekaSpawnHead                              ; 0xE
+.dw updateOpponentDestroyWhenDefeated                                        ; 0xF
 
-; 12th entry of Jump Table from 779E (indexed by _RAM_C3BA_)
+; - Call updateOpponentBattleWon
+; - @TODO
 _LABEL_77BE_:
-    call _LABEL_78CE_
+    call updateOpponentBattleWon
 
+    // @TODO
     ld hl, _DATA_778E_
     ld (_RAM_C219_), hl
 
@@ -35,45 +37,50 @@ _LABEL_77BE_:
 
     ret
 
-; 15th entry of Jump Table from 779E (indexed by _RAM_C3BA_)
-_LABEL_77CD_:
+; - Change opponent sprite and spawn boss head
+; - Advance state
+; - Request head sfx
+updateGoosekaSpawnHead:
     ld hl, $936D
     ld (v_entities.6.spriteDescriptorPointer), hl
 
-    dec (ix+22)
+    dec (ix + Entity.unknown5)
     ret nz
 
+    ; @TODO
     ld hl, $9395
     ld (v_entities.6.spriteDescriptorPointer), hl
 
+    ; Spawn head
     ld hl, v_entities.7
     call clearEntity
 
     ld iy, v_entities.7
-    ld (iy+0), $0D
+    ld (iy + Entity.type), ENTITY_GOOSEKA_HEAD
 
-    ld a, (_RAM_C3AC_)
-    ld (_RAM_C3CC_), a
+    ld a, (v_entities.6.xPos.high)
+    ld (v_entities.7.xPos.high), a
 
-    ld a, (_RAM_C3AE_)
-    ld (_RAM_C3CE_), a
+    ld a, (v_entities.6.yPos.high)
+    ld (v_entities.7.yPos.high), a
 
     sub $20
-    ld (_RAM_C3D7_), a
+    ld (v_entities.7.jankenMatchDecision), a
 
     ld hl, $9387
-    ld (_RAM_C3C7_), hl
+    ld (v_entities.7.spriteDescriptorPointer), hl
 
-    inc (ix+26)
-    ld a, $AC
+    inc (ix + Entity.state)
+
+    ld a, SOUND_BOSS_HEAD
     ld (v_soundControl), a
     ret
 
 ; 15th entry of Jump Table from 78B0 (indexed by _RAM_C3BA_)
 ; Shared with Parplin
-_LABEL_780B_:
+updateOpponentDestroyWhenDefeated:
     call tryToKillAlexIfColliding
     ld a, (v_entities.7.type)
     or a
-    jp z, updateOpponentDefeated
+    jp z, killOpponent
     ret

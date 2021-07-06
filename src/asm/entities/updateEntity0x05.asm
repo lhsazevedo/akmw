@@ -1,6 +1,6 @@
 ; 5th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 updateEntity0x05:
-    ld a, (_RAM_C369_)
+    ld a, (v_entities.4.isOffScreenFlags.low)
     or (ix + Entity.isOffScreenFlags.high)
     jp nz, _LABEL_485A_
     ld de, $1004
@@ -16,7 +16,7 @@ updateEntity0x05:
     rlca
     ret nc
     ld hl, $0000
-    ld (_RAM_C36F_), hl
+    ld (v_entities.4.xSpeed), hl
     ret
 
 ++:
