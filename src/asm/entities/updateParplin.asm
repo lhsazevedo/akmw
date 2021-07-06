@@ -1,11 +1,11 @@
 ; 31st entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 updateParplin:
-    ld a, (_RAM_C3BA_)
+    ld a, (v_entities.6.state)
     ld hl, parplinUpdaters
     rst $20    ; loadAthJumptablePointer
     ret
 
-; Jump Table from 78B0 to 78CD (15 entries, indexed by _RAM_C3BA_)
+; Jump Table from 78B0 to 78CD (15 entries, indexed by v_entities.6.state)
 parplinUpdaters:
 .dw updateOpponentInit
 .dw updateOpponentMakeAlexGetIntoPosition
@@ -48,7 +48,7 @@ updateOpponentBattleWon:
     ld (v_gameState), a
     ret
 
-; 14th entry of Jump Table from 78B0 (indexed by _RAM_C3BA_)
+; 14th entry of Jump Table from 78B0 (indexed by v_entities.6.state)
 updateParplinSpawnHead:
     ld hl, $936D
     ld (v_entities.6.spriteDescriptorPointer), hl

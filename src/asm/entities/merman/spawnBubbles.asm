@@ -4,7 +4,7 @@ spawnMermanBubbles:
     ret nz
     ld b, $05
     ld de, $0020
-    ld iy, _RAM_C500_
+    ld iy, v_entities.17
 -:
     ld a, (iy+0)
     or a

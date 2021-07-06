@@ -1,10 +1,10 @@
 ; 8th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 updateEntity0x08:
-    ld hl, (_RAM_C37B_)
+    ld hl, (v_entities.4.stateTimer)
     dec hl
     ld a, l
     or h
-    ld (_RAM_C37B_), hl
+    ld (v_entities.4.stateTimer), hl
     jr z, +
     ld a, (v_entities.1.xPos.high)
     sub $04

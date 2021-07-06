@@ -8,7 +8,7 @@ updateEntity0x50:
     bit 0, (ix + Entity.flags)
     jr nz, +
     ld (ix + Entity.yPos.high), $88
-    ld iy, _RAM_C3A0_
+    ld iy, v_entities.6
     ld (iy+0), $44
     ld (iy+12), $98
     ld (iy+14), $60

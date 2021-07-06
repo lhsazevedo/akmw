@@ -5,7 +5,7 @@ updateChokkinna:
     rst $20    ; loadAthJumptablePointer
     ret
 
-; Jump Table from 781E to 783B (15 entries, indexed by _RAM_C3BA_)
+; Jump Table from 781E to 783B (15 entries, indexed by v_entities.6.state)
 chokkinnaUpdaters:
 .dw updateOpponentInit
 .dw updateOpponentMakeAlexGetIntoPosition
@@ -23,7 +23,7 @@ chokkinnaUpdaters:
 .dw updateChokkinnaSpawnHead
 .dw updateChokkinnaCastSpells
 
-; 14th entry of Jump Table from 781E (indexed by _RAM_C3BA_)
+; 14th entry of Jump Table from 781E (indexed by v_entities.6.state)
 updateChokkinnaSpawnHead:
     ld hl, $9458
     ld (v_entities.6.spriteDescriptorPointer), hl
@@ -52,7 +52,7 @@ updateChokkinnaSpawnHead:
     ld (v_soundControl), a
     ret
 
-; 15th entry of Jump Table from 781E (indexed by _RAM_C3BA_)
+; 15th entry of Jump Table from 781E (indexed by v_entities.6.state)
 updateChokkinnaCastSpells:
     call tryToKillAlexIfColliding
     ld a, (v_entities.7.type)

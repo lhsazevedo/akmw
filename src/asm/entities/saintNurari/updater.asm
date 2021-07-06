@@ -26,7 +26,7 @@ _LABEL_60D4_:
     bit 1, (ix + Entity.flags)
     ret nz
     set 1, (ix + Entity.flags)
-    ld iy, _RAM_C640_
+    ld iy, v_entities.27
     ld (iy+0), $52
     ld (iy+12), $72
     ld (iy+14), $70

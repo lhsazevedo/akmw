@@ -62,26 +62,26 @@ _LABEL_6F21_:
     ld (ix + Entity.yPos.high), a
     ret
 
-; Pointer Table from 6F30 to 6F37 (4 entries, indexed by _RAM_C3C2_)
+; Pointer Table from 6F30 to 6F37 (4 entries, indexed by v_entities.7.unknown1)
 _DATA_6F30_:
 .dw _DATA_6F38_ _DATA_6F3B_ _DATA_6F3E_ _DATA_6F41_
 
-; 1st entry of Pointer Table from 6F30 (indexed by _RAM_C3C2_)
+; 1st entry of Pointer Table from 6F30 (indexed by v_entities.7.unknown1)
 ; Data from 6F38 to 6F3A (3 bytes)
 _DATA_6F38_:
 .db $25 $B0 $70
 
-; 2nd entry of Pointer Table from 6F30 (indexed by _RAM_C3C2_)
+; 2nd entry of Pointer Table from 6F30 (indexed by v_entities.7.unknown1)
 ; Data from 6F3B to 6F3D (3 bytes)
 _DATA_6F3B_:
 .db $46 $C0 $88
 
-; 3rd entry of Pointer Table from 6F30 (indexed by _RAM_C3C2_)
+; 3rd entry of Pointer Table from 6F30 (indexed by v_entities.7.unknown1)
 ; Data from 6F3E to 6F40 (3 bytes)
 _DATA_6F3E_:
 .db $25 $B0 $90
 
-; 4th entry of Pointer Table from 6F30 (indexed by _RAM_C3C2_)
+; 4th entry of Pointer Table from 6F30 (indexed by v_entities.7.unknown1)
 ; Data from 6F41 to 6F43 (3 bytes)
 _DATA_6F41_:
 .db $25 $B0 $90

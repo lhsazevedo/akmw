@@ -4,7 +4,7 @@ updateGooseka:
     rst $20    ; loadAthJumptablePointer
     ret
 
-; Jump Table from 779E to 77BD (16 entries, indexed by _RAM_C3BA_)
+; Jump Table from 779E to 77BD (16 entries, indexed by v_entities.6.state)
 goosekaUpdaters:
 .dw updateOpponentInit                                  ; 0x0
 .dw updateOpponentMakeAlexGetIntoPosition               ; 0x1
@@ -76,7 +76,7 @@ updateGoosekaSpawnHead:
     ld (v_soundControl), a
     ret
 
-; 15th entry of Jump Table from 78B0 (indexed by _RAM_C3BA_)
+; 15th entry of Jump Table from 78B0 (indexed by v_entities.6.state)
 ; Shared with Parplin
 updateOpponentDestroyWhenDefeated:
     call tryToKillAlexIfColliding

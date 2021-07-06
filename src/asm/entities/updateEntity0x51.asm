@@ -44,7 +44,7 @@ _LABEL_6001_:
     jr nz, +
     ld a, $14
     ld hl, _DATA_812F_
-    ld iy, _RAM_C5C0_
+    ld iy, v_entities.23
     ld (iy+0), $44
     ld (iy+12), $80
     ld (iy+14), $80

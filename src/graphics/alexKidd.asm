@@ -1188,7 +1188,7 @@ _DATA_11691_:
 _DATA_116A9_:
 .db $00 $00
 
-; 1st entry of Pointer Table from 7693 (indexed by _RAM_C3A3_)
+; 1st entry of Pointer Table from 7693 (indexed by v_entities.6.data)
 ; Data from 116AB to 116C0 (22 bytes)
 _DATA_116AB_:
 .db $00 $00 $00 $00 $00 $E0 $E0 $E0 $78 $78 $F8 $7C $7C $FC $7E $7E

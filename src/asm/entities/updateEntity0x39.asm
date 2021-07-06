@@ -3,9 +3,9 @@ updateEntity0x39:
     bit 0, (ix + Entity.flags)
     jr nz, updateDebris
     set 0, (ix + Entity.flags)
-    ld a, (_RAM_C5CC_)
+    ld a, (v_entities.23.xPos.high)
     ld (ix + Entity.xPos.high), a
-    ld a, (_RAM_C5CE_)
+    ld a, (v_entities.23.yPos.high)
     add a, $08
     ld (ix + Entity.yPos.high), a
     ld (ix + Entity.xSpeed.high), $FF

@@ -23,7 +23,7 @@ updateEntity0x53:
     bit 1, (ix + Entity.flags)
     ret nz
     set 1, (ix + Entity.flags)
-    ld iy, _RAM_C640_
+    ld iy, v_entities.27
     ld b, $4F
     ld de, $30D8
     ld a, (v_hasLetterToNibana)

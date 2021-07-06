@@ -27,7 +27,7 @@ createTitleEntitiesJankenFlight:
     ld ix, v_entities.7
     ld (ix + Entity.type), ENTITY_STATIC
     ld hl, $961A
-    ld (_RAM_C3C7_), hl
+    ld (v_entities.7.spriteDescriptorPointer), hl
     ld (ix + Entity.xPos.high), $30
     ld (ix + Entity.yPos.high), $77
     ret

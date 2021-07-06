@@ -2683,7 +2683,7 @@ _LABEL_1735_:
     ld (ix+12), $70
     ld (ix+14), $A0
     ld (ix+10), $FF
-    ld ix, _RAM_C3A0_
+    ld ix, v_entities.6
     ld (ix+0), c
     ld (ix+12), e
     ld (ix+14), d
@@ -4632,7 +4632,7 @@ _DATA_3904_:
 alexHandler_3919:
     call _LABEL_3928_
     ld a, (v_entities.1.jankenMatchDecision)
-    ld (_RAM_C677_), a
+    ld (v_entities.28.jankenMatchDecision), a
     ld hl, _DATA_8D2A_
     jp _LABEL_4189_
 
@@ -4708,7 +4708,7 @@ alexHandler_3961:
 alexHandler_39A5:
     call _LABEL_3928_
     ld a, (v_entities.1.jankenMatchDecision)
-    ld (_RAM_C677_), a
+    ld (v_entities.28.jankenMatchDecision), a
     ld hl, _DATA_8CE6_
     jp _LABEL_4189_
 
@@ -5287,7 +5287,7 @@ _LABEL_3D70_:
     ld a, (hl)
     cp $0A
     ret c
-    ld iy, _RAM_C3A0_
+    ld iy, v_entities.6
     ld (iy+0), $52
     ld (iy+3), $00
     ld (iy+12), $20
@@ -5394,7 +5394,7 @@ _LABEL_3E50_:
     ld (v_entities.1.state), a
     inc (ix + Entity.state)
     ld (ix+5), $1E
-    ld iy, _RAM_C640_
+    ld iy, v_entities.27
     ld hl, $8000
     ld c, $77
 -:
@@ -5413,7 +5413,7 @@ _LABEL_3E90_:
     ret nz
     ld (ix+5), $3C
     inc (ix + Entity.state)
-    ld iy, _RAM_C660_
+    ld iy, v_entities.28
     ld hl, $8A27
     ld c, $87
     jr -
@@ -5426,7 +5426,7 @@ _LABEL_3EA6_:
     ld (v_entities.1.state), a
     ld a, $89
     ld (v_nametableChangeRequest), a
-    ld hl, _RAM_C640_
+    ld hl, v_entities.27
     call clearEntity
     inc hl
     call clearEntity
@@ -6857,7 +6857,7 @@ _LABEL_55B6_:
     ld a, (ix+5)
     cp $40
     jr nz, _LABEL_55ED_
-    ld iy, _RAM_C500_
+    ld iy, v_entities.17
     ld de, $0020
     ld b, $05
 -:
@@ -6917,18 +6917,18 @@ _DATA_5776_:
 .INC "entities/ghost/updater.asm"
 
 _LABEL_5B90_:
-    ld iy, _RAM_C640_
+    ld iy, v_entities.27
     ld a, (iy+0)
     or a
     jr z, +
-    ld iy, _RAM_C660_
+    ld iy, v_entities.28
     ld a, (iy+0)
     or a
     jr z, +
-    ld a, (_RAM_C657_)
+    ld a, (v_entities.27.jankenMatchDecision)
     cp (iy+23)
     jr nc, +
-    ld iy, _RAM_C640_
+    ld iy, v_entities.27
 +:
     ld a, r
     and $07
@@ -6951,7 +6951,7 @@ _LABEL_5C01_:
     ld a, $8C
     ld (v_soundControl), a
     ex af, af'
-    ld iy, _RAM_C5C0_
+    ld iy, v_entities.23
     ld (iy+0), $38
     ld (iy+24), a
     cp $01
@@ -7326,7 +7326,7 @@ loadLevel:
 _LABEL_6671_:
     ld a, $01
     ld (v_isScrollingDownToNextScreen), a
-    ld ix, _RAM_C3A0_
+    ld ix, v_entities.6
     ld de, $0020
     ld b, $19
 -:
@@ -8133,7 +8133,7 @@ loadSpecialScreenEntitiesDescriptor:
     jp _LABEL_6F86_
 
 @loadAlwaysPresentEntity:
-    ld ix, _RAM_C3A0_
+    ld ix, v_entities.6
     res 0, (ix+1)
     res 1, (ix+1)
     ld b, $01
@@ -8734,7 +8734,7 @@ updateOpponentRespawOpponent:
     ld (ix + Entity.yPos.high), $98
     ret
 
-; 12th entry of Jump Table from 7152 (indexed by _RAM_C3BA_)
+; 12th entry of Jump Table from 7152 (indexed by v_entities.6.state)
 _LABEL_73AE_:
     call updateOpponentBattleWon
     ld (ix+24), $60
@@ -8761,7 +8761,7 @@ updateOpponentStartFight:
     inc (ix + Entity.state)
     ret
 
-; 15th entry of Jump Table from 7152 (indexed by _RAM_C3BA_)
+; 15th entry of Jump Table from 7152 (indexed by v_entities.6.state)
 _LABEL_73D8_:
     ld a, (ix+10)
     or a
@@ -8813,7 +8813,7 @@ _LABEL_73D8_:
     ld (v_soundControl), a
     ret
 
-; 16th entry of Jump Table from 7152 (indexed by _RAM_C3BA_)
+; 16th entry of Jump Table from 7152 (indexed by v_entities.6.state)
 _LABEL_7447_:
     call audio_LABEL_99D3_
     ld a, $95
@@ -8821,7 +8821,7 @@ _LABEL_7447_:
     inc (ix + Entity.state)
     ret
 
-; 18th entry of Jump Table from 7152 (indexed by _RAM_C3BA_)
+; 18th entry of Jump Table from 7152 (indexed by v_entities.6.state)
 _LABEL_7453_:
     ld hl, v_entities.1.state
     ld a, (hl)
@@ -8837,7 +8837,7 @@ _LABEL_7453_:
     inc (ix + Entity.state)
     ret
 
-; 19th entry of Jump Table from 7152 (indexed by _RAM_C3BA_)
+; 19th entry of Jump Table from 7152 (indexed by v_entities.6.state)
 _LABEL_746F_:
     ld a, (v_nametableChangeRequest)
     or a
@@ -8847,7 +8847,7 @@ _LABEL_746F_:
     ld a, $06
     ld (_RAM_C218_), a
     inc (ix + Entity.state)
-    ld iy, _RAM_C400_
+    ld iy, v_entities.9.type
     ld (iy+0), $52
     ld (iy+3), $04
     ld (iy+12), $A8
@@ -9088,30 +9088,30 @@ _DATA_763B_:
 .dw _DATA_92C8_ _DATA_92D6_ _DATA_92E4_
 
 destroyBattleEntities:
-    ld hl, _RAM_C640_
+    ld hl, v_entities.27
     call clearEntity
     inc hl
     call clearEntity
-    ld hl, _RAM_C5C0_
+    ld hl, v_entities.23
     jp clearEntity
 
 ; Data from 7651 to 7652 (2 bytes)
 _DATA_7651_:
 .db $4B $95
 
-; Pointer Table from 7653 to 7656 (2 entries, indexed by _RAM_C3A3_)
+; Pointer Table from 7653 to 7656 (2 entries, indexed by v_entities.6.data)
 .dw _DATA_12357_ _DATA_76AB_
 
-; Pointer Table from 7657 to 7658 (1 entries, indexed by _RAM_C3A3_)
+; Pointer Table from 7657 to 7658 (1 entries, indexed by v_entities.6.data)
 .dw _DATA_9500_
 
-; Pointer Table from 7659 to 765A (1 entries, indexed by _RAM_C3A3_)
+; Pointer Table from 7659 to 765A (1 entries, indexed by v_entities.6.data)
 .dw _DATA_9505_
 
-; Pointer Table from 765B to 765C (1 entries, indexed by _RAM_C3A3_)
+; Pointer Table from 765B to 765C (1 entries, indexed by v_entities.6.data)
 .dw _DATA_7691_
 
-; Pointer Table from 765D to 765E (1 entries, indexed by _RAM_C3A3_)
+; Pointer Table from 765D to 765E (1 entries, indexed by v_entities.6.data)
 .dw _DATA_76E3_
 
 ; Data from 765F to 7662 (4 bytes)
@@ -9156,7 +9156,7 @@ _DATA_7651_:
 
 .db $16 $93
 
-; Pointer Table from 7673 to 7674 (1 entries, indexed by _RAM_C3A3_)
+; Pointer Table from 7673 to 7674 (1 entries, indexed by v_entities.6.data)
 .dw chokkinnaTilesA
 
 ; Data from 7675 to 7682 (14 bytes)
@@ -9179,7 +9179,7 @@ _DATA_7651_:
 .ENDIF
 .db $77 $05 $00 $16 $93
 
-; Pointer Table from 7683 to 7684 (1 entries, indexed by _RAM_C3A3_)
+; Pointer Table from 7683 to 7684 (1 entries, indexed by v_entities.6.data)
 .dw parplinTiles
 
 ; Data from 7685 to 7690 (12 bytes)
@@ -9205,12 +9205,12 @@ _DATA_7651_:
 
 .db $77 $06 $00
 
-; 1st entry of Pointer Table from 765B (indexed by _RAM_C3A3_)
+; 1st entry of Pointer Table from 765B (indexed by v_entities.6.data)
 ; Data from 7691 to 7692 (2 bytes)
 _DATA_7691_:
 .db $5B $96
 
-; Pointer Table from 7693 to 7694 (1 entries, indexed by _RAM_C3A3_)
+; Pointer Table from 7693 to 7694 (1 entries, indexed by v_entities.6.data)
 .dw _DATA_116AB_
 
 ; Data from 7695 to 76A2 (14 bytes)
@@ -9220,7 +9220,7 @@ _DATA_7691_:
 _DATA_76A3_:
 .db $D1 $00 $DC $00 $D5 $00 $E8 $00
 
-; 2nd entry of Pointer Table from 7653 (indexed by _RAM_C3A3_)
+; 2nd entry of Pointer Table from 7653 (indexed by v_entities.6.data)
 ; Data from 76AB to 76E2 (56 bytes)
 _DATA_76AB_:
 .db $B0 $00 $D1 $00 $DE $00 $D9 $00 $DF $00 $E5 $00 $E4 $00 $B0 $00
@@ -9228,7 +9228,7 @@ _DATA_76AB_:
 .db $DF $00 $E5 $00 $D9 $00 $DE $00 $D1 $00 $D1 $00 $DE $00 $DE $00
 .db $E5 $00 $DE $00 $D9 $00 $DE $00
 
-; 1st entry of Pointer Table from 765D (indexed by _RAM_C3A3_)
+; 1st entry of Pointer Table from 765D (indexed by v_entities.6.data)
 ; Data from 76E3 to 7762 (128 bytes)
 _DATA_76E3_:
 .db $00 $01 $02 $02 $00 $01 $00 $02 $00 $01 $02 $01 $00 $01 $00 $02
@@ -9338,35 +9338,35 @@ _LABEL_7A40_:
 _LABEL_7A41_:
     res 7, (ix+1)
     inc (ix+2)
-    ld a, (_RAM_C3C2_)
+    ld a, (v_entities.7.unknown1)
     cp $03
     jp nc, _LABEL_55A5_
     ld a, $8D
     ld (v_soundControl), a
-    ld a, (_RAM_C3DA_)
-    ld (_RAM_C3D8_), a
+    ld a, (v_entities.7.state)
+    ld (v_entities.7.unknown6), a
     ld (ix+26), $03
     ld (ix+22), $3C
-    ld hl, (_RAM_C3D1_)
-    ld (_RAM_C3DE_), hl
-    ld hl, (_RAM_C3CF_)
-    ld (_RAM_C3DC_), hl
+    ld hl, (v_entities.7.ySpeed)
+    ld (v_entities.7.unknown10), hl
+    ld hl, (v_entities.7.xSpeed)
+    ld (v_entities.7.unknown8), hl
     ld hl, $0000
-    ld (_RAM_C3D1_), hl
-    ld (_RAM_C3CF_), hl
+    ld (v_entities.7.ySpeed), hl
+    ld (v_entities.7.xSpeed), hl
     ret
 
-; 4th entry of Jump Table from 79A9 (indexed by _RAM_C3DA_)
+; 4th entry of Jump Table from 79A9 (indexed by v_entities.7.state)
 ; Shared
 updateOpponentHeadState3:
     dec (ix+22)
     ret nz
-    ld a, (_RAM_C3D8_)
-    ld (_RAM_C3DA_), a
-    ld hl, (_RAM_C3DE_)
-    ld (_RAM_C3D1_), hl
-    ld hl, (_RAM_C3DC_)
-    ld (_RAM_C3CF_), hl
+    ld a, (v_entities.7.unknown6)
+    ld (v_entities.7.state), a
+    ld hl, (v_entities.7.unknown10)
+    ld (v_entities.7.ySpeed), hl
+    ld hl, (v_entities.7.unknown8)
+    ld (v_entities.7.xSpeed), hl
     ret
 
 .INC "entities/updateChokkinnaHead.asm"

@@ -8,9 +8,9 @@ updateEntity0x61:
     ld iy, v_entity1
     call checkEntityCollision
     ret c
-    ld a, (_RAM_C640_)
+    ld a, (v_entities.27.type)
     ld c, a
-    ld a, (_RAM_C640_)
+    ld a, (v_entities.27.type)
     or c
     ret z
     ld hl, _DATA_3F00_
@@ -20,9 +20,9 @@ updateEntity0x61:
     ld hl, _DATA_3F00_
     ld bc, v_money
     call _LABEL_41C_
-    ld hl, _RAM_C640_
+    ld hl, v_entities.27
     call clearEntity
-    ld hl, _RAM_C660_
+    ld hl, v_entities.28
     jp clearEntity
 
 ; Data from 3F00 to 3F02 (3 bytes)

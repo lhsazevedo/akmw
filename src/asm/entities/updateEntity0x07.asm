@@ -27,7 +27,7 @@ updateEntity0x07:
     ld hl, $8CD2
     ld (v_entities.4.spriteDescriptorPointer), hl
     ld hl, $04B0
-    ld (_RAM_C37B_), hl
+    ld (v_entities.4.stateTimer), hl
     ld hl, $0000
     ld (v_entities.4.xSpeed), hl
     ld (v_entities.4.ySpeed), hl

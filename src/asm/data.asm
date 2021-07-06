@@ -265,7 +265,7 @@ jankenMatchTiles:
 .db $7E $E7 $42 $4E $99 $B4 $DE $7B $2D $99 $72 $00 $7F $00 $7F $00
 .db $32 $00 $88 $76 $CF $D9 $65 $A6 $9B $F3 $6E $00
 
-; 1st entry of Pointer Table from 7663 (indexed by _RAM_C3A3_)
+; 1st entry of Pointer Table from 7663 (indexed by v_entities.6.data)
 ; Data from 11BB5 to 11E66 (690 bytes)
 goosekaTiles:
 .db $03 $00 $88 $07 $1F $3F $3F $7F $00 $00 $F0 $02 $FC $03 $FE $02
@@ -313,7 +313,7 @@ goosekaTiles:
 .db $0C $04 $05 $00 $84 $80 $1F $1E $3C $05 $00 $02 $F0 $81 $78 $05
 .db $00 $00
 
-; 1st entry of Pointer Table from 7673 (indexed by _RAM_C3A3_)
+; 1st entry of Pointer Table from 7673 (indexed by v_entities.6.data)
 ; Data from 11E67 to 11E74 (14 bytes)
 chokkinnaTilesA:
 .db $8E $00 $1C $3E $32 $16 $1E $0E $3F $00 $38 $7C $4C $6C
@@ -357,7 +357,7 @@ chokkinnaTilesB:
 .db $00 $03 $16 $1C $20 $30 $08 $08 $00 $80 $D0 $70 $05 $F0 $02 $F8
 .db $81 $00 $00
 
-; 1st entry of Pointer Table from 7683 (indexed by _RAM_C3A3_)
+; 1st entry of Pointer Table from 7683 (indexed by v_entities.6.data)
 ; Data from 120A8 to 12356 (687 bytes)
 parplinTiles:
 .db $92 $00 $03 $33 $3B $19 $1D $6D $63 $00 $0C $9C $98 $B8 $B0 $B0
@@ -404,7 +404,7 @@ parplinTiles:
 .db $81 $08 $03 $00 $85 $03 $0F $0F $00 $10 $03 $00 $83 $80 $E0 $F0
 .db $04 $00 $02 $38 $02 $78 $04 $00 $02 $3C $02 $3E $81 $00 $00
 
-; 1st entry of Pointer Table from 7653 (indexed by _RAM_C3A3_)
+; 1st entry of Pointer Table from 7653 (indexed by v_entities.6.data)
 ; Data from 12357 to 12AC1 (1899 bytes)
 _DATA_12357_:
 .incbin "baserom_DATA_12357_.inc"

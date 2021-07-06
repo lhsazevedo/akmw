@@ -1265,12 +1265,12 @@ _DATA_92E4_:
 .db $08 $08 $10 $10 $00 $20 $08 $21 $00 $2C $08 $23 $00 $2D $08 $25
 .db $00 $2E $08 $27 $F0 $A0 $F8 $A1 $F0 $A2 $F8 $A3
 
-; 1st entry of Pointer Table from 7657 (indexed by _RAM_C3A3_)
+; 1st entry of Pointer Table from 7657 (indexed by v_entities.6.data)
 ; Data from 9500 to 9504 (5 bytes)
 _DATA_9500_:
 .db $02 $0A $95 $4B $95
 
-; 1st entry of Pointer Table from 7659 (indexed by _RAM_C3A3_)
+; 1st entry of Pointer Table from 7659 (indexed by v_entities.6.data)
 ; Data from 9505 to 974A (582 bytes)
 _DATA_9505_:
 .db $02 $D3 $95 $8C $95 $15 $00 $00 $00 $00 $08 $08 $08 $10 $10 $10

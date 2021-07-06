@@ -306,144 +306,6 @@ _RAM_C2A0_ dsb $b
 
 .DEFINE v_entity1 v_entities
 
-.enum $C37B export
-_RAM_C37B_ dw
-.ende
-
-.enum $C3A0 export
-_RAM_C3A0_ db
-.ende
-
-.enum $C3A2 export
-_RAM_C3A2_ db
-_RAM_C3A3_ db
-.ende
-
-.enum $C3A5 export
-_RAM_C3A5_ db
-.ende
-
-.enum $C3AA export
-_RAM_C3AA_ db
-.ende
-
-.enum $C3AC export
-_RAM_C3AC_ db
-.ende
-
-.enum $C3AE export
-_RAM_C3AE_ db
-.ende
-
-.enum $C3B7 export
-_RAM_C3B7_ db
-.ende
-
-.enum $C3B9 export
-_RAM_C3B9_ db
-_RAM_C3BA_ db
-.ende
-
-.enum $C3BF export
-_RAM_C3BF_ db
-.ende
-
-.enum $C3C2 export
-_RAM_C3C2_ db
-.ende
-
-.enum $C3C7 export
-_RAM_C3C7_ dw
-.ende
-
-.enum $C3CC export
-_RAM_C3CC_ db
-.ende
-
-.enum $C3CE export
-_RAM_C3CE_ db
-_RAM_C3CF_ dw
-_RAM_C3D1_ dw
-.ende
-
-.enum $C3D4 export
-_RAM_C3D4_ db
-.ende
-
-.enum $C3D7 export
-_RAM_C3D7_ db
-_RAM_C3D8_ db
-.ende
-
-.enum $C3DA export
-_RAM_C3DA_ db
-_RAM_C3DB_ db
-_RAM_C3DC_ dw
-_RAM_C3DE_ dw
-_RAM_C3E0_ db
-.ende
-
-.enum $C3E7 export
-_RAM_C3E7_ dw
-.ende
-
-.enum $C3EC export
-_RAM_C3EC_ db
-.ende
-
-.enum $C3EE export
-_RAM_C3EE_ db
-_RAM_C3EF_ dw
-.ende
-
-.enum $C400 export
-_RAM_C400_ db
-.ende
-
-.enum $C500 export
-_RAM_C500_ db
-.ende
-
-.enum $C5C0 export
-_RAM_C5C0_ db
-.ende
-
-.enum $C5C7 export
-_RAM_C5C7_ dw
-.ende
-
-.enum $C5CC export
-_RAM_C5CC_ db
-.ende
-
-.enum $C5CE export
-_RAM_C5CE_ db
-.ende
-
-.enum $C5E0 export
-_RAM_C5E0_ db
-.ende
-
-.enum $C640 export
-_RAM_C640_ db
-.ende
-
-.enum $C657 export
-_RAM_C657_ db
-.ende
-
-.enum $C660 export
-_RAM_C660_ db
-.ende
-
-.enum $C677 export
-_RAM_C677_ db
-.ende
-
-.enum $C680 export
-_RAM_C680_ db
-.ende
-
 .enum $C700 export
 _RAM_C700_ dsb $6
 _RAM_C706_ db
@@ -456,7 +318,6 @@ _RAM_C780_ db
 .enum $C800 export
 _RAM_C800_ dsb $8
 _RAM_C808_ dw
-_RAM_C80A_ dw
 .ende
 
 .enum $C828 export
@@ -480,10 +341,6 @@ _RAM_CA08_ dsb $24
 _RAM_CA2C_ dsb $8
 .ende
 
-.enum $CA48 export
-_RAM_CA48_ dsb $8
-.ende
-
 .enum $CA94 export
 _RAM_CA94_ db
 .ende
@@ -500,16 +357,8 @@ _RAM_CAA4_ db
 _RAM_CB08_ dsb $8
 .ende
 
-.enum $CB48 export
-_RAM_CB48_ dsb $8
-.ende
-
 .enum $CBB4 export
 _RAM_CBB4_ dsb $8
-.ende
-
-.enum $CBF4 export
-_RAM_CBF4_ dsb $8
 .ende
 
 .enum $CC06 export
