@@ -1,4 +1,4 @@
-.enum $C000 export
+.enum $C000
 _RAM_C000_ dsb $4
 v_VDPRegister1Value db
 v_inputFlags db
@@ -10,33 +10,33 @@ v_spriteTerminatorPointer dw
 ; v_spriteTerminatorPointer.high db
 .ende
 
-.enum $C00E export
+.enum $C00E
 _RAM_C00E_ dw
 .ende
 
-.enum $C011 export
+.enum $C011
 v_messageToShowInTheTextBoxIndex db
 .ende
 
-.enum $C014 export
+.enum $C014
 _RAM_C014_ db
 shouldDisplayMapOpening db
 v_nextDemoIndex db
 .ende
 
-.enum $C01F export
+.enum $C01F
 v_gameState db
 v_score dsb $3
 v_level dw
 v_lives db
 .ende
 
-.enum $C030 export
+.enum $C030
 v_money db
 v_moneyByteTwo db
 .ende
 
-.enum $C038 export
+.enum $C038
 v_currentMapOrTextNametablePointer dw
 v_currentMapNametableDestinationPointer dw
 v_mapLoadingState db
@@ -45,7 +45,7 @@ v_nextMapNametableUpdateTimer db
 v_levelStartingTimer db
 .ende
 
-.enum $C046 export
+.enum $C046
 v_hasMagicCapsuleA db
 v_hasMagicCapsuleB db
 v_hasTelepathyBall db
@@ -58,11 +58,11 @@ v_hasHirottaStone db
 v_hasSunstoneMedallion db
 .ende
 
-.enum $C051 export
+.enum $C051
 v_shouldSpawnRidingBoat_RAM_C051_ db
 .ende
 
-.enum $C053 export
+.enum $C053
 v_inventoryItemSelectionState db
 _RAM_C054_ db
 v_shopFlags db
@@ -74,11 +74,11 @@ v_shouldBlankLeftmostColumn db
 v_invincibilityColorTimer db
 .ende
 
-.enum $C05F export
+.enum $C05F
 v_VDPRegister0Value db
 .ende
 
-.enum $C061 export
+.enum $C061
 v_entitydataPointersPointer dw
 v_addedEntitiesShouldBeOffscreenHorizontally db
 v_addedEntitiesShouldBeOffscreenVertically db
@@ -87,7 +87,7 @@ v_isScrollingDownToNextScreen db
 v_newEntityVerticalOffset db
 .ende
 
-.enum $C069 export
+.enum $C069
 v_shopEntranceHorizontalPosition db
 v_shopEntranceDoorNametablePointer dw
 v_horizontalPositionShopHasBeenEnteredFrom db
@@ -108,13 +108,13 @@ v_levelScrollability db
 v_levelBankNumber db
 .ende
 
-.enum $C085 export
+.enum $C085
 scrollFlagsUpdaterPointer dw
 v_metatileNametablePointer dw
 newEntitiesLoaderPointer dw
 .ende
 
-.enum $C08D export
+.enum $C08D
 v_currentScreenNumber db
 _RAM_C08E_ db
 v_powerBraceletsPickedUpCounter db
@@ -127,18 +127,18 @@ _RAM_C095_ db
 v_resetButtonState db
 .ende
 
-.enum $C0A0 export
+.enum $C0A0
 v_levelWidth db
 v_linesToLoadToNametable db
 .ende
 
-.enum $C0A3 export
+.enum $C0A3
 v_levelLayoutPointer dw
 v_levelHeight db
 v_columnsToLoadToNametable db
 .ende
 
-.enum $C0A8 export
+.enum $C0A8
 v_SecondLevelLayoutPointer dw
 v_UpdateNameTableFlags db
 v_horizontalScrollSpeed db
@@ -149,7 +149,7 @@ v_horizontalScroll db
 _RAM_C0B0_ dw
 .ende
 
-.enum $C0B3 export
+.enum $C0B3
 _RAM_C0B3_ db
 _RAM_C0B4_ db
 _RAM_C0B5_ db
@@ -163,7 +163,7 @@ v_verticalScroll db
 _RAM_C0BE_ dw
 .ende
 
-.enum $C0C1 export
+.enum $C0C1
 _RAM_C0C1_ db
 _RAM_C0C2_ db
 _RAM_C0C3_ db
@@ -171,40 +171,40 @@ v_verticalScreenNumber db
 _RAM_C0C5_ dw
 .ende
 
-.enum $C0C9 export
+.enum $C0C9
 v_scrollFlags db
 v_temporaryLevelDataCopy dsb $2a
 _RAM_C0F4_ dw
 .ende
 
-.enum $C0F8 export
+.enum $C0F8
 v_entitydataArrayLength db
 v_entitydataArrayPointer dw
 _RAM_C0FB_ db
 .ende
 
-.enum $C0FD export
+.enum $C0FD
 _RAM_C0FD_ dw
 _RAM_C0FF_ db
 v_waterColorTimer db
 .ende
 
-.enum $C103 export
+.enum $C103
 v_introTimer dw
 v_demoInputDataTimer dw
 v_demoCurrentInputData dw
 .ende
 
-.enum $C10A export
+.enum $C10A
 _RAM_C10A_ db
 _RAM_C10B_ db
 .ende
 
-.enum $C10D export
+.enum $C10D
 _RAM_C10D_ db
 .ende
 
-.enum $C110 export
+.enum $C110
 v_soundControl db
 v_soundFadeOutVolume db
 v_soundFadeOutTimer db
@@ -214,27 +214,27 @@ v_soundJankenMatchSoundFlags db
 v_soundNumber db
 .ende
 
-.enum $C118 export
+.enum $C118
     v_soundMusicChannels INSTANCEOF SoftwareChannel $04
 ; v_soundMusicSoftwareChannels dsb $8
 .ende
 
 .DEFINE v_soundMusicSoftwareChannels v_soundMusicChannels.1
 
-.enum $C198 export
+.enum $C198
     v_soundEffectsChannels INSTANCEOF SoftwareChannel $03
 ; v_soundMusicSoftwareChannels dsb $8
 .ende
 
-.enum $C1D8 export
+.enum $C1D8
 _RAM_C1D8_ dsb $9
 .ende
 
-.enum $C200 export
+.enum $C200
 v_alexTilesIndex db
 .ende
 
-.enum $C202 export
+.enum $C202
 v_nametableChangeRequest db
 _RAM_C203_ db
 _RAM_C204_ dw
@@ -243,7 +243,7 @@ _RAM_C208_ db
 _RAM_C209_ db
 .ende
 
-.enum $C20B export
+.enum $C20B
 _RAM_C20B_ db
 v_alexHorizontalSpeedTemporaryCopy dw
 v_alexVerticalSpeedTemporaryCopy dw
@@ -259,7 +259,7 @@ _RAM_C219_ dw
 _RAM_C21B_ dw
 .ende
 
-.enum $C220 export
+.enum $C220
 v_titleScreenTileUpdateTimer db
 v_titleScreen4FrameTileTimer db
 v_titleScreen6FrameTileTimer db
@@ -272,7 +272,7 @@ _RAM_C229_ db
 _RAM_C22A_ db
 .ende
 
-.enum $C230 export
+.enum $C230
 v_jankenMatchOpponentSpriteDescriptorPointer dw
 jankenMatchOpponentTilesPointer dw
 _RAM_C234_ dw
@@ -283,179 +283,179 @@ _RAM_C23C_ dw
 jankenMatchOpponentMessagePointer db
 .ende
 
-.enum $C240 export
+.enum $C240
 temporaryAlexCopy dsb $1a
 _RAM_C25A_ db
 .ende
 
-.enum $C25C export
+.enum $C25C
 _RAM_C25C_ db
 .ende
 
-.enum $C260 export
+.enum $C260
 _RAM_C260_ dsb $2e
 .ende
 
-.enum $C2A0 export
+.enum $C2A0
 _RAM_C2A0_ dsb $b
 .ende
 
-.enum $C300 export
+.enum $C300
     v_entities INSTANCEOF Entity $1E
 .ende
 
 .DEFINE v_entity1 v_entities
 
-.enum $C700 export
+.enum $C700
 _RAM_C700_ dsb $6
 _RAM_C706_ db
 .ende
 
-.enum $C780 export
+.enum $C780
 _RAM_C780_ db
 .ende
 
-.enum $C800 export
+.enum $C800
 _RAM_C800_ dsb $8
 _RAM_C808_ dw
 .ende
 
-.enum $C828 export
+.enum $C828
 _RAM_C828_ dsb $24
 .ende
 
-.enum $C850 export
+.enum $C850
 _RAM_C850_ dsb $24
 .ende
 
-.enum $C878 export
+.enum $C878
 _RAM_C878_ dsb $24
 .ende
 
-.enum $C908 export
+.enum $C908
 _RAM_C908_ dsb $2e
 .ende
 
-.enum $CA08 export
+.enum $CA08
 _RAM_CA08_ dsb $24
 _RAM_CA2C_ dsb $8
 .ende
 
-.enum $CA94 export
+.enum $CA94
 _RAM_CA94_ db
 .ende
 
-.enum $CA9C export
+.enum $CA9C
 _RAM_CA9C_ db
 .ende
 
-.enum $CAA4 export
+.enum $CAA4
 _RAM_CAA4_ db
 .ende
 
-.enum $CB08 export
+.enum $CB08
 _RAM_CB08_ dsb $8
 .ende
 
-.enum $CBB4 export
+.enum $CBB4
 _RAM_CBB4_ dsb $8
 .ende
 
-.enum $CC06 export
+.enum $CC06
 _RAM_CC06_ db
 .ende
 
-.enum $CC08 export
+.enum $CC08
 _RAM_CC08_ db
 .ende
 
-.enum $CCD4 export
+.enum $CCD4
 _RAM_CCD4_ db
 .ende
 
-.enum $CCD8 export
+.enum $CCD8
 _RAM_CCD8_ db
 .ende
 
-.enum $CCDC export
+.enum $CCDC
 _RAM_CCDC_ db
 .ende
 
-.enum $CCE0 export
+.enum $CCE0
 _RAM_CCE0_ db
 .ende
 
-.enum $CCE4 export
+.enum $CCE4
 _RAM_CCE4_ db
 .ende
 
-.enum $CCE8 export
+.enum $CCE8
 _RAM_CCE8_ db
 .ende
 
-.enum $CCEC export
+.enum $CCEC
 _RAM_CCEC_ db
 .ende
 
-.enum $CCF0 export
+.enum $CCF0
 _RAM_CCF0_ db
 .ende
 
-.enum $CCF4 export
+.enum $CCF4
 _RAM_CCF4_ dsb $4
 _RAM_CCF8_ db
 .ende
 
-.enum $CD44 export
+.enum $CD44
 _RAM_CD44_ dsb $12
 .ende
 
-.enum $CE84 export
+.enum $CE84
 _RAM_CE84_ db
 .ende
 
-.enum $CF00 export
+.enum $CF00
 _RAM_CF00_ db
 .ende
 
-.enum $CF38 export
+.enum $CF38
 _RAM_CF38_ db
 .ende
 
-.enum $CF80 export
+.enum $CF80
 _RAM_CF80_ dsb $20
 _RAM_CFA0_ dsb $20
 _RAM_CFC0_ db
 .ende
 
-.enum $CFE0 export
+.enum $CFE0
 v_textboxCursor db
 .ende
 
-.enum $D000 export
+.enum $D000
 nametableCopy dsb $503
 _RAM_D503_ db
 _RAM_D504_ db
 .ende
 
-.enum $D506 export
+.enum $D506
 _RAM_D506_ db
 .ende
 
-.enum $D700 export
+.enum $D700
 _RAM_D700_ db
 .ende
 
-.enum $D7D0 export
+.enum $D7D0
 _RAM_D7D0_ db
 _RAM_D7D1_ db
 .ende
 
-.enum $D7DA export
+.enum $D7DA
 _RAM_D7DA_ db
 .ende
 
-.enum $D800 export
+.enum $D800
 _RAM_D800_ db
 _RAM_D801_ db
 _RAM_D802_ db
@@ -466,10 +466,10 @@ _RAM_D806_ db
 _RAM_D807_ db
 .ende
 
-.enum $D8A0 export
+.enum $D8A0
 v_unknownEntityByteCount_RAM_D8A0_ db
 .ende
 
-.enum $D900 export
+.enum $D900
 _RAM_D900_ dsb $600
 .ende

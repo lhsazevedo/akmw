@@ -1,46 +1,11 @@
 ; This disassembly was created using Emulicious (http://www.emulicious.net)
-.MEMORYMAP
-    SLOTSIZE $7FF0
-    SLOT 0 $0000
-    SLOTSIZE $10
-    SLOT 1 $7FF0
-    SLOTSIZE $4000
-    SLOT 2 $8000
-    DEFAULTSLOT 2
-.ENDME
-
-.ROMBANKMAP
-    BANKSTOTAL 8
-    BANKSIZE $7FF0
-    BANKS 1
-    BANKSIZE $10
-    BANKS 1
-    BANKSIZE $4000
-    BANKS 6
-.ENDRO
-
-.EMPTYFILL $FF
+.INCLUDE "src/asm/group1.asm"
 
 .INCDIR "src/asm"
 
 .INCLUDE "constants.asm"
 .INCLUDE "structs.asm"
 .INCLUDE "variables.asm"
-
-; Ports
-.define Port_PSG $7F
-.define Port_VDPData $BE
-.define Port_VDPAddress $BF
-.define _PORT_DE_ $DE
-.define _PORT_DF_ $DF
-
-; Input Ports
-.define Port_VDPStatus $BF
-.define Port_IOPort1 $DC
-.define Port_IOPort2 $DD
-
-; Mapper
-.define Mapper_Slot2 $FFFF
 
 .BANK 0 SLOT 0
 .ORG $0000
@@ -9626,8 +9591,8 @@ _DATA_9800_:
 .db $53 $00 $00 $00 $02 $71 $91 $00 $02 $6D $95 $00 $02 $64 $74 $00
 .db $00 $01 $26 $01 $6E $00 $00 $03 $14 $1E $2E $02 $9E $AE $FF
 
-.SECTION "Audio Engine" NAMESPACE "audioEngine" FORCE
-    .INCLUDE "audio.asm"
-.ENDS
+; Audio engine will be placed here
+
+.ORG $1ECD
 
 .INCLUDE "data.asm"

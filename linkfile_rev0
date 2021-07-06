@@ -1,2 +1,3 @@
 [objects]
 tmp/baserom_rev0.o
+tmp/audio.o

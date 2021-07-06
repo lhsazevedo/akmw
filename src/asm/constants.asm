@@ -1,3 +1,18 @@
+; Ports
+Port_PSG = $7F
+Port_VDPData = $BE
+Port_VDPAddress = $BF
+_PORT_DE_ = $DE
+_PORT_DF_ = $DF
+
+; Input Ports
+Port_VDPStatus = $BF
+Port_IOPort1 = $DC
+Port_IOPort2 = $DD
+
+; Mapper
+Mapper_Slot2 = $FFFF
+
 
 ; Money bag values (BCD)
 SMALL_MONEY_BAG_VALUE = $01 $00 $00 ; 100

@@ -1,3 +1,12 @@
+.INCLUDE "src/asm/group1.asm"
+.INCLUDE "src/asm/constants.asm"
+.INCLUDE "src/asm/structs.asm"
+.INCLUDE "src/asm/variables.asm"
+
+.BANK 2
+.ORG $184F
+.SECTION "Audio Engine" NAMESPACE "audioEngine" FORCE
+
 ; Audio engine entry
 update:
     call readSoundRequest
@@ -593,3 +602,5 @@ _LABEL_9EBA_:
     rla
     cpl
     ret
+
+.ENDS
