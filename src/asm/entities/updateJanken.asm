@@ -1,9 +1,9 @@
 ; 28th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 updateJanken:
-	ld a, (_RAM_C3BA_)
-	ld hl, jankenUpdaters
-	rst $20	; loadAthJumptablePointer
-	ret
+    ld a, (_RAM_C3BA_)
+    ld hl, jankenUpdaters
+    rst $20    ; loadAthJumptablePointer
+    ret
 
 ; Jump Table from 7152 to 717B (21 entries, indexed by _RAM_C3BA_)
 jankenUpdaters:

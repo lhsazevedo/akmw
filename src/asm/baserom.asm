@@ -7638,630 +7638,630 @@ _LABEL_6968_:
     add hl, hl
     add hl, hl
     ex de, hl
-	ld hl, (_RAM_C0B7_)
-	add hl, de
-	ld a, (_RAM_C0B7_)
-	ld b, a
-	ex af, af'
-	ld a, $40
-	sub b
-	ex de, hl
-	ld b, $00
-	ld c, a
-	ld hl, _RAM_CF38_
-	call writeBcBytesToVRAM
-	ex af, af'
-	or a
-	jp z, _LABEL_69B5_
-	ld c, a
-	ld b, $00
-	ld a, e
-	and $C0
-	ld e, a
-	call writeBcBytesToVRAM
+    ld hl, (_RAM_C0B7_)
+    add hl, de
+    ld a, (_RAM_C0B7_)
+    ld b, a
+    ex af, af'
+    ld a, $40
+    sub b
+    ex de, hl
+    ld b, $00
+    ld c, a
+    ld hl, _RAM_CF38_
+    call writeBcBytesToVRAM
+    ex af, af'
+    or a
+    jp z, _LABEL_69B5_
+    ld c, a
+    ld b, $00
+    ld a, e
+    and $C0
+    ld e, a
+    call writeBcBytesToVRAM
 _LABEL_69B5_:
-	xor a
-	ld (v_UpdateNameTableFlags), a
-	ld de, (_RAM_C0B0_)
-	ld d, $88
-	call setVDPAddress
-	ld de, (_RAM_C0BE_)
-	ld d, $89
-	jp setVDPAddress
+    xor a
+    ld (v_UpdateNameTableFlags), a
+    ld de, (_RAM_C0B0_)
+    ld d, $88
+    call setVDPAddress
+    ld de, (_RAM_C0BE_)
+    ld d, $89
+    jp setVDPAddress
 
 _LABEL_69CB_:
-	ld de, (v_verticalScrollSpeed)
-	ld a, d
-	or e
-	ret z
-	ld a, $10
-	ld (v_columnsToLoadToNametable), a
-	ld bc, (_RAM_C0BB_)
-	ld hl, (v_verticalScroll)
-	add hl, de
-	ld (v_verticalScroll), hl
-	bit 7, d
-	ld a, h
-	jp nz, +
-	cp $E0
-	jp c, ++
-	sub $E0
-	jp ++
+    ld de, (v_verticalScrollSpeed)
+    ld a, d
+    or e
+    ret z
+    ld a, $10
+    ld (v_columnsToLoadToNametable), a
+    ld bc, (_RAM_C0BB_)
+    ld hl, (v_verticalScroll)
+    add hl, de
+    ld (v_verticalScroll), hl
+    bit 7, d
+    ld a, h
+    jp nz, +
+    cp $E0
+    jp c, ++
+    sub $E0
+    jp ++
 
 +:
-	cp $E0
-	jp c, ++
-	sub $20
+    cp $E0
+    jp c, ++
+    sub $20
 ++:
-	ld (_RAM_C0BE_), a
-	ex de, hl
-	bit 7, h
-	jp nz, _LABEL_6ABF_
-	add hl, bc
-	ld a, h
-	cp $08
-	ld (_RAM_C0BB_), hl
-	ret c
-	and $07
-	ld (_RAM_C0BC_), a
-	ld hl, (_RAM_C0C5_)
-	ld bc, $0040
-	add hl, bc
-	ld a, h
-	cp $7F
-	jp nz, +
-	ld h, $78
+    ld (_RAM_C0BE_), a
+    ex de, hl
+    bit 7, h
+    jp nz, _LABEL_6ABF_
+    add hl, bc
+    ld a, h
+    cp $08
+    ld (_RAM_C0BB_), hl
+    ret c
+    and $07
+    ld (_RAM_C0BC_), a
+    ld hl, (_RAM_C0C5_)
+    ld bc, $0040
+    add hl, bc
+    ld a, h
+    cp $7F
+    jp nz, +
+    ld h, $78
 +:
-	ld (_RAM_C0C5_), hl
-	ld a, (_RAM_C0C1_)
-	inc a
-	and $01
-	ld (_RAM_C0C1_), a
-	ld hl, (_RAM_C0C2_)
-	ld bc, $0080
-	add hl, bc
-	ld a, h
-	cp $0C
-	ld (_RAM_C0C2_), hl
-	jp c, _LABEL_6A76_
-	ld hl, v_currentScreenNumber
-	inc (hl)
-	set 7, (hl)
-	ld hl, $0000
-	ld (_RAM_C0C2_), hl
-	ld bc, (v_levelHeight)
-	ld hl, v_verticalScreenNumber
-	inc (hl)
-	ld a, (hl)
-	cp c
-	jp c, _LABEL_6A73_
-	xor a
-	ld (hl), a
-	ld hl, v_scrollFlags
-	res 0, (hl)
-	ld hl, $0000
-	ld (v_verticalScrollSpeed), hl
-	ld a, (_RAM_C0BE_)
-	and $F0
-	ld (_RAM_C0BE_), a
-	xor a
-	ld (_RAM_C0BC_), a
-	ld hl, v_currentScreenNumber
-	dec (hl)
-	res 7, (hl)
-	ret
+    ld (_RAM_C0C5_), hl
+    ld a, (_RAM_C0C1_)
+    inc a
+    and $01
+    ld (_RAM_C0C1_), a
+    ld hl, (_RAM_C0C2_)
+    ld bc, $0080
+    add hl, bc
+    ld a, h
+    cp $0C
+    ld (_RAM_C0C2_), hl
+    jp c, _LABEL_6A76_
+    ld hl, v_currentScreenNumber
+    inc (hl)
+    set 7, (hl)
+    ld hl, $0000
+    ld (_RAM_C0C2_), hl
+    ld bc, (v_levelHeight)
+    ld hl, v_verticalScreenNumber
+    inc (hl)
+    ld a, (hl)
+    cp c
+    jp c, _LABEL_6A73_
+    xor a
+    ld (hl), a
+    ld hl, v_scrollFlags
+    res 0, (hl)
+    ld hl, $0000
+    ld (v_verticalScrollSpeed), hl
+    ld a, (_RAM_C0BE_)
+    and $F0
+    ld (_RAM_C0BE_), a
+    xor a
+    ld (_RAM_C0BC_), a
+    ld hl, v_currentScreenNumber
+    dec (hl)
+    res 7, (hl)
+    ret
 
 _LABEL_6A73_:
-	call _LABEL_6B21_
+    call _LABEL_6B21_
 _LABEL_6A76_:
-	ld a, $02
-	ld (v_UpdateNameTableFlags), a
-	ld hl, _RAM_D700_
-	ld a, (_RAM_C0C3_)
-	or a
-	jp z, +
-	ld bc, $0010
+    ld a, $02
+    ld (v_UpdateNameTableFlags), a
+    ld hl, _RAM_D700_
+    ld a, (_RAM_C0C3_)
+    or a
+    jp z, +
+    ld bc, $0010
 -:
-	add hl, bc
-	dec a
-	jp nz, -
+    add hl, bc
+    dec a
+    jp nz, -
 +:
-	ld de, _RAM_CF38_
-	ld a, $85
-	ld (Mapper_Slot2), a
+    ld de, _RAM_CF38_
+    ld a, $85
+    ld (Mapper_Slot2), a
 -:
-	push hl
-	ld a, (hl)
-	ld c, a
-	ld b, $00
-	ld hl, (v_metatileNametablePointer)
-	add hl, bc
-	add hl, bc
-	ld a, (hl)
-	inc hl
-	ld h, (hl)
-	ld l, a
-	ld a, (_RAM_C0C1_)
-	add a, a
-	add a, a
-	ld c, a
-	add hl, bc
-	ldi
-	ldi
-	ldi
-	ldi
-	ld a, (v_columnsToLoadToNametable)
-	dec a
-	ld (v_columnsToLoadToNametable), a
-	pop hl
-	ret z
-	inc hl
-	jp -
+    push hl
+    ld a, (hl)
+    ld c, a
+    ld b, $00
+    ld hl, (v_metatileNametablePointer)
+    add hl, bc
+    add hl, bc
+    ld a, (hl)
+    inc hl
+    ld h, (hl)
+    ld l, a
+    ld a, (_RAM_C0C1_)
+    add a, a
+    add a, a
+    ld c, a
+    add hl, bc
+    ldi
+    ldi
+    ldi
+    ldi
+    ld a, (v_columnsToLoadToNametable)
+    dec a
+    ld (v_columnsToLoadToNametable), a
+    pop hl
+    ret z
+    inc hl
+    jp -
 
 _LABEL_6ABF_:
-	add hl, bc
-	ld (_RAM_C0BB_), hl
-	ret c
-	ld a, h
-	and $07
-	ld (_RAM_C0BC_), a
-	ld hl, (_RAM_C0C5_)
-	ld bc, $0040
-	or a
-	sbc hl, bc
-	ld a, h
-	cp $77
-	jp nz, +
-	ld h, $7E
+    add hl, bc
+    ld (_RAM_C0BB_), hl
+    ret c
+    ld a, h
+    and $07
+    ld (_RAM_C0BC_), a
+    ld hl, (_RAM_C0C5_)
+    ld bc, $0040
+    or a
+    sbc hl, bc
+    ld a, h
+    cp $77
+    jp nz, +
+    ld h, $7E
 +:
-	ld (_RAM_C0C5_), hl
-	ld hl, (_RAM_C0C2_)
-	ld bc, $0080
-	or a
-	sbc hl, bc
-	jp nc, +
-	ld hl, $0B80
+    ld (_RAM_C0C5_), hl
+    ld hl, (_RAM_C0C2_)
+    ld bc, $0080
+    or a
+    sbc hl, bc
+    jp nc, +
+    ld hl, $0B80
 +:
-	ex af, af'
-	ld (_RAM_C0C2_), hl
-	ld a, (_RAM_C0C1_)
-	dec a
-	and $01
-	ld (_RAM_C0C1_), a
-	ex af, af'
-	ld a, (v_verticalScreenNumber)
-	jp nc, _LABEL_6A76_
-	sub $01
-	jp nc, +
-	ld hl, v_scrollFlags
-	res 1, (hl)
-	ld hl, $0000
-	ld (v_verticalScrollSpeed), hl
-	ret
+    ex af, af'
+    ld (_RAM_C0C2_), hl
+    ld a, (_RAM_C0C1_)
+    dec a
+    and $01
+    ld (_RAM_C0C1_), a
+    ex af, af'
+    ld a, (v_verticalScreenNumber)
+    jp nc, _LABEL_6A76_
+    sub $01
+    jp nc, +
+    ld hl, v_scrollFlags
+    res 1, (hl)
+    ld hl, $0000
+    ld (v_verticalScrollSpeed), hl
+    ret
 
 +:
-	ld hl, v_currentScreenNumber
-	dec (hl)
-	set 7, (hl)
-	ld (v_verticalScreenNumber), a
-	call +
-	jp _LABEL_6A76_
+    ld hl, v_currentScreenNumber
+    dec (hl)
+    set 7, (hl)
+    ld (v_verticalScreenNumber), a
+    call +
+    jp _LABEL_6A76_
 
 _LABEL_6B21_:
-	ld a, (v_verticalScreenNumber)
-	inc a
+    ld a, (v_verticalScreenNumber)
+    inc a
 +:
-	add a, a
-	ld c, a
-	ld b, $00
-	ld a, (v_horizontalScreenNumber)
-	add a, a
-	ld e, a
-	ld d, $00
-	ld a, (v_levelBankNumber)
-	ld (Mapper_Slot2), a
-	ld hl, (v_SecondLevelLayoutPointer)
-	add hl, de
-	ld a, (hl)
-	inc hl
-	ld h, (hl)
-	ld l, a
-	add hl, bc
-	ld a, (hl)
-	inc hl
-	ld h, (hl)
-	ld l, a
-	ld de, _RAM_D700_
-	jp _LABEL_6BEF_
+    add a, a
+    ld c, a
+    ld b, $00
+    ld a, (v_horizontalScreenNumber)
+    add a, a
+    ld e, a
+    ld d, $00
+    ld a, (v_levelBankNumber)
+    ld (Mapper_Slot2), a
+    ld hl, (v_SecondLevelLayoutPointer)
+    add hl, de
+    ld a, (hl)
+    inc hl
+    ld h, (hl)
+    ld l, a
+    add hl, bc
+    ld a, (hl)
+    inc hl
+    ld h, (hl)
+    ld l, a
+    ld de, _RAM_D700_
+    jp _LABEL_6BEF_
 
 _LABEL_6B49_:
-	ld a, $82
-	ld (Mapper_Slot2), a
-	ld a, (v_UpdateNameTableFlags)
-	rrca
-	jp nc, _LABEL_6B9C_
-	ld a, (_RAM_C0B0_)
-	ld b, a
-	ld a, (_RAM_C0AC_)
-	bit 7, a
-	jp nz, +
-	ld a, b
-	sub $08
-	ld b, a
+    ld a, $82
+    ld (Mapper_Slot2), a
+    ld a, (v_UpdateNameTableFlags)
+    rrca
+    jp nc, _LABEL_6B9C_
+    ld a, (_RAM_C0B0_)
+    ld b, a
+    ld a, (_RAM_C0AC_)
+    bit 7, a
+    jp nz, +
+    ld a, b
+    sub $08
+    ld b, a
 +:
-	ld a, b
-	cpl
-	rrca
-	rrca
-	and $3E
-	ld c, a
-	ld b, $00
-	ld hl, (_RAM_C0C5_)
-	ld a, h
-	and $07
-	ld h, a
-	add hl, bc
-	ex de, hl
-	ld hl, $C800
-	add hl, de
-	ex de, hl
-	ld hl, _RAM_CF00_
-	ld bc, $0040
-	ld a, $18
+    ld a, b
+    cpl
+    rrca
+    rrca
+    and $3E
+    ld c, a
+    ld b, $00
+    ld hl, (_RAM_C0C5_)
+    ld a, h
+    and $07
+    ld h, a
+    add hl, bc
+    ex de, hl
+    ld hl, $C800
+    add hl, de
+    ex de, hl
+    ld hl, _RAM_CF00_
+    ld bc, $0040
+    ld a, $18
 -:
-	ex af, af'
-	ld a, (hl)
-	ld (de), a
-	inc hl
-	inc de
-	ld a, (hl)
-	inc hl
-	ld (de), a
-	dec de
-	ex de, hl
-	add hl, bc
-	ld a, h
-	cp $CF
-	jp nz, +
-	ld h, $C8
+    ex af, af'
+    ld a, (hl)
+    ld (de), a
+    inc hl
+    inc de
+    ld a, (hl)
+    inc hl
+    ld (de), a
+    dec de
+    ex de, hl
+    add hl, bc
+    ld a, h
+    cp $CF
+    jp nz, +
+    ld h, $C8
 +:
-	ex de, hl
-	ex af, af'
-	dec a
-	jr nz, -
+    ex de, hl
+    ex af, af'
+    dec a
+    jr nz, -
 _LABEL_6B9C_:
-	ld a, (v_UpdateNameTableFlags)
-	rrca
-	rrca
-	ret nc
-	ld a, (_RAM_C0BA_)
-	bit 7, a
-	ld a, (_RAM_C0BE_)
-	jp z, +
-	and $F8
-	jp ++
+    ld a, (v_UpdateNameTableFlags)
+    rrca
+    rrca
+    ret nc
+    ld a, (_RAM_C0BA_)
+    bit 7, a
+    ld a, (_RAM_C0BE_)
+    jp z, +
+    and $F8
+    jp ++
 
 +:
-	and $F8
-	sub $20
-	jp nc, ++
-	sub $20
+    and $F8
+    sub $20
+    jp nc, ++
+    sub $20
 ++:
-	ld h, $00
-	ld l, a
-	add hl, hl
-	add hl, hl
-	add hl, hl
-	ex de, hl
-	ld hl, (_RAM_C0B7_)
-	ld h, $00
-	add hl, de
-	ex de, hl
-	ld hl, $C800
-	add hl, de
-	ex de, hl
-	ld a, (_RAM_C0B7_)
-	ld b, a
-	ex af, af'
-	ld a, $40
-	sub b
-	ld b, $00
-	ld c, a
-	ld hl, _RAM_CF38_
-	ldir
-	ex af, af'
-	or a
-	ret z
-	ex de, hl
-	ld bc, $0040
-	or a
-	sbc hl, bc
-	ex de, hl
-	ld c, a
-	ld b, $00
-	ldir
-	ret
+    ld h, $00
+    ld l, a
+    add hl, hl
+    add hl, hl
+    add hl, hl
+    ex de, hl
+    ld hl, (_RAM_C0B7_)
+    ld h, $00
+    add hl, de
+    ex de, hl
+    ld hl, $C800
+    add hl, de
+    ex de, hl
+    ld a, (_RAM_C0B7_)
+    ld b, a
+    ex af, af'
+    ld a, $40
+    sub b
+    ld b, $00
+    ld c, a
+    ld hl, _RAM_CF38_
+    ldir
+    ex af, af'
+    or a
+    ret z
+    ex de, hl
+    ld bc, $0040
+    or a
+    sbc hl, bc
+    ex de, hl
+    ld c, a
+    ld b, $00
+    ldir
+    ret
 
 _LABEL_6BEF_:
-	ld a, (hl)
-	or a
-	ret z
-	bit 7, a
-	jr nz, +
-	ld b, a
-	inc hl
-	ld a, (hl)
+    ld a, (hl)
+    or a
+    ret z
+    bit 7, a
+    jr nz, +
+    ld b, a
+    inc hl
+    ld a, (hl)
 -:
-	ld (de), a
-	inc de
-	djnz -
-	inc hl
-	jp _LABEL_6BEF_
+    ld (de), a
+    inc de
+    djnz -
+    inc hl
+    jp _LABEL_6BEF_
 
 +:
-	and $7F
-	ld c, a
-	ld b, $00
-	inc hl
-	ldir
-	jp _LABEL_6BEF_
+    and $7F
+    ld c, a
+    ld b, $00
+    inc hl
+    ldir
+    jp _LABEL_6BEF_
 
 ; 7th entry of Jump Table from 3B (indexed by v_gameState)
 .INC "engine/states/lifeLost/update.asm"
 
 ; 7th entry of Jump Table from 127 (indexed by v_gameState)
 handleInterruptLifeLostState:
-	ret
+    ret
 
 .INC "engine/states/lifeLost/updateAdditional.asm"
 
 loadNewEntities:
-	ld hl, (newEntitiesLoaderPointer)
-	jp (hl)
+    ld hl, (newEntitiesLoaderPointer)
+    jp (hl)
 
 ; 1st entry of Jump Table from D4E (indexed by v_level)
 loadEntitiesNormal_LABEL_6F48_:
-	ld hl, v_currentScreenNumber
-	bit 7, (hl)
-	ret z
-	res 7, (hl)
-	ld a, (hl)
-	ld hl, (v_entitydataPointersPointer)
-	rst $10	; _LABEL_10_
-	xor a
-	ld (v_newEntityVerticalOffset), a
-	ld de, $0100
-	ld a, (v_isScrollingDownToNextScreen)
-	or a
-	jp nz, _LABEL_6F7E_
-	ld de, $0100
-	ld a, (v_scrollFlags)
-	rrca
-	jp c, _LABEL_6F7E_
-	ld de, $FF00
-	rrca
-	jp c, _LABEL_6F7E_
-	ld de, $0001
-	rrca
-	jp c, _LABEL_6F7E_
-	ld de, $00FF
+    ld hl, v_currentScreenNumber
+    bit 7, (hl)
+    ret z
+    res 7, (hl)
+    ld a, (hl)
+    ld hl, (v_entitydataPointersPointer)
+    rst $10    ; _LABEL_10_
+    xor a
+    ld (v_newEntityVerticalOffset), a
+    ld de, $0100
+    ld a, (v_isScrollingDownToNextScreen)
+    or a
+    jp nz, _LABEL_6F7E_
+    ld de, $0100
+    ld a, (v_scrollFlags)
+    rrca
+    jp c, _LABEL_6F7E_
+    ld de, $FF00
+    rrca
+    jp c, _LABEL_6F7E_
+    ld de, $0001
+    rrca
+    jp c, _LABEL_6F7E_
+    ld de, $00FF
 _LABEL_6F7E_:
-	xor a
-	ld (v_isScrollingDownToNextScreen), a
-	ld (v_addedEntitiesShouldBeOffscreenHorizontally), de
+    xor a
+    ld (v_isScrollingDownToNextScreen), a
+    ld (v_addedEntitiesShouldBeOffscreenHorizontally), de
 _LABEL_6F86_:
     ; Here the screen entities descriptor entity count is read
-	ld a, (hl)
-	or a
-	ret z
+    ld a, (hl)
+    or a
+    ret z
 
     ; If unknown bit 7 is set
-	bit 7, a
-	jp nz, loadSpecialScreenEntitiesDescriptor
+    bit 7, a
+    jp nz, loadSpecialScreenEntitiesDescriptor
 
-	ld b, a
+    ld b, a
 _LABEL_6F8F_:
-	ld c, b
+    ld c, b
 
     ; Find an empty entity slot
-	ld ix, v_entities.7
-	ld de, $0020
-	ld b, $0A
+    ld ix, v_entities.7
+    ld de, $0020
+    ld b, $0A
 -:
-	ld a, (ix+0)
-	or a
-	jp z, +
-	add ix, de
-	djnz -
-	ret
+    ld a, (ix+0)
+    or a
+    jp z, +
+    add ix, de
+    djnz -
+    ret
 
 +:
-	ld b, c
+    ld b, c
 
 ; Entity loading related
 _LABEL_6FA6_:
-	inc hl
-	ld a, (hl)
-	ld (ix+0), a
-	inc hl
-	ld a, (hl)
-	ld (ix+14), a
-	inc hl
-	ld a, (hl)
-	ld de, (v_horizontalScroll)
-	ld (ix+11), e
-	add a, d
-	ld d, a
-	ld a, (v_newEntityHorizontalOffset)
-	ld e, a
-	ld a, d
-	sub e
-	ld (ix+12), a
-	inc hl
-	ld a, (hl)
-	ld (ix+3), a
-	ld de, (v_addedEntitiesShouldBeOffscreenHorizontally)
-	ld (ix+10), d
-	ld (ix+9), e
-	ld a, (v_newEntityVerticalOffset)
-	add a, (ix+14)
-	ld (ix+14), a
-	djnz _LABEL_6F8F_
-	ret
+    inc hl
+    ld a, (hl)
+    ld (ix+0), a
+    inc hl
+    ld a, (hl)
+    ld (ix+14), a
+    inc hl
+    ld a, (hl)
+    ld de, (v_horizontalScroll)
+    ld (ix+11), e
+    add a, d
+    ld d, a
+    ld a, (v_newEntityHorizontalOffset)
+    ld e, a
+    ld a, d
+    sub e
+    ld (ix+12), a
+    inc hl
+    ld a, (hl)
+    ld (ix+3), a
+    ld de, (v_addedEntitiesShouldBeOffscreenHorizontally)
+    ld (ix+10), d
+    ld (ix+9), e
+    ld a, (v_newEntityVerticalOffset)
+    add a, (ix+14)
+    ld (ix+14), a
+    djnz _LABEL_6F8F_
+    ret
 
 ; Entity loading related
 loadSpecialScreenEntitiesDescriptor:
     ; If bit 1 is set (0x81)
-	rrca
-	jp c, @loadEntity28Or29
+    rrca
+    jp c, @loadEntity28Or29
     ; If bit 2 is set (0x82)
-	rrca
-	jp c, loadOctopusArms
+    rrca
+    jp c, loadOctopusArms
     ; If bit 3 is set (0x84)
-	rrca
-	jp c, @loadAlwaysPresentEntity
+    rrca
+    jp c, @loadAlwaysPresentEntity
     
     ; Else
-	inc hl
-	ld a, (hl)
-	ld c, a
-	ld b, $00
-	inc hl
-	ld de, v_unknownEntityByteCount_RAM_D8A0_
-	ldir
-	jp _LABEL_6F86_
+    inc hl
+    ld a, (hl)
+    ld c, a
+    ld b, $00
+    inc hl
+    ld de, v_unknownEntityByteCount_RAM_D8A0_
+    ldir
+    jp _LABEL_6F86_
 
 @loadAlwaysPresentEntity:
-	ld ix, _RAM_C3A0_
-	res 0, (ix+1)
-	res 1, (ix+1)
-	ld b, $01
-	call _LABEL_6FA6_
-	inc hl
-	jp _LABEL_6F86_
+    ld ix, _RAM_C3A0_
+    res 0, (ix+1)
+    res 1, (ix+1)
+    ld b, $01
+    call _LABEL_6FA6_
+    inc hl
+    jp _LABEL_6F86_
 
 @loadEntity28Or29:
-	ld ix, v_entities.29
-	ld a, (ix+0)
-	or a
-	jp z, +
-	ld de, _sizeof_Entity
-	add ix, de
+    ld ix, v_entities.29
+    ld a, (ix+0)
+    or a
+    jp z, +
+    ld de, _sizeof_Entity
+    add ix, de
 +:
-	res 0, (ix+1)
-	res 1, (ix+1)
-	ld b, $01
-	call _LABEL_6FA6_
-	inc hl
-	jp _LABEL_6F86_
+    res 0, (ix+1)
+    res 1, (ix+1)
+    ld b, $01
+    call _LABEL_6FA6_
+    inc hl
+    jp _LABEL_6F86_
 
 loadOctopusArms:
-	inc hl
-	ld a, (hl)
-	exx
-	ld hl, _DATA_7102_ - 2
-	rst $10	; _LABEL_10_
-	ld e, (hl)
-	inc hl
-	ld d, (hl)
-	ld (_RAM_C0FD_), de
-	inc hl
-	ld ix, v_entities.7
-	ld de, $0020
-	ld b, $08
+    inc hl
+    ld a, (hl)
+    exx
+    ld hl, _DATA_7102_ - 2
+    rst $10    ; _LABEL_10_
+    ld e, (hl)
+    inc hl
+    ld d, (hl)
+    ld (_RAM_C0FD_), de
+    inc hl
+    ld ix, v_entities.7
+    ld de, $0020
+    ld b, $08
 -:
-	ld a, (hl)
-	ld (ix+22), a
-	inc hl
-	ld a, (hl)
-	ld (ix+30), a
-	inc hl
-	ld a, (hl)
-	ld (ix+31), a
-	inc hl
-	ld a, (hl)
-	ld (ix+21), a
-	ld (ix+0), $24
-	ld a, (v_addedEntitiesShouldBeOffscreenHorizontally)
-	ld (ix+9), a
-	ld a, (v_addedEntitiesShouldBeOffscreenVertically)
-	ld (ix+10), a
-	ld (ix+24), $00
-	ld (ix+23), $00
-	res 0, (ix+1)
-	res 1, (ix+1)
-	add ix, de
-	inc hl
-	djnz -
-	exx
-	inc hl
-	jp _LABEL_6F86_
+    ld a, (hl)
+    ld (ix+22), a
+    inc hl
+    ld a, (hl)
+    ld (ix+30), a
+    inc hl
+    ld a, (hl)
+    ld (ix+31), a
+    inc hl
+    ld a, (hl)
+    ld (ix+21), a
+    ld (ix+0), $24
+    ld a, (v_addedEntitiesShouldBeOffscreenHorizontally)
+    ld (ix+9), a
+    ld a, (v_addedEntitiesShouldBeOffscreenVertically)
+    ld (ix+10), a
+    ld (ix+24), $00
+    ld (ix+23), $00
+    res 0, (ix+1)
+    res 1, (ix+1)
+    add ix, de
+    inc hl
+    djnz -
+    exx
+    inc hl
+    jp _LABEL_6F86_
 
 ; 11th entry of Jump Table from D4E (indexed by v_level)
 loadEntitiesSpecial_LABEL_6F48_:
-	ld hl, v_currentScreenNumber
-	bit 7, (hl)
-	ret z
-	res 7, (hl)
-	xor a
-	ld (v_newEntityVerticalOffset), a
-	ld de, $0100
-	ld a, (v_isScrollingDownToNextScreen)
-	or a
-	jp nz, +
-	ld a, (v_scrollFlags)
-	rrca
-	jp c, +
-	ld de, $FF00
-	rrca
-	jp c, ++
-	ld de, $0001
-	rrca
-	jp c, _LABEL_70F6_
-	ld de, $00FF
-	ld hl, v_entityIndex
-	inc (hl)
-	ld a, (hl)
-	ld hl, (v_entitydataPointersPointer)
-	rst $10	; _LABEL_10_
-	jp _LABEL_6F7E_
+    ld hl, v_currentScreenNumber
+    bit 7, (hl)
+    ret z
+    res 7, (hl)
+    xor a
+    ld (v_newEntityVerticalOffset), a
+    ld de, $0100
+    ld a, (v_isScrollingDownToNextScreen)
+    or a
+    jp nz, +
+    ld a, (v_scrollFlags)
+    rrca
+    jp c, +
+    ld de, $FF00
+    rrca
+    jp c, ++
+    ld de, $0001
+    rrca
+    jp c, _LABEL_70F6_
+    ld de, $00FF
+    ld hl, v_entityIndex
+    inc (hl)
+    ld a, (hl)
+    ld hl, (v_entitydataPointersPointer)
+    rst $10    ; _LABEL_10_
+    jp _LABEL_6F7E_
 
 +:
-	ld a, (_RAM_C0BC_)
-	neg
-	ld (v_newEntityVerticalOffset), a
-	xor a
-	ld (v_isScrollingDownToNextScreen), a
-	ld a, (v_levelWidth)
-	ld b, a
-	ld a, (v_entityIndex)
-	add a, b
-	ld (v_entityIndex), a
-	ld hl, (v_entitydataPointersPointer)
-	rst $10	; _LABEL_10_
-	jp _LABEL_6F7E_
+    ld a, (_RAM_C0BC_)
+    neg
+    ld (v_newEntityVerticalOffset), a
+    xor a
+    ld (v_isScrollingDownToNextScreen), a
+    ld a, (v_levelWidth)
+    ld b, a
+    ld a, (v_entityIndex)
+    add a, b
+    ld (v_entityIndex), a
+    ld hl, (v_entitydataPointersPointer)
+    rst $10    ; _LABEL_10_
+    jp _LABEL_6F7E_
 
 ++:
-	ld a, (_RAM_C0BC_)
-	ld (v_newEntityVerticalOffset), a
-	ld a, (v_entityIndex)
-	ld c, a
-	ld a, (v_levelWidth)
-	ld b, a
-	ld a, c
-	sub b
-	ld (v_entityIndex), a
-	ld hl, (v_entitydataPointersPointer)
-	rst $10	; _LABEL_10_
-	jp _LABEL_6F7E_
+    ld a, (_RAM_C0BC_)
+    ld (v_newEntityVerticalOffset), a
+    ld a, (v_entityIndex)
+    ld c, a
+    ld a, (v_levelWidth)
+    ld b, a
+    ld a, c
+    sub b
+    ld (v_entityIndex), a
+    ld hl, (v_entitydataPointersPointer)
+    rst $10    ; _LABEL_10_
+    jp _LABEL_6F7E_
 
 _LABEL_70F6_:
-	ld hl, v_entityIndex
-	dec (hl)
-	ld a, (hl)
-	ld hl, (v_entitydataPointersPointer)
-	rst $10	; _LABEL_10_
-	jp _LABEL_6F7E_
+    ld hl, v_entityIndex
+    dec (hl)
+    ld a, (hl)
+    ld hl, (v_entitydataPointersPointer)
+    rst $10    ; _LABEL_10_
+    jp _LABEL_6F7E_
 
 ; Pointer Table from 7102 to 7105 (2 entries, indexed by unknown)
 ; Octopus arms
@@ -8306,43 +8306,43 @@ _DATA_7128_:
 ; - Maybe set opponent sprite descriptor pointer
 ; - Copy opponent settings
 updateOpponentInit:
-	inc (ix + Entity.state)
+    inc (ix + Entity.state)
 
     ; a = 0
-	xor a
+    xor a
     ; _RAM_C216_ is checked on some janken result thing
-	ld (_RAM_C216_), a
-	ld (v_hasJankenMatchStarted), a
+    ld (_RAM_C216_), a
+    ld (v_hasJankenMatchStarted), a
 
     ; a = 1
-	inc a
-	ld (v_entities.6.animationTimer), a
-	ld (v_entities.6.unknown11), a
+    inc a
+    ld (v_entities.6.animationTimer), a
+    ld (v_entities.6.unknown11), a
 
-	ld a, (v_entities.6.data)
-	and 0b11111110
-	add a, a
-	add a, a
-	add a, a
+    ld a, (v_entities.6.data)
+    and 0b11111110
+    add a, a
+    add a, a
+    add a, a
 
     ; Choose sprite descriptor based on opponent data
     ; If data greater than 1, then a null descriptor is loaded.  
-	ld hl, nullSpriteDescriptor_DATA_80E1_
-	jr nz, +
-	ld hl, _DATA_8134_
+    ld hl, nullSpriteDescriptor_DATA_80E1_
+    jr nz, +
+    ld hl, _DATA_8134_
 +:
-	ld (v_entities.6.spriteDescriptorPointer), hl
+    ld (v_entities.6.spriteDescriptorPointer), hl
 
     ; Copy opponent settings
     ; Address is _DATA_7651_ + a raised to the 4th power. (@TODO: Why?)
-	ld l, a
-	ld h, $00
-	ld de, _DATA_7651_
-	add hl, de
-	ld de, v_jankenMatchOpponentSpriteDescriptorPointer
-	ld bc, $0010
-	ldir
-	ret
+    ld l, a
+    ld h, $00
+    ld de, _DATA_7651_
+    add hl, de
+    ld de, v_jankenMatchOpponentSpriteDescriptorPointer
+    ld bc, $0010
+    ldir
+    ret
 
 ; - Wait until the opponent is on screen, scrolling stops, alex is on ground
 ;   (e.g.: he can be on a Peticopter)
@@ -8350,27 +8350,27 @@ updateOpponentInit:
 ; - Set alex state to ALEX_JANKEN_WALK_TO_POSITION
 updateOpponentMakeAlexGetIntoPosition:
     ; Return if offscreen
-	ld a, (v_entities.6.isOffScreenFlags.high)
-	or (ix + Entity.isOffScreenFlags.low)
-	ret nz
+    ld a, (v_entities.6.isOffScreenFlags.high)
+    or (ix + Entity.isOffScreenFlags.low)
+    ret nz
 
     ; Return if screen is scrolling
-	ld a, (v_scrollFlags)
-	and $0F
-	ret nz
+    ld a, (v_scrollFlags)
+    and $0F
+    ret nz
 
     ; Return if alex isn't walking
-	ld a, (v_entities.1.state)
-	cp ALEX_IN_AIR 
-	ret nc
+    ld a, (v_entities.1.state)
+    cp ALEX_IN_AIR 
+    ret nc
 
     ; Increment state
-	inc (ix + Entity.state)
+    inc (ix + Entity.state)
 
     ; Set alex state to walk left
-	ld a, ALEX_JANKEN_WALK_TO_POSITION
-	ld (v_entities.1.state), a
-	ret
+    ld a, ALEX_JANKEN_WALK_TO_POSITION
+    ld (v_entities.1.state), a
+    ret
 
 ; - Wait for Alex to start dancing
 ; - Increment state (0x2 to 0x3: updateOpponentShowTextbox2)
@@ -8381,127 +8381,127 @@ updateOpponentMakeAlexGetIntoPosition:
 ; - Request textbox message
 updateOpponentLoadOpponentTilesAndShowTextbox1:
     ; Wait alex stop walking left
-	ld a, (v_entities.1.state)
-	cp ALEX_JANKEN_MUSIC
-	ret nz
+    ld a, (v_entities.1.state)
+    cp ALEX_JANKEN_MUSIC
+    ret nz
 
-	inc (ix + Entity.state)
+    inc (ix + Entity.state)
 
     ; Delete entities 2 to 4, and maybe clear _RAM_C054_
-	call clearEntities2to4AndMaybeReset0xC054
+    call clearEntities2to4AndMaybeReset0xC054
 
     ; Load opponent sprite descriptor
-	ld hl, (v_jankenMatchOpponentSpriteDescriptorPointer)
+    ld hl, (v_jankenMatchOpponentSpriteDescriptorPointer)
     ld (v_entities.6.spriteDescriptorPointer), hl
     ld a, (v_entities.6.data)
-	cp $01
+    cp $01
 
     ; Adjust opponent position if bit 1 is set.
-	jr nz, +
-	ld (ix + Entity.xPos.high), $B8
-	ld (ix + Entity.yPos.high), $80
+    jr nz, +
+    ld (ix + Entity.xPos.high), $B8
+    ld (ix + Entity.yPos.high), $80
 +:
 
-	ld a, $01
-	ld (v_hasJankenMatchStarted), a
+    ld a, $01
+    ld (v_hasJankenMatchStarted), a
 
-	call prepareForJankenMatch
+    call prepareForJankenMatch
 
     ; Load opponent tiles
-	ld hl, (jankenMatchOpponentTilesPointer)
-	ld de, $6400
-	call decompress4BitplanesToVRAM
-	ei
+    ld hl, (jankenMatchOpponentTilesPointer)
+    ld de, $6400
+    call decompress4BitplanesToVRAM
+    ei
 
-	ld a, $82
-	ld (Mapper_Slot2), a
+    ld a, $82
+    ld (Mapper_Slot2), a
 
     ; Set up text message
-	ld a, STATE_TEXT_BOX
-	ld (v_gameState), a
-	ld a, (jankenMatchOpponentMessagePointer)
-	ld (v_messageToShowInTheTextBoxIndex), a
-	ret
+    ld a, STATE_TEXT_BOX
+    ld (v_gameState), a
+    ld a, (jankenMatchOpponentMessagePointer)
+    ld (v_messageToShowInTheTextBoxIndex), a
+    ret
 
 ; - Wait for player to close first textbox 
 ; - Draw thought clouds, names and spaw entity 0x0C
 ; - Request second textbox ("You must choose...")
 ; - Increment state (0x4 to 0x5: updateOpponentStartRound)
 updateOpponentShowTextbox2:
-	call isTextboxGameState
-	ret z
-	ld hl, (_RAM_C234_)
+    call isTextboxGameState
+    ret z
+    ld hl, (_RAM_C234_)
 
-	call drawThoughtClouds
-	call drawAlexName_LABEL_7941_
+    call drawThoughtClouds
+    call drawAlexName_LABEL_7941_
 
-	ld a, STATE_TEXT_BOX
-	ld (v_gameState), a
-	ld a, $07
-	ld (v_messageToShowInTheTextBoxIndex), a
+    ld a, STATE_TEXT_BOX
+    ld (v_gameState), a
+    ld a, $07
+    ld (v_messageToShowInTheTextBoxIndex), a
 
-	inc (ix + Entity.state)
-	ld (ix + Entity.animationTimerResetValue), $10
-	ret
+    inc (ix + Entity.state)
+    ld (ix + Entity.animationTimerResetValue), $10
+    ret
 
 isTextboxGameState:
-	ld a, (v_gameState)
-	and $0F
-	cp $07
-	ret
+    ld a, (v_gameState)
+    and $0F
+    cp $07
+    ret
 
 ; - Wait for player to close textbox
 ; - Request music
 ; - Increment state (0x5 to 0x6: updateOpponentDance)
 updateOpponentStartRound:
-	call isTextboxGameState
-	ret z
+    call isTextboxGameState
+    ret z
 
-	ld a, ALEX_JANKEN_MUSIC
-	ld (v_entities.1.state), a
+    ld a, ALEX_JANKEN_MUSIC
+    ld (v_entities.1.state), a
 
     ; Request music
-	ld a, SOUND_JANKEN_MUSIC
-	ld (v_soundControl), a
+    ld a, SOUND_JANKEN_MUSIC
+    ld (v_soundControl), a
 
-	inc (ix + Entity.state)
-	ld (ix + Entity.unknown11), $FF
-	ld (ix + Entity.unknown6), $14
-	ret
+    inc (ix + Entity.state)
+    ld (ix + Entity.unknown11), $FF
+    ld (ix + Entity.unknown6), $14
+    ret
 
 ; - Simulates opponent deciding
 ; - Wait for dance music to end
 ; - Request match counting sound
 ; - Increment state (0x6 to 0x7: updateOpponentThrow)
 updateOpponentDance:
-	call simulateOpponentChoosing_LABEL_7941_
+    call simulateOpponentChoosing_LABEL_7941_
     
-	ld a, (v_soundJankenMatchSoundFlags)
-	cp $80
-	jr z, @musicEnded
+    ld a, (v_soundJankenMatchSoundFlags)
+    cp $80
+    jr z, @musicEnded
 
     ld hl, (_RAM_C236_)
     jp handleEntityAnimation
 
     @musicEnded:
     ; Request match counting sfx
-	ld a, SOUND_JANKEN_COUNT
-	ld (v_soundControl), a
+    ld a, SOUND_JANKEN_COUNT
+    ld (v_soundControl), a
 
-	inc (ix + Entity.state)
+    inc (ix + Entity.state)
 
-	ld (ix + Entity.animationTimerResetValue), $14
+    ld (ix + Entity.animationTimerResetValue), $14
 
-	ld a, $01
-	ld (v_entities.6.animationTimer), a
-	ld (v_entities.1.animationTimer), a
+    ld a, $01
+    ld (v_entities.6.animationTimer), a
+    ld (v_entities.1.animationTimer), a
 
-	ld a, ALEX_JANKEN_COUNTING
-	ld (v_entities.1.state), a
+    ld a, ALEX_JANKEN_COUNTING
+    ld (v_entities.1.state), a
 
     ; @TODO
-	ld (ix + Entity.unknown11), $46
-	ret
+    ld (ix + Entity.unknown11), $46
+    ret
 
 ; - Simulate opponent deciding while couting
 ; - Request throw sound effect
@@ -8509,59 +8509,59 @@ updateOpponentDance:
 ; - Set alex throw state
 ; - Load opponent sprite descriptor for the current throw 
 updateOpponentThrow:
-	call simulateOpponentChoosing_LABEL_7941_
+    call simulateOpponentChoosing_LABEL_7941_
 
-	ld a, (v_soundJankenMatchSoundFlags)
-	cp $10
-	jr z, @countingEnded
+    ld a, (v_soundJankenMatchSoundFlags)
+    cp $10
+    jr z, @countingEnded
 
-	ld hl, (_RAM_C238_)
-	jp handleEntityAnimation
+    ld hl, (_RAM_C238_)
+    jp handleEntityAnimation
 
     @countingEnded:
-	ld hl, (_RAM_C23A_)
+    ld hl, (_RAM_C23A_)
 
-	ld a, SOUND_JANKEN_THROW
-	ld (v_soundControl), a
+    ld a, SOUND_JANKEN_THROW
+    ld (v_soundControl), a
 
-	inc (ix + Entity.state)
+    inc (ix + Entity.state)
 
-	ld a, ALEX_JANKEN_THROW
-	ld (v_entities.1.state), a
+    ld a, ALEX_JANKEN_THROW
+    ld (v_entities.1.state), a
 
     ; Load opponent sprite descriptor for throw
-	ld a, (v_entities.6.jankenMatchDecision)
-	add a, a
-	ld e, a
-	ld d, $00
-	add hl, de
-	ld e, (hl)
-	inc hl
-	ld d, (hl)
-	ex de, hl
-	ld (v_entities.6.spriteDescriptorPointer), hl
+    ld a, (v_entities.6.jankenMatchDecision)
+    add a, a
+    ld e, a
+    ld d, $00
+    add hl, de
+    ld e, (hl)
+    inc hl
+    ld d, (hl)
+    ex de, hl
+    ld (v_entities.6.spriteDescriptorPointer), hl
 
     ; @TODO
-	ld (ix + Entity.unknown6), $1E
-	ret
+    ld (ix + Entity.unknown6), $1E
+    ret
 
 ; - Wait for unknown6 timer
 ; - Choose a handler based on decisions (?)
 ; - Set textbox gamestate
 updateOpponentHandleThrows:
-	dec (ix + Entity.unknown6)
-	ret nz
+    dec (ix + Entity.unknown6)
+    ret nz
 
-	ld a, (v_entities.1.jankenMatchDecision)
-	ld e, (ix + Entity.jankenMatchDecision)
-	add a, e
-	add a, e
-	add a, e
-	ld hl, opponentResultHandlers
-	rst $20	; loadAthJumptablePointer
-	ld a, STATE_TEXT_BOX
-	ld (v_gameState), a
-	ret
+    ld a, (v_entities.1.jankenMatchDecision)
+    ld e, (ix + Entity.jankenMatchDecision)
+    add a, e
+    add a, e
+    add a, e
+    ld hl, opponentResultHandlers
+    rst $20    ; loadAthJumptablePointer
+    ld a, STATE_TEXT_BOX
+    ld (v_gameState), a
+    ret
 
 ;           Alex | Opponent
 ;           -----|---------
@@ -8580,307 +8580,307 @@ opponentResultHandlers:
 .dw updateOpponentTie           ; 8: Papel/Papel
 
 updateOpponentTie:
-	ld a, TXT_JANKEN_MATCH_TIE
-	ld (v_messageToShowInTheTextBoxIndex), a
-	ld (ix + Entity.state), $04
-	ret
+    ld a, TXT_JANKEN_MATCH_TIE
+    ld (v_messageToShowInTheTextBoxIndex), a
+    ld (ix + Entity.state), $04
+    ret
 
 updateOpponentWinRound:
     ; "I win. You got it." - Opponent
-	ld a, TXT_JANKEN_MATCH_OPPONENT_WIN
-	ld (v_messageToShowInTheTextBoxIndex), a
+    ld a, TXT_JANKEN_MATCH_OPPONENT_WIN
+    ld (v_messageToShowInTheTextBoxIndex), a
 
     ; Patch temporary results sprite descriptor
-	ld e, (ix + Entity.unknown7)
-	ld d, $00
-	ld hl, $C2A6
-	add hl, de
-	add hl, de
-	ld (hl), $A5
+    ld e, (ix + Entity.unknown7)
+    ld d, $00
+    ld hl, $C2A6
+    add hl, de
+    add hl, de
+    ld (hl), $A5
 
-	dec hl
-	dec hl
-	ld a, (hl)
-	cp $A5
-	jr z, @opponentWon
+    dec hl
+    dec hl
+    ld a, (hl)
+    cp $A5
+    jr z, @opponentWon
 
     ; Sudden-death from round 3 onwards
-	inc (ix + Entity.unknown7)
-	ld a, (v_entities.6.unknown7)
-	cp $03
-	jr nc, @opponentWon
+    inc (ix + Entity.unknown7)
+    ld a, (v_entities.6.unknown7)
+    cp $03
+    jr nc, @opponentWon
 
     ; updateOpponentStartRound
-	ld (ix + Entity.state), $04
-	ret
+    ld (ix + Entity.state), $04
+    ret
 
     @opponentWon:
     ; updateOpponentShowBattleLostTextbox
-	ld (ix + Entity.state), $08
-	jp restoreSomeNametableStuff_LABEL_796D_
+    ld (ix + Entity.state), $08
+    jp restoreSomeNametableStuff_LABEL_796D_
 
 ; - Show opponent lost textbox
 ; - Update results
 ; - Decide next state (0x04 updateOpponentStartRound or 0x0B _LABEL_77BE_)
 updateOpponentLostRound:
     ; "Darn it. I lose." - Opponent
-	ld a, TXT_JANKEN_MATCH_OPPONENT_LOST
-	ld (v_messageToShowInTheTextBoxIndex), a
+    ld a, TXT_JANKEN_MATCH_OPPONENT_LOST
+    ld (v_messageToShowInTheTextBoxIndex), a
 
     ; Patch temporary results sprite descriptor
-	ld e, (ix + Entity.unknown7)
-	ld d, $00
-	ld hl, $C2A6
-	add hl, de
-	add hl, de
-	ld (hl), $A4
+    ld e, (ix + Entity.unknown7)
+    ld d, $00
+    ld hl, $C2A6
+    add hl, de
+    add hl, de
+    ld (hl), $A4
 
     ; Alex wins match on two consecutive round wins
-	dec hl
-	dec hl
-	ld a, (hl)
-	cp $A4
-	jr z, @opponentLost
+    dec hl
+    dec hl
+    ld a, (hl)
+    cp $A4
+    jr z, @opponentLost
 
     ; Sudden-death from round 3 onwards
-	inc (ix + Entity.unknown7)
-	ld a, (v_entities.6.unknown7)
-	cp $03
-	jr nc, @opponentLost
+    inc (ix + Entity.unknown7)
+    ld a, (v_entities.6.unknown7)
+    cp $03
+    jr nc, @opponentLost
 
     ; updateOpponentStartRound
-	ld (ix + Entity.state), $04
-	ret
+    ld (ix + Entity.state), $04
+    ret
 
     @opponentLost:
     ; _LABEL_77BE_
-	ld (ix + Entity.state), $0B
-	jp restoreSomeNametableStuff_LABEL_796D_
+    ld (ix + Entity.state), $0B
+    jp restoreSomeNametableStuff_LABEL_796D_
 
 ; - Wait player close textbox
 ; - Cleanup battle entities
 ; - Show battle lost textbox
 updateOpponentShowBattleLostTextbox:
-	call isTextboxGameState
-	ret z
+    call isTextboxGameState
+    ret z
 
-	call destroyBattleEntities
+    call destroyBattleEntities
 
-	ld a, TXT_BATTLE_LOST
-	ld (v_messageToShowInTheTextBoxIndex), a
-	ld a, STATE_TEXT_BOX
+    ld a, TXT_BATTLE_LOST
+    ld (v_messageToShowInTheTextBoxIndex), a
+    ld a, STATE_TEXT_BOX
 
-	ld (v_gameState), a
-	inc (ix + Entity.state)
-	ret
+    ld (v_gameState), a
+    inc (ix + Entity.state)
+    ret
 
 ; - Wait player close textbox
 ; - Request statue sfx
 ; - Change alex state
 updateOpponentTurnAlexIntoStatue:
-	call isTextboxGameState
-	ret z
+    call isTextboxGameState
+    ret z
 
-	ld (ix + Entity.animationTimerResetValue), $14
+    ld (ix + Entity.animationTimerResetValue), $14
 
     ld a, SOUND_BATTLE_LOST
-	ld (v_soundControl), a
+    ld (v_soundControl), a
 
-	ld a, ALEX_JANKEN_STATUE
-	ld (v_entities.1.state), a
+    ld a, ALEX_JANKEN_STATUE
+    ld (v_entities.1.state), a
 
     ; @TODO: Timer?
-	ld a, $3C
-	ld (v_entities.1.unknown6), a
+    ld a, $3C
+    ld (v_entities.1.unknown6), a
 
-	inc (ix + Entity.state)
-	ret
+    inc (ix + Entity.state)
+    ret
 
 ; - Wait alex death animation
 ; - Recreate opponent entity
 updateOpponentRespawOpponent:
-	ld a, (v_gameState)
-	cp STATE_LIFE_LOST
-	jr z, @lifeLost
-	ld hl, (_RAM_C236_)
-	jp handleEntityAnimation
+    ld a, (v_gameState)
+    cp STATE_LIFE_LOST
+    jr z, @lifeLost
+    ld hl, (_RAM_C236_)
+    jp handleEntityAnimation
 
     @lifeLost:
-	ld b, (ix + Entity.type)
-	ld c, (ix + Entity.data)
-	ld e, (ix + Entity.xPos.high)
-	ld d, (ix + Entity.yPos.high)
+    ld b, (ix + Entity.type)
+    ld c, (ix + Entity.data)
+    ld e, (ix + Entity.xPos.high)
+    ld d, (ix + Entity.yPos.high)
 
-	exx
-	call clearCurrentEntity
-	exx
+    exx
+    call clearCurrentEntity
+    exx
 
     ; Update opponent sprite descritpor
-	ld hl, nullSpriteDescriptor_DATA_80E1_
-	ld (v_entities.6.spriteDescriptorPointer), hl
+    ld hl, nullSpriteDescriptor_DATA_80E1_
+    ld (v_entities.6.spriteDescriptorPointer), hl
 
     ; Restore opponent position
-	ld (ix + Entity.type), b
-	ld (ix + Entity.data), c
-	ld (ix + Entity.xPos.high), e
-	ld (ix + Entity.yPos.high), d
-	ld a, c
-	or a
-	ret nz
+    ld (ix + Entity.type), b
+    ld (ix + Entity.data), c
+    ld (ix + Entity.xPos.high), e
+    ld (ix + Entity.yPos.high), d
+    ld a, c
+    or a
+    ret nz
 
     ; Fix opponent position
-	ld (ix + Entity.xPos.high), $C0
-	ld (ix + Entity.yPos.high), $98
-	ret
+    ld (ix + Entity.xPos.high), $C0
+    ld (ix + Entity.yPos.high), $98
+    ret
 
 ; 12th entry of Jump Table from 7152 (indexed by _RAM_C3BA_)
 _LABEL_73AE_:
-	call _LABEL_78CE_
-	ld (ix+24), $60
-	ld hl, _DATA_7772_
-	ld (_RAM_C219_), hl
-	ld a, $03
-	ld (_RAM_C218_), a
-	xor a
-	ld (_RAM_C3A2_), a
-	ld hl, $961A
-	ld (v_entities.6.spriteDescriptorPointer), hl
-	ret
+    call _LABEL_78CE_
+    ld (ix+24), $60
+    ld hl, _DATA_7772_
+    ld (_RAM_C219_), hl
+    ld a, $03
+    ld (_RAM_C218_), a
+    xor a
+    ld (_RAM_C3A2_), a
+    ld hl, $961A
+    ld (v_entities.6.spriteDescriptorPointer), hl
+    ret
 
 ; 13th entry of Jump Table from 78B0 (indexed by _RAM_C3BA_)
 _LABEL_73CB_:
-	call isTextboxGameState
-	ret z
-	ld a, $84
-	ld (v_soundControl), a
-	inc (ix + Entity.state)
-	ret
+    call isTextboxGameState
+    ret z
+    ld a, $84
+    ld (v_soundControl), a
+    inc (ix + Entity.state)
+    ret
 
 ; 15th entry of Jump Table from 7152 (indexed by _RAM_C3BA_)
 _LABEL_73D8_:
-	ld a, (ix+10)
-	or a
-	ret nz
-	ld (ix+19), $CC
-	call tryToKillAlexIfColliding
-	ld hl, v_entities.1.unknown8
-	bit 3, (hl)
-	jr z, ++
-	res 3, (hl)
-	ld (ix+19), $D0
-	call checkAlexEntityCollision_LABEL_7D0B_
-	jr c, ++
-	inc (ix+2)
-	ld a, (_RAM_C3A2_)
-	cp $03
-	jr c, +
-	inc (ix + Entity.state)
-	ret
+    ld a, (ix+10)
+    or a
+    ret nz
+    ld (ix+19), $CC
+    call tryToKillAlexIfColliding
+    ld hl, v_entities.1.unknown8
+    bit 3, (hl)
+    jr z, ++
+    res 3, (hl)
+    ld (ix+19), $D0
+    call checkAlexEntityCollision_LABEL_7D0B_
+    jr c, ++
+    inc (ix+2)
+    ld a, (_RAM_C3A2_)
+    cp $03
+    jr c, +
+    inc (ix + Entity.state)
+    ret
 
 +:
-	ld a, $8D
-	ld (v_soundControl), a
+    ld a, $8D
+    ld (v_soundControl), a
 ++:
-	ld a, (v_entities.1.state)
-	cp ALEX_DEAD
-	ret nc
-	dec (ix+24)
-	ret nz
-	inc (ix+24)
-	ld iy, v_entities.7
-	ld a, (v_entities.7.type)
-	or a
-	jr z, +
-	ld iy, _RAM_C3E0_
-	ld a, (_RAM_C3E0_)
-	or a
-	ret nz
+    ld a, (v_entities.1.state)
+    cp ALEX_DEAD
+    ret nc
+    dec (ix+24)
+    ret nz
+    inc (ix+24)
+    ld iy, v_entities.7
+    ld a, (v_entities.7.type)
+    or a
+    jr z, +
+    ld iy, _RAM_C3E0_
+    ld a, (_RAM_C3E0_)
+    or a
+    ret nz
 +:
-	ld (ix+24), $60
-	ld (iy+0), $19
-	ld a, (_RAM_C3AC_)
-	add a, $08
-	ld (iy+12), a
-	ld a, (_RAM_C3AE_)
-	add a, $10
-	ld (iy+14), a
-	ld a, $96
-	ld (v_soundControl), a
-	ret
+    ld (ix+24), $60
+    ld (iy+0), $19
+    ld a, (_RAM_C3AC_)
+    add a, $08
+    ld (iy+12), a
+    ld a, (_RAM_C3AE_)
+    add a, $10
+    ld (iy+14), a
+    ld a, $96
+    ld (v_soundControl), a
+    ret
 
 ; 16th entry of Jump Table from 7152 (indexed by _RAM_C3BA_)
 _LABEL_7447_:
-	call audio_LABEL_99D3_
-	ld a, $95
-	ld (v_soundControl), a
-	inc (ix + Entity.state)
-	ret
+    call audio_LABEL_99D3_
+    ld a, $95
+    ld (v_soundControl), a
+    inc (ix + Entity.state)
+    ret
 
 ; 18th entry of Jump Table from 7152 (indexed by _RAM_C3BA_)
 _LABEL_7453_:
-	ld hl, v_entities.1.state
-	ld a, (hl)
-	cp ALEX_JANKEN_MUSIC
-	ret nz
-	ld (hl), $1A
-	ld hl, _DATA_12AFE_
-	ld (_RAM_C21B_), hl
-	ld a, $88
-	ld (v_nametableChangeRequest), a
-	xor a
-	ld (_RAM_C218_), a
-	inc (ix + Entity.state)
-	ret
+    ld hl, v_entities.1.state
+    ld a, (hl)
+    cp ALEX_JANKEN_MUSIC
+    ret nz
+    ld (hl), $1A
+    ld hl, _DATA_12AFE_
+    ld (_RAM_C21B_), hl
+    ld a, $88
+    ld (v_nametableChangeRequest), a
+    xor a
+    ld (_RAM_C218_), a
+    inc (ix + Entity.state)
+    ret
 
 ; 19th entry of Jump Table from 7152 (indexed by _RAM_C3BA_)
 _LABEL_746F_:
-	ld a, (v_nametableChangeRequest)
-	or a
-	ret nz
-	ld hl, _DATA_777A_
-	ld (_RAM_C219_), hl
-	ld a, $06
-	ld (_RAM_C218_), a
-	inc (ix + Entity.state)
-	ld iy, _RAM_C400_
-	ld (iy+0), $52
-	ld (iy+3), $04
-	ld (iy+12), $A8
-	ld (iy+14), $A0
-	ld (iy+1), $00
-	ld a, $01
-	ld (v_hasMoonstoneMedallion), a
-	ld l, $15
-	jp addScore
+    ld a, (v_nametableChangeRequest)
+    or a
+    ret nz
+    ld hl, _DATA_777A_
+    ld (_RAM_C219_), hl
+    ld a, $06
+    ld (_RAM_C218_), a
+    inc (ix + Entity.state)
+    ld iy, _RAM_C400_
+    ld (iy+0), $52
+    ld (iy+3), $04
+    ld (iy+12), $A8
+    ld (iy+14), $A0
+    ld (iy+1), $00
+    ld a, $01
+    ld (v_hasMoonstoneMedallion), a
+    ld l, $15
+    jp addScore
 
 ; 14th entry of Jump Table from 779E (indexed by _RAM_C3BA_)
 _LABEL_74A4_:
-	ld a, (v_nametableChangeRequest)
-	or a
-	ret nz
-	ld hl, _RAM_C218_
-	dec (hl)
-	jr z, +
-	ld a, (hl)
-	add a, a
-	add a, a
-	ld e, a
-	ld d, $00
-	ld hl, (_RAM_C219_)
-	add hl, de
-	ld de, _RAM_C204_
-	ld bc, $0004
-	ldir
-	ld a, $80
-	ld (v_nametableChangeRequest), a
-	ret
+    ld a, (v_nametableChangeRequest)
+    or a
+    ret nz
+    ld hl, _RAM_C218_
+    dec (hl)
+    jr z, +
+    ld a, (hl)
+    add a, a
+    add a, a
+    ld e, a
+    ld d, $00
+    ld hl, (_RAM_C219_)
+    add hl, de
+    ld de, _RAM_C204_
+    ld bc, $0004
+    ldir
+    ld a, $80
+    ld (v_nametableChangeRequest), a
+    ret
 
 +:
-	call _LABEL_2BFA_
-	inc (ix + Entity.state)
+    call _LABEL_2BFA_
+    inc (ix + Entity.state)
 ; 21st entry of Jump Table from 7152 (indexed by _RAM_C3BA_)
 _LABEL_74CD_:
-	ret
+    ret
 
 .INC "entities/updateEntity0x19.asm"
 
@@ -8889,185 +8889,185 @@ _DATA_74DF_:
 .dw _LABEL_7509_ _LABEL_7525_ _LABEL_7535_ _LABEL_7564_ _LABEL_756C_ _LABEL_7588_
 
 +:
-	res 7, (iy+1)
-	ld (iy+26), $19
-	ld (iy+24), $3C
-	call audio_LABEL_99D3_
-	ld a, $93
-	ld (v_soundControl), a
-	ld hl, v_entities.7
-	call clearEntity
-	inc hl
-	jp clearEntity
+    res 7, (iy+1)
+    ld (iy+26), $19
+    ld (iy+24), $3C
+    call audio_LABEL_99D3_
+    ld a, $93
+    ld (v_soundControl), a
+    ld hl, v_entities.7
+    call clearEntity
+    inc hl
+    jp clearEntity
 
 ; 1st entry of Jump Table from 74DF (indexed by _RAM_CF9A_)
 _LABEL_7509_:
-	set 1, (ix+1)
-	ld (ix+7), <_DATA_974B_
-	ld (ix+8), >_DATA_974B_
-	ld (ix+16), $FF
-	ld (ix+22), $08
-	ld (ix+23), $01
-	inc (ix+26)
-	ret
+    set 1, (ix+1)
+    ld (ix+7), <_DATA_974B_
+    ld (ix+8), >_DATA_974B_
+    ld (ix+16), $FF
+    ld (ix+22), $08
+    ld (ix+23), $01
+    inc (ix+26)
+    ret
 
 ; 2nd entry of Jump Table from 74DF (indexed by _RAM_CF9A_)
 _LABEL_7525_:
-	dec (ix+22)
-	ret nz
-	ld (ix+17), $00
-	ld (ix+18), $FE
-	inc (ix+26)
-	ret
+    dec (ix+22)
+    ret nz
+    ld (ix+17), $00
+    ld (ix+18), $FE
+    inc (ix+26)
+    ret
 
 ; 3rd entry of Jump Table from 74DF (indexed by _RAM_CF9A_)
 _LABEL_7535_:
-	ld l, (ix+17)
-	ld h, (ix+18)
-	ld de, $0040
-	add hl, de
-	ld (ix+17), l
-	ld (ix+18), h
-	bit 7, h
-	ret nz
-	ld de, $0200
-	or a
-	sbc hl, de
-	ret c
+    ld l, (ix+17)
+    ld h, (ix+18)
+    ld de, $0040
+    add hl, de
+    ld (ix+17), l
+    ld (ix+18), h
+    bit 7, h
+    ret nz
+    ld de, $0200
+    or a
+    sbc hl, de
+    ret c
 -:
-	ld (ix+17), e
-	ld (ix+18), d
-	inc (ix+26)
-	ld a, (ix+23)
-	add a, $02
-	ld (ix+23), a
-	ld (ix+22), a
-	ret
+    ld (ix+17), e
+    ld (ix+18), d
+    inc (ix+26)
+    ld a, (ix+23)
+    add a, $02
+    ld (ix+23), a
+    ld (ix+22), a
+    ret
 
 ; 4th entry of Jump Table from 74DF (indexed by _RAM_CF9A_)
 _LABEL_7564_:
-	dec (ix+22)
-	ret nz
-	inc (ix+26)
-	ret
+    dec (ix+22)
+    ret nz
+    inc (ix+26)
+    ret
 
 ; 5th entry of Jump Table from 74DF (indexed by _RAM_CF9A_)
 _LABEL_756C_:
-	ld l, (ix+17)
-	ld h, (ix+18)
-	ld de, $FFC0
-	add hl, de
-	ld (ix+17), l
-	ld (ix+18), h
-	bit 7, h
-	ret z
-	ld de, $FE00
-	or a
-	sbc hl, de
-	jr c, -
-	ret
+    ld l, (ix+17)
+    ld h, (ix+18)
+    ld de, $FFC0
+    add hl, de
+    ld (ix+17), l
+    ld (ix+18), h
+    bit 7, h
+    ret z
+    ld de, $FE00
+    or a
+    sbc hl, de
+    jr c, -
+    ret
 
 ; 6th entry of Jump Table from 74DF (indexed by _RAM_CF9A_)
 _LABEL_7588_:
-	dec (ix+22)
-	ret nz
-	ld (ix+26), $02
-	ret
+    dec (ix+22)
+    ret nz
+    ld (ix+26), $02
+    ret
 
 simulateOpponentChoosing_LABEL_7941_:
     ; Return if opponent unknown11 is 0 
-	ld hl, v_entities.6.unknown11
-	ld a, (hl)
-	or a
-	ret z
+    ld hl, v_entities.6.unknown11
+    ld a, (hl)
+    or a
+    ret z
 
     ; @TODO: Probably simulates opponent choosing a throw
-	dec (hl)
+    dec (hl)
 
-	ld c, (ix + Entity.data)
-	ld b, $00
-	ld hl, _DATA_7763_
-	add hl, bc
-	ld c, (hl)
-	ld de, (_RAM_C23C_)
-	dec (ix + Entity.unknown6)
-	ret p
+    ld c, (ix + Entity.data)
+    ld b, $00
+    ld hl, _DATA_7763_
+    add hl, bc
+    ld c, (hl)
+    ld de, (_RAM_C23C_)
+    dec (ix + Entity.unknown6)
+    ret p
 
-	ld (ix + Entity.unknown6), c
-	ld hl, v_JankenMatchOpponentDecisionIndex
-	inc (hl)
-	ld a, (hl)
-	and $1F
-	ld l, a
-	ld h, $00
-	add hl, de
-	ld l, (hl)
-	ld (ix + Entity.jankenMatchDecision), l
+    ld (ix + Entity.unknown6), c
+    ld hl, v_JankenMatchOpponentDecisionIndex
+    inc (hl)
+    ld a, (hl)
+    and $1F
+    ld l, a
+    ld h, $00
+    add hl, de
+    ld l, (hl)
+    ld (ix + Entity.jankenMatchDecision), l
 
     ; Update thought preview if Alex has Telapathy Ball
-	ld a, (v_hasTelepathyBall)
-	or a
-	ret z
-	ld a, l
+    ld a, (v_hasTelepathyBall)
+    or a
+    ret z
+    ld a, l
     ld (v_entities.27.jankenMatchDecision), a
-	ret
+    ret
 
 ; Used only on updateOpponentShowTextbox2
 drawThoughtClouds:
     ; Clear entities 27 and 28
-	ld hl, v_entities.27
-	call clearEntity
-	inc hl
-	call clearEntity
+    ld hl, v_entities.27
+    call clearEntity
+    inc hl
+    call clearEntity
 
     ; Copy 0xEC bytes from nametable at 0xCA08 to nametableCopy
-	ld hl, _RAM_CA08_
-	ld de, nametableCopy
-	ld bc, $00EC
-	ldir
+    ld hl, _RAM_CA08_
+    ld de, nametableCopy
+    ld bc, $00EC
+    ldir
 
     ; Add Alex thought cloud
-	ld de, _RAM_CA08_
-	call @patchNametableWithThoughtCloud
+    ld de, _RAM_CA08_
+    call @patchNametableWithThoughtCloud
 
     ; Create Janken option preview entity
-	ld iy, v_entities.28
-	ld (iy + Entity.type), $0B
-	ld hl, (v_horizontalScroll)
-	ld a, $20
-	add a, h
-	ld (iy + Entity.xPos.high), a
-	ld (iy + Entity.yPos.high), $3F
+    ld iy, v_entities.28
+    ld (iy + Entity.type), $0B
+    ld hl, (v_horizontalScroll)
+    ld a, $20
+    add a, h
+    ld (iy + Entity.xPos.high), a
+    ld (iy + Entity.yPos.high), $3F
 
     ; Return if Alex doesn't have a Telepaty Ball
-	ld a, (v_hasTelepathyBall)
-	or a
-	ret z
+    ld a, (v_hasTelepathyBall)
+    or a
+    ret z
 
     ; Add opponent thought cloud
     ld iy, v_entities.27
-	ld (iy + Entity.type), $0B
-	ld a, $B0
-	add a, h
-	ld (iy + Entity.xPos.high), a
-	ld (iy + Entity.yPos.high), $3F
-	ld de, _RAM_CA2C_
+    ld (iy + Entity.type), $0B
+    ld a, $B0
+    add a, h
+    ld (iy + Entity.xPos.high), a
+    ld (iy + Entity.yPos.high), $3F
+    ld de, _RAM_CA2C_
 @patchNametableWithThoughtCloud:
-	ld hl, _DATA_92A8_
-	ld bc, $0408
+    ld hl, _DATA_92A8_
+    ld bc, $0408
 @lineLoop:
-	push bc
-	push de
-	ld b, $00
-	ldir
-	pop de
-	ex de, hl
-	ld c, $40
-	add hl, bc
-	ex de, hl
-	pop bc
-	djnz @lineLoop
-	ret
+    push bc
+    push de
+    ld b, $00
+    ldir
+    pop de
+    ex de, hl
+    ld c, $40
+    add hl, bc
+    ex de, hl
+    pop bc
+    djnz @lineLoop
+    ret
 
 .INC "entities/updateEntity0x0B.asm"
 
@@ -9076,12 +9076,12 @@ _DATA_763B_:
 .dw _DATA_92C8_ _DATA_92D6_ _DATA_92E4_
 
 destroyBattleEntities:
-	ld hl, _RAM_C640_
-	call clearEntity
-	inc hl
-	call clearEntity
-	ld hl, _RAM_C5C0_
-	jp clearEntity
+    ld hl, _RAM_C640_
+    call clearEntity
+    inc hl
+    call clearEntity
+    ld hl, _RAM_C5C0_
+    jp clearEntity
 
 ; Data from 7651 to 7652 (2 bytes)
 _DATA_7651_:
@@ -9113,9 +9113,9 @@ _DATA_7651_:
 ; REV0 0xB2 0x76
 ; REV1 0xB9 0x76
 .IFDEF _REV1
-	.db $B9
+    .db $B9
 .ELSE
-	.db $B2
+    .db $B2
 .ENDIF
 .db $76
 
@@ -9126,17 +9126,17 @@ _DATA_7651_:
 ; REV0 0x90 0x76
 ; REV1 0x97 0x76
 .IFDEF _REV1
-	.db $97
+    .db $97
 .ELSE
-	.db $90
+    .db $90
 .ENDIF
 .db $76
 
 ; Pointer to decisions
 .IFDEF _REV1
-	.db $03 $77
+    .db $03 $77
 .ELSE
-	.db $FC $76
+    .db $FC $76
 .ENDIF
 
 .db $04             ; Index to message to show to the opponent 
@@ -9149,21 +9149,21 @@ _DATA_7651_:
 
 ; Data from 7675 to 7682 (14 bytes)
 .IFDEF _REV1
-	.db $C7
+    .db $C7
 .ELSE
-	.db $C0
+    .db $C0
 .ENDIF
 .db $76 $F2 $92 $15 $94
 .IFDEF _REV1
-	.db $9D
+    .db $9D
 .ELSE
-	.db $96
+    .db $96
 .ENDIF
 .db $76
 .IFDEF _REV1
-	.db $23
+    .db $23
 .ELSE
-	.db $1C
+    .db $1C
 .ENDIF
 .db $77 $05 $00 $16 $93
 
@@ -9172,23 +9172,23 @@ _DATA_7651_:
 
 ; Data from 7685 to 7690 (12 bytes)
 .IFDEF _REV1
-	.db $D5
+    .db $D5
 .ELSE
-	.db $CE
+    .db $CE
 .ENDIF
 .db $76 $F2 $92 $F7 $92
 .IFDEF _REV1
-	.db $97
+    .db $97
 .ELSE
-	.db $90
+    .db $90
 .ENDIF
 
 .db $76
 
 .IFDEF _REV1
-	.db $43
+    .db $43
 .ELSE
-	.db $3C
+    .db $3C
 .ENDIF
 
 .db $77 $06 $00
@@ -9257,66 +9257,66 @@ _DATA_778E_:
 ; Clear entities, reset sound, load janken match tiles
 prepareForJankenMatch:
     ; Clear entities 7 through 28
-	ld hl, v_entities.7
-	ld b, $16
+    ld hl, v_entities.7
+    ld b, $16
     @loopClear:
-	call clearEntity
-	inc hl
-	djnz @loopClear
+    call clearEntity
+    inc hl
+    djnz @loopClear
 
-	call resetSoundAndVolume
+    call resetSoundAndVolume
 
-	ld a, :jankenMatchTiles | $80
-	ld (Mapper_Slot2), a
+    ld a, :jankenMatchTiles | $80
+    ld (Mapper_Slot2), a
 
-	ld hl, jankenMatchTiles
-	ld de, $7000
-	di
-	jp decompress4BitplanesToVRAM
+    ld hl, jankenMatchTiles
+    ld de, $7000
+    di
+    jp decompress4BitplanesToVRAM
 
 drawAlexName_LABEL_7941_:
     ; Backup nametable to draw names
-	ld hl, _RAM_C908_
-	ld de, _RAM_C260_
-	ld bc, $002E
-	ldir
+    ld hl, _RAM_C908_
+    ld de, _RAM_C260_
+    ld bc, $002E
+    ldir
 
     ; Draw "Alex" name
-	ld hl, _DATA_76A3_
-	ld de, _RAM_C908_
-	ld bc, $0008
-	ldir
+    ld hl, _DATA_76A3_
+    ld de, _RAM_C908_
+    ld bc, $0008
+    ldir
 
     ; @TODO
     ; Related to entity 0x0C
-	ld hl, _DATA_776B_
-	ld de, _RAM_C2A0_
-	ld bc, $000B
-	ldir
+    ld hl, _DATA_776B_
+    ld de, _RAM_C2A0_
+    ld bc, $000B
+    ldir
 
     ; Spaw entity 0x0C
-	ld hl, v_entities.23
-	push hl
-	call clearEntity
-	pop hl
-	ld (hl), $0C
-	ret
+    ld hl, v_entities.23
+    push hl
+    call clearEntity
+    pop hl
+    ld (hl), $0C
+    ret
 
 restoreSomeNametableStuff_LABEL_796D_:
-	ld de, _RAM_C908_
-	ld hl, _RAM_C260_
-	ld bc, $002E
-	ldir
+    ld de, _RAM_C908_
+    ld hl, _RAM_C260_
+    ld bc, $002E
+    ldir
 
-	ld hl, nametableCopy
-	ld de, _RAM_CA08_
-	ld bc, $00EC
-	ldir
+    ld hl, nametableCopy
+    ld de, _RAM_CA08_
+    ld bc, $00EC
+    ldir
 
-	ld a, $01
-	ld (_RAM_C216_), a
+    ld a, $01
+    ld (_RAM_C216_), a
 
-	ret
+    ret
 
 .INC "entities/updateEntity0x0C.asm"
 .INC "entities/updateEntity0x0D.asm"
@@ -9327,114 +9327,114 @@ _DATA_79A9_:
 
 ; 1st entry of Jump Table from 79A9 (indexed by _RAM_C3DA_)
 _LABEL_79B1_:
-	ld a, (_RAM_C3CE_)
-	cp (ix+23)
-	jr nc, +
-	inc (ix+26)
-	ld hl, $FF00
-	ld (_RAM_C3CF_), hl
-	ld hl, $FE00
-	ld (_RAM_C3D1_), hl
-	ret
+    ld a, (_RAM_C3CE_)
+    cp (ix+23)
+    jr nc, +
+    inc (ix+26)
+    ld hl, $FF00
+    ld (_RAM_C3CF_), hl
+    ld hl, $FE00
+    ld (_RAM_C3D1_), hl
+    ret
 
 +:
-	ld hl, $FF00
-	ld (_RAM_C3D1_), hl
-	ret
+    ld hl, $FF00
+    ld (_RAM_C3D1_), hl
+    ret
 
 ; 2nd entry of Jump Table from 79A9 (indexed by _RAM_C3DA_)
 _LABEL_79D0_:
-	call _LABEL_7A10_
-	ld a, (_RAM_C3CE_)
-	cp (ix+23)
-	jr c, +
-	inc (ix+26)
-	ld hl, $0200
-	ld (_RAM_C3D1_), hl
-	ret
+    call _LABEL_7A10_
+    ld a, (_RAM_C3CE_)
+    cp (ix+23)
+    jr c, +
+    inc (ix+26)
+    ld hl, $0200
+    ld (_RAM_C3D1_), hl
+    ret
 
 +:
-	ld hl, (_RAM_C3D1_)
-	ld de, $0010
-	add hl, de
-	ld (_RAM_C3D1_), hl
-	ret
+    ld hl, (_RAM_C3D1_)
+    ld de, $0010
+    add hl, de
+    ld (_RAM_C3D1_), hl
+    ret
 
 ; 3rd entry of Jump Table from 79A9 (indexed by _RAM_C3DA_)
 _LABEL_79F0_:
-	call _LABEL_7A10_
-	ld a, (_RAM_C3CE_)
-	cp (ix+23)
-	jr nc, +
-	dec (ix+26)
-	ld hl, $FE00
-	ld (_RAM_C3D1_), hl
-	ret
+    call _LABEL_7A10_
+    ld a, (_RAM_C3CE_)
+    cp (ix+23)
+    jr nc, +
+    dec (ix+26)
+    ld hl, $FE00
+    ld (_RAM_C3D1_), hl
+    ret
 
 +:
-	ld hl, (_RAM_C3D1_)
-	ld de, $FFF0
-	add hl, de
-	ld (_RAM_C3D1_), hl
-	ret
+    ld hl, (_RAM_C3D1_)
+    ld de, $FFF0
+    add hl, de
+    ld (_RAM_C3D1_), hl
+    ret
 
 _LABEL_7A10_:
-	call tryToKillAlexIfColliding
-	call checkAlexEntityCollision_LABEL_7D0B_
-	jr nc, _LABEL_7A40_
-	bit 1, (ix+20)
-	jr z, +
-	ld hl, $0100
-	ld (_RAM_C3CF_), hl
-	ld a, (_RAM_C3CC_)
-	cp $E0
-	ret c
-	res 1, (ix+20)
-	ret
+    call tryToKillAlexIfColliding
+    call checkAlexEntityCollision_LABEL_7D0B_
+    jr nc, _LABEL_7A40_
+    bit 1, (ix+20)
+    jr z, +
+    ld hl, $0100
+    ld (_RAM_C3CF_), hl
+    ld a, (_RAM_C3CC_)
+    cp $E0
+    ret c
+    res 1, (ix+20)
+    ret
 
 +:
-	ld hl, $FF00
-	ld (_RAM_C3CF_), hl
-	ld a, (_RAM_C3CC_)
-	cp $11
-	ret nc
-	set 1, (ix+20)
-	ret
+    ld hl, $FF00
+    ld (_RAM_C3CF_), hl
+    ld a, (_RAM_C3CC_)
+    cp $11
+    ret nc
+    set 1, (ix+20)
+    ret
 
 _LABEL_7A40_:
-	pop af
+    pop af
 _LABEL_7A41_:
-	res 7, (ix+1)
-	inc (ix+2)
-	ld a, (_RAM_C3C2_)
-	cp $03
-	jp nc, _LABEL_55A5_
-	ld a, $8D
-	ld (v_soundControl), a
-	ld a, (_RAM_C3DA_)
-	ld (_RAM_C3D8_), a
-	ld (ix+26), $03
-	ld (ix+22), $3C
-	ld hl, (_RAM_C3D1_)
-	ld (_RAM_C3DE_), hl
-	ld hl, (_RAM_C3CF_)
-	ld (_RAM_C3DC_), hl
-	ld hl, $0000
-	ld (_RAM_C3D1_), hl
-	ld (_RAM_C3CF_), hl
-	ret
+    res 7, (ix+1)
+    inc (ix+2)
+    ld a, (_RAM_C3C2_)
+    cp $03
+    jp nc, _LABEL_55A5_
+    ld a, $8D
+    ld (v_soundControl), a
+    ld a, (_RAM_C3DA_)
+    ld (_RAM_C3D8_), a
+    ld (ix+26), $03
+    ld (ix+22), $3C
+    ld hl, (_RAM_C3D1_)
+    ld (_RAM_C3DE_), hl
+    ld hl, (_RAM_C3CF_)
+    ld (_RAM_C3DC_), hl
+    ld hl, $0000
+    ld (_RAM_C3D1_), hl
+    ld (_RAM_C3CF_), hl
+    ret
 
 ; 4th entry of Jump Table from 79A9 (indexed by _RAM_C3DA_)
 _LABEL_7A79_:
-	dec (ix+22)
-	ret nz
-	ld a, (_RAM_C3D8_)
-	ld (_RAM_C3DA_), a
-	ld hl, (_RAM_C3DE_)
-	ld (_RAM_C3D1_), hl
-	ld hl, (_RAM_C3DC_)
-	ld (_RAM_C3CF_), hl
-	ret
+    dec (ix+22)
+    ret nz
+    ld a, (_RAM_C3D8_)
+    ld (_RAM_C3DA_), a
+    ld hl, (_RAM_C3DE_)
+    ld (_RAM_C3D1_), hl
+    ld hl, (_RAM_C3DC_)
+    ld (_RAM_C3CF_), hl
+    ret
 
 .INC "entities/updateEntity0x0E.asm"
 
@@ -9444,201 +9444,201 @@ _DATA_7A98_:
 
 ; 1st entry of Jump Table from 7A98 (indexed by _RAM_C3DA_)
 _LABEL_7AA0_:
-	ld a, (_RAM_C3CE_)
-	cp $28
-	jr nc, +
-	inc (ix+26)
-	ld hl, $0200
-	ld (_RAM_C3CF_), hl
-	ld hl, $FB34
-	ld (_RAM_C3D1_), hl
-	set 1, (ix+20)
-	ret
+    ld a, (_RAM_C3CE_)
+    cp $28
+    jr nc, +
+    inc (ix+26)
+    ld hl, $0200
+    ld (_RAM_C3CF_), hl
+    ld hl, $FB34
+    ld (_RAM_C3D1_), hl
+    set 1, (ix+20)
+    ret
 
 +:
-	ld hl, $FF00
-	ld (_RAM_C3D1_), hl
-	ret
+    ld hl, $FF00
+    ld (_RAM_C3D1_), hl
+    ret
 
 ; 2nd entry of Jump Table from 7A98 (indexed by _RAM_C3DA_)
 _LABEL_7AC2_:
-	call _LABEL_7B18_
-	ld a, (_RAM_C3CE_)
-	cp $28
-	jr c, ++
-	inc (ix+26)
-	ld hl, $04CC
-	ld (_RAM_C3D1_), hl
-	ld hl, _RAM_C3D4_
-	ld a, (hl)
-	xor $02
-	ld (hl), a
-	ld hl, $FE00
-	jr z, +
-	ld hl, $0200
+    call _LABEL_7B18_
+    ld a, (_RAM_C3CE_)
+    cp $28
+    jr c, ++
+    inc (ix+26)
+    ld hl, $04CC
+    ld (_RAM_C3D1_), hl
+    ld hl, _RAM_C3D4_
+    ld a, (hl)
+    xor $02
+    ld (hl), a
+    ld hl, $FE00
+    jr z, +
+    ld hl, $0200
 +:
-	ld (_RAM_C3CF_), hl
-	ret
+    ld (_RAM_C3CF_), hl
+    ret
 
 ++:
-	ld hl, (_RAM_C3D1_)
-	ld de, $005E
-	add hl, de
-	ld (_RAM_C3D1_), hl
-	ret
+    ld hl, (_RAM_C3D1_)
+    ld de, $005E
+    add hl, de
+    ld (_RAM_C3D1_), hl
+    ret
 
 ; 3rd entry of Jump Table from 7A98 (indexed by _RAM_C3DA_)
 _LABEL_7AF3_:
-	call tryToKillAlexIfColliding
-	call checkAlexEntityCollision_LABEL_7D0B_
-	jp nc, _LABEL_7A41_
-	ld a, (_RAM_C3CE_)
-	cp $28
-	jr nc, +
-	dec (ix+26)
-	ld hl, $FB34
-	ld (_RAM_C3D1_), hl
-	ret
+    call tryToKillAlexIfColliding
+    call checkAlexEntityCollision_LABEL_7D0B_
+    jp nc, _LABEL_7A41_
+    ld a, (_RAM_C3CE_)
+    cp $28
+    jr nc, +
+    dec (ix+26)
+    ld hl, $FB34
+    ld (_RAM_C3D1_), hl
+    ret
 
 +:
-	ld hl, (_RAM_C3D1_)
-	ld de, $FFE2
-	add hl, de
-	ld (_RAM_C3D1_), hl
-	ret
+    ld hl, (_RAM_C3D1_)
+    ld de, $FFE2
+    add hl, de
+    ld (_RAM_C3D1_), hl
+    ret
 
 _LABEL_7B18_:
-	call tryToKillAlexIfColliding
-	call checkAlexEntityCollision_LABEL_7D0B_
-	jp nc, _LABEL_7A40_
-	bit 1, (ix+20)
-	ld de, $0028
-	jr z, +
-	ld de, $FFD8
+    call tryToKillAlexIfColliding
+    call checkAlexEntityCollision_LABEL_7D0B_
+    jp nc, _LABEL_7A40_
+    bit 1, (ix+20)
+    ld de, $0028
+    jr z, +
+    ld de, $FFD8
 +:
-	ld hl, (_RAM_C3CF_)
-	add hl, de
-	ld (_RAM_C3CF_), hl
-	ret
+    ld hl, (_RAM_C3CF_)
+    add hl, de
+    ld (_RAM_C3CF_), hl
+    ret
 
 .INC "entities/updateEntity0x0F.asm"
 
 getTileNearEntityWithXYOffset:
-	ld a, (ix + Entity.xPos.high)
-	add a, e
+    ld a, (ix + Entity.xPos.high)
+    add a, e
 _LABEL_7C4F_:
-	; Map x screen coordinate from e into x
-	; nametable position and put it on e again
-	ld hl, (v_horizontalScroll)
-	sub h
-	ld c, a
-	rra
-	rra
-	and $3E
-	ld e, a
+    ; Map x screen coordinate from e into x
+    ; nametable position and put it on e again
+    ld hl, (v_horizontalScroll)
+    sub h
+    ld c, a
+    rra
+    rra
+    and $3E
+    ld e, a
 
-	; Count number of tiles to sum with x tile position to get the
-	; nametable address of the tile being displayed at screen coordinates
-	ld a, (ix + Entity.yPos.high)
-	add a, d
+    ; Count number of tiles to sum with x tile position to get the
+    ; nametable address of the tile being displayed at screen coordinates
+    ld a, (ix + Entity.yPos.high)
+    add a, d
 -:
-	ld hl, (v_verticalScroll)
-	add a, h
-	jr nc, +
-	add a, $20
+    ld hl, (v_verticalScroll)
+    add a, h
+    jr nc, +
+    add a, $20
 +:
-	cp $E0
-	jr c, +
-	add a, $20
+    cp $E0
+    jr c, +
+    add a, $20
 +:
-	ld b, a
-	and $F8
-	ld l, a
-	ld h, $00
-	add hl, hl
-	add hl, hl
-	add hl, hl
-	ld d, $C8
-	add hl, de
-	inc hl
-	ld a, (hl)
-	ret
+    ld b, a
+    and $F8
+    ld l, a
+    ld h, $00
+    add hl, hl
+    add hl, hl
+    add hl, hl
+    ld d, $C8
+    add hl, de
+    inc hl
+    ld a, (hl)
+    ret
 
 _LABEL_7C7A_:
-	ld a, e
-	ld hl, (v_horizontalScroll)
-	sub h
-	ld c, a
-	rra
-	rra
-	and $3E
-	ld e, a
-	ld a, d
-	jp -
+    ld a, e
+    ld hl, (v_horizontalScroll)
+    sub h
+    ld c, a
+    rra
+    rra
+    and $3E
+    ld e, a
+    ld a, d
+    jp -
 
 _LABEL_7C89_:
-	ld a, e
-	ld c, a
-	rra
-	rra
-	and $3E
-	ld e, a
-	ld a, d
-	jp -
+    ld a, e
+    ld c, a
+    rra
+    rra
+    and $3E
+    ld e, a
+    ld a, d
+    jp -
 
 _LABEL_7C94_:
-	ld a, l
-	and $C0
-	ld d, a
-	ld a, c
-	add a, e
-	ld c, a
-	rra
-	rra
-	and $3E
-	or d
-	inc a
-	ld l, a
-	ret
+    ld a, l
+    and $C0
+    ld d, a
+    ld a, c
+    add a, e
+    ld c, a
+    rra
+    rra
+    and $3E
+    or d
+    inc a
+    ld l, a
+    ret
 
 _LABEL_7CA3_:
-	ld a, l
-	and $3F
-	ld e, a
-	ld a, b
-	add a, d
-	ld b, a
-	cp $E0
-	jr c, +
-	sub $E0
+    ld a, l
+    and $3F
+    ld e, a
+    ld a, b
+    add a, d
+    ld b, a
+    cp $E0
+    jr c, +
+    sub $E0
 +:
-	and $F8
-	ld l, a
-	ld h, $00
-	add hl, hl
-	add hl, hl
-	add hl, hl
-	ld d, $C8
-	add hl, de
-	ret
+    and $F8
+    ld l, a
+    ld h, $00
+    add hl, hl
+    add hl, hl
+    add hl, hl
+    ld d, $C8
+    add hl, de
+    ret
 
 _LABEL_7CBC_:
-	ld a, (iy+0)
-	or a
-	scf
-	ret z
+    ld a, (iy+0)
+    or a
+    scf
+    ret z
 
 
 .INC "engine/entity/checkEntityCollision.asm"
 
 
 checkAlexEntityCollision_LABEL_7D0B_:
-	ld a, (v_entities.1.state)
-	cp ALEX_SWIMING
-	jp z, _LABEL_7D38_
-	ld a, (_RAM_C054_)
-	ld hl, _DATA_7D1C_
-	jp loadAthJumptablePointer
+    ld a, (v_entities.1.state)
+    cp ALEX_SWIMING
+    jp z, _LABEL_7D38_
+    ld a, (_RAM_C054_)
+    ld hl, _DATA_7D1C_
+    jp loadAthJumptablePointer
 
 ; Jump Table from 7D1C to 7D37 (14 entries, indexed by _RAM_C054_)
 _DATA_7D1C_:
@@ -9648,81 +9648,81 @@ _DATA_7D1C_:
 ; 1st entry of Jump Table from 7D1C (indexed by _RAM_C054_)
 _LABEL_7D38_:
     ; Return if alex unkown8 is not set
-	ld a, (v_entities.1.unknown8)
-	bit 0, a
-	scf
-	ret z
+    ld a, (v_entities.1.unknown8)
+    bit 0, a
+    scf
+    ret z
 
     ; hl = alex.unkown2 + _DATA_91D0_ + 4
-	ld iy, v_entity1
-	ld a, (v_entities.1.unknown2)
-	add a, $04
-	ld l, a
-	ld h, $00
-	ld bc, _DATA_91D0_
-	add hl, bc
+    ld iy, v_entity1
+    ld a, (v_entities.1.unknown2)
+    add a, $04
+    ld l, a
+    ld h, $00
+    ld bc, _DATA_91D0_
+    add hl, bc
 
     ; Save hl into de
-	ex de, hl
+    ex de, hl
 
     ; hl = ix.unknown2 + _DATA_91D0_
-	ld l, (ix + Entity.unknown2)
-	ld h, $00
-	add hl, bc
+    ld l, (ix + Entity.unknown2)
+    ld h, $00
+    add hl, bc
 
     ; a = (de) + (++de) + alex.xPos.high
-	ld a, (de)
-	ld b, a
-	inc de
-	ld a, (de)
-	add a, b
-	add a, (iy + Entity.xPos.high)
-	jp checkEntityCollisionSub_LABEL_7CE6_
+    ld a, (de)
+    ld b, a
+    inc de
+    ld a, (de)
+    add a, b
+    add a, (iy + Entity.xPos.high)
+    jp checkEntityCollisionSub_LABEL_7CE6_
 
 ; 9th entry of Jump Table from 7D1C (indexed by _RAM_C054_)
 _LABEL_7D61_:
-	ld iy, v_entities.2
-	call _LABEL_7CBC_
-	ret c
-	set 7, (iy+1)
-	ret
+    ld iy, v_entities.2
+    call _LABEL_7CBC_
+    ret c
+    set 7, (iy+1)
+    ret
 
 ; 4th entry of Jump Table from 7D1C (indexed by _RAM_C054_)
 _LABEL_7D6E_:
-	ld iy, _RAM_C340_
-	call checkEntityCollision
-	jr nc, +
-	ld iy, v_entities.2
-	call checkEntityCollision
-	ret c
+    ld iy, _RAM_C340_
+    call checkEntityCollision
+    jr nc, +
+    ld iy, v_entities.2
+    call checkEntityCollision
+    ret c
 +:
-	set 7, (iy+1)
-	ret
+    set 7, (iy+1)
+    ret
 
 ; 5th entry of Jump Table from 7D1C (indexed by _RAM_C054_)
 _LABEL_7D84_:
-	ld iy, _RAM_C360_
-	jp checkEntityCollision
+    ld iy, _RAM_C360_
+    jp checkEntityCollision
 
 ; 8th entry of Jump Table from 7D1C (indexed by _RAM_C054_)
 _LABEL_7D8B_:
-	ld iy, v_entity1
-	jp checkEntityCollision
+    ld iy, v_entity1
+    jp checkEntityCollision
 
 ; 6th entry of Jump Table from 7D1C (indexed by _RAM_C054_)
 _LABEL_7D92_:
-	ld iy, v_entities.2
-	jp checkEntityCollision
+    ld iy, v_entities.2
+    jp checkEntityCollision
 
 ; Check if is colliding with Alex
 tryToKillAlexIfColliding:
-	; Return if Alex state is $0F
-	ld a, (v_entities.1.state)
-	cp ALEX_DEAD
-	ret nc
-	ld a, (_RAM_C054_)
-	ld hl, _DATA_7DA8_
-	jp loadAthJumptablePointer
+    ; Return if Alex state is $0F
+    ld a, (v_entities.1.state)
+    cp ALEX_DEAD
+    ret nc
+    ld a, (_RAM_C054_)
+    ld hl, _DATA_7DA8_
+    jp loadAthJumptablePointer
 
 ; This table controls wehther alex can be hurt when colliding with an entity
 ; based on it's mechanics state (_RAM_C054_)
@@ -9739,13 +9739,13 @@ _DATA_7DA8_:
 .dw killAlexIfColliding
 
 killAlexIfColliding:
-	ld iy, v_entity1
-	call checkEntityCollision
-	ret c
-	set 7, (iy+1)
+    ld iy, v_entity1
+    call checkEntityCollision
+    ret c
+    set 7, (iy+1)
 
 doNotKillAlex:
-	ret
+    ret
 
 .INC "src/asm/engine/states/textbox/update.asm"
 .INC "src/asm/engine/states/textbox/handleInterrupt.asm"

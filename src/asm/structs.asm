@@ -100,5 +100,5 @@
     noteFrequency2.low db
     noteFrequency2.high db
     volumeToWrite db        ; PSG Volume Value to write to the hardware channel
-    repetitionCouters dsb 9 ; bytes	Repetition Counters
+    repetitionCouters dsb 9 ; bytes    Repetition Counters
 .ENDST

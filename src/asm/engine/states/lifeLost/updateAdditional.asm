@@ -1,66 +1,66 @@
 _LABEL_6EAF_:
-	ld a, (ix + Entity.unknown6)
-	ld (ix + Entity.yPos.high), a
-	ld a, (ix + Entity.unknown5)
-	ld (ix + Entity.xPos.high), a
+    ld a, (ix + Entity.unknown6)
+    ld (ix + Entity.yPos.high), a
+    ld a, (ix + Entity.unknown5)
+    ld (ix + Entity.xPos.high), a
 _LABEL_6EBB_:
-	exx
-	ld a, (ix + Entity.xPos.high)
-	ld (ix + Entity.unknown7), a
-	ld de, $0100
-	ld a, $08
-	ld b, (ix + Entity.state)
-	call _LABEL_39ED_
-	exx
-	jp nc, +
+    exx
+    ld a, (ix + Entity.xPos.high)
+    ld (ix + Entity.unknown7), a
+    ld de, $0100
+    ld a, $08
+    ld b, (ix + Entity.state)
+    call _LABEL_39ED_
+    exx
+    jp nc, +
 --:
-	ld a, $08
-	add a, (ix + Entity.yPos.high)
-	ld (ix + Entity.yPos.high), a
-	cp $90
-	jp c, _LABEL_6EBB_
-	ld a, $08
-	add a, (ix + Entity.unknown5)
-	ld (ix + Entity.unknown5), a
-	cp $60
-	jp c, _LABEL_6EAF_
-	ret
+    ld a, $08
+    add a, (ix + Entity.yPos.high)
+    ld (ix + Entity.yPos.high), a
+    cp $90
+    jp c, _LABEL_6EBB_
+    ld a, $08
+    add a, (ix + Entity.unknown5)
+    ld (ix + Entity.unknown5), a
+    cp $60
+    jp c, _LABEL_6EAF_
+    ret
 
 +:
-	ld b, (ix + Entity.state)
-	ld a, $08
-	add a, (ix + Entity.unknown7)
-	ld (ix + Entity.xPos.high), a
+    ld b, (ix + Entity.state)
+    ld a, $08
+    add a, (ix + Entity.unknown7)
+    ld (ix + Entity.xPos.high), a
 -:
-	exx
-	ld de, $0100
-	ld a, $08
-	ld b, (ix + Entity.jankenMatchDecision)
-	call _LABEL_39ED_
-	exx
-	jp nc, +
-	ld a, (ix + Entity.unknown7)
-	ld (ix + Entity.xPos.high), a
-	jp --
+    exx
+    ld de, $0100
+    ld a, $08
+    ld b, (ix + Entity.jankenMatchDecision)
+    call _LABEL_39ED_
+    exx
+    jp nc, +
+    ld a, (ix + Entity.unknown7)
+    ld (ix + Entity.xPos.high), a
+    jp --
 
 +:
-	ld a, $08
-	add a, (ix + Entity.xPos.high)
-	ld (ix + Entity.xPos.high), a
-	djnz -
-	ld a, (ix + Entity.unknown7)
-	ld (ix + Entity.xPos.high), a
-	ret
+    ld a, $08
+    add a, (ix + Entity.xPos.high)
+    ld (ix + Entity.xPos.high), a
+    djnz -
+    ld a, (ix + Entity.unknown7)
+    ld (ix + Entity.xPos.high), a
+    ret
 
 _LABEL_6F21_:
-	ld a, (_RAM_C0BC_)
-	cp $07
-	ret nc
-	ld b, a
-	ld a, (ix + Entity.yPos.high)
-	sub b
-	ld (ix + Entity.yPos.high), a
-	ret
+    ld a, (_RAM_C0BC_)
+    cp $07
+    ret nc
+    ld b, a
+    ld a, (ix + Entity.yPos.high)
+    sub b
+    ld (ix + Entity.yPos.high), a
+    ret
 
 ; Pointer Table from 6F30 to 6F37 (4 entries, indexed by _RAM_C3C2_)
 _DATA_6F30_:
