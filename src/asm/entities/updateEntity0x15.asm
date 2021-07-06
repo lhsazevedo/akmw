@@ -35,7 +35,7 @@ updateEntity0x15:
     ret
 
 ++:
-    call audio_LABEL_99D3_
+    call audioEngine.handler_LABEL_99D3_
     jp clearCurrentEntity
 
 _LABEL_4B7A_:

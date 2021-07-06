@@ -19,7 +19,7 @@ updateEntity0x08:
     ret
 
 +:
-    call audio_LABEL_99D3_
+    call audioEngine.handler_LABEL_99D3_
     ld hl, v_entities.1.unknown8
     ld a, (hl)
     and $F4

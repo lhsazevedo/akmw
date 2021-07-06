@@ -1,5 +1,5 @@
 ; Audio engine entry
-audioEntry_LABEL_984F_:
+update:
     call readSoundRequest
     call +
 
@@ -62,9 +62,9 @@ readSoundRequest:
 
     ; Deactivage engine if bit 7 is not set or sound > 0xB3
     bit 7, a
-    jp z, resetSoundAndVolume
+    jp z, reset
     cp $B4
-    jp nc, resetSoundAndVolume
+    jp nc, reset
 
     ; a -= 0x81
     sub $81
@@ -517,7 +517,7 @@ writeAToPsgIfFlagBit2_LABEL_9DEB_:
     out (Port_PSG), a
     ret
 
-resetSoundAndVolume:
+reset:
     exx
     ld hl, v_soundFadeOutVolume
     ld de, v_soundFadeOutVolume + 1

@@ -15,7 +15,7 @@ updateLifeLostState:
     ld b, $05
     call sleepTenthsOfSecond
 
-    call resetSoundAndVolume
+    call audioEngine.reset
 
     ; Decrement lives
     ld hl, v_lives

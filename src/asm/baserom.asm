@@ -1,21 +1,22 @@
 ; This disassembly was created using Emulicious (http://www.emulicious.net)
 .MEMORYMAP
-SLOTSIZE $7FF0
-SLOT 0 $0000
-SLOTSIZE $10
-SLOT 1 $7FF0
-SLOTSIZE $4000
-SLOT 2 $8000
-DEFAULTSLOT 2
+    SLOTSIZE $7FF0
+    SLOT 0 $0000
+    SLOTSIZE $10
+    SLOT 1 $7FF0
+    SLOTSIZE $4000
+    SLOT 2 $8000
+    DEFAULTSLOT 2
 .ENDME
+
 .ROMBANKMAP
-BANKSTOTAL 8
-BANKSIZE $7FF0
-BANKS 1
-BANKSIZE $10
-BANKS 1
-BANKSIZE $4000
-BANKS 6
+    BANKSTOTAL 8
+    BANKSIZE $7FF0
+    BANKS 1
+    BANKSIZE $10
+    BANKS 1
+    BANKSIZE $4000
+    BANKS 6
 .ENDRO
 
 .EMPTYFILL $FF
@@ -163,7 +164,7 @@ handlePauseInterrupt:
 init:
     ld a, $82
     ld (Mapper_Slot2), a
-    call resetVolume
+    call audioEngine.resetVolume
 
     ; Clear RAM
     ld hl, $C000
@@ -180,7 +181,7 @@ init:
 
     ; Reset stack pointer
     ld sp, $DFF0
-    call resetVolume
+    call audioEngine.resetVolume
     call initVDPRegisters
 
     ; Clear VRAM tiles
@@ -238,7 +239,7 @@ handleInterrupt:
     call c, _LABEL_1B_
     ld a, $82
     ld (Mapper_Slot2), a
-    call audioEntry_LABEL_984F_
+    call audioEngine.update
     xor a
     ld (v_interruptFlags), a
     pop af
@@ -2468,7 +2469,7 @@ updateBonusLevelState:
     jp nz, -
     ld a, $82
     ld (Mapper_Slot2), a
-    call resetSoundAndVolume
+    call audioEngine.reset
     ld hl, v_money
     ld de, v_moneyByteTwo
     ld (hl), $00
@@ -2571,7 +2572,7 @@ _LABEL_1730_:
     ret
 
 _LABEL_1735_:
-    call resetSoundAndVolume
+    call audioEngine.reset
     ld b, $05
     call sleepTenthsOfSecond
     call clearVDPTablesAndDisableScreen
@@ -2765,7 +2766,7 @@ updateLevelCompletedState:
 
 +:
     set 7, (hl)
-    call resetSoundAndVolume
+    call audioEngine.reset
     ld b, $05
     call sleepTenthsOfSecond
     call clearVDPTablesAndDisableScreen
@@ -8815,7 +8816,7 @@ _LABEL_73D8_:
 
 ; 16th entry of Jump Table from 7152 (indexed by v_entities.6.state)
 _LABEL_7447_:
-    call audio_LABEL_99D3_
+    call audioEngine.handler_LABEL_99D3_
     ld a, $95
     ld (v_soundControl), a
     inc (ix + Entity.state)
@@ -8904,7 +8905,7 @@ _DATA_74DF_:
     res 7, (iy+1)
     ld (iy+26), $19
     ld (iy+24), $3C
-    call audio_LABEL_99D3_
+    call audioEngine.handler_LABEL_99D3_
     ld a, $93
     ld (v_soundControl), a
     ld hl, v_entities.7
@@ -9276,7 +9277,7 @@ prepareForJankenMatch:
     inc hl
     djnz @loopClear
 
-    call resetSoundAndVolume
+    call audioEngine.reset
 
     ld a, :jankenMatchTiles | $80
     ld (Mapper_Slot2), a
@@ -9625,6 +9626,8 @@ _DATA_9800_:
 .db $53 $00 $00 $00 $02 $71 $91 $00 $02 $6D $95 $00 $02 $64 $74 $00
 .db $00 $01 $26 $01 $6E $00 $00 $03 $14 $1E $2E $02 $9E $AE $FF
 
-.INCLUDE "audio.asm"
+.SECTION "Audio Engine" NAMESPACE "audioEngine" FORCE
+    .INCLUDE "audio.asm"
+.ENDS
 
 .INCLUDE "data.asm"

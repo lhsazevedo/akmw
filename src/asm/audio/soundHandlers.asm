@@ -6,7 +6,7 @@ soundHandlers:
 .dw _LABEL_9A47_ _LABEL_9A7A_ _LABEL_9A1F_ _LABEL_9A81_ _LABEL_9A60_ _LABEL_9A24_ _LABEL_9A60_ _LABEL_9A24_
 .dw _LABEL_9A7A_ _LABEL_9A00_ _LABEL_99F9_ _LABEL_9A43_ _LABEL_9A7D_ _LABEL_9A89_ _LABEL_9A89_ _LABEL_9A7D_
 .dw _LABEL_9A89_ _LABEL_9A68_ _LABEL_9A68_ _LABEL_9A85_ _LABEL_9A7D_ _LABEL_9A7D_ handleMusic handleMusic
-.dw _LABEL_99A3_ audio_LABEL_99D3_ _LABEL_99BE_
+.dw _LABEL_99A3_ handler_LABEL_99D3_ _LABEL_99BE_
 
 ; 49th entry of Jump Table from 993D (indexed by v_soundControl)
 _LABEL_99A3_:
@@ -37,7 +37,7 @@ _LABEL_99BE_:
     jp resetSoundControl
 
 ; 50th entry of Jump Table from 993D (indexed by v_soundControl)
-audio_LABEL_99D3_:
+handler_LABEL_99D3_:
     xor a
     ld (_RAM_C1D8_), a
     ld (v_soundSoftwareChannelSevenState), a
@@ -54,7 +54,7 @@ audio_LABEL_99D3_:
 ; 1st entry of Jump Table from 993D (indexed by v_soundControl)
 ; Music handler
 handleMusic:
-    call resetSoundAndVolume
+    call audioEngine.reset
     ld de, v_soundMusicSoftwareChannels
     jp realHandleMusic
 
@@ -91,7 +91,7 @@ _LABEL_9A04_:
 
 ; 27th entry of Jump Table from 993D (indexed by v_soundControl)
 _LABEL_9A1F_:
-    call resetSoundAndVolume
+    call audioEngine.reset
     jr +
 
 ; 30th entry of Jump Table from 993D (indexed by v_soundControl)
