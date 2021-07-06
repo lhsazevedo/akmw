@@ -90,7 +90,7 @@ _LABEL_47F1_:
     jr _LABEL_47CA_
 
 +++:
-    ld hl, _RAM_C3C0_
+    ld hl, v_entities.7
     ld de, $0020
     ld b, $0A
 -:

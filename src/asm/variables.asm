@@ -355,10 +355,6 @@ _RAM_C3A3_ db
 _RAM_C3A5_ db
 .ende
 
-.enum $C3A7 export
-_RAM_C3A7_ dw
-.ende
-
 .enum $C3AA export
 _RAM_C3AA_ db
 .ende
@@ -382,7 +378,6 @@ _RAM_C3BA_ db
 
 .enum $C3BF export
 _RAM_C3BF_ db
-_RAM_C3C0_ db
 .ende
 
 .enum $C3C2 export

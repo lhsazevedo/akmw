@@ -2697,7 +2697,7 @@ _LABEL_1735_:
     ld c, $61
     ld de, $9008
 +:
-    ld ix, _RAM_C3C0_
+    ld ix, v_entities.7
     ld (ix+0), c
     ld (ix+12), e
     ld (ix+14), d
@@ -2983,7 +2983,7 @@ updateAlexWalking:
     ld a, (_RAM_C007_)
     bit 5, a
     jr z, +
-    ld (ix+26), $01
+    ld (ix + Entity.state), $01
     call _LABEL_3B56_
     jp _LABEL_4508_
 
@@ -3133,7 +3133,7 @@ _LABEL_2CAE_:
 +:
     ld (v_entities.1.unknown3), a
     bit 0, a
-    ld (ix+26), $03
+    ld (ix + Entity.state), $03
     ld hl, _DATA_8F00_
     jr z, +
     ld hl, _DATA_8F15_
@@ -3211,7 +3211,7 @@ _LABEL_2D4A_:
     bit 1, a
     jr nz, +
     res 2, (ix+20)
-    ld (ix+26), $01
+    ld (ix + Entity.state), $01
     jp _LABEL_2BFA_
 
 +:
@@ -3574,7 +3574,7 @@ alexHandler_302F:
     and $3F
     ld (v_entities.1.unknown3), a
     res 2, (ix+28)
-    ld (ix+26), $08
+    ld (ix + Entity.state), $08
     jp _LABEL_2FD5_
 
 ; 12th entry of Jump Table from 2982 (indexed by v_entities.1.state)
@@ -3624,7 +3624,7 @@ _LABEL_30C5_:
 _LABEL_30F5_:
     ld (ix+27), $10
     res 7, (ix+20)
-    ld (ix+26), $0C
+    ld (ix + Entity.state), $0C
     ld hl, _DATA_9137_
     call loadAlexAnimationDescriptor
 ; 13th entry of Jump Table from 2982 (indexed by v_entities.1.state)
@@ -3676,7 +3676,7 @@ updateAlexRidingBoatInAir:
     and $3F
     ld (v_entities.1.unknown3), a
     res 2, (ix+28)
-    ld (ix+26), $0B
+    ld (ix + Entity.state), $0B
     jp _LABEL_30C5_
 
 ; 14th entry of Jump Table from 2982 (indexed by v_entities.1.state)
@@ -3693,7 +3693,7 @@ alexHandler_3180:
     jp _LABEL_4189_
 
 +:
-    ld (ix+26), $0E
+    ld (ix + Entity.state), $0E
     ld (ix+27), $21
     ld a, $81
     ld (v_nametableChangeRequest), a
@@ -3747,7 +3747,7 @@ alexHandler_31CC:
     jp _LABEL_4189_
 
 ++:
-    ld (ix+26), $12
+    ld (ix + Entity.state), $12
     ld (ix+27), $40
     ld a, $82
     ld (v_nametableChangeRequest), a
@@ -3782,7 +3782,7 @@ _LABEL_3230_:
     ld (hl), a
     res 2, (ix+20)
     ld (ix+6), $04
-    ld (ix+26), $0A
+    ld (ix + Entity.state), $0A
     ld a, $B1
     ld (v_soundControl), a
     ret
@@ -3902,7 +3902,7 @@ _LABEL_3320_:
     ld (v_entities.1.ySpeed), hl
     ld a, (v_entities.1.state)
     ld (v_alexStateTemporaryCopy), a
-    ld (ix+26), $10
+    ld (ix + Entity.state), $10
     ret
 
 ; 17th entry of Jump Table from 2982 (indexed by v_entities.1.state)
@@ -4085,7 +4085,7 @@ clearEntities2to4AndMaybeReset0xC054:
 _LABEL_3498_:
     ld a, $92
     ld (v_soundControl), a
-    ld (ix+26), $05
+    ld (ix + Entity.state), $05
     ld (ix+6), $0A
     call clearEntities2to4AndMaybeReset0xC054
     bit 7, (ix+18)
@@ -4584,7 +4584,7 @@ _LABEL_389C_:
     ld a, (v_entities.1.unknown3)
     or $18
     ld (v_entities.1.unknown3), a
-    ld (ix+26), $1B
+    ld (ix + Entity.state), $1B
     ld a, $9B
     ld (v_soundControl), a
     ret
@@ -4694,7 +4694,7 @@ alexHandler_3961:
 ++:
     call _LABEL_3B56_
     ld (v_entities.1.ySpeed), hl
-    ld (ix+26), $17
+    ld (ix + Entity.state), $17
     ld a, ($000A)
     ld (v_entities.1.unknown3), a
     call saveTempAlexCopy
@@ -5189,7 +5189,7 @@ _LABEL_3CCF_:
     ld a, (v_inputData)
     bit JOY_UP_BIT, a
     ret z
-    ld (ix+26), $0D
+    ld (ix + Entity.state), $0D
     ret
 
 +:
@@ -5321,7 +5321,7 @@ _LABEL_3DD4_:
     ld a, (_RAM_C007_)
     bit 1, a
     ret z
-    ld (ix+26), $11
+    ld (ix + Entity.state), $11
     ret
 
 +:
@@ -5337,7 +5337,7 @@ _DATA_3DF0_:
 .db $05 $01 $02 $03 $05 $02 $01 $04 $03 $04 $FF
 
 _LABEL_3DFB_:
-    ld (ix+26), $01
+    ld (ix + Entity.state), $01
     jr _LABEL_3E0B_
 
 _LABEL_3E01_:
@@ -5373,7 +5373,7 @@ _LABEL_3E40_:
     ld (ix+9), $00
     ld (ix+7), <nullSpriteDescriptor_DATA_80E1_
     ld (ix+8), >nullSpriteDescriptor_DATA_80E1_
-    inc (ix+26)
+    inc (ix + Entity.state)
     ret
 
 ; 2nd entry of Jump Table from 3E38 (indexed by _RAM_CF9A_)
@@ -5391,7 +5391,7 @@ _LABEL_3E50_:
     // @TODO: Understand this state
     ld a, $1A
     ld (v_entities.1.state), a
-    inc (ix+26)
+    inc (ix + Entity.state)
     ld (ix+5), $1E
     ld iy, _RAM_C640_
     ld hl, $8000
@@ -5411,7 +5411,7 @@ _LABEL_3E90_:
     dec (ix+5)
     ret nz
     ld (ix+5), $3C
-    inc (ix+26)
+    inc (ix + Entity.state)
     ld iy, _RAM_C660_
     ld hl, $8A27
     ld c, $87
@@ -5462,7 +5462,7 @@ _LABEL_3F6D_:
 ; 2nd entry of Jump Table from 3F3A (indexed by v_level)
 _LABEL_3F75_:
     call _LABEL_415E_
-    ld e, (ix+26)
+    ld e, (ix + Entity.state)
     ld hl, _DATA_3FB1_
     ld d, $00
     add hl, de
@@ -8064,7 +8064,7 @@ _LABEL_6F8F_:
 	ld c, b
 
     ; Find an empty entity slot
-	ld ix, _RAM_C3C0_
+	ld ix, v_entities.7
 	ld de, $0020
 	ld b, $0A
 -:
@@ -8166,7 +8166,7 @@ loadOctopusArms:
 	ld d, (hl)
 	ld (_RAM_C0FD_), de
 	inc hl
-	ld ix, _RAM_C3C0_
+	ld ix, v_entities.7
 	ld de, $0020
 	ld b, $08
 -:
@@ -8615,7 +8615,7 @@ updateOpponentWinRound:
 	ret
 
     @opponentWon:
-    ; updateOpponentShowStatueOrTieTextbox
+    ; updateOpponentShowBattleLostTextbox
 	ld (ix + Entity.state), $08
 	jp restoreSomeNametableStuff_LABEL_796D_
 
@@ -8657,59 +8657,80 @@ updateOpponentLostRound:
 	ld (ix + Entity.state), $0B
 	jp restoreSomeNametableStuff_LABEL_796D_
 
-; 9th entry of Jump Table from 78B0 (indexed by _RAM_C3BA_)
-updateOpponentShowStatueOrTieTextbox:
+; - Wait player close textbox
+; - Cleanup battle entities
+; - Show battle lost textbox
+updateOpponentShowBattleLostTextbox:
 	call isTextboxGameState
 	ret z
+
 	call destroyBattleEntities
-	ld a, $15
+
+	ld a, TXT_BATTLE_LOST
 	ld (v_messageToShowInTheTextBoxIndex), a
 	ld a, STATE_TEXT_BOX
+
 	ld (v_gameState), a
-	inc (ix+26)
+	inc (ix + Entity.state)
 	ret
 
-; 10th entry of Jump Table from 78B0 (indexed by _RAM_C3BA_)
+; - Wait player close textbox
+; - Request statue sfx
+; - Change alex state
 updateOpponentTurnAlexIntoStatue:
 	call isTextboxGameState
 	ret z
-	ld (ix+6), $14
-	ld a, $93
+
+	ld (ix + Entity.animationTimerResetValue), $14
+
+    ld a, SOUND_BATTLE_LOST
 	ld (v_soundControl), a
+
 	ld a, ALEX_JANKEN_STATUE
 	ld (v_entities.1.state), a
+
+    ; @TODO: Timer?
 	ld a, $3C
 	ld (v_entities.1.unknown6), a
-	inc (ix+26)
+
+	inc (ix + Entity.state)
 	ret
 
-; 11th entry of Jump Table from 78B0 (indexed by _RAM_C3BA_)
-_LABEL_7372_:
+; - Wait alex death animation
+; - Recreate opponent entity
+updateOpponentRespawOpponent:
 	ld a, (v_gameState)
 	cp STATE_LIFE_LOST
-	jr z, +
+	jr z, @lifeLost
 	ld hl, (_RAM_C236_)
 	jp handleEntityAnimation
 
-+:
-	ld b, (ix+0)
-	ld c, (ix+3)
-	ld e, (ix+12)
-	ld d, (ix+14)
+    @lifeLost:
+	ld b, (ix + Entity.type)
+	ld c, (ix + Entity.data)
+	ld e, (ix + Entity.xPos.high)
+	ld d, (ix + Entity.yPos.high)
+
 	exx
 	call clearCurrentEntity
 	exx
-	ld hl, $80E1
-	ld (_RAM_C3A7_), hl
-	ld (ix+0), b
-	ld (ix+3), c
-	ld (ix+12), e
-	ld (ix+14), d
+
+    ; Update opponent sprite descritpor
+	ld hl, nullSpriteDescriptor_DATA_80E1_
+	ld (v_entities.6.spriteDescriptorPointer), hl
+
+    ; Restore opponent position
+	ld (ix + Entity.type), b
+	ld (ix + Entity.data), c
+	ld (ix + Entity.xPos.high), e
+	ld (ix + Entity.yPos.high), d
 	ld a, c
 	or a
 	ret nz
-	ld (ix+12), $C0
-	ld (ix+14), $98
+
+    ; Fix opponent position
+	ld (ix + Entity.xPos.high), $C0
+	ld (ix + Entity.yPos.high), $98
 	ret
 
 ; 12th entry of Jump Table from 7152 (indexed by _RAM_C3BA_)
@@ -8723,7 +8744,7 @@ _LABEL_73AE_:
 	xor a
 	ld (_RAM_C3A2_), a
 	ld hl, $961A
-	ld (_RAM_C3A7_), hl
+	ld (v_entities.6.spriteDescriptorPointer), hl
 	ret
 
 ; 13th entry of Jump Table from 78B0 (indexed by _RAM_C3BA_)
@@ -8732,7 +8753,7 @@ _LABEL_73CB_:
 	ret z
 	ld a, $84
 	ld (v_soundControl), a
-	inc (ix+26)
+	inc (ix + Entity.state)
 	ret
 
 ; 15th entry of Jump Table from 7152 (indexed by _RAM_C3BA_)
@@ -8753,7 +8774,7 @@ _LABEL_73D8_:
 	ld a, (_RAM_C3A2_)
 	cp $03
 	jr c, +
-	inc (ix+26)
+	inc (ix + Entity.state)
 	ret
 
 +:
@@ -8766,8 +8787,8 @@ _LABEL_73D8_:
 	dec (ix+24)
 	ret nz
 	inc (ix+24)
-	ld iy, _RAM_C3C0_
-	ld a, (_RAM_C3C0_)
+	ld iy, v_entities.7
+	ld a, (v_entities.7.type)
 	or a
 	jr z, +
 	ld iy, _RAM_C3E0_
@@ -8792,7 +8813,7 @@ _LABEL_7447_:
 	call audio_LABEL_99D3_
 	ld a, $95
 	ld (v_soundControl), a
-	inc (ix+26)
+	inc (ix + Entity.state)
 	ret
 
 ; 18th entry of Jump Table from 7152 (indexed by _RAM_C3BA_)
@@ -8808,7 +8829,7 @@ _LABEL_7453_:
 	ld (v_nametableChangeRequest), a
 	xor a
 	ld (_RAM_C218_), a
-	inc (ix+26)
+	inc (ix + Entity.state)
 	ret
 
 ; 19th entry of Jump Table from 7152 (indexed by _RAM_C3BA_)
@@ -8820,7 +8841,7 @@ _LABEL_746F_:
 	ld (_RAM_C219_), hl
 	ld a, $06
 	ld (_RAM_C218_), a
-	inc (ix+26)
+	inc (ix + Entity.state)
 	ld iy, _RAM_C400_
 	ld (iy+0), $52
 	ld (iy+3), $04
@@ -8856,7 +8877,7 @@ _LABEL_74A4_:
 
 +:
 	call _LABEL_2BFA_
-	inc (ix+26)
+	inc (ix + Entity.state)
 ; 21st entry of Jump Table from 7152 (indexed by _RAM_C3BA_)
 _LABEL_74CD_:
 	ret
@@ -8874,7 +8895,7 @@ _DATA_74DF_:
 	call audio_LABEL_99D3_
 	ld a, $93
 	ld (v_soundControl), a
-	ld hl, _RAM_C3C0_
+	ld hl, v_entities.7
 	call clearEntity
 	inc hl
 	jp clearEntity

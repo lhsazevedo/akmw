@@ -14,9 +14,9 @@ goosekaUpdaters:
 .dw updateOpponentDance	                            ; 0x5
 .dw updateOpponentThrow	                            ; 0x6
 .dw updateOpponentHandleThrows	                    ; 0x7
-.dw updateOpponentShowStatueOrTieTextbox	        ; 0x8
+.dw updateOpponentShowBattleLostTextbox	        ; 0x8
 .dw updateOpponentTurnAlexIntoStatue	            ; 0x9
-.dw _LABEL_7372_	                                ; 0xA
+.dw updateOpponentRespawOpponent	                                ; 0xA
 .dw _LABEL_77BE_	                                ; 0xB
 .dw _LABEL_73CB_	                                ; 0xC
 .dw _LABEL_74A4_	                                ; 0xD
@@ -26,32 +26,44 @@ goosekaUpdaters:
 ; 12th entry of Jump Table from 779E (indexed by _RAM_C3BA_)
 _LABEL_77BE_:
 	call _LABEL_78CE_
+
 	ld hl, _DATA_778E_
 	ld (_RAM_C219_), hl
+
 	ld a, $02
 	ld (_RAM_C218_), a
+
 	ret
 
 ; 15th entry of Jump Table from 779E (indexed by _RAM_C3BA_)
 _LABEL_77CD_:
 	ld hl, $936D
-	ld (_RAM_C3A7_), hl
+	ld (v_entities.6.spriteDescriptorPointer), hl
+
 	dec (ix+22)
 	ret nz
+
 	ld hl, $9395
-	ld (_RAM_C3A7_), hl
-	ld hl, _RAM_C3C0_
+	ld (v_entities.6.spriteDescriptorPointer), hl
+
+	ld hl, v_entities.7
 	call clearEntity
-	ld iy, _RAM_C3C0_
+
+	ld iy, v_entities.7
 	ld (iy+0), $0D
+
 	ld a, (_RAM_C3AC_)
 	ld (_RAM_C3CC_), a
+
 	ld a, (_RAM_C3AE_)
 	ld (_RAM_C3CE_), a
+
 	sub $20
 	ld (_RAM_C3D7_), a
+
 	ld hl, $9387
 	ld (_RAM_C3C7_), hl
+
 	inc (ix+26)
 	ld a, $AC
 	ld (v_soundControl), a
@@ -61,7 +73,7 @@ _LABEL_77CD_:
 ; Shared with Parplin
 _LABEL_780B_:
 	call tryToKillAlexIfColliding
-	ld a, (_RAM_C3C0_)
+	ld a, (v_entities.7.type)
 	or a
 	jp z, updateOpponentDefeated
 	ret

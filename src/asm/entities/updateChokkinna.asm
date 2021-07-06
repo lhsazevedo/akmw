@@ -15,9 +15,9 @@ chokkinnaUpdaters:
 .dw updateOpponentDance
 .dw updateOpponentThrow
 .dw updateOpponentHandleThrows
-.dw updateOpponentShowStatueOrTieTextbox
+.dw updateOpponentShowBattleLostTextbox
 .dw updateOpponentTurnAlexIntoStatue
-.dw _LABEL_7372_
+.dw updateOpponentRespawOpponent
 .dw _LABEL_78CE_
 .dw _LABEL_73CB_
 .dw _LABEL_783C_
@@ -26,12 +26,12 @@ chokkinnaUpdaters:
 ; 14th entry of Jump Table from 781E (indexed by _RAM_C3BA_)
 _LABEL_783C_:
 	ld hl, $9458
-	ld (_RAM_C3A7_), hl
+	ld (v_entities.6.spriteDescriptorPointer), hl
 	dec (ix+22)
 	ret nz
 	ld hl, $9480
-	ld (_RAM_C3A7_), hl
-	ld iy, _RAM_C3C0_
+	ld (v_entities.6.spriteDescriptorPointer), hl
+	ld iy, v_entities.7
 	ld (iy+0), $0E
 	ld a, (_RAM_C3AC_)
 	ld (_RAM_C3CC_), a
@@ -47,7 +47,7 @@ _LABEL_783C_:
 ; 15th entry of Jump Table from 781E (indexed by _RAM_C3BA_)
 _LABEL_786F_:
 	call tryToKillAlexIfColliding
-	ld a, (_RAM_C3C0_)
+	ld a, (v_entities.7.type)
 	or a
 	jp z, updateOpponentDefeated
 	ld a, (_RAM_C3E0_)

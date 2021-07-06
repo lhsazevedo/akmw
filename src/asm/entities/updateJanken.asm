@@ -15,9 +15,9 @@ jankenUpdaters:
 .dw updateOpponentDance
 .dw updateOpponentThrow
 .dw updateOpponentHandleThrows
-.dw updateOpponentShowStatueOrTieTextbox
+.dw updateOpponentShowBattleLostTextbox
 .dw updateOpponentTurnAlexIntoStatue
-.dw _LABEL_7372_
+.dw updateOpponentRespawOpponent
 .dw _LABEL_73AE_
 .dw _LABEL_73CB_
 .dw _LABEL_74A4_
