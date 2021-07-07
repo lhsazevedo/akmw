@@ -1,4 +1,4 @@
-wiz -o tmp/wiz.sms src/asm/main.wiz
+wiz -o tmp/wiz.sms src/main.wiz
 
 testBlock() {
     a=$(dd if=tmp/wiz.sms skip=$(printf "%d" $1) count=$2 bs=1 status=none | sha1sum)

@@ -26,7 +26,7 @@ function rb($arr, $addr) {
 function readEntityTypes() {
     $entities = [];
 
-    $efh = fopen('../../src/asm/constants.asm', 'r');
+    $efh = fopen('../../src/constants.asm', 'r');
 
     $reading = false;
     while (!feof($efh)) {
