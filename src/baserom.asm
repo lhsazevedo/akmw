@@ -6242,7 +6242,7 @@ _LABEL_4578_:
 +:
     ld d, a
     ld a, c
-    call _LABEL_5C01_
+    call requestBlockSound
     bit 5, b
     jr z, _LABEL_45BE_
     exx
@@ -6840,22 +6840,25 @@ _LABEL_55ED_:
 
 .INCLUDE "entities/riceBall/updater.asm"
 
-_LABEL_5C01_:
+requestBlockSound:
     ex af, af'
-    ld a, $8C
+    ld a, SOUND_BLOCK
     ld (v_soundControl), a
     ex af, af'
+
     ld iy, v_entities.23
-    ld (iy+0), $38
-    ld (iy+24), a
+    ld (iy + Entity.type), ENTITY_DEBRIS_TOP_LEFT
+    ld (iy + Entity.unknown6), a
     cp $01
     jr nz, +
-    ld a, $A3
+
+    ld a, SOUND_STAR_BOX
     ld (v_soundControl), a
+
 +:
-    ld (iy+14), d
-    ld (iy+12), e
-    res 0, (iy+1)
+    ld (iy + Entity.yPos.high), d
+    ld (iy + Entity.xPos.high), e
+    res 0, (iy + Entity.flags)
     ret
 
 ; Data from 5C27 to 5C35 (15 bytes)
