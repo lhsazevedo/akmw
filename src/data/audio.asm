@@ -61,7 +61,7 @@ _DATA_9FA6_:
 ; 1st entry of Pointer Table from B1D8 (indexed by unknown)
 ; Data from 9FB9 to A3BC (1028 bytes)
 _DATA_9FB9_:
-.incbin "baserom_DATA_9FB9_.inc"
+.incbin "soundData.bin"
 
 ; 3rd entry of Pointer Table from 98DD (indexed by v_soundControl)
 ; Data from A3BD to A3C0 (4 bytes)

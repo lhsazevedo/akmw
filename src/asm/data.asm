@@ -493,7 +493,7 @@ _DATA_12AFE_:
 
 .INC "src/data/nametables/title.asm"
 titleScreenTiles:
-.INCBIN "baserom_DATA_13332_.inc"
+.INCBIN "titleScreen.bin"
 
 .BANK 5
 .ORG $0000
@@ -578,7 +578,7 @@ _DATA_1508E_:
 
 ; Data from 153F3 to 157FF (1037 bytes)
 _DATA_153F3_:
-.incbin "baserom_DATA_153F3_.inc"
+.incbin "shopInterior.bin"
 
 ; Data from 15800 to 1583F (64 bytes)
 _DATA_15800_:
@@ -706,7 +706,7 @@ _DATA_17291_:
 
 ; Data from 172B1 to 17852 (1442 bytes)
 _DATA_172B1_:
-.incbin "baserom_DATA_172B1_.inc"
+.incbin "4bppCharacters.bin"
 
 ; 1st entry of Pointer Table from 1620 (indexed by v_titleScreen6FrameTileTimer)
 ; Data from 17853 to 17892 (64 bytes)
