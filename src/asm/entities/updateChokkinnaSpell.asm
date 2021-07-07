@@ -1,0 +1,2 @@
+updateChokkinnaSpell:
+    jp tryToKillAlexIfColliding

@@ -827,7 +827,7 @@ _DATA_8C0E_:
 .INC "entities/ghost/spritesRight.asm"
 
 ; Data from 8CC7 to 8CE5 (31 bytes)
-_DATA_8CC7_:
+riceBallSpriteDescriptor:
 .db $03 $64 $00 $08 $08 $04 $0D $02 $0E $0A $0F $06 $8C $00 $00 $08
 .db $08 $10 $10 $04 $14 $0C $15 $03 $16 $14 $16 $03 $16 $14 $16
 

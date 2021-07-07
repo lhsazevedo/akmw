@@ -701,7 +701,7 @@ takeMoney:
 
 
 addScore:
-    ; Return if Button B is pressed?
+    ; @TODO: Return if Button B is pressed?
     ld a, (v_inputFlags)
     and JOY_FIREB
     ret nz
@@ -850,14 +850,14 @@ data_moneyBagValueTable:
 
 ; Data from 489 to 4A0 (24 bytes)
 scores:
-.db $20 $00 $00 ; $489
-.db $40 $00 $00 ; $48C
-.db $60 $00 $00 ; $48F
-.db $80 $00 $00 ; $492
-.db $00 $01 $00 ; $495
-.db $20 $01 $00 ; $498
-.db $00 $02 $00 ; $49B
-.db $00 $10 $00 ; $49E
+.db $20 $00 $00 ; 200
+.db $40 $00 $00 ; 400
+.db $60 $00 $00 ; 600
+.db $80 $00 $00 ; 800
+.db $00 $01 $00 ; 1000
+.db $20 $01 $00 ; 1200
+.db $00 $02 $00 ; 2000
+.db $00 $10 $00 ; 10000
 
 ; Data from 4A1 to 4CD (45 bytes)
 .db $23 $5E $23
@@ -9234,7 +9234,7 @@ goosekaNametableChanges:
 
 .INC "entities/updateGooseka.asm"
 .INC "entities/updateChokkinna.asm"
-.INC "entities/updateEntity0x1A.asm"
+.INC "entities/updateChokkinnaSpell.asm"
 .INC "entities/updateParplin.asm"
 
 ; Clear entities, reset sound, load janken match tiles
