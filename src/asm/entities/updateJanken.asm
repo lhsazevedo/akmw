@@ -20,11 +20,11 @@ jankenUpdaters:
 .dw updateOpponentRespawOpponent
 .dw _LABEL_73AE_
 .dw updateOpponentStartFight
-.dw _LABEL_74A4_
+.dw updateOpponentPatchNametable
 .dw _LABEL_73D8_
 .dw _LABEL_7447_
 .dw updateOpponentMakeAlexGetIntoPosition
 .dw _LABEL_7453_
 .dw _LABEL_746F_
-.dw _LABEL_74A4_
+.dw updateOpponentPatchNametable
 .dw updateOpponentNop

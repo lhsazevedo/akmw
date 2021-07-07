@@ -6044,7 +6044,7 @@ _LABEL_437D_:
     ld d, $00
     ld h, d
     ld (_RAM_C219_), hl
-    ld hl, _DATA_12AC2_
+    ld hl, jankenPetrificationTable
     add hl, de
     ld a, (hl)
     inc hl
@@ -8588,7 +8588,7 @@ updateOpponentWinRound:
 
 ; - Show opponent lost textbox
 ; - Update results
-; - Decide next state (0x04 updateOpponentStartRound or 0x0B _LABEL_77BE_)
+; - Decide next state (0x04 updateOpponentStartRound or 0x0B updateOpponentBattleWonAndSetupNametablePatches)
 updateOpponentLostRound:
     ; "Darn it. I lose." - Opponent
     ld a, TXT_JANKEN_MATCH_OPPONENT_LOST
@@ -8620,7 +8620,7 @@ updateOpponentLostRound:
     ret
 
     @opponentLost:
-    ; _LABEL_77BE_
+    ; updateOpponentBattleWonAndSetupNametablePatches
     ld (ix + Entity.state), $0B
     jp restoreSomeNametableStuff_LABEL_796D_
 
@@ -8704,7 +8704,7 @@ updateOpponentRespawOpponent:
 _LABEL_73AE_:
     call updateOpponentBattleWon
     ld (ix+24), $60
-    ld hl, _DATA_7772_
+    ld hl, jankenBlockEntranceNametableChanges
     ld (_RAM_C219_), hl
     ld a, $03
     ld (_RAM_C218_), a
@@ -8808,7 +8808,7 @@ _LABEL_746F_:
     ld a, (v_nametableChangeRequest)
     or a
     ret nz
-    ld hl, _DATA_777A_
+    ld hl, jankenLadderNametableChanges
     ld (_RAM_C219_), hl
     ld a, $06
     ld (_RAM_C218_), a
@@ -8825,10 +8825,10 @@ _LABEL_746F_:
     jp addScore
 
 ; - Wait namespace change opportunity
-; - Remove ladder
+; - Patch nametable
 ; - Advance state
 ; - Fallthrough
-_LABEL_74A4_:
+updateOpponentPatchNametable:
     ld a, (v_nametableChangeRequest)
     or a
     ret nz
@@ -9215,17 +9215,22 @@ _DATA_776B_:
 .db $03 $00 $00 $00 $00 $00 $1F
 
 ; Data from 7772 to 7779 (8 bytes)
-_DATA_7772_:
-.db $08 $1F $10 $1F $04 $CD $5D $8B
+jankenBlockEntranceNametableChanges:
+.db $08 $1F $10 $1F
+.db $04 $CD $5D $8B
 
 ; Data from 777A to 778D (20 bytes)
-_DATA_777A_:
-.db $84 $CC $5D $8B $04 $CB $75 $8B $84 $CA $75 $8B $04 $CA $75 $8B
+jankenLadderNametableChanges:
+.db $84 $CC $5D $8B
+.db $04 $CB $75 $8B
+.db $84 $CA $75 $8B
+.db $04 $CA $75 $8B
 .db $84 $C9 $75 $8B
 
 ; Data from 778E to 7795 (8 bytes)
-_DATA_778E_:
-.db $04 $C9 $75 $8B $8C $CD $65 $8A
+goosekaNametableChanges:
+.db $04 $C9 $75 $8B
+.db $8C $CD $65 $8A
 
 .INC "entities/updateGooseka.asm"
 .INC "entities/updateChokkinna.asm"

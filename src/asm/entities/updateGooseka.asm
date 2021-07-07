@@ -17,21 +17,19 @@ goosekaUpdaters:
 .dw updateOpponentShowBattleLostTextbox                 ; 0x8
 .dw updateOpponentTurnAlexIntoStatue                    ; 0x9
 .dw updateOpponentRespawOpponent                        ; 0xA
-.dw _LABEL_77BE_                                        ; 0xB
+.dw updateOpponentBattleWonAndSetupNametablePatches     ; 0xB
 .dw updateOpponentStartFight                            ; 0xC
-.dw _LABEL_74A4_                                        ; 0xD
+.dw updateOpponentPatchNametable                                        ; 0xD
 .dw updateGoosekaSpawnHead                              ; 0xE
-.dw updateOpponentDestroyWhenDefeated                                        ; 0xF
+.dw updateOpponentDestroyWhenDefeated                   ; 0xF
 
 ; - Call updateOpponentBattleWon
-; - @TODO
-_LABEL_77BE_:
+; - Setup nametable changes
+updateOpponentBattleWonAndSetupNametablePatches:
     call updateOpponentBattleWon
 
-    // @TODO
-    ld hl, _DATA_778E_
+    ld hl, goosekaNametableChanges
     ld (_RAM_C219_), hl
-
     ld a, $02
     ld (_RAM_C218_), a
 

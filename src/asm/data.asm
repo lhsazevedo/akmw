@@ -410,7 +410,7 @@ _DATA_12357_:
 .incbin "baserom_DATA_12357_.inc"
 
 ; Pointer Table from 12AC2 to 12ACD (6 entries, indexed by _RAM_C218_)
-_DATA_12AC2_:
+jankenPetrificationTable:
 .dw _DATA_12ACE_ _DATA_12AD5_ _DATA_12ADC_ _DATA_12AE5_ _DATA_12AEE_ _DATA_12AF7_
 
 ; 1st entry of Pointer Table from 12AC2 (indexed by _RAM_C218_)
