@@ -674,7 +674,7 @@ _DATA_1E229_:
 
 ; Data from 1E2A9 to 1ED88 (2784 bytes)
 _DATA_1E2A9_:
-.incbin "baserom_DATA_1E2A9_.inc"
+.incbin "src/data/baserom_DATA_1E2A9_.inc"
 
 ; Data from 1ED89 to 1EE08 (128 bytes)
 _DATA_1ED89_:

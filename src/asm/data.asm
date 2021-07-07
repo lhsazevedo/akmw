@@ -1,13 +1,11 @@
-.INCDIR "src/data"
-
-.INC "audio.asm"
+.INC "src/data/audio.asm"
 
 .INC "src/graphics/1bppCharacters.asm"
 
 ;; For each level...
-.INCLUDE "data/levels/entitiesDescriptors.asm"
+.INCLUDE "src/data/levels/entitiesDescriptors.asm"
 
-.INCLUDE "data/levels/screenEntitiesDescriptors.asm"
+.INCLUDE "src/data/levels/screenEntitiesDescriptors.asm"
 
 .dsb 376, $FF
 
@@ -493,12 +491,12 @@ _DATA_12AFE_:
 
 .INC "src/data/nametables/title.asm"
 titleScreenTiles:
-.INCBIN "titleScreen.bin"
+.INCBIN "src/data/titleScreen.bin"
 
 .BANK 5
 .ORG $0000
 
-.INC "metatileNametablePointers.asm"
+.INC "src/data/metatileNametablePointers.asm"
 
 ; Data from 14400 to 1440F (16 bytes)
 _DATA_14400_:
@@ -514,9 +512,9 @@ _DATA_14420_:
 .db $3C $02 $00 $06 $00 $06 $3C $10 $3D $00 $00 $06 $00 $06 $3C $10
 .db $3C $02 $00 $06 $00 $06 $3C $10 $3D $00 $00 $06 $00 $06 $3C $10
 
-.INC "metatileNametableEntries.asm"
+.INC "src/data/metatileNametableEntries.asm"
 
-.INC "demoInputEntries.asm"
+.INC "src/data/demoInputEntries.asm"
 
 ; Data from 1508E to 153F2 (869 bytes)
 _DATA_1508E_:
@@ -578,7 +576,7 @@ _DATA_1508E_:
 
 ; Data from 153F3 to 157FF (1037 bytes)
 _DATA_153F3_:
-.incbin "shopInterior.bin"
+.incbin "src/data/shopInterior.bin"
 
 ; Data from 15800 to 1583F (64 bytes)
 _DATA_15800_:
@@ -706,7 +704,7 @@ _DATA_17291_:
 
 ; Data from 172B1 to 17852 (1442 bytes)
 _DATA_172B1_:
-.incbin "4bppCharacters.bin"
+.incbin "src/data/4bppCharacters.bin"
 
 ; 1st entry of Pointer Table from 1620 (indexed by v_titleScreen6FrameTileTimer)
 ; Data from 17853 to 17892 (64 bytes)
