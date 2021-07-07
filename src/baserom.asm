@@ -1170,19 +1170,9 @@ _LABEL_74C_:
 .db $06 $11 $AF $C3 $68 $07 $8F $38 $03 $BB $38 $02 $93 $B7 $3F $ED
 .db $6A $10 $F3 $C9
 
-; 1st entry of Jump Table from 3B (indexed by v_gameState)
 .INCLUDE "engine/states/title/update.asm"
 
-; Data from 824 to 841 (30 bytes)
-initialValues:
-.db INITIAL_GAME_STATE
-.db INITIAL_SCORE
-.db INITIAL_LEVEL
-.db INITIAL_LIFES
-.dsb 10, $00
-.db INITIAL_MONEY
-.db $00 $00
-.db $03 $00 $00 $00 $00 $00 $00 $00
+.INCLUDE "data/initialValues.asm"
 
 .INCLUDE "engine/states/title/handleInterrupt.asm"
 .INCLUDE "engine/states/title/loadSprites.asm"
@@ -1190,7 +1180,9 @@ initialValues:
 .INCLUDE "engine/entity/clearEntities.asm"
 .INCLUDE "engine/states/demo/update.asm"
 .INCLUDE "engine/states/demo/handleInterrupt.asm"
+
 .INCLUDE "data/demoInputPointers.asm"
+
 .INCLUDE "engine/states/gameplay/update.asm"
 .INCLUDE "engine/states/gameplay/handleInterrupt.asm"
 .INCLUDE "engine/states/gameplay/init.asm"
@@ -2805,10 +2797,8 @@ _DATA_2674_:
 
 .INCLUDE "entities/updatersPointers.asm"
 
-; 1st entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 .INCLUDE "entities/alex/updater.asm"
 
-; Jump Table from 2982 to 29B9 (28 entries, indexed by v_entities.1.state)
 alexStateHandlersPointers:
 .dw updateAlexSpawningAtCenter
 .dw updateAlexIdle
