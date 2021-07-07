@@ -268,7 +268,11 @@ writeBcBytesToVRAM:
     jp nz, -
     ret
 
-_LABEL_159_:
+; @param de VDP destination
+; @param b count
+; @param HL source
+; @param _RAM_C10A_ flags
+writeNametableEntriesToVRAM:
     rst setVDPAddress
     ld a, (_RAM_C10A_)
     ld c, Port_VDPData
@@ -2474,7 +2478,7 @@ handleInterruptBonusLevelState:
     inc hl
     xor a
     ld (_RAM_C10A_), a
-    call _LABEL_159_
+    call writeNametableEntriesToVRAM
 _LABEL_170D_:
     ld (v_endingSequencePointer), hl
     ret

@@ -253,11 +253,11 @@ gameOver_LABEL_6DC9_:
     ld de, $7A94
     ld hl, _DATA_6E8B_
     ld b, $09
-    call _LABEL_159_
+    call writeNametableEntriesToVRAM
     ld de, $7B90
     ld hl, _DATA_6E94_
     ld b, $0D
-    call _LABEL_159_
+    call writeNametableEntriesToVRAM
     ld hl, $C022
     ld de, $7B9C
     call _LABEL_454_
@@ -319,7 +319,7 @@ _LABEL_6E41_:
     ld de, $7C50
     ld hl, _DATA_6EA1_
     ld b, $0D
-    call _LABEL_159_
+    call writeNametableEntriesToVRAM
     ei
     ld a, $8F
     ld (v_soundControl), a

@@ -376,7 +376,7 @@ initMapState:
     ld hl, _DATA_241D_
     ld de, $7D94
     ld b, $0C
-    call _LABEL_159_
+    call writeNametableEntriesToVRAM
     ld hl, $C022
     ld de, $7D9E
     call _LABEL_454_
