@@ -1,11 +1,11 @@
 ; This disassembly was created using Emulicious (http://www.emulicious.net)
-.INCLUDE "src/group1.asm"
+.INCLUDE "group1.asm"
 
 ; .INCDIR "src"
 
-.INCLUDE "src/constants.asm"
-.INCLUDE "src/structs.asm"
-.INCLUDE "src/variables.asm"
+.INCLUDE "constants.asm"
+.INCLUDE "structs.asm"
+.INCLUDE "variables.asm"
 
 .BANK 0 SLOT 0
 .ORG $0000
@@ -487,7 +487,7 @@ initialVDPRegistersWrites:
 ; Write to CRAM at $C0 command
 .db $10 $C0
 
-.INCLUDE "src/decompress.asm"
+.INCLUDE "decompress.asm"
 
 ; Data from 2C4 to 2C4 (1 bytes)
 .db $CF
@@ -1171,7 +1171,7 @@ _LABEL_74C_:
 .db $6A $10 $F3 $C9
 
 ; 1st entry of Jump Table from 3B (indexed by v_gameState)
-.INCLUDE "src/engine/states/title/update.asm"
+.INCLUDE "engine/states/title/update.asm"
 
 ; Data from 824 to 841 (30 bytes)
 initialValues:
@@ -1184,16 +1184,16 @@ initialValues:
 .db $00 $00
 .db $03 $00 $00 $00 $00 $00 $00 $00
 
-.INCLUDE "src/engine/states/title/handleInterrupt.asm"
-.INCLUDE "src/engine/states/title/loadSprites.asm"
-.INCLUDE "src/engine/states/title/createEntities.asm"
-.INCLUDE "src/engine/entity/clearEntities.asm"
-.INCLUDE "src/engine/states/demo/update.asm"
-.INCLUDE "src/engine/states/demo/handleInterrupt.asm"
-.INCLUDE "src/data/demoInputPointers.asm"
-.INCLUDE "src/engine/states/gameplay/update.asm"
-.INCLUDE "src/engine/states/gameplay/handleInterrupt.asm"
-.INCLUDE "src/engine/states/gameplay/init.asm"
+.INCLUDE "engine/states/title/handleInterrupt.asm"
+.INCLUDE "engine/states/title/loadSprites.asm"
+.INCLUDE "engine/states/title/createEntities.asm"
+.INCLUDE "engine/entity/clearEntities.asm"
+.INCLUDE "engine/states/demo/update.asm"
+.INCLUDE "engine/states/demo/handleInterrupt.asm"
+.INCLUDE "data/demoInputPointers.asm"
+.INCLUDE "engine/states/gameplay/update.asm"
+.INCLUDE "engine/states/gameplay/handleInterrupt.asm"
+.INCLUDE "engine/states/gameplay/init.asm"
 
 _LABEL_C43_:
     ld ix, v_entity1
@@ -2814,34 +2814,34 @@ updateLevelCompletedState:
     jp enableDisplay
 
 
-.INCLUDE "src/engine/states/levelStarting/update.asm"
-.INCLUDE "src/engine/states/levelStarting/handleInterrupt.asm"
-.INCLUDE "src/engine/states/levelStarting/init.asm"
+.INCLUDE "engine/states/levelStarting/update.asm"
+.INCLUDE "engine/states/levelStarting/handleInterrupt.asm"
+.INCLUDE "engine/states/levelStarting/init.asm"
 
 
 ; 86th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
-.INCLUDE "src/entities/arrow/update.asm"
+.INCLUDE "entities/arrow/update.asm"
 
 ; 88th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
-.INCLUDE "src/entities/jankensCastle/update.asm"
+.INCLUDE "entities/jankensCastle/update.asm"
 
 ; Data from 1B97 to 1BA6 (16 bytes)
 levelStartingPalette:
 .db $00 $2F $0B $06 $01 $0C $08 $04 $3F $3E $38 $03 $30 $00 $0F $00
 
 ; Data from 1BA7 to 1BC8 (34 bytes)
-.INCLUDE "src/data/mapArrowPositions.asm"
+.INCLUDE "data/mapArrowPositions.asm"
 
 ; 6th entry of Jump Table from 3B (indexed by v_gameState)
-.INCLUDE "src/engine/states/shop/update.asm"
+.INCLUDE "engine/states/shop/update.asm"
 ; 6th entry of Jump Table from 127 (indexed by v_gameState)
-.INCLUDE "src/engine/states/shop/handleInterrupt.asm"
+.INCLUDE "engine/states/shop/handleInterrupt.asm"
 
 ; 12th entry of Jump Table from 3B (indexed by v_gameState)
-.INCLUDE "src/engine/states/map/update.asm"
+.INCLUDE "engine/states/map/update.asm"
 
 ; 12th entry of Jump Table from 127 (indexed by v_gameState)
-.INCLUDE "src/engine/states/map/handleInterrupt.asm"
+.INCLUDE "engine/states/map/handleInterrupt.asm"
 
 _LABEL_264F_:
     ld a, (_RAM_C054_)
@@ -2871,12 +2871,12 @@ _DATA_2674_:
 .db $30 $00 $3F $2A $25 $0F $03 $0B $3C $02 $00 $00 $00 $00 $00 $00
 .db $30 $00 $3F $2A $25 $0F $03 $0B $3C $02 $00 $00 $00 $00 $00 $00
 
-.INCLUDE "src/engine/entity/entity.asm"
+.INCLUDE "engine/entity/entity.asm"
 
-.INCLUDE "src/entities/updatersPointers.asm"
+.INCLUDE "entities/updatersPointers.asm"
 
 ; 1st entry of Jump Table from 2892 (indexed by _RAM_CF80_)
-.INCLUDE "src/entities/alex/updater.asm"
+.INCLUDE "entities/alex/updater.asm"
 
 ; Jump Table from 2982 to 29B9 (28 entries, indexed by v_entities.1.state)
 alexStateHandlersPointers:
@@ -2909,7 +2909,7 @@ alexStateHandlersPointers:
 .dw alexHandler_39D4
 .dw alexHandler_38C2
 
-.INCLUDE "src/entities/alex/updaters/updateSpawning.asm"
+.INCLUDE "entities/alex/updaters/updateSpawning.asm"
 
 _LABEL_2A6E_:
     ld (ix + Entity.animationTimerResetValue), $05
@@ -2929,7 +2929,7 @@ startAutoWalkRight:
     jp loadAlexAnimationDescriptor
 
 ; 2nd entry of Jump Table from 2982 (indexed by v_entities.1.state)
-.INCLUDE "src/entities/alex/updaters/updateAlexIdle.asm"
+.INCLUDE "entities/alex/updaters/updateAlexIdle.asm"
 
 crouch:
     ld (ix + Entity.state), ALEX_CROUCHED
@@ -3474,7 +3474,7 @@ _LABEL_2F41_:
     ret
 
 ; 16th entry of Jump Table from 2982 (indexed by v_entities.1.state)
-.INCLUDE "src/entities/alex/updaters/updateDead.asm"
+.INCLUDE "entities/alex/updaters/updateDead.asm"
 
 ; 9th entry of Jump Table from 2982 (indexed by v_entities.1.state)
 updateAlexRidingMotorcycle:
@@ -4741,7 +4741,7 @@ alexHandler_39D4:
     ld (v_entities.1.ySpeed), hl
     ret
 
-.INCLUDE "src/entities/updateEntity0x62.asm"
+.INCLUDE "entities/updateEntity0x62.asm"
 
 _LABEL_39ED_:
     push bc
@@ -5368,7 +5368,7 @@ _LABEL_3E0B_:
     res 4, (ix+28)
     ret
 
-.INCLUDE "src/entities/updateEntity0x60.asm"
+.INCLUDE "entities/updateEntity0x60.asm"
 
 ; Jump Table from 3E38 to 3E3F (4 entries, indexed by _RAM_CF9A_)
 _DATA_3E38_:
@@ -5437,8 +5437,8 @@ _LABEL_3EA6_:
     call clearEntity
     jp clearCurrentEntity
 
-.INCLUDE "src/entities/updateEntity0x61.asm"
-.INCLUDE "src/entities/updateEntity0x63.asm"
+.INCLUDE "entities/updateEntity0x61.asm"
+.INCLUDE "entities/updateEntity0x63.asm"
 
 ; Jump Table from 3F3A to 3F5B (17 entries, indexed by v_level)
 _DATA_3F3A_:
@@ -6171,7 +6171,7 @@ _LABEL_4415_:
     ret
 
 ; 3rd entry of Jump Table from 2892 (indexed by _RAM_CF80_)
-.INCLUDE "src/entities/updateEntity0x03.asm"
+.INCLUDE "entities/updateEntity0x03.asm"
 
 ; 9th entry of Jump Table from 4523 (indexed by _RAM_C054_)
 _LABEL_4453_:
@@ -6202,8 +6202,8 @@ _LABEL_4453_:
     ld (v_entities.2.unknown7), a
     ret
 
-.INCLUDE "src/entities/updateEntity0x02.asm"
-.INCLUDE "src/entities/updateEntity0x04.asm"
+.INCLUDE "entities/updateEntity0x02.asm"
+.INCLUDE "entities/updateEntity0x04.asm"
 
 _LABEL_44E2_:
     bit 0, (ix+28)
@@ -6433,14 +6433,14 @@ _LABEL_464E_:
 _LABEL_468F_:
     ret
 
-.INCLUDE "src/entities/updateEntity0x05.asm"
-.INCLUDE "src/entities/updateEntity0x06.asm"
-.INCLUDE "src/entities/updateEntity0x07.asm"
+.INCLUDE "entities/updateEntity0x05.asm"
+.INCLUDE "entities/updateEntity0x06.asm"
+.INCLUDE "entities/updateEntity0x07.asm"
 
-.INCLUDE "src/entities/updateEntity0x09.asm"
-.INCLUDE "src/entities/updateEntity0x0A.asm"
+.INCLUDE "entities/updateEntity0x09.asm"
+.INCLUDE "entities/updateEntity0x0A.asm"
 
-.INCLUDE "src/entities/updateEntity0x08.asm"
+.INCLUDE "entities/updateEntity0x08.asm"
 
 ; 6th entry of Jump Table from 4523 (indexed by _RAM_C054_)
 _LABEL_48C5_:
@@ -6486,7 +6486,7 @@ _LABEL_48C5_:
     ld (hl), a
     ret
 
-.INCLUDE "src/entities/updateEntity0x1B.asm"
+.INCLUDE "entities/updateEntity0x1B.asm"
 
 ; Shared
 _LABEL_4944_:
@@ -6521,17 +6521,17 @@ _LABEL_4944_:
     set 6, (ix+20)
     ret
 
-.INCLUDE "src/entities/updateEntity0x14.asm"
+.INCLUDE "entities/updateEntity0x14.asm"
 
-.INCLUDE "src/entities/updateEntity0x10.asm"
-.INCLUDE "src/entities/updateEntity0x11.asm"
-.INCLUDE "src/entities/updateEntity0x12.asm"
-.INCLUDE "src/entities/updateEntity0x13.asm"
+.INCLUDE "entities/updateEntity0x10.asm"
+.INCLUDE "entities/updateEntity0x11.asm"
+.INCLUDE "entities/updateEntity0x12.asm"
+.INCLUDE "entities/updateEntity0x13.asm"
 
-.INCLUDE "src/entities/updateEntity0x16.asm"
-.INCLUDE "src/entities/updateEntity0x17.asm"
+.INCLUDE "entities/updateEntity0x16.asm"
+.INCLUDE "entities/updateEntity0x17.asm"
 
-.INCLUDE "src/entities/updateEntity0x15.asm"
+.INCLUDE "entities/updateEntity0x15.asm"
 
 ; 6th entry of Jump Table from 4237 (indexed by v_nametableChangeRequest)
 _LABEL_4B9E_:
@@ -6643,7 +6643,7 @@ _LABEL_4C23_:
     ret
 
 ; 36th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
-.INCLUDE "src/entities/octopusArm/updater.asm"
+.INCLUDE "entities/octopusArm/updater.asm"
 
 getVelocitiesToPursuitAlex:
     ld c, $00
@@ -6743,31 +6743,31 @@ getVelocitiesToPursuitAlex:
     ret
 
 ; 35th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
-.INCLUDE "src/entities/merman/updater.asm"
+.INCLUDE "entities/merman/updater.asm"
 
 ; 34th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
-.INCLUDE "src/entities/mermanBubbles/updater.asm"
+.INCLUDE "entities/mermanBubbles/updater.asm"
 
 ; 32nd entry of Jump Table from 2892 (indexed by _RAM_CF80_)
-.INCLUDE "src/entities/batLeft/updater.asm"
+.INCLUDE "entities/batLeft/updater.asm"
 
 ; 54th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
-.INCLUDE "src/entities/batRight/updater.asm"
+.INCLUDE "entities/batRight/updater.asm"
 
-.INCLUDE "src/entities/merman/spawnBubbles.asm"
+.INCLUDE "entities/merman/spawnBubbles.asm"
 
 ; 44th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
-.INCLUDE "src/entities/plant/updater.asm"
+.INCLUDE "entities/plant/updater.asm"
 
-.INCLUDE "src/entities/monsterBirdLeft/updater.asm"
-.INCLUDE "src/entities/monsterBirdRight/updater.asm"
+.INCLUDE "entities/monsterBirdLeft/updater.asm"
+.INCLUDE "entities/monsterBirdRight/updater.asm"
 
 ; 48th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
-.INCLUDE "src/entities/smallFishLeft/updater.asm"
-.INCLUDE "src/entities/smallFishRight/updater.asm"
+.INCLUDE "entities/smallFishLeft/updater.asm"
+.INCLUDE "entities/smallFishRight/updater.asm"
 
-.INCLUDE "src/entities/killerFishLeft/updater.asm"
-.INCLUDE "src/entities/killerFishRight/updater.asm"
+.INCLUDE "entities/killerFishLeft/updater.asm"
+.INCLUDE "entities/killerFishRight/updater.asm"
 
 ; Data from 524F to 528E (64 bytes)
 ; Sine table used on bat (at least)
@@ -6789,7 +6789,7 @@ _DATA_52CF_:
 .db $80 $FF $80 $80 $00 $80 $00 $FF $80 $00 $00 $80 $80 $01 $00 $80
 .db $FF $00 $80 $00 $40 $80 $FF $C0
 
-.INCLUDE "src/entities/updateEntity0x25.asm"
+.INCLUDE "entities/updateEntity0x25.asm"
 
 ; Shared
 _LABEL_5357_:
@@ -6797,7 +6797,7 @@ _LABEL_5357_:
     ld (ix+0), $26
     ret
 
-.INCLUDE "src/entities/updateEntity0x26.asm"
+.INCLUDE "entities/updateEntity0x26.asm"
 
 ; Shared
 _LABEL_53C6_:
@@ -6805,10 +6805,10 @@ _LABEL_53C6_:
     res 0, (ix+1)
     ret
 
-.INCLUDE "src/entities/updateEntity0x27.asm"
-.INCLUDE "src/entities/updateEntity0x28.asm"
+.INCLUDE "entities/updateEntity0x27.asm"
+.INCLUDE "entities/updateEntity0x28.asm"
 
-.INCLUDE "src/entities/updateEntity0x4A.asm"
+.INCLUDE "entities/updateEntity0x4A.asm"
 
 ; Shared
 ; - Request boss defeated sfx
@@ -6844,7 +6844,7 @@ _LABEL_5571_:
     ld (ix+15), $00
     ret
 
-.INCLUDE "src/entities/updateEntity0x2A.asm"
+.INCLUDE "entities/updateEntity0x2A.asm"
 
 ; Shared
 _LABEL_55A5_:
@@ -6885,26 +6885,26 @@ _LABEL_55ED_:
     ld hl, _DATA_84ED_
     jp handleEntityAnimation
 
-.INCLUDE "src/entities/updateEntity0x29.asm"
-.INCLUDE "src/entities/updateEntity0x43.asm"
-.INCLUDE "src/entities/smokePuff/updater.asm"
-.INCLUDE "src/entities/updateEntity0x2F.asm"
-.INCLUDE "src/entities/monsterFrog/jumpingUpdater.asm"
+.INCLUDE "entities/updateEntity0x29.asm"
+.INCLUDE "entities/updateEntity0x43.asm"
+.INCLUDE "entities/smokePuff/updater.asm"
+.INCLUDE "entities/updateEntity0x2F.asm"
+.INCLUDE "entities/monsterFrog/jumpingUpdater.asm"
 
-.INCLUDE "src/engine/entity/earnEntityPoints.asm"
+.INCLUDE "engine/entity/earnEntityPoints.asm"
 
-.INCLUDE "src/data/entityPoints.asm"
+.INCLUDE "data/entityPoints.asm"
 
-.INCLUDE "src/entities/seaHorseLeft/updater.asm"
-.INCLUDE "src/entities/seaHorseRight/updater.asm"
-.INCLUDE "src/entities/debrisTopLeft/updater.asm"
-.INCLUDE "src/entities/updateEntity0x39.asm"
-.INCLUDE "src/entities/updateEntity0x3A.asm"
-.INCLUDE "src/entities/updateEntity0x3B.asm"
-.INCLUDE "src/entities/moneyBag/updater.asm"
-.INCLUDE "src/entities/updateEntity0x4D.asm"
-.INCLUDE "src/entities/powerBracelet/updater.asm"
-.INCLUDE "src/entities/ghost/updater.asm"
+.INCLUDE "entities/seaHorseLeft/updater.asm"
+.INCLUDE "entities/seaHorseRight/updater.asm"
+.INCLUDE "entities/debrisTopLeft/updater.asm"
+.INCLUDE "entities/updateEntity0x39.asm"
+.INCLUDE "entities/updateEntity0x3A.asm"
+.INCLUDE "entities/updateEntity0x3B.asm"
+.INCLUDE "entities/moneyBag/updater.asm"
+.INCLUDE "entities/updateEntity0x4D.asm"
+.INCLUDE "entities/powerBracelet/updater.asm"
+.INCLUDE "entities/ghost/updater.asm"
 
 _LABEL_5B90_:
     ld iy, v_entities.27
@@ -6934,7 +6934,7 @@ _LABEL_5B90_:
     ret
 
 ; 68th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
-.INCLUDE "src/entities/riceBall/updater.asm"
+.INCLUDE "entities/riceBall/updater.asm"
 
 _LABEL_5C01_:
     ex af, af'
@@ -6957,10 +6957,10 @@ _LABEL_5C01_:
 ; Data from 5C27 to 5C35 (15 bytes)
 .db $FD $21 $40 $C6 $FD $36 $00 $44 $FD $72 $0E $FD $73 $0C $C9
 
-.INCLUDE "src/entities/updateEntity0x46.asm"
-.INCLUDE "src/entities/updateEntity0x47.asm"
-.INCLUDE "src/entities/updateEntity0x48.asm"
-.INCLUDE "src/entities/updateEntity0x49.asm"
+.INCLUDE "entities/updateEntity0x46.asm"
+.INCLUDE "entities/updateEntity0x47.asm"
+.INCLUDE "entities/updateEntity0x48.asm"
+.INCLUDE "entities/updateEntity0x49.asm"
 
 _LABEL_5D7B_:
     jp _LABEL_555C_
@@ -6973,22 +6973,22 @@ _DATA_5D7E_:
 _DATA_5D8C_:
 .dw _DATA_8022_ _DATA_8111_ _DATA_8120_ _DATA_8102_
 
-.INCLUDE "src/entities/updateEntity0x3D.asm"
-.INCLUDE "src/entities/flameOrScorpionLeft/updater.asm"
-.INCLUDE "src/entities/flameOrScorpionRight/updater.asm"
-.INCLUDE "src/entities/updateEntity0x40.asm"
-.INCLUDE "src/entities/updateEntity0x41.asm"
-.INCLUDE "src/entities/updateEntity0x42.asm"
-.INCLUDE "src/entities/updateEntity0x51.asm"
-.INCLUDE "src/entities/updateEntity0x50.asm"
-.INCLUDE "src/entities/saintNurari/updater.asm"
-.INCLUDE "src/entities/updateEntity0x52.asm"
-.INCLUDE "src/entities/updateEntity0x53.asm"
-.INCLUDE "src/entities/updateNametableChanger.asm"
-.INCLUDE "src/entities/updateEntity0x4C.asm"
-.INCLUDE "src/entities/updateEntity0x54.asm"
-.INCLUDE "src/entities/updateEntity0x55.asm"
-.INCLUDE "src/entities/updateEntity0x57.asm"
+.INCLUDE "entities/updateEntity0x3D.asm"
+.INCLUDE "entities/flameOrScorpionLeft/updater.asm"
+.INCLUDE "entities/flameOrScorpionRight/updater.asm"
+.INCLUDE "entities/updateEntity0x40.asm"
+.INCLUDE "entities/updateEntity0x41.asm"
+.INCLUDE "entities/updateEntity0x42.asm"
+.INCLUDE "entities/updateEntity0x51.asm"
+.INCLUDE "entities/updateEntity0x50.asm"
+.INCLUDE "entities/saintNurari/updater.asm"
+.INCLUDE "entities/updateEntity0x52.asm"
+.INCLUDE "entities/updateEntity0x53.asm"
+.INCLUDE "entities/updateNametableChanger.asm"
+.INCLUDE "entities/updateEntity0x4C.asm"
+.INCLUDE "entities/updateEntity0x54.asm"
+.INCLUDE "entities/updateEntity0x55.asm"
+.INCLUDE "entities/updateEntity0x57.asm"
 
 ; Pointer Table from 6422 to 6435 (10 entries, indexed by _RAM_CF83_)
 _DATA_6422_:
@@ -7368,7 +7368,7 @@ _LABEL_6671_:
     set 7, (hl)
     jr -
 
-.INCLUDE "src/data/levels/descriptors.asm"
+.INCLUDE "data/levels/descriptors.asm"
 
 _LABEL_67C4_:
     ld de, (v_horizontalScrollSpeed)
@@ -7998,13 +7998,13 @@ _LABEL_6BEF_:
     jp _LABEL_6BEF_
 
 ; 7th entry of Jump Table from 3B (indexed by v_gameState)
-.INCLUDE "src/engine/states/lifeLost/update.asm"
+.INCLUDE "engine/states/lifeLost/update.asm"
 
 ; 7th entry of Jump Table from 127 (indexed by v_gameState)
 handleInterruptLifeLostState:
     ret
 
-.INCLUDE "src/engine/states/lifeLost/updateAdditional.asm"
+.INCLUDE "engine/states/lifeLost/updateAdditional.asm"
 
 loadNewEntities:
     ld hl, (newEntitiesLoaderPointer)
@@ -8291,7 +8291,7 @@ _DATA_7128_:
 .db $30 $98 $36 $01
 .db $38 $98 $2E $01
 
-.INCLUDE "src/entities/updateJanken.asm"
+.INCLUDE "entities/updateJanken.asm"
 
 ; - Increment state (0x0 to 0x1: updateOpponentMakeAlexGetIntoPosition)
 ; - Maybe set opponent sprite descriptor pointer
@@ -8884,7 +8884,7 @@ updateOpponentPatchNametable:
 updateOpponentNop:
     ret
 
-.INCLUDE "src/entities/updateEntity0x19.asm"
+.INCLUDE "entities/updateEntity0x19.asm"
 
 ; Jump Table from 74DF to 74EA (6 entries, indexed by _RAM_CF9A_)
 _DATA_74DF_:
@@ -9071,7 +9071,7 @@ drawThoughtClouds:
     djnz @lineLoop
     ret
 
-.INCLUDE "src/entities/updateEntity0x0B.asm"
+.INCLUDE "entities/updateEntity0x0B.asm"
 
 ; Pointer Table from 763B to 7640 (3 entries, indexed by _RAM_CF97_)
 _DATA_763B_:
@@ -9256,10 +9256,10 @@ goosekaNametableChanges:
 .db $04 $C9 $75 $8B
 .db $8C $CD $65 $8A
 
-.INCLUDE "src/entities/updateGooseka.asm"
-.INCLUDE "src/entities/updateChokkinna.asm"
-.INCLUDE "src/entities/updateChokkinnaSpell.asm"
-.INCLUDE "src/entities/updateParplin.asm"
+.INCLUDE "entities/updateGooseka.asm"
+.INCLUDE "entities/updateChokkinna.asm"
+.INCLUDE "entities/updateChokkinnaSpell.asm"
+.INCLUDE "entities/updateParplin.asm"
 
 ; Clear entities, reset sound, load janken match tiles
 prepareForJankenMatch:
@@ -9325,8 +9325,8 @@ restoreSomeNametableStuff_LABEL_796D_:
 
     ret
 
-.INCLUDE "src/entities/updateEntity0x0C.asm"
-.INCLUDE "src/entities/updateGoosekaHead.asm"
+.INCLUDE "entities/updateEntity0x0C.asm"
+.INCLUDE "entities/updateGoosekaHead.asm"
 
 _LABEL_7A40_:
     pop af
@@ -9364,8 +9364,8 @@ updateOpponentHeadState3:
     ld (v_entities.7.xSpeed), hl
     ret
 
-.INCLUDE "src/entities/updateChokkinnaHead.asm"
-.INCLUDE "src/entities/updateParplinHead.asm"
+.INCLUDE "entities/updateChokkinnaHead.asm"
+.INCLUDE "entities/updateParplinHead.asm"
 
 getTileNearEntityWithXYOffset:
     ld a, (ix + Entity.xPos.high)
@@ -9473,7 +9473,7 @@ _LABEL_7CBC_:
     ret z
 
 
-.INCLUDE "src/engine/entity/checkEntityCollision.asm"
+.INCLUDE "engine/entity/checkEntityCollision.asm"
 
 
 checkAlexEntityCollision_LABEL_7D0B_:
@@ -9591,19 +9591,19 @@ killAlexIfColliding:
 doNotKillAlex:
     ret
 
-.INCLUDE "src/engine/states/textbox/update.asm"
-.INCLUDE "src/engine/states/textbox/handleInterrupt.asm"
+.INCLUDE "engine/states/textbox/update.asm"
+.INCLUDE "engine/states/textbox/handleInterrupt.asm"
 
 .BANK 1 SLOT 1
 .ORG $0000
 
 ; ROM header from 7FF0 to 7FFF (16 bytes)
-.INCLUDE "src/header.asm"
+.INCLUDE "header.asm"
 
 .BANK 2
 .ORG $0000
 
-.INCLUDE "src/data/spriteDescriptors.asm"
+.INCLUDE "data/spriteDescriptors.asm"
 
 ; Data from 97DD to 97FF (35 bytes)
 _DATA_97DD_:
@@ -9624,4 +9624,4 @@ _DATA_9800_:
 
 .ORG $1ECD
 
-.INCLUDE "src/data.asm"
+.INCLUDE "data.asm"

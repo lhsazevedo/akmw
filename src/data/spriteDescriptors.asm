@@ -39,7 +39,7 @@ _DATA_8065_:
 .db $04 $88 $00 $00 $08 $08 $00 $59 $08 $5A $00 $5B $08 $5C
 
 ; Data from 8073 to 80C4 (82 bytes)
-.INCLUDE "src/entities/jankensCastle/sprites.asm"
+.INCLUDE "entities/jankensCastle/sprites.asm"
 
 ; 2nd entry of Pointer Table from 6422 (indexed by _RAM_CF83_)
 ; Data from 80C5 to 80D2 (14 bytes)
@@ -158,8 +158,8 @@ _DATA_8191_:
 .db $F9 $52 $01 $53 $09 $54
 
 ; FIXME> Move entities sprite descriptors to data
-.INCLUDE "src/entities/monsterBirdLeft/sprites.asm"
-.INCLUDE "src/entities/monsterBirdRight/sprites.asm"
+.INCLUDE "entities/monsterBirdLeft/sprites.asm"
+.INCLUDE "entities/monsterBirdRight/sprites.asm"
 
 ; Data from 8211 to 8211 (1 bytes)
 _DATA_8211_:
@@ -269,7 +269,7 @@ _DATA_8331_:
 .db $05 $9C $0D $9D $06 $00 $08 $08 $10 $10 $18 $18 $04 $98 $0C $99
 .db $04 $9E $0C $9F $05 $9C $0D $9D
 
-.INCLUDE "src/entities/moneyBag/sprites.asm"
+.INCLUDE "entities/moneyBag/sprites.asm"
 
 ; Data from 8372 to 8372 (1 bytes)
 _DATA_8372_:
@@ -686,7 +686,7 @@ _DATA_89C8_:
 .db $08 $9F $08 $9F $08 $9F $08 $9F $08 $9F $08 $9F $08 $9F $08 $9F
 
 ; Data from 8A18 to 8A18 (1 bytes)
-.INCLUDE "src/entities/arrow/sprites.asm"
+.INCLUDE "entities/arrow/sprites.asm"
 
 ; 5th entry of Pointer Table from 6422 (indexed by _RAM_CF83_)
 ; Data from 8A27 to 8A34 (14 bytes)
@@ -789,7 +789,7 @@ _DATA_8BCA_:
 .db $02 $C8 $00 $00 $02 $BC $0A $BD
 
 ; Data from 8BD2 to 8BD2 (1 bytes)
-.INCLUDE "src/entities/smallFishLeft/sprites.asm"
+.INCLUDE "entities/smallFishLeft/sprites.asm"
 
 ; Data from 8BF3 to 8BF3 (1 bytes)
 _DATA_8BF3_:
@@ -815,16 +815,16 @@ _DATA_8C0E_:
 
 ; 7th entry of Pointer Table from 6422 (indexed by _RAM_CF83_)
 ; Data from 8C1C to 8C29 (14 bytes)
-.INCLUDE "src/entities/powerBracelet/sprites.asm"
+.INCLUDE "entities/powerBracelet/sprites.asm"
 
 ; Data from 8C2A to 8C2A (1 bytes)
-.INCLUDE "src/entities/ghost/spritesLeft.asm"
+.INCLUDE "entities/ghost/spritesLeft.asm"
 
 ; Data from 8C4B to 8C4B (1 bytes)
-.INCLUDE "src/entities/smallFishRight/sprites.asm"
+.INCLUDE "entities/smallFishRight/sprites.asm"
 
 ; Data from 8C6C to 8C6C (1 bytes)
-.INCLUDE "src/entities/ghost/spritesRight.asm"
+.INCLUDE "entities/ghost/spritesRight.asm"
 
 ; Data from 8CC7 to 8CE5 (31 bytes)
 riceBallSpriteDescriptor:
