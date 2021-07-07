@@ -16,4 +16,4 @@ updateEntity0x4C:
     ret c
     ld a, $08
     ld (v_gameState), a
-    jp clearCurrentEntity
+    jp destroyCurrentEntity

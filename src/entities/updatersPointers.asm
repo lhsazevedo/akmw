@@ -76,7 +76,7 @@ entityTypeJumpTable:
 .dw updateEntity0x4A
 .dw updateNametableChanger
 .dw updateEntity0x4C
-.dw updateEntity0x4D
+.dw updateLife
 .dw updatePowerBracelet
 .dw updateGhost
 .dw updateEntity0x50

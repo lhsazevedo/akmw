@@ -32,5 +32,5 @@ updateEntity0x06:
     and $02
     ld (iy+20), a
     dec (ix + Entity.unknown10)
-    jp z, clearCurrentEntity
+    jp z, destroyCurrentEntity
     ret

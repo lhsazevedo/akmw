@@ -810,7 +810,7 @@ _DATA_8C03_:
 
 ; 6th entry of Pointer Table from 6422 (indexed by _RAM_CF83_)
 ; Data from 8C0E to 8C1B (14 bytes)
-_DATA_8C0E_:
+lifeSpriteDescriptor:
 .db $04 $64 $00 $00 $08 $08 $00 $2E $08 $2F $00 $30 $08 $31
 
 ; 7th entry of Pointer Table from 6422 (indexed by _RAM_CF83_)

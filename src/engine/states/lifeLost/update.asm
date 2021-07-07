@@ -34,7 +34,7 @@ updateLifeLostState:
     ld de, $0020
     ld b, $05
 -:    
-    call clearCurrentEntity
+    call destroyCurrentEntity
     add ix, de
     djnz -
 
@@ -43,7 +43,7 @@ updateLifeLostState:
     ld de, $0020
     ld b, $0C
 -:
-    call clearCurrentEntity
+    call destroyCurrentEntity
     add ix, de
     djnz -
 
@@ -59,7 +59,7 @@ updateLifeLostState:
     ld hl, _DATA_6F30_ - 2
     rst $10    ; loadAthPointer
     exx
-    call clearCurrentEntity
+    call destroyCurrentEntity
     exx
     ld b, e
     ld a, (hl)
@@ -171,7 +171,7 @@ _LABEL_6D26_:
     ld de, $0020
     ld b, ENTITY_ARRAY_SIZE
 -:
-    call clearCurrentEntity
+    call destroyCurrentEntity
     add ix, de
     djnz -
     ld a, $0A

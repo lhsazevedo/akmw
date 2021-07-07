@@ -13,7 +13,7 @@ updateEntity0x63:
     ld (v_pointerToANametableEntry_RAM_C206_), hl
     ld hl, _RAM_CC08_
     ld (_RAM_C204_), hl
-    jp clearCurrentEntity
+    jp destroyCurrentEntity
 
 +:
     ld (ix + Entity.spriteDescriptorPointer.low), <nullSpriteDescriptor_DATA_80E1_

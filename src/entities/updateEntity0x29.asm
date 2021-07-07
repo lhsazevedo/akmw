@@ -17,5 +17,5 @@ updateEntity0x29:
 +:
     ld a, (ix + Entity.isOffScreenFlags.low)
     or (ix + Entity.isOffScreenFlags.high)
-    jp nz, clearCurrentEntity
+    jp nz, destroyCurrentEntity
     jp tryToKillAlexIfColliding

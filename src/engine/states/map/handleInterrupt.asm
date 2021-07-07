@@ -115,11 +115,11 @@ _LABEL_1FE9_:
     call _LABEL_2A6E_
 +:
     ld ix, _RAM_CF80_
-    call clearCurrentEntity
+    call destroyCurrentEntity
     ld ix, _RAM_CFA0_
-    call clearCurrentEntity
+    call destroyCurrentEntity
     ld ix, _RAM_CFC0_
-    call clearCurrentEntity
+    call destroyCurrentEntity
     ld ix, $C300
     call updateEntities
     call _LABEL_67C4_
@@ -709,7 +709,7 @@ _LABEL_25D3_:
     ld b, $03
     ld de, $0020
 -:
-    call clearCurrentEntity
+    call destroyCurrentEntity
     add ix, de
     djnz -
     call updateEntities

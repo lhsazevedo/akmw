@@ -29,7 +29,7 @@ updateMoneyBag:
     ; Destroy if offscreen
     ld a, (ix + Entity.isOffScreenFlags.low)
     or (ix + Entity.isOffScreenFlags.high)
-    jp nz, clearCurrentEntity
+    jp nz, destroyCurrentEntity
 
     ; Take money if colliding with Alex
     ld iy, v_entity1
@@ -41,10 +41,10 @@ updateMoneyBag:
     ; Play money bag sound
     ld a, SOUND_COINS
     ld (v_soundControl), a
-    jp clearCurrentEntity
+    jp destroyCurrentEntity
 
 +:
     ; Decrement timer
     dec (ix + Entity.jankenMatchDecision)
-    jp z, clearCurrentEntity
+    jp z, destroyCurrentEntity
     ret

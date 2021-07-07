@@ -151,7 +151,7 @@ _LABEL_4D67_:
     ld a, (ix + Entity.isOffScreenFlags.low)
     ld (_RAM_C0FB_), a
     cp $01
-    jp z, clearCurrentEntity
+    jp z, destroyCurrentEntity
     ret
 
 _LABEL_4D92_:

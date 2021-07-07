@@ -8,7 +8,7 @@ updateEntity0x52:
     rst $10    ; loadAthPointer
     ld a, (hl)
     or a
-    jp nz, clearCurrentEntity
+    jp nz, destroyCurrentEntity
     ld a, (ix + Entity.data)
     ld hl, _DATA_6422_
     rst $10    ; loadAthPointer
@@ -38,7 +38,7 @@ updateEntity0x52:
     ld hl, _DATA_6436_
     rst $10    ; loadAthPointer
     set 0, (hl)
-    jp clearCurrentEntity
+    jp destroyCurrentEntity
 
 +:
     ld hl, v_lives
@@ -46,7 +46,7 @@ updateEntity0x52:
     add a, $01
     daa
     ld (hl), a
-    jp clearCurrentEntity
+    jp destroyCurrentEntity
 
 ++:
     ld a, $08

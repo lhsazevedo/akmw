@@ -13,13 +13,13 @@ updateSmokePuff:
 +:
     ld a, (ix + Entity.isOffScreenFlags.low)
     or (ix + Entity.isOffScreenFlags.high)
-    jp nz, clearCurrentEntity
+    jp nz, destroyCurrentEntity
     ld a, (ix + Entity.animationFrame)
     cp $01
     jr nz, +
     ld a, (ix + Entity.animationTimer)
     cp $01
-    jp z, clearCurrentEntity
+    jp z, destroyCurrentEntity
 +:
     ld hl, _DATA_8170_
     jp handleEntityAnimation

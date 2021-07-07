@@ -14,7 +14,7 @@ updateEntity0x43:
 +:
     ld a, (ix + Entity.isOffScreenFlags.low)
     or (ix + Entity.isOffScreenFlags.high)
-    jp nz, clearCurrentEntity
+    jp nz, destroyCurrentEntity
     ld a, (ix + Entity.animationFrame)
     cp $03
     jr nz, +
@@ -30,7 +30,7 @@ updateEntity0x43:
     ld (_RAM_C07F_), a
     ld a, (ix + Entity.unknown1)
     or a
-    jp z, clearCurrentEntity
+    jp z, destroyCurrentEntity
     res 0, (ix + Entity.flags)
     ld (ix + Entity.type), $44
     ret

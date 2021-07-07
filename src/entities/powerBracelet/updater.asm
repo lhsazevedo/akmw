@@ -18,7 +18,7 @@ updatePowerBracelet:
     ; Destroy if offscreen
     ld a, (ix + Entity.isOffScreenFlags.low)
     or (ix + Entity.isOffScreenFlags.high)
-    jp nz, clearCurrentEntity
+    jp nz, destroyCurrentEntity
 
     ; Do not pickup if it isn't colliding with Alex
     ld iy, v_entity1
@@ -32,10 +32,10 @@ updatePowerBracelet:
     ld (v_hasPowerBracelet), a
     ld hl, v_powerBraceletsPickedUpCounter
     inc (hl)
-    jp clearCurrentEntity
+    jp destroyCurrentEntity
 
 +:
     ; Tick timer, deleting when it reaches zero
     dec (ix + Entity.jankenMatchDecision)
-    jp z, clearCurrentEntity
+    jp z, destroyCurrentEntity
     ret

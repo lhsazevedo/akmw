@@ -26,4 +26,4 @@ updateEntity0x08:
     ld (hl), a
     xor a
     ld (_RAM_C054_), a
-    jp clearCurrentEntity
+    jp destroyCurrentEntity

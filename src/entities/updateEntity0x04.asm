@@ -6,4 +6,4 @@ updateEntity0x04:
     ld a, (hl)
     and $F6
     ld (hl), a
-    jp clearCurrentEntity
+    jp destroyCurrentEntity

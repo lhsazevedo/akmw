@@ -4,7 +4,7 @@ updateEntity0x51:
     jp nz, _LABEL_603E_
     ld a, (_RAM_D800_)
     or a
-    jp nz, clearCurrentEntity
+    jp nz, destroyCurrentEntity
     bit 1, (ix + Entity.flags)
     jr nz, ++
     ld (ix + Entity.spriteDescriptorPointer.low), <_DATA_830B_

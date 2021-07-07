@@ -122,6 +122,6 @@ _LABEL_485A_:
     xor a
     ld (_RAM_C054_), a
 +:
-    call clearCurrentEntity
+    call destroyCurrentEntity
     or a
     ret

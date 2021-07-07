@@ -87,7 +87,7 @@ updateNametableChanger:
     inc (ix + NabetableChanger.updatesCount)
     ld a, (v_unknownEntityByteCount_RAM_D8A0_)
     cp (ix + NabetableChanger.updatesCount)
-    jp c, clearCurrentEntity
+    jp c, destroyCurrentEntity
 
     ; Request change
     ld a, $80
@@ -127,4 +127,4 @@ updateNametableChanger:
     ret c
     ld hl, _RAM_C07F_
     inc (hl)
-    jp clearCurrentEntity
+    jp destroyCurrentEntity

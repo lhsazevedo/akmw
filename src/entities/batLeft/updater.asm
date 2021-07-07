@@ -17,7 +17,7 @@ updateBatLeft:
     ; Destroy if offscreen
     ld a, (ix + Entity.isOffScreenFlags.low)
     or (ix + Entity.isOffScreenFlags.high)
-    jp nz, clearCurrentEntity
+    jp nz, destroyCurrentEntity
 
     set 1, (ix + Entity.flags)
     ld (ix + Entity.xSpeed.high), $FF
@@ -71,7 +71,7 @@ bat_LABEL_4F43_:
     add a, h
     ; @TODO: Clear if offscreen?
     cp $C0
-    jp nc, clearCurrentEntity
+    jp nc, destroyCurrentEntity
     ld (ix + Entity.yPos.high), a
 
 _LABEL_4F7C_:

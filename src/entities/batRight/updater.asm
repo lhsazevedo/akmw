@@ -1,7 +1,7 @@
 updateBatRight:
     ld a, (ix + Entity.isOffScreenFlags.low)
     or (ix + Entity.isOffScreenFlags.high)
-    jp nz, clearCurrentEntity
+    jp nz, destroyCurrentEntity
     call tryToKillAlexIfColliding
     call checkAlexEntityCollision_LABEL_7D0B_
     jp nc, _LABEL_55A5_

@@ -13,7 +13,7 @@ updateGhost:
     ; Clear if offscreen
     ld a, (ix + Entity.isOffScreenFlags.low)
     or (ix + Entity.isOffScreenFlags.high)
-    jp nz, clearCurrentEntity
+    jp nz, destroyCurrentEntity
 
     ; Wait before start moving
     bit 1, (ix + Entity.flags)

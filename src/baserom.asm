@@ -1195,170 +1195,6 @@ initialValues:
 .INCLUDE "engine/states/gameplay/handleInterrupt.asm"
 .INCLUDE "engine/states/gameplay/init.asm"
 
-_LABEL_C43_:
-    ld ix, v_entity1
-    ld (ix + Entity.type), ENTITY_ALEX
-
-    ld a, (v_level)
-    add a, a
-    ld c, a
-    ld b, $00
-    ld hl, startingPositions - 2
-    add hl, bc
-    ld a, (hl)
-    ld (ix + Entity.xPos.high), a
-    inc hl
-    ld a, (hl)
-    ld (ix + Entity.yPos.high), a
-
-    call updateAlexSpawning
-    call updateEntities
-
-    ld a, (v_level)
-    ld hl, paletteUpdaters - 2
-    call loadAthPointer
-    ld (paletteUpdaterPointer), hl
-
-    ; @TODO: ???
-    ld hl, _DATA_156D_ - 2
-    ld a, (v_level)
-    add a, a
-    ld e, a
-    ld d, $00
-    add hl, de
-    ld a, (hl)
-    inc hl
-    ld h, (hl)
-    ld l, a
-    ld (v_titleScreenTileUpdaterPointer), hl
-    ld a, $01
-    ld (v_titleScreenTileUpdateTimer), a
-
-    ld a, (v_level)
-    ld hl, scrollFlagsUpdaters - 2
-    call loadAthPointer
-    ld (scrollFlagsUpdaterPointer), hl
-
-    ; @TODO: Maybe change to entitySpawner
-    ld a, (v_level)
-    ld hl, levelEntityLoaders - 2
-    call loadAthPointer
-    ld (newEntitiesLoaderPointer), hl
-
-    ; @TODO: Understand v_questionMarkBoxIndex better
-    ld a, (v_level)
-    ld c, a
-    ld b, $00
-    ld hl, _DATA_E30_ - 1
-    add hl, bc
-    ld a, (hl)
-    ld (v_questionMarkBoxIndex), a
-
-    ld a, $80 | :_DATA_1EFC9_
-    ld (Mapper_Slot2), a
-
-    ; Load Ghost left tiles
-    ld hl, _DATA_1EFC9_
-    ld de, $6400
-    ld bc, $00E0
-    call writeBcBytesToVRAM
-
-    ; Load Ghost right tiles
-    ld hl, _DATA_1EFC9_
-    ld bc, $00E0
-    call _LABEL_2C5_
-
-    ; Load 1up tiles
-    ld a, $80 | :_DATA_17191_
-    ld (Mapper_Slot2), a
-    ld hl, _DATA_17191_
-    ld de, $65C0
-    ld bc, $0080
-    call writeBcBytesToVRAM
-
-    ; Load Power Bracelet tiles
-    ld hl, _DATA_170B1_
-    ld de, $6640
-    ld bc, $0060
-    call writeBcBytesToVRAM
-    ld hl, _DATA_170F1_
-    ld bc, $0020
-    call _LABEL_2C5_
-
-    ld a, $82
-    ld (Mapper_Slot2), a
-    ld a, (v_level)
-    ld c, a
-    ld b, $00
-    ld hl, levelSongs - 1
-    add hl, bc
-    ld a, (hl)
-    ld (v_soundControl), a
-
-    ld hl, v_gameState
-    set STATE_TEXT_BOX, (hl)
-    ei
-    jp enableDisplay
-
-; Jump Table from D0A to D2B (17 entries, indexed by v_level)
-scrollFlagsUpdaters:
-.dw _LABEL_6462_ _LABEL_6462_ _LABEL_657B_ _LABEL_6462_ _LABEL_6539_ _LABEL_6462_ _LABEL_6462_ _LABEL_6462_
-.dw _LABEL_6539_ _LABEL_6462_ _LABEL_647D_ _LABEL_6462_ _LABEL_6462_ _LABEL_6462_ _LABEL_6462_ _LABEL_647D_
-.dw _LABEL_6462_
-
-; Jump Table from D2C to D4D (17 entries, indexed by v_level)
-paletteUpdaters:
-.dw _LABEL_1089_ _LABEL_10DE_ _LABEL_1089_ _LABEL_10E1_ _LABEL_1089_ _LABEL_10E4_ _LABEL_10E7_ _LABEL_10EA_
-.dw _LABEL_1089_ _LABEL_10ED_ _LABEL_10F0_ _LABEL_10F3_ _LABEL_10F6_ _LABEL_10F9_ _LABEL_10FC_ _LABEL_1089_
-.dw _LABEL_1089_
-
-; Jump Table from D4E to D6F (17 entries, indexed by v_level)
-levelEntityLoaders:
-.dw loadEntitiesNormal_LABEL_6F48_
-.dw loadEntitiesNormal_LABEL_6F48_
-.dw loadEntitiesNormal_LABEL_6F48_
-.dw loadEntitiesNormal_LABEL_6F48_
-.dw loadEntitiesNormal_LABEL_6F48_
-.dw loadEntitiesNormal_LABEL_6F48_
-.dw loadEntitiesNormal_LABEL_6F48_
-.dw loadEntitiesNormal_LABEL_6F48_
-.dw loadEntitiesNormal_LABEL_6F48_
-.dw loadEntitiesNormal_LABEL_6F48_
-.dw loadEntitiesSpecial_LABEL_6F48_
-.dw loadEntitiesNormal_LABEL_6F48_
-.dw loadEntitiesNormal_LABEL_6F48_
-.dw loadEntitiesNormal_LABEL_6F48_
-.dw loadEntitiesNormal_LABEL_6F48_
-.dw loadEntitiesSpecial_LABEL_6F48_
-.dw loadEntitiesNormal_LABEL_6F48_
-
-; Data from D70 to DA2 (51 bytes)
-_DATA_D70_:
-.db $00 $00 $00 $60 $54 $CC $72 $5C $CC $00 $00 $00 $42 $40 $C9 $90
-.db $20 $CC $00 $00 $00 $30 $08 $CC $00 $00 $00 $70 $18 $CC $00 $00
-.db $00 $50 $D0 $C9 $00 $00 $00 $00 $00 $00 $50 $10 $CC $00 $00 $00
-.db $00 $00 $00
-
-startingPositions:
-; X position / Y position
-.db $20 $58
-.db $20 $88
-.db $40 $20
-.db $1B $90
-.db $20 $70
-.db $20 $88
-.db $20 $88
-.db $20 $88
-.db $20 $88
-.db $20 $88
-.db $20 $88
-.db $20 $88
-.db $E8 $70
-.db $20 $88
-.db $20 $88
-.db $20 $88
-.db $10 $88
-
 ; Data from DC5 to DD6 (18 bytes)
 levelSongs:
 .db SOUND_BASE_SONG
@@ -1380,22 +1216,116 @@ levelSongs:
 .db SOUND_BASE_SONG
 .db SOUND_BASE_SONG
 
-; Data from DD7 to E1E (72 bytes)
-_DATA_DD7_:
-.db $4D $4E $4F $4D $4E $4F $4D $4E $4F $4D $4E $4F $4D $4E $4F $4D
-.db $4E $4F $4D $4E $4F $4D $4E $4F $4D $4E $4F $4D $4E $4F $4D $4E
-.db $4F $4D $4E $4F $4D $4E $4F $4D $4E $4F $4D $4E $4F $4D $4E $4F
-.db $4D $4E $4F $4D $4E $4F $4D $4E $4F $4D $4E $4F $4D $4E $4F $4D
-.db $4E $4F $4D $4E $4F $4D $4E $4F
+questionMarkBoxItems:
+.db ENTITY_LIFE
+.db ENTITY_POWER_BRACELET
+.db ENTITY_GHOST
+.db ENTITY_LIFE
+.db ENTITY_POWER_BRACELET
+.db ENTITY_GHOST
+.db ENTITY_LIFE
+.db ENTITY_POWER_BRACELET
+.db ENTITY_GHOST
+.db ENTITY_LIFE
+.db ENTITY_POWER_BRACELET
+.db ENTITY_GHOST
+.db ENTITY_LIFE
+.db ENTITY_POWER_BRACELET
+.db ENTITY_GHOST
+.db ENTITY_LIFE
+.db ENTITY_POWER_BRACELET
+.db ENTITY_GHOST
+.db ENTITY_LIFE
+.db ENTITY_POWER_BRACELET
+.db ENTITY_GHOST
+.db ENTITY_LIFE
+.db ENTITY_POWER_BRACELET
+.db ENTITY_GHOST
+.db ENTITY_LIFE
+.db ENTITY_POWER_BRACELET
+.db ENTITY_GHOST
+.db ENTITY_LIFE
+.db ENTITY_POWER_BRACELET
+.db ENTITY_GHOST
+.db ENTITY_LIFE
+.db ENTITY_POWER_BRACELET
+.db ENTITY_GHOST
+.db ENTITY_LIFE
+.db ENTITY_POWER_BRACELET
+.db ENTITY_GHOST
+.db ENTITY_LIFE
+.db ENTITY_POWER_BRACELET
+.db ENTITY_GHOST
+.db ENTITY_LIFE
+.db ENTITY_POWER_BRACELET
+.db ENTITY_GHOST
+.db ENTITY_LIFE
+.db ENTITY_POWER_BRACELET
+.db ENTITY_GHOST
+.db ENTITY_LIFE
+.db ENTITY_POWER_BRACELET
+.db ENTITY_GHOST
+.db ENTITY_LIFE
+.db ENTITY_POWER_BRACELET
+.db ENTITY_GHOST
+.db ENTITY_LIFE
+.db ENTITY_POWER_BRACELET
+.db ENTITY_GHOST
+.db ENTITY_LIFE
+.db ENTITY_POWER_BRACELET
+.db ENTITY_GHOST
+.db ENTITY_LIFE
+.db ENTITY_POWER_BRACELET
+.db ENTITY_GHOST
+.db ENTITY_LIFE
+.db ENTITY_POWER_BRACELET
+.db ENTITY_GHOST
+.db ENTITY_LIFE
+.db ENTITY_POWER_BRACELET
+.db ENTITY_GHOST
+.db ENTITY_LIFE
+.db ENTITY_POWER_BRACELET
+.db ENTITY_GHOST
+.db ENTITY_LIFE
+.db ENTITY_POWER_BRACELET
+.db ENTITY_GHOST
 
-; Data from E1F to E2F (17 bytes)
-_DATA_E1F_:
-.db $00 $00 $00 $00 $09 $00 $00 $00 $01 $00 $00 $00 $09 $00 $00 $00
+levelSpawnStates:
+.db $00
+.db $00
+.db $00
+.db $00
+.db $09
+.db $00
+.db $00
+.db $00
+.db $01
+.db $00
+.db $00
+.db $00
+.db $09
+.db $00
+.db $00
+.db $00
 .db $00
 
-; Data from E30 to E40 (17 bytes)
-_DATA_E30_:
-.db $01 $02 $03 $04 $05 $06 $07 $08 $02 $0A $0B $0C $0D $0E $0F $10
+levelQuestionMarkBoxIndexes:
+.db $01
+.db $02
+.db $03
+.db $04
+.db $05
+.db $06
+.db $07
+.db $08
+.db $02
+.db $0A
+.db $0B
+.db $0C
+.db $0D
+.db $0E
+.db $0F
+.db $10
 .db $11
 
 _LABEL_E41_:
@@ -2660,7 +2590,7 @@ _LABEL_1735_:
     ld a, (v_entitydataArrayLength)
     ld b, a
 -:
-    call clearCurrentEntity
+    call destroyCurrentEntity
     add ix, de
     djnz -
     ld a, $82
@@ -2785,7 +2715,7 @@ updateLevelCompletedState:
     ld de, $0020
     ld ix, v_entity1
 -:
-    call clearCurrentEntity
+    call destroyCurrentEntity
     add ix, de
     djnz -
     ld hl, _RAM_D800_
@@ -5306,8 +5236,8 @@ _LABEL_3D70_:
     ld a, (v_horizontalScroll)
     add a, $30
     ld e, a
-    ld c, $4F
-    jp _LABEL_5B90_
+    ld c, ENTITY_GHOST
+    jp spawnEntityAt
 
 ; 17th entry of Jump Table from 3D2B (indexed by _RAM_C802_)
 _LABEL_3DBF_:
@@ -5319,8 +5249,8 @@ _LABEL_3DBF_:
     ld a, (v_entities.1.yPos.high)
     add a, $18
     ld d, a
-    ld c, $4F
-    jp _LABEL_5B90_
+    ld c, ENTITY_GHOST
+    jp spawnEntityAt
 
 _LABEL_3DD4_:
     jr z, +
@@ -5435,7 +5365,7 @@ _LABEL_3EA6_:
     call clearEntity
     inc hl
     call clearEntity
-    jp clearCurrentEntity
+    jp destroyCurrentEntity
 
 .INCLUDE "entities/updateEntity0x61.asm"
 .INCLUDE "entities/updateEntity0x63.asm"
@@ -6366,19 +6296,19 @@ _LABEL_4615_:
     ld hl, v_questionMarkBoxIndex
     ld a, (hl)
     inc (hl)
-    ld hl, _DATA_DD7_
+    ld hl, questionMarkBoxItems
     ld c, a
     ld b, $00
     add hl, bc
     ld c, (hl)
-    jp _LABEL_5B90_
+    jp spawnEntityAt
 
 ; 9th entry of Jump Table from 45D9 (indexed by _RAM_C804_)
 _LABEL_4627_:
     ld e, c
     ld d, b
-    ld c, $3C
-    jp _LABEL_5B90_
+    ld c, ENTITY_MONEY_BAG
+    jp spawnEntityAt
 
 _LABEL_462E_:
     ld hl, v_entities.1.unknown8
@@ -6902,38 +6832,12 @@ _LABEL_55ED_:
 .INCLUDE "entities/updateEntity0x3A.asm"
 .INCLUDE "entities/updateEntity0x3B.asm"
 .INCLUDE "entities/moneyBag/updater.asm"
-.INCLUDE "entities/updateEntity0x4D.asm"
+.INCLUDE "entities/updateLife.asm"
 .INCLUDE "entities/powerBracelet/updater.asm"
 .INCLUDE "entities/ghost/updater.asm"
 
-_LABEL_5B90_:
-    ld iy, v_entities.27
-    ld a, (iy+0)
-    or a
-    jr z, +
-    ld iy, v_entities.28
-    ld a, (iy+0)
-    or a
-    jr z, +
-    ld a, (v_entities.27.jankenMatchDecision)
-    cp (iy+23)
-    jr nc, +
-    ld iy, v_entities.27
-+:
-    ld a, r
-    and $07
-    ld (iy+24), a
-    ld (iy+14), d
-    ld (iy+12), e
-    ld (iy+0), c
-    res 0, (iy+1)
-    ld a, (v_horizontalScroll)
-    ld (iy+11), a
-    ld a, (v_verticalScroll)
-    ld (iy+13), a
-    ret
+.INCLUDE "engine/entity/spawnEntityAt.asm"
 
-; 68th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 .INCLUDE "entities/riceBall/updater.asm"
 
 _LABEL_5C01_:
@@ -6992,7 +6896,7 @@ _DATA_5D8C_:
 
 ; Pointer Table from 6422 to 6435 (10 entries, indexed by _RAM_CF83_)
 _DATA_6422_:
-.dw _DATA_80D3_ _DATA_80C5_ _DATA_8057_ _DATA_8065_ _DATA_8A27_ _DATA_8C0E_ powerBraceletSpriteDescriptor _DATA_801C_
+.dw _DATA_80D3_ _DATA_80C5_ _DATA_8057_ _DATA_8065_ _DATA_8A27_ lifeSpriteDescriptor powerBraceletSpriteDescriptor _DATA_801C_
 .dw _DATA_800E_ _DATA_8000_
 
 ; Pointer Table from 6436 to 6449 (10 entries, indexed by _RAM_CF83_)
@@ -7326,7 +7230,7 @@ _LABEL_6671_:
     ld a, (ix+9)
     or (ix+10)
     jr z, +
-    call clearCurrentEntity
+    call destroyCurrentEntity
 +:
     add ix, de
     djnz -
@@ -8703,7 +8607,7 @@ updateOpponentRespawOpponent:
     ld d, (ix + Entity.yPos.high)
 
     exx
-    call clearCurrentEntity
+    call destroyCurrentEntity
     exx
 
     ; Update opponent sprite descritpor

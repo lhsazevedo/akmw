@@ -39,10 +39,10 @@ updateDebris:
     ; Destroy debris if offscreen
     ld a, (ix + Entity.xPos.high)
     cp $F8
-    jp nc, clearCurrentEntity
+    jp nc, destroyCurrentEntity
     ld a, (ix + Entity.isOffScreenFlags.low)
     or (ix + Entity.isOffScreenFlags.high)
-    jp nz, clearCurrentEntity
+    jp nz, destroyCurrentEntity
 
     ld h, (ix + Entity.ySpeed.high)
     ld l, (ix + Entity.ySpeed.low)

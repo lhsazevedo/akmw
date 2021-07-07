@@ -31,7 +31,7 @@ updateMermanBubbles:
     call tryToKillAlexIfColliding
     ld a, (ix + Entity.yPos.high)
     cp $18
-    jp c, clearCurrentEntity
+    jp c, destroyCurrentEntity
 +:
     ld hl, _DATA_825C_
     jp handleEntityAnimation

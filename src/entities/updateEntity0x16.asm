@@ -47,7 +47,7 @@ _LABEL_4A86_:
     ld a, $87
     ld (v_nametableChangeRequest), a
     dec (ix + Entity.unknown6)
-    jp z, clearCurrentEntity
+    jp z, destroyCurrentEntity
     ret
 
 _LABEL_4AC2_:

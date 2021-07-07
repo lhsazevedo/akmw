@@ -36,7 +36,7 @@ updateEntity0x15:
 
 ++:
     call audioEngine.handler_LABEL_99D3_
-    jp clearCurrentEntity
+    jp destroyCurrentEntity
 
 _LABEL_4B7A_:
     set 0, (ix + Entity.flags)

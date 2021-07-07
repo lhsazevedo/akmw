@@ -33,7 +33,7 @@ initGameplayState:
     ; If current level data is > 1:
     ;   Set _RAM_C054_ to $9 and load bullet tiles
     ld a, (v_level)
-    ld hl, _DATA_E1F_ - 1
+    ld hl, levelSpawnStates - 1
     ld c, a
     ld b, $00
     add hl, bc
@@ -116,7 +116,7 @@ initGameplayState:
     ldir
     ld a, (v_level)
     cp $0B
-    jp c, _LABEL_C43_
+    jp c, initGameplayStateSecondary
     jp nz, _LABEL_BF3_
     ld a, $01
     ld (_RAM_C08E_), a
@@ -150,7 +150,7 @@ initGameplayState:
     djnz --
     ld a, (hl)
     cp $FF
-    jp z, _LABEL_C43_
+    jp z, initGameplayStateSecondary
     ex de, hl
     ld hl, (_RAM_C078_)
     ld bc, $0100
@@ -162,7 +162,7 @@ initGameplayState:
 
 _LABEL_BF3_:
     cp $10
-    jp nz, _LABEL_C43_
+    jp nz, initGameplayStateSecondary
     ld a, $01
     ld (_RAM_C08E_), a
     ld hl, _DATA_9800_
@@ -195,7 +195,7 @@ _LABEL_BF3_:
     djnz --
     ld a, (hl)
     cp $FF
-    jp z, _LABEL_C43_
+    jp z, initGameplayStateSecondary
     ex de, hl
     ld hl, (_RAM_C078_)
     ld bc, $0100
@@ -204,3 +204,170 @@ _LABEL_BF3_:
     ex de, hl
     ld b, $07
     jp ---
+
+; @TODO: What is the condition for this to be executed?
+initGameplayStateSecondary:
+    ld ix, v_entity1
+    ld (ix + Entity.type), ENTITY_ALEX
+
+    ld a, (v_level)
+    add a, a
+    ld c, a
+    ld b, $00
+    ld hl, startingPositions - 2
+    add hl, bc
+    ld a, (hl)
+    ld (ix + Entity.xPos.high), a
+    inc hl
+    ld a, (hl)
+    ld (ix + Entity.yPos.high), a
+
+    call updateAlexSpawning
+    call updateEntities
+
+    ld a, (v_level)
+    ld hl, paletteUpdaters - 2
+    call loadAthPointer
+    ld (paletteUpdaterPointer), hl
+
+    ; @TODO: ???
+    ld hl, _DATA_156D_ - 2
+    ld a, (v_level)
+    add a, a
+    ld e, a
+    ld d, $00
+    add hl, de
+    ld a, (hl)
+    inc hl
+    ld h, (hl)
+    ld l, a
+    ld (v_titleScreenTileUpdaterPointer), hl
+    ld a, $01
+    ld (v_titleScreenTileUpdateTimer), a
+
+    ld a, (v_level)
+    ld hl, scrollFlagsUpdaters - 2
+    call loadAthPointer
+    ld (scrollFlagsUpdaterPointer), hl
+
+    ; @TODO: Maybe change to entitySpawner
+    ld a, (v_level)
+    ld hl, levelEntityLoaders - 2
+    call loadAthPointer
+    ld (newEntitiesLoaderPointer), hl
+
+    ; @TODO: Understand v_questionMarkBoxIndex better
+    ld a, (v_level)
+    ld c, a
+    ld b, $00
+    ld hl, levelQuestionMarkBoxIndexes - 1
+    add hl, bc
+    ld a, (hl)
+    ld (v_questionMarkBoxIndex), a
+
+    ld a, $80 | :_DATA_1EFC9_
+    ld (Mapper_Slot2), a
+
+    ; Load Ghost left tiles
+    ld hl, _DATA_1EFC9_
+    ld de, $6400
+    ld bc, $00E0
+    call writeBcBytesToVRAM
+
+    ; Load Ghost right tiles
+    ld hl, _DATA_1EFC9_
+    ld bc, $00E0
+    call _LABEL_2C5_
+
+    ; Load 1up tiles
+    ld a, $80 | :_DATA_17191_
+    ld (Mapper_Slot2), a
+    ld hl, _DATA_17191_
+    ld de, $65C0
+    ld bc, $0080
+    call writeBcBytesToVRAM
+
+    ; Load Power Bracelet tiles
+    ld hl, _DATA_170B1_
+    ld de, $6640
+    ld bc, $0060
+    call writeBcBytesToVRAM
+    ld hl, _DATA_170F1_
+    ld bc, $0020
+    call _LABEL_2C5_
+
+    ; Load level bgm
+    ld a, $82
+    ld (Mapper_Slot2), a
+    ld a, (v_level)
+    ld c, a
+    ld b, $00
+    ld hl, levelSongs - 1
+    add hl, bc
+    ld a, (hl)
+    ld (v_soundControl), a
+
+    ; Mark state as inititalized
+    ld hl, v_gameState
+    set 7, (hl)
+    ei
+    jp enableDisplay
+
+; Jump Table from D0A to D2B (17 entries, indexed by v_level)
+scrollFlagsUpdaters:
+.dw _LABEL_6462_ _LABEL_6462_ _LABEL_657B_ _LABEL_6462_ _LABEL_6539_ _LABEL_6462_ _LABEL_6462_ _LABEL_6462_
+.dw _LABEL_6539_ _LABEL_6462_ _LABEL_647D_ _LABEL_6462_ _LABEL_6462_ _LABEL_6462_ _LABEL_6462_ _LABEL_647D_
+.dw _LABEL_6462_
+
+; Jump Table from D2C to D4D (17 entries, indexed by v_level)
+paletteUpdaters:
+.dw _LABEL_1089_ _LABEL_10DE_ _LABEL_1089_ _LABEL_10E1_ _LABEL_1089_ _LABEL_10E4_ _LABEL_10E7_ _LABEL_10EA_
+.dw _LABEL_1089_ _LABEL_10ED_ _LABEL_10F0_ _LABEL_10F3_ _LABEL_10F6_ _LABEL_10F9_ _LABEL_10FC_ _LABEL_1089_
+.dw _LABEL_1089_
+
+; Jump Table from D4E to D6F (17 entries, indexed by v_level)
+levelEntityLoaders:
+.dw loadEntitiesNormal_LABEL_6F48_
+.dw loadEntitiesNormal_LABEL_6F48_
+.dw loadEntitiesNormal_LABEL_6F48_
+.dw loadEntitiesNormal_LABEL_6F48_
+.dw loadEntitiesNormal_LABEL_6F48_
+.dw loadEntitiesNormal_LABEL_6F48_
+.dw loadEntitiesNormal_LABEL_6F48_
+.dw loadEntitiesNormal_LABEL_6F48_
+.dw loadEntitiesNormal_LABEL_6F48_
+.dw loadEntitiesNormal_LABEL_6F48_
+.dw loadEntitiesSpecial_LABEL_6F48_
+.dw loadEntitiesNormal_LABEL_6F48_
+.dw loadEntitiesNormal_LABEL_6F48_
+.dw loadEntitiesNormal_LABEL_6F48_
+.dw loadEntitiesNormal_LABEL_6F48_
+.dw loadEntitiesSpecial_LABEL_6F48_
+.dw loadEntitiesNormal_LABEL_6F48_
+
+; Data from D70 to DA2 (51 bytes)
+_DATA_D70_:
+.db $00 $00 $00 $60 $54 $CC $72 $5C $CC $00 $00 $00 $42 $40 $C9 $90
+.db $20 $CC $00 $00 $00 $30 $08 $CC $00 $00 $00 $70 $18 $CC $00 $00
+.db $00 $50 $D0 $C9 $00 $00 $00 $00 $00 $00 $50 $10 $CC $00 $00 $00
+.db $00 $00 $00
+
+startingPositions:
+; X position / Y position
+.db $20 $58
+.db $20 $88
+.db $40 $20
+.db $1B $90
+.db $20 $70
+.db $20 $88
+.db $20 $88
+.db $20 $88
+.db $20 $88
+.db $20 $88
+.db $20 $88
+.db $20 $88
+.db $E8 $70
+.db $20 $88
+.db $20 $88
+.db $20 $88
+.db $10 $88

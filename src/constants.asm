@@ -117,9 +117,13 @@ ENTITY_FLAME_OR_SCORPION_RIGHT  = $3F
 ENTITY_RICE_BALL                = $44
 ENTITY_SAINT_NURARI             = $45
 ENTITY_NAMETABLE_CHANGER        = $4B
+ENTITY_LIFE                     = $4D
+ENTITY_POWER_BRACELET           = $4E
 ENTITY_GHOST                    = $4F
 ENTITY_ARROW                    = $56
 ENTITY_JANKENS_CASTLE           = $58
+
+LIFE_LIFESPAN                   = $F0
 
 ; VDP Register constants
 VDP_R0_DISABLE_VSCROLL_COLS_24_TO_32    = 1 << 7

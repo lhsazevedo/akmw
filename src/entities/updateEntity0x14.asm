@@ -38,7 +38,7 @@ updateEntity0x14:
     inc hl
     or (hl)
     djnz -
-    jp nz, clearCurrentEntity
+    jp nz, destroyCurrentEntity
     ld l, (ix + Entity.unknown8)
     ld h, (ix + Entity.unknown9)
     call _LABEL_4C23_

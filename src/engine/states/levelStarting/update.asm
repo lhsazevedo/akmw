@@ -81,11 +81,11 @@ _LABEL_19CB_:
 
     ; Clear entities
     ld ix, v_entity1
-    call clearCurrentEntity
+    call destroyCurrentEntity
     ld ix, v_entities.2
-    call clearCurrentEntity
+    call destroyCurrentEntity
     ld ix, v_entities.3
-    call clearCurrentEntity
+    call destroyCurrentEntity
     call updateEntities
 
     ld a, STATE_GAMEPLAY

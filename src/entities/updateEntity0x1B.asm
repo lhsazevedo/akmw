@@ -19,4 +19,4 @@ updateEntity0x1B:
     ld a, (hl)
     and $F4
     ld (hl), a
-    jp clearCurrentEntity
+    jp destroyCurrentEntity

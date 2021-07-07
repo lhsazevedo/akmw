@@ -22,7 +22,7 @@ updateRiceBall:
     ld l, SCORE_1000
     call addScore
 
-    call clearCurrentEntity
+    call destroyCurrentEntity
 
     ld a, STATE_LEVEL_COMPLETED
     ld (v_gameState), a

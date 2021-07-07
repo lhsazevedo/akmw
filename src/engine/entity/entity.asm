@@ -123,7 +123,7 @@ _LABEL_273A_:
     jp z, +
     jp c, ++
     bit 1, (ix+1)    ; v_entities.IX.flags
-    jp nz, clearCurrentEntity
+    jp nz, destroyCurrentEntity
     ld a, h
     sub $40
     ld (ix+13), l
@@ -136,7 +136,7 @@ _LABEL_273A_:
     sub $C0
     jp c, ++
     bit 1, (ix+1)
-    jp nz, clearCurrentEntity
+    jp nz, destroyCurrentEntity
     ld (ix+13), l
     ld (ix+14), a
     inc (ix+10)
@@ -148,7 +148,7 @@ _LABEL_273A_:
     ret
 
 
-clearCurrentEntity:
+destroyCurrentEntity:
     push ix
     pop hl
 ;
@@ -243,14 +243,14 @@ _LABEL_27D0_:
     jp z, +
     jp c, ++
     bit 1, (ix+1)    ; v_entities.IX.flags
-    jp nz, clearCurrentEntity
+    jp nz, destroyCurrentEntity
     inc (ix+9)    ; v_entities.IX.isOffScreenFlags
     jp ++
 
 +:
     jp nc, ++
     bit 1, (ix+1)
-    jp nz, clearCurrentEntity
+    jp nz, destroyCurrentEntity
     dec (ix+9)
 ++:
     ld (ix+11), l
