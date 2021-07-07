@@ -1,6 +1,6 @@
-.INC "src/data/audio.asm"
+.INCLUDE "src/data/audio.asm"
 
-.INC "src/graphics/1bppCharacters.asm"
+.INCLUDE "src/graphics/1bppCharacters.asm"
 
 ;; For each level...
 .INCLUDE "src/data/levels/entitiesDescriptors.asm"
@@ -211,9 +211,9 @@ tiles_AlexKiddEatingRiceBall:
 .ORG $0000
 
 ; Pointer Table from 10000 to 1005F (48 entries, indexed by v_alexTilesIndex)
-.INC "src/data/alexFrameDescriptors.asm"
+.INCLUDE "src/data/alexFrameDescriptors.asm"
 
-.INC "src/graphics/alexKidd.asm"
+.INCLUDE "src/graphics/alexKidd.asm"
 
 ; Data from 118E9 to 11BB4 (716 bytes)
 jankenMatchTiles:
@@ -489,14 +489,14 @@ _DATA_12AFE_:
 .db $7F $80 $80 $00 $FF $00 $90 $90 $FE $01 $11 $10 $00 $FF $FF $00
 .db $00 $FF $FF $00 $00 $FF $FF $00
 
-.INC "src/data/nametables/title.asm"
+.INCLUDE "src/data/nametables/title.asm"
 titleScreenTiles:
 .INCBIN "src/data/titleScreen.bin"
 
 .BANK 5
 .ORG $0000
 
-.INC "src/data/metatileNametablePointers.asm"
+.INCLUDE "src/data/metatileNametablePointers.asm"
 
 ; Data from 14400 to 1440F (16 bytes)
 _DATA_14400_:
@@ -512,9 +512,9 @@ _DATA_14420_:
 .db $3C $02 $00 $06 $00 $06 $3C $10 $3D $00 $00 $06 $00 $06 $3C $10
 .db $3C $02 $00 $06 $00 $06 $3C $10 $3D $00 $00 $06 $00 $06 $3C $10
 
-.INC "src/data/metatileNametableEntries.asm"
+.INCLUDE "src/data/metatileNametableEntries.asm"
 
-.INC "src/data/demoInputEntries.asm"
+.INCLUDE "src/data/demoInputEntries.asm"
 
 ; Data from 1508E to 153F2 (869 bytes)
 _DATA_1508E_:
@@ -603,10 +603,10 @@ _DATA_15840_:
 .db $70 $00 $00 $DD $BD $1E $0E $07 $03 $02 $00 $04 $9E $02 $9C $81
 .db $98 $09 $90 $00
 
-.INC "src/data/nametables/hirotaStoneCloseUp.asm"
-.INC "src/graphics/hirotaStoneCloseUp.asm"
+.INCLUDE "src/data/nametables/hirotaStoneCloseUp.asm"
+.INCLUDE "src/graphics/hirotaStoneCloseUp.asm"
 
-.INC "src/data/nametables/map.asm"
+.INCLUDE "src/data/nametables/map.asm"
 mapTiles:
 .incbin "src/graphics/map.bin"
 
@@ -899,7 +899,7 @@ _DATA_17E73_:
 .BANK 6
 .ORG $0000
 
-.INC "src/data/levels/layouts.asm"
+.INCLUDE "src/data/levels/layouts.asm"
 
 ; Pointer Table from 1BDB9 to 1BDCC (10 entries, indexed by unknown)
 _DATA_1BDB9_:
@@ -1006,7 +1006,7 @@ _DATA_1BE35_:
 _DATA_1BE3D_:
 .db $F8 $08 $F9 $E8 $FA $08 $FB $E8
 
-.INC "src/data/shop.asm"
+.INCLUDE "src/data/shop.asm"
 
 ; Unused
 .dsb 85, $FF
@@ -1014,13 +1014,13 @@ _DATA_1BE3D_:
 .BANK 7
 .ORG $0000
 
-.INC "src/graphics/score.asm"
+.INCLUDE "src/graphics/score.asm"
 
-.INC "src/graphics/tiles.asm"
+.INCLUDE "src/graphics/tiles.asm"
 
-.INC "src/data/messages.asm"
+.INCLUDE "src/data/messages.asm"
 
-.INC "src/data/palettes.asm"
+.INCLUDE "src/data/palettes.asm"
 
 .db $40 $00 $40 $02 $41 $60 $42 $60 $43 $60 $43 $60 $40 $00 $40 $02
 .db $40 $00 $40 $02 $3D $80 $3E $80 $3D $80 $3E $80 $3E $80 $3D $80

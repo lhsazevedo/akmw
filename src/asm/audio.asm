@@ -117,7 +117,7 @@ sounds:
 .dw _DATA_AFBD_ _DATA_AFCA_ _DATA_AFE9_ _DATA_B034_ _DATA_B04D_ _DATA_B062_ _DATA_B076_ _DATA_B090_
 .dw _DATA_B0AA_ _DATA_B0BE_ _DATA_B0DD_ _DATA_B0F4_ _DATA_B11D_ _DATA_B16F_ _DATA_B189_ _DATA_B1D4_
 
-.INC "asm/audio/soundHandlers.asm"
+.INCLUDE "asm/audio/soundHandlers.asm"
 
 ; Run soft channel
 runChannel_LABEL_9ACC_:
@@ -514,7 +514,7 @@ handleEXCommands_LABEL_9CCD_:
     inc de
     jp readInstruction
 
-.INC "asm/audio/e0Handlers.asm"
+.INCLUDE "asm/audio/e0Handlers.asm"
 
 _LABEL_9DE4_:
     ld a, (ix + SoftwareChannel.hardwareChannel)
@@ -558,7 +558,7 @@ psgResetVolumeBytes:
 .db PSG_CONTROL_LATCH | PSG_CHANNEL_2 | PSG_LATCH_VOLUME | $F
 .db PSG_CONTROL_LATCH | PSG_CHANNEL_3 | PSG_LATCH_VOLUME | $F
 
-.INC "asm/audio/notes.asm"
+.INCLUDE "asm/audio/notes.asm"
 
 ; h = Next duration
 ; e = Channel duration multiplier
