@@ -128,7 +128,7 @@ _LABEL_1FE9_:
     ld a, (v_level)
     ld c, a
     ld b, $00
-    ld hl, _DATA_DC5_ - 1
+    ld hl, levelSongs - 1
     add hl, bc
     ld a, (hl)
     ld (v_soundControl), a
@@ -385,7 +385,7 @@ initMapState:
     ld a, (v_level)
     ld c, a
     ld b, $00
-    ld hl, _DATA_DC5_ - 1
+    ld hl, levelSongs - 1
     add hl, bc
     ld a, (hl)
     ld (v_soundControl), a

@@ -26,7 +26,7 @@ updateDemoState:
     ld (Mapper_Slot2), a
     ld a, (v_nextDemoIndex)
     ld hl, demoInputPointers - 2
-    rst $10    ; _LABEL_10_
+    rst $10    ; loadAthPointer
     dec hl
     ld (v_demoInputDataTimer), hl
     ld hl, v_inputFlags
@@ -37,3 +37,6 @@ updateDemoState:
     ld hl, $01FF
     ld (v_demoCurrentInputData), hl
     jp initGameplayState
+
+; Data from A34 to A34 (1 bytes)
+.db $C9

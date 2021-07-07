@@ -14,7 +14,7 @@ handleInterruptShopState:
     ld (Mapper_Slot2), a
     ld a, (v_level)
     ld hl, _DATA_1FAB_ - 2
-    rst $10    ; _LABEL_10_
+    rst $10    ; loadAthPointer
     ld b, $03
 -:
     push bc
@@ -66,7 +66,7 @@ _LABEL_1C33_:
     ld a, (v_level)
     ld c, a
     ld b, $00
-    ld hl, _DATA_DC5_ - 1
+    ld hl, levelSongs - 1
     add hl, bc
     ld a, (hl)
     ld (v_soundControl), a
@@ -176,7 +176,7 @@ _LABEL_1D04_:
     or a
     jr z, +
     ld hl, _DATA_1F62_ - 2
-    rst $10    ; _LABEL_10_
+    rst $10    ; loadAthPointer
     set 0, (hl)
     xor a
     ld (v_shopSelectedItemIndex), a
@@ -250,7 +250,7 @@ _LABEL_1D04_:
     ld (Mapper_Slot2), a
     ld a, (v_level)
     ld hl, _DATA_1F89_ - 2
-    rst $10    ; _LABEL_10_
+    rst $10    ; loadAthPointer
     ld a, $03
     ld de, _RAM_D7D1_
 -:
@@ -310,7 +310,7 @@ _LABEL_1E77_:
     ld a, (v_level)
     ld c, a
     ld b, $00
-    ld hl, _DATA_DC5_ - 1
+    ld hl, levelSongs - 1
     add hl, bc
     ld a, (hl)
     ld (v_soundControl), a
@@ -352,7 +352,7 @@ _LABEL_1EAF_:
     cp $07
     jr nc, +
     ld hl, _DATA_1F62_ - 2
-    rst $10    ; _LABEL_10_
+    rst $10    ; loadAthPointer
     set 0, (hl)
     xor a
     ld (v_shopSelectedItemIndex), a

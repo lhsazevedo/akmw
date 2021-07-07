@@ -57,7 +57,7 @@ updateLifeLostState:
     and $7F
     ld e, b
     ld hl, _DATA_6F30_ - 2
-    rst $10    ; _LABEL_10_
+    rst $10    ; loadAthPointer
     exx
     call clearCurrentEntity
     exx
@@ -205,7 +205,7 @@ _LABEL_6D73_:
     jp z, +
     inc c
 +:
-    ld hl, _DATA_DC5_ - 1
+    ld hl, levelSongs - 1
     ld b, $00
     add hl, bc
     ld a, (hl)

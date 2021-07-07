@@ -53,5 +53,5 @@ updateDebris:
 +:
     ld a, (ix + Entity.unknown6)
     ld hl, _DATA_5D8C_
-    rst _LABEL_10_
+    rst loadAthPointer
     jp handleEntityAnimation

@@ -104,7 +104,7 @@ initGameplayState:
     ld (Mapper_Slot2), a
     ld a, (v_level)
     ld hl, entitiesDescriptorsPointers - 2
-    call _LABEL_10_
+    call loadAthPointer
     ld (v_entitydataPointersPointer), hl
     xor a
     ld (_RAM_C08E_), a

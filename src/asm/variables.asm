@@ -11,7 +11,7 @@ v_spriteTerminatorPointer dw
 .ende
 
 .enum $C00E
-_RAM_C00E_ dw
+paletteUpdaterPointer dw
 .ende
 
 .enum $C011

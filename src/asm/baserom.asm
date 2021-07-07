@@ -27,7 +27,7 @@ setVDPAddress:
 ; Data from F to F (1 bytes)
 .db $FF
 
-_LABEL_10_:
+loadAthPointer:
     add a, a
     ld c, a
     ld b, $00
@@ -1184,49 +1184,42 @@ initialValues:
 .db $00 $00
 .db $03 $00 $00 $00 $00 $00 $00 $00
 
-; 1st entry of Jump Table from 127 (indexed by v_gameState)
 .INCLUDE "src/asm/engine/states/title/handleInterrupt.asm"
-
 .INCLUDE "src/asm/engine/states/title/loadSprites.asm"
-
 .INCLUDE "src/asm/engine/states/title/createEntities.asm"
-
 .INCLUDE "src/asm/engine/entity/clearEntities.asm"
-
-; 3rd entry of Jump Table from 3B (indexed by v_gameState)
 .INCLUDE "src/asm/engine/states/demo/update.asm"
-
-; Data from A34 to A34 (1 bytes)
-.db $C9
-
-; 3rd entry of Jump Table from 127 (indexed by v_gameState)
 .INCLUDE "src/asm/engine/states/demo/handleInterrupt.asm"
 .INCLUDE "src/data/demoInputPointers.asm"
-
 .INCLUDE "src/asm/engine/states/gameplay/update.asm"
 .INCLUDE "src/asm/engine/states/gameplay/handleInterrupt.asm"
 .INCLUDE "src/asm/engine/states/gameplay/init.asm"
 
 _LABEL_C43_:
     ld ix, v_entity1
-    ld (ix+0), $01
+    ld (ix + Entity.type), ENTITY_ALEX
+
     ld a, (v_level)
     add a, a
     ld c, a
     ld b, $00
-    ld hl, _DATA_DA3_ - 2
+    ld hl, startingPositions - 2
     add hl, bc
     ld a, (hl)
-    ld (ix+12), a
+    ld (ix + Entity.xPos.high), a
     inc hl
     ld a, (hl)
-    ld (ix+14), a
+    ld (ix + Entity.yPos.high), a
+
     call updateAlexSpawning
     call updateEntities
+
     ld a, (v_level)
-    ld hl, _DATA_D2C_ - 2
-    call _LABEL_10_
-    ld (_RAM_C00E_), hl
+    ld hl, paletteUpdaters - 2
+    call loadAthPointer
+    ld (paletteUpdaterPointer), hl
+
+    ; @TODO: ???
     ld hl, _DATA_156D_ - 2
     ld a, (v_level)
     add a, a
@@ -1240,14 +1233,19 @@ _LABEL_C43_:
     ld (v_titleScreenTileUpdaterPointer), hl
     ld a, $01
     ld (v_titleScreenTileUpdateTimer), a
+
     ld a, (v_level)
-    ld hl, _DATA_D0A_ - 2
-    call _LABEL_10_
+    ld hl, scrollFlagsUpdaters - 2
+    call loadAthPointer
     ld (scrollFlagsUpdaterPointer), hl
+
+    ; @TODO: Maybe change to entitySpawner
     ld a, (v_level)
     ld hl, levelEntityLoaders - 2
-    call _LABEL_10_
+    call loadAthPointer
     ld (newEntitiesLoaderPointer), hl
+
+    ; @TODO: Understand v_questionMarkBoxIndex better
     ld a, (v_level)
     ld c, a
     ld b, $00
@@ -1255,21 +1253,30 @@ _LABEL_C43_:
     add hl, bc
     ld a, (hl)
     ld (v_questionMarkBoxIndex), a
-    ld a, $87
+
+    ld a, $80 | :_DATA_1EFC9_
     ld (Mapper_Slot2), a
+
+    ; Load Ghost left tiles
     ld hl, _DATA_1EFC9_
     ld de, $6400
     ld bc, $00E0
     call writeBcBytesToVRAM
+
+    ; Load Ghost right tiles
     ld hl, _DATA_1EFC9_
     ld bc, $00E0
     call _LABEL_2C5_
-    ld a, $85
+
+    ; Load 1up tiles
+    ld a, $80 | :_DATA_17191_
     ld (Mapper_Slot2), a
     ld hl, _DATA_17191_
     ld de, $65C0
     ld bc, $0080
     call writeBcBytesToVRAM
+
+    ; Load Power Bracelet tiles
     ld hl, _DATA_170B1_
     ld de, $6640
     ld bc, $0060
@@ -1277,28 +1284,30 @@ _LABEL_C43_:
     ld hl, _DATA_170F1_
     ld bc, $0020
     call _LABEL_2C5_
+
     ld a, $82
     ld (Mapper_Slot2), a
     ld a, (v_level)
     ld c, a
     ld b, $00
-    ld hl, _DATA_DC5_ - 1
+    ld hl, levelSongs - 1
     add hl, bc
     ld a, (hl)
     ld (v_soundControl), a
+
     ld hl, v_gameState
-    set 7, (hl)
+    set STATE_TEXT_BOX, (hl)
     ei
     jp enableDisplay
 
 ; Jump Table from D0A to D2B (17 entries, indexed by v_level)
-_DATA_D0A_:
+scrollFlagsUpdaters:
 .dw _LABEL_6462_ _LABEL_6462_ _LABEL_657B_ _LABEL_6462_ _LABEL_6539_ _LABEL_6462_ _LABEL_6462_ _LABEL_6462_
 .dw _LABEL_6539_ _LABEL_6462_ _LABEL_647D_ _LABEL_6462_ _LABEL_6462_ _LABEL_6462_ _LABEL_6462_ _LABEL_647D_
 .dw _LABEL_6462_
 
 ; Jump Table from D2C to D4D (17 entries, indexed by v_level)
-_DATA_D2C_:
+paletteUpdaters:
 .dw _LABEL_1089_ _LABEL_10DE_ _LABEL_1089_ _LABEL_10E1_ _LABEL_1089_ _LABEL_10E4_ _LABEL_10E7_ _LABEL_10EA_
 .dw _LABEL_1089_ _LABEL_10ED_ _LABEL_10F0_ _LABEL_10F3_ _LABEL_10F6_ _LABEL_10F9_ _LABEL_10FC_ _LABEL_1089_
 .dw _LABEL_1089_
@@ -1330,16 +1339,46 @@ _DATA_D70_:
 .db $00 $50 $D0 $C9 $00 $00 $00 $00 $00 $00 $50 $10 $CC $00 $00 $00
 .db $00 $00 $00
 
-; Data from DA3 to DC4 (34 bytes)
-_DATA_DA3_:
-.db $20 $58 $20 $88 $40 $20 $1B $90 $20 $70 $20 $88 $20 $88 $20 $88
-.db $20 $88 $20 $88 $20 $88 $20 $88 $E8 $70 $20 $88 $20 $88 $20 $88
+startingPositions:
+; X position / Y position
+.db $20 $58
+.db $20 $88
+.db $40 $20
+.db $1B $90
+.db $20 $70
+.db $20 $88
+.db $20 $88
+.db $20 $88
+.db $20 $88
+.db $20 $88
+.db $20 $88
+.db $20 $88
+.db $E8 $70
+.db $20 $88
+.db $20 $88
+.db $20 $88
 .db $10 $88
 
 ; Data from DC5 to DD6 (18 bytes)
-_DATA_DC5_:
-.db $82 $82 $83 $82 $88 $82 $82 $82 $83 $82 $84 $82 $88 $82 $82 $84
-.db $82 $82
+levelSongs:
+.db SOUND_BASE_SONG
+.db SOUND_BASE_SONG
+.db SOUND_UNDERWATER_SONG
+.db SOUND_BASE_SONG
+.db SOUND_PETICOPTER_SONG
+.db SOUND_BASE_SONG
+.db SOUND_BASE_SONG
+.db SOUND_BASE_SONG
+.db SOUND_UNDERWATER_SONG
+.db SOUND_BASE_SONG
+.db SOUND_CASTLE_SONG
+.db SOUND_BASE_SONG
+.db SOUND_PETICOPTER_SONG
+.db SOUND_BASE_SONG
+.db SOUND_BASE_SONG
+.db SOUND_CASTLE_SONG
+.db SOUND_BASE_SONG
+.db SOUND_BASE_SONG
 
 ; Data from DD7 to E1E (72 bytes)
 _DATA_DD7_:
@@ -1451,7 +1490,7 @@ loadLevelTiles_LABEL_E9F_:
     call fillVRAM
     ld a, (v_level)
     ld hl, levelMainTilesetPointers - 2
-    rst $10    ; _LABEL_10_
+    rst $10    ; loadAthPointer
     ld de, $4720
     call decompress4BitplanesToVRAM
     ld hl, tiles_aditionalSet4
@@ -1469,7 +1508,7 @@ loadLevelTiles_LABEL_EC9_:
     call decompress4BitplanesToVRAM
     ld a, (v_level)
     ld hl, levelMainTilesetPointers - 2
-    rst $10    ; _LABEL_10_
+    rst $10    ; loadAthPointer
     ld de, $46A0
     jp decompress4BitplanesToVRAM
 
@@ -1481,7 +1520,7 @@ loadLevelTiles_LABEL_EDF_:
     call fillVRAM
     ld a, (v_level)
     ld hl, levelMainTilesetPointers - 2
-    rst $10    ; _LABEL_10_
+    rst $10    ; loadAthPointer
     ld de, $4720
     call decompress4BitplanesToVRAM
     ld hl, tiles_aditionalSet1
@@ -1496,7 +1535,7 @@ loadLevelTiles_LABEL_F00_:
     call fillVRAM
     ld a, (v_level)
     ld hl, levelMainTilesetPointers - 2
-    rst $10    ; _LABEL_10_
+    rst $10    ; loadAthPointer
     ld de, $4720
     call decompress4BitplanesToVRAM
     ld hl, tiles_aditionalSet2
@@ -1511,7 +1550,7 @@ loadLevelTiles_LABEL_F21_:
     call fillVRAM
     ld a, (v_level)
     ld hl, levelMainTilesetPointers - 2
-    rst $10    ; _LABEL_10_
+    rst $10    ; loadAthPointer
     ld de, $48A0
     call decompress4BitplanesToVRAM
     ld hl, tiles_aditionalSet5
@@ -1533,7 +1572,7 @@ loadLevelTiles_LABEL_F54_:
     call fillVRAM
     ld a, (v_level)
     ld hl, levelMainTilesetPointers - 2
-    rst $10    ; _LABEL_10_
+    rst $10    ; loadAthPointer
     ld de, $4720
     jp decompress4BitplanesToVRAM
 
@@ -1545,12 +1584,12 @@ loadLevelTiles_LABEL_F6C_:
     call fillVRAM
     ld a, $02
     ld hl, $847E
-    rst $10    ; _LABEL_10_
+    rst $10    ; loadAthPointer
     ld de, $4720
     call decompress4BitplanesToVRAM
     ld a, (v_level)
     ld hl, levelMainTilesetPointers - 2
-    rst $10    ; _LABEL_10_
+    rst $10    ; loadAthPointer
     ld de, $4920
     call decompress4BitplanesToVRAM
     ld hl, tiles_aditionalSet2
@@ -1575,7 +1614,7 @@ loadLevelTiles_LABEL_FAE_:
     call fillVRAM
     ld a, (v_level)
     ld hl, levelMainTilesetPointers - 2
-    rst $10    ; _LABEL_10_
+    rst $10    ; loadAthPointer
     ld de, $4720
     jp decompress4BitplanesToVRAM
 
@@ -1587,7 +1626,7 @@ loadLevelTiles_LABEL_FC6_:
     call fillVRAM
     ld a, (v_level)
     ld hl, levelMainTilesetPointers - 2
-    rst $10    ; _LABEL_10_
+    rst $10    ; loadAthPointer
     ld de, $4720
     call decompress4BitplanesToVRAM
     ld hl, tiles_aditionalSet5
@@ -1608,7 +1647,7 @@ loadLevelTiles_LABEL_FF9_:
     call fillVRAM
     ld a, $02
     ld hl, $847E
-    rst $10    ; _LABEL_10_
+    rst $10    ; loadAthPointer
     ld de, $4720
     call decompress4BitplanesToVRAM
     ld hl, tiles_aditionalSet2
@@ -1626,12 +1665,12 @@ loadLevelTiles_LABEL_1022_:
     call fillVRAM
     ld a, $03
     ld hl, $847E
-    rst $10    ; _LABEL_10_
+    rst $10    ; loadAthPointer
     ld de, $48A0
     call decompress4BitplanesToVRAM
     ld a, (v_level)
     ld hl, levelMainTilesetPointers - 2
-    rst $10    ; _LABEL_10_
+    rst $10    ; loadAthPointer
     ld de, $4AA0
     call decompress4BitplanesToVRAM
     ld hl, tiles_level17AditionalSet
@@ -1649,12 +1688,12 @@ loadLevelTiles_LABEL_1058_:
     call fillVRAM
     ld a, $0B
     ld hl, $847E
-    rst $10    ; _LABEL_10_
+    rst $10    ; loadAthPointer
     ld de, $4720
     call decompress4BitplanesToVRAM
     ld a, (v_level)
     ld hl, levelMainTilesetPointers - 2
-    rst $10    ; _LABEL_10_
+    rst $10    ; loadAthPointer
     ld de, $4DA0
     jp decompress4BitplanesToVRAM
 
@@ -1664,7 +1703,7 @@ _LABEL_107C_:
     ret c
     cp $8B
     ret z
-    ld hl, (_RAM_C00E_)
+    ld hl, (paletteUpdaterPointer)
     jp (hl)
 
 ; 1st entry of Jump Table from D2C (indexed by v_level)
@@ -1774,7 +1813,7 @@ loadLevelPalette:
     ld (Mapper_Slot2), a
     ld a, (v_level)
     ld hl, levelPalettes - 2
-    rst $10    ; _LABEL_10_
+    rst $10    ; loadAthPointer
     ld de, $C000
     ld b, $20
     rst $30    ; memcpyToVRAM
@@ -2677,7 +2716,7 @@ _LABEL_1874_:
     inc a
     ld c, a
     ld b, $00
-    ld hl, _DATA_DC5_ - 1
+    ld hl, levelSongs - 1
     add hl, bc
     ld a, (hl)
     ld (v_soundControl), a
@@ -7178,7 +7217,7 @@ loadLevel:
     ; Get level descriptor pointer
     ld a, (v_level)
     ld hl, LevelDescriptorPointerTable - 2
-    rst $10    ; _LABEL_10_
+    rst $10    ; loadAthPointer
     
     ; @TODO...
     ld a, (hl)
@@ -7979,7 +8018,7 @@ loadEntitiesNormal_LABEL_6F48_:
     res 7, (hl)
     ld a, (hl)
     ld hl, (v_entitydataPointersPointer)
-    rst $10    ; _LABEL_10_
+    rst $10    ; loadAthPointer
     xor a
     ld (v_newEntityVerticalOffset), a
     ld de, $0100
@@ -8112,7 +8151,7 @@ loadOctopusArms:
     ld a, (hl)
     exx
     ld hl, _DATA_7102_ - 2
-    rst $10    ; _LABEL_10_
+    rst $10    ; loadAthPointer
     ld e, (hl)
     inc hl
     ld d, (hl)
@@ -8175,7 +8214,7 @@ loadEntitiesSpecial_LABEL_6F48_:
     inc (hl)
     ld a, (hl)
     ld hl, (v_entitydataPointersPointer)
-    rst $10    ; _LABEL_10_
+    rst $10    ; loadAthPointer
     jp _LABEL_6F7E_
 
 +:
@@ -8190,7 +8229,7 @@ loadEntitiesSpecial_LABEL_6F48_:
     add a, b
     ld (v_entityIndex), a
     ld hl, (v_entitydataPointersPointer)
-    rst $10    ; _LABEL_10_
+    rst $10    ; loadAthPointer
     jp _LABEL_6F7E_
 
 ++:
@@ -8204,7 +8243,7 @@ loadEntitiesSpecial_LABEL_6F48_:
     sub b
     ld (v_entityIndex), a
     ld hl, (v_entitydataPointersPointer)
-    rst $10    ; _LABEL_10_
+    rst $10    ; loadAthPointer
     jp _LABEL_6F7E_
 
 _LABEL_70F6_:
@@ -8212,7 +8251,7 @@ _LABEL_70F6_:
     dec (hl)
     ld a, (hl)
     ld hl, (v_entitydataPointersPointer)
-    rst $10    ; _LABEL_10_
+    rst $10    ; loadAthPointer
     jp _LABEL_6F7E_
 
 ; Pointer Table from 7102 to 7105 (2 entries, indexed by unknown)
@@ -8706,7 +8745,7 @@ updateOpponentStartFight:
     call isTextboxGameState
     ret z
 
-    ld a, SOUND_CASTLE_MUSIC
+    ld a, SOUND_CASTLE_SONG
     ld (v_soundControl), a
 
     inc (ix + Entity.state)
