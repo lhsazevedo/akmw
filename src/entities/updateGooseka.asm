@@ -1,7 +1,7 @@
 updateGooseka:
     ld a, (v_entities.6.state)
     ld hl, goosekaUpdaters
-    rst $20    ; loadAthJumptablePointer
+    rst jumpToAthPointer
     ret
 
 ; Jump Table from 779E to 77BD (16 entries, indexed by v_entities.6.state)

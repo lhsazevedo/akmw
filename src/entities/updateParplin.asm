@@ -2,7 +2,7 @@
 updateParplin:
     ld a, (v_entities.6.state)
     ld hl, parplinUpdaters
-    rst $20    ; loadAthJumptablePointer
+    rst jumpToAthPointer
     ret
 
 ; Jump Table from 78B0 to 78CD (15 entries, indexed by v_entities.6.state)

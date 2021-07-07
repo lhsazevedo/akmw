@@ -39,7 +39,7 @@ advanceTitleScreenLevelTile:
     ld hl, Mapper_Slot2
     ld (hl), $84
     ld hl, titleScreenLevelTileUpdatersPointers
-    jp loadAthJumptablePointer
+    jp jumpToAthPointer
 
 
 showTitleUnderwaterFrame:

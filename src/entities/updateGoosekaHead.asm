@@ -1,7 +1,7 @@
 updateGoosekaHead:
     ld a, (v_entities.7.state)
     ld hl, goosekaHeadStateUpdaters
-    rst $20    ; loadAthJumptablePointer
+    rst jumpToAthPointer
     ret
 
 goosekaHeadStateUpdaters:

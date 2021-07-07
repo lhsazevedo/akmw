@@ -14,7 +14,7 @@ handleInterruptShopState:
     ld (Mapper_Slot2), a
     ld a, (v_level)
     ld hl, _DATA_1FAB_ - 2
-    rst $10    ; loadAthPointer
+    rst loadAthPointer
     ld b, $03
 -:
     push bc
@@ -118,7 +118,7 @@ _LABEL_1C33_:
     ld (Mapper_Slot2), a
     ld e, $26
     ld d, $80
-    rst $08    ; setVDPAddress
+    rst setVDPAddress
     ei
     ld a, $09
     call setAndWaitForInterruptFlags
@@ -176,7 +176,7 @@ _LABEL_1D04_:
     or a
     jr z, +
     ld hl, _DATA_1F62_ - 2
-    rst $10    ; loadAthPointer
+    rst loadAthPointer
     set 0, (hl)
     xor a
     ld (v_shopSelectedItemIndex), a
@@ -245,12 +245,12 @@ _LABEL_1D04_:
     xor a
     ld (v_itemBeignBoughtIndex), a
     ld de, $8006
-    rst $08    ; setVDPAddress
+    rst setVDPAddress
     ld a, $86
     ld (Mapper_Slot2), a
     ld a, (v_level)
     ld hl, _DATA_1F89_ - 2
-    rst $10    ; loadAthPointer
+    rst loadAthPointer
     ld a, $03
     ld de, _RAM_D7D1_
 -:
@@ -352,7 +352,7 @@ _LABEL_1EAF_:
     cp $07
     jr nc, +
     ld hl, _DATA_1F62_ - 2
-    rst $10    ; loadAthPointer
+    rst loadAthPointer
     set 0, (hl)
     xor a
     ld (v_shopSelectedItemIndex), a

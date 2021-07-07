@@ -2,7 +2,7 @@
 updateChokkinna:
     ld a, (v_entities.6.state)
     ld hl, chokkinnaUpdaters
-    rst $20    ; loadAthJumptablePointer
+    rst jumpToAthPointer
     ret
 
 ; Jump Table from 781E to 783B (15 entries, indexed by v_entities.6.state)

@@ -26,7 +26,7 @@ updateDemoState:
     ld (Mapper_Slot2), a
     ld a, (v_nextDemoIndex)
     ld hl, demoInputPointers - 2
-    rst $10    ; loadAthPointer
+    rst loadAthPointer
     dec hl
     ld (v_demoInputDataTimer), hl
     ld hl, v_inputFlags

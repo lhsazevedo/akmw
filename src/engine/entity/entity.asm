@@ -10,7 +10,7 @@ updateEntities:
     jp z, ++
     push bc
     ld hl, entityTypeJumpTable - 2
-    rst $20    ; loadAthJumptablePointer
+    rst jumpToAthPointer
     ld a, (ix+0)
     or a
     jp z, +

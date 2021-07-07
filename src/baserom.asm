@@ -41,13 +41,19 @@ loadAthPointer:
 ; Data from 1A to 1A (1 bytes)
 .db $FF
 
-_LABEL_1B_:
+jumpToAthPointerIfBit7:
     bit 7, a
     ret z
     and $0F
-loadAthJumptablePointer:
+
+; @param a jumptable index
+; Fallthrough
+jumpToAthPointer:
     add a, a
-_LABEL_21_:
+
+; @param hl jumptable
+; @param a jumptable byte
+jumpToPointerAtA:
     ld e, a
     ld d, $00
     add hl, de
@@ -57,12 +63,11 @@ _LABEL_21_:
     ld l, a
     jp (hl)
 
-; Data from 2A to 2F (6 bytes)
-.db $FF $FF $FF $FF $FF $FF
 
+.ORG $30
 ; Copy B bytes from (HL) to VRAM (DE) onwards
 memcpyToVRAM:
-    rst $08    ; setVDPAddress
+    rst setVDPAddress
     ld c, Port_VDPData
 -:
     outi
@@ -99,7 +104,7 @@ mainLoop:
 
     ; Jump to state updater
     ld hl, gameStateMainLoopPointers
-    rst $20    ; loadAthJumptablePointer
+    rst jumpToAthPointer
     jp mainLoop
 
 
@@ -201,7 +206,7 @@ handleInterrupt:
     rrca
     ld a, (v_gameState)
     ld hl, gameStateInterruptHandlersPointers
-    call c, _LABEL_1B_
+    call c, jumpToAthPointerIfBit7
     ld a, $82
     ld (Mapper_Slot2), a
     call audioEngine.update
@@ -241,13 +246,13 @@ gameStateInterruptHandlersPointers:
 
 writeAToVRAM:
     push af
-    rst $08    ; setVDPAddress
+    rst setVDPAddress
     pop af
     out (Port_VDPData), a
     ret
 
 writeBcBytesToVRAM:
-    rst $08    ; setVDPAddress
+    rst setVDPAddress
     ld a, c
     or a
     jr z, +
@@ -264,7 +269,7 @@ writeBcBytesToVRAM:
     ret
 
 _LABEL_159_:
-    rst $08    ; setVDPAddress
+    rst setVDPAddress
     ld a, (_RAM_C10A_)
     ld c, Port_VDPData
 -:
@@ -286,7 +291,7 @@ clearNameTable:
     ld l, $00
 ; FIXME: Understand parameters
 fillVRAM:
-    rst $08    ; setVDPAddress
+    rst setVDPAddress
     ld a, c
     or a
     ld a, l
@@ -302,7 +307,7 @@ _LABEL_18B_:
 ; Copy CxB (WxH) tiles from HL to DE
 copyNameTableBlockToVRAM:
     push bc
-    rst $08    ; setVDPAddress
+    rst setVDPAddress
     ld b, c
     ld c, Port_VDPData
 -:
@@ -325,7 +330,7 @@ copyNameTableBlockToVRAM:
 
 _LABEL_1C5_:
     ld hl, $0040
-    rst $08    ; setVDPAddress
+    rst setVDPAddress
     push bc
     xor a
 -:
@@ -340,7 +345,7 @@ _LABEL_1C5_:
 
 _LABEL_1D6_:
     ld (_RAM_C10B_), a
-    rst $08    ; setVDPAddress
+    rst setVDPAddress
 --:
     ld a, (hl)
     exx
@@ -377,14 +382,14 @@ _LABEL_208_:
     ld hl, _RAM_C700_
     ld de, $7F00
     ld bc,  $4000 | Port_VDPData
-    rst $08    ; setVDPAddress
+    rst setVDPAddress
 -:
     outi
     jr nz, -
     ld hl, _RAM_C780_
     ld de, $7F80
     ld b, $80
-    rst $08    ; setVDPAddress
+    rst setVDPAddress
 -:
     outi
     jr nz, -
@@ -397,7 +402,7 @@ _LABEL_208_:
     ld hl, _RAM_C700_
     ld bc,  $1100 | Port_VDPData
     ld de, $7F00
-    rst $08    ; setVDPAddress
+    rst setVDPAddress
 -:
     outi
     jr nz, -
@@ -414,7 +419,7 @@ _LABEL_208_:
     ld hl, _RAM_C780_
     ld de, $7F80
     ld b, $22
-    rst $08    ; setVDPAddress
+    rst setVDPAddress
 -:
     outi
     jr nz, -
@@ -533,7 +538,7 @@ enableDisplay:
     ld (v_VDPRegister1Value), a
     ld e, a
     ld d, $81
-    rst $08    ; setVDPAddress
+    rst setVDPAddress
     ret
 
 clearScroll:
@@ -542,9 +547,9 @@ clearScroll:
     ld (_RAM_C0B0_), a
     ld e, a
     ld d, $89
-    rst $08    ; setVDPAddress
+    rst setVDPAddress
     dec d
-    rst $08    ; setVDPAddress
+    rst setVDPAddress
     ret
 
 
@@ -566,9 +571,9 @@ clearVDPTablesAndDisableScreen:
     ld (hl), $E0
     ldir
     ld de, $8800
-    rst $08    ; setVDPAddress
+    rst setVDPAddress
     ld d, $89
-    rst $08    ; setVDPAddress
+    rst setVDPAddress
 
     ; Enable interrupts and wait
     ei
@@ -1364,10 +1369,9 @@ loadLevelTiles:
     call decompress4BitplanesToVRAM
     ld a, (v_level)
     ld hl, levelTileLoaders - 2
-    rst $20    ; loadAthJumptablePointer
+    rst jumpToAthPointer
     ret
 
-; Jump Table from E7D to E9E (17 entries, indexed by v_level)
 levelTileLoaders:
 ; MtEthernal
 .dw loadLevelTiles_LABEL_E9F_
@@ -1412,13 +1416,13 @@ loadLevelTiles_LABEL_E9F_:
     call fillVRAM
     ld a, (v_level)
     ld hl, levelMainTilesetPointers - 2
-    rst $10    ; loadAthPointer
+    rst loadAthPointer
     ld de, $4720
     call decompress4BitplanesToVRAM
     ld hl, tiles_aditionalSet4
     ld de, $4E60
     ld b, $A0
-    rst $30    ; memcpyToVRAM
+    rst memcpyToVRAM
     ld hl, tiles_aditionalSet1
     ld de, $4F00
     jp decompress4BitplanesToVRAM
@@ -1430,7 +1434,7 @@ loadLevelTiles_LABEL_EC9_:
     call decompress4BitplanesToVRAM
     ld a, (v_level)
     ld hl, levelMainTilesetPointers - 2
-    rst $10    ; loadAthPointer
+    rst loadAthPointer
     ld de, $46A0
     jp decompress4BitplanesToVRAM
 
@@ -1442,7 +1446,7 @@ loadLevelTiles_LABEL_EDF_:
     call fillVRAM
     ld a, (v_level)
     ld hl, levelMainTilesetPointers - 2
-    rst $10    ; loadAthPointer
+    rst loadAthPointer
     ld de, $4720
     call decompress4BitplanesToVRAM
     ld hl, tiles_aditionalSet1
@@ -1457,7 +1461,7 @@ loadLevelTiles_LABEL_F00_:
     call fillVRAM
     ld a, (v_level)
     ld hl, levelMainTilesetPointers - 2
-    rst $10    ; loadAthPointer
+    rst loadAthPointer
     ld de, $4720
     call decompress4BitplanesToVRAM
     ld hl, tiles_aditionalSet2
@@ -1472,7 +1476,7 @@ loadLevelTiles_LABEL_F21_:
     call fillVRAM
     ld a, (v_level)
     ld hl, levelMainTilesetPointers - 2
-    rst $10    ; loadAthPointer
+    rst loadAthPointer
     ld de, $48A0
     call decompress4BitplanesToVRAM
     ld hl, tiles_aditionalSet5
@@ -1481,7 +1485,7 @@ loadLevelTiles_LABEL_F21_:
     ld hl, tiles_aditionalSet4
     ld de, $4E60
     ld b, $A0
-    rst $30    ; memcpyToVRAM
+    rst memcpyToVRAM
     ld hl, tiles_aditionalSet1
     ld de, $4F00
     jp decompress4BitplanesToVRAM
@@ -1494,7 +1498,7 @@ loadLevelTiles_LABEL_F54_:
     call fillVRAM
     ld a, (v_level)
     ld hl, levelMainTilesetPointers - 2
-    rst $10    ; loadAthPointer
+    rst loadAthPointer
     ld de, $4720
     jp decompress4BitplanesToVRAM
 
@@ -1506,12 +1510,12 @@ loadLevelTiles_LABEL_F6C_:
     call fillVRAM
     ld a, $02
     ld hl, $847E
-    rst $10    ; loadAthPointer
+    rst loadAthPointer
     ld de, $4720
     call decompress4BitplanesToVRAM
     ld a, (v_level)
     ld hl, levelMainTilesetPointers - 2
-    rst $10    ; loadAthPointer
+    rst loadAthPointer
     ld de, $4920
     call decompress4BitplanesToVRAM
     ld hl, tiles_aditionalSet2
@@ -1536,7 +1540,7 @@ loadLevelTiles_LABEL_FAE_:
     call fillVRAM
     ld a, (v_level)
     ld hl, levelMainTilesetPointers - 2
-    rst $10    ; loadAthPointer
+    rst loadAthPointer
     ld de, $4720
     jp decompress4BitplanesToVRAM
 
@@ -1548,7 +1552,7 @@ loadLevelTiles_LABEL_FC6_:
     call fillVRAM
     ld a, (v_level)
     ld hl, levelMainTilesetPointers - 2
-    rst $10    ; loadAthPointer
+    rst loadAthPointer
     ld de, $4720
     call decompress4BitplanesToVRAM
     ld hl, tiles_aditionalSet5
@@ -1569,7 +1573,7 @@ loadLevelTiles_LABEL_FF9_:
     call fillVRAM
     ld a, $02
     ld hl, $847E
-    rst $10    ; loadAthPointer
+    rst loadAthPointer
     ld de, $4720
     call decompress4BitplanesToVRAM
     ld hl, tiles_aditionalSet2
@@ -1587,12 +1591,12 @@ loadLevelTiles_LABEL_1022_:
     call fillVRAM
     ld a, $03
     ld hl, $847E
-    rst $10    ; loadAthPointer
+    rst loadAthPointer
     ld de, $48A0
     call decompress4BitplanesToVRAM
     ld a, (v_level)
     ld hl, levelMainTilesetPointers - 2
-    rst $10    ; loadAthPointer
+    rst loadAthPointer
     ld de, $4AA0
     call decompress4BitplanesToVRAM
     ld hl, tiles_level17AditionalSet
@@ -1610,12 +1614,12 @@ loadLevelTiles_LABEL_1058_:
     call fillVRAM
     ld a, $0B
     ld hl, $847E
-    rst $10    ; loadAthPointer
+    rst loadAthPointer
     ld de, $4720
     call decompress4BitplanesToVRAM
     ld a, (v_level)
     ld hl, levelMainTilesetPointers - 2
-    rst $10    ; loadAthPointer
+    rst loadAthPointer
     ld de, $4DA0
     jp decompress4BitplanesToVRAM
 
@@ -1735,10 +1739,10 @@ loadLevelPalette:
     ld (Mapper_Slot2), a
     ld a, (v_level)
     ld hl, levelPalettes - 2
-    rst $10    ; loadAthPointer
+    rst loadAthPointer
     ld de, $C000
     ld b, $20
-    rst $30    ; memcpyToVRAM
+    rst memcpyToVRAM
     ret
 
 ; Pointer Table from 1112 to 1133 (17 entries, indexed by v_level)
@@ -1752,7 +1756,7 @@ loadLevelSpriteTiles:
     ld (Mapper_Slot2), a
     ld a, (v_level)
     ld hl, _DATA_1142_ - 2
-    jp loadAthJumptablePointer
+    jp jumpToAthPointer
 
 ; Jump Table from 1142 to 1163 (17 entries, indexed by v_level)
 _DATA_1142_:
@@ -2296,7 +2300,7 @@ _LABEL_15D2_:
     call _LABEL_15BC_
     ld de, $5100
     ld b, $40
-    rst $30    ; memcpyToVRAM
+    rst memcpyToVRAM
     ret
 
 ; 2nd entry of Jump Table from 156D (indexed by v_level)
@@ -2305,7 +2309,7 @@ _LABEL_15DF_:
     call _LABEL_15BC_
     ld de, $48C0
     ld b, $40
-    rst $30    ; memcpyToVRAM
+    rst memcpyToVRAM
     ret
 
 ; 4th entry of Jump Table from 156D (indexed by v_level)
@@ -2314,7 +2318,7 @@ _LABEL_15EC_:
     call _LABEL_15AF_
     ld de, $49E0
     ld b, $60
-    rst $30    ; memcpyToVRAM
+    rst memcpyToVRAM
     ret
 
 ; 16th entry of Jump Table from 156D (indexed by v_level)
@@ -2323,12 +2327,12 @@ _LABEL_15F9_:
     call _LABEL_15AF_
     ld de, $48A0
     ld b, $60
-    rst $30    ; memcpyToVRAM
+    rst memcpyToVRAM
     ld de, _DATA_1620_
     call _LABEL_15BC_
     ld de, $5100
     ld b, $40
-    rst $30    ; memcpyToVRAM
+    rst memcpyToVRAM
     ret
 
 ; 7th entry of Jump Table from 156D (indexed by v_level)
@@ -2337,7 +2341,7 @@ _LABEL_1612_:
     call _LABEL_15AF_
     ld de, $4B40
     ld b, $60
-    rst $30    ; memcpyToVRAM
+    rst memcpyToVRAM
     ret
 
 ; 8th entry of Jump Table from 156D (indexed by v_level)
@@ -2633,7 +2637,7 @@ _LABEL_1874_:
     call updateAlexSpawning
     call updateEntities
     ld de, $8026
-    rst $08    ; setVDPAddress
+    rst setVDPAddress
     ld a, (v_level)
     inc a
     ld c, a
@@ -5151,7 +5155,7 @@ _LABEL_3D0A_:
     sub $0D
     ret c
     ld hl, _DATA_3D2B_
-    jp loadAthJumptablePointer
+    jp jumpToAthPointer
 
 ; Jump Table from 3D2B to 3D5A (24 entries, indexed by _RAM_C802_)
 _DATA_3D2B_:
@@ -5714,7 +5718,7 @@ loadAlexTilesToVRAM2000:
     ld c, a
     ld b, $00
     ld de, $6000
-    rst $08    ; setVDPAddress
+    rst setVDPAddress
 
 ; Load tiles from Alex tile descriptors to VRAM.
 ; Assumes that VA is already set.
@@ -5787,7 +5791,7 @@ handleNametableChangeRequest:
     add a, a
     ret nc
     ld hl, _DATA_4237_
-    jp _LABEL_21_
+    jp jumpToPointerAtA
 
 ; Jump Table from 4237 to 424A (10 entries, indexed by v_nametableChangeRequest)
 _DATA_4237_:
@@ -5927,7 +5931,7 @@ _LABEL_42C3_:
     push bc
     ld hl, _DATA_1450B_
     ld b, $08
-    rst $30    ; memcpyToVRAM
+    rst memcpyToVRAM
     ld hl, $0040
     add hl, de
     ex de, hl
@@ -5960,7 +5964,7 @@ _LABEL_434F_:
     ld d, a
     ld bc, $0404
 _LABEL_435F_:
-    rst $08    ; setVDPAddress
+    rst setVDPAddress
     push bc
     push hl
     push de
@@ -6022,7 +6026,7 @@ _LABEL_437D_:
     add hl, bc
     ex de, hl
     ld b, $04
-    rst $30    ; memcpyToVRAM
+    rst memcpyToVRAM
     ex de, hl
     pop hl
     ex af, af'
@@ -6156,7 +6160,7 @@ _LABEL_4508_:
     ret z
     ld a, (_RAM_C054_)
     ld hl, _DATA_4523_
-    jp loadAthJumptablePointer
+    jp jumpToAthPointer
 
 ; Jump Table from 4523 to 453E (14 entries, indexed by _RAM_C054_)
 _DATA_4523_:
@@ -6241,7 +6245,7 @@ _LABEL_4578_:
     ld c, e
     ld b, d
     ld hl, _DATA_45D9_ - 2
-    rst $20    ; loadAthJumptablePointer
+    rst jumpToAthPointer
 _LABEL_45BE_:
     ld a, (v_entities.1.state)
     cp ALEX_SWIMING
@@ -6474,7 +6478,7 @@ _LABEL_4B9E_:
     sub $50
     ld d, a
     pop bc
-    rst $30    ; memcpyToVRAM
+    rst memcpyToVRAM
     ex de, hl
     call _LABEL_4C23_
     ex de, hl
@@ -6551,7 +6555,7 @@ _LABEL_4BF3_:
     pop af
     add a, a
     ld b, a
-    rst $30    ; memcpyToVRAM
+    rst memcpyToVRAM
     ld l, e
 _LABEL_4C23_:
     ld bc, $0040
@@ -6919,7 +6923,7 @@ _LABEL_6462_:
     ld de, $8026
     ld a, e
     ld (v_VDPRegister0Value), a
-    rst $08    ; setVDPAddress
+    rst setVDPAddress
     ei
     ld a, $08
     ld (v_scrollFlags), a
@@ -6944,7 +6948,7 @@ _LABEL_647D_:
     ld de, $8026
     ld a, e
     ld (v_VDPRegister0Value), a
-    rst $08    ; setVDPAddress
+    rst setVDPAddress
     ei
 +:
     ld hl, (v_horizontalScroll)
@@ -7038,7 +7042,7 @@ _LABEL_6502_:
     ld de, $8006
     ld a, e
     ld (v_VDPRegister0Value), a
-    rst $08    ; setVDPAddress
+    rst setVDPAddress
     ei
     ret
 
@@ -7114,7 +7118,7 @@ loadLevel:
     ; Get level descriptor pointer
     ld a, (v_level)
     ld hl, LevelDescriptorPointerTable - 2
-    rst $10    ; loadAthPointer
+    rst loadAthPointer
     
     ; @TODO...
     ld a, (hl)
@@ -7183,7 +7187,7 @@ loadLevel:
     ld de, $8006
     ld a, e
     ld (v_VDPRegister0Value), a
-    rst $08    ; setVDPAddress
+    rst setVDPAddress
     ld a, (v_levelScrollability)
     ld (v_scrollFlags), a
     ret
@@ -7915,7 +7919,7 @@ loadEntitiesNormal_LABEL_6F48_:
     res 7, (hl)
     ld a, (hl)
     ld hl, (v_entitydataPointersPointer)
-    rst $10    ; loadAthPointer
+    rst loadAthPointer
     xor a
     ld (v_newEntityVerticalOffset), a
     ld de, $0100
@@ -8048,7 +8052,7 @@ loadOctopusArms:
     ld a, (hl)
     exx
     ld hl, _DATA_7102_ - 2
-    rst $10    ; loadAthPointer
+    rst loadAthPointer
     ld e, (hl)
     inc hl
     ld d, (hl)
@@ -8111,7 +8115,7 @@ loadEntitiesSpecial_LABEL_6F48_:
     inc (hl)
     ld a, (hl)
     ld hl, (v_entitydataPointersPointer)
-    rst $10    ; loadAthPointer
+    rst loadAthPointer
     jp _LABEL_6F7E_
 
 +:
@@ -8126,7 +8130,7 @@ loadEntitiesSpecial_LABEL_6F48_:
     add a, b
     ld (v_entityIndex), a
     ld hl, (v_entitydataPointersPointer)
-    rst $10    ; loadAthPointer
+    rst loadAthPointer
     jp _LABEL_6F7E_
 
 ++:
@@ -8140,7 +8144,7 @@ loadEntitiesSpecial_LABEL_6F48_:
     sub b
     ld (v_entityIndex), a
     ld hl, (v_entitydataPointersPointer)
-    rst $10    ; loadAthPointer
+    rst loadAthPointer
     jp _LABEL_6F7E_
 
 _LABEL_70F6_:
@@ -8148,7 +8152,7 @@ _LABEL_70F6_:
     dec (hl)
     ld a, (hl)
     ld hl, (v_entitydataPointersPointer)
-    rst $10    ; loadAthPointer
+    rst loadAthPointer
     jp _LABEL_6F7E_
 
 ; Pointer Table from 7102 to 7105 (2 entries, indexed by unknown)
@@ -8446,7 +8450,7 @@ updateOpponentHandleThrows:
     add a, e
     add a, e
     ld hl, opponentResultHandlers
-    rst $20    ; loadAthJumptablePointer
+    rst jumpToAthPointer
     ld a, STATE_TEXT_BOX
     ld (v_gameState), a
     ret
@@ -9379,7 +9383,7 @@ checkAlexEntityCollision_LABEL_7D0B_:
     jp z, _LABEL_7D38_
     ld a, (_RAM_C054_)
     ld hl, _DATA_7D1C_
-    jp loadAthJumptablePointer
+    jp jumpToAthPointer
 
 ; Jump Table from 7D1C to 7D37 (14 entries, indexed by _RAM_C054_)
 _DATA_7D1C_:
@@ -9463,7 +9467,7 @@ tryToKillAlexIfColliding:
     ret nc
     ld a, (_RAM_C054_)
     ld hl, _DATA_7DA8_
-    jp loadAthJumptablePointer
+    jp jumpToAthPointer
 
 ; This table controls wehther alex can be hurt when colliding with an entity
 ; based on it's mechanics state (_RAM_C054_)

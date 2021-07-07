@@ -20,7 +20,7 @@ updateParplinHead:
 ++:
     ld a, (v_entities.7.state)
     ld hl, _DATA_7B64_
-    rst $20    ; loadAthJumptablePointer
+    rst jumpToAthPointer
     ret
 
 ; Jump Table from 7B64 to 7B77 (10 entries, indexed by v_entities.7.state)

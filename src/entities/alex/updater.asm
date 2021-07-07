@@ -7,7 +7,7 @@ updateAlex:
     call nz, _LABEL_2F41_
     ld a, (v_entities.1.state)
     ld hl, alexStateHandlersPointers
-    rst $20    ; loadAthJumptablePointer
+    rst jumpToAthPointer
     ld a, (v_entities.1.state)
     cp ALEX_DEAD
     ret z
@@ -15,5 +15,5 @@ updateAlex:
     ret nz
     ld a, (v_level)
     ld hl, _DATA_3F3A_ - 2
-    rst $20    ; loadAthJumptablePointer
+    rst jumpToAthPointer
     ret

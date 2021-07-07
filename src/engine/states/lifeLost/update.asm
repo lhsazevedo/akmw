@@ -57,7 +57,7 @@ updateLifeLostState:
     and $7F
     ld e, b
     ld hl, _DATA_6F30_ - 2
-    rst $10    ; loadAthPointer
+    rst loadAthPointer
     exx
     call destroyCurrentEntity
     exx
@@ -264,7 +264,7 @@ gameOver_LABEL_6DC9_:
     ld de, $8026
     ld a, e
     ld (v_VDPRegister0Value), a
-    rst $08    ; setVDPAddress
+    rst setVDPAddress
     ld a, $AF
     ld (v_soundControl), a
     ei

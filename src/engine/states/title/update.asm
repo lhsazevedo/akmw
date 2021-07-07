@@ -62,7 +62,7 @@ updateTitleScreenState:
     ld hl, titleScreenPalette
     ld de, $C000
     ld b, $20
-    rst $30    ; memcpyToVRAM
+    rst memcpyToVRAM
 
     ; Copy alex/janken sprite tiles to VRAM
     call loadTitleSprites

@@ -148,7 +148,7 @@ _LABEL_7ED3_:
     ld (Mapper_Slot2), a
     ld a, (v_messageToShowInTheTextBoxIndex)
     ld hl, textPointers - 2
-    rst $10    ; loadAthPointer
+    rst loadAthPointer
     ld a, (hl)
     ld (v_textBoxCounter), a
     inc hl

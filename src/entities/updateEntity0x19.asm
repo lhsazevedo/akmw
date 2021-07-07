@@ -5,5 +5,5 @@ updateEntity0x19:
     jr nz, +
     ld a, (ix + Entity.state)
     ld hl, _DATA_74DF_
-    rst $20    ; loadAthJumptablePointer
+    rst jumpToAthPointer
     ret

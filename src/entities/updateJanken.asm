@@ -2,7 +2,7 @@
 updateJanken:
     ld a, (v_entities.6.state)
     ld hl, jankenUpdaters
-    rst $20    ; loadAthJumptablePointer
+    rst jumpToAthPointer
     ret
 
 ; Jump Table from 7152 to 717B (21 entries, indexed by v_entities.6.state)
