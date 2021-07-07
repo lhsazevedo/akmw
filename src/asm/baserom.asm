@@ -6780,7 +6780,7 @@ killOpponent:
     ld a, $95
     ld (v_soundControl), a
 
-    call earnEnemyScore
+    call earnEntityPoints
 
     ; @TODO
     ld (ix + Entity.unknown1), $01
@@ -6791,7 +6791,7 @@ killOpponent:
     ret
 
 _LABEL_555C_:
-    call earnEnemyScore
+    call earnEntityPoints
     ld a, $95
     ld (v_soundControl), a
     ld (ix+2), $00
@@ -6809,7 +6809,7 @@ _LABEL_5571_:
 
 ; Shared
 _LABEL_55A5_:
-    call earnEnemyScore
+    call earnEntityPoints
     ld a, SOUND_SMOKE_PUFF
     ld (v_soundControl), a
     ld (ix+0), ENTITY_SMOKE_PUFF
@@ -6852,28 +6852,13 @@ _LABEL_55ED_:
 .INC "entities/updateEntity0x2F.asm"
 .INC "entities/monsterFrog/jumpingUpdater.asm"
 
-earnEnemyScore:
-    ld a, (ix+0)
-    ld c, a
-    ld b, $00
-    ld hl, _DATA_5776_ - 1
-    add hl, bc
-    ld l, (hl)
-    jp addScore
+.INC "src/asm/engine/entity/earnEntityPoints.asm"
 
-; Data from 5776 to 57CD (88 bytes)
-_DATA_5776_:
-.dsb 28, $00
-.db $12 $12 $12 $03 $00 $00 $06 $06 $09 $09 $09 $09 $00 $03 $00 $00
-.db $00 $03 $00 $00 $03 $03 $00 $00 $03
-.dsb 16, $00
-.db $06 $06 $06 $06 $09 $00 $00 $00 $09 $00 $00 $00 $00 $00 $00 $03
-.db $00 $00 $00
+.INC "src/data/entityPoints.asm"
 
 .INC "entities/seaHorseLeft/updater.asm"
 .INC "entities/seaHorseRight/updater.asm"
 .INC "entities/debrisTopLeft/updater.asm"
-
 .INC "entities/updateEntity0x39.asm"
 .INC "entities/updateEntity0x3A.asm"
 .INC "entities/updateEntity0x3B.asm"
@@ -8821,7 +8806,7 @@ _LABEL_746F_:
     ld (iy+1), $00
     ld a, $01
     ld (v_hasMoonstoneMedallion), a
-    ld l, $15
+    ld l, SCORE_10000
     jp addScore
 
 ; - Wait namespace change opportunity

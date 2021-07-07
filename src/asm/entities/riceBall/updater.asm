@@ -19,7 +19,7 @@ updateRiceBall:
     call checkEntityCollision
     ret c
 
-    ld l, $0C
+    ld l, SCORE_1000
     call addScore
 
     call clearCurrentEntity
