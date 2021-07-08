@@ -9,7 +9,7 @@ updateTitleScreenState:
     set 7, (hl)
     
     xor a
-    ld (_RAM_C10A_), a
+    ld (v_nametableCopyFlags), a
     call clearVDPTablesAndDisableScreen
     
     ld de, $6000
@@ -79,7 +79,7 @@ updateTitleScreenState:
 
 realUpdateTitleScreenState:
     ld a, $09
-    call setAndWaitForInterruptFlags
+    call waitForInterrupt
     call updateEntities
 
     ; Exit title on button press
@@ -116,7 +116,7 @@ startGame:
     ldir
 
     xor a
-    ld (_RAM_C10A_), a
+    ld (v_nametableCopyFlags), a
     ; Reset input flags
     ld (v_inputFlags), a
 

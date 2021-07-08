@@ -24,7 +24,7 @@ initLevelStartingState:
     ld hl, levelStartingPalette
     ld de, $C000
     ld bc, $0010
-    call writeBcBytesToVRAM
+    call copyBytesToVRAM
 
     ; Set color 16 (sprite 0) black
     xor a
@@ -84,13 +84,13 @@ initLevelStartingState:
     ld hl, _DATA_1E209_
     ld de, $6820
     ld bc, $0020
-    call writeBcBytesToVRAM
+    call copyBytesToVRAM
 
     ; Load Janken's castle tiles
     ld hl, _DATA_1C269_
     ld de, $6840
     ld bc, $0140
-    call writeBcBytesToVRAM
+    call copyBytesToVRAM
 
     ld a, $03
     ld (v_entitydataArrayLength), a

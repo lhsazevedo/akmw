@@ -191,7 +191,7 @@ handleInterrupt:
     ld a, (v_interruptFlags)
     rrca
     push af
-    call c, copySATtoVRAM
+    call c, updateSprites
     call _LABEL_41B3_
     pop af
     rrca
@@ -251,7 +251,8 @@ writeAToVRAM:
     out (Port_VDPData), a
     ret
 
-writeBcBytesToVRAM:
+; Copy BC bytes from (HL) to VRAM DE
+copyBytesToVRAM:
     rst setVDPAddress
     ld a, c
     or a
@@ -261,20 +262,21 @@ writeBcBytesToVRAM:
     ld a, b
     ld b, c
     ld c, Port_VDPData
--:
+
+@loop:
     outi
-    jp nz, -
+    jp nz, @loop
     dec a
-    jp nz, -
+    jp nz, @loop
     ret
 
 ; @param de VDP destination
 ; @param b count
 ; @param HL source
-; @param _RAM_C10A_ flags
-writeNametableEntriesToVRAM:
+; @param v_nametableCopyFlags flags
+copyNametableEntriesToVRAM:
     rst setVDPAddress
-    ld a, (_RAM_C10A_)
+    ld a, (v_nametableCopyFlags)
     ld c, Port_VDPData
 -:
     outi
@@ -285,27 +287,40 @@ writeNametableEntriesToVRAM:
     ret
 
 ; Data from 168 to 17B (20 bytes)
-.db $CF $79 $B7 $28 $01 $04 $78 $41 $0E $BE $ED $A2 $C2 $72 $01 $3D
-.db $C2 $72 $01 $C9
-
+copyBytesFromVRAM:
+    rst setVDPAddress
+    ld a, c
+    or a
+    jr z, +
+    inc b
++:
+    ld a, b
+    ld b, c
+    ld c, Port_VDPData
+@loop:
+    ini
+    jp nz, @loop
+    dec a
+    jp nz, @loop
+    ret
 
 clearNameTable:
     ld de, $7800
     ld bc, $0700
     ld l, $00
-; FIXME: Understand parameters
+; TODO: Understand parameters
 fillVRAM:
     rst setVDPAddress
     ld a, c
     or a
     ld a, l
-    jr z, _LABEL_18B_
+    jr z, @loop
     inc b
-_LABEL_18B_:
+@loop:
     out (Port_VDPData), a
     dec c
-    jr nz, _LABEL_18B_
-    djnz _LABEL_18B_
+    jr nz, @loop
+    djnz @loop
     ret
 
 ; Copy CxB (WxH) tiles from HL to DE
@@ -328,11 +343,32 @@ copyNameTableBlockToVRAM:
     ret
 
 
-; Data from 1A7 to 1C4 (30 bytes)
-.db $32 $0A $C1 $C5 $CF $41 $0E $BE $ED $A3 $3A $0A $C1 $00 $ED $79
-.db $00 $C2 $AF $01 $EB $01 $40 $00 $09 $EB $C1 $10 $E6 $C9
+copyNameTableBlockToVramWithFlag:
+    ld (v_nametableCopyFlags), a
 
-_LABEL_1C5_:
+    --:
+    push bc
+    rst setVDPAddress
+    ld b,c
+    ld c, Port_VDPData
+
+    -:
+    outi
+    ld a, (v_nametableCopyFlags)
+    nop
+    out (c),a
+    nop
+    jp nz, -
+
+    ex de,hl
+    ld bc, $0040
+    add hl,bc
+    ex de, hl
+    pop bc
+    djnz --
+    ret
+
+clearNametableArea:
     ld hl, $0040
     rst setVDPAddress
     push bc
@@ -344,11 +380,11 @@ _LABEL_1C5_:
     add hl, de
     ex de, hl
     pop bc
-    djnz _LABEL_1C5_
+    djnz clearNametableArea
     ret
 
-_LABEL_1D6_:
-    ld (_RAM_C10B_), a
+load1bppTiles:
+    ld (v_1bppTileColor), a
     rst setVDPAddress
 --:
     ld a, (hl)
@@ -356,7 +392,7 @@ _LABEL_1D6_:
     ld c, Port_VDPData
     ld b, $04
     ld h, a
-    ld a, (_RAM_C10B_)
+    ld a, (v_1bppTileColor)
 -:
     rra
     ld d, h
@@ -373,72 +409,88 @@ _LABEL_1D6_:
     jp nz, --
     ret
 
-copySATtoVRAM:
+updateSprites:
     ld a, (v_gameState)
     and $0F
-    cp $02
-    jr c, _LABEL_208_
-    ld hl, _RAM_C10D_
+    cp STATE_DEMO
+    jr c, @oddUpdate
+
+    ld hl, v_spriteFlickeringCounter
     inc (hl)
     bit 0, (hl)
-    jr z, +
-_LABEL_208_:
-    ld hl, _RAM_C700_
+    jr z, @evenUpdate
+
+@oddUpdate:
+    ; Copy Y positions
+    ld hl, v_tempSprites
     ld de, $7F00
     ld bc,  $4000 | Port_VDPData
     rst setVDPAddress
--:
+
+@oddYLoop:
     outi
-    jr nz, -
-    ld hl, _RAM_C780_
+    jr nz, @oddYLoop
+
+    ld hl, v_tempSprites + $80
     ld de, $7F80
     ld b, $80
     rst setVDPAddress
--:
+
+@oddXLoop:
     outi
-    jr nz, -
+    jr nz, @oddXLoop
     ret
 
-+:
+@evenUpdate:
     ld a, (v_spriteTerminatorPointer)
     cp $13
-    jr c, _LABEL_208_
-    ld hl, _RAM_C700_
+    jr c, @oddUpdate
+
+    ld hl, v_tempSprites
     ld bc,  $1100 | Port_VDPData
     ld de, $7F00
     rst setVDPAddress
--:
+
+@evenFixedYLoop:
     outi
-    jr nz, -
+    jr nz, @evenFixedYLoop
+
     ld hl, (v_spriteTerminatorPointer)
     ld a, l
     dec l
     sub $11
     ld b, a
--:
+
+@evenReversedYLoop:
     outd
-    jr nz, -
+    jr nz, @evenReversedYLoop
+
     ld a, $D0
     out (Port_VDPData), a
-    ld hl, _RAM_C780_
+
+    ld hl, v_tempSprites + $80
     ld de, $7F80
     ld b, $22
     rst setVDPAddress
--:
+
+@evenFixedXLoop:
     outi
-    jr nz, -
+    jr nz, @evenFixedXLoop
+
     ld hl, (v_spriteTerminatorPointer)
     sla l
     set 7, l
     ld a, l
     sub $A2
     ld b, a
--:
+
+@evenReversedXLoop:
     dec l
     dec l
     outi
     outd
-    jp nz, -
+    jp nz, @evenReversedXLoop
+
     ret
 
 initVDPRegisters:
@@ -451,7 +503,7 @@ initVDPRegisters:
     ld (v_VDPRegister1Value), a
     ret
 
-; Data from 27D to 292 (22 bytes)
+
 initialVDPRegistersWrites:
 ; Register $00
 .db ( VDP_R0_MASK_COL_0 | VDP_R0_USE_MODE_4  | VDP_R0_CHANGE_HEIGHT_IN_MODE_4 )
@@ -498,10 +550,10 @@ initialVDPRegistersWrites:
 
 .INCLUDE "decompress.asm"
 
-; Data from 2C4 to 2C4 (1 bytes)
+; Unknown data
 .db $CF
 
-_LABEL_2C5_:
+copyMirroredTilesToVramAtCurrentAddress:
     ld e, $08
     ld d, (hl)
 -:
@@ -514,19 +566,24 @@ _LABEL_2C5_:
     dec bc
     ld a, b
     or c
-    jr nz, _LABEL_2C5_
+    jr nz, copyMirroredTilesToVramAtCurrentAddress
     ret
 
-; Data from 2D7 to 2E5 (15 bytes)
-.db $21 $00 $C7 $11 $01 $C7 $01 $BF $00 $36 $E0 $ED $B0 $3E $01
+clearSprites:
+    ld hl, v_tempSprites
+    ld de, v_tempSprites + 1
+    ld bc, $00BF
+    ld (hl), $E0
+    ldir
+    ld a, $01
 
-setAndWaitForInterruptFlags:
+waitForInterrupt:
     ld hl, v_interruptFlags
     ld (hl), a
--:
+@loop:
     ld a, (hl)
     or a
-    jr nz, -
+    jr nz, @loop
     ret
 
 disableDisplay:
@@ -534,7 +591,7 @@ disableDisplay:
     and %10111111
     jr +
 
-; Also sets VDP Address, why?
+; @TODO: Also sets VDP Address, why?
 enableDisplay:
     ld a, (v_VDPRegister1Value)
     or VDP_R1_DISPLAY_VISIBLE
@@ -569,8 +626,8 @@ clearVDPTablesAndDisableScreen:
 
     ; Reset sprite address table
     ; @TODO: Why $E0?
-    ld hl, _RAM_C700_
-    ld de, _RAM_C700_ + 1
+    ld hl, v_tempSprites
+    ld de, v_tempSprites + 1
     ld bc, $00BF
     ld (hl), $E0
     ldir
@@ -582,7 +639,7 @@ clearVDPTablesAndDisableScreen:
     ; Enable interrupts and wait
     ei
     ld a, $01
-    call setAndWaitForInterruptFlags
+    call waitForInterrupt
 
     ; Disable interrupts
     di
@@ -619,7 +676,6 @@ configurePPI:
     res 0, (hl)
     ret
 
-; $00367
 readInput:
     ld a, (v_inputFlags)
     bit 0, a
@@ -672,7 +728,7 @@ readInput:
     res 5, c
 +:
     ld a, c
-; $003C4
+
 saveInput:
     ld hl, v_inputData
     cpl
@@ -692,7 +748,7 @@ takeMoney:
     ret nz
 
     ld bc, v_money
-    ld de, data_moneyBagValueTable
+    ld de, moneyBagValues
     ld h, $00
     add hl, de
     call sumBCD
@@ -734,7 +790,7 @@ addScore:
     ret
 
 
-; Sum tree BCD bytes, writing back to hl.
+; Sum three BCD bytes, writing back to hl.
 ;
 ; @param bc - Pointer to current money balance
 ; @param hl - Pointer to value to add 
@@ -763,8 +819,10 @@ sumBCD:
 
     ret
 
-
-_LABEL_41C_:
+; Subtract three BCD bytes, writing back to hl.
+; @param bc - Pointer to first value
+; @param hl - Pointer to second value and destination
+subtractBCD:
     ld a, (bc)
     sub (hl)
     daa
@@ -783,7 +841,7 @@ _LABEL_41C_:
     ld (bc), a
     ret
 
-_LABEL_42D_:
+subtractBCDToA:
     ld a, (bc)
     sub (hl)
     daa
@@ -818,9 +876,9 @@ updateHighScore:
     lddr
     ret
 
-_LABEL_454_:
+drawThreeBCDDigits:
     ld c, $03
-_LABEL_456_:
+drawBCDDigits:
     call setVDPAddress
     set 7, e
 --:
@@ -842,7 +900,7 @@ _LABEL_456_:
     out (Port_VDPData), a
     push af
     pop af
-    ld a, (_RAM_C10A_)
+    ld a, (v_nametableCopyFlags)
     out (Port_VDPData), a
     pop af
     djnz -
@@ -853,7 +911,7 @@ _LABEL_456_:
     ret
 
 ; Data from 483 to 488 (6 bytes)
-data_moneyBagValueTable:
+moneyBagValues:
 .db SMALL_MONEY_BAG_VALUE
 .db BIG_MONEY_BAG_VALUE
 
@@ -868,18 +926,52 @@ scores:
 .db $00 $02 $00 ; 2000
 .db $00 $10 $00 ; 10000
 
-; Data from 4A1 to 4CD (45 bytes)
-.db $23 $5E $23
-.db $56 $23 $46 $23 $7E
-.db $C9 $46 $C5 $CD $A1 $04 $23 $E5 $66 $6F $CD $59 $01 $E1 $C1 $10
-.db $F1 $C9 $08 $3E $82 $32 $FF $FF $08 $11 $00 $44 $01 $00 $02 $21
-.db $05 $B3 $C3 $D6 $01
+fillRegisters:
+    inc hl
+    ld e, (hl)
+    inc hl
+    ld d, (hl)
+    inc hl
+    ld b, (hl)
+    inc hl
+    ld a, (hl)
+    ret
 
+unknownCodeB:
+    ld b, (hl)
+
+    -:
+    push bc
+    call fillRegisters
+    inc hl
+    push hl
+    ld h, (hl)
+    ld l, a
+    call copyNametableEntriesToVRAM
+    pop hl
+    pop bc
+    djnz -
+    ret
+
+unknownCodeC:
+    ex af, af'
+
+    ld a, $80 | :oneBppCharacters
+    ld (Mapper_Slot2), a
+
+    ex af, af'
+    ld de, 0x4400
+    ld bc, 0x0200
+    ld hl, oneBppCharacters
+    jp load1bppTiles
+
+; @TODO
 _LABEL_4CE_:
-    ld l, (ix+27)
-    ld a, (ix+28)
+    ld l, (ix + Entity.stateTimer)
+    ld a, (ix + Entity.unknown8)
     and $01
-    ld (ix+28), a
+    ld (ix + Entity.unknown8), a
+
     ld h, a
     add hl, hl
     ld a, l
@@ -908,27 +1000,34 @@ _LABEL_4FE_:
     ld b, $00
     add hl, bc
     ld a, (hl)
+
     exx
+
     ld e, a
-    ld l, (ix+29)
+    ld l, (ix + Entity.unknown9)
     call _LABEL_74C_
-    ld a, (ix+30)
+    ld a, (ix + Entity.unknown10)
     add a, h
-    ld (ix+14), a
-    ld a, (ix+25)
+    ld (ix + Entity.yPos.high), a
+
+    ld a, (ix + Entity.unknown7)
     adc a, $00
-    ld (ix+10), a
+    ld (ix + Entity.isOffScreenFlags.high), a
+
     exx
+
     inc hl
     ld l, (hl)
-    ld e, (ix+29)
+    ld e, (ix + Entity.unknown9)
     call _LABEL_74C_
-    ld a, (ix+31)
+    ld a, (ix + Entity.unknown11)
     add a, h
-    ld (ix+12), a
-    ld a, (ix+26)
+    ld (ix + Entity.xPos.high), a
+
+    ld a, (ix + Entity.state)
     sbc a, $00
-    ld (ix+9), a
+    ld (ix + Entity.isOffScreenFlags.low), a
+
     ret
 
 ; 2nd entry of Jump Table from 4EE (indexed by _RAM_CF9C_)
@@ -943,25 +1042,25 @@ _LABEL_535_:
     ld a, (hl)
     exx
     ld e, a
-    ld l, (ix+29)
+    ld l, (ix + Entity.unknown9)
     call _LABEL_74C_
     ld a, (ix+31)
     add a, h
-    ld (ix+12), a
-    ld a, (ix+26)
+    ld (ix + Entity.xPos.high), a
+    ld a, (ix + Entity.state)
     sbc a, $00
-    ld (ix+9), a
+    ld (ix + Entity.isOffScreenFlags.low), a
     exx
     inc hl
     ld l, (hl)
-    ld e, (ix+29)
+    ld e, (ix + Entity.unknown9)
     call _LABEL_74C_
-    ld a, (ix+30)
+    ld a, (ix + Entity.unknown10)
     add a, h
-    ld (ix+14), a
-    ld a, (ix+25)
+    ld (ix + Entity.yPos.high), a
+    ld a, (ix + Entity.unknown7)
     adc a, $00
-    ld (ix+10), a
+    ld (ix + Entity.isOffScreenFlags.high), a
     ret
 
 ; 3rd entry of Jump Table from 4EE (indexed by _RAM_CF9C_)
@@ -972,25 +1071,25 @@ _LABEL_571_:
     ld a, (hl)
     exx
     ld e, a
-    ld l, (ix+29)
+    ld l, (ix + Entity.unknown9)
     call _LABEL_74C_
     ld a, (ix+31)
     sub h
-    ld (ix+12), a
-    ld a, (ix+26)
+    ld (ix + Entity.xPos.high), a
+    ld a, (ix + Entity.state)
     adc a, $00
-    ld (ix+9), a
+    ld (ix + Entity.isOffScreenFlags.low), a
     exx
     inc hl
     ld l, (hl)
-    ld e, (ix+29)
+    ld e, (ix + Entity.unknown9)
     call _LABEL_74C_
-    ld a, (ix+30)
+    ld a, (ix + Entity.unknown10)
     add a, h
-    ld (ix+14), a
-    ld a, (ix+25)
+    ld (ix + Entity.yPos.high), a
+    ld a, (ix + Entity.unknown7)
     adc a, $00
-    ld (ix+10), a
+    ld (ix + Entity.isOffScreenFlags.high), a
     ret
 
 ; 4th entry of Jump Table from 4EE (indexed by _RAM_CF9C_)
@@ -1005,25 +1104,25 @@ _LABEL_5A8_:
     ld a, (hl)
     exx
     ld e, a
-    ld l, (ix+29)
+    ld l, (ix + Entity.unknown9)
     call _LABEL_74C_
-    ld a, (ix+30)
+    ld a, (ix + Entity.unknown10)
     add a, h
-    ld (ix+14), a
-    ld a, (ix+25)
+    ld (ix + Entity.yPos.high), a
+    ld a, (ix + Entity.unknown7)
     adc a, $00
-    ld (ix+10), a
+    ld (ix + Entity.isOffScreenFlags.high), a
     exx
     inc hl
     ld l, (hl)
-    ld e, (ix+29)
+    ld e, (ix + Entity.unknown9)
     call _LABEL_74C_
-    ld a, (ix+31)
+    ld a, (ix + Entity.unknown11)
     sub h
-    ld (ix+12), a
-    ld a, (ix+26)
+    ld (ix + Entity.xPos.high), a
+    ld a, (ix + Entity.state)
     adc a, $00
-    ld (ix+9), a
+    ld (ix + Entity.isOffScreenFlags.low), a
     ret
 
 ; 5th entry of Jump Table from 4EE (indexed by _RAM_CF9C_)
@@ -1034,25 +1133,25 @@ _LABEL_5E4_:
     ld a, (hl)
     exx
     ld e, a
-    ld l, (ix+29)
+    ld l, (ix + Entity.unknown9)
     call _LABEL_74C_
-    ld a, (ix+30)
+    ld a, (ix + Entity.unknown10)
     sub h
-    ld (ix+14), a
-    ld a, (ix+25)
+    ld (ix + Entity.yPos.high), a
+    ld a, (ix + Entity.unknown7)
     sbc a, $00
-    ld (ix+10), a
+    ld (ix + Entity.isOffScreenFlags.high), a
     exx
     inc hl
     ld l, (hl)
-    ld e, (ix+29)
+    ld e, (ix + Entity.unknown9)
     call _LABEL_74C_
-    ld a, (ix+31)
+    ld a, (ix + Entity.unknown11)
     sub h
-    ld (ix+12), a
-    ld a, (ix+26)
+    ld (ix + Entity.xPos.high), a
+    ld a, (ix + Entity.state)
     adc a, $00
-    ld (ix+9), a
+    ld (ix + Entity.isOffScreenFlags.low), a
     ret
 
 ; 6th entry of Jump Table from 4EE (indexed by _RAM_CF9C_)
@@ -1067,25 +1166,25 @@ _LABEL_61B_:
     ld a, (hl)
     exx
     ld e, a
-    ld l, (ix+29)
+    ld l, (ix + Entity.unknown9)
     call _LABEL_74C_
-    ld a, (ix+31)
+    ld a, (ix + Entity.unknown11)
     sub h
-    ld (ix+12), a
-    ld a, (ix+26)
+    ld (ix + Entity.xPos.high), a
+    ld a, (ix + Entity.state)
     adc a, $00
-    ld (ix+9), a
+    ld (ix + Entity.isOffScreenFlags.low), a
     exx
     inc hl
     ld l, (hl)
-    ld e, (ix+29)
+    ld e, (ix + Entity.unknown9)
     call _LABEL_74C_
-    ld a, (ix+30)
+    ld a, (ix + Entity.unknown10)
     sub h
-    ld (ix+14), a
-    ld a, (ix+25)
+    ld (ix + Entity.yPos.high), a
+    ld a, (ix + Entity.unknown7)
     sbc a, $00
-    ld (ix+10), a
+    ld (ix + Entity.isOffScreenFlags.high), a
     ret
 
 ; 7th entry of Jump Table from 4EE (indexed by _RAM_CF9C_)
@@ -1096,25 +1195,25 @@ _LABEL_657_:
     ld a, (hl)
     exx
     ld e, a
-    ld l, (ix+29)
+    ld l, (ix + Entity.unknown9)
     call _LABEL_74C_
-    ld a, (ix+31)
+    ld a, (ix + Entity.unknown11)
     add a, h
-    ld (ix+12), a
-    ld a, (ix+26)
+    ld (ix + Entity.xPos.high), a
+    ld a, (ix + Entity.state)
     sbc a, $00
-    ld (ix+9), a
+    ld (ix + Entity.isOffScreenFlags.low), a
     exx
     inc hl
     ld l, (hl)
-    ld e, (ix+29)
+    ld e, (ix + Entity.unknown9)
     call _LABEL_74C_
-    ld a, (ix+30)
+    ld a, (ix + Entity.unknown10)
     sub h
-    ld (ix+14), a
-    ld a, (ix+25)
+    ld (ix + Entity.yPos.high), a
+    ld a, (ix + Entity.unknown7)
     sbc a, $00
-    ld (ix+10), a
+    ld (ix + Entity.isOffScreenFlags.high), a
     ret
 
 ; 8th entry of Jump Table from 4EE (indexed by _RAM_CF9C_)
@@ -1129,25 +1228,25 @@ _LABEL_68E_:
     ld a, (hl)
     exx
     ld e, a
-    ld l, (ix+29)
+    ld l, (ix + Entity.unknown9)
     call _LABEL_74C_
-    ld a, (ix+30)
+    ld a, (ix + Entity.unknown10)
     sub h
-    ld (ix+14), a
-    ld a, (ix+25)
+    ld (ix + Entity.yPos.high), a
+    ld a, (ix + Entity.unknown7)
     sbc a, $00
-    ld (ix+10), a
+    ld (ix + Entity.isOffScreenFlags.high), a
     exx
     inc hl
     ld l, (hl)
-    ld e, (ix+29)
+    ld e, (ix + Entity.unknown9)
     call _LABEL_74C_
-    ld a, (ix+31)
+    ld a, (ix + Entity.unknown11)
     add a, h
-    ld (ix+12), a
+    ld (ix + Entity.xPos.high), a
     ld a, (ix+26)
     sbc a, $00
-    ld (ix+9), a
+    ld (ix + Entity.isOffScreenFlags.low), a
     ret
 
 ; Data from 6CA to 74B (130 bytes)
@@ -1175,9 +1274,31 @@ _LABEL_74C_:
     djnz -
     ret
 
-; Data from 759 to 76C (20 bytes)
-.db $06 $11 $AF $C3 $68 $07 $8F $38 $03 $BB $38 $02 $93 $B7 $3F $ED
-.db $6A $10 $F3 $C9
+; Unused
+; @TODO Study division
+divideHLByE:
+    ld b, $11
+    xor a
+    jp +
+
+    -:
+    adc a, a
+    jr c, ++
+    cp e
+    jr c, +++
+
+    ++:
+    sub e
+    or a
+
+    +++:
+    ccf
+
+    +:
+    adc hl, hl
+    djnz -
+
+    ret
 
 .INCLUDE "engine/states/title/update.asm"
 
@@ -1329,6 +1450,7 @@ levelQuestionMarkBoxIndexes:
 .db $10
 .db $11
 
+; Probably decompress shop nametable entries
 _LABEL_E41_:
     push de
     call _LABEL_E4B_
@@ -1341,6 +1463,7 @@ _LABEL_E4B_:
     ld a, (hl)
     or a
     ret z
+
     bit 7, a
     jr nz, +
     ld b, a
@@ -1751,21 +1874,49 @@ loadLevelPalette:
 
 ; Pointer Table from 1112 to 1133 (17 entries, indexed by v_level)
 levelPalettes:
-.dw mtEthernalStage1Palette _DATA_1FE1E_ _DATA_1FCDE_ _DATA_1FCFE_ _DATA_1FD1E_ _DATA_1FD3E_ _DATA_1FD5E_ _DATA_1FD7E_
-.dw _DATA_1FDBE_ _DATA_1FDDE_ _DATA_1FD9E_ _DATA_1FDFE_ _DATA_1FE1E_ _DATA_1FE3E_ _DATA_1FCBE_ _DATA_1FE5E_
+.dw mtEthernalStage1Palette
+.dw _DATA_1FE1E_
+.dw _DATA_1FCDE_
+.dw _DATA_1FCFE_
+.dw _DATA_1FD1E_
+.dw _DATA_1FD3E_
+.dw _DATA_1FD5E_
+.dw _DATA_1FD7E_
+.dw _DATA_1FDBE_
+.dw _DATA_1FDDE_
+.dw _DATA_1FD9E_
+.dw _DATA_1FDFE_
+.dw _DATA_1FE1E_
+.dw _DATA_1FE3E_
+.dw _DATA_1FCBE_
+.dw _DATA_1FE5E_
 .dw _DATA_1FE7E_
 
 loadLevelSpriteTiles:
     ld a, $87
     ld (Mapper_Slot2), a
     ld a, (v_level)
-    ld hl, _DATA_1142_ - 2
+    ld hl, levelSpriteLoaders - 2
     jp jumpToAthPointer
 
 ; Jump Table from 1142 to 1163 (17 entries, indexed by v_level)
-_DATA_1142_:
-.dw _LABEL_1164_ _LABEL_117F_ _LABEL_119D_ _LABEL_11B5_ _LABEL_11D3_ _LABEL_11EB_ _LABEL_1206_ _LABEL_1221_
-.dw _LABEL_1239_ _LABEL_1254_ _LABEL_126F_ _LABEL_1299_ _LABEL_12AE_ _LABEL_12C0_ _LABEL_12CF_ _LABEL_12ED_
+levelSpriteLoaders:
+.dw _LABEL_1164_
+.dw _LABEL_117F_
+.dw _LABEL_119D_
+.dw _LABEL_11B5_
+.dw _LABEL_11D3_
+.dw _LABEL_11EB_
+.dw _LABEL_1206_
+.dw _LABEL_1221_
+.dw _LABEL_1239_
+.dw _LABEL_1254_
+.dw _LABEL_126F_
+.dw _LABEL_1299_
+.dw _LABEL_12AE_
+.dw _LABEL_12C0_
+.dw _LABEL_12CF_
+.dw _LABEL_12ED_
 .dw _LABEL_1311_
 
 ; 1st entry of Jump Table from 1142 (indexed by v_level)
@@ -1976,238 +2127,238 @@ _LABEL_132F_:
     ld hl, _DATA_1C7E9_
     ld de, $6880
     ld bc, $0220
-    jp writeBcBytesToVRAM
+    jp copyBytesToVRAM
 
 _LABEL_133B_:
     ld hl, _DATA_1CA09_
     ld de, $6FA0
     ld bc, $0180
-    call writeBcBytesToVRAM
+    call copyBytesToVRAM
     ld hl, _DATA_1CA09_
     ld bc, $0180
-    jp _LABEL_2C5_
+    jp copyMirroredTilesToVramAtCurrentAddress
 
 _LABEL_1350_:
     ld hl, _DATA_1CDC9_
     ld de, $7580
     ld bc, $0040
-    jp writeBcBytesToVRAM
+    jp copyBytesToVRAM
 
 _LABEL_135C_:
     ld hl, _DATA_1CB89_
     ld de, $75C0
     ld bc, $0240
-    jp writeBcBytesToVRAM
+    jp copyBytesToVRAM
 
 _LABEL_1368_:
     ld hl, _DATA_1EE09_
     ld de, $6AA0
     ld bc, $0100
-    call writeBcBytesToVRAM
+    call copyBytesToVRAM
     ld hl, _DATA_1EE09_
     ld bc, $0100
-    jp _LABEL_2C5_
+    jp copyMirroredTilesToVramAtCurrentAddress
 
 _LABEL_137D_:
     ld hl, _DATA_1D5E9_
     ld de, $6CA0
     ld bc, $0180
-    call writeBcBytesToVRAM
+    call copyBytesToVRAM
     ld hl, _DATA_1D5E9_
     ld bc, $0180
-    jp _LABEL_2C5_
+    jp copyMirroredTilesToVramAtCurrentAddress
 
 _LABEL_1392_:
     ld hl, _DATA_1DCA9_
     ld de, $6C00
     ld bc, $0020
-    jp writeBcBytesToVRAM
+    jp copyBytesToVRAM
 
 _LABEL_139E_:
     ld hl, _DATA_1DB49_
     ld de, $6AA0
     ld bc, $0160
-    jp writeBcBytesToVRAM
+    jp copyBytesToVRAM
 
 _LABEL_13AA_:
     ld hl, _DATA_1DD49_
     ld de, $7000
     ld bc, $0100
-    jp writeBcBytesToVRAM
+    jp copyBytesToVRAM
 
 _LABEL_13B6_:
     ld hl, _DATA_1DE49_
     ld de, $7760
     ld bc, $00A0
-    jp writeBcBytesToVRAM
+    jp copyBytesToVRAM
 
 _LABEL_13C2_:
     ld hl, _DATA_1EF09_
     ld de, $7200
     ld bc, $00C0
-    jp writeBcBytesToVRAM
+    jp copyBytesToVRAM
 
 _LABEL_13CE_:
     ld hl, _DATA_1DB09_
     ld de, $77E0
     ld bc, $0020
-    jp writeBcBytesToVRAM
+    jp copyBytesToVRAM
 
 _LABEL_13DA_:
     ld hl, _DATA_1CFC9_
     ld de, $72A0
     ld bc, $0100
-    jp writeBcBytesToVRAM
+    jp copyBytesToVRAM
 
 _LABEL_13E6_:
     ld hl, _DATA_1CEC9_
     ld de, $72A0
     ld bc, $0100
-    call writeBcBytesToVRAM
+    call copyBytesToVRAM
     ld hl, _DATA_1CEC9_
     ld bc, $0100
-    jp _LABEL_2C5_
+    jp copyMirroredTilesToVramAtCurrentAddress
 
 _LABEL_13FB_:
     ld hl, _DATA_1D769_
     ld de, $6C00
     ld bc, $02E0
-    call writeBcBytesToVRAM
+    call copyBytesToVRAM
     ld hl, _DATA_1D769_
     ld bc, $02E0
-    jp _LABEL_2C5_
+    jp copyMirroredTilesToVramAtCurrentAddress
 
 _LABEL_1410_:
     ld hl, _DATA_1DA49_
     ld de, $7280
     ld bc, $00C0
-    call writeBcBytesToVRAM
+    call copyBytesToVRAM
     ld hl, _DATA_1DA49_
     ld bc, $00C0
-    jp _LABEL_2C5_
+    jp copyMirroredTilesToVramAtCurrentAddress
 
 _LABEL_1425_:
     ld hl, _DATA_1DEE9_
     ld de, $7680
     ld bc, $00C0
-    jp writeBcBytesToVRAM
+    jp copyBytesToVRAM
 
 _LABEL_1431_:
     ld hl, _DATA_1E2A9_
     ld de, $6C20
     ld bc, $0AE0
-    jp writeBcBytesToVRAM
+    jp copyBytesToVRAM
 
 _LABEL_143D_:
     ld hl, _DATA_1E0A9_
     ld de, $73E0
     ld bc, $0020
-    jp writeBcBytesToVRAM
+    jp copyBytesToVRAM
 
 _LABEL_1449_:
     ld hl, _DATA_1E0C9_
     ld de, $7320
     ld bc, $00C0
-    jp writeBcBytesToVRAM
+    jp copyBytesToVRAM
 
 _LABEL_1455_:
     ld hl, _DATA_1DFA9_
     ld de, $7400
     ld bc, $0100
-    jp writeBcBytesToVRAM
+    jp copyBytesToVRAM
 
 _LABEL_1461_:
     ld hl, _DATA_1CE09_
     ld de, $7500
     ld bc, $00C0
-    call writeBcBytesToVRAM
+    call copyBytesToVRAM
     ld hl, _DATA_1CE09_
     ld bc, $00C0
-    jp _LABEL_2C5_
+    jp copyMirroredTilesToVramAtCurrentAddress
 
 _LABEL_1476_:
     ld hl, _DATA_1D0C9_
     ld de, $7180
     ld bc, $0280
-    jp writeBcBytesToVRAM
+    jp copyBytesToVRAM
 
 _LABEL_1482_:
     ld hl, _DATA_1E229_
     ld de, $6DC0
     ld bc, $0080
-    jp writeBcBytesToVRAM
+    jp copyBytesToVRAM
 
 _LABEL_148E_:
     ld hl, _DATA_1C629_
     ld de, $6E40
     ld bc, $01C0
-    jp writeBcBytesToVRAM
+    jp copyBytesToVRAM
 
 _LABEL_149A_:
     ld hl, _DATA_1ED89_
     ld de, $7740
     ld bc, $0080
-    jp writeBcBytesToVRAM
+    jp copyBytesToVRAM
 
 _LABEL_14A6_:
     ld hl, _DATA_1C5A9_
     ld de, $6840
     ld bc, $0040
-    jp writeBcBytesToVRAM
+    jp copyBytesToVRAM
 
 _LABEL_14B2_:
     ld hl, _DATA_1C529_
     ld de, $6800
     ld bc, $0040
-    jp writeBcBytesToVRAM
+    jp copyBytesToVRAM
 
 _LABEL_14BE_:
     ld hl, _DATA_1C529_
     ld de, $67C0
     ld bc, $0040
-    jp writeBcBytesToVRAM
+    jp copyBytesToVRAM
 
 _LABEL_14CA_:
     ld hl, _DATA_1C569_
     ld de, $67C0
     ld bc, $0040
-    jp writeBcBytesToVRAM
+    jp copyBytesToVRAM
 
 _LABEL_14D6_:
     ld hl, _DATA_1C5E9_
     ld de, $67C0
     ld bc, $0040
-    jp writeBcBytesToVRAM
+    jp copyBytesToVRAM
 
 _LABEL_14E2_:
     ld hl, _DATA_1C3C9_
     ld de, $6F80
     ld bc, $0080
-    jp writeBcBytesToVRAM
+    jp copyBytesToVRAM
 
 _LABEL_14EE_:
     ld hl, _DATA_1C169_
     ld de, $7100
     ld bc, $0080
-    jp writeBcBytesToVRAM
+    jp copyBytesToVRAM
 
 _LABEL_14FA_:
     ld hl, _DATA_1C1E9_
     ld de, $6B20
     ld bc, $0080
-    jp writeBcBytesToVRAM
+    jp copyBytesToVRAM
 
 _LABEL_1506_:
     ld hl, _DATA_1C449_
     ld de, $7100
     ld bc, $0080
-    jp writeBcBytesToVRAM
+    jp copyBytesToVRAM
 
 _LABEL_1512_:
     ld hl, tiles_villageElder
     ld de, $6AA0
     ld bc, $0100
-    jp writeBcBytesToVRAM
+    jp copyBytesToVRAM
 
 _LABEL_151E_:
     ld a, $85
@@ -2215,14 +2366,14 @@ _LABEL_151E_:
     ld hl, _DATA_16F51_
     ld de, $7180
     ld bc, $0020
-    call writeBcBytesToVRAM
+    call copyBytesToVRAM
     ld hl, _DATA_16F51_
     ld bc, $0020
-    call _LABEL_2C5_
+    call copyMirroredTilesToVramAtCurrentAddress
     ld hl, _DATA_16F71_
     ld de, $71C0
     ld bc, $0040
-    call writeBcBytesToVRAM
+    call copyBytesToVRAM
     ld a, $87
     ld (Mapper_Slot2), a
     ret
@@ -2233,7 +2384,7 @@ _LABEL_154A_:
     ld hl, _DATA_17211_
     ld de, $76E0
     ld bc, $0080
-    call writeBcBytesToVRAM
+    call copyBytesToVRAM
     ld a, $87
     ld (Mapper_Slot2), a
     ret
@@ -2242,7 +2393,7 @@ _LABEL_1561_:
     ld hl, _DATA_1E189_
     ld de, $7180
     ld bc, $0080
-    jp writeBcBytesToVRAM
+    jp copyBytesToVRAM
 
 ; Jump Table from 156D to 158E (17 entries, indexed by v_level)
 _DATA_156D_:
@@ -2378,7 +2529,7 @@ updateBonusLevelState:
     bit 7, (hl)
     jp z, _LABEL_1735_
     ld a, $09
-    call setAndWaitForInterruptFlags
+    call waitForInterrupt
     ld a, (_RAM_D800_)
     or a
     jr nz, +
@@ -2397,7 +2548,7 @@ updateBonusLevelState:
     ld (_RAM_C014_), a
 -:
     ld a, $01
-    call setAndWaitForInterruptFlags
+    call waitForInterrupt
     ld hl, _RAM_C014_
     dec (hl)
     jp nz, -
@@ -2477,8 +2628,8 @@ handleInterruptBonusLevelState:
     ld e, a
     inc hl
     xor a
-    ld (_RAM_C10A_), a
-    call writeNametableEntriesToVRAM
+    ld (v_nametableCopyFlags), a
+    call copyNametableEntriesToVRAM
 _LABEL_170D_:
     ld (v_endingSequencePointer), hl
     ret
@@ -2689,7 +2840,7 @@ updateLevelCompletedState:
     ld a, $82
     ld (Mapper_Slot2), a
     ld a, $01
-    call setAndWaitForInterruptFlags
+    call waitForInterrupt
     ld hl, v_level
     inc (hl)
     ld a, $85
@@ -3395,7 +3546,7 @@ _LABEL_2F41_:
     ld b, $1E
 -:
     ld a, $01
-    call setAndWaitForInterruptFlags
+    call waitForInterrupt
     djnz -
     ld a, $89
     ld (v_soundControl), a
@@ -7545,7 +7696,7 @@ _LABEL_6968_:
     ld b, $00
     ld c, a
     ld hl, _RAM_CF38_
-    call writeBcBytesToVRAM
+    call copyBytesToVRAM
     ex af, af'
     or a
     jp z, _LABEL_69B5_
@@ -7554,7 +7705,7 @@ _LABEL_6968_:
     ld a, e
     and $C0
     ld e, a
-    call writeBcBytesToVRAM
+    call copyBytesToVRAM
 _LABEL_69B5_:
     xor a
     ld (v_UpdateNameTableFlags), a
@@ -9525,7 +9676,7 @@ _DATA_9800_:
 .db $53 $00 $00 $00 $02 $71 $91 $00 $02 $6D $95 $00 $02 $64 $74 $00
 .db $00 $01 $26 $01 $6E $00 $00 $03 $14 $1E $2E $02 $9E $AE $FF
 
-; Audio engine will be placed here
+.INCLUDE "audio.asm"
 
 .ORG $1ECD
 

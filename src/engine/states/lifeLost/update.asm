@@ -228,7 +228,7 @@ _LABEL_6D73_:
     ld a, $82
     ld (Mapper_Slot2), a
     ld a, $01
-    call setAndWaitForInterruptFlags
+    call waitForInterrupt
     ld b, $89
     ld a, (v_hasJankenMatchStarted)
     or a
@@ -253,14 +253,14 @@ gameOver_LABEL_6DC9_:
     ld de, $7A94
     ld hl, _DATA_6E8B_
     ld b, $09
-    call writeNametableEntriesToVRAM
+    call copyNametableEntriesToVRAM
     ld de, $7B90
     ld hl, _DATA_6E94_
     ld b, $0D
-    call writeNametableEntriesToVRAM
+    call copyNametableEntriesToVRAM
     ld hl, $C022
     ld de, $7B9C
-    call _LABEL_454_
+    call drawThreeBCDDigits
     ld de, $8026
     ld a, e
     ld (v_VDPRegister0Value), a
@@ -275,7 +275,7 @@ gameOver_LABEL_6DC9_:
     ld (v_itemBeignBoughtIndex), a
 -:
     ld a, $80
-    call setAndWaitForInterruptFlags
+    call waitForInterrupt
     ld a, (v_inputData)
     and JOY_UP
     jp nz, +
@@ -308,18 +308,18 @@ _LABEL_6E41_:
     ld hl, $0489
     add hl, bc
     ld bc, v_money
-    call _LABEL_42D_
+    call subtractBCDToA
     jr c, _LABEL_6E41_
     dec hl
     dec hl
     dec bc
     dec bc
-    call _LABEL_41C_
+    call subtractBCD
     di
     ld de, $7C50
     ld hl, _DATA_6EA1_
     ld b, $0D
-    call writeNametableEntriesToVRAM
+    call copyNametableEntriesToVRAM
     ei
     ld a, $8F
     ld (v_soundControl), a

@@ -4,9 +4,9 @@ RUN wget -O wla-dx.tar https://github.com/vhelin/wla-dx/tarball/master --progres
     && mkdir wla-dx \
     && tar -C wla-dx --strip-components=1 -xf wla-dx.tar
 
-RUN wget -O wiz.tar https://github.com/wiz-lang/wiz/tarball/master --progress=dot \
-    && mkdir wiz \
-    && tar -C wiz --strip-components=1 -xf wiz.tar
+# RUN wget -O wiz.tar https://github.com/wiz-lang/wiz/tarball/master --progress=dot \
+#     && mkdir wiz \
+#     && tar -C wiz --strip-components=1 -xf wiz.tar
 
 # RUN cd / \
 #     && wget -O sdcc.tar.bz2 https://sourceforge.net/projects/sdcc/files/snapshot_builds/amd64-unknown-linux2.5/sdcc-snapshot-amd64-unknown-linux2.5-20200819-11821.tar.bz2 \
@@ -22,10 +22,12 @@ RUN wget -O wiz.tar https://github.com/wiz-lang/wiz/tarball/master --progress=do
 FROM debian:buster AS builder
 
 RUN apt-get update \
-    && apt-get install --assume-yes build-essential cmake libpng-dev zlib1g zlib1g-dev
+    && apt-get install --assume-yes build-essential cmake
+
+# libpng-dev zlib1g zlib1g-dev
 
 COPY --from=downloader /wla-dx /usr/src/wla-dx
-COPY --from=downloader /wiz /usr/src/wiz
+# COPY --from=downloader /wiz /usr/src/wiz
 
 # COPY --from=downloader /png2tile /usr/src/png2tile
 # COPY tile2png /usr/src/tile2png
@@ -43,19 +45,19 @@ RUN cd /usr/src/wla-dx \
 #     && cmake . \
 #     && make
 
-RUN cd /usr/src/wiz \
-    && make
+# RUN cd /usr/src/wiz \
+#     && make
 
 FROM debian:buster
 
-RUN apt-get update \
-    && apt-get install --assume-yes libpng-dev zlib1g
+# RUN apt-get update \
+#     && apt-get install --assume-yes libpng-dev zlib1g
 
 COPY --from=builder /usr/local/bin/wla-* /usr/local/bin/wlalink /usr/local/bin/wlab /usr/local/bin/
 # COPY --from=downloader /sdcc /usr/local/
 # COPY --from=builder /usr/src/png2tile/png2tile /usr/local/bin/
 # COPY --from=builder /usr/src/tile2png/tile2png /usr/local/bin/
-COPY --from=builder /usr/src/wiz/bin/wiz /usr/local/bin/
+# COPY --from=builder /usr/src/wiz/bin/wiz /usr/local/bin/
 
 RUN groupadd --gid 1000 dockeruser && \
     adduser --system --shell /bin/bash --uid 1000 --ingroup dockeruser dockeruser

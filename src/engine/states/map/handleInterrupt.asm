@@ -14,7 +14,7 @@ _LABEL_1FE9_:
     ld hl, _RAM_C800_
     ld de, $7800
     ld bc, $0700
-    call writeBcBytesToVRAM
+    call copyBytesToVRAM
     call _LABEL_69B5_
     ld hl, v_entity1
     ld (v_entitydataArrayPointer), hl
@@ -39,7 +39,7 @@ _LABEL_1FE9_:
     ld hl, _DATA_C000_
     ld de, $4020
     ld bc, $0480
-    call writeBcBytesToVRAM
+    call copyBytesToVRAM
     pop af
     ld (v_level), a
     ld a, $85
@@ -55,16 +55,16 @@ _LABEL_1FE9_:
     ld hl, _DATA_1DCC9_
     ld de, $6200
     ld bc, $0080
-    call writeBcBytesToVRAM
+    call copyBytesToVRAM
     ld hl, _DATA_1DCC9_
     ld bc, $0080
-    call _LABEL_2C5_
+    call copyMirroredTilesToVramAtCurrentAddress
     ld a, $85
     ld (Mapper_Slot2), a
     ld hl, _DATA_16FB1_
     ld de, $6300
     ld bc, $0080
-    call writeBcBytesToVRAM
+    call copyBytesToVRAM
     jr ++
 
 +:
@@ -73,13 +73,13 @@ _LABEL_1FE9_:
     ld hl, _DATA_1C4C9_
     ld de, $6280
     ld bc, $00C0
-    call writeBcBytesToVRAM
+    call copyBytesToVRAM
     ld a, $85
     ld (Mapper_Slot2), a
     ld hl, _DATA_17031_
     ld de, $6200
     ld bc, $0080
-    call writeBcBytesToVRAM
+    call copyBytesToVRAM
     jr ++
 
 +:
@@ -88,10 +88,10 @@ _LABEL_1FE9_:
     ld hl, _DATA_1C3A9_
     ld de, $6200
     ld bc, $0020
-    call writeBcBytesToVRAM
+    call copyBytesToVRAM
     ld hl, _DATA_1C3A9_
     ld bc, $0020
-    call _LABEL_2C5_
+    call copyMirroredTilesToVramAtCurrentAddress
 ++:
     ld a, (v_level)
     push af
@@ -169,7 +169,7 @@ _LABEL_1FE9_:
     ld a, $8A
     ld (v_gameState), a
     ld a, $09
-    call setAndWaitForInterruptFlags
+    call waitForInterrupt
     ld a, (_RAM_C054_)
     or a
     jr z, ++
@@ -267,11 +267,11 @@ initMapState:
     ld hl, _DATA_1E209_
     ld de, $6820
     ld bc, $0020
-    call writeBcBytesToVRAM
+    call copyBytesToVRAM
     ld hl, _DATA_1C269_
     ld de, $6840
     ld bc, $0140
-    call writeBcBytesToVRAM
+    call copyBytesToVRAM
     ld a, $82
     ld (Mapper_Slot2), a
     ld ix, _RAM_CF80_
@@ -301,7 +301,7 @@ initMapState:
     ld hl, _DATA_B385_
     ld bc, $0050
     ld a, $01
-    call _LABEL_1D6_
+    call load1bppTiles
     ld a, $85
     ld (Mapper_Slot2), a
     ld hl, mapTiles
@@ -310,11 +310,11 @@ initMapState:
     ld hl, _DATA_16F11_
     ld de, $5980
     ld bc, $01C0
-    call writeBcBytesToVRAM
+    call copyBytesToVRAM
     ld hl, _DATA_170B1_
     ld de, $5BA0
     ld bc, $01E0
-    call writeBcBytesToVRAM
+    call copyBytesToVRAM
     ld a, $87
     ld (Mapper_Slot2), a
     ld hl, _DATA_1C000_
@@ -323,36 +323,36 @@ initMapState:
     ld hl, _DATA_1C3C9_
     ld de, $5B20
     ld bc, $0080
-    call writeBcBytesToVRAM
+    call copyBytesToVRAM
     ld hl, _DATA_1E229_
     ld de, $5D80
     ld bc, $0080
-    call writeBcBytesToVRAM
+    call copyBytesToVRAM
     ld hl, _DATA_1C169_
     ld de, $5E00
     ld bc, $0080
-    call writeBcBytesToVRAM
+    call copyBytesToVRAM
     ld hl, _DATA_1C1E9_
     ld de, $5E80
     ld bc, $0080
-    call writeBcBytesToVRAM
+    call copyBytesToVRAM
     ld hl, _DATA_1D349_
     ld de, $5780
     ld bc, $0080
-    call writeBcBytesToVRAM
+    call copyBytesToVRAM
     ld hl, _DATA_1E189_
     ld de, $5F00
     ld bc, $0080
-    call writeBcBytesToVRAM
+    call copyBytesToVRAM
     ld hl, _DATA_23FD_
     ld de, $C000
     ld bc, $0020
-    call writeBcBytesToVRAM
+    call copyBytesToVRAM
     call _LABEL_24EC_
     ld de, $7800
     ld hl, _RAM_C800_
     ld bc, $0600
-    call writeBcBytesToVRAM
+    call copyBytesToVRAM
     ld hl, _DATA_2429_
     ld de, $7D42
     ld bc, $0204
@@ -360,7 +360,7 @@ initMapState:
     ld hl, $C025
     ld de, $7D88
     ld c, $01
-    call _LABEL_456_
+    call drawBCDDigits
     ld hl, _DATA_2431_
     ld de, $7CC2
     ld bc, $0204
@@ -370,16 +370,16 @@ initMapState:
     call writeAToVRAM
     ld hl, $C032
     ld de, $7D06
-    call _LABEL_454_
+    call drawThreeBCDDigits
     ld a, $08
-    ld (_RAM_C10A_), a
+    ld (v_nametableCopyFlags), a
     ld hl, _DATA_241D_
     ld de, $7D94
     ld b, $0C
-    call writeNametableEntriesToVRAM
+    call copyNametableEntriesToVRAM
     ld hl, $C022
     ld de, $7D9E
-    call _LABEL_454_
+    call drawThreeBCDDigits
     ld a, $82
     ld (Mapper_Slot2), a
     ld a, (v_level)
@@ -693,7 +693,7 @@ _LABEL_25D3_:
     ld hl, _DATA_2674_
     ld de, $C000
     ld bc, $0020
-    call writeBcBytesToVRAM
+    call copyBytesToVRAM
     ld a, $85
     ld (Mapper_Slot2), a
     ld hl, _DATA_15924_
@@ -717,7 +717,7 @@ _LABEL_25D3_:
     call enableDisplay
 -:
     ld a, $01
-    call setAndWaitForInterruptFlags
+    call waitForInterrupt
     call updateEntities
     ld a, (v_shouldOpenMap)
     or a
@@ -733,4 +733,4 @@ _LABEL_263D_:
     res 7, (hl)
     ld de, (v_selectedItemNametablePointer)
     ld bc, $0204
-    jp _LABEL_1C5_
+    jp clearNametableArea

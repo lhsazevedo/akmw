@@ -2,7 +2,7 @@
 handleInterruptShopState:
     ld hl, $C032
     ld de, $7D48
-    call _LABEL_454_
+    call drawThreeBCDDigits
     call handleNametableChangeRequest
     ld a, (v_itemBeignBoughtIndex)
     or a
@@ -57,7 +57,7 @@ _LABEL_1C33_:
     ld hl, _RAM_C800_
     ld de, $7800
     ld bc, $0700
-    call writeBcBytesToVRAM
+    call copyBytesToVRAM
     call _LABEL_69B5_
     ld hl, v_temporaryLevelDataCopy
     ld de, v_levelWidth
@@ -100,11 +100,11 @@ _LABEL_1C33_:
     ld hl, _DATA_1DB29_
     ld de, $6200
     ld bc, $0020
-    call writeBcBytesToVRAM
+    call copyBytesToVRAM
     ld hl, _DATA_1D429_
     ld de, $6220
     ld bc, $01C0
-    call writeBcBytesToVRAM
+    call copyBytesToVRAM
 +:
     ld a, (v_horizontalPositionShopHasBeenEnteredFrom)
     ld (v_shopEntranceHorizontalPosition), a
@@ -121,7 +121,7 @@ _LABEL_1C33_:
     rst setVDPAddress
     ei
     ld a, $09
-    call setAndWaitForInterruptFlags
+    call waitForInterrupt
     call enableDisplay
     ld b, $0A
     jp sleepTenthsOfSecond
@@ -150,7 +150,7 @@ _LABEL_1D04_:
     ldir
     ld a, $85
     ld (Mapper_Slot2), a
-    ld hl, _DATA_1508E_
+    ld hl, shopNametableEntries
     ld de, _RAM_C800_
     call _LABEL_E41_
     ld a, $01
@@ -187,7 +187,7 @@ _LABEL_1D04_:
     ld hl, _DATA_B385_
     ld bc, $0050
     ld a, $01
-    call _LABEL_1D6_
+    call load1bppTiles
     ld a, $85
     ld (Mapper_Slot2), a
     ld hl, _DATA_153F3_
@@ -203,19 +203,19 @@ _LABEL_1D04_:
     ld hl, _DATA_16F11_
     ld de, $5200
     ld bc, $01C0
-    call writeBcBytesToVRAM
+    call copyBytesToVRAM
     ld hl, _DATA_17291_
     ld de, $5FE0
     ld bc, $0020
-    call writeBcBytesToVRAM
+    call copyBytesToVRAM
     ld hl, _DATA_170B1_
     ld de, $5420
     ld bc, $01E0
-    call writeBcBytesToVRAM
+    call copyBytesToVRAM
     ld hl, _DATA_1F42_
     ld de, $C000
     ld bc, $0020
-    call writeBcBytesToVRAM
+    call copyBytesToVRAM
     ld a, $01
     ld (v_shopFlags), a
     ld a, (v_shopEntranceHorizontalPosition)
@@ -299,10 +299,10 @@ _LABEL_1E77_:
     ld de, $7800
     ld hl, _RAM_C800_
     ld bc, $0600
-    call writeBcBytesToVRAM
+    call copyBytesToVRAM
     ld hl, $C032
     ld de, $7D48
-    call _LABEL_454_
+    call drawThreeBCDDigits
     ld a, $82
     ld (Mapper_Slot2), a
     ei
@@ -338,13 +338,13 @@ _LABEL_1EAF_:
     ld hl, $1F6B
     add hl, bc
     ld bc, v_money
-    call _LABEL_42D_
+    call subtractBCDToA
     jp c, _LABEL_1F1E_
     dec hl
     dec hl
     dec bc
     dec bc
-    call _LABEL_41C_
+    call subtractBCD
     ld hl, v_shopFlags
     set 6, (hl)
     ld a, (v_shopSelectedItemIndex)

@@ -4,7 +4,7 @@ updateTextBoxState:
     bit 7, (hl)
     jp z, _LABEL_7ED3_
     ld a, $09
-    call setAndWaitForInterruptFlags
+    call waitForInterrupt
     ld a, $01
     ld (v_nextMapNametableUpdateTimer), a
     ld hl, v_textBoxCounter
@@ -80,7 +80,7 @@ updateTextBoxState:
     ld (ix+6), $0A
 _LABEL_7E5E_:
     ld a, $01
-    call setAndWaitForInterruptFlags
+    call waitForInterrupt
     ld a, (v_inputData)
     and (JOY_FIREA | JOY_FIREB)
     jp nz, ++
@@ -89,7 +89,7 @@ _LABEL_7E5E_:
     jp z, +
     ld hl, (v_nuraiOrOldManEntityAnimationDescriptorTemporaryPointer)
     call handleEntityAnimation
-    ld hl, _RAM_C700_
+    ld hl, v_tempSprites
     ld (v_spriteTerminatorPointer), hl
     call updateEntitySprites
 +:
@@ -98,9 +98,9 @@ _LABEL_7E5E_:
 ++:
     xor a
     ld (v_shouldShowNuraiOrOldMan), a
-    ld hl, _RAM_C700_
+    ld hl, v_tempSprites
     ld (hl), $E0
-    ld de, _RAM_C700_ + 1
+    ld de, v_tempSprites + 1
     ld bc, $0005
     ldir
     ld ix, $C300
@@ -119,13 +119,13 @@ _LABEL_7E5E_:
 +:
     call updateEntities
     ld a, $01
-    call setAndWaitForInterruptFlags
+    call waitForInterrupt
     di
     call disableDisplay
     ld hl, _RAM_C800_
     ld de, $7800
     ld bc, $0700
-    call writeBcBytesToVRAM
+    call copyBytesToVRAM
     call enableDisplay
     ei
     ret
@@ -135,7 +135,7 @@ _LABEL_7ED3_:
     ld (Mapper_Slot2), a
     call updateEntities
     ld a, $01
-    call setAndWaitForInterruptFlags
+    call waitForInterrupt
     ld hl, v_gameState
     set 7, (hl)
     ld a, (v_hasJankenMatchStarted)

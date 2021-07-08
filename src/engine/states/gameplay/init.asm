@@ -20,13 +20,13 @@ initGameplayState:
     ld hl, _DATA_1F0A9_
     ld de, $61A0
     ld bc, $0060
-    call writeBcBytesToVRAM
+    call copyBytesToVRAM
 
     ; Load Money Bag tiles (plus another one)
     ld hl, _DATA_1D349_
     ld de, $66C0
     ld bc, $0100
-    call writeBcBytesToVRAM
+    call copyBytesToVRAM
 
     ; If current level data is 1:
     ;    Set v_shouldSpawnRidingBoat_RAM_C051_ to $1 and load bullet tiles
@@ -56,11 +56,11 @@ initGameplayState:
     ld hl, _DATA_1DB29_
     ld de, $6200
     ld bc, $0020
-    call writeBcBytesToVRAM
+    call copyBytesToVRAM
     ld hl, _DATA_1D429_
     ld de, $6220
     ld bc, $01C0
-    call writeBcBytesToVRAM
+    call copyBytesToVRAM
 
 @done:
     ; Load character tiles
@@ -76,7 +76,7 @@ initGameplayState:
     ld hl, _DATA_C000_
     ld de, $4020
     ld bc, $0480
-    call writeBcBytesToVRAM
+    call copyBytesToVRAM
 
     ; Load level tiles
     call loadLevelTiles
@@ -272,12 +272,12 @@ initGameplayStateSecondary:
     ld hl, _DATA_1EFC9_
     ld de, $6400
     ld bc, $00E0
-    call writeBcBytesToVRAM
+    call copyBytesToVRAM
 
     ; Load Ghost right tiles
     ld hl, _DATA_1EFC9_
     ld bc, $00E0
-    call _LABEL_2C5_
+    call copyMirroredTilesToVramAtCurrentAddress
 
     ; Load 1up tiles
     ld a, $80 | :_DATA_17191_
@@ -285,16 +285,16 @@ initGameplayStateSecondary:
     ld hl, _DATA_17191_
     ld de, $65C0
     ld bc, $0080
-    call writeBcBytesToVRAM
+    call copyBytesToVRAM
 
     ; Load Power Bracelet tiles
     ld hl, _DATA_170B1_
     ld de, $6640
     ld bc, $0060
-    call writeBcBytesToVRAM
+    call copyBytesToVRAM
     ld hl, _DATA_170F1_
     ld bc, $0020
-    call _LABEL_2C5_
+    call copyMirroredTilesToVramAtCurrentAddress
 
     ; Load level bgm
     ld a, $82

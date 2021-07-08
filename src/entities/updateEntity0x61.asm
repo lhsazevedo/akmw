@@ -15,11 +15,11 @@ updateEntity0x61:
     ret z
     ld hl, _DATA_3F00_
     ld bc, v_money
-    call _LABEL_42D_
+    call subtractBCDToA
     ret c
     ld hl, _DATA_3F00_
     ld bc, v_money
-    call _LABEL_41C_
+    call subtractBCD
     ld hl, v_entities.27
     call clearEntity
     ld hl, v_entities.28

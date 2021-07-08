@@ -517,7 +517,7 @@ _DATA_14420_:
 .INCLUDE "data/demoInputEntries.asm"
 
 ; Data from 1508E to 153F2 (869 bytes)
-_DATA_1508E_:
+shopNametableEntries:
 .db $04 $29 $83 $2A $2B $2C $12 $2D $83 $2C $2B $2A $07 $29 $82 $2E
 .db $2F $16 $2D $82 $2F $2E $05 $29 $82 $30 $31 $18 $2D $82 $31 $30
 .db $03 $29 $83 $32 $33 $34 $18 $35 $F7 $34 $33 $32 $29 $29 $36 $34

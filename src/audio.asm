@@ -1,10 +1,4 @@
-.INCLUDE "group1.asm"
-.INCLUDE "constants.asm"
-.INCLUDE "structs.asm"
-.INCLUDE "variables.asm"
 
-.BANK 2
-.ORG $184F
 .SECTION "Audio Engine" NAMESPACE "audioEngine" FORCE
 
 ; Audio engine entry

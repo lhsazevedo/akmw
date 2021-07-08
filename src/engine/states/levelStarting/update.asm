@@ -18,7 +18,7 @@ updateLevelStartingState:
     jp nz, +
     ld a, $01
 +:
-    call setAndWaitForInterruptFlags
+    call waitForInterrupt
     call updateEntities
 
     ld a, $85
@@ -72,7 +72,7 @@ _LABEL_19CB_:
     ld (Mapper_Slot2), a
 
     ld a, $01
-    call setAndWaitForInterruptFlags
+    call waitForInterrupt
     call updateEntities
 
     ld hl, v_levelStartingTimer

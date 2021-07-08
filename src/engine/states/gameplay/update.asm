@@ -12,7 +12,7 @@ _LABEL_A8E_:
     ; Something related to nametable
     call _LABEL_6B49_
     ld a, $09
-    call setAndWaitForInterruptFlags
+    call waitForInterrupt
 
     ; Return if map shouldn't be displayed
     ld a, (v_shouldOpenMap)
