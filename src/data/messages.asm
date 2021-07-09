@@ -1,59 +1,59 @@
 txtShopWelcome:
-.INCBIN "src/data/txt/bin/shopWelcome.bin"
+.INCBIN "src/text/bin/shopWelcome.bin"
 
 txtShopInsufficientFunds:
-.INCBIN "src/data/txt/bin/shopInsufficientFunds.bin"
+.INCBIN "src/text/bin/shopInsufficientFunds.bin"
 
 txtShopItemPurchased:
-.INCBIN "src/data/txt/bin/shopItemPurchased.bin"
+.INCBIN "src/text/bin/shopItemPurchased.bin"
 
 txtParplinIntroduction:
-.INCBIN "src/data/txt/bin/parplinIntroduction.bin"
+.INCBIN "src/text/bin/parplinIntroduction.bin"
 
 txtChokkinnaIntroduction:
-.INCBIN "src/data/txt/bin/chokkinnaIntroduction.bin"
+.INCBIN "src/text/bin/chokkinnaIntroduction.bin"
 
 txtGoosekaIntroduction:
-.INCBIN "src/data/txt/bin/goosekaIntroduction.bin"
+.INCBIN "src/text/bin/goosekaIntroduction.bin"
 
 txtBattleGuide:
-.INCBIN "src/data/txt/bin/battleGuide.bin"
+.INCBIN "src/text/bin/battleGuide.bin"
 
 txtBattleRoundLost:
-.INCBIN "src/data/txt/bin/battleRoundLost.bin"
+.INCBIN "src/text/bin/battleRoundLost.bin"
 
 txtBattleRoundWon:
-.INCBIN "src/data/txt/bin/battleRoundWon.bin"
+.INCBIN "src/text/bin/battleRoundWon.bin"
 
 txtBattleRoundTie:
-.INCBIN "src/data/txt/bin/battleRoundTie.bin"
+.INCBIN "src/text/bin/battleRoundTie.bin"
 
 txtBossFight:
-.INCBIN "src/data/txt/bin/bossFight.bin"
+.INCBIN "src/text/bin/bossFight.bin"
 
 txtJankenIntroduction:
-.INCBIN "src/data/txt/bin/jankenIntroduction.bin"
+.INCBIN "src/text/bin/jankenIntroduction.bin"
 
 txtSaintNurari:
-.INCBIN "src/data/txt/bin/saintNurari.bin"
+.INCBIN "src/text/bin/saintNurari.bin"
 
 txtVillageElder:
-.INCBIN "src/data/txt/bin/villageElder.bin"
+.INCBIN "src/text/bin/villageElder.bin"
 
 txtEgle:
-.INCBIN "src/data/txt/bin/egle.bin"
+.INCBIN "src/text/bin/egle.bin"
 
 txtKingHighStone:
-.INCBIN "src/data/txt/bin/kingHighStone.bin"
+.INCBIN "src/text/bin/kingHighStone.bin"
 
 txtKingHighStoneNoLetter:
-.INCBIN "src/data/txt/bin/kingHighStoneNoLetter.bin"
+.INCBIN "src/text/bin/kingHighStoneNoLetter.bin"
 
 txtPrincessLora:
-.INCBIN "src/data/txt/bin/princessLora.bin"
+.INCBIN "src/text/bin/princessLora.bin"
 
 txtBattleLost:
-.INCBIN "src/data/txt/bin/battleLost.bin"
+.INCBIN "src/text/bin/battleLost.bin"
 
 txtShopSoldOut:
-.INCBIN "src/data/txt/bin/shopSoldOut.bin"
+.INCBIN "src/text/bin/shopSoldOut.bin"
