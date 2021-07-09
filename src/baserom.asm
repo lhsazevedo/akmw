@@ -1,8 +1,4 @@
-; This disassembly was created using Emulicious (http://www.emulicious.net)
-.INCLUDE "group1.asm"
-
-; .INCDIR "src"
-
+.INCLUDE "defines.asm"
 .INCLUDE "constants.asm"
 .INCLUDE "structs.asm"
 .INCLUDE "variables.asm"
