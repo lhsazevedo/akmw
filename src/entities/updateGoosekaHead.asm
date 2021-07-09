@@ -82,3 +82,39 @@ _LABEL_7A10_:
     ret nc
     set 1, (ix + Entity.unknown3)
     ret
+
+_LABEL_7A40_:
+    pop af
+_LABEL_7A41_:
+    res 7, (ix+1)
+    inc (ix+2)
+    ld a, (v_entities.7.unknown1)
+    cp $03
+    jp nc, _LABEL_55A5_
+    ld a, $8D
+    ld (v_soundControl), a
+    ld a, (v_entities.7.state)
+    ld (v_entities.7.unknown6), a
+    ld (ix+26), $03
+    ld (ix+22), $3C
+    ld hl, (v_entities.7.ySpeed)
+    ld (v_entities.7.unknown10), hl
+    ld hl, (v_entities.7.xSpeed)
+    ld (v_entities.7.unknown8), hl
+    ld hl, $0000
+    ld (v_entities.7.ySpeed), hl
+    ld (v_entities.7.xSpeed), hl
+    ret
+
+; 4th entry of Jump Table from 79A9 (indexed by v_entities.7.state)
+; Shared
+updateOpponentHeadState3:
+    dec (ix+22)
+    ret nz
+    ld a, (v_entities.7.unknown6)
+    ld (v_entities.7.state), a
+    ld hl, (v_entities.7.unknown10)
+    ld (v_entities.7.ySpeed), hl
+    ld hl, (v_entities.7.unknown8)
+    ld (v_entities.7.xSpeed), hl
+    ret

@@ -274,13 +274,13 @@ _RAM_C22A_ db
 
 .enum $C230 export
 v_jankenMatchOpponentSpriteDescriptorPointer dw
-jankenMatchOpponentTilesPointer dw
+v_jankenMatchOpponentTilesPointer dw
 _RAM_C234_ dw
-_RAM_C236_ dw
-_RAM_C238_ dw
-_RAM_C23A_ dw
-_RAM_C23C_ dw
-jankenMatchOpponentMessagePointer db
+v_opponentAnimationDescriptorPointer dw
+v_opponentCountdownAnimationDescriptorPointer dw
+v_opponentThrowSpriteDescriptorPointer dw
+v_opponentDecisionsPointer dw
+v_jankenMatchOpponentMessagePointer db
 .ende
 
 .enum $C240 export

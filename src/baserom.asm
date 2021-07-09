@@ -5181,102 +5181,12 @@ _DATA_7128_:
 
 .INCLUDE "entities/updateJanken.asm"
 
+.INCLUDE "engine/battle/updateOpponent.asm"
+
 .INCLUDE "entities/updateEntity0x19.asm"
 
-simulateOpponentChoosing_LABEL_7941_:
-    ; Return if opponent unknown11 is 0 
-    ld hl, v_entities.6.unknown11
-    ld a, (hl)
-    or a
-    ret z
-
-    ; @TODO: Probably simulates opponent choosing a throw
-    dec (hl)
-
-    ld c, (ix + Entity.data)
-    ld b, $00
-    ld hl, _DATA_7763_
-    add hl, bc
-    ld c, (hl)
-    ld de, (_RAM_C23C_)
-    dec (ix + Entity.unknown6)
-    ret p
-
-    ld (ix + Entity.unknown6), c
-    ld hl, v_JankenMatchOpponentDecisionIndex
-    inc (hl)
-    ld a, (hl)
-    and $1F
-    ld l, a
-    ld h, $00
-    add hl, de
-    ld l, (hl)
-    ld (ix + Entity.jankenMatchDecision), l
-
-    ; Update thought preview if Alex has Telapathy Ball
-    ld a, (v_hasTelepathyBall)
-    or a
-    ret z
-    ld a, l
-    ld (v_entities.27.jankenMatchDecision), a
-    ret
-
-; Used only on updateOpponentShowTextbox2
-drawThoughtClouds:
-    ; Clear entities 27 and 28
-    ld hl, v_entities.27
-    call clearEntity
-    inc hl
-    call clearEntity
-
-    ; Copy 0xEC bytes from nametable at 0xCA08 to nametableCopy
-    ld hl, _RAM_CA08_
-    ld de, nametableCopy
-    ld bc, $00EC
-    ldir
-
-    ; Add Alex thought cloud
-    ld de, _RAM_CA08_
-    call @patchNametableWithThoughtCloud
-
-    ; Create Janken option preview entity
-    ld iy, v_entities.28
-    ld (iy + Entity.type), $0B
-    ld hl, (v_horizontalScroll)
-    ld a, $20
-    add a, h
-    ld (iy + Entity.xPos.high), a
-    ld (iy + Entity.yPos.high), $3F
-
-    ; Return if Alex doesn't have a Telepaty Ball
-    ld a, (v_hasTelepathyBall)
-    or a
-    ret z
-
-    ; Add opponent thought cloud
-    ld iy, v_entities.27
-    ld (iy + Entity.type), $0B
-    ld a, $B0
-    add a, h
-    ld (iy + Entity.xPos.high), a
-    ld (iy + Entity.yPos.high), $3F
-    ld de, _RAM_CA2C_
-@patchNametableWithThoughtCloud:
-    ld hl, _DATA_92A8_
-    ld bc, $0408
-@lineLoop:
-    push bc
-    push de
-    ld b, $00
-    ldir
-    pop de
-    ex de, hl
-    ld c, $40
-    add hl, bc
-    ex de, hl
-    pop bc
-    djnz @lineLoop
-    ret
+.INCLUDE "engine/battle/simulateOpponentChoosing.asm"
+.INCLUDE "engine/battle/drawThoughtClouds.asm"
 
 .INCLUDE "entities/updateEntity0x0B.asm"
 
@@ -5284,123 +5194,9 @@ drawThoughtClouds:
 _DATA_763B_:
 .dw _DATA_92C8_ _DATA_92D6_ _DATA_92E4_
 
-destroyBattleEntities:
-    ld hl, v_entities.27
-    call clearEntity
-    inc hl
-    call clearEntity
-    ld hl, v_entities.23
-    jp clearEntity
+.INCLUDE "engine/battle/destroyBattleEntities.asm"
 
-; Data from 7651 to 7652 (2 bytes)
-_DATA_7651_:
-.db $4B $95
-
-; Pointer Table from 7653 to 7656 (2 entries, indexed by v_entities.6.data)
-.dw _DATA_12357_ _DATA_76AB_
-
-; Pointer Table from 7657 to 7658 (1 entries, indexed by v_entities.6.data)
-.dw _DATA_9500_
-
-; Pointer Table from 7659 to 765A (1 entries, indexed by v_entities.6.data)
-.dw _DATA_9505_
-
-; Pointer Table from 765B to 765C (1 entries, indexed by v_entities.6.data)
-.dw _DATA_7691_
-
-; Pointer Table from 765D to 765E (1 entries, indexed by v_entities.6.data)
-.dw _DATA_76E3_
-
-; Data from 765F to 7662 (4 bytes)
-.db $0C $00 
-
-; The following 16 bytes are copied to 0xC230 - 0xC23F
-.db $16 $93         ; Pointer to opponent sprite descriptor
-.dw goosekaTiles    ; Pointer to Gooseka tiles
-
-; @Unknown
-; REV0 0xB2 0x76
-; REV1 0xB9 0x76
-.IFDEF _REV1
-    .db $B9
-.ELSE
-    .db $B2
-.ENDIF
-.db $76
-
-.db $F2 $92         ; Pointer to opponent animation descriptor
-.db $F7 $92         ; Pointer to countdown animation descriptor
-
-; Pointer to show-decision sprite descriptor
-; REV0 0x90 0x76
-; REV1 0x97 0x76
-.IFDEF _REV1
-    .db $97
-.ELSE
-    .db $90
-.ENDIF
-.db $76
-
-; Pointer to decisions
-.IFDEF _REV1
-    .db $03 $77
-.ELSE
-    .db $FC $76
-.ENDIF
-
-.db $04             ; Index to message to show to the opponent 
-.db $00             ; @Unknown
-
-.db $16 $93
-
-; Pointer Table from 7673 to 7674 (1 entries, indexed by v_entities.6.data)
-.dw chokkinnaTilesA
-
-; Data from 7675 to 7682 (14 bytes)
-.IFDEF _REV1
-    .db $C7
-.ELSE
-    .db $C0
-.ENDIF
-.db $76 $F2 $92 $15 $94
-.IFDEF _REV1
-    .db $9D
-.ELSE
-    .db $96
-.ENDIF
-.db $76
-.IFDEF _REV1
-    .db $23
-.ELSE
-    .db $1C
-.ENDIF
-.db $77 $05 $00 $16 $93
-
-; Pointer Table from 7683 to 7684 (1 entries, indexed by v_entities.6.data)
-.dw parplinTiles
-
-; Data from 7685 to 7690 (12 bytes)
-.IFDEF _REV1
-    .db $D5
-.ELSE
-    .db $CE
-.ENDIF
-.db $76 $F2 $92 $F7 $92
-.IFDEF _REV1
-    .db $97
-.ELSE
-    .db $90
-.ENDIF
-
-.db $76
-
-.IFDEF _REV1
-    .db $43
-.ELSE
-    .db $3C
-.ENDIF
-
-.db $77 $06 $00
+.INCLUDE "opponentSettings.asm"
 
 ; 1st entry of Pointer Table from 765B (indexed by v_entities.6.data)
 ; Data from 7691 to 7692 (2 bytes)
@@ -5411,7 +5207,13 @@ _DATA_7691_:
 .dw _DATA_116AB_
 
 ; Data from 7695 to 76A2 (14 bytes)
-.db $FB $96 $A3 $93 $C9 $93 $EF $93 $8E $94 $B4 $94 $DA $94
+.db $FB $96
+
+_DATA_7697_:
+.db $A3 $93 $C9 $93 $EF $93
+
+_DATA_769D_:
+.db $8E $94 $B4 $94 $DA $94
 
 ; Data from 76A3 to 76AA (8 bytes)
 _DATA_76A3_:
@@ -5420,9 +5222,16 @@ _DATA_76A3_:
 ; 2nd entry of Pointer Table from 7653 (indexed by v_entities.6.data)
 ; Data from 76AB to 76E2 (56 bytes)
 _DATA_76AB_:
-.db $B0 $00 $D1 $00 $DE $00 $D9 $00 $DF $00 $E5 $00 $E4 $00 $B0 $00
-.db $E5 $00 $DE $00 $E5 $00 $E5 $00 $D1 $00 $B0 $00 $B0 $00 $D9 $00
-.db $DF $00 $E5 $00 $D9 $00 $DE $00 $D1 $00 $D1 $00 $DE $00 $DE $00
+.db $B0 $00 $D1 $00 $DE $00 $D9 $00 $DF $00 $E5 $00 $E4 $00
+
+_DATA_76B9_:
+.db $B0 $00 $E5 $00 $DE $00 $E5 $00 $E5 $00 $D1 $00 $B0 $00
+
+_DATA_76C7_:
+.db $B0 $00 $D9 $00 $DF $00 $E5 $00 $D9 $00 $DE $00 $D1 $00
+
+_DATA_76D5_:
+.db $D1 $00 $DE $00 $DE $00
 .db $E5 $00 $DE $00 $D9 $00 $DE $00
 
 ; 1st entry of Pointer Table from 765D (indexed by v_entities.6.data)
@@ -5430,10 +5239,16 @@ _DATA_76AB_:
 _DATA_76E3_:
 .db $00 $01 $02 $02 $00 $01 $00 $02 $00 $01 $02 $01 $00 $01 $00 $02
 .db $02 $00 $02 $01 $00 $02 $01 $02 $01 $00 $01 $02 $00 $01 $00 $02
+
+_DATA_7703_:
 .db $00 $01 $02 $00 $00 $01 $00 $02 $02 $00 $02 $01 $00 $01 $00 $02
 .db $02 $00 $02 $01 $00 $00 $01 $00 $01 $02 $01 $02 $00 $01 $00 $00
+
+_DATA_7723_:
 .db $01 $01 $02 $02 $00 $01 $00 $01 $02 $01 $02 $01 $00 $01 $00 $02
 .db $02 $00 $01 $01 $00 $02 $01 $02 $01 $00 $01 $02 $00 $01 $00 $01
+
+_DATA_7743_:
 .db $02 $02 $01 $02 $00 $01 $00 $02 $02 $01 $02 $02 $00 $01 $00 $00
 .db $02 $00 $02 $01 $00 $02 $01 $02 $01 $02 $01 $02 $00 $01 $00 $02
 
@@ -5534,43 +5349,6 @@ restoreSomeNametableStuff_LABEL_796D_:
 
 .INCLUDE "entities/updateEntity0x0C.asm"
 .INCLUDE "entities/updateGoosekaHead.asm"
-
-_LABEL_7A40_:
-    pop af
-_LABEL_7A41_:
-    res 7, (ix+1)
-    inc (ix+2)
-    ld a, (v_entities.7.unknown1)
-    cp $03
-    jp nc, _LABEL_55A5_
-    ld a, $8D
-    ld (v_soundControl), a
-    ld a, (v_entities.7.state)
-    ld (v_entities.7.unknown6), a
-    ld (ix+26), $03
-    ld (ix+22), $3C
-    ld hl, (v_entities.7.ySpeed)
-    ld (v_entities.7.unknown10), hl
-    ld hl, (v_entities.7.xSpeed)
-    ld (v_entities.7.unknown8), hl
-    ld hl, $0000
-    ld (v_entities.7.ySpeed), hl
-    ld (v_entities.7.xSpeed), hl
-    ret
-
-; 4th entry of Jump Table from 79A9 (indexed by v_entities.7.state)
-; Shared
-updateOpponentHeadState3:
-    dec (ix+22)
-    ret nz
-    ld a, (v_entities.7.unknown6)
-    ld (v_entities.7.state), a
-    ld hl, (v_entities.7.unknown10)
-    ld (v_entities.7.ySpeed), hl
-    ld hl, (v_entities.7.unknown8)
-    ld (v_entities.7.xSpeed), hl
-    ret
-
 .INCLUDE "entities/updateChokkinnaHead.asm"
 .INCLUDE "entities/updateParplinHead.asm"
 
