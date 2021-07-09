@@ -288,15 +288,15 @@ updateBattleHandleThrows:
 ; Scissors    1  |    3
 ; Paper       2  |    6
 battleRoundResultHandlers:
-.dw updateBattleRoundTie    ; 0: Rock/Rock
-.dw updateBattleRoundLost   ; 1: Scissors/Rock
-.dw updateBattleRoundWon    ; 2: Paper/Rock.
-.dw updateBattleRoundWon    ; 3: Rock/Scissors
-.dw updateBattleRoundTie    ; 4: Scissors/Scissors
-.dw updateBattleRoundLost   ; 5: Paper/Scissors
-.dw updateBattleRoundLost   ; 6: Rock/Paper
-.dw updateBattleRoundWon    ; 7: Scissors/Paper
-.dw updateBattleRoundTie    ; 8: Paper/Paper
+.dw updateBattleRoundTie    ; 0:     Rock vs Rock
+.dw updateBattleRoundLost   ; 1: Scissors vs Rock
+.dw updateBattleRoundWon    ; 2:    Paper vs Rock
+.dw updateBattleRoundWon    ; 3:     Rock vs Scissors
+.dw updateBattleRoundTie    ; 4: Scissors vs Scissors
+.dw updateBattleRoundLost   ; 5:    Paper vs Scissors
+.dw updateBattleRoundLost   ; 6:     Rock vs Paper
+.dw updateBattleRoundWon    ; 7: Scissors vs Paper
+.dw updateBattleRoundTie    ; 8:    Paper vs Paper
 
 updateBattleRoundTie:
     ld a, TXT_BATTLE_ROUND_TIE
