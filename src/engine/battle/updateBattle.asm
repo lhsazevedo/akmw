@@ -43,7 +43,7 @@ updateBattleInit:
 ; - Wait until the opponent is on screen, scrolling stops, alex is on ground
 ;   (e.g.: he can be on a Peticopter)
 ; - Increment state (0x1 to 0x2: updateBattleLoadOpponentTilesAndShowTextbox1)
-; - Set alex state to ALEX_JANKEN_WALK_TO_POSITION
+; - Set alex state to ALEX_BATTLE_WALK_TO_POSITION
 updateBattleMakeAlexGetIntoPosition:
     ; Return if offscreen
     ld a, (v_entities.6.isOffScreenFlags.high)
@@ -64,7 +64,7 @@ updateBattleMakeAlexGetIntoPosition:
     inc (ix + Entity.state)
 
     ; Set alex state to walk left
-    ld a, ALEX_JANKEN_WALK_TO_POSITION
+    ld a, ALEX_BATTLE_WALK_TO_POSITION
     ld (v_alex.state), a
     ret
 
@@ -78,7 +78,7 @@ updateBattleMakeAlexGetIntoPosition:
 updateBattleLoadOpponentTilesAndShowTextbox1:
     ; Wait alex stop walking left
     ld a, (v_alex.state)
-    cp ALEX_JANKEN_MUSIC
+    cp ALEX_BATTLE_DANCING
     ret nz
 
     inc (ix + Entity.state)
@@ -153,7 +153,7 @@ updateBattleStartRound:
     call isTextboxGameState
     ret z
 
-    ld a, ALEX_JANKEN_MUSIC
+    ld a, ALEX_BATTLE_DANCING
     ld (v_alex.state), a
 
     ; Request music
@@ -192,7 +192,7 @@ updateBattleDance:
     ld (v_entities.6.animationTimer), a
     ld (v_alex.animationTimer), a
 
-    ld a, ALEX_JANKEN_COUNTING
+    ld a, ALEX_BATTLE_COUNTING
     ld (v_alex.state), a
 
     ; @TODO
@@ -222,7 +222,7 @@ updateBattleThrow:
 
     inc (ix + Entity.state)
 
-    ld a, ALEX_JANKEN_THROW
+    ld a, ALEX_BATTLE_THROW
     ld (v_alex.state), a
 
     ; Load opponent sprite descriptor for throw
@@ -382,7 +382,7 @@ updateBattleTurnAlexIntoStatue:
     ld a, SOUND_BATTLE_LOST
     ld (v_soundControl), a
 
-    ld a, ALEX_JANKEN_STATUE
+    ld a, ALEX_BATTLE_STATUE
     ld (v_alex.state), a
 
     ; @TODO: Timer?
@@ -520,7 +520,7 @@ _LABEL_7447_:
 _LABEL_7453_:
     ld hl, v_alex.state
     ld a, (hl)
-    cp ALEX_JANKEN_MUSIC
+    cp ALEX_BATTLE_DANCING
     ret nz
     ld (hl), $1A
     ld hl, _DATA_12AFE_
