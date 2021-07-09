@@ -60,7 +60,7 @@ entityTypeJumpTable:
 .dw updateEntity0x3A
 .dw updateEntity0x3B
 .dw updateMoneyBag
-.dw updateEntity0x3D
+.dw updateCircularFlame
 .dw updateflameOrScorpionLeft
 .dw updateflameOrScorpionRight
 .dw updateEntity0x40

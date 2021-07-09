@@ -937,7 +937,7 @@ fillRegisters:
     ld a, (hl)
     ret
 
-unknownCodeB:
+unusedCodeB:
     ld b, (hl)
 
     -:
@@ -953,7 +953,7 @@ unknownCodeB:
     djnz -
     ret
 
-unknownCodeC:
+unusedCodeC:
     ex af, af'
 
     ld a, $80 | :oneBppCharacters
@@ -966,7 +966,7 @@ unknownCodeC:
     jp load1bppTiles
 
 ; @TODO
-_LABEL_4CE_:
+unknownAnimate:
     ld l, (ix + Entity.stateTimer)
     ld a, (ix + Entity.unknown8)
     and $01
@@ -982,7 +982,7 @@ _LABEL_4CE_:
     add a, a
     ld e, a
     ld d, $00
-    ld hl, _DATA_4EE_
+    ld hl, unknownAnimateStateUpdaters
     add hl, de
     ld a, (hl)
     inc hl
@@ -990,13 +990,18 @@ _LABEL_4CE_:
     ld l, a
     jp (hl)
 
-; Jump Table from 4EE to 4FD (8 entries, indexed by _RAM_CF9C_)
-_DATA_4EE_:
-.dw _LABEL_4FE_ _LABEL_535_ _LABEL_571_ _LABEL_5A8_ _LABEL_5E4_ _LABEL_61B_ _LABEL_657_ _LABEL_68E_
+unknownAnimateStateUpdaters:
+.dw unknownAnimateState1Updater
+.dw unknownAnimateState2Updater
+.dw unknownAnimateState3Updater
+.dw unknownAnimateState4Updater
+.dw unknownAnimateState5Updater
+.dw unknownAnimateState6Updater
+.dw unknownAnimateState7Updater
+.dw unknownAnimateState8Updater
 
-; 1st entry of Jump Table from 4EE (indexed by _RAM_CF9C_)
-_LABEL_4FE_:
-    ld hl, _DATA_6CA_
+unknownAnimateState1Updater:
+    ld hl, octopus_DATA_6CA_
     ld b, $00
     add hl, bc
     ld a, (hl)
@@ -1030,9 +1035,8 @@ _LABEL_4FE_:
 
     ret
 
-; 2nd entry of Jump Table from 4EE (indexed by _RAM_CF9C_)
-_LABEL_535_:
-    ld hl, _DATA_6CA_ + 2
+unknownAnimateState2Updater:
+    ld hl, octopus_DATA_6CA_ + 2
     ld a, c
     cpl
     add a, $7F
@@ -1063,9 +1067,8 @@ _LABEL_535_:
     ld (ix + Entity.isOffScreenFlags.high), a
     ret
 
-; 3rd entry of Jump Table from 4EE (indexed by _RAM_CF9C_)
-_LABEL_571_:
-    ld hl, _DATA_6CA_ + 2
+unknownAnimateState3Updater:
+    ld hl, octopus_DATA_6CA_ + 2
     ld b, $00
     add hl, bc
     ld a, (hl)
@@ -1092,9 +1095,8 @@ _LABEL_571_:
     ld (ix + Entity.isOffScreenFlags.high), a
     ret
 
-; 4th entry of Jump Table from 4EE (indexed by _RAM_CF9C_)
-_LABEL_5A8_:
-    ld hl, _DATA_6CA_
+unknownAnimateState4Updater:
+    ld hl, octopus_DATA_6CA_
     ld a, c
     cpl
     add a, $7F
@@ -1125,9 +1127,8 @@ _LABEL_5A8_:
     ld (ix + Entity.isOffScreenFlags.low), a
     ret
 
-; 5th entry of Jump Table from 4EE (indexed by _RAM_CF9C_)
-_LABEL_5E4_:
-    ld hl, _DATA_6CA_
+unknownAnimateState5Updater:
+    ld hl, octopus_DATA_6CA_
     ld b, $00
     add hl, bc
     ld a, (hl)
@@ -1154,9 +1155,8 @@ _LABEL_5E4_:
     ld (ix + Entity.isOffScreenFlags.low), a
     ret
 
-; 6th entry of Jump Table from 4EE (indexed by _RAM_CF9C_)
-_LABEL_61B_:
-    ld hl, _DATA_6CA_ + 2
+unknownAnimateState6Updater:
+    ld hl, octopus_DATA_6CA_ + 2
     ld a, c
     cpl
     add a, $7F
@@ -1187,9 +1187,8 @@ _LABEL_61B_:
     ld (ix + Entity.isOffScreenFlags.high), a
     ret
 
-; 7th entry of Jump Table from 4EE (indexed by _RAM_CF9C_)
-_LABEL_657_:
-    ld hl, _DATA_6CA_ + 2
+unknownAnimateState7Updater:
+    ld hl, octopus_DATA_6CA_ + 2
     ld b, $00
     add hl, bc
     ld a, (hl)
@@ -1216,9 +1215,8 @@ _LABEL_657_:
     ld (ix + Entity.isOffScreenFlags.high), a
     ret
 
-; 8th entry of Jump Table from 4EE (indexed by _RAM_CF9C_)
-_LABEL_68E_:
-    ld hl, _DATA_6CA_
+unknownAnimateState8Updater:
+    ld hl, octopus_DATA_6CA_
     ld a, c
     cpl
     add a, $7F
@@ -1250,7 +1248,8 @@ _LABEL_68E_:
     ret
 
 ; Data from 6CA to 74B (130 bytes)
-_DATA_6CA_:
+; @TODO
+octopus_DATA_6CA_:
 .db $00 $FF $03 $FF $06 $FF $09 $FF $0D $FF $10 $FF $13 $FE $16 $FE
 .db $19 $FE $1C $FD $1F $FD $22 $FD $25 $FC $29 $FC $2C $FB $2F $FB
 .db $32 $FA $35 $F9 $38 $F9 $3B $F8 $3E $F7 $41 $F7 $44 $F6 $47 $F5
@@ -1261,6 +1260,7 @@ _DATA_6CA_:
 .db $A2 $C5 $A4 $C3 $A7 $C1 $A9 $BF $AB $BD $AE $BB $B0 $B9 $B2 $B7
 .db $B4 $B4
 
+; @TODO
 _LABEL_74C_:
     ld h, l
     ld b, $08
@@ -1317,138 +1317,10 @@ divideHLByE:
 .INCLUDE "engine/states/gameplay/handleInterrupt.asm"
 .INCLUDE "engine/states/gameplay/init.asm"
 
-; Data from DC5 to DD6 (18 bytes)
-levelSongs:
-.db SOUND_BASE_SONG
-.db SOUND_BASE_SONG
-.db SOUND_UNDERWATER_SONG
-.db SOUND_BASE_SONG
-.db SOUND_PETICOPTER_SONG
-.db SOUND_BASE_SONG
-.db SOUND_BASE_SONG
-.db SOUND_BASE_SONG
-.db SOUND_UNDERWATER_SONG
-.db SOUND_BASE_SONG
-.db SOUND_CASTLE_SONG
-.db SOUND_BASE_SONG
-.db SOUND_PETICOPTER_SONG
-.db SOUND_BASE_SONG
-.db SOUND_BASE_SONG
-.db SOUND_CASTLE_SONG
-.db SOUND_BASE_SONG
-.db SOUND_BASE_SONG
-
-questionMarkBoxItems:
-.db ENTITY_LIFE
-.db ENTITY_POWER_BRACELET
-.db ENTITY_GHOST
-.db ENTITY_LIFE
-.db ENTITY_POWER_BRACELET
-.db ENTITY_GHOST
-.db ENTITY_LIFE
-.db ENTITY_POWER_BRACELET
-.db ENTITY_GHOST
-.db ENTITY_LIFE
-.db ENTITY_POWER_BRACELET
-.db ENTITY_GHOST
-.db ENTITY_LIFE
-.db ENTITY_POWER_BRACELET
-.db ENTITY_GHOST
-.db ENTITY_LIFE
-.db ENTITY_POWER_BRACELET
-.db ENTITY_GHOST
-.db ENTITY_LIFE
-.db ENTITY_POWER_BRACELET
-.db ENTITY_GHOST
-.db ENTITY_LIFE
-.db ENTITY_POWER_BRACELET
-.db ENTITY_GHOST
-.db ENTITY_LIFE
-.db ENTITY_POWER_BRACELET
-.db ENTITY_GHOST
-.db ENTITY_LIFE
-.db ENTITY_POWER_BRACELET
-.db ENTITY_GHOST
-.db ENTITY_LIFE
-.db ENTITY_POWER_BRACELET
-.db ENTITY_GHOST
-.db ENTITY_LIFE
-.db ENTITY_POWER_BRACELET
-.db ENTITY_GHOST
-.db ENTITY_LIFE
-.db ENTITY_POWER_BRACELET
-.db ENTITY_GHOST
-.db ENTITY_LIFE
-.db ENTITY_POWER_BRACELET
-.db ENTITY_GHOST
-.db ENTITY_LIFE
-.db ENTITY_POWER_BRACELET
-.db ENTITY_GHOST
-.db ENTITY_LIFE
-.db ENTITY_POWER_BRACELET
-.db ENTITY_GHOST
-.db ENTITY_LIFE
-.db ENTITY_POWER_BRACELET
-.db ENTITY_GHOST
-.db ENTITY_LIFE
-.db ENTITY_POWER_BRACELET
-.db ENTITY_GHOST
-.db ENTITY_LIFE
-.db ENTITY_POWER_BRACELET
-.db ENTITY_GHOST
-.db ENTITY_LIFE
-.db ENTITY_POWER_BRACELET
-.db ENTITY_GHOST
-.db ENTITY_LIFE
-.db ENTITY_POWER_BRACELET
-.db ENTITY_GHOST
-.db ENTITY_LIFE
-.db ENTITY_POWER_BRACELET
-.db ENTITY_GHOST
-.db ENTITY_LIFE
-.db ENTITY_POWER_BRACELET
-.db ENTITY_GHOST
-.db ENTITY_LIFE
-.db ENTITY_POWER_BRACELET
-.db ENTITY_GHOST
-
-levelSpawnStates:
-.db $00
-.db $00
-.db $00
-.db $00
-.db $09
-.db $00
-.db $00
-.db $00
-.db $01
-.db $00
-.db $00
-.db $00
-.db $09
-.db $00
-.db $00
-.db $00
-.db $00
-
-levelQuestionMarkBoxIndexes:
-.db $01
-.db $02
-.db $03
-.db $04
-.db $05
-.db $06
-.db $07
-.db $08
-.db $02
-.db $0A
-.db $0B
-.db $0C
-.db $0D
-.db $0E
-.db $0F
-.db $10
-.db $11
+.INCLUDE "levelSongs.asm"
+.INCLUDE "questionMarkBoxItems.asm"
+.INCLUDE "levelSpawnStates.asm"
+.INCLUDE "levelQuestionMarkBoxIndexes.asm"
 
 ; Probably decompress shop nametable entries
 _LABEL_E41_:
@@ -1495,371 +1367,24 @@ loadLevelTiles:
     ld de, $44A0
     call decompress4BitplanesToVRAM
     ld a, (v_level)
-    ld hl, levelTileLoaders - 2
+    ld hl, levelTilesetLoaders - 2
     rst jumpToAthPointer
     ret
 
-levelTileLoaders:
-; MtEthernal
-.dw loadLevelTiles_LABEL_E9F_
-; mtEthernalStage2
-.dw loadLevelTiles_LABEL_FF9_
-; lakeFathom
-.dw loadLevelTiles_LABEL_F21_
-; theIslandOfStNurari
-.dw loadLevelTiles_LABEL_F54_
-; lakeFathomPart2
-.dw loadLevelTiles_LABEL_F99_
-; theVillageOfNamui
-.dw loadLevelTiles_LABEL_F6C_
-; mtKave
-.dw loadLevelTiles_LABEL_FAE_
-; theBlakwoods
-.dw loadLevelTiles_LABEL_EC9_
-; river
-.dw loadLevelTiles_LABEL_FC6_
-; bingooLowland
-.dw loadLevelTiles_LABEL_F00_
-; theRadactianCastle
-.dw loadLevelTiles_LABEL_F54_
-; theCityOfRadactian
-.dw loadLevelTiles_LABEL_F6C_
-; swamp
-.dw loadLevelTiles_LABEL_FF9_
-; theKingdomOfNibanaPart1
-.dw loadLevelTiles_LABEL_1058_
-; theKingdomOfNibanaPart2
-.dw loadLevelTiles_LABEL_F00_
-; jankensCastle
-.dw loadLevelTiles_LABEL_EDF_
-; craggLake
-.dw loadLevelTiles_LABEL_1022_
-
-; 1st entry of Jump Table from E7D (indexed by v_level)
-loadLevelTiles_LABEL_E9F_:
-    ld de, $46A0
-    ld bc, $0080
-    ld l, $00
-    call fillVRAM
-    ld a, (v_level)
-    ld hl, levelMainTilesetPointers - 2
-    rst loadAthPointer
-    ld de, $4720
-    call decompress4BitplanesToVRAM
-    ld hl, tiles_aditionalSet4
-    ld de, $4E60
-    ld b, $A0
-    rst memcpyToVRAM
-    ld hl, tiles_aditionalSet1
-    ld de, $4F00
-    jp decompress4BitplanesToVRAM
-
-; 8th entry of Jump Table from E7D (indexed by v_level)
-loadLevelTiles_LABEL_EC9_:
-    ld hl, tiles_aditionalSet2
-    ld de, $4EC0
-    call decompress4BitplanesToVRAM
-    ld a, (v_level)
-    ld hl, levelMainTilesetPointers - 2
-    rst loadAthPointer
-    ld de, $46A0
-    jp decompress4BitplanesToVRAM
-
-; 16th entry of Jump Table from E7D (indexed by v_level)
-loadLevelTiles_LABEL_EDF_:
-    ld de, $46A0
-    ld bc, $0080
-    ld l, $00
-    call fillVRAM
-    ld a, (v_level)
-    ld hl, levelMainTilesetPointers - 2
-    rst loadAthPointer
-    ld de, $4720
-    call decompress4BitplanesToVRAM
-    ld hl, tiles_aditionalSet1
-    ld de, $4F00
-    jp decompress4BitplanesToVRAM
-
-; 10th entry of Jump Table from E7D (indexed by v_level)
-loadLevelTiles_LABEL_F00_:
-    ld de, $46A0
-    ld bc, $0080
-    ld l, $00
-    call fillVRAM
-    ld a, (v_level)
-    ld hl, levelMainTilesetPointers - 2
-    rst loadAthPointer
-    ld de, $4720
-    call decompress4BitplanesToVRAM
-    ld hl, tiles_aditionalSet2
-    ld de, $4EC0
-    jp decompress4BitplanesToVRAM
-
-; 3rd entry of Jump Table from E7D (indexed by v_level)
-loadLevelTiles_LABEL_F21_:
-    ld de, $46A0
-    ld bc, $0200
-    ld l, $00
-    call fillVRAM
-    ld a, (v_level)
-    ld hl, levelMainTilesetPointers - 2
-    rst loadAthPointer
-    ld de, $48A0
-    call decompress4BitplanesToVRAM
-    ld hl, tiles_aditionalSet5
-    ld de, $4D00
-    call decompress4BitplanesToVRAM
-    ld hl, tiles_aditionalSet4
-    ld de, $4E60
-    ld b, $A0
-    rst memcpyToVRAM
-    ld hl, tiles_aditionalSet1
-    ld de, $4F00
-    jp decompress4BitplanesToVRAM
-
-; 4th entry of Jump Table from E7D (indexed by v_level)
-loadLevelTiles_LABEL_F54_:
-    ld de, $46A0
-    ld bc, $0080
-    ld l, $00
-    call fillVRAM
-    ld a, (v_level)
-    ld hl, levelMainTilesetPointers - 2
-    rst loadAthPointer
-    ld de, $4720
-    jp decompress4BitplanesToVRAM
-
-; 6th entry of Jump Table from E7D (indexed by v_level)
-loadLevelTiles_LABEL_F6C_:
-    ld de, $46A0
-    ld bc, $0080
-    ld l, $00
-    call fillVRAM
-    ld a, $02
-    ld hl, $847E
-    rst loadAthPointer
-    ld de, $4720
-    call decompress4BitplanesToVRAM
-    ld a, (v_level)
-    ld hl, levelMainTilesetPointers - 2
-    rst loadAthPointer
-    ld de, $4920
-    call decompress4BitplanesToVRAM
-    ld hl, tiles_aditionalSet2
-    ld de, $4EC0
-    jp decompress4BitplanesToVRAM
-
-; 5th entry of Jump Table from E7D (indexed by v_level)
-loadLevelTiles_LABEL_F99_:
-    call loadLevelTiles_LABEL_E9F_
-    ld hl, tiles_aditionalSet5
-    ld de, $4D00
-    call decompress4BitplanesToVRAM
-    ld hl, tiles_aditionalSet3
-    ld de, $47A0
-    jp decompress4BitplanesToVRAM
-
-; 7th entry of Jump Table from E7D (indexed by v_level)
-loadLevelTiles_LABEL_FAE_:
-    ld de, $46A0
-    ld bc, $0080
-    ld l, $0A
-    call fillVRAM
-    ld a, (v_level)
-    ld hl, levelMainTilesetPointers - 2
-    rst loadAthPointer
-    ld de, $4720
-    jp decompress4BitplanesToVRAM
-
-; 9th entry of Jump Table from E7D (indexed by v_level)
-loadLevelTiles_LABEL_FC6_:
-    ld de, $46A0
-    ld bc, $0080
-    ld l, $00
-    call fillVRAM
-    ld a, (v_level)
-    ld hl, levelMainTilesetPointers - 2
-    rst loadAthPointer
-    ld de, $4720
-    call decompress4BitplanesToVRAM
-    ld hl, tiles_aditionalSet5
-    ld de, $4D00
-    call decompress4BitplanesToVRAM
-    ld hl, tiles_aditionalSet1
-    ld de, $4F00
-    call decompress4BitplanesToVRAM
-    ld hl, tiles_aditionalSet3
-    ld de, $47A0
-    jp decompress4BitplanesToVRAM
-
-; 2nd entry of Jump Table from E7D (indexed by v_level)
-loadLevelTiles_LABEL_FF9_:
-    ld de, $46A0
-    ld bc, $0080
-    ld l, $00
-    call fillVRAM
-    ld a, $02
-    ld hl, $847E
-    rst loadAthPointer
-    ld de, $4720
-    call decompress4BitplanesToVRAM
-    ld hl, tiles_aditionalSet2
-    ld de, $4EC0
-    call decompress4BitplanesToVRAM
-    ld hl, tiles_aditionalSet3
-    ld de, $47A0
-    jp decompress4BitplanesToVRAM
-
-; 17th entry of Jump Table from E7D (indexed by v_level)
-loadLevelTiles_LABEL_1022_:
-    ld de, $46A0
-    ld bc, $0200
-    ld l, $00
-    call fillVRAM
-    ld a, $03
-    ld hl, $847E
-    rst loadAthPointer
-    ld de, $48A0
-    call decompress4BitplanesToVRAM
-    ld a, (v_level)
-    ld hl, levelMainTilesetPointers - 2
-    rst loadAthPointer
-    ld de, $4AA0
-    call decompress4BitplanesToVRAM
-    ld hl, tiles_level17AditionalSet
-    ld de, $4720
-    call decompress4BitplanesToVRAM
-    ld hl, tiles_aditionalSet1
-    ld de, $4F00
-    jp decompress4BitplanesToVRAM
-
-; 14th entry of Jump Table from E7D (indexed by v_level)
-loadLevelTiles_LABEL_1058_:
-    ld de, $46A0
-    ld bc, $0080
-    ld l, $00
-    call fillVRAM
-    ld a, $0B
-    ld hl, $847E
-    rst loadAthPointer
-    ld de, $4720
-    call decompress4BitplanesToVRAM
-    ld a, (v_level)
-    ld hl, levelMainTilesetPointers - 2
-    rst loadAthPointer
-    ld de, $4DA0
-    jp decompress4BitplanesToVRAM
+.INCLUDE "levelTilesetLoaders.asm"
 
 _LABEL_107C_:
     ld a, (v_gameState)
-    cp $89
+    cp STATE_CHANGED | STATE_JANKEN_GAME
     ret c
-    cp $8B
+
+    cp STATE_CHANGED | STATE_MAP
     ret z
+
     ld hl, (paletteUpdaterPointer)
     jp (hl)
 
-; 1st entry of Jump Table from D2C (indexed by v_level)
-_LABEL_1089_:
-    ld a, (v_currentLevelIsBonusLevel)
-    or a
-    jp nz, _LABEL_10B0_
-    ld hl, v_waterColorTimer
-    dec (hl)
-    jp p, _LABEL_10B0_
-    ld (hl), $08
-    inc hl
-    ld a, (hl)
-    cp $04
-    jr c, +
-    xor a
-    ld (hl), a
-+:
-    inc (hl)
-    ld e, a
-    ld d, $00
-    ld hl, _DATA_10D6_
-    add hl, de
-    ld de, $C00B
-    ld a, (hl)
-    call writeAToVRAM
-_LABEL_10B0_:
-    ld a, (_RAM_C054_)
-    or a
-    ret z
-    cp $03
-    ret nc
-    ld hl, v_invincibilityColorTimer
-    dec (hl)
-    ret p
-    ld (hl), $04
-    inc hl
-    ld a, (hl)
-    cp $04
-    jr c, +
-    xor a
-    ld (hl), a
-+:
-    inc (hl)
-    ld e, a
-    ld d, $00
-    ld hl, _DATA_10DA_
-    add hl, de
-    ld de, $C014
-    ld a, (hl)
-    jp writeAToVRAM
-
-; Data from 10D6 to 10D9 (4 bytes)
-_DATA_10D6_:
-.db $FF $FD $FB $FD
-
-; Data from 10DA to 10DD (4 bytes)
-_DATA_10DA_:
-.db $33 $3F $33 $3F
-
-; 2nd entry of Jump Table from D2C (indexed by v_level)
-_LABEL_10DE_:
-    jp _LABEL_10B0_
-
-; 4th entry of Jump Table from D2C (indexed by v_level)
-_LABEL_10E1_:
-    jp _LABEL_10B0_
-
-; 6th entry of Jump Table from D2C (indexed by v_level)
-_LABEL_10E4_:
-    jp _LABEL_10B0_
-
-; 7th entry of Jump Table from D2C (indexed by v_level)
-_LABEL_10E7_:
-    jp _LABEL_10B0_
-
-; 8th entry of Jump Table from D2C (indexed by v_level)
-_LABEL_10EA_:
-    jp _LABEL_10B0_
-
-; 10th entry of Jump Table from D2C (indexed by v_level)
-_LABEL_10ED_:
-    jp _LABEL_10B0_
-
-; 11th entry of Jump Table from D2C (indexed by v_level)
-_LABEL_10F0_:
-    jp _LABEL_10B0_
-
-; 12th entry of Jump Table from D2C (indexed by v_level)
-_LABEL_10F3_:
-    jp _LABEL_10B0_
-
-; 13th entry of Jump Table from D2C (indexed by v_level)
-_LABEL_10F6_:
-    jp _LABEL_10B0_
-
-; 14th entry of Jump Table from D2C (indexed by v_level)
-_LABEL_10F9_:
-    jp _LABEL_10B0_
-
-; 15th entry of Jump Table from D2C (indexed by v_level)
-_LABEL_10FC_:
-    jp _LABEL_10B0_
+.INCLUDE "levelPaletteUpdaters.asm"
 
 loadLevelPalette:
     ld a, $87
@@ -6535,7 +6060,7 @@ _DATA_5D7E_:
 _DATA_5D8C_:
 .dw _DATA_8022_ _DATA_8111_ _DATA_8120_ _DATA_8102_
 
-.INCLUDE "entities/updateEntity0x3D.asm"
+.INCLUDE "entities/updateCircularFlame.asm"
 .INCLUDE "entities/flameOrScorpionLeft/updater.asm"
 .INCLUDE "entities/flameOrScorpionRight/updater.asm"
 .INCLUDE "entities/updateEntity0x40.asm"

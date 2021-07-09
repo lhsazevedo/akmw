@@ -1,5 +1,4 @@
-; 61st entry of Jump Table from 2892 (indexed by _RAM_CF80_)
-updateEntity0x3D:
+updateCircularFlame:
     bit 0, (ix + Entity.flags)
     jr nz, +
     set 0, (ix + Entity.flags)
@@ -42,7 +41,7 @@ updateEntity0x3D:
     add hl, bc
     ld (ix + Entity.stateTimer), l
     ld (ix + Entity.unknown8), h
-    call _LABEL_4CE_
+    call unknownAnimate
     ld a, (ix + Entity.isOffScreenFlags.low)
     cp $01
     jr nz, _LABEL_5E0E_

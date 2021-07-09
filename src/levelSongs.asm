@@ -1,0 +1,37 @@
+levelSongs:
+; MtEthernal
+.db SOUND_BASE_SONG
+; MtEthernalStage2
+.db SOUND_BASE_SONG
+; LakeFathom
+.db SOUND_UNDERWATER_SONG
+; TheIslandOfStNurari
+.db SOUND_BASE_SONG
+; LakeFathomPart2
+.db SOUND_PETICOPTER_SONG
+; TheVillageOfNamui
+.db SOUND_BASE_SONG
+; MtKave
+.db SOUND_BASE_SONG
+; TheBlakwoods
+.db SOUND_BASE_SONG
+; River
+.db SOUND_UNDERWATER_SONG
+; BingooLowland
+.db SOUND_BASE_SONG
+; TheRadactianCastle
+.db SOUND_CASTLE_SONG
+; TheCityOfRadactian
+.db SOUND_BASE_SONG
+; Swamp
+.db SOUND_PETICOPTER_SONG
+; TheKingdomOfNibanaPart1
+.db SOUND_BASE_SONG
+; TheKingdomOfNibanaPart2
+.db SOUND_BASE_SONG
+; JankensCastle
+.db SOUND_CASTLE_SONG
+; CraggLake
+.db SOUND_BASE_SONG
+; @TODO ??
+.db SOUND_BASE_SONG

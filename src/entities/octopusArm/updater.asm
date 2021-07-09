@@ -142,7 +142,7 @@ _LABEL_4D67_:
     add hl, bc
     ld (ix + Entity.stateTimer), l
     ld (ix + Entity.unknown8), h
-    call _LABEL_4CE_
+    call unknownAnimate
     ld h, (ix + Entity.xPos.high)
     ld l, (ix + Entity.yPos.high)
     ld (_RAM_C0F4_), hl

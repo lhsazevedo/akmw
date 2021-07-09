@@ -30,6 +30,8 @@ STATE_JANKEN_GAME       = $9
 STATE_GAMEPLAY          = $A
 STATE_MAP               = $B
 
+STATE_CHANGED           = $80
+
 ; Initial game values
 INITIAL_GAME_STATE = STATE_LEVEL_STARTING
 INITIAL_SCORE = $00 $00 $00 ; 0
