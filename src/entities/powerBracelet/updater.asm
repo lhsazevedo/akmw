@@ -21,7 +21,7 @@ updatePowerBracelet:
     jp nz, destroyCurrentEntity
 
     ; Do not pickup if it isn't colliding with Alex
-    ld iy, v_entity1
+    ld iy, v_alex
     call checkEntityCollision
     jr c, +
 

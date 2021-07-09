@@ -301,10 +301,12 @@ _RAM_C2A0_ dsb $b
 .ende
 
 .enum $C300 export
-    v_entities INSTANCEOF Entity $1E
+    v_alex INSTANCEOF Entity
 .ende
 
-.DEFINE v_entity1 v_entities
+.enum $C300 export
+    v_entities INSTANCEOF Entity $1E
+.ende
 
 .enum $C700 export
 v_tempSprites dsb $6

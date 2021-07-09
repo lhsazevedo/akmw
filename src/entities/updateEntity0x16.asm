@@ -10,7 +10,7 @@ updateEntity0x16:
     set 1, (ix + Entity.flags)
     bit 4, (ix + Entity.flags)
     jr nz, _LABEL_4A86_
-    ld a, (v_entities.1.xPos.high)
+    ld a, (v_alex.xPos.high)
     sub (ix + Entity.xPos.high)
     ret c
     cp $10

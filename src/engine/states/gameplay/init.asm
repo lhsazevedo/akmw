@@ -11,7 +11,7 @@ initGameplayState:
     ldir
     ld a, ENTITY_ARRAY_SIZE
     ld (v_entitydataArrayLength), a
-    ld hl, v_entity1
+    ld hl, v_entities
     ld (v_entitydataArrayPointer), hl
     call loadLevelPalette
     call loadLevelSpriteTiles
@@ -207,7 +207,7 @@ _LABEL_BF3_:
 
 ; @TODO: What is the condition for this to be executed?
 initGameplayStateSecondary:
-    ld ix, v_entity1
+    ld ix, v_alex
     ld (ix + Entity.type), ENTITY_ALEX
 
     ld a, (v_level)

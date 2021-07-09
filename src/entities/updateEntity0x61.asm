@@ -5,7 +5,7 @@ updateEntity0x61:
     ld a, (ix + Entity.isOffScreenFlags.high)
     or (ix + Entity.isOffScreenFlags.low)
     ret nz
-    ld iy, v_entity1
+    ld iy, v_alex
     call checkEntityCollision
     ret c
     ld a, (v_entities.27.type)

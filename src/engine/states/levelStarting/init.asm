@@ -94,7 +94,7 @@ initLevelStartingState:
 
     ld a, $03
     ld (v_entitydataArrayLength), a
-    ld hl, v_entity1
+    ld hl, v_entities
     ld (v_entitydataArrayPointer), hl
 
     ld a, :tiles_AlexKiddEatingRiceBall | $80

@@ -14,7 +14,7 @@ updateEntity0x54:
     ld (ix + Entity.unknown6), $0E
     ld (ix + Entity.xSpeed.low), $60
     ld (ix + Entity.xSpeed.high), $00
-    ld a, (v_entities.1.xPos.high)
+    ld a, (v_alex.xPos.high)
     cp (ix + Entity.xPos.high)
     jr nc, _LABEL_62F5_
     ld (ix + Entity.unknown6), $02

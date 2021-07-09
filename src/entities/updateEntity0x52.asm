@@ -21,7 +21,7 @@ updateEntity0x52:
     or (ix + Entity.isOffScreenFlags.high)
     ret nz
     set 1, (ix + Entity.flags)
-    ld iy, v_entity1
+    ld iy, v_alex
     call checkEntityCollision
     ret c
     ld a, $8F

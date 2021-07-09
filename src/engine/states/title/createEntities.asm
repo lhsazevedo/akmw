@@ -1,8 +1,8 @@
 createTitleEntityAlexFlyingPeticopter:
-    ld ix, v_entities.1
+    ld ix, v_alex
     ld (ix + Entity.type), ENTITY_STATIC
     ld hl, _RAM_C800_
-    ld (v_entities.1.spriteDescriptorPointer), hl
+    ld (v_alex.spriteDescriptorPointer), hl
     ld (ix + Entity.xPos.high), $DC
     ld (ix + Entity.yPos.high), $46
     ret

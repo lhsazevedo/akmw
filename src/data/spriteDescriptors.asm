@@ -835,110 +835,110 @@ riceBallSpriteDescriptor:
 _DATA_8CE6_:
 .db $02
 
-; Pointer Table from 8CE7 to 8CEA (2 entries, indexed by v_entities.1.animationFrame)
+; Pointer Table from 8CE7 to 8CEA (2 entries, indexed by v_alex.animationFrame)
 .dw _DATA_8E88_ _DATA_90BC_
 
 ; Data from 8CEB to 8CEB (1 bytes)
 _DATA_8CEB_:
 .db $04
 
-; Pointer Table from 8CEC to 8CF3 (4 entries, indexed by v_entities.1.animationFrame)
+; Pointer Table from 8CEC to 8CF3 (4 entries, indexed by v_alex.animationFrame)
 .dw _DATA_8D2F_ _DATA_8D41_ _DATA_8D2F_ _DATA_8D56_
 
 ; Data from 8CF4 to 8CF4 (1 bytes)
 _DATA_8CF4_:
 .db $04
 
-; Pointer Table from 8CF5 to 8CFC (4 entries, indexed by v_entities.1.animationFrame)
+; Pointer Table from 8CF5 to 8CFC (4 entries, indexed by v_alex.animationFrame)
 .dw _DATA_8D6B_ _DATA_8D7D_ _DATA_8D6B_ _DATA_8D92_
 
 ; Data from 8CFD to 8CFD (1 bytes)
 _DATA_8CFD_:
 .db $02
 
-; Pointer Table from 8CFE to 8D01 (2 entries, indexed by v_entities.1.animationFrame)
+; Pointer Table from 8CFE to 8D01 (2 entries, indexed by v_alex.animationFrame)
 .dw _DATA_8E01_ _DATA_8E13_
 
 ; Data from 8D02 to 8D02 (1 bytes)
 _DATA_8D02_:
 .db $02
 
-; Pointer Table from 8D03 to 8D06 (2 entries, indexed by v_entities.1.animationFrame)
+; Pointer Table from 8D03 to 8D06 (2 entries, indexed by v_alex.animationFrame)
 .dw _DATA_8E25_ _DATA_8E37_
 
 ; Data from 8D07 to 8D07 (1 bytes)
 _DATA_8D07_:
 .db $04
 
-; Pointer Table from 8D08 to 8D0F (4 entries, indexed by v_entities.1.animationFrame)
+; Pointer Table from 8D08 to 8D0F (4 entries, indexed by v_alex.animationFrame)
 .dw _DATA_8F7B_ _DATA_8F9F_ _DATA_8FC6_ _DATA_8FEA_
 
 ; Data from 8D10 to 8D10 (1 bytes)
 _DATA_8D10_:
 .db $04
 
-; Pointer Table from 8D11 to 8D18 (4 entries, indexed by v_entities.1.animationFrame)
+; Pointer Table from 8D11 to 8D18 (4 entries, indexed by v_alex.animationFrame)
 .dw _DATA_9011_ _DATA_9035_ _DATA_905C_ _DATA_9080_
 
 ; Data from 8D19 to 8D19 (1 bytes)
 _DATA_8D19_:
 .db $02
 
-; Pointer Table from 8D1A to 8D1D (2 entries, indexed by v_entities.1.animationFrame)
+; Pointer Table from 8D1A to 8D1D (2 entries, indexed by v_alex.animationFrame)
 .dw _DATA_8F2A_ _DATA_8F45_
 
 ; Data from 8D1E to 8D1E (1 bytes)
 _DATA_8D1E_:
 .db $02
 
-; Pointer Table from 8D1F to 8D22 (2 entries, indexed by v_entities.1.animationFrame)
+; Pointer Table from 8D1F to 8D22 (2 entries, indexed by v_alex.animationFrame)
 .dw _DATA_9152_ _DATA_916D_
 
 ; Data from 8D23 to 8D23 (1 bytes)
 _DATA_8D23_:
 .db $03
 
-; Pointer Table from 8D24 to 8D29 (3 entries, indexed by v_entities.1.animationFrame)
+; Pointer Table from 8D24 to 8D29 (3 entries, indexed by v_alex.animationFrame)
 .dw _DATA_90E3_ _DATA_90F8_ _DATA_910D_
 
 ; Data from 8D2A to 8D2A (1 bytes)
 _DATA_8D2A_:
 .db $02
 
-; Pointer Table from 8D2B to 8D2E (2 entries, indexed by v_entities.1.animationFrame)
+; Pointer Table from 8D2B to 8D2E (2 entries, indexed by v_alex.animationFrame)
 .dw _DATA_8E73_ _DATA_8E88_
 
-; 1st entry of Pointer Table from 8CEC (indexed by v_entities.1.animationFrame)
+; 1st entry of Pointer Table from 8CEC (indexed by v_alex.animationFrame)
 ; Data from 8D2F to 8D40 (18 bytes)
 _DATA_8D2F_:
 .db $80 $05 $04 $00 $00 $08 $08 $10 $01 $00 $09 $01 $01 $02 $09 $03
 .db $05 $04
 
-; 2nd entry of Pointer Table from 8CEC (indexed by v_entities.1.animationFrame)
+; 2nd entry of Pointer Table from 8CEC (indexed by v_alex.animationFrame)
 ; Data from 8D41 to 8D55 (21 bytes)
 _DATA_8D41_:
 .db $81 $06 $04 $00 $00 $08 $08 $10 $10 $01 $00 $09 $01 $01 $02 $09
 .db $03 $02 $04 $0A $05
 
-; 4th entry of Pointer Table from 8CEC (indexed by v_entities.1.animationFrame)
+; 4th entry of Pointer Table from 8CEC (indexed by v_alex.animationFrame)
 ; Data from 8D56 to 8D6A (21 bytes)
 _DATA_8D56_:
 .db $82 $06 $04 $00 $00 $08 $08 $10 $10 $01 $00 $09 $01 $01 $02 $09
 .db $03 $01 $04 $09 $05
 
-; 1st entry of Pointer Table from 8CF5 (indexed by v_entities.1.animationFrame)
+; 1st entry of Pointer Table from 8CF5 (indexed by v_alex.animationFrame)
 ; Data from 8D6B to 8D7C (18 bytes)
 _DATA_8D6B_:
 .db $83 $05 $0C $00 $00 $08 $08 $10 $00 $00 $08 $01 $00 $02 $08 $03
 .db $04 $04
 
-; 2nd entry of Pointer Table from 8CF5 (indexed by v_entities.1.animationFrame)
+; 2nd entry of Pointer Table from 8CF5 (indexed by v_alex.animationFrame)
 ; Data from 8D7D to 8D91 (21 bytes)
 _DATA_8D7D_:
 .db $84 $06 $0C $00 $00 $08 $08 $10 $10 $00 $00 $08 $01 $00 $02 $08
 .db $03 $01 $04 $09 $05
 
-; 4th entry of Pointer Table from 8CF5 (indexed by v_entities.1.animationFrame)
+; 4th entry of Pointer Table from 8CF5 (indexed by v_alex.animationFrame)
 ; Data from 8D92 to 8DA6 (21 bytes)
 _DATA_8D92_:
 .db $85 $06 $0C $00 $00 $08 $08 $10 $10 $00 $00 $08 $01 $00 $02 $08
@@ -964,25 +964,25 @@ _DATA_8DE9_:
 .db $89 $07 $0C $01 $01 $09 $09 $08 $11 $11 $00 $00 $08 $01 $00 $02
 .db $08 $03 $10 $04 $01 $05 $09 $06
 
-; 1st entry of Pointer Table from 8CFE (indexed by v_entities.1.animationFrame)
+; 1st entry of Pointer Table from 8CFE (indexed by v_alex.animationFrame)
 ; Data from 8E01 to 8E12 (18 bytes)
 _DATA_8E01_:
 .db $8A $05 $1C $00 $00 $08 $08 $08 $01 $00 $09 $01 $01 $02 $09 $03
 .db $11 $04
 
-; 2nd entry of Pointer Table from 8CFE (indexed by v_entities.1.animationFrame)
+; 2nd entry of Pointer Table from 8CFE (indexed by v_alex.animationFrame)
 ; Data from 8E13 to 8E24 (18 bytes)
 _DATA_8E13_:
 .db $8B $05 $1C $00 $00 $08 $08 $08 $01 $00 $09 $01 $01 $02 $09 $03
 .db $11 $04
 
-; 1st entry of Pointer Table from 8D03 (indexed by v_entities.1.animationFrame)
+; 1st entry of Pointer Table from 8D03 (indexed by v_alex.animationFrame)
 ; Data from 8E25 to 8E36 (18 bytes)
 _DATA_8E25_:
 .db $8C $05 $24 $00 $00 $08 $08 $08 $08 $00 $10 $01 $00 $02 $08 $03
 .db $10 $04
 
-; 2nd entry of Pointer Table from 8D03 (indexed by v_entities.1.animationFrame)
+; 2nd entry of Pointer Table from 8D03 (indexed by v_alex.animationFrame)
 ; Data from 8E37 to 8E48 (18 bytes)
 _DATA_8E37_:
 .db $8D $05 $24 $00 $00 $08 $08 $08 $08 $00 $10 $01 $01 $02 $09 $03
@@ -998,13 +998,13 @@ _DATA_8E5E_:
 .db $8F $06 $24 $00 $00 $08 $08 $08 $08 $08 $00 $10 $01 $00 $02 $08
 .db $03 $10 $04 $18 $05
 
-; 1st entry of Pointer Table from 8D2B (indexed by v_entities.1.animationFrame)
+; 1st entry of Pointer Table from 8D2B (indexed by v_alex.animationFrame)
 ; Data from 8E73 to 8E87 (21 bytes)
 _DATA_8E73_:
 .db $90 $06 $0C $01 $01 $09 $09 $11 $11 $00 $00 $08 $01 $00 $02 $08
 .db $03 $02 $04 $0A $05
 
-; 1st entry of Pointer Table from 8CE7 (indexed by v_entities.1.animationFrame)
+; 1st entry of Pointer Table from 8CE7 (indexed by v_alex.animationFrame)
 ; Data from 8E88 to 8E9C (21 bytes)
 _DATA_8E88_:
 .db $91 $06 $0C $01 $01 $09 $09 $11 $11 $00 $00 $08 $01 $00 $02 $08
@@ -1041,13 +1041,13 @@ _DATA_8F15_:
 .db $96 $06 $34 $00 $00 $08 $08 $10 $10 $00 $00 $08 $01 $00 $02 $08
 .db $03 $01 $04 $09 $05
 
-; 1st entry of Pointer Table from 8D1A (indexed by v_entities.1.animationFrame)
+; 1st entry of Pointer Table from 8D1A (indexed by v_alex.animationFrame)
 ; Data from 8F2A to 8F44 (27 bytes)
 _DATA_8F2A_:
 .db $97 $08 $3C $00 $00 $08 $08 $08 $10 $10 $10 $02 $00 $0A $01 $01
 .db $02 $09 $03 $11 $04 $00 $05 $08 $06 $10 $07
 
-; 2nd entry of Pointer Table from 8D1A (indexed by v_entities.1.animationFrame)
+; 2nd entry of Pointer Table from 8D1A (indexed by v_alex.animationFrame)
 ; Data from 8F45 to 8F5F (27 bytes)
 _DATA_8F45_:
 .db $98 $08 $3C $00 $00 $08 $08 $08 $10 $10 $10 $02 $00 $0A $01 $01
@@ -1058,56 +1058,56 @@ _DATA_8F60_:
 .db $99 $08 $40 $00 $00 $08 $08 $08 $10 $10 $10 $01 $00 $09 $01 $01
 .db $02 $09 $03 $11 $04 $00 $05 $08 $06 $10 $07
 
-; 1st entry of Pointer Table from 8D08 (indexed by v_entities.1.animationFrame)
+; 1st entry of Pointer Table from 8D08 (indexed by v_alex.animationFrame)
 ; Data from 8F7B to 8F9E (36 bytes)
 _DATA_8F7B_:
 .db $9D $0B $4C $00 $00 $00 $08 $08 $08 $10 $10 $10 $18 $18 $00 $00
 .db $08 $01 $10 $02 $00 $03 $08 $04 $10 $05 $00 $06 $08 $07 $10 $08
 .db $02 $09 $0A $0A
 
-; 2nd entry of Pointer Table from 8D08 (indexed by v_entities.1.animationFrame)
+; 2nd entry of Pointer Table from 8D08 (indexed by v_alex.animationFrame)
 ; Data from 8F9F to 8FC5 (39 bytes)
 _DATA_8F9F_:
 .db $9E $0C $4C $00 $00 $00 $08 $08 $08 $10 $10 $10 $18 $18 $18 $02
 .db $00 $0A $01 $12 $02 $00 $03 $08 $04 $10 $05 $00 $06 $08 $07 $10
 .db $08 $02 $09 $0A $0A $12 $0B
 
-; 3rd entry of Pointer Table from 8D08 (indexed by v_entities.1.animationFrame)
+; 3rd entry of Pointer Table from 8D08 (indexed by v_alex.animationFrame)
 ; Data from 8FC6 to 8FE9 (36 bytes)
 _DATA_8FC6_:
 .db $9F $0B $4C $00 $00 $00 $08 $08 $08 $10 $10 $10 $18 $18 $02 $00
 .db $0A $01 $12 $02 $00 $03 $08 $04 $10 $05 $00 $06 $08 $07 $10 $08
 .db $02 $09 $0A $0A
 
-; 4th entry of Pointer Table from 8D08 (indexed by v_entities.1.animationFrame)
+; 4th entry of Pointer Table from 8D08 (indexed by v_alex.animationFrame)
 ; Data from 8FEA to 9010 (39 bytes)
 _DATA_8FEA_:
 .db $A0 $0C $4C $00 $00 $00 $08 $08 $08 $10 $10 $10 $18 $18 $18 $02
 .db $00 $0A $01 $12 $02 $00 $03 $08 $04 $10 $05 $00 $06 $08 $07 $10
 .db $08 $02 $09 $0A $0A $12 $0B
 
-; 1st entry of Pointer Table from 8D11 (indexed by v_entities.1.animationFrame)
+; 1st entry of Pointer Table from 8D11 (indexed by v_alex.animationFrame)
 ; Data from 9011 to 9034 (36 bytes)
 _DATA_9011_:
 .db $A1 $0B $50 $00 $00 $00 $08 $08 $08 $10 $10 $10 $18 $18 $00 $00
 .db $08 $01 $10 $02 $00 $03 $08 $04 $10 $05 $00 $06 $08 $07 $10 $08
 .db $06 $09 $0E $0A
 
-; 2nd entry of Pointer Table from 8D11 (indexed by v_entities.1.animationFrame)
+; 2nd entry of Pointer Table from 8D11 (indexed by v_alex.animationFrame)
 ; Data from 9035 to 905B (39 bytes)
 _DATA_9035_:
 .db $A2 $0C $50 $00 $00 $00 $08 $08 $08 $10 $10 $10 $18 $18 $18 $02
 .db $00 $0A $01 $12 $02 $00 $03 $08 $04 $10 $05 $00 $06 $08 $07 $10
 .db $08 $05 $09 $0D $0A $15 $0B
 
-; 3rd entry of Pointer Table from 8D11 (indexed by v_entities.1.animationFrame)
+; 3rd entry of Pointer Table from 8D11 (indexed by v_alex.animationFrame)
 ; Data from 905C to 907F (36 bytes)
 _DATA_905C_:
 .db $A3 $0B $50 $00 $00 $00 $08 $08 $08 $10 $10 $10 $18 $18 $02 $00
 .db $0A $01 $12 $02 $00 $03 $08 $04 $10 $05 $00 $06 $08 $07 $10 $08
 .db $06 $09 $0E $0A
 
-; 4th entry of Pointer Table from 8D11 (indexed by v_entities.1.animationFrame)
+; 4th entry of Pointer Table from 8D11 (indexed by v_alex.animationFrame)
 ; Data from 9080 to 90A6 (39 bytes)
 _DATA_9080_:
 .db $A4 $0C $50 $00 $00 $00 $08 $08 $08 $10 $10 $10 $18 $18 $18 $02
@@ -1119,7 +1119,7 @@ _DATA_90A7_:
 .db $A5 $06 $04 $00 $00 $08 $08 $10 $10 $01 $00 $09 $01 $01 $02 $09
 .db $03 $00 $04 $08 $05
 
-; 2nd entry of Pointer Table from 8CE7 (indexed by v_entities.1.animationFrame)
+; 2nd entry of Pointer Table from 8CE7 (indexed by v_alex.animationFrame)
 ; Data from 90BC to 90D0 (21 bytes)
 _DATA_90BC_:
 .db $A6 $06 $0C $00 $00 $08 $08 $10 $10 $00 $00 $08 $01 $00 $02 $08
@@ -1130,19 +1130,19 @@ _DATA_90D1_:
 .db $A8 $05 $0C $00 $00 $08 $08 $10 $00 $00 $08 $01 $00 $02 $08 $03
 .db $04 $04
 
-; 1st entry of Pointer Table from 8D24 (indexed by v_entities.1.animationFrame)
+; 1st entry of Pointer Table from 8D24 (indexed by v_alex.animationFrame)
 ; Data from 90E3 to 90F7 (21 bytes)
 _DATA_90E3_:
 .db $A9 $06 $00 $00 $00 $08 $08 $10 $10 $00 $00 $08 $01 $00 $02 $08
 .db $03 $01 $04 $09 $05
 
-; 2nd entry of Pointer Table from 8D24 (indexed by v_entities.1.animationFrame)
+; 2nd entry of Pointer Table from 8D24 (indexed by v_alex.animationFrame)
 ; Data from 90F8 to 910C (21 bytes)
 _DATA_90F8_:
 .db $AA $06 $00 $00 $00 $08 $08 $10 $10 $00 $00 $08 $01 $00 $02 $08
 .db $03 $01 $04 $09 $05
 
-; 3rd entry of Pointer Table from 8D24 (indexed by v_entities.1.animationFrame)
+; 3rd entry of Pointer Table from 8D24 (indexed by v_alex.animationFrame)
 ; Data from 910D to 9121 (21 bytes)
 _DATA_910D_:
 .db $AB $06 $00 $00 $00 $08 $08 $10 $10 $00 $00 $08 $01 $00 $02 $08
@@ -1158,13 +1158,13 @@ _DATA_9137_:
 .db $9A $08 $44 $00 $00 $08 $08 $08 $10 $10 $10 $00 $00 $08 $01 $00
 .db $02 $08 $03 $10 $04 $00 $05 $08 $06 $10 $07
 
-; 1st entry of Pointer Table from 8D1F (indexed by v_entities.1.animationFrame)
+; 1st entry of Pointer Table from 8D1F (indexed by v_alex.animationFrame)
 ; Data from 9152 to 916C (27 bytes)
 _DATA_9152_:
 .db $9B $08 $44 $00 $00 $08 $08 $08 $10 $10 $10 $00 $00 $08 $01 $00
 .db $02 $08 $03 $10 $04 $00 $05 $08 $06 $10 $07
 
-; 2nd entry of Pointer Table from 8D1F (indexed by v_entities.1.animationFrame)
+; 2nd entry of Pointer Table from 8D1F (indexed by v_alex.animationFrame)
 ; Data from 916D to 9187 (27 bytes)
 _DATA_916D_:
 .db $9C $08 $44 $00 $00 $08 $08 $08 $10 $10 $10 $00 $00 $08 $01 $00
@@ -1174,22 +1174,22 @@ _DATA_916D_:
 _DATA_9188_:
 .db $04
 
-; Pointer Table from 9189 to 9190 (4 entries, indexed by v_entities.1.animationFrame)
+; Pointer Table from 9189 to 9190 (4 entries, indexed by v_alex.animationFrame)
 .dw _DATA_9191_ _DATA_91A6_ _DATA_9191_ _DATA_91BB_
 
-; 1st entry of Pointer Table from 9189 (indexed by v_entities.1.animationFrame)
+; 1st entry of Pointer Table from 9189 (indexed by v_alex.animationFrame)
 ; Data from 9191 to 91A5 (21 bytes)
 _DATA_9191_:
 .db $AD $06 $04 $00 $00 $08 $08 $10 $10 $00 $00 $08 $01 $00 $02 $08
 .db $03 $02 $04 $0A $05
 
-; 2nd entry of Pointer Table from 9189 (indexed by v_entities.1.animationFrame)
+; 2nd entry of Pointer Table from 9189 (indexed by v_alex.animationFrame)
 ; Data from 91A6 to 91BA (21 bytes)
 _DATA_91A6_:
 .db $AE $06 $04 $00 $00 $08 $08 $10 $10 $00 $00 $08 $01 $00 $02 $08
 .db $03 $01 $04 $09 $05
 
-; 4th entry of Pointer Table from 9189 (indexed by v_entities.1.animationFrame)
+; 4th entry of Pointer Table from 9189 (indexed by v_alex.animationFrame)
 ; Data from 91BB to 91CF (21 bytes)
 _DATA_91BB_:
 .db $AF $06 $04 $00 $00 $08 $08 $10 $10 $00 $00 $08 $01 $00 $02 $08

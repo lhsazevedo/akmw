@@ -87,13 +87,13 @@ updateLifeLostState:
 
     ; @TODO: Test on levels 2+
     ; Restore temporary Alex copy
-    ld de, v_entity1
+    ld de, v_alex
     ld hl, temporaryAlexCopy
     ld bc, $0020
     ldir
 
     ; @TODO
-    ld hl, (v_entities.1.spriteDescriptorPointer)
+    ld hl, (v_alex.spriteDescriptorPointer)
     dec hl
     ld a, (hl)
     ld (v_alexTilesIndex), a
@@ -110,7 +110,7 @@ updateLifeLostState:
 
 +:
     ; Set alex
-    ld ix, v_entity1
+    ld ix, v_alex
     ld (ix + Entity.type), ENTITY_ALEX
 
     ; Jump to _LABEL_6D26_ if:

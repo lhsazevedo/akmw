@@ -24,7 +24,7 @@ updateGhost:
 
 +:
     ; Skip if alex is dead
-    ld a, (v_entities.1.state)
+    ld a, (v_alex.state)
     cp ALEX_DEAD
     ret z
 
@@ -38,7 +38,7 @@ updateGhost:
 
     ; Choose animation descriptor based on alex position
     ld hl, ghostRightAnimationDescriptor
-    ld a, (v_entities.1.xPos.high)
+    ld a, (v_alex.xPos.high)
     cp (ix + Entity.xPos.high)
     jp nc, handleEntityAnimation
 ++:

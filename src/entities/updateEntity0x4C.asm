@@ -11,7 +11,7 @@ updateEntity0x4C:
     ld a, (ix + Entity.isOffScreenFlags.low)
     or (ix + Entity.isOffScreenFlags.high)
     ret nz
-    ld iy, v_entity1
+    ld iy, v_alex
     call checkEntityCollision
     ret c
     ld a, $08

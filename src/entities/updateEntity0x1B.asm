@@ -15,7 +15,7 @@ updateEntity0x1B:
     rlca
     jp c, _LABEL_4578_
 +:
-    ld hl, v_entities.1.unknown8
+    ld hl, v_alex.unknown8
     ld a, (hl)
     and $F4
     ld (hl), a

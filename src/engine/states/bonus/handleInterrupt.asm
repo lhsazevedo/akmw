@@ -167,7 +167,7 @@ _LABEL_1735_:
     ld (v_horizontalScrollSpeed), hl
     ld a, (v_levelScrollability)
     ld (v_scrollFlags), a
-    ld ix, v_entity1
+    ld ix, v_entities
     ld de, $0020
     ld a, (v_entitydataArrayLength)
     ld b, a
@@ -177,7 +177,7 @@ _LABEL_1735_:
     djnz -
     ld a, $82
     ld (Mapper_Slot2), a
-    ld ix, v_entity1
+    ld ix, v_alex
     ld (ix+0), $01
     ld a, (v_level)
     cp $11
@@ -219,7 +219,7 @@ _LABEL_1735_:
     ld (ix+12), e
     ld (ix+14), d
 _LABEL_1874_:
-    ld ix, v_entity1
+    ld ix, v_alex
     call updateAlexSpawning
     call updateEntities
     ld de, $8026

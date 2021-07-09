@@ -23,7 +23,7 @@ updateEntity0x4A:
     ld a, (ix + Entity.isOffScreenFlags.low)
     or (ix + Entity.isOffScreenFlags.high)
     jr nz, +
-    ld a, (v_entities.1.state)
+    ld a, (v_alex.state)
     cp ALEX_DEAD
     jp z, _LABEL_5571_
 +:

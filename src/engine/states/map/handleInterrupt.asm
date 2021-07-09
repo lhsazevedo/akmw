@@ -16,7 +16,7 @@ _LABEL_1FE9_:
     ld bc, $0700
     call copyBytesToVRAM
     call _LABEL_69B5_
-    ld hl, v_entity1
+    ld hl, v_entities
     ld (v_entitydataArrayPointer), hl
     ld a, ENTITY_ARRAY_SIZE
     ld (v_entitydataArrayLength), a
@@ -111,7 +111,7 @@ _LABEL_1FE9_:
     ld a, (_RAM_C054_)
     cp $01
     jr nz, +
-    ld ix, v_entity1
+    ld ix, v_entities
     call _LABEL_2A6E_
 +:
     ld ix, _RAM_CF80_
@@ -140,7 +140,7 @@ _LABEL_1FE9_:
     jr ++
 
 +:
-    ld a, (v_entities.1.state)
+    ld a, (v_alex.state)
     cp ALEX_SWIMING
     jr nz, ++
     ld a, $83
@@ -389,7 +389,7 @@ initMapState:
     add hl, bc
     ld a, (hl)
     ld (v_soundControl), a
-    ld a, (v_entities.1.state)
+    ld a, (v_alex.state)
     cp ALEX_SWIMING
     jr nz, +
     ld a, $83
@@ -460,7 +460,7 @@ updateEntity0x21:
     ld (ix+16), h
     set 1, b
     ld (ix+20), b
-    ld a, (v_entities.1.state)
+    ld a, (v_alex.state)
     cp $10
     ret z
     ld a, (_RAM_C054_)
@@ -675,7 +675,7 @@ _LABEL_25B4_:
     call clearEntity
     inc hl
     djnz -
-    ld hl, v_entities.1.unknown8
+    ld hl, v_alex.unknown8
     ld a, (hl)
     and $F4
     ld (hl), a

@@ -3,7 +3,7 @@ updateEntity0x27:
     ld a, (ix + Entity.isOffScreenFlags.low)
     or (ix + Entity.isOffScreenFlags.high)
     jr nz, +
-    ld a, (v_entities.1.state)
+    ld a, (v_alex.state)
     cp ALEX_DEAD
     jp z, _LABEL_5571_
 +:
@@ -35,7 +35,7 @@ updateEntity0x27:
     ld a, (ix + Entity.animationTimer)
     cp $20
     jr nz, _LABEL_543D_
-    ld a, (v_entities.1.xPos.high)
+    ld a, (v_alex.xPos.high)
     sub (ix + Entity.xPos.high)
     jp nc, _LABEL_5357_
     neg

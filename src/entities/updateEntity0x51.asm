@@ -72,7 +72,7 @@ _LABEL_6054_:
     and $7F
     or a
     ret nz
-    ld a, (v_entities.1.state)
+    ld a, (v_alex.state)
     cp ALEX_WALKING
     ret nz
     ld a, $80

@@ -72,11 +72,11 @@ _LABEL_1C33_:
     ld (v_soundControl), a
     ld a, ENTITY_ARRAY_SIZE
     ld (v_entitydataArrayLength), a
-    ld de, v_entity1
+    ld de, v_entities
     ld hl, _RAM_CFA0_
     ld bc, $0020
     ldir
-    ld ix, v_entity1
+    ld ix, v_alex
     call updateAlexSpawning
     call updateEntities
     call loadLevelPalette
@@ -162,11 +162,11 @@ _LABEL_1D04_:
     ldir
     ld a, $82
     ld (Mapper_Slot2), a
-    ld hl, v_entity1
+    ld hl, v_entities
     ld de, _RAM_CFA0_
     ld bc, $0020
     ldir
-    ld ix, v_entity1
+    ld ix, v_alex
     ld (ix+0), $01
     ld (ix+12), $20
     ld (ix+14), $88
@@ -320,7 +320,7 @@ _LABEL_1EAF_:
     ld hl, v_shopFlags
     bit 6, (hl)
     jr z, +
-    ld a, (v_entities.1.state)
+    ld a, (v_alex.state)
     cp ALEX_IN_AIR 
     ret z
     res 6, (hl)

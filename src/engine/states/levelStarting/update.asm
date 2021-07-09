@@ -55,7 +55,7 @@ updateLevelStartingState:
 
 updateLevelStartingStateMapAnimated:
     ; Display arrow entity
-    ld ix, v_entities.1
+    ld ix, v_alex
     ld (ix+0), ENTITY_ARROW
 
     ; Display Janken's castle if level > 16
@@ -80,7 +80,7 @@ _LABEL_19CB_:
     jp nz, _LABEL_19CB_
 
     ; Clear entities
-    ld ix, v_entity1
+    ld ix, v_entities.1
     call destroyCurrentEntity
     ld ix, v_entities.2
     call destroyCurrentEntity

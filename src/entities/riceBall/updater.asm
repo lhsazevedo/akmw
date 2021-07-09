@@ -15,7 +15,7 @@ updateRiceBall:
     ret nz
 
     ; Do nothing if Alex isn't colliding
-    ld iy, v_entity1
+    ld iy, v_alex
     call checkEntityCollision
     ret c
 

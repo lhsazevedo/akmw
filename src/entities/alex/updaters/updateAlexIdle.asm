@@ -1,15 +1,15 @@
-; 2nd entry of Jump Table from 2982 (indexed by v_entities.1.state)
+; 2nd entry of Jump Table from 2982 (indexed by v_alex.state)
 updateAlexIdle:
     call _LABEL_3B56_
-    ld (v_entities.1.ySpeed), hl
+    ld (v_alex.ySpeed), hl
     bit 4, (ix + Entity.unknown8)
     jp nz, _LABEL_3E0B_
     call _LABEL_3C45_
-    ld a, (v_entities.1.state)
+    ld a, (v_alex.state)
     cp ALEX_IDLE
     ret nz
     ld de, $1904
-    ld a, (v_entities.1.isOffScreenFlags.high)
+    ld a, (v_alex.isOffScreenFlags.high)
     or a
     jr z, +
     call _LABEL_3A4F_
@@ -21,7 +21,7 @@ updateAlexIdle:
     call _LABEL_3A41_
     jp nc, _LABEL_2CA1_
     call _LABEL_3D07_
-    ld a, (v_entities.1.state)
+    ld a, (v_alex.state)
     cp ALEX_IDLE
     ret nz
 ++:

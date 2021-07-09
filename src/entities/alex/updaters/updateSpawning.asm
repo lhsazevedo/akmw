@@ -1,4 +1,4 @@
-; 1st entry of Jump Table from 2982 (indexed by v_entities.1.state)
+; 1st entry of Jump Table from 2982 (indexed by v_alex.state)
 updateAlexSpawningAtCenter:
     ld (ix + Entity.xPos.high), $80
     ld (ix + Entity.yPos.high), $60
@@ -27,7 +27,7 @@ _spawnRidingMotorcycle:
     ld a, $85
     ld (v_soundControl), a
     ld hl, $0040
-    ld (v_entities.1.xSpeed), hl
+    ld (v_alex.xSpeed), hl
     ld (ix + Entity.animationTimerResetValue), $04
     ld (ix + Entity.unknown11), $18
     ld (ix + Entity.unknown9), $0F
@@ -39,9 +39,9 @@ _spawnFlyingPeticopter:
     ld (ix + Entity.state), ALEX_FLYING_PETICOPTER
     ld a, $88
     ld (v_soundControl), a
-    ld a, (v_entities.1.yPos.high)
+    ld a, (v_alex.yPos.high)
     sub $10
-    ld (v_entities.1.yPos.high), a
+    ld (v_alex.yPos.high), a
     ld (ix + Entity.animationTimerResetValue), $04
     ld (ix + Entity.unknown11), $18
     ld (ix + Entity.unknown9), $08
@@ -56,7 +56,7 @@ _spawnFlyingPeticopter:
 
 _spawnRidingBoat:
     ld hl, $0040
-    ld (v_entities.1.xSpeed), hl
+    ld (v_alex.xSpeed), hl
     ld (ix + Entity.yPos.high), $90
     ld (ix + Entity.animationTimerResetValue), $04
     ld (ix + Entity.unknown11), $10

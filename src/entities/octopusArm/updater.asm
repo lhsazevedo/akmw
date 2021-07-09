@@ -27,11 +27,11 @@ updateOctopusArm:
     ld a, (ix + Entity.unknown4)
     or a
     jp nz, _LABEL_4D92_
-    ld a, (v_entities.1.unknown8)
+    ld a, (v_alex.unknown8)
     bit 3, a
     jp z, _LABEL_4CDE_
     res 3, a
-    ld (v_entities.1.unknown8), a
+    ld (v_alex.unknown8), a
     inc (ix + Entity.data)
     ld a, (ix + Entity.data)
     cp $03
@@ -155,11 +155,11 @@ _LABEL_4D67_:
     ret
 
 _LABEL_4D92_:
-    ld a, (v_entities.1.unknown8)
+    ld a, (v_alex.unknown8)
     bit 3, a
     jp z, _LABEL_4CDE_
     res 3, a
-    ld (v_entities.1.unknown8), a
+    ld (v_alex.unknown8), a
     inc (ix + Entity.data)
     ld a, (ix + Entity.data)
     cp $03

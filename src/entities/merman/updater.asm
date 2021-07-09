@@ -34,11 +34,11 @@ updateMerman:
     jp handleEntityAnimation
 
 +++:
-    ld a, (v_entities.1.unknown8)
+    ld a, (v_alex.unknown8)
     bit 3, a
     jr z, -
     res 3, a
-    ld (v_entities.1.unknown8), a
+    ld (v_alex.unknown8), a
     inc (ix + Entity.data)
     ld a, (ix + Entity.data)
     cp $03

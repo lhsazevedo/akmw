@@ -5,10 +5,10 @@ updateAlex:
     ld (v_verticalScrollSpeed), hl
     bit 7, (ix + Entity.flags)
     call nz, _LABEL_2F41_
-    ld a, (v_entities.1.state)
+    ld a, (v_alex.state)
     ld hl, alexStateHandlersPointers
     rst jumpToAthPointer
-    ld a, (v_entities.1.state)
+    ld a, (v_alex.state)
     cp ALEX_DEAD
     ret z
     bit 4, (ix + Entity.unknown8)

@@ -27,9 +27,9 @@ updateLevelCompletedState:
     ldir
     xor a
     ld (_RAM_C08E_), a
-    ld b, $1E
+    ld b, ENTITY_ARRAY_SIZE
     ld de, $0020
-    ld ix, v_entity1
+    ld ix, v_entities
 -:
     call destroyCurrentEntity
     add ix, de

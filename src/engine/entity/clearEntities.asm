@@ -1,7 +1,7 @@
 ; $9D9
 clearEntities:
-    ld b, $1E
-    ld hl, v_entity1
+    ld b, ENTITY_ARRAY_SIZE
+    ld hl, v_entities
 -:
     call clearEntity
     inc hl

@@ -24,7 +24,7 @@ updateLife:
     or (ix + Entity.isOffScreenFlags.high)
     jp nz, destroyCurrentEntity
 
-    ld iy, v_entity1
+    ld iy, v_alex
     call checkEntityCollision
     jr c, @notColliding
 

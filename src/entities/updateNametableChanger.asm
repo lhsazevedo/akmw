@@ -55,14 +55,14 @@ updateNametableChanger:
     jr @updatePunchKind
 
     @updateCollisionKind:
-    ld iy, v_entity1
+    ld iy, v_alex
     call checkEntityCollision
     ret c
     jr @setUnknown6ToOne
 
     @updatePunchKind:
     ret c
-    ld a, (v_entities.1.unknown8)
+    ld a, (v_alex.unknown8)
     bit 3, a
     ret z
 
@@ -76,9 +76,9 @@ updateNametableChanger:
     ret nz
 
     ; Unset alex unknown8 3rd bit (punch)
-    ld a, (v_entities.1.unknown8)
+    ld a, (v_alex.unknown8)
     res 3, a
-    ld (v_entities.1.unknown8), a
+    ld (v_alex.unknown8), a
 
     ld (ix + NabetableChanger.changeQueued), $00
 

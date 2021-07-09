@@ -32,7 +32,7 @@ updateMoneyBag:
     jp nz, destroyCurrentEntity
 
     ; Take money if colliding with Alex
-    ld iy, v_entity1
+    ld iy, v_alex
     call checkEntityCollision
     jp c, +
     ld l, (ix + Entity.unknown5)

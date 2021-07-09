@@ -115,7 +115,7 @@ _LABEL_4854_:
 
 ; Shared
 _LABEL_485A_:
-    ld hl, v_entities.1.unknown8
+    ld hl, v_alex.unknown8
     ld a, (hl)
     and $F4
     ld (hl), a
