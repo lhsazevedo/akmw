@@ -690,7 +690,7 @@ _LABEL_25D3_:
     ld (hl), $00
     ld bc, $06FF
     ldir
-    ld hl, _DATA_2674_
+    ld hl, hirottaStoneCloseupPalette
     ld de, $C000
     ld bc, $0020
     call copyBytesToVRAM
