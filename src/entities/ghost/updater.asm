@@ -5,7 +5,7 @@ updateGhost:
 
     ; Initialize
     set 0, (ix + Entity.flags)
-    ld (ix + Entity.unknown6), $80
+    ld (ix + Entity.unknown6), GHOST_IDLE_TIME
     ld (ix + Entity.animationTimer), $18
     ld (ix + Entity.animationTimerResetValue), $18
 

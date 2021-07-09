@@ -5,7 +5,7 @@ updatePowerBracelet:
 
     ; Initialize bracelet
     set 0, (ix + Entity.flags)
-    ld (ix + Entity.battleDecision), $F0
+    ld (ix + Entity.battleDecision), POWER_BRACELET_LIFESPAN
     ld (ix + Entity.spriteDescriptorPointer.low), <powerBraceletSpriteDescriptor
     ld (ix + Entity.spriteDescriptorPointer.high), >powerBraceletSpriteDescriptor
     ld (ix + Entity.xSpeed.low), $00

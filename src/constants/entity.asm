@@ -44,5 +44,10 @@ ENTITY_GHOST                    = $4F
 ENTITY_ARROW                    = $56
 ENTITY_JANKENS_CASTLE           = $58
 
+; Entity config
 LIFE_LIFESPAN                   = $F0
-DEBRIS_GRAVITY = $0030
+POWER_BRACELET_LIFESPAN         = $F0
+MONEY_BAG_LIFESPAN              = $F0
+GHOST_IDLE_TIME                 = $80
+
+DEBRIS_GRAVITY                  = $0030

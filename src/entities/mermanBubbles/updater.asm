@@ -13,7 +13,7 @@ updateMermanBubbles:
     add a, c
     ld c, a
     ld b, $00
-    ld hl, _DATA_52CF_
+    ld hl, mermanBubblesVelocities
     add hl, bc
     ld a, (hl)
     ld (ix + Entity.ySpeed.low), a

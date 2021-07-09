@@ -42,3 +42,9 @@ updateEntity0x25:
     ld (ix + Entity.type), $27
     res 0, (ix + Entity.flags)
     ret
+
+; Shared
+_LABEL_5357_:
+    res 0, (ix+1)
+    ld (ix+0), $26
+    ret

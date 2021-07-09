@@ -3649,34 +3649,19 @@ getVelocitiesToPursuitAlex:
     inc l
     ret
 
-; 35th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 .INCLUDE "entities/merman/updater.asm"
-
-; 34th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 .INCLUDE "entities/mermanBubbles/updater.asm"
-
-; 32nd entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 .INCLUDE "entities/batLeft/updater.asm"
-
-; 54th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 .INCLUDE "entities/batRight/updater.asm"
-
 .INCLUDE "entities/merman/spawnBubbles.asm"
-
-; 44th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 .INCLUDE "entities/plant/updater.asm"
-
 .INCLUDE "entities/monsterBirdLeft/updater.asm"
 .INCLUDE "entities/monsterBirdRight/updater.asm"
-
-; 48th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 .INCLUDE "entities/smallFishLeft/updater.asm"
 .INCLUDE "entities/smallFishRight/updater.asm"
-
 .INCLUDE "entities/killerFishLeft/updater.asm"
 .INCLUDE "entities/killerFishRight/updater.asm"
 
-; Data from 524F to 528E (64 bytes)
 ; Sine table used on bat (at least)
 lowSine:
 .db $00 $01 $02 $02 $03 $04 $04 $05 $06 $06 $07 $07 $07 $08 $08 $08
@@ -3684,37 +3669,26 @@ lowSine:
 .db $00 $FF $FE $FE $FD $FC $FC $FB $FA $FA $F9 $F9 $F9 $F8 $F8 $F8
 .db $F8 $F8 $F8 $F8 $F9 $F9 $F9 $FA $FA $FB $FC $FC $FD $FE $FE $FF
 
-; Data from 528F to 52CE (64 bytes)
 highSine:
 .db $00 $02 $05 $07 $09 $0B $0D $0F $11 $13 $14 $15 $16 $17 $18 $18
 .db $18 $18 $18 $17 $16 $15 $14 $13 $11 $0F $0D $0B $09 $07 $05 $02
 .db $00 $FE $FB $F9 $F7 $F5 $F3 $F1 $EF $ED $EC $EB $EA $E9 $E8 $E8
 .db $E8 $E8 $E8 $E9 $EA $EB $EC $ED $EF $F1 $F3 $F5 $F7 $F9 $FB $FE
 
-; Data from 52CF to 52E6 (24 bytes)
-_DATA_52CF_:
-.db $80 $FF $80 $80 $00 $80 $00 $FF $80 $00 $00 $80 $80 $01 $00 $80
-.db $FF $00 $80 $00 $40 $80 $FF $C0
+mermanBubblesVelocities:
+.db $80 $FF $80
+.db $80 $00 $80
+.db $00 $FF $80
+.db $00 $00 $80
+.db $80 $01 $00
+.db $80 $FF $00
+.db $80 $00 $40
+.db $80 $FF $C0
 
 .INCLUDE "entities/updateEntity0x25.asm"
-
-; Shared
-_LABEL_5357_:
-    res 0, (ix+1)
-    ld (ix+0), $26
-    ret
-
 .INCLUDE "entities/updateEntity0x26.asm"
-
-; Shared
-_LABEL_53C6_:
-    ld (ix+0), $25
-    res 0, (ix+1)
-    ret
-
 .INCLUDE "entities/updateEntity0x27.asm"
 .INCLUDE "entities/updateEntity0x28.asm"
-
 .INCLUDE "entities/updateEntity0x4A.asm"
 
 ; Shared
