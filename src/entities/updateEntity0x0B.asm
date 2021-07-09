@@ -11,3 +11,8 @@ updateEntity0x0B:
     ld (ix + Entity.spriteDescriptorPointer.low), a
     ld (ix + Entity.spriteDescriptorPointer.high), h
     ret
+
+_DATA_763B_:
+.dw _DATA_92C8_
+.dw _DATA_92D6_
+.dw _DATA_92E4_

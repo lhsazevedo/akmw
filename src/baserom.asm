@@ -5190,10 +5190,6 @@ _DATA_7128_:
 
 .INCLUDE "entities/updateEntity0x0B.asm"
 
-; Pointer Table from 763B to 7640 (3 entries, indexed by _RAM_CF97_)
-_DATA_763B_:
-.dw _DATA_92C8_ _DATA_92D6_ _DATA_92E4_
-
 .INCLUDE "engine/battle/destroyBattleEntities.asm"
 
 .INCLUDE "opponentSettings.asm"

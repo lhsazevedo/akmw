@@ -1,0 +1,36 @@
+; Money bag values (BCD)
+SMALL_MONEY_BAG_VALUE = $01 $00 $00 ; 100
+BIG_MONEY_BAG_VALUE =   $02 $00 $00 ; 200
+
+STATE_TITLE             = $0
+STATE_DEMO              = $2
+STATE_LEVEL_STARTING    = $3
+STATE_LEVEL_COMPLETED   = $4
+STATE_SHOP              = $5
+STATE_LIFE_LOST         = $6
+STATE_TEXT_BOX          = $7
+STATE_BONUS_LEVEL       = $8
+STATE_JANKEN_GAME       = $9
+STATE_GAMEPLAY          = $A
+STATE_MAP               = $B
+
+STATE_CHANGED           = $80
+
+; Initial game values
+INITIAL_GAME_STATE = STATE_LEVEL_STARTING
+INITIAL_SCORE = $00 $00 $00 ; 0
+INITIAL_LEVEL = $01 $01
+INITIAL_LIFES = $03
+INITIAL_MONEY = $00 $00 $00
+
+TITLE_SCREEN_DURATION = $3C
+
+; Score indexes
+SCORE_200    = 0 * 3
+SCORE_400    = 1 * 3
+SCORE_600    = 2 * 3
+SCORE_800    = 3 * 3
+SCORE_1000   = 4 * 3
+SCORE_1200   = 5 * 3
+SCORE_2000   = 6 * 3
+SCORE_10000  = 7 * 3
