@@ -109,7 +109,7 @@ _LABEL_1C33_:
     ld a, (v_horizontalPositionShopHasBeenEnteredFrom)
     ld (v_shopEntranceHorizontalPosition), a
     ld hl, (v_shopEntranceEnteredFromDoorNametablePointer)
-    ld (_RAM_C0FD_), hl
+    ld (v_shopDoorNametableAddressPointer), hl
     xor a
     ld (v_messageToShowInTheTextBoxIndex), a
     ld (v_shopFlags), a
@@ -222,10 +222,10 @@ _LABEL_1D04_:
     ld (v_horizontalPositionShopHasBeenEnteredFrom), a
     ld a, $28
     ld (v_shopEntranceHorizontalPosition), a
-    ld hl, (_RAM_C0FD_)
+    ld hl, (v_shopDoorNametableAddressPointer)
     ld (v_shopEntranceEnteredFromDoorNametablePointer), hl
     ld hl, _RAM_CC06_
-    ld (_RAM_C0FD_), hl
+    ld (v_shopDoorNametableAddressPointer), hl
     ld a, $16
     ld (v_messageToShowInTheTextBoxIndex), a
     ld b, $03

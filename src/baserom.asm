@@ -1367,11 +1367,11 @@ loadLevelTiles:
     ld de, $44A0
     call decompress4BitplanesToVRAM
     ld a, (v_level)
-    ld hl, levelTilesetLoaders - 2
+    ld hl, tilesetLoadersPointers - 2
     rst jumpToAthPointer
     ret
 
-.INCLUDE "levelTilesetLoaders.asm"
+.INCLUDE "tilesetLoaders.asm"
 
 _LABEL_107C_:
     ld a, (v_gameState)
@@ -1384,49 +1384,33 @@ _LABEL_107C_:
     ld hl, (paletteUpdaterPointer)
     jp (hl)
 
-.INCLUDE "levelPaletteUpdaters.asm"
+.INCLUDE "paletteUpdaters.asm"
 
 loadLevelPalette:
-    ld a, $87
+    ld a, $80 | :mtEthernalStage1Palette
     ld (Mapper_Slot2), a
+
     ld a, (v_level)
-    ld hl, levelPalettes - 2
+    ld hl, levelPalettesPointers - 2
     rst loadAthPointer
     ld de, $C000
     ld b, $20
     rst memcpyToVRAM
     ret
 
-; Pointer Table from 1112 to 1133 (17 entries, indexed by v_level)
-levelPalettes:
-.dw mtEthernalStage1Palette
-.dw _DATA_1FE1E_
-.dw _DATA_1FCDE_
-.dw _DATA_1FCFE_
-.dw _DATA_1FD1E_
-.dw _DATA_1FD3E_
-.dw _DATA_1FD5E_
-.dw _DATA_1FD7E_
-.dw _DATA_1FDBE_
-.dw _DATA_1FDDE_
-.dw _DATA_1FD9E_
-.dw _DATA_1FDFE_
-.dw _DATA_1FE1E_
-.dw _DATA_1FE3E_
-.dw _DATA_1FCBE_
-.dw _DATA_1FE5E_
-.dw _DATA_1FE7E_
+.INCLUDE "palettePointers.asm"
 
 loadLevelSpriteTiles:
     ld a, $87
     ld (Mapper_Slot2), a
     ld a, (v_level)
-    ld hl, levelSpriteTilesLoaders - 2
+    ld hl, spriteTilesLoadersPointers - 2
     jp jumpToAthPointer
 
 .INCLUDE "spriteTileLoaders.asm"
 
 ; Jump Table from 156D to 158E (17 entries, indexed by v_level)
+; @TODO
 _DATA_156D_:
 .dw _LABEL_15D2_ _LABEL_15DF_ _LABEL_15D2_ _LABEL_15EC_ _LABEL_15D2_ _LABEL_15DF_ _LABEL_1612_ _LABEL_161F_
 .dw _LABEL_15D2_ _LABEL_15DF_ _LABEL_161F_ _LABEL_161F_ _LABEL_15DF_ _LABEL_161F_ _LABEL_15DF_ _LABEL_15F9_
@@ -5054,14 +5038,14 @@ _LABEL_424B_:
 
 ; 5th entry of Jump Table from 4237 (indexed by v_nametableChangeRequest)
 _LABEL_42B6_:
-    ld de, (_RAM_C0FD_)
+    ld de, (v_shopDoorNametableAddressPointer)
     call ++
     ld hl, _DATA_14410_
     jp +
 
 ; 4th entry of Jump Table from 4237 (indexed by v_nametableChangeRequest)
 _LABEL_42C3_:
-    ld de, (_RAM_C0FD_)
+    ld de, (v_shopDoorNametableAddressPointer)
     call ++
     ld hl, _DATA_14400_
 +:
@@ -5108,7 +5092,7 @@ _LABEL_42C3_:
     dec a
     jr nz, -
     ld (_RAM_C204_), de
-    ld de, (_RAM_C0FD_)
+    ld de, (v_shopDoorNametableAddressPointer)
     ld a, d
     sub $50
     ld d, a
@@ -5129,7 +5113,7 @@ _LABEL_42C3_:
 
 ; 2nd entry of Jump Table from 4237 (indexed by v_nametableChangeRequest)
 _LABEL_4340_:
-    ld hl, (_RAM_C0FD_)
+    ld hl, (v_shopDoorNametableAddressPointer)
     inc hl
     ld e, l
     ld a, h
@@ -5140,7 +5124,7 @@ _LABEL_4340_:
 
 ; 3rd entry of Jump Table from 4237 (indexed by v_nametableChangeRequest)
 _LABEL_434F_:
-    ld hl, (_RAM_C0FD_)
+    ld hl, (v_shopDoorNametableAddressPointer)
     inc hl
     ld de, $00C0
     add hl, de
@@ -7242,7 +7226,7 @@ loadOctopusArms:
     ld e, (hl)
     inc hl
     ld d, (hl)
-    ld (_RAM_C0FD_), de
+    ld (v_shopDoorNametableAddressPointer), de
     inc hl
     ld ix, v_entities.7
     ld de, $0020

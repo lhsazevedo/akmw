@@ -1,4 +1,4 @@
-levelTilesetLoaders:
+tilesetLoadersPointers:
 .dw loadMtEthernalTileset
 .dw loadMtEthernalStage2Tileset
 .dw loadLakeFathomTileset

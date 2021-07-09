@@ -85,7 +85,7 @@ initGameplayState:
     call loadLevel
 
     ld a, (v_level)
-    ld hl, _DATA_D70_ - 3
+    ld hl, shopDoorsConfigs - 3
     ld c, a
     add a, a
     add a, c
@@ -99,7 +99,7 @@ initGameplayState:
     inc hl
     ld h, (hl)
     ld l, a
-    ld (_RAM_C0FD_), hl
+    ld (v_shopDoorNametableAddressPointer), hl
     ld a, $82
     ld (Mapper_Slot2), a
     ld a, (v_level)
@@ -226,7 +226,7 @@ initGameplayStateSecondary:
     call updateEntities
 
     ld a, (v_level)
-    ld hl, paletteUpdaters - 2
+    ld hl, paletteUpdatersPointers - 2
     call loadAthPointer
     ld (paletteUpdaterPointer), hl
 
@@ -246,13 +246,13 @@ initGameplayStateSecondary:
     ld (v_titleScreenTileUpdateTimer), a
 
     ld a, (v_level)
-    ld hl, scrollFlagsUpdaters - 2
+    ld hl, scrollFlagsUpdatersPointers - 2
     call loadAthPointer
     ld (scrollFlagsUpdaterPointer), hl
 
     ; @TODO: Maybe change to entitySpawner
     ld a, (v_level)
-    ld hl, levelEntityLoaders - 2
+    ld hl, entityLoadersPointers - 2
     call loadAthPointer
     ld (newEntitiesLoaderPointer), hl
 
@@ -313,20 +313,80 @@ initGameplayStateSecondary:
     ei
     jp enableDisplay
 
-; Jump Table from D0A to D2B (17 entries, indexed by v_level)
-scrollFlagsUpdaters:
-.dw _LABEL_6462_ _LABEL_6462_ _LABEL_657B_ _LABEL_6462_ _LABEL_6539_ _LABEL_6462_ _LABEL_6462_ _LABEL_6462_
-.dw _LABEL_6539_ _LABEL_6462_ _LABEL_647D_ _LABEL_6462_ _LABEL_6462_ _LABEL_6462_ _LABEL_6462_ _LABEL_647D_
+scrollFlagsUpdatersPointers:
+; MtEthernalStage1
+.dw _LABEL_6462_
+; MtEthernalStage2
+.dw _LABEL_6462_
+; LakeFathom
+.dw _LABEL_657B_
+; TheIslandOfStNurari
+.dw _LABEL_6462_
+; LakeFathomPart2
+.dw _LABEL_6539_
+; TheVillageOfNamui
+.dw _LABEL_6462_
+; MtKave
+.dw _LABEL_6462_
+; TheBlakwoods
+.dw _LABEL_6462_
+; River
+.dw _LABEL_6539_
+; BingooLowland
+.dw _LABEL_6462_
+; TheRadactianCastle
+.dw _LABEL_647D_
+; TheCityOfRadactian
+.dw _LABEL_6462_
+; MtEthernalStage2
+.dw _LABEL_6462_
+; TheKingdomOfNibanaPart1
+.dw _LABEL_6462_
+; TheKingdomOfNibanaPart2
+.dw _LABEL_6462_
+; JankensCastle
+.dw _LABEL_647D_
+; CraggLake
 .dw _LABEL_6462_
 
-; Jump Table from D2C to D4D (17 entries, indexed by v_level)
-paletteUpdaters:
-.dw _LABEL_1089_ _LABEL_10DE_ _LABEL_1089_ _LABEL_10E1_ _LABEL_1089_ _LABEL_10E4_ _LABEL_10E7_ _LABEL_10EA_
-.dw _LABEL_1089_ _LABEL_10ED_ _LABEL_10F0_ _LABEL_10F3_ _LABEL_10F6_ _LABEL_10F9_ _LABEL_10FC_ _LABEL_1089_
+paletteUpdatersPointers:
+; MtEthernalStage1
+.dw _LABEL_1089_
+; MtEthernalStage2
+.dw _LABEL_10DE_
+; LakeFathom
+.dw _LABEL_1089_
+; TheIslandOfStNurari
+.dw _LABEL_10E1_
+; LakeFathomPart2
+.dw _LABEL_1089_
+; TheVillageOfNamui
+.dw _LABEL_10E4_
+; MtKave
+.dw _LABEL_10E7_
+; TheBlakwoods
+.dw _LABEL_10EA_
+; River
+.dw _LABEL_1089_
+; BingooLowland
+.dw _LABEL_10ED_
+; TheRadactianCastle
+.dw _LABEL_10F0_
+; TheCityOfRadactian
+.dw _LABEL_10F3_
+; MtEthernalStage2
+.dw _LABEL_10F6_
+; TheKingdomOfNibanaPart1
+.dw _LABEL_10F9_
+; TheKingdomOfNibanaPart2
+.dw _LABEL_10FC_
+; JankensCastle
+.dw _LABEL_1089_
+; CraggLake
 .dw _LABEL_1089_
 
 ; Jump Table from D4E to D6F (17 entries, indexed by v_level)
-levelEntityLoaders:
+entityLoadersPointers:
 .dw loadEntitiesNormal_LABEL_6F48_
 .dw loadEntitiesNormal_LABEL_6F48_
 .dw loadEntitiesNormal_LABEL_6F48_
@@ -346,10 +406,24 @@ levelEntityLoaders:
 .dw loadEntitiesNormal_LABEL_6F48_
 
 ; Data from D70 to DA2 (51 bytes)
-_DATA_D70_:
-.db $00 $00 $00 $60 $54 $CC $72 $5C $CC $00 $00 $00 $42 $40 $C9 $90
-.db $20 $CC $00 $00 $00 $30 $08 $CC $00 $00 $00 $70 $18 $CC $00 $00
-.db $00 $50 $D0 $C9 $00 $00 $00 $00 $00 $00 $50 $10 $CC $00 $00 $00
+shopDoorsConfigs:
+; Horizontal position / Pointer to shop door nametable address
+.db $00 $00 $00
+.db $60 $54 $CC
+.db $72 $5C $CC
+.db $00 $00 $00
+.db $42 $40 $C9
+.db $90 $20 $CC
+.db $00 $00 $00
+.db $30 $08 $CC
+.db $00 $00 $00
+.db $70 $18 $CC
+.db $00 $00 $00
+.db $50 $D0 $C9
+.db $00 $00 $00
+.db $00 $00 $00
+.db $50 $10 $CC
+.db $00 $00 $00
 .db $00 $00 $00
 
 startingPositions:

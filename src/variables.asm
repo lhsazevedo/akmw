@@ -184,7 +184,7 @@ _RAM_C0FB_ db
 .ende
 
 .enum $C0FD export
-_RAM_C0FD_ dw
+v_shopDoorNametableAddressPointer dw
 _RAM_C0FF_ db
 v_waterColorTimer db
 .ende

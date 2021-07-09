@@ -1,4 +1,4 @@
-levelSpriteTilesLoaders:
+spriteTilesLoadersPointers:
 .dw loadMtEthernalSpriteTiles
 .dw loadMtEthernalStage2SpriteTiles
 .dw loadLakeFathomSpriteTiles
