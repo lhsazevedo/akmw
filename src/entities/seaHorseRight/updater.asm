@@ -6,8 +6,8 @@ updateSeaHorseRight:
     ld a, (ix + Entity.unknown6)
     cp $FF
     jr nz, +
-    inc (ix + Entity.jankenMatchDecision)
-    ld a, (ix + Entity.jankenMatchDecision)
+    inc (ix + Entity.battleDecision)
+    ld a, (ix + Entity.battleDecision)
     cp $30
     jr c, _LABEL_58D2_
     inc (ix + Entity.unknown5)
@@ -40,14 +40,14 @@ _LABEL_58D2_:
     ld (ix + Entity.xSpeed.low), $00
     ld (ix + Entity.ySpeed.high), $FF
     ld (ix + Entity.ySpeed.low), $80
-    ld (ix + Entity.jankenMatchDecision), $00
+    ld (ix + Entity.battleDecision), $00
     ld (ix + Entity.unknown6), $FF
     jr _LABEL_58D2_
 
 _LABEL_58F2_:
     ld (ix + Entity.type), ENTITY_SEA_HORSE_LEFT
     ld (ix + Entity.unknown5), $00
-    ld (ix + Entity.jankenMatchDecision), $00
+    ld (ix + Entity.battleDecision), $00
     ld (ix + Entity.unknown6), $00
     ld hl, _DATA_8BF3_
     jp handleEntityAnimation

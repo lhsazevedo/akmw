@@ -11,7 +11,7 @@ updateMoneyBag:
     ld (ix + Entity.xSpeed.high), $00
     ld (ix + Entity.ySpeed.low), $00
     ld (ix + Entity.ySpeed.high), $00
-    ld (ix + Entity.jankenMatchDecision), $F0
+    ld (ix + Entity.battleDecision), $F0
 
     ; Set sprite descriptor and money value according to bag type.
     ld (ix + Entity.spriteDescriptorPointer.low), <bigMoneyBagSpriteDescriptor
@@ -45,6 +45,6 @@ updateMoneyBag:
 
 +:
     ; Decrement timer
-    dec (ix + Entity.jankenMatchDecision)
+    dec (ix + Entity.battleDecision)
     jp z, destroyCurrentEntity
     ret

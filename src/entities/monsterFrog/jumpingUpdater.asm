@@ -38,5 +38,5 @@ updateMonsterFrogJumping:
     ld (ix + Entity.spriteDescriptorPointer.low), <_DATA_854C_
     ld (ix + Entity.spriteDescriptorPointer.high), >_DATA_854C_
     ; @TODO: Fix entity var name below.
-    ld (ix + Entity.jankenMatchDecision), $10
+    ld (ix + Entity.battleDecision), $10
     ret

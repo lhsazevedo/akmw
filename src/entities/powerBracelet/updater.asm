@@ -5,7 +5,7 @@ updatePowerBracelet:
 
     ; Initialize bracelet
     set 0, (ix + Entity.flags)
-    ld (ix + Entity.jankenMatchDecision), $F0
+    ld (ix + Entity.battleDecision), $F0
     ld (ix + Entity.spriteDescriptorPointer.low), <powerBraceletSpriteDescriptor
     ld (ix + Entity.spriteDescriptorPointer.high), >powerBraceletSpriteDescriptor
     ld (ix + Entity.xSpeed.low), $00
@@ -36,6 +36,6 @@ updatePowerBracelet:
 
 +:
     ; Tick timer, deleting when it reaches zero
-    dec (ix + Entity.jankenMatchDecision)
+    dec (ix + Entity.battleDecision)
     jp z, destroyCurrentEntity
     ret

@@ -1,4 +1,4 @@
-Life.timer = Entity.jankenMatchDecision
+Life.timer = Entity.battleDecision
 
 updateLife:
     bit 0, (ix + Entity.flags)

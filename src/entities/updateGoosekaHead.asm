@@ -8,11 +8,11 @@ goosekaHeadStateUpdaters:
 .dw updateGoosekaHeadState0
 .dw updateGoosekaHeadState1
 .dw updateGoosekaHeadState2
-.dw updateOpponentHeadState3
+.dw updateBattleHeadState3
 
 updateGoosekaHeadState0:
     ld a, (v_entities.7.yPos.high)
-    cp (ix + Entity.jankenMatchDecision)
+    cp (ix + Entity.battleDecision)
     jr nc, +
     inc (ix + Entity.state)
     ld hl, $FF00
@@ -29,7 +29,7 @@ updateGoosekaHeadState0:
 updateGoosekaHeadState1:
     call _LABEL_7A10_
     ld a, (v_entities.7.yPos.high)
-    cp (ix + Entity.jankenMatchDecision)
+    cp (ix + Entity.battleDecision)
     jr c, +
     inc (ix + Entity.state)
     ld hl, $0200
@@ -46,7 +46,7 @@ updateGoosekaHeadState1:
 updateGoosekaHeadState2:
     call _LABEL_7A10_
     ld a, (v_entities.7.yPos.high)
-    cp (ix + Entity.jankenMatchDecision)
+    cp (ix + Entity.battleDecision)
     jr nc, +
     dec (ix + Entity.state)
     ld hl, $FE00
@@ -108,7 +108,7 @@ _LABEL_7A41_:
 
 ; 4th entry of Jump Table from 79A9 (indexed by v_entities.7.state)
 ; Shared
-updateOpponentHeadState3:
+updateBattleHeadState3:
     dec (ix+22)
     ret nz
     ld a, (v_entities.7.unknown6)

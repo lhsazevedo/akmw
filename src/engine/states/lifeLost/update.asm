@@ -138,7 +138,7 @@ updateLifeLostState:
     ; @TODO
     ld (ix + Entity.unknown6), $10
     ld (ix + Entity.unknown5), $10
-    ld (ix + Entity.jankenMatchDecision), $01
+    ld (ix + Entity.battleDecision), $01
     ld (ix + Entity.state), $01
 --:
     call _LABEL_6EAF_
@@ -181,7 +181,7 @@ _LABEL_6D26_:
 lifeLostAlexSwiming_LABEL_6D3C_:
     ld (ix + Entity.unknown6), $10
     ld (ix + Entity.unknown5), $10
-    ld (ix + Entity.jankenMatchDecision), $01
+    ld (ix + Entity.battleDecision), $01
     ld (ix + Entity.state), $02
     call _LABEL_6EAF_
 _LABEL_6D4F_:
@@ -191,7 +191,7 @@ _LABEL_6D4F_:
     ld (v_invincibilityTimer), a
     ld (ix + Entity.unknown6), $00
     ld (ix + Entity.unknown5), $00
-    ld (ix + Entity.jankenMatchDecision), $00
+    ld (ix + Entity.battleDecision), $00
     ld (ix + Entity.unknown7), $00
     ld (ix + Entity.state), $00
     call _LABEL_6F21_
@@ -219,7 +219,7 @@ _LABEL_6D73_:
     ld a, $83
     ld (v_soundControl), a
 +:
-    ld a, (v_hasJankenMatchStarted)
+    ld a, (v_hasBattleStarted)
     or a
     jp z, +
     ld a, $84
@@ -230,7 +230,7 @@ _LABEL_6D73_:
     ld a, $01
     call waitForInterrupt
     ld b, $89
-    ld a, (v_hasJankenMatchStarted)
+    ld a, (v_hasBattleStarted)
     or a
     jp nz, +
     ld b, $8A

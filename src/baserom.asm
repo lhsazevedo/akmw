@@ -5181,7 +5181,7 @@ _DATA_7128_:
 
 .INCLUDE "entities/updateJanken.asm"
 
-.INCLUDE "engine/battle/updateOpponent.asm"
+.INCLUDE "engine/battle/updateBattle.asm"
 
 .INCLUDE "entities/updateEntity0x19.asm"
 
@@ -5284,7 +5284,7 @@ goosekaNametableChanges:
 .INCLUDE "entities/updateParplin.asm"
 
 ; Clear entities, reset sound, load janken match tiles
-prepareForJankenMatch:
+prepareForBattle:
     ; Clear entities 7 through 28
     ld hl, v_entities.7
     ld b, $16
@@ -5295,10 +5295,10 @@ prepareForJankenMatch:
 
     call audioEngine.reset
 
-    ld a, :jankenMatchTiles | $80
+    ld a, :battleTiles | $80
     ld (Mapper_Slot2), a
 
-    ld hl, jankenMatchTiles
+    ld hl, battleTiles
     ld de, $7000
     di
     jp decompress4BitplanesToVRAM

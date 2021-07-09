@@ -1,4 +1,4 @@
-; Used only on updateOpponentShowTextbox2
+; Used only on updateBattleShowTextbox2
 drawThoughtClouds:
     ; Clear entities 27 and 28
     ld hl, v_entities.27

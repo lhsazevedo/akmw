@@ -14,7 +14,7 @@ _LABEL_54DF_:
     ld (ix + Entity.xSpeed.low), $00
 +:
     ld (ix + Entity.type), $4A
-    ld (ix + Entity.jankenMatchDecision), $08
+    ld (ix + Entity.battleDecision), $08
     inc (ix + Entity.unknown5)
     ld a, $8B
     ld (v_soundControl), a
@@ -30,7 +30,7 @@ updateEntity0x4A:
     ld a, (ix + Entity.unknown5)
     cp $08
     jr nc, killOpponent
-    dec (ix + Entity.jankenMatchDecision)
+    dec (ix + Entity.battleDecision)
     ret nz
     res 0, (ix + Entity.flags)
     ld a, (ix + Entity.unknown9)

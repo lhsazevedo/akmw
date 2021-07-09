@@ -15,8 +15,8 @@ updatePlant:
 
 +:
     call tryToKillAlexIfColliding
-    inc (ix + Entity.jankenMatchDecision)
-    ld a, (ix + Entity.jankenMatchDecision)
+    inc (ix + Entity.battleDecision)
+    ld a, (ix + Entity.battleDecision)
     cp $40
     ret c
     ld a, (ix + Entity.ySpeed.high)
@@ -26,5 +26,5 @@ updatePlant:
     cpl
     inc a
     ld (ix + Entity.ySpeed.low), a
-    ld (ix + Entity.jankenMatchDecision), $00
+    ld (ix + Entity.battleDecision), $00
     ret

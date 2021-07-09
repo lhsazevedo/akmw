@@ -1,37 +1,37 @@
 jankenUpdaters:
-.dw updateOpponentInit
-.dw updateOpponentMakeAlexGetIntoPosition
-.dw updateOpponentLoadOpponentTilesAndShowTextbox1
-.dw updateOpponentShowTextbox2
-.dw updateOpponentStartRound
-.dw updateOpponentDance
-.dw updateOpponentThrow
-.dw updateOpponentHandleThrows
-.dw updateOpponentShowBattleLostTextbox
-.dw updateOpponentTurnAlexIntoStatue
-.dw updateOpponentRespawOpponent
+.dw updateBattleInit
+.dw updateBattleMakeAlexGetIntoPosition
+.dw updateBattleLoadOpponentTilesAndShowTextbox1
+.dw updateBattleShowTextbox2
+.dw updateBattleStartRound
+.dw updateBattleDance
+.dw updateBattleThrow
+.dw updateBattleHandleThrows
+.dw updateBattleShowBattleLostTextbox
+.dw updateBattleTurnAlexIntoStatue
+.dw updateBattleRespawOpponent
 .dw _LABEL_73AE_
-.dw updateOpponentStartFight
-.dw updateOpponentPatchNametable
+.dw updateBattleStartFight
+.dw updateBattlePatchNametable
 .dw _LABEL_73D8_
 .dw _LABEL_7447_
-.dw updateOpponentMakeAlexGetIntoPosition
+.dw updateBattleMakeAlexGetIntoPosition
 .dw _LABEL_7453_
 .dw _LABEL_746F_
-.dw updateOpponentPatchNametable
-.dw updateOpponentNop
+.dw updateBattlePatchNametable
+.dw updateBattleNop
 
-; - Increment state (0x0 to 0x1: updateOpponentMakeAlexGetIntoPosition)
+; - Increment state (0x0 to 0x1: updateBattleMakeAlexGetIntoPosition)
 ; - Maybe set opponent sprite descriptor pointer
 ; - Copy opponent settings
-updateOpponentInit:
+updateBattleInit:
     inc (ix + Entity.state)
 
     ; a = 0
     xor a
     ; _RAM_C216_ is checked on some janken result thing
     ld (_RAM_C216_), a
-    ld (v_hasJankenMatchStarted), a
+    ld (v_hasBattleStarted), a
 
     ; a = 1
     inc a
@@ -58,16 +58,16 @@ updateOpponentInit:
     ld h, $00
     ld de, opponentSettings
     add hl, de
-    ld de, v_jankenMatchOpponentSpriteDescriptorPointer
+    ld de, v_battleOpponentSpriteDescriptorPointer
     ld bc, $0010
     ldir
     ret
 
 ; - Wait until the opponent is on screen, scrolling stops, alex is on ground
 ;   (e.g.: he can be on a Peticopter)
-; - Increment state (0x1 to 0x2: updateOpponentLoadOpponentTilesAndShowTextbox1)
+; - Increment state (0x1 to 0x2: updateBattleLoadOpponentTilesAndShowTextbox1)
 ; - Set alex state to ALEX_JANKEN_WALK_TO_POSITION
-updateOpponentMakeAlexGetIntoPosition:
+updateBattleMakeAlexGetIntoPosition:
     ; Return if offscreen
     ld a, (v_entities.6.isOffScreenFlags.high)
     or (ix + Entity.isOffScreenFlags.low)
@@ -92,13 +92,13 @@ updateOpponentMakeAlexGetIntoPosition:
     ret
 
 ; - Wait for Alex to start dancing
-; - Increment state (0x2 to 0x3: updateOpponentShowTextbox2)
+; - Increment state (0x2 to 0x3: updateBattleShowTextbox2)
 ; - Load opponent sprite descriptor and maybe adjust position
 ; - Mark match as started
 ; - Destroy entities, reset sound and load match tiles
 ; - Load opponent tiles
 ; - Request textbox message
-updateOpponentLoadOpponentTilesAndShowTextbox1:
+updateBattleLoadOpponentTilesAndShowTextbox1:
     ; Wait alex stop walking left
     ld a, (v_alex.state)
     cp ALEX_JANKEN_MUSIC
@@ -110,7 +110,7 @@ updateOpponentLoadOpponentTilesAndShowTextbox1:
     call clearEntities2to4AndMaybeReset0xC054
 
     ; Load opponent sprite descriptor
-    ld hl, (v_jankenMatchOpponentSpriteDescriptorPointer)
+    ld hl, (v_battleOpponentSpriteDescriptorPointer)
     ld (v_entities.6.spriteDescriptorPointer), hl
     ld a, (v_entities.6.data)
     cp $01
@@ -122,12 +122,12 @@ updateOpponentLoadOpponentTilesAndShowTextbox1:
 +:
 
     ld a, $01
-    ld (v_hasJankenMatchStarted), a
+    ld (v_hasBattleStarted), a
 
-    call prepareForJankenMatch
+    call prepareForBattle
 
     ; Load opponent tiles
-    ld hl, (v_jankenMatchOpponentTilesPointer)
+    ld hl, (v_battleOpponentTilesPointer)
     ld de, $6400
     call decompress4BitplanesToVRAM
     ei
@@ -138,15 +138,15 @@ updateOpponentLoadOpponentTilesAndShowTextbox1:
     ; Set up text message
     ld a, STATE_TEXT_BOX
     ld (v_gameState), a
-    ld a, (v_jankenMatchOpponentMessagePointer)
+    ld a, (v_battleOpponentMessagePointer)
     ld (v_messageToShowInTheTextBoxIndex), a
     ret
 
 ; - Wait for player to close first textbox 
 ; - Draw thought clouds, names and spaw entity 0x0C
 ; - Request second textbox ("You must choose...")
-; - Increment state (0x4 to 0x5: updateOpponentStartRound)
-updateOpponentShowTextbox2:
+; - Increment state (0x4 to 0x5: updateBattleStartRound)
+updateBattleShowTextbox2:
     call isTextboxGameState
     ret z
     ld hl, (_RAM_C234_)
@@ -171,8 +171,8 @@ isTextboxGameState:
 
 ; - Wait for player to close textbox
 ; - Request music
-; - Increment state (0x5 to 0x6: updateOpponentDance)
-updateOpponentStartRound:
+; - Increment state (0x5 to 0x6: updateBattleDance)
+updateBattleStartRound:
     call isTextboxGameState
     ret z
 
@@ -191,11 +191,11 @@ updateOpponentStartRound:
 ; - Simulates opponent deciding
 ; - Wait for dance music to end
 ; - Request match counting sound
-; - Increment state (0x6 to 0x7: updateOpponentThrow)
-updateOpponentDance:
+; - Increment state (0x6 to 0x7: updateBattleThrow)
+updateBattleDance:
     call simulateOpponentChoosing_LABEL_7941_
     
-    ld a, (v_soundJankenMatchSoundFlags)
+    ld a, (v_soundBattleSoundFlags)
     cp $80
     jr z, @musicEnded
 
@@ -224,13 +224,13 @@ updateOpponentDance:
 
 ; - Simulate opponent deciding while couting
 ; - Request throw sound effect
-; - Increment state (0x7 to 0x8: updateOpponentHandleThrows)
+; - Increment state (0x7 to 0x8: updateBattleHandleThrows)
 ; - Set alex throw state
 ; - Load opponent sprite descriptor for the current throw 
-updateOpponentThrow:
+updateBattleThrow:
     call simulateOpponentChoosing_LABEL_7941_
 
-    ld a, (v_soundJankenMatchSoundFlags)
+    ld a, (v_soundBattleSoundFlags)
     cp $10
     jr z, @countingEnded
 
@@ -249,7 +249,7 @@ updateOpponentThrow:
     ld (v_alex.state), a
 
     ; Load opponent sprite descriptor for throw
-    ld a, (v_entities.6.jankenMatchDecision)
+    ld a, (v_entities.6.battleDecision)
     add a, a
     ld e, a
     ld d, $00
@@ -267,16 +267,16 @@ updateOpponentThrow:
 ; - Wait for unknown6 timer
 ; - Choose a handler based on decisions (?)
 ; - Set textbox gamestate
-updateOpponentHandleThrows:
+updateBattleHandleThrows:
     dec (ix + Entity.unknown6)
     ret nz
 
-    ld a, (v_alex.jankenMatchDecision)
-    ld e, (ix + Entity.jankenMatchDecision)
+    ld a, (v_alex.battleDecision)
+    ld e, (ix + Entity.battleDecision)
     add a, e
     add a, e
     add a, e
-    ld hl, opponentResultHandlers
+    ld hl, battleRoundResultHandlers
     rst jumpToAthPointer
     ld a, STATE_TEXT_BOX
     ld (v_gameState), a
@@ -287,26 +287,26 @@ updateOpponentHandleThrows:
 ; Rock        0  |    0
 ; Scissors    1  |    3
 ; Paper       2  |    6
-opponentResultHandlers:
-.dw updateOpponentTie           ; 0: Rock/Rock
-.dw updateOpponentWinRound      ; 1: Scissors/Rock
-.dw updateOpponentLostRound     ; 2: Paper/Rock.
-.dw updateOpponentLostRound     ; 3: Rock/Scissors
-.dw updateOpponentTie           ; 4: Scissors/Scissors
-.dw updateOpponentWinRound      ; 5: Paper/Scissors
-.dw updateOpponentWinRound      ; 6: Rock/Paper
-.dw updateOpponentLostRound     ; 7: Scissors/Paper
-.dw updateOpponentTie           ; 8: Paper/Paper
+battleRoundResultHandlers:
+.dw updateBattleRoundTie    ; 0: Rock/Rock
+.dw updateBattleRoundLost   ; 1: Scissors/Rock
+.dw updateBattleRoundWon    ; 2: Paper/Rock.
+.dw updateBattleRoundWon    ; 3: Rock/Scissors
+.dw updateBattleRoundTie    ; 4: Scissors/Scissors
+.dw updateBattleRoundLost   ; 5: Paper/Scissors
+.dw updateBattleRoundLost   ; 6: Rock/Paper
+.dw updateBattleRoundWon    ; 7: Scissors/Paper
+.dw updateBattleRoundTie    ; 8: Paper/Paper
 
-updateOpponentTie:
-    ld a, TXT_BATTLE_TIE
+updateBattleRoundTie:
+    ld a, TXT_BATTLE_ROUND_TIE
     ld (v_messageToShowInTheTextBoxIndex), a
     ld (ix + Entity.state), $04
     ret
 
-updateOpponentWinRound:
+updateBattleRoundLost:
     ; "I win. You got it." - Opponent
-    ld a, TXT_BATTLE_OPPONENT_WIN
+    ld a, TXT_BATTLE_ROUND_LOST
     ld (v_messageToShowInTheTextBoxIndex), a
 
     ; Patch temporary results sprite descriptor
@@ -329,21 +329,21 @@ updateOpponentWinRound:
     cp $03
     jr nc, @opponentWon
 
-    ; updateOpponentStartRound
+    ; updateBattleStartRound
     ld (ix + Entity.state), $04
     ret
 
     @opponentWon:
-    ; updateOpponentShowBattleLostTextbox
+    ; updateBattleShowBattleLostTextbox
     ld (ix + Entity.state), $08
     jp restoreSomeNametableStuff_LABEL_796D_
 
 ; - Show opponent lost textbox
 ; - Update results
-; - Decide next state (0x04 updateOpponentStartRound or 0x0B updateOpponentBattleWonAndSetupNametablePatches)
-updateOpponentLostRound:
+; - Decide next state (0x04 updateBattleStartRound or 0x0B updateBattleBattleWonAndSetupNametablePatches)
+updateBattleRoundWon:
     ; "Darn it. I lose." - Opponent
-    ld a, TXT_BATTLE_OPPONENT_LOST
+    ld a, TXT_BATTLE_ROUND_WON
     ld (v_messageToShowInTheTextBoxIndex), a
 
     ; Patch temporary results sprite descriptor
@@ -367,19 +367,19 @@ updateOpponentLostRound:
     cp $03
     jr nc, @opponentLost
 
-    ; updateOpponentStartRound
+    ; updateBattleStartRound
     ld (ix + Entity.state), $04
     ret
 
     @opponentLost:
-    ; updateOpponentBattleWonAndSetupNametablePatches
+    ; updateBattleBattleWonAndSetupNametablePatches
     ld (ix + Entity.state), $0B
     jp restoreSomeNametableStuff_LABEL_796D_
 
 ; - Wait player close textbox
 ; - Cleanup battle entities
 ; - Show battle lost textbox
-updateOpponentShowBattleLostTextbox:
+updateBattleShowBattleLostTextbox:
     call isTextboxGameState
     ret z
 
@@ -396,7 +396,7 @@ updateOpponentShowBattleLostTextbox:
 ; - Wait player close textbox
 ; - Request statue sfx
 ; - Change alex state
-updateOpponentTurnAlexIntoStatue:
+updateBattleTurnAlexIntoStatue:
     call isTextboxGameState
     ret z
 
@@ -417,7 +417,7 @@ updateOpponentTurnAlexIntoStatue:
 
 ; - Wait alex death animation
 ; - Recreate opponent entity
-updateOpponentRespawOpponent:
+updateBattleRespawOpponent:
     ld a, (v_gameState)
     cp STATE_LIFE_LOST
     jr z, @lifeLost
@@ -454,7 +454,7 @@ updateOpponentRespawOpponent:
 
 ; 12th entry of Jump Table from 7152 (indexed by v_entities.6.state)
 _LABEL_73AE_:
-    call updateOpponentBattleWon
+    call updateBattleBattleWon
     ld (ix+24), $60
     ld hl, jankenBlockEntranceNametableChanges
     ld (_RAM_C219_), hl
@@ -469,7 +469,7 @@ _LABEL_73AE_:
 ; - Wait for player to close textbox
 ; - Request sfx
 ; - Advance state
-updateOpponentStartFight:
+updateBattleStartFight:
     call isTextboxGameState
     ret z
 
@@ -580,7 +580,7 @@ _LABEL_746F_:
 ; - Patch nametable
 ; - Advance state
 ; - Fallthrough
-updateOpponentPatchNametable:
+updateBattlePatchNametable:
     ld a, (v_nametableChangeRequest)
     or a
     ret nz
@@ -609,5 +609,5 @@ updateOpponentPatchNametable:
     call alex_LABEL_2BFA_
     inc (ix + Entity.state)
 
-updateOpponentNop:
+updateBattleNop:
     ret

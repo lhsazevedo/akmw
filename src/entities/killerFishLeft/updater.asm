@@ -56,10 +56,10 @@ updateKillerFishLeft:
     ld a, h
     add a, d
     ld h, (ix + Entity.unknown5)
-    ld l, (ix + Entity.jankenMatchDecision)
+    ld l, (ix + Entity.battleDecision)
     add hl, de
     ld (ix + Entity.unknown5), h
-    ld (ix + Entity.jankenMatchDecision), l
+    ld (ix + Entity.battleDecision), l
     add a, h
     ld (ix + Entity.yPos.high), a
 _LABEL_51ED_:

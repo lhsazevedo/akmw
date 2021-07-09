@@ -64,10 +64,10 @@ bat_LABEL_4F43_:
     ld e, a
     ld a, h
     ld h, (ix + Entity.unknown5)
-    ld l, (ix + Entity.jankenMatchDecision)
+    ld l, (ix + Entity.battleDecision)
     add hl, de
     ld (ix + Entity.unknown5), h
-    ld (ix + Entity.jankenMatchDecision), l
+    ld (ix + Entity.battleDecision), l
     add a, h
     ; @TODO: Clear if offscreen?
     cp $C0

@@ -104,7 +104,7 @@ readSoundRequest:
 
 ; Pointer Table from 98DD to 993C (48 entries, indexed by v_soundControl)
 sounds:
-.dw musicIntro musicDefault musicUnderwater musicCastle_DATA_A57D_ musicBike_DATA_A57D_ musicLevelStarting musicJankenMatch musicPeticopter
+.dw musicIntro musicDefault musicUnderwater musicCastle_DATA_A57D_ musicBike_DATA_A57D_ musicLevelStarting musicBattle musicPeticopter
 .dw musicDead _DATA_AC81_ _DATA_AC9B_ _DATA_ACB2_ _DATA_ACC9_ _DATA_ACE1_ _DATA_AD02_ _DATA_AD1E_
 .dw _DATA_AD2C_ _DATA_AD46_ _DATA_AD8D_ _DATA_ADA7_ _DATA_ADCC_ _DATA_AE59_ _DATA_AE7F_ _DATA_AEA3_
 .dw _DATA_AEB3_ _DATA_AECC_ _DATA_AEE3_ _DATA_AEFA_ _DATA_AF14_ _DATA_AF36_ _DATA_AF6D_ _DATA_AF84_

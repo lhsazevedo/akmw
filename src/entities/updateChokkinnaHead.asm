@@ -8,7 +8,7 @@ chokkinnaHeadStateUpdaters:
 .dw updateChokkinnaHeadState0
 .dw updateChokkinnaHeadState1
 .dw updateChokkinnaHeadState2
-.dw updateOpponentHeadState3
+.dw updateBattleHeadState3
 
 updateChokkinnaHeadState0:
     ld a, (v_entities.7.yPos.high)

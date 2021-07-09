@@ -3,7 +3,7 @@ updateEntity0x49:
     bit 0, (ix + Entity.flags)
     jr nz, +
     set 0, (ix + Entity.flags)
-    ld a, (ix + Entity.jankenMatchDecision)
+    ld a, (ix + Entity.battleDecision)
     add a, a
     ld c, a
     ld b, $00

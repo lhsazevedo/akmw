@@ -7,7 +7,7 @@ updateMermanBubbles:
     ld (ix + Entity.animationTimer), $08
     ld (ix + Entity.animationTimerResetValue), $08
     ld (ix + Entity.ySpeed.high), $FF
-    ld a, (ix + Entity.jankenMatchDecision)
+    ld a, (ix + Entity.battleDecision)
     ld c, a
     add a, a
     add a, c

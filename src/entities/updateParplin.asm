@@ -7,25 +7,25 @@ updateParplin:
 
 ; Jump Table from 78B0 to 78CD (15 entries, indexed by v_entities.6.state)
 parplinUpdaters:
-.dw updateOpponentInit
-.dw updateOpponentMakeAlexGetIntoPosition
-.dw updateOpponentLoadOpponentTilesAndShowTextbox1
-.dw updateOpponentShowTextbox2
-.dw updateOpponentStartRound
-.dw updateOpponentDance
-.dw updateOpponentThrow
-.dw updateOpponentHandleThrows
-.dw updateOpponentShowBattleLostTextbox
-.dw updateOpponentTurnAlexIntoStatue
-.dw updateOpponentRespawOpponent
-.dw updateOpponentBattleWon
-.dw updateOpponentStartFight
+.dw updateBattleInit
+.dw updateBattleMakeAlexGetIntoPosition
+.dw updateBattleLoadOpponentTilesAndShowTextbox1
+.dw updateBattleShowTextbox2
+.dw updateBattleStartRound
+.dw updateBattleDance
+.dw updateBattleThrow
+.dw updateBattleHandleThrows
+.dw updateBattleShowBattleLostTextbox
+.dw updateBattleTurnAlexIntoStatue
+.dw updateBattleRespawOpponent
+.dw updateBattleBattleWon
+.dw updateBattleStartFight
 .dw updateParplinSpawnHead
-.dw updateOpponentDestroyWhenDefeated
+.dw updateBattleDestroyWhenDefeated
 
 ; - Wait for textbox
 ; - Maybe go to bossfight
-updateOpponentBattleWon:
+updateBattleBattleWon:
     call isTextboxGameState
     ret z
 

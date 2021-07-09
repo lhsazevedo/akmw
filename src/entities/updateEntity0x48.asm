@@ -6,8 +6,8 @@ updateEntity0x48:
     call tryToKillAlexIfColliding
     call checkAlexEntityCollision_LABEL_7D0B_
     jr c, +
-    inc (ix + Entity.jankenMatchDecision)
-    ld a, (ix + Entity.jankenMatchDecision)
+    inc (ix + Entity.battleDecision)
+    ld a, (ix + Entity.battleDecision)
     cp $08
     jp nc, _LABEL_5D7B_
     ld a, $8B

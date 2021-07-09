@@ -18,7 +18,7 @@ simulateOpponentChoosing_LABEL_7941_:
     ret p
 
     ld (ix + Entity.unknown6), c
-    ld hl, v_JankenMatchOpponentDecisionIndex
+    ld hl, v_BattleOpponentDecisionIndex
     inc (hl)
     ld a, (hl)
     and $1F
@@ -26,12 +26,12 @@ simulateOpponentChoosing_LABEL_7941_:
     ld h, $00
     add hl, de
     ld l, (hl)
-    ld (ix + Entity.jankenMatchDecision), l
+    ld (ix + Entity.battleDecision), l
 
     ; Update thought preview if Alex has Telapathy Ball
     ld a, (v_hasTelepathyBall)
     or a
     ret z
     ld a, l
-    ld (v_entities.27.jankenMatchDecision), a
+    ld (v_entities.27.battleDecision), a
     ret

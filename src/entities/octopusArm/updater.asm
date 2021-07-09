@@ -84,14 +84,14 @@ _LABEL_4CDE_:
     jr z, +
     ld bc, $FFFE
 +:
-    inc (ix + Entity.jankenMatchDecision)
-    ld a, (ix + Entity.jankenMatchDecision)
+    inc (ix + Entity.battleDecision)
+    ld a, (ix + Entity.battleDecision)
     cp $60
     jr c, ++
     ld a, d
     cpl
     ld (ix + Entity.unknown6), a
-    ld (ix + Entity.jankenMatchDecision), $00
+    ld (ix + Entity.battleDecision), $00
 ++:
     ld a, (ix + Entity.unknown4)
     or a

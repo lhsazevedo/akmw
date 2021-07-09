@@ -35,7 +35,7 @@ _LABEL_6EBB_:
     exx
     ld de, $0100
     ld a, $08
-    ld b, (ix + Entity.jankenMatchDecision)
+    ld b, (ix + Entity.battleDecision)
     call _LABEL_39ED_
     exx
     jp nc, +

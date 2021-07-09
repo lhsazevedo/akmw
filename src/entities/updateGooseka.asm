@@ -6,27 +6,27 @@ updateGooseka:
 
 ; Jump Table from 779E to 77BD (16 entries, indexed by v_entities.6.state)
 goosekaUpdaters:
-.dw updateOpponentInit                                  ; 0x0
-.dw updateOpponentMakeAlexGetIntoPosition               ; 0x1
-.dw updateOpponentLoadOpponentTilesAndShowTextbox1      ; 0x2
-.dw updateOpponentShowTextbox2                          ; 0x3
-.dw updateOpponentStartRound                            ; 0x4
-.dw updateOpponentDance                                 ; 0x5
-.dw updateOpponentThrow                                 ; 0x6
-.dw updateOpponentHandleThrows                          ; 0x7
-.dw updateOpponentShowBattleLostTextbox                 ; 0x8
-.dw updateOpponentTurnAlexIntoStatue                    ; 0x9
-.dw updateOpponentRespawOpponent                        ; 0xA
-.dw updateOpponentBattleWonAndSetupNametablePatches     ; 0xB
-.dw updateOpponentStartFight                            ; 0xC
-.dw updateOpponentPatchNametable                                        ; 0xD
+.dw updateBattleInit                                  ; 0x0
+.dw updateBattleMakeAlexGetIntoPosition               ; 0x1
+.dw updateBattleLoadOpponentTilesAndShowTextbox1      ; 0x2
+.dw updateBattleShowTextbox2                          ; 0x3
+.dw updateBattleStartRound                            ; 0x4
+.dw updateBattleDance                                 ; 0x5
+.dw updateBattleThrow                                 ; 0x6
+.dw updateBattleHandleThrows                          ; 0x7
+.dw updateBattleShowBattleLostTextbox                 ; 0x8
+.dw updateBattleTurnAlexIntoStatue                    ; 0x9
+.dw updateBattleRespawOpponent                        ; 0xA
+.dw updateBattleBattleWonAndSetupNametablePatches     ; 0xB
+.dw updateBattleStartFight                            ; 0xC
+.dw updateBattlePatchNametable                                        ; 0xD
 .dw updateGoosekaSpawnHead                              ; 0xE
-.dw updateOpponentDestroyWhenDefeated                   ; 0xF
+.dw updateBattleDestroyWhenDefeated                   ; 0xF
 
-; - Call updateOpponentBattleWon
+; - Call updateBattleBattleWon
 ; - Setup nametable changes
-updateOpponentBattleWonAndSetupNametablePatches:
-    call updateOpponentBattleWon
+updateBattleBattleWonAndSetupNametablePatches:
+    call updateBattleBattleWon
 
     ld hl, goosekaNametableChanges
     ld (_RAM_C219_), hl
@@ -63,7 +63,7 @@ updateGoosekaSpawnHead:
     ld (v_entities.7.yPos.high), a
 
     sub $20
-    ld (v_entities.7.jankenMatchDecision), a
+    ld (v_entities.7.battleDecision), a
 
     ld hl, $9387
     ld (v_entities.7.spriteDescriptorPointer), hl
@@ -76,7 +76,7 @@ updateGoosekaSpawnHead:
 
 ; 15th entry of Jump Table from 78B0 (indexed by v_entities.6.state)
 ; Shared with Parplin
-updateOpponentDestroyWhenDefeated:
+updateBattleDestroyWhenDefeated:
     call tryToKillAlexIfColliding
     ld a, (v_entities.7.type)
     or a

@@ -6,7 +6,7 @@ updateEntity0x46:
     ld (_RAM_C07F_), a
     ld (ix + Entity.animationTimer), $01
     ld (ix + Entity.animationTimerResetValue), $10
-    ld (ix + Entity.jankenMatchDecision), $00
+    ld (ix + Entity.battleDecision), $00
     ld a, (ix + Entity.isOffScreenFlags.low)
     or (ix + Entity.isOffScreenFlags.high)
     jr nz, _LABEL_5C96_
@@ -21,8 +21,8 @@ updateEntity0x46:
     call tryToKillAlexIfColliding
     call checkAlexEntityCollision_LABEL_7D0B_
     jr c, _LABEL_5C96_
-    inc (ix + Entity.jankenMatchDecision)
-    ld a, (ix + Entity.jankenMatchDecision)
+    inc (ix + Entity.battleDecision)
+    ld a, (ix + Entity.battleDecision)
     cp $08
     jp nc, _LABEL_5D7B_
     ld a, $8B

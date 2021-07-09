@@ -1702,8 +1702,8 @@ _DATA_3904_:
 ; 22nd entry of Jump Table from 2982 (indexed by v_alex.state)
 alexHandler_3919:
     call _LABEL_3928_
-    ld a, (v_alex.jankenMatchDecision)
-    ld (v_entities.28.jankenMatchDecision), a
+    ld a, (v_alex.battleDecision)
+    ld (v_entities.28.battleDecision), a
     ld hl, _DATA_8D2A_
     jp _LABEL_4189_
 
@@ -1720,7 +1720,7 @@ _LABEL_3928_:
     bit 1, a
     ret z
     inc (ix+23)
-    ld a, (v_alex.jankenMatchDecision)
+    ld a, (v_alex.battleDecision)
     cp $03
     ret c
     ld (ix+23), $00
@@ -1778,8 +1778,8 @@ alexHandler_3961:
 ; 24th entry of Jump Table from 2982 (indexed by v_alex.state)
 alexHandler_39A5:
     call _LABEL_3928_
-    ld a, (v_alex.jankenMatchDecision)
-    ld (v_entities.28.jankenMatchDecision), a
+    ld a, (v_alex.battleDecision)
+    ld (v_entities.28.battleDecision), a
     ld hl, _DATA_8CE6_
     jp _LABEL_4189_
 

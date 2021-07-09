@@ -216,7 +216,7 @@ tiles_AlexKiddEatingRiceBall:
 .INCLUDE "graphics/alexKidd.asm"
 
 ; Data from 118E9 to 11BB4 (716 bytes)
-jankenMatchTiles:
+battleTiles:
 .db $02 $00 $82 $07 $1F $02 $3F $02 $7F $84 $01 $07 $8F $EF $04 $FF
 .db $83 $E0 $F8 $FC $05 $FF $02 $00 $83 $E0 $F8 $FC $02 $FE $08 $FF
 .db $81 $7F $05 $FF $02 $FE $83 $FC $7F $3F $02 $1F $02 $3F $02 $7F

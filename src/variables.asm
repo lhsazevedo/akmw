@@ -210,7 +210,7 @@ v_soundFadeOutVolume db
 v_soundFadeOutTimer db
 v_soundEffectPriority db
 v_soundSoftwareChannelSevenState db
-v_soundJankenMatchSoundFlags db
+v_soundBattleSoundFlags db
 v_soundNumber db
 .ende
 
@@ -251,9 +251,9 @@ v_alexStateTemporaryCopy db
 _RAM_C211_ dw
 _RAM_C213_ db
 v_nextGhostSpawnTimer db
-v_hasJankenMatchStarted db
+v_hasBattleStarted db
 _RAM_C216_ db
-v_JankenMatchOpponentDecisionIndex db
+v_BattleOpponentDecisionIndex db
 _RAM_C218_ db
 _RAM_C219_ dw
 _RAM_C21B_ dw
@@ -273,14 +273,14 @@ _RAM_C22A_ db
 .ende
 
 .enum $C230 export
-v_jankenMatchOpponentSpriteDescriptorPointer dw
-v_jankenMatchOpponentTilesPointer dw
+v_battleOpponentSpriteDescriptorPointer dw
+v_battleOpponentTilesPointer dw
 _RAM_C234_ dw
 v_opponentAnimationDescriptorPointer dw
 v_opponentCountdownAnimationDescriptorPointer dw
 v_opponentThrowSpriteDescriptorPointer dw
 v_opponentDecisionsPointer dw
-v_jankenMatchOpponentMessagePointer db
+v_battleOpponentMessagePointer db
 .ende
 
 .enum $C240 export

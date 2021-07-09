@@ -9,7 +9,7 @@ updateEntity0x54:
     jr nz, _LABEL_6341_
     set 0, (ix + Entity.flags)
     set 1, (ix + Entity.flags)
-    ld (ix + Entity.jankenMatchDecision), $00
+    ld (ix + Entity.battleDecision), $00
     ld (ix + Entity.unknown5), $30
     ld (ix + Entity.unknown6), $0E
     ld (ix + Entity.xSpeed.low), $60
@@ -46,18 +46,18 @@ _LABEL_62F5_:
     call getTileNearEntityWithXYOffset
     rlca
     jr c, _LABEL_6341_
-    ld h, (ix + Entity.jankenMatchDecision)
+    ld h, (ix + Entity.battleDecision)
     ld l, (ix + Entity.unknown5)
     ld de, $0010
     add hl, de
-    ld (ix + Entity.jankenMatchDecision), h
+    ld (ix + Entity.battleDecision), h
     ld (ix + Entity.unknown5), l
     ld (ix + Entity.ySpeed.high), h
     ld (ix + Entity.ySpeed.low), l
     jr _LABEL_6351_
 
 _LABEL_6341_:
-    ld (ix + Entity.jankenMatchDecision), $00
+    ld (ix + Entity.battleDecision), $00
     ld (ix + Entity.unknown5), $30
     ld (ix + Entity.ySpeed.low), $00
     ld (ix + Entity.ySpeed.high), $00

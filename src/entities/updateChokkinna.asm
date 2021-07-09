@@ -7,19 +7,19 @@ updateChokkinna:
 
 ; Jump Table from 781E to 783B (15 entries, indexed by v_entities.6.state)
 chokkinnaUpdaters:
-.dw updateOpponentInit
-.dw updateOpponentMakeAlexGetIntoPosition
-.dw updateOpponentLoadOpponentTilesAndShowTextbox1
-.dw updateOpponentShowTextbox2
-.dw updateOpponentStartRound
-.dw updateOpponentDance
-.dw updateOpponentThrow
-.dw updateOpponentHandleThrows
-.dw updateOpponentShowBattleLostTextbox
-.dw updateOpponentTurnAlexIntoStatue
-.dw updateOpponentRespawOpponent
-.dw updateOpponentBattleWon
-.dw updateOpponentStartFight
+.dw updateBattleInit
+.dw updateBattleMakeAlexGetIntoPosition
+.dw updateBattleLoadOpponentTilesAndShowTextbox1
+.dw updateBattleShowTextbox2
+.dw updateBattleStartRound
+.dw updateBattleDance
+.dw updateBattleThrow
+.dw updateBattleHandleThrows
+.dw updateBattleShowBattleLostTextbox
+.dw updateBattleTurnAlexIntoStatue
+.dw updateBattleRespawOpponent
+.dw updateBattleBattleWon
+.dw updateBattleStartFight
 .dw updateChokkinnaSpawnHead
 .dw updateChokkinnaCastSpells
 

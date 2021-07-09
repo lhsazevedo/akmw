@@ -108,7 +108,7 @@ initGameplayState:
     ld (v_entitydataPointersPointer), hl
     xor a
     ld (_RAM_C08E_), a
-    ld (v_hasJankenMatchStarted), a
+    ld (v_hasBattleStarted), a
     ld hl, _RAM_D900_
     ld (hl), $00
     ld de, _RAM_D900_ + 1

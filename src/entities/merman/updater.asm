@@ -16,11 +16,11 @@ updateMerman:
     call checkAlexEntityCollision_LABEL_7D0B_
     jr nc, +++
 -:
-    inc (ix + Entity.jankenMatchDecision)
-    ld a, (ix + Entity.jankenMatchDecision)
+    inc (ix + Entity.battleDecision)
+    ld a, (ix + Entity.battleDecision)
     cp $C0
     jr nz, ++
-    ld (ix + Entity.jankenMatchDecision), $00
+    ld (ix + Entity.battleDecision), $00
     ld a, (ix + Entity.ySpeed.high)
     cpl
     ld (ix + Entity.ySpeed.high), a

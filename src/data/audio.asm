@@ -210,7 +210,7 @@ _DATA_A905_:
 
 ; 7th entry of Pointer Table from 98DD (indexed by v_soundControl)
 ; Data from A937 to A93A (4 bytes)
-musicJankenMatch:
+musicBattle:
 .db $04 $80 $80 $04
 
 ; Pointer Table from A93B to A93C (1 entries, indexed by unknown)

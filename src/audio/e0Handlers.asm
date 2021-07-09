@@ -105,7 +105,7 @@ handleEF:
 ; 17th entry of Jump Table from 9CE4 (indexed by unknown)
 handleF0:
     ld a, (de)
-    ld (v_soundJankenMatchSoundFlags), a
+    ld (v_soundBattleSoundFlags), a
 ; 3rd entry of Jump Table from 9CE4 (indexed by unknown)
 handleE2:
     xor a

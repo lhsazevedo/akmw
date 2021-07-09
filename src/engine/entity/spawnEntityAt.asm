@@ -14,8 +14,8 @@ spawnEntityAt:
     or a
     jr z, @availableEntitySlotFound
 
-    ld a, (v_entities.27.jankenMatchDecision)
-    cp (iy + Entity.jankenMatchDecision)
+    ld a, (v_entities.27.battleDecision)
+    cp (iy + Entity.battleDecision)
     jr nc, @availableEntitySlotFound
 
     ld iy, v_entities.27

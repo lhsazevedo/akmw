@@ -9,7 +9,7 @@ updateEntity0x2F:
     ret nz
     set 0, (ix + Entity.flags)
     set 1, (ix + Entity.flags)
-    ld (ix + Entity.jankenMatchDecision), $10
+    ld (ix + Entity.battleDecision), $10
 +:
     ld a, (ix + Entity.isOffScreenFlags.low)
     or (ix + Entity.isOffScreenFlags.high)
@@ -17,10 +17,10 @@ updateEntity0x2F:
     call tryToKillAlexIfColliding
     call checkAlexEntityCollision_LABEL_7D0B_
     jp nc, _LABEL_55A5_
-    dec (ix + Entity.jankenMatchDecision)
+    dec (ix + Entity.battleDecision)
     ret nz
     ld a, $01
-    ld (ix + Entity.jankenMatchDecision), a
+    ld (ix + Entity.battleDecision), a
     ld de, $1108
     call getTileNearEntityWithXYOffset
     rlca

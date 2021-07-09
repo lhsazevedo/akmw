@@ -1,5 +1,5 @@
 updateEntity0x0B:
-    ld a, (ix + Entity.jankenMatchDecision)
+    ld a, (ix + Entity.battleDecision)
     add a, a
     ld e, a
     ld d, $00

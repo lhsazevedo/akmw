@@ -106,7 +106,7 @@ _LABEL_7E5E_:
     ld ix, $C300
     ld a, $89
     ld (v_gameState), a
-    ld a, (v_hasJankenMatchStarted)
+    ld a, (v_hasBattleStarted)
     or a
     jp nz, +
     ld a, $8A
@@ -138,7 +138,7 @@ _LABEL_7ED3_:
     call waitForInterrupt
     ld hl, v_gameState
     set 7, (hl)
-    ld a, (v_hasJankenMatchStarted)
+    ld a, (v_hasBattleStarted)
     or a
     jp z, +
     ld a, $84
