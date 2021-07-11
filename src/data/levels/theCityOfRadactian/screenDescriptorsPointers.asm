@@ -1,0 +1,4 @@
+theCityOfRadactianScreenDescriptorsPointers:
+.dw theCityOfRadactianScreen1Descriptor
+.dw theCityOfRadactianScreen2Descriptor
+.dw theCityOfRadactianScreen3Descriptor

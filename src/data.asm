@@ -5,7 +5,7 @@
 ;; For each level...
 .INCLUDE "data/levels/entitiesDescriptors.asm"
 
-.INCLUDE "data/levels/screenEntitiesDescriptors.asm"
+.INCLUDE "data/levels/screenDescriptors.asm"
 
 .dsb 376, $FF
 

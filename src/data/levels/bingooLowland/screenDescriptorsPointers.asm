@@ -1,0 +1,17 @@
+; Pointer Table from B60F to B62C (15 entries, indexed by v_entityIndex)
+bingooLowlandScreenDescriptorsPointers:
+.dw bingooLowlandScreen1Descriptor
+.dw bingooLowlandScreen2Descriptor
+.dw bingooLowlandScreen3Descriptor
+.dw bingooLowlandScreen4Descriptor
+.dw bingooLowlandScreen5Descriptor
+.dw bingooLowlandScreen6Descriptor
+.dw bingooLowlandScreen7Descriptor
+.dw bingooLowlandScreen8Descriptor
+.dw bingooLowlandScreen9Descriptor
+.dw bingooLowlandScreen10Descriptor
+.dw bingooLowlandScreen11Descriptor
+.dw bingooLowlandScreen12Descriptor
+.dw bingooLowlandScreen13Descriptor
+.dw bingooLowlandScreen14Descriptor
+.dw bingooLowlandScreen15Descriptor

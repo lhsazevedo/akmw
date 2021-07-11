@@ -292,3 +292,17 @@ octopus_DATA_6CA_:
 .db $8E $D4 $90 $D2 $93 $D0 $95 $CF $98 $CD $9A $CB $9D $C9 $9F $C7
 .db $A2 $C5 $A4 $C3 $A7 $C1 $A9 $BF $AB $BD $AE $BB $B0 $B9 $B2 $B7
 .db $B4 $B4
+
+; @TODO
+_LABEL_74C_:
+    ld h, l
+    ld b, $08
+    ld d, $00
+    ld l, d
+-:
+    add hl, hl
+    jr nc, +
+    add hl, de
++:
+    djnz -
+    ret

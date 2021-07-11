@@ -1,0 +1,10 @@
+theVillageOfNamuiScreenDescriptorsPointers:
+.dw theVillageOfNamuiScreen1Descriptor
+.dw theVillageOfNamuiScreen2Descriptor
+.dw theVillageOfNamuiScreen3Descriptor
+.dw theVillageOfNamuiScreen4Descriptor
+.dw theVillageOfNamuiScreen5Descriptor
+.dw theVillageOfNamuiScreen6Descriptor
+.dw theVillageOfNamuiScreen7Descriptor
+.dw theVillageOfNamuiScreen8Descriptor
+.dw theVillageOfNamuiScreen9Descriptor

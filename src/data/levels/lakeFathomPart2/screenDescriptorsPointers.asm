@@ -1,0 +1,21 @@
+lakeFathomPart2ScreenDescriptorsPointers:
+.dw lakeFathomPart2Screen1Descriptor
+.dw lakeFathomPart2Screen2Descriptor
+.dw lakeFathomPart2Screen3Descriptor
+.dw lakeFathomPart2Screen4Descriptor
+.dw lakeFathomPart2Screen1Descriptor
+.dw lakeFathomPart2Screen2Descriptor
+.dw lakeFathomPart2Screen3Descriptor
+.dw lakeFathomPart2Screen4Descriptor
+.dw lakeFathomPart2Screen1Descriptor
+.dw lakeFathomPart2Screen2Descriptor
+.dw lakeFathomPart2Screen3Descriptor
+.dw lakeFathomPart2Screen4Descriptor
+.dw lakeFathomPart2Screen1Descriptor
+.dw lakeFathomPart2Screen2Descriptor
+.dw lakeFathomPart2Screen3Descriptor
+.dw lakeFathomPart2Screen16Descriptor
+.dw lakeFathomPart2Screen17Descriptor
+.dw lakeFathomPart2Screen18Descriptor
+.dw lakeFathomPart2Screen19Descriptor
+.dw lakeFathomPart2Screen20Descriptor

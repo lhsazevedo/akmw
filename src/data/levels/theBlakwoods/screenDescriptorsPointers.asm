@@ -1,0 +1,13 @@
+theBlakwoodsScreenDescriptorsPointers:
+.dw theBlakwoodsScreen1Descriptor
+.dw theBlakwoodsScreen2Descriptor
+.dw theBlakwoodsScreen3Descriptor
+.dw theBlakwoodsScreen4Descriptor
+.dw theBlakwoodsScreen5Descriptor
+.dw theBlakwoodsScreen6Descriptor
+.dw theBlakwoodsScreen7Descriptor
+.dw theBlakwoodsScreen8Descriptor
+.dw theBlakwoodsScreen9Descriptor
+.dw theBlakwoodsScreen10Descriptor
+.dw theBlakwoodsScreen11Descriptor
+.dw theBlakwoodsScreen12Descriptor

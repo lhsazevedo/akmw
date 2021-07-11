@@ -1,0 +1,6 @@
+theIslandOfNuraiScreenDescriptorsPointers:
+.dw theIslandOfNuraiScreen1Descriptor
+.dw theIslandOfNuraiScreen2Descriptor
+.dw theIslandOfNuraiScreen3Descriptor
+.dw theIslandOfNuraiScreen4Descriptor
+.dw theIslandOfNuraiScreen5Descriptor
