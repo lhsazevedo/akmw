@@ -231,7 +231,7 @@ initGameplayStateSecondary:
     ld (paletteUpdaterPointer), hl
 
     ; @TODO: ???
-    ld hl, _DATA_156D_ - 2
+    ld hl, levelTileUpdatersPointers - 2
     ld a, (v_level)
     add a, a
     ld e, a
@@ -241,9 +241,9 @@ initGameplayStateSecondary:
     inc hl
     ld h, (hl)
     ld l, a
-    ld (v_titleScreenTileUpdaterPointer), hl
+    ld (v_levelTileUpdaterPointer), hl
     ld a, $01
-    ld (v_titleScreenTileUpdateTimer), a
+    ld (v_levelTileUpdateTimer), a
 
     ld a, (v_level)
     ld hl, scrollFlagsUpdatersPointers - 2
@@ -312,136 +312,3 @@ initGameplayStateSecondary:
     set 7, (hl)
     ei
     jp enableDisplay
-
-scrollFlagsUpdatersPointers:
-; MtEthernalStage1
-.dw _LABEL_6462_
-; MtEthernalStage2
-.dw _LABEL_6462_
-; LakeFathom
-.dw _LABEL_657B_
-; TheIslandOfStNurari
-.dw _LABEL_6462_
-; LakeFathomPart2
-.dw _LABEL_6539_
-; TheVillageOfNamui
-.dw _LABEL_6462_
-; MtKave
-.dw _LABEL_6462_
-; TheBlakwoods
-.dw _LABEL_6462_
-; River
-.dw _LABEL_6539_
-; BingooLowland
-.dw _LABEL_6462_
-; TheRadactianCastle
-.dw _LABEL_647D_
-; TheCityOfRadactian
-.dw _LABEL_6462_
-; MtEthernalStage2
-.dw _LABEL_6462_
-; TheKingdomOfNibanaPart1
-.dw _LABEL_6462_
-; TheKingdomOfNibanaPart2
-.dw _LABEL_6462_
-; JankensCastle
-.dw _LABEL_647D_
-; CraggLake
-.dw _LABEL_6462_
-
-paletteUpdatersPointers:
-; MtEthernalStage1
-.dw _LABEL_1089_
-; MtEthernalStage2
-.dw _LABEL_10DE_
-; LakeFathom
-.dw _LABEL_1089_
-; TheIslandOfStNurari
-.dw _LABEL_10E1_
-; LakeFathomPart2
-.dw _LABEL_1089_
-; TheVillageOfNamui
-.dw _LABEL_10E4_
-; MtKave
-.dw _LABEL_10E7_
-; TheBlakwoods
-.dw _LABEL_10EA_
-; River
-.dw _LABEL_1089_
-; BingooLowland
-.dw _LABEL_10ED_
-; TheRadactianCastle
-.dw _LABEL_10F0_
-; TheCityOfRadactian
-.dw _LABEL_10F3_
-; MtEthernalStage2
-.dw _LABEL_10F6_
-; TheKingdomOfNibanaPart1
-.dw _LABEL_10F9_
-; TheKingdomOfNibanaPart2
-.dw _LABEL_10FC_
-; JankensCastle
-.dw _LABEL_1089_
-; CraggLake
-.dw _LABEL_1089_
-
-; Jump Table from D4E to D6F (17 entries, indexed by v_level)
-entityLoadersPointers:
-.dw loadEntitiesNormal_LABEL_6F48_
-.dw loadEntitiesNormal_LABEL_6F48_
-.dw loadEntitiesNormal_LABEL_6F48_
-.dw loadEntitiesNormal_LABEL_6F48_
-.dw loadEntitiesNormal_LABEL_6F48_
-.dw loadEntitiesNormal_LABEL_6F48_
-.dw loadEntitiesNormal_LABEL_6F48_
-.dw loadEntitiesNormal_LABEL_6F48_
-.dw loadEntitiesNormal_LABEL_6F48_
-.dw loadEntitiesNormal_LABEL_6F48_
-.dw loadEntitiesSpecial_LABEL_6F48_
-.dw loadEntitiesNormal_LABEL_6F48_
-.dw loadEntitiesNormal_LABEL_6F48_
-.dw loadEntitiesNormal_LABEL_6F48_
-.dw loadEntitiesNormal_LABEL_6F48_
-.dw loadEntitiesSpecial_LABEL_6F48_
-.dw loadEntitiesNormal_LABEL_6F48_
-
-; Data from D70 to DA2 (51 bytes)
-shopDoorsConfigs:
-; Horizontal position / Pointer to shop door nametable address
-.db $00 $00 $00
-.db $60 $54 $CC
-.db $72 $5C $CC
-.db $00 $00 $00
-.db $42 $40 $C9
-.db $90 $20 $CC
-.db $00 $00 $00
-.db $30 $08 $CC
-.db $00 $00 $00
-.db $70 $18 $CC
-.db $00 $00 $00
-.db $50 $D0 $C9
-.db $00 $00 $00
-.db $00 $00 $00
-.db $50 $10 $CC
-.db $00 $00 $00
-.db $00 $00 $00
-
-startingPositions:
-; X position / Y position
-.db $20 $58
-.db $20 $88
-.db $40 $20
-.db $1B $90
-.db $20 $70
-.db $20 $88
-.db $20 $88
-.db $20 $88
-.db $20 $88
-.db $20 $88
-.db $20 $88
-.db $20 $88
-.db $E8 $70
-.db $20 $88
-.db $20 $88
-.db $20 $88
-.db $10 $88

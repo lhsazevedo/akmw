@@ -2,5 +2,5 @@
 handleInterruptGameplayState:
     call _LABEL_264F_
     call handleNametableChangeRequest
-    call _LABEL_158F_
+    call updateLevelTiles
     jp _LABEL_6920_

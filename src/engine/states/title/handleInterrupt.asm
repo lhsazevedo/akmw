@@ -38,7 +38,7 @@ advanceTitleScreenLevelTile:
     inc (hl)
     ld hl, Mapper_Slot2
     ld (hl), $84
-    ld hl, titleScreenLevelTileUpdatersPointers
+    ld hl, titleScreenFrameUpdatersPointers
     jp jumpToAthPointer
 
 
@@ -99,7 +99,7 @@ _DATA_8CA_:
 .db $2F $3F $05 $0B $03 $02 $00 $30 $3C $0C $0F $08 $3A $36 $03 $0A
 
 
-titleScreenLevelTileUpdatersPointers:
+titleScreenFrameUpdatersPointers:
 .dw showTitleUnderwaterFrame
 .dw showTitleBoatFrame
 .dw showTitleTreeFrame

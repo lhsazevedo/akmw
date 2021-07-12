@@ -706,7 +706,7 @@ _DATA_17291_:
 _DATA_172B1_:
 .incbin "src/data/4bppCharacters.bin"
 
-; 1st entry of Pointer Table from 1620 (indexed by v_titleScreen6FrameTileTimer)
+; 1st entry of Pointer Table from 1620 (indexed by v_sixFrameLevelTileIndex)
 ; Data from 17853 to 17892 (64 bytes)
 _DATA_17853_:
 .db $00 $00 $00 $00 $00 $00 $00 $00 $05 $05 $82 $87 $00 $00 $FF $FF
@@ -714,7 +714,7 @@ _DATA_17853_:
 .db $18 $10 $00 $10 $62 $22 $9C $BE $08 $08 $F7 $FF $00 $00 $FF $FF
 .db $00 $00 $FF $FF $00 $00 $FF $FF $10 $10 $EF $FF $00 $00 $FF $FF
 
-; 2nd entry of Pointer Table from 1620 (indexed by v_titleScreen6FrameTileTimer)
+; 2nd entry of Pointer Table from 1620 (indexed by v_sixFrameLevelTileIndex)
 ; Data from 17893 to 178D2 (64 bytes)
 _DATA_17893_:
 .db $00 $00 $00 $00 $00 $00 $01 $01 $14 $14 $0B $1F $00 $00 $FF $FF
@@ -722,7 +722,7 @@ _DATA_17893_:
 .db $20 $00 $40 $40 $98 $90 $60 $F0 $22 $22 $DC $FE $08 $08 $F7 $FF
 .db $00 $00 $FF $FF $20 $20 $DF $FF $00 $00 $FF $FF $00 $00 $FF $FF
 
-; 3rd entry of Pointer Table from 1620 (indexed by v_titleScreen6FrameTileTimer)
+; 3rd entry of Pointer Table from 1620 (indexed by v_sixFrameLevelTileIndex)
 ; Data from 178D3 to 17912 (64 bytes)
 _DATA_178D3_:
 .db $04 $00 $02 $02 $19 $09 $06 $0F $44 $44 $3B $7F $10 $10 $EF $FF
@@ -730,7 +730,7 @@ _DATA_178D3_:
 .db $00 $00 $00 $00 $00 $00 $E0 $E0 $28 $28 $D0 $F8 $00 $00 $FF $FF
 .db $20 $20 $DF $FF $00 $00 $FF $FF $00 $00 $FF $FF $00 $00 $FF $FF
 
-; 4th entry of Pointer Table from 1620 (indexed by v_titleScreen6FrameTileTimer)
+; 4th entry of Pointer Table from 1620 (indexed by v_sixFrameLevelTileIndex)
 ; Data from 17913 to 17952 (64 bytes)
 _DATA_17913_:
 .db $18 $08 $00 $08 $46 $44 $39 $7D $10 $10 $EF $FF $00 $00 $FF $FF
@@ -738,7 +738,7 @@ _DATA_17913_:
 .db $00 $00 $00 $00 $00 $00 $00 $00 $A0 $A0 $41 $E1 $00 $00 $FF $FF
 .db $44 $44 $BB $FF $00 $00 $FF $FF $00 $00 $FF $FF $00 $00 $FF $FF
 
-; 1st entry of Pointer Table from 162C (indexed by v_titleScreen6FrameTileTimer)
+; 1st entry of Pointer Table from 162C (indexed by v_sixFrameLevelTileIndex)
 ; Data from 17953 to 17992 (64 bytes)
 _DATA_17953_:
 .dsb 20, $00
@@ -747,7 +747,7 @@ _DATA_17953_:
 .db $18 $10 $18 $08 $CA $7E $FA $B4 $99 $FE $9F $67 $35 $FF $7D $CA
 .db $CE $FF $FF $31
 
-; 2nd entry of Pointer Table from 162C (indexed by v_titleScreen6FrameTileTimer)
+; 2nd entry of Pointer Table from 162C (indexed by v_sixFrameLevelTileIndex)
 ; Data from 17993 to 179D2 (64 bytes)
 _DATA_17993_:
 .dsb 16, $00
@@ -756,7 +756,7 @@ _DATA_17993_:
 .db $60 $20 $60 $40 $30 $F8 $F8 $C8 $CE $FC $FE $32 $40 $FF $CE $BF
 .db $AF $FF $BF $50
 
-; 3rd entry of Pointer Table from 162C (indexed by v_titleScreen6FrameTileTimer)
+; 3rd entry of Pointer Table from 162C (indexed by v_sixFrameLevelTileIndex)
 ; Data from 179D3 to 17A12 (64 bytes)
 _DATA_179D3_:
 .dsb 12, $00
@@ -765,7 +765,7 @@ _DATA_179D3_:
 .dsb 16, $00
 .db $80 $00 $80 $80 $B8 $C8 $B8 $70 $45 $FF $DD $BA $91 $FF $F3 $6E
 
-; 4th entry of Pointer Table from 162C (indexed by v_titleScreen6FrameTileTimer)
+; 4th entry of Pointer Table from 162C (indexed by v_sixFrameLevelTileIndex)
 ; Data from 17A13 to 17A52 (64 bytes)
 _DATA_17A13_:
 .dsb 12, $00
@@ -774,7 +774,7 @@ _DATA_17A13_:
 .dsb 20, $00
 .db $C1 $E1 $C1 $20 $33 $FF $7F $CC $E9 $FF $F9 $16
 
-; 1st entry of Pointer Table from 1638 (indexed by v_titleScreen4FrameTileTimer)
+; 1st entry of Pointer Table from 1638 (indexed by v_fourFrameLevelTileIndex)
 ; Data from 17A53 to 17AB2 (96 bytes)
 _DATA_17A53_:
 .dsb 24, $00
@@ -784,7 +784,7 @@ _DATA_17A53_:
 .db $FF $FF $00 $FF $BF $FF $00 $FF $EF $FF $00 $FF $55 $FF $00 $FF
 .db $BA $FF $00 $FF $D5 $FF $00 $FF
 
-; 2nd entry of Pointer Table from 1638 (indexed by v_titleScreen4FrameTileTimer)
+; 2nd entry of Pointer Table from 1638 (indexed by v_fourFrameLevelTileIndex)
 ; Data from 17AB3 to 17B12 (96 bytes)
 _DATA_17AB3_:
 .db $00 $00 $00 $00 $00 $00 $00 $00 $01 $03 $00 $03 $07 $0C $03 $0C
@@ -794,7 +794,7 @@ _DATA_17AB3_:
 .db $78 $1C $E0 $1C $FF $3F $C0 $3F $FF $FF $00 $FF $BF $FF $00 $FF
 .db $EF $FF $00 $FF $55 $FF $00 $FF $BA $FF $00 $FF $D5 $FF $00 $FF
 
-; 3rd entry of Pointer Table from 1638 (indexed by v_titleScreen4FrameTileTimer)
+; 3rd entry of Pointer Table from 1638 (indexed by v_fourFrameLevelTileIndex)
 ; Data from 17B13 to 17B72 (96 bytes)
 _DATA_17B13_:
 .db $01 $03 $00 $03 $07 $0E $01 $0E $0F $08 $07 $08 $0E $10 $0F $10
@@ -804,7 +804,7 @@ _DATA_17B13_:
 .db $FF $3F $C0 $3F $FF $FF $00 $FF $FF $FF $00 $FF $BF $FF $00 $FF
 .db $EF $FF $00 $FF $55 $FF $00 $FF $BA $FF $00 $FF $D5 $FF $00 $FF
 
-; 4th entry of Pointer Table from 1638 (indexed by v_titleScreen4FrameTileTimer)
+; 4th entry of Pointer Table from 1638 (indexed by v_fourFrameLevelTileIndex)
 ; Data from 17B73 to 17BD2 (96 bytes)
 _DATA_17B73_:
 .db $00 $00 $00 $00 $00 $00 $00 $00 $48 $48 $24 $48 $34 $24 $12 $24
@@ -814,7 +814,7 @@ _DATA_17B73_:
 .db $F0 $38 $C0 $38 $E0 $70 $80 $70 $FF $FF $00 $FF $BF $FF $00 $FF
 .db $EF $FF $00 $FF $55 $FF $00 $FF $BA $FF $00 $FF $D5 $FF $00 $FF
 
-; 1st entry of Pointer Table from 1640 (indexed by v_titleScreen4FrameTileTimer)
+; 1st entry of Pointer Table from 1640 (indexed by v_fourFrameLevelTileIndex)
 ; Data from 17BD3 to 17C32 (96 bytes)
 _DATA_17BD3_:
 .dsb 25, $00
@@ -824,7 +824,7 @@ _DATA_17BD3_:
 .db $FF $00 $FF $00 $BF $40 $FF $00 $EF $10 $FF $00 $55 $AA $FF $00
 .db $BA $45 $FF $00 $D5 $2A $FF
 
-; 2nd entry of Pointer Table from 1640 (indexed by v_titleScreen4FrameTileTimer)
+; 2nd entry of Pointer Table from 1640 (indexed by v_fourFrameLevelTileIndex)
 ; Data from 17C33 to 17C92 (96 bytes)
 _DATA_17C33_:
 .dsb 9, $00
@@ -835,7 +835,7 @@ _DATA_17C33_:
 .db $FF $00 $FF $00 $BF $40 $FF $00 $EF $10 $FF $00 $55 $AA $FF $00
 .db $BA $45 $FF $00 $D5 $2A $FF
 
-; 3rd entry of Pointer Table from 1640 (indexed by v_titleScreen4FrameTileTimer)
+; 3rd entry of Pointer Table from 1640 (indexed by v_fourFrameLevelTileIndex)
 ; Data from 17C93 to 17CF2 (96 bytes)
 _DATA_17C93_:
 .db $00 $01 $02 $03 $01 $06 $08 $0F $07 $08 $00 $0F $0F $00 $10 $1E
@@ -845,7 +845,7 @@ _DATA_17C93_:
 .db $C0 $3F $00 $FF $00 $FF $00 $FF $00 $FF $00 $FF $00 $BF $40 $FF
 .db $00 $EF $10 $FF $00 $55 $AA $FF $00 $BA $45 $FF $00 $D5 $2A $FF
 
-; 4th entry of Pointer Table from 1640 (indexed by v_titleScreen4FrameTileTimer)
+; 4th entry of Pointer Table from 1640 (indexed by v_fourFrameLevelTileIndex)
 ; Data from 17CF3 to 17D52 (96 bytes)
 _DATA_17CF3_:
 .db $00 $00 $00 $00 $12 $24 $00 $24 $02 $24 $00 $26 $00 $03 $00 $03
@@ -855,7 +855,7 @@ _DATA_17CF3_:
 .db $C0 $30 $08 $F8 $80 $60 $10 $F0 $00 $FF $00 $FF $00 $BF $40 $FF
 .db $00 $EF $10 $FF $00 $55 $AA $FF $00 $BA $45 $FF $00 $D5 $2A $FF
 
-; 1st entry of Pointer Table from 1648 (indexed by v_titleScreen4FrameTileTimer)
+; 1st entry of Pointer Table from 1648 (indexed by v_fourFrameLevelTileIndex)
 ; Data from 17D53 to 17DB2 (96 bytes)
 _DATA_17D53_:
 .dsb 24, $00
@@ -865,7 +865,7 @@ _DATA_17D53_:
 .db $FF $00 $FF $FF $BF $40 $FF $FF $EF $10 $FF $FF $55 $AA $FF $FF
 .db $BA $45 $FF $FF $D5 $2A $FF $FF
 
-; 2nd entry of Pointer Table from 1648 (indexed by v_titleScreen4FrameTileTimer)
+; 2nd entry of Pointer Table from 1648 (indexed by v_fourFrameLevelTileIndex)
 ; Data from 17DB3 to 17E12 (96 bytes)
 _DATA_17DB3_:
 .db $00 $00 $00 $00 $00 $00 $00 $00 $01 $02 $03 $03 $07 $08 $0F $0C
@@ -875,7 +875,7 @@ _DATA_17DB3_:
 .db $78 $04 $FC $1C $FF $00 $FF $3F $FF $00 $FF $FF $BF $40 $FF $FF
 .db $EF $10 $FF $FF $55 $AA $FF $FF $BA $45 $FF $FF $D5 $2A $FF $FF
 
-; 3rd entry of Pointer Table from 1648 (indexed by v_titleScreen4FrameTileTimer)
+; 3rd entry of Pointer Table from 1648 (indexed by v_fourFrameLevelTileIndex)
 ; Data from 17E13 to 17E72 (96 bytes)
 _DATA_17E13_:
 .db $01 $02 $03 $03 $07 $08 $0F $0E $0F $00 $0F $08 $0E $10 $1F $10
@@ -885,7 +885,7 @@ _DATA_17E13_:
 .db $FF $00 $FF $3F $FF $00 $FF $FF $FF $00 $FF $FF $BF $40 $FF $FF
 .db $EF $10 $FF $FF $55 $AA $FF $FF $BA $45 $FF $FF $D5 $2A $FF $FF
 
-; 4th entry of Pointer Table from 1648 (indexed by v_titleScreen4FrameTileTimer)
+; 4th entry of Pointer Table from 1648 (indexed by v_fourFrameLevelTileIndex)
 ; Data from 17E73 to 17FFF (397 bytes)
 _DATA_17E73_:
 .db $00 $00 $00 $00 $00 $00 $00 $00 $48 $00 $6C $48 $34 $00 $36 $24

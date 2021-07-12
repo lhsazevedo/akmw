@@ -193,7 +193,7 @@ handleInterrupt:
     rrca
     push af
     call readInput
-    call _LABEL_107C_
+    call updatePalette
     pop af
     rrca
     push af
@@ -1006,6 +1006,11 @@ divideHLByE:
 .INCLUDE "engine/states/gameplay/handleInterrupt.asm"
 .INCLUDE "engine/states/gameplay/init.asm"
 
+.INCLUDE "data/levels/scrollFlagsUpdatersPointers.asm"
+.INCLUDE "data/levels/paletteUpdatersPointers.asm"
+.INCLUDE "data/levels/entityLoadersPointers.asm"
+.INCLUDE "data/levels/shopDoorsConfigs.asm"
+.INCLUDE "data/levels/startingPositions.asm"
 .INCLUDE "data/levels/songs.asm"
 .INCLUDE "data/questionMarkBoxItems.asm"
 .INCLUDE "data/levels/spawnStates.asm"
@@ -1051,98 +1056,41 @@ _LABEL_E4B_:
     inc hl
     jp _LABEL_E4B_
 
-loadLevelTiles:
-    ld hl, tiles_bagOfGoldCoinsAndCloud
-    ld de, $44A0
-    call decompress4BitplanesToVRAM
-    ld a, (v_level)
-    ld hl, tilesetLoadersPointers - 2
-    rst jumpToAthPointer
-    ret
-
+.INCLUDE "engine/loadLevelTiles.asm"
 .INCLUDE "tilesetLoaders.asm"
 
-_LABEL_107C_:
-    ld a, (v_gameState)
-    cp STATE_CHANGED | STATE_JANKEN_GAME
-    ret c
-
-    cp STATE_CHANGED | STATE_MAP
-    ret z
-
-    ld hl, (paletteUpdaterPointer)
-    jp (hl)
-
+.INCLUDE "engine/updatePalette.asm"
 .INCLUDE "paletteUpdaters.asm"
 
-loadLevelPalette:
-    ld a, $80 | :mtEthernalStage1Palette
-    ld (Mapper_Slot2), a
-
-    ld a, (v_level)
-    ld hl, levelPalettesPointers - 2
-    rst loadAthPointer
-    ld de, $C000
-    ld b, $20
-    rst memcpyToVRAM
-    ret
-
+.INCLUDE "engine/loadLevelPalette.asm"
 .INCLUDE "data/levels/palettePointers.asm"
 
-loadLevelSpriteTiles:
-    ld a, $87
-    ld (Mapper_Slot2), a
-    ld a, (v_level)
-    ld hl, spriteTilesLoadersPointers - 2
-    jp jumpToAthPointer
-
+.INCLUDE "engine/loadLevelSpriteTiles.asm"
 .INCLUDE "spriteTileLoaders.asm"
 
-; Jump Table from 156D to 158E (17 entries, indexed by v_level)
-; @TODO
-_DATA_156D_:
-.dw _LABEL_15D2_ _LABEL_15DF_ _LABEL_15D2_ _LABEL_15EC_ _LABEL_15D2_ _LABEL_15DF_ _LABEL_1612_ _LABEL_161F_
-.dw _LABEL_15D2_ _LABEL_15DF_ _LABEL_161F_ _LABEL_161F_ _LABEL_15DF_ _LABEL_161F_ _LABEL_15DF_ _LABEL_15F9_
-.dw _LABEL_15D2_
+.INCLUDE "data/levels/tileUpdatersPointers.asm"
+.INCLUDE "engine/updateLevelTiles.asm"
 
-_LABEL_158F_:
-    ld hl, v_shouldUpdateTitlescreenLevelTiles
-    ld a, (hl)
-    ld (hl), $00
-    or a
-    jp z, +
-    ld hl, v_titleScreenTileUpdateTimer
-    dec (hl)
-    ret nz
-    inc (hl)
-+:
-    ld hl, v_titleScreenTileUpdateTimer
-    dec (hl)
-    ret nz
-    ld (hl), $12
-    ld a, $85
-    ld (Mapper_Slot2), a
-    ld hl, (v_titleScreenTileUpdaterPointer)
-    jp (hl)
-
-_LABEL_15AF_:
-    ld hl, v_titleScreen4FrameTileTimer
+getFourFrameTileAddress:
+    ld hl, v_fourFrameLevelTileIndex
     inc (hl)
     ld a, (hl)
     cp $04
-    jp c, ++
-    jp +
+    jp c, getAnimatedTileAddress
+    jp resetAnimatedTileTimer
 
-_LABEL_15BC_:
-    ld hl, v_titleScreen6FrameTileTimer
+getSixFrameTileAddress:
+    ld hl, v_sixFrameLevelTileIndex
     inc (hl)
     ld a, (hl)
     cp $06
-    jp c, ++
-+:
+    jp c, getAnimatedTileAddress
+
+resetAnimatedTileTimer:
     xor a
     ld (hl), a
-++:
+
+getAnimatedTileAddress:
     add a, a
     ld l, a
     ld h, $00
@@ -1154,76 +1102,76 @@ _LABEL_15BC_:
     ret
 
 ; 1st entry of Jump Table from 156D (indexed by v_level)
-_LABEL_15D2_:
+updateWaterTilesA:
     ld de, _DATA_1620_
-    call _LABEL_15BC_
+    call getSixFrameTileAddress
     ld de, $5100
     ld b, $40
     rst memcpyToVRAM
     ret
 
 ; 2nd entry of Jump Table from 156D (indexed by v_level)
-_LABEL_15DF_:
+updateSwampTiles:
     ld de, _DATA_162C_
-    call _LABEL_15BC_
+    call getSixFrameTileAddress
     ld de, $48C0
     ld b, $40
     rst memcpyToVRAM
     ret
 
 ; 4th entry of Jump Table from 156D (indexed by v_level)
-_LABEL_15EC_:
+updateLavaTilesA:
     ld de, _DATA_1638_
-    call _LABEL_15AF_
+    call getFourFrameTileAddress
     ld de, $49E0
     ld b, $60
     rst memcpyToVRAM
     ret
 
 ; 16th entry of Jump Table from 156D (indexed by v_level)
-_LABEL_15F9_:
+updateWaterTilesB:
     ld de, _DATA_1640_
-    call _LABEL_15AF_
+    call getFourFrameTileAddress
     ld de, $48A0
     ld b, $60
     rst memcpyToVRAM
     ld de, _DATA_1620_
-    call _LABEL_15BC_
+    call getSixFrameTileAddress
     ld de, $5100
     ld b, $40
     rst memcpyToVRAM
     ret
 
 ; 7th entry of Jump Table from 156D (indexed by v_level)
-_LABEL_1612_:
+updateLavaTilesB:
     ld de, _DATA_1648_
-    call _LABEL_15AF_
+    call getFourFrameTileAddress
     ld de, $4B40
     ld b, $60
     rst memcpyToVRAM
     ret
 
 ; 8th entry of Jump Table from 156D (indexed by v_level)
-_LABEL_161F_:
+doNotUpdateTiles:
     ret
 
-; Pointer Table from 1620 to 162B (6 entries, indexed by v_titleScreen6FrameTileTimer)
+; Pointer Table from 1620 to 162B (6 entries, indexed by v_sixFrameLevelTileIndex)
 _DATA_1620_:
 .dw _DATA_17853_ _DATA_17893_ _DATA_178D3_ _DATA_17913_ _DATA_178D3_ _DATA_17893_
 
-; Pointer Table from 162C to 1637 (6 entries, indexed by v_titleScreen6FrameTileTimer)
+; Pointer Table from 162C to 1637 (6 entries, indexed by v_sixFrameLevelTileIndex)
 _DATA_162C_:
 .dw _DATA_17953_ _DATA_17993_ _DATA_179D3_ _DATA_17A13_ _DATA_179D3_ _DATA_17993_
 
-; Pointer Table from 1638 to 163F (4 entries, indexed by v_titleScreen4FrameTileTimer)
+; Pointer Table from 1638 to 163F (4 entries, indexed by v_fourFrameLevelTileIndex)
 _DATA_1638_:
 .dw _DATA_17A53_ _DATA_17AB3_ _DATA_17B13_ _DATA_17B73_
 
-; Pointer Table from 1640 to 1647 (4 entries, indexed by v_titleScreen4FrameTileTimer)
+; Pointer Table from 1640 to 1647 (4 entries, indexed by v_fourFrameLevelTileIndex)
 _DATA_1640_:
 .dw _DATA_17BD3_ _DATA_17C33_ _DATA_17C93_ _DATA_17CF3_
 
-; Pointer Table from 1648 to 164F (4 entries, indexed by v_titleScreen4FrameTileTimer)
+; Pointer Table from 1648 to 164F (4 entries, indexed by v_fourFrameLevelTileIndex)
 _DATA_1648_:
 .dw _DATA_17D53_ _DATA_17DB3_ _DATA_17E13_ _DATA_17E73_
 
@@ -2383,7 +2331,7 @@ _LABEL_41B3_:
     cp (hl)
     ret z
     ld (hl), a
-    ld hl, v_shouldUpdateTitlescreenLevelTiles
+    ld hl, v_shouldUpdateLevelTiles
     ld (hl), $01
 
 ; Load tiles from Alex tile descriptors to VRAM $2000.

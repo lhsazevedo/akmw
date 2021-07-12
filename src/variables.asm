@@ -260,11 +260,11 @@ _RAM_C21B_ dw
 .ende
 
 .enum $C220 export
-v_titleScreenTileUpdateTimer db
-v_titleScreen4FrameTileTimer db
-v_titleScreen6FrameTileTimer db
-v_titleScreenTileUpdaterPointer dw
-v_shouldUpdateTitlescreenLevelTiles db
+v_levelTileUpdateTimer db
+v_fourFrameLevelTileIndex db
+v_sixFrameLevelTileIndex db
+v_levelTileUpdaterPointer dw
+v_shouldUpdateLevelTiles db
 v_titleScreenTimer db
 v_currentTitleScreen db
 v_titleScreenLogoTimer db
