@@ -26,24 +26,24 @@ loadMtEthernalTileset:
     ld hl, levelMainTilesetPointers - 2
     rst loadAthPointer
     ld de, $4720
-    call decompress4BitplanesToVRAM
+    call decompressTilesToVRAM
     ld hl, tiles_aditionalSet4
     ld de, $4E60
     ld b, $A0
     rst memcpyToVRAM
     ld hl, tiles_aditionalSet1
     ld de, $4F00
-    jp decompress4BitplanesToVRAM
+    jp decompressTilesToVRAM
 
 loadTheBlakwoodsTileset:
     ld hl, tiles_aditionalSet2
     ld de, $4EC0
-    call decompress4BitplanesToVRAM
+    call decompressTilesToVRAM
     ld a, (v_level)
     ld hl, levelMainTilesetPointers - 2
     rst loadAthPointer
     ld de, $46A0
-    jp decompress4BitplanesToVRAM
+    jp decompressTilesToVRAM
 
 loadJankensCastleTileset:
     ld de, $46A0
@@ -54,10 +54,10 @@ loadJankensCastleTileset:
     ld hl, levelMainTilesetPointers - 2
     rst loadAthPointer
     ld de, $4720
-    call decompress4BitplanesToVRAM
+    call decompressTilesToVRAM
     ld hl, tiles_aditionalSet1
     ld de, $4F00
-    jp decompress4BitplanesToVRAM
+    jp decompressTilesToVRAM
 
 loadBingooLowlandTileset:
     ld de, $46A0
@@ -68,10 +68,10 @@ loadBingooLowlandTileset:
     ld hl, levelMainTilesetPointers - 2
     rst loadAthPointer
     ld de, $4720
-    call decompress4BitplanesToVRAM
+    call decompressTilesToVRAM
     ld hl, tiles_aditionalSet2
     ld de, $4EC0
-    jp decompress4BitplanesToVRAM
+    jp decompressTilesToVRAM
 
 loadLakeFathomTileset:
     ld de, $46A0
@@ -82,17 +82,17 @@ loadLakeFathomTileset:
     ld hl, levelMainTilesetPointers - 2
     rst loadAthPointer
     ld de, $48A0
-    call decompress4BitplanesToVRAM
+    call decompressTilesToVRAM
     ld hl, tiles_aditionalSet5
     ld de, $4D00
-    call decompress4BitplanesToVRAM
+    call decompressTilesToVRAM
     ld hl, tiles_aditionalSet4
     ld de, $4E60
     ld b, $A0
     rst memcpyToVRAM
     ld hl, tiles_aditionalSet1
     ld de, $4F00
-    jp decompress4BitplanesToVRAM
+    jp decompressTilesToVRAM
 
 loadTheIslandOfStNurariTileset:
     ld de, $46A0
@@ -103,7 +103,7 @@ loadTheIslandOfStNurariTileset:
     ld hl, levelMainTilesetPointers - 2
     rst loadAthPointer
     ld de, $4720
-    jp decompress4BitplanesToVRAM
+    jp decompressTilesToVRAM
 
 loadTheVillageOfNamuiTileset:
     ld de, $46A0
@@ -114,24 +114,24 @@ loadTheVillageOfNamuiTileset:
     ld hl, $847E
     rst loadAthPointer
     ld de, $4720
-    call decompress4BitplanesToVRAM
+    call decompressTilesToVRAM
     ld a, (v_level)
     ld hl, levelMainTilesetPointers - 2
     rst loadAthPointer
     ld de, $4920
-    call decompress4BitplanesToVRAM
+    call decompressTilesToVRAM
     ld hl, tiles_aditionalSet2
     ld de, $4EC0
-    jp decompress4BitplanesToVRAM
+    jp decompressTilesToVRAM
 
 loadLakeFathomPart2Tileset:
     call loadMtEthernalTileset
     ld hl, tiles_aditionalSet5
     ld de, $4D00
-    call decompress4BitplanesToVRAM
+    call decompressTilesToVRAM
     ld hl, tiles_aditionalSet3
     ld de, $47A0
-    jp decompress4BitplanesToVRAM
+    jp decompressTilesToVRAM
 
 loadMtKaveTileset:
     ld de, $46A0
@@ -142,7 +142,7 @@ loadMtKaveTileset:
     ld hl, levelMainTilesetPointers - 2
     rst loadAthPointer
     ld de, $4720
-    jp decompress4BitplanesToVRAM
+    jp decompressTilesToVRAM
 
 loadRiverTileset:
     ld de, $46A0
@@ -153,16 +153,16 @@ loadRiverTileset:
     ld hl, levelMainTilesetPointers - 2
     rst loadAthPointer
     ld de, $4720
-    call decompress4BitplanesToVRAM
+    call decompressTilesToVRAM
     ld hl, tiles_aditionalSet5
     ld de, $4D00
-    call decompress4BitplanesToVRAM
+    call decompressTilesToVRAM
     ld hl, tiles_aditionalSet1
     ld de, $4F00
-    call decompress4BitplanesToVRAM
+    call decompressTilesToVRAM
     ld hl, tiles_aditionalSet3
     ld de, $47A0
-    jp decompress4BitplanesToVRAM
+    jp decompressTilesToVRAM
 
 loadMtEthernalStage2Tileset:
     ld de, $46A0
@@ -173,13 +173,13 @@ loadMtEthernalStage2Tileset:
     ld hl, $847E
     rst loadAthPointer
     ld de, $4720
-    call decompress4BitplanesToVRAM
+    call decompressTilesToVRAM
     ld hl, tiles_aditionalSet2
     ld de, $4EC0
-    call decompress4BitplanesToVRAM
+    call decompressTilesToVRAM
     ld hl, tiles_aditionalSet3
     ld de, $47A0
-    jp decompress4BitplanesToVRAM
+    jp decompressTilesToVRAM
 
 loadCraggLakeTileset:
     ld de, $46A0
@@ -190,18 +190,18 @@ loadCraggLakeTileset:
     ld hl, $847E
     rst loadAthPointer
     ld de, $48A0
-    call decompress4BitplanesToVRAM
+    call decompressTilesToVRAM
     ld a, (v_level)
     ld hl, levelMainTilesetPointers - 2
     rst loadAthPointer
     ld de, $4AA0
-    call decompress4BitplanesToVRAM
+    call decompressTilesToVRAM
     ld hl, tiles_level17AditionalSet
     ld de, $4720
-    call decompress4BitplanesToVRAM
+    call decompressTilesToVRAM
     ld hl, tiles_aditionalSet1
     ld de, $4F00
-    jp decompress4BitplanesToVRAM
+    jp decompressTilesToVRAM
 
 loadTheKingdomOfNibanaPart1Tileset:
     ld de, $46A0
@@ -212,9 +212,9 @@ loadTheKingdomOfNibanaPart1Tileset:
     ld hl, $847E
     rst loadAthPointer
     ld de, $4720
-    call decompress4BitplanesToVRAM
+    call decompressTilesToVRAM
     ld a, (v_level)
     ld hl, levelMainTilesetPointers - 2
     rst loadAthPointer
     ld de, $4DA0
-    jp decompress4BitplanesToVRAM
+    jp decompressTilesToVRAM

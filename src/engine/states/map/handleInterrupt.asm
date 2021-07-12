@@ -46,7 +46,7 @@ _LABEL_1FE9_:
     ld (Mapper_Slot2), a
     ld hl, _DATA_172B1_
     ld de, $5600
-    call decompress4BitplanesToVRAM
+    call decompressTilesToVRAM
     ld a, $87
     ld (Mapper_Slot2), a
     ld a, (_RAM_C054_)
@@ -306,7 +306,7 @@ initMapState:
     ld (Mapper_Slot2), a
     ld hl, mapTiles
     ld de, $4000
-    call decompress4BitplanesToVRAM
+    call decompressTilesToVRAM
     ld hl, _DATA_16F11_
     ld de, $5980
     ld bc, $01C0
@@ -319,7 +319,7 @@ initMapState:
     ld (Mapper_Slot2), a
     ld hl, _DATA_1C000_
     ld de, $5F80
-    call decompress4BitplanesToVRAM
+    call decompressTilesToVRAM
     ld hl, _DATA_1C3C9_
     ld de, $5B20
     ld bc, $0080
@@ -690,7 +690,7 @@ _LABEL_25D3_:
     ld (hl), $00
     ld bc, $06FF
     ldir
-    ld hl, hirottaStoneCloseupPalette
+    ld hl, hirottaStoneCloseUpPalette
     ld de, $C000
     ld bc, $0020
     call copyBytesToVRAM
@@ -702,7 +702,7 @@ _LABEL_25D3_:
     call copyNameTableBlockToVRAM
     ld hl, _DATA_15AD4_
     ld de, $4000
-    call decompress4BitplanesToVRAM
+    call decompressTilesToVRAM
     ld a, $82
     ld (Mapper_Slot2), a
     ld ix, _RAM_CF80_

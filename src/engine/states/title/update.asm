@@ -46,7 +46,7 @@ updateTitleScreenState:
     ; Loag tiles
     ld hl, titleScreenTiles
     ld de, $4020
-    call decompress4BitplanesToVRAM
+    call decompressTilesToVRAM
 
     ; Load logo nametable
     ld hl, logoTopNametable

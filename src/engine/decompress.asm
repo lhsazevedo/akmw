@@ -1,20 +1,18 @@
-decompress4BitplanesToVRAM:
+decompressTilesToVRAM:
     ld b, $04
--:
+@bitplaneLoop:
     push bc
     push de
-    call decompressBitplaneToVRAM
+    call @bitplane
     pop de
     inc de
     pop bc
-    djnz -
+    djnz @bitplaneLoop
     ret
 
 ; Alex Kidd in Miracle World uses "Phantasy Star RLE" for tile data compression
 ; This function decompresses data from HL to VRAM DE.
-;
-; _LABEL_2A0_
-decompressBitplaneToVRAM:
+@bitplane:
     ld a, (hl)
     inc hl
     ; Return if we hit $0000
@@ -25,7 +23,7 @@ decompressBitplaneToVRAM:
     ; c = Run type control bit
     ld c, a
     res 7, b
--:
+@dataLoop:
     ld a, e
     out (Port_VDPAddress), a
     ld a, d
@@ -34,14 +32,14 @@ decompressBitplaneToVRAM:
     out (Port_VDPData), a
     ; If identical bytes, skip address increment
     bit 7, c
-    jp z, +
+    jp z, @skipSourceIncrement
     inc hl
-+:
+@skipSourceIncrement:
     inc de
     inc de
     inc de
     inc de
-    djnz -
-    jp nz, decompressBitplaneToVRAM
+    djnz @dataLoop
+    jp nz, @bitplane
     inc hl
-    jp decompressBitplaneToVRAM
+    jp @bitplane

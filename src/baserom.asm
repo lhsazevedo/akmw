@@ -1016,45 +1016,7 @@ divideHLByE:
 .INCLUDE "data/levels/spawnStates.asm"
 .INCLUDE "data/levels/questionMarkBoxIndexes.asm"
 
-; Probably decompress shop nametable entries
-_LABEL_E41_:
-    push de
-    call _LABEL_E4B_
-    inc hl
-    pop de
-    inc de
-    jp _LABEL_E4B_
-
-_LABEL_E4B_:
-    ld a, (hl)
-    or a
-    ret z
-
-    bit 7, a
-    jr nz, +
-    ld b, a
-    inc hl
-    ld a, (hl)
--:
-    ld (de), a
-    inc de
-    inc de
-    djnz -
-    inc hl
-    jp _LABEL_E4B_
-
-+:
-    and $7F
-    ld b, a
--:
-    inc hl
-    ld a, (hl)
-    ld (de), a
-    inc de
-    inc de
-    djnz -
-    inc hl
-    jp _LABEL_E4B_
+.INCLUDE "engine/decompressNametable.asm"
 
 .INCLUDE "engine/loadLevelTiles.asm"
 .INCLUDE "tilesetLoaders.asm"
@@ -1071,109 +1033,7 @@ _LABEL_E4B_:
 .INCLUDE "data/levels/tileUpdatersPointers.asm"
 .INCLUDE "engine/updateLevelTiles.asm"
 
-getFourFrameTileAddress:
-    ld hl, v_fourFrameLevelTileIndex
-    inc (hl)
-    ld a, (hl)
-    cp $04
-    jp c, getAnimatedTileAddress
-    jp resetAnimatedTileTimer
-
-getSixFrameTileAddress:
-    ld hl, v_sixFrameLevelTileIndex
-    inc (hl)
-    ld a, (hl)
-    cp $06
-    jp c, getAnimatedTileAddress
-
-resetAnimatedTileTimer:
-    xor a
-    ld (hl), a
-
-getAnimatedTileAddress:
-    add a, a
-    ld l, a
-    ld h, $00
-    add hl, de
-    ld a, (hl)
-    inc hl
-    ld h, (hl)
-    ld l, a
-    ret
-
-; 1st entry of Jump Table from 156D (indexed by v_level)
-updateWaterTilesA:
-    ld de, _DATA_1620_
-    call getSixFrameTileAddress
-    ld de, $5100
-    ld b, $40
-    rst memcpyToVRAM
-    ret
-
-; 2nd entry of Jump Table from 156D (indexed by v_level)
-updateSwampTiles:
-    ld de, _DATA_162C_
-    call getSixFrameTileAddress
-    ld de, $48C0
-    ld b, $40
-    rst memcpyToVRAM
-    ret
-
-; 4th entry of Jump Table from 156D (indexed by v_level)
-updateLavaTilesA:
-    ld de, _DATA_1638_
-    call getFourFrameTileAddress
-    ld de, $49E0
-    ld b, $60
-    rst memcpyToVRAM
-    ret
-
-; 16th entry of Jump Table from 156D (indexed by v_level)
-updateWaterTilesB:
-    ld de, _DATA_1640_
-    call getFourFrameTileAddress
-    ld de, $48A0
-    ld b, $60
-    rst memcpyToVRAM
-    ld de, _DATA_1620_
-    call getSixFrameTileAddress
-    ld de, $5100
-    ld b, $40
-    rst memcpyToVRAM
-    ret
-
-; 7th entry of Jump Table from 156D (indexed by v_level)
-updateLavaTilesB:
-    ld de, _DATA_1648_
-    call getFourFrameTileAddress
-    ld de, $4B40
-    ld b, $60
-    rst memcpyToVRAM
-    ret
-
-; 8th entry of Jump Table from 156D (indexed by v_level)
-doNotUpdateTiles:
-    ret
-
-; Pointer Table from 1620 to 162B (6 entries, indexed by v_sixFrameLevelTileIndex)
-_DATA_1620_:
-.dw _DATA_17853_ _DATA_17893_ _DATA_178D3_ _DATA_17913_ _DATA_178D3_ _DATA_17893_
-
-; Pointer Table from 162C to 1637 (6 entries, indexed by v_sixFrameLevelTileIndex)
-_DATA_162C_:
-.dw _DATA_17953_ _DATA_17993_ _DATA_179D3_ _DATA_17A13_ _DATA_179D3_ _DATA_17993_
-
-; Pointer Table from 1638 to 163F (4 entries, indexed by v_fourFrameLevelTileIndex)
-_DATA_1638_:
-.dw _DATA_17A53_ _DATA_17AB3_ _DATA_17B13_ _DATA_17B73_
-
-; Pointer Table from 1640 to 1647 (4 entries, indexed by v_fourFrameLevelTileIndex)
-_DATA_1640_:
-.dw _DATA_17BD3_ _DATA_17C33_ _DATA_17C93_ _DATA_17CF3_
-
-; Pointer Table from 1648 to 164F (4 entries, indexed by v_fourFrameLevelTileIndex)
-_DATA_1648_:
-.dw _DATA_17D53_ _DATA_17DB3_ _DATA_17E13_ _DATA_17E73_
+.INCLUDE "tileUpdaters.asm"
 
 .INCLUDE "engine/states/bonus/update.asm"
 .INCLUDE "engine/states/bonus/handleInterrupt.asm"
@@ -1189,9 +1049,7 @@ _DATA_1648_:
 .INCLUDE "entities/arrow/update.asm"
 .INCLUDE "entities/jankensCastle/update.asm"
 
-levelStartingPalette:
-.db $00 $2F $0B $06 $01 $0C $08 $04 $3F $3E $38 $03 $30 $00 $0F $00
-
+.INCLUDE "data/levelStartingPalette.asm"
 
 .INCLUDE "data/mapArrowPositions.asm"
 
@@ -1201,6 +1059,7 @@ levelStartingPalette:
 .INCLUDE "engine/states/map/update.asm"
 .INCLUDE "engine/states/map/handleInterrupt.asm"
 
+; @TODO: Uses _RAM_C054_
 _LABEL_264F_:
     ld a, (_RAM_C054_)
     or a
@@ -1224,47 +1083,13 @@ _LABEL_264F_:
     ld de, $C014
     jp writeAToVRAM
 
-; Data from 2674 to 2693 (32 bytes)
-; Used on map interrupt
-hirottaStoneCloseupPalette:
-.db $30 $00 $3F $2A $25 $0F $03 $0B $3C $02 $00 $00 $00 $00 $00 $00
-.db $30 $00 $3F $2A $25 $0F $03 $0B $3C $02 $00 $00 $00 $00 $00 $00
+.INCLUDE "data/hirottaStoneCloseUpPalette.asm"
 
 .INCLUDE "engine/entity/entity.asm"
 
 .INCLUDE "entities/updatersPointers.asm"
 
 .INCLUDE "entities/alex/updater.asm"
-
-alexStateHandlersPointers:
-.dw updateAlexSpawningAtCenter
-.dw updateAlexIdle
-.dw updateAlexWalking
-.dw updateAlexInAir
-.dw updateAlexCrouched
-.dw updateAlexSwiming
-.dw updateAlexFlyingPeticopter
-.dw alexHandler_336F
-.dw updateAlexRidingMotorcycle
-.dw alexHandler_302F
-.dw alexHandler_3256
-.dw updateAlexRidingBoat
-.dw updateAlexRidingBoatInAir
-.dw alexHandler_3180
-.dw alexHandler_31A8
-.dw updateAlexDead
-.dw alexHandler_3340
-.dw alexHandler_31CC
-.dw alexHandler_3223
-.dw alexHandler_38C5
-.dw updateAutoWalkingRight
-.dw alexHandler_3919
-.dw alexHandler_3961
-.dw alexHandler_39A5
-.dw alexHandler_3949
-.dw alexHandler_39B4
-.dw alexHandler_39D4
-.dw alexHandler_38C2
 
 .INCLUDE "entities/alex/updaters/updateSpawning.asm"
 
@@ -4908,7 +4733,7 @@ prepareForBattle:
     ld hl, battleTiles
     ld de, $7000
     di
-    jp decompress4BitplanesToVRAM
+    jp decompressTilesToVRAM
 
 drawAlexName_LABEL_7941_:
     ; Backup nametable to draw names

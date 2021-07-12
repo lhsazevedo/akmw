@@ -68,7 +68,7 @@ initGameplayState:
     ld (Mapper_Slot2), a
     ld de, $5600
     ld hl, _DATA_172B1_
-    call decompress4BitplanesToVRAM
+    call decompressTilesToVRAM
 
     ; Load boxes tiles
     ld a, $83
