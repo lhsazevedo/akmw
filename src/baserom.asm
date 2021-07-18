@@ -84,8 +84,8 @@ gameStateMainLoopPointers:
 .dw updateLifeLostState
 .dw updateTextBoxState
 .dw updateBonusLevelState
-.dw updateGameplayState
-.dw updateGameplayState
+.dw initOrUpdateGameplayState
+.dw initOrUpdateGameplayState
 .dw updateMapState
 
 initMainLoop:
@@ -3699,6 +3699,7 @@ _LABEL_67C4_:
     ld a, d
     or e
     jp z, _LABEL_69CB_
+
     ld a, $0C
     ld (v_linesToLoadToNametable), a
     ld bc, (_RAM_C0AD_)
@@ -3989,6 +3990,7 @@ _LABEL_69CB_:
     ld a, d
     or e
     ret z
+
     ld a, $10
     ld (v_columnsToLoadToNametable), a
     ld bc, (_RAM_C0BB_)

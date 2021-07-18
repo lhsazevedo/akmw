@@ -2,7 +2,7 @@
 updateDemoState:
     ld hl, v_gameState
     bit 7, (hl)
-    jp nz, _LABEL_A8E_
+    jp nz, updateGameplayState
     set 7, (hl)
     ld a, (v_nextDemoIndex)
     inc a

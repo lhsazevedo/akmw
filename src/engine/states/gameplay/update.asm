@@ -1,16 +1,19 @@
-; 10th entry of Jump Table from 3B (indexed by v_gameState)
-updateGameplayState:
+initOrUpdateGameplayState:
     exx
     bit 7, (hl)
     jp z, initGameplayState
-_LABEL_A8E_:
+
+updateGameplayState:
     call updateScrollFlags
     call loadNewEntities
     call updateEntities
+
     ; Somothing related to scrolling
     call _LABEL_67C4_
+
     ; Something related to nametable
     call _LABEL_6B49_
+
     ld a, $09
     call waitForInterrupt
 
