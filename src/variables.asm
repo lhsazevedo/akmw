@@ -253,7 +253,7 @@ _RAM_C211_ dw
 _RAM_C213_ db
 v_nextGhostSpawnTimer db
 v_hasBattleStarted db
-_RAM_C216_ db
+v_hasBattleEnded db
 v_BattleOpponentDecisionIndex db
 _RAM_C218_ db
 _RAM_C219_ dw

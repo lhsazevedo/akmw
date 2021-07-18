@@ -6,8 +6,7 @@ updateBattleInit:
 
     ; a = 0
     xor a
-    ; _RAM_C216_ is checked on some janken result thing
-    ld (_RAM_C216_), a
+    ld (v_hasBattleEnded), a
     ld (v_hasBattleStarted), a
 
     ; a = 1

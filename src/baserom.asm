@@ -4801,7 +4801,7 @@ restoreSomeNametableStuff_LABEL_796D_:
     ldir
 
     ld a, $01
-    ld (_RAM_C216_), a
+    ld (v_hasBattleEnded), a
 
     ret
 
