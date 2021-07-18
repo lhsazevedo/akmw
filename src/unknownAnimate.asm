@@ -43,7 +43,7 @@ unknownAnimateState1Updater:
 
     ld e, a
     ld l, (ix + Entity.unknown9)
-    call _LABEL_74C_
+    call multiply
     ld a, (ix + Entity.unknown10)
     add a, h
     ld (ix + Entity.yPos.high), a
@@ -57,7 +57,7 @@ unknownAnimateState1Updater:
     inc hl
     ld l, (hl)
     ld e, (ix + Entity.unknown9)
-    call _LABEL_74C_
+    call multiply
     ld a, (ix + Entity.unknown11)
     add a, h
     ld (ix + Entity.xPos.high), a
@@ -80,7 +80,7 @@ unknownAnimateState2Updater:
     exx
     ld e, a
     ld l, (ix + Entity.unknown9)
-    call _LABEL_74C_
+    call multiply
     ld a, (ix+31)
     add a, h
     ld (ix + Entity.xPos.high), a
@@ -91,7 +91,7 @@ unknownAnimateState2Updater:
     inc hl
     ld l, (hl)
     ld e, (ix + Entity.unknown9)
-    call _LABEL_74C_
+    call multiply
     ld a, (ix + Entity.unknown10)
     add a, h
     ld (ix + Entity.yPos.high), a
@@ -108,7 +108,7 @@ unknownAnimateState3Updater:
     exx
     ld e, a
     ld l, (ix + Entity.unknown9)
-    call _LABEL_74C_
+    call multiply
     ld a, (ix+31)
     sub h
     ld (ix + Entity.xPos.high), a
@@ -119,7 +119,7 @@ unknownAnimateState3Updater:
     inc hl
     ld l, (hl)
     ld e, (ix + Entity.unknown9)
-    call _LABEL_74C_
+    call multiply
     ld a, (ix + Entity.unknown10)
     add a, h
     ld (ix + Entity.yPos.high), a
@@ -140,7 +140,7 @@ unknownAnimateState4Updater:
     exx
     ld e, a
     ld l, (ix + Entity.unknown9)
-    call _LABEL_74C_
+    call multiply
     ld a, (ix + Entity.unknown10)
     add a, h
     ld (ix + Entity.yPos.high), a
@@ -151,7 +151,7 @@ unknownAnimateState4Updater:
     inc hl
     ld l, (hl)
     ld e, (ix + Entity.unknown9)
-    call _LABEL_74C_
+    call multiply
     ld a, (ix + Entity.unknown11)
     sub h
     ld (ix + Entity.xPos.high), a
@@ -168,7 +168,7 @@ unknownAnimateState5Updater:
     exx
     ld e, a
     ld l, (ix + Entity.unknown9)
-    call _LABEL_74C_
+    call multiply
     ld a, (ix + Entity.unknown10)
     sub h
     ld (ix + Entity.yPos.high), a
@@ -179,7 +179,7 @@ unknownAnimateState5Updater:
     inc hl
     ld l, (hl)
     ld e, (ix + Entity.unknown9)
-    call _LABEL_74C_
+    call multiply
     ld a, (ix + Entity.unknown11)
     sub h
     ld (ix + Entity.xPos.high), a
@@ -200,7 +200,7 @@ unknownAnimateState6Updater:
     exx
     ld e, a
     ld l, (ix + Entity.unknown9)
-    call _LABEL_74C_
+    call multiply
     ld a, (ix + Entity.unknown11)
     sub h
     ld (ix + Entity.xPos.high), a
@@ -211,7 +211,7 @@ unknownAnimateState6Updater:
     inc hl
     ld l, (hl)
     ld e, (ix + Entity.unknown9)
-    call _LABEL_74C_
+    call multiply
     ld a, (ix + Entity.unknown10)
     sub h
     ld (ix + Entity.yPos.high), a
@@ -228,7 +228,7 @@ unknownAnimateState7Updater:
     exx
     ld e, a
     ld l, (ix + Entity.unknown9)
-    call _LABEL_74C_
+    call multiply
     ld a, (ix + Entity.unknown11)
     add a, h
     ld (ix + Entity.xPos.high), a
@@ -239,7 +239,7 @@ unknownAnimateState7Updater:
     inc hl
     ld l, (hl)
     ld e, (ix + Entity.unknown9)
-    call _LABEL_74C_
+    call multiply
     ld a, (ix + Entity.unknown10)
     sub h
     ld (ix + Entity.yPos.high), a
@@ -260,7 +260,7 @@ unknownAnimateState8Updater:
     exx
     ld e, a
     ld l, (ix + Entity.unknown9)
-    call _LABEL_74C_
+    call multiply
     ld a, (ix + Entity.unknown10)
     sub h
     ld (ix + Entity.yPos.high), a
@@ -271,7 +271,7 @@ unknownAnimateState8Updater:
     inc hl
     ld l, (hl)
     ld e, (ix + Entity.unknown9)
-    call _LABEL_74C_
+    call multiply
     ld a, (ix + Entity.unknown11)
     add a, h
     ld (ix + Entity.xPos.high), a
@@ -293,8 +293,8 @@ octopus_DATA_6CA_:
 .db $A2 $C5 $A4 $C3 $A7 $C1 $A9 $BF $AB $BD $AE $BB $B0 $B9 $B2 $B7
 .db $B4 $B4
 
-; @TODO
-_LABEL_74C_:
+; Multiply L by E
+multiply:
     ld h, l
     ld b, $08
     ld d, $00
