@@ -3584,7 +3584,7 @@ loadLevel:
     ld hl, $0100
     ld (v_horizontalScrollSpeed), hl
     call updateScroll_LABEL_67C4_
-    call _LABEL_6B49_
+    call updateNametable_LABEL_6B49_
     call _LABEL_6920_
     ld hl, (v_horizontalScroll)
     ld a, h
@@ -3605,7 +3605,7 @@ loadLevel:
     ld a, $10
     ld (v_columnsToLoadToNametable), a
     call _LABEL_6A73_
-    call _LABEL_6B49_
+    call updateNametable_LABEL_6B49_
     call _LABEL_6920_
     ld de, $8006
     ld a, e
@@ -4215,7 +4215,7 @@ _LABEL_6B21_:
     ld de, _RAM_D700_
     jp _LABEL_6BEF_
 
-_LABEL_6B49_:
+updateNametable_LABEL_6B49_:
     ld a, $82
     ld (Mapper_Slot2), a
     ld a, (v_UpdateNameTableFlags)

@@ -12,7 +12,7 @@ updateGameplayState:
     call updateScroll_LABEL_67C4_
 
     ; Something related to nametable
-    call _LABEL_6B49_
+    call updateNametable_LABEL_6B49_
 
     ld a, $09
     call waitForInterrupt

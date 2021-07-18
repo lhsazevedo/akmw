@@ -123,7 +123,7 @@ _LABEL_1FE9_:
     ld ix, $C300
     call updateEntities
     call updateScroll_LABEL_67C4_
-    call _LABEL_6B49_
+    call updateNametable_LABEL_6B49_
     ld ix, $C300
     ld a, (v_level)
     ld c, a
