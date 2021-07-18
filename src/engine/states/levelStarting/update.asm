@@ -1,7 +1,7 @@
-; 4th entry of Jump Table from 3B (indexed by v_gameState)
 updateLevelStartingState:
     exx
 
+    ; @TODO
     bit 7, (hl)
     jp z, initLevelStartingState
 
@@ -55,13 +55,15 @@ updateLevelStartingState:
 
 updateLevelStartingStateMapAnimated:
     ; Display arrow entity
-    ld ix, v_alex
+    ld ix, v_entities.1
     ld (ix+0), ENTITY_ARROW
 
-    ; Display Janken's castle if level > 16
+    ; Display Janken's castle if level
+    ; is equal or higher than $10.
     ld a, (v_level)
     cp $10
     jp c, @frameLoop
+
     ld ix, v_entities.2
     ld (ix+0), ENTITY_JANKENS_CASTLE
     ld (ix+12), $98
@@ -91,6 +93,5 @@ updateLevelStartingStateMapAnimated:
     ld a, STATE_GAMEPLAY
     ld (v_gameState), a
 
-    ; @TODO Sleep?
     ld b, $05
     jp sleepTenthsOfSecond
