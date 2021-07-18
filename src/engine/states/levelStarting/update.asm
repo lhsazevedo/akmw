@@ -61,13 +61,13 @@ updateLevelStartingStateMapAnimated:
     ; Display Janken's castle if level > 16
     ld a, (v_level)
     cp $10
-    jp c, _LABEL_19CB_
+    jp c, @frameLoop
     ld ix, v_entities.2
     ld (ix+0), ENTITY_JANKENS_CASTLE
     ld (ix+12), $98
     ld (ix+14), $50
 
-_LABEL_19CB_:
+@frameLoop:
     ld a, $82
     ld (Mapper_Slot2), a
 
@@ -77,7 +77,7 @@ _LABEL_19CB_:
 
     ld hl, v_levelStartingTimer
     dec (hl)
-    jp nz, _LABEL_19CB_
+    jp nz, @frameLoop
 
     ; Clear entities
     ld ix, v_entities.1
