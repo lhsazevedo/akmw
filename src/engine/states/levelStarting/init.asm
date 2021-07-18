@@ -115,7 +115,7 @@ initLevelStartingState:
     ld a, $85
     ld (Mapper_Slot2), a
 
-    ld a, $50
+    ld a, LEVEL_STARTING_DURATION
     ld (v_levelStartingTimer), a
 
     ld a, SOUND_LEVEL_STARTING
