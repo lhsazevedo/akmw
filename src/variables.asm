@@ -159,8 +159,9 @@ v_verticalScrollSpeed db
 _RAM_C0BA_ db
 _RAM_C0BB_ db
 _RAM_C0BC_ db
-v_verticalScroll db
-_RAM_C0BE_ dw
+v_verticalScroll .dw
+v_verticalScroll.low db
+v_verticalScroll.high db
 .ende
 
 .enum $C0C1 export

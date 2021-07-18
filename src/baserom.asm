@@ -600,7 +600,7 @@ enableDisplay:
 
 clearScroll:
     xor a
-    ld (_RAM_C0BE_), a
+    ld (v_verticalScroll.high), a
     ld (_RAM_C0B0_), a
     ld e, a
     ld d, $89
@@ -2254,7 +2254,7 @@ _LABEL_424B_:
     ld a, (_RAM_C08E_)
     or a
     jr z, ++
-    ld a, (_RAM_C0BE_)
+    ld a, (v_verticalScroll.high)
     and $F0
     ld c, a
     ld hl, (_RAM_C204_)
@@ -3583,7 +3583,7 @@ loadLevel:
 -:
     ld hl, $0100
     ld (v_horizontalScrollSpeed), hl
-    call _LABEL_67C4_
+    call updateScroll_LABEL_67C4_
     call _LABEL_6B49_
     call _LABEL_6920_
     ld hl, (v_horizontalScroll)
@@ -3694,21 +3694,26 @@ _LABEL_6671_:
 
 .INCLUDE "data/levels/descriptors.asm"
 
-_LABEL_67C4_:
+updateScroll_LABEL_67C4_:
     ld de, (v_horizontalScrollSpeed)
     ld a, d
     or e
-    jp z, _LABEL_69CB_
+    jp z, updateVerticalScroll_LABEL_69CB_
+
 
     ld a, $0C
     ld (v_linesToLoadToNametable), a
+
     ld bc, (_RAM_C0AD_)
+
     ld hl, (v_horizontalScroll)
     add hl, de
     ld (v_horizontalScroll), hl
+
     ex de, hl
     bit 7, h
-    jp nz, _LABEL_68A7_
+    jp nz, horizontalScrollBit7_LABEL_68A7_
+
     add hl, bc
     ld a, h
     cp $08
@@ -3818,7 +3823,7 @@ _LABEL_6865_:
     add hl, bc
     jp -
 
-_LABEL_68A7_:
+horizontalScrollBit7_LABEL_68A7_:
     add hl, bc
     ld (_RAM_C0AD_), hl
     ret c
@@ -3937,7 +3942,7 @@ _LABEL_6968_:
     jp nc, _LABEL_69B5_
     ld a, (_RAM_C0BA_)
     bit 7, a
-    ld a, (_RAM_C0BE_)
+    ld a, (v_verticalScroll.high)
     jp z, +
     and $F8
     jp ++
@@ -3981,11 +3986,11 @@ _LABEL_69B5_:
     ld de, (_RAM_C0B0_)
     ld d, $88
     call setVDPAddress
-    ld de, (_RAM_C0BE_)
+    ld de, (v_verticalScroll.high)
     ld d, $89
     jp setVDPAddress
 
-_LABEL_69CB_:
+updateVerticalScroll_LABEL_69CB_:
     ld de, (v_verticalScrollSpeed)
     ld a, d
     or e
@@ -3993,34 +3998,53 @@ _LABEL_69CB_:
 
     ld a, $10
     ld (v_columnsToLoadToNametable), a
+
     ld bc, (_RAM_C0BB_)
     ld hl, (v_verticalScroll)
     add hl, de
     ld (v_verticalScroll), hl
+
     bit 7, d
     ld a, h
-    jp nz, +
+    jp nz, @speedBit7
+    
+    ; If scroll low byte is higher than e0, reset it
     cp $E0
-    jp c, ++
-    sub $E0
-    jp ++
+    jp c, @continue
 
-+:
+    ; Else, subtract $E0
+    sub $E0
+    jp @continue
+
+@speedBit7:
+    ; @TODO: Why?
+    ; If speed bit 7 is set and scroll low
+    ; byte is higher than e0, subtract $20.
     cp $E0
-    jp c, ++
+    jp c, @continue
     sub $20
-++:
-    ld (_RAM_C0BE_), a
+
+@continue:
+    ld (v_verticalScroll.high), a
     ex de, hl
     bit 7, h
     jp nz, _LABEL_6ABF_
+
+    ; Sum BC to speed (HL)
     add hl, bc
+
+    ; Save speed to _RAM_C0BB_ and return
+    ; if high byte is less than 8.
     ld a, h
     cp $08
     ld (_RAM_C0BB_), hl
     ret c
+
+    ; Save the first 3 bits of high byte to _RAM_C0BC_ 
     and $07
     ld (_RAM_C0BC_), a
+
+    ; @TODO: ...
     ld hl, (_RAM_C0C5_)
     ld bc, $0040
     add hl, bc
@@ -4058,9 +4082,9 @@ _LABEL_69CB_:
     res 0, (hl)
     ld hl, $0000
     ld (v_verticalScrollSpeed), hl
-    ld a, (_RAM_C0BE_)
+    ld a, (v_verticalScroll.high)
     and $F0
-    ld (_RAM_C0BE_), a
+    ld (v_verticalScroll.high), a
     xor a
     ld (_RAM_C0BC_), a
     ld hl, v_currentScreenNumber
@@ -4253,7 +4277,7 @@ _LABEL_6B9C_:
     ret nc
     ld a, (_RAM_C0BA_)
     bit 7, a
-    ld a, (_RAM_C0BE_)
+    ld a, (v_verticalScroll.high)
     jp z, +
     and $F8
     jp ++

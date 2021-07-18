@@ -9,7 +9,7 @@ updateGameplayState:
     call updateEntities
 
     ; Somothing related to scrolling
-    call _LABEL_67C4_
+    call updateScroll_LABEL_67C4_
 
     ; Something related to nametable
     call _LABEL_6B49_

@@ -154,7 +154,7 @@ _LABEL_1735_:
 -:
     ld hl, $0100
     ld (v_horizontalScrollSpeed), hl
-    call _LABEL_67C4_
+    call updateScroll_LABEL_67C4_
     call _LABEL_6B49_
     call _LABEL_6920_
     ld hl, (v_horizontalScroll)

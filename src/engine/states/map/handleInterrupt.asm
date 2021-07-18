@@ -122,7 +122,7 @@ _LABEL_1FE9_:
     call destroyCurrentEntity
     ld ix, $C300
     call updateEntities
-    call _LABEL_67C4_
+    call updateScroll_LABEL_67C4_
     call _LABEL_6B49_
     ld ix, $C300
     ld a, (v_level)
