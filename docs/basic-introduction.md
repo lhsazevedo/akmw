@@ -21,9 +21,9 @@ _LABEL_9D9_:
 ```
 
 ### 2. Name labels
-When the game was compiled back in 1986, all variable and routine names were discarded as they are not needed at runtime. That's why the disassembler has to gives generic names to these labels like `_LABEL_9d9_` and` _RAM_C300_`.
+When the game was compiled back in 1986, all variable and routine names were discarded as they are not needed at runtime. That's why the disassembler has to give generic names to these labels like `_LABEL_9D9_` and` _RAM_C300_`.
 
-This second step is to understand what a routine does and rename the labels so they make sense. There are several ways to try to understand: using a emulator with an debugger, looking for online documentation or analyzing other routines called from or to this part of the code.
+This second step is to understand what a routine does and rename the labels so they make sense. There are several ways to do this: using a emulator with an debugger, looking for online documentation or analyzing other routines called from or to this part of the code.
 
 See the result below.
 
@@ -31,17 +31,17 @@ See the result below.
 clearEntities:
     ld b, $1E
     ld hl, entities
--:
+@loop:
     call clearEntity
     inc hl
-    djnz -
+    djnz @loop
     ret
 ```
 
-That done, you should compile the game to make sure that this change will output **exactly the same bytes** that we saw earlier. The build script does this check automatically.
+When done, you must compile the game to make sure that your changes will output **exactly the same bytes** as before. The build script does this check automatically.
 
 ### 3. Document
-This step does not influence the compilation of the game, but it can help other people to understand particularly complex snippets without having to analyze assembly code. This step is optional.
+This is an optional step, but it can help other people to understand particularly complex snippets without having to analyze assembly code.
 
 Below we see the same excerpt above written in pseudo-code.
 

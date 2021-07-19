@@ -1,28 +1,20 @@
 # Alex Kidd in Miracle World Disassembly
 
-This project aims to understand, name and document the disasssembly of the game [Alex Kidd in Miracle World](https://wikipedia.org/wiki/Alex_Kidd_in_Miracle_World) released in 1986 for the Sega Master System.
-
-To ensure that the compiled ROM is exactly the same as the original cartridge, the hash of the compiled files are checked.
+This project aims to understand and document the disasssembly of the game [Alex Kidd in Miracle World](https://wikipedia.org/wiki/Alex_Kidd_in_Miracle_World) released in 1986 for the Sega Master System.
 
 It builds the following roms:
 - **Alex Kidd in Miracle World (USA, Europe) (Rev 1)**  
-  alex-kidd-in-miracle-world-usa-europe-rev-1.sms  
-  ```
-  SHA1  6d052e0cca3f2712434efd856f733c03011be41c
-  CRC32 aed9aac4
-  ```
+  SHA1: `6d052e0cca3f2712434efd856f733c03011be41c`  
+  CRC32: `aed9aac4`
 - **Alex Kidd in Miracle World (USA, Europe)**  
-  alex-kidd-in-miracle-world-usa-europe.sms  
-  ```
-  SHA1  8cecf8ed0f765163b2657be1b0a3ce2a9cb767f4
-  CRC32 17a40e29
-  ```
+  SHA1: `8cecf8ed0f765163b2657be1b0a3ce2a9cb767f4`  
+  CRC32: `17a40e29`
 
-**⚠️ Warning**  
-This repository doesn't contains all the necessary assets to build the ROMs. You must own a game copy to extract them.
+⚠️ **Note**  
+This repository does not contains the necessary assets to build the game. A copy of the game is required to extract them.
 
-## Requirements.
-To compile, both wla-dx assembler for z80 (wla-80) and the wlalink linker must be avaliable on your PATH.
+## Requirements
+To compile, both WLA DX assembler for z80 (wla-z80) and the WLA-LINK linker (wlalink) must be avaliable on your PATH.
 
 ## Compiling
 Execute de compile script for your system:
@@ -37,11 +29,12 @@ Execute de compile script for your system:
 ./compile.bat
 ```
 
-The script will build the two ROM revisions (REV0 e REV1), and will check if the resulting ROMs are identical to the original one.
+The script will build both ROM revisions (REV0 e REV1), and check if the result is identical to the original ones.
 
 
 ## Documentation
 - [Basic introduction](docs/basic-introduction.md)
+- [Trivia](docs/trivia.md)
 
 ## Why?
 It is known that this game has already been fully disassembled by the community privately. Therefore, my goal is not to be the first one or something like that, but to learn to program for SMS and share this knowledge with the world.
