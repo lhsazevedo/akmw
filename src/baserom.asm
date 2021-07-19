@@ -1750,8 +1750,8 @@ _DATA_3E38_:
 ; 1st entry of Jump Table from 3E38 (indexed by _RAM_CF9A_)
 _LABEL_3E40_:
     ld (ix+9), $00
-    ld (ix+7), <nullSpriteDescriptor_DATA_80E1_
-    ld (ix+8), >nullSpriteDescriptor_DATA_80E1_
+    ld (ix+7), <nullSpriteDescriptor
+    ld (ix+8), >nullSpriteDescriptor
     inc (ix + Entity.state)
     ret
 
@@ -4658,7 +4658,7 @@ _DATA_7128_:
 
 ; 1st entry of Pointer Table from 765B (indexed by v_entities.6.data)
 ; Data from 7691 to 7692 (2 bytes)
-_DATA_7691_:
+jankenThrowSpriteDescriptor:
 .db $5B $96
 
 ; Pointer Table from 7693 to 7694 (1 entries, indexed by v_entities.6.data)
@@ -4667,46 +4667,51 @@ _DATA_7691_:
 ; Data from 7695 to 76A2 (14 bytes)
 .db $FB $96
 
-_DATA_7697_:
+goosekaThrowSpriteDescriptor:
 .db $A3 $93 $C9 $93 $EF $93
 
-_DATA_769D_:
+chokkinnaThrowSpriteDescriptor:
 .db $8E $94 $B4 $94 $DA $94
 
 ; Data from 76A3 to 76AA (8 bytes)
 _DATA_76A3_:
 .db $D1 $00 $DC $00 $D5 $00 $E8 $00
 
-; 2nd entry of Pointer Table from 7653 (indexed by v_entities.6.data)
-; Data from 76AB to 76E2 (56 bytes)
-_DATA_76AB_:
+
+; Opponent names, only used on JP version but names differ
+
+jankenName:
+; ANIOUT
 .db $B0 $00 $D1 $00 $DE $00 $D9 $00 $DF $00 $E5 $00 $E4 $00
 
-_DATA_76B9_:
+goosekaName:
+; UNUUA
 .db $B0 $00 $E5 $00 $DE $00 $E5 $00 $E5 $00 $D1 $00 $B0 $00
 
-_DATA_76C7_:
+chokkinnaName:
+; IOUINA
 .db $B0 $00 $D9 $00 $DF $00 $E5 $00 $D9 $00 $DE $00 $D1 $00
 
-_DATA_76D5_:
-.db $D1 $00 $DE $00 $DE $00
-.db $E5 $00 $DE $00 $D9 $00 $DE $00
+parplinName:
+; ANNUNIN
+.db $D1 $00 $DE $00 $DE $00 $E5 $00 $DE $00  $D9 $00 $DE $00
+
 
 ; 1st entry of Pointer Table from 765D (indexed by v_entities.6.data)
 ; Data from 76E3 to 7762 (128 bytes)
-_DATA_76E3_:
+JankenThrows:
 .db $00 $01 $02 $02 $00 $01 $00 $02 $00 $01 $02 $01 $00 $01 $00 $02
 .db $02 $00 $02 $01 $00 $02 $01 $02 $01 $00 $01 $02 $00 $01 $00 $02
 
-_DATA_7703_:
+goosekaThrows:
 .db $00 $01 $02 $00 $00 $01 $00 $02 $02 $00 $02 $01 $00 $01 $00 $02
 .db $02 $00 $02 $01 $00 $00 $01 $00 $01 $02 $01 $02 $00 $01 $00 $00
 
-_DATA_7723_:
+chokkinnaThrows:
 .db $01 $01 $02 $02 $00 $01 $00 $01 $02 $01 $02 $01 $00 $01 $00 $02
 .db $02 $00 $01 $01 $00 $02 $01 $02 $01 $00 $01 $02 $00 $01 $00 $01
 
-_DATA_7743_:
+parplinThrows:
 .db $02 $02 $01 $02 $00 $01 $00 $02 $02 $01 $02 $02 $00 $01 $00 $00
 .db $02 $00 $02 $01 $00 $02 $01 $02 $01 $02 $01 $02 $00 $01 $00 $02
 

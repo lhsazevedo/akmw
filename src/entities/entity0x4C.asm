@@ -3,8 +3,8 @@ updateEntity0x4C:
     bit 0, (ix + Entity.flags)
     jr nz, +
     set 0, (ix + Entity.flags)
-    ld (ix + Entity.spriteDescriptorPointer.low), <nullSpriteDescriptor_DATA_80E1_
-    ld (ix + Entity.spriteDescriptorPointer.high), >nullSpriteDescriptor_DATA_80E1_
+    ld (ix + Entity.spriteDescriptorPointer.low), <nullSpriteDescriptor
+    ld (ix + Entity.spriteDescriptorPointer.high), >nullSpriteDescriptor
     ld a, (ix + Entity.data)
     ld (_RAM_C07F_), a
 +:

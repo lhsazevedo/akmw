@@ -63,8 +63,8 @@ _LABEL_603E_:
     ld a, (ix + Entity.data)
     or a
     ret nz
-    ld (ix + Entity.spriteDescriptorPointer.low), <_DATA_8134_
-    ld (ix + Entity.spriteDescriptorPointer.high), >_DATA_8134_
+    ld (ix + Entity.spriteDescriptorPointer.low), <characterSpriteDescriptor
+    ld (ix + Entity.spriteDescriptorPointer.high), >characterSpriteDescriptor
     ret
 
 _LABEL_6054_:

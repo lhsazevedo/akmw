@@ -21,15 +21,17 @@ updateBattleInit:
     add a, a
 
     ; Choose sprite descriptor based on opponent data
-    ; If data greater than 1, then a null descriptor is loaded.  
-    ld hl, nullSpriteDescriptor_DATA_80E1_
-    jr nz, +
-    ld hl, _DATA_8134_
-+:
+    ; If data greater than 1, load the null descriptor.
+    ; Else, load the generic character sprite descriptor.
+    ld hl, nullSpriteDescriptor
+    jr nz, @skipDescriptor
+    ld hl, characterSpriteDescriptor
+    @skipDescriptor:
+
     ld (v_entities.6.spriteDescriptorPointer), hl
 
-    ; Copy opponent settings
-    ; Address is opponentSettings + (a * 16)
+    ; Load opponent settings
+    ; Address is opponentSettings + (v_entities.6.data & 0b11111110) * 8
     ld l, a
     ld h, $00
     ld de, opponentSettings
@@ -42,7 +44,7 @@ updateBattleInit:
 ; - Wait until the opponent is on screen, scrolling stops, alex is on ground
 ;   (e.g.: he can be on a Peticopter)
 ; - Increment state (0x1 to 0x2: updateBattleLoadOpponentTilesAndShowTextbox1)
-; - Set alex state to ALEX_BATTLE_WALK_TO_POSITION
+; - Set Alex state to ALEX_BATTLE_GO_TO_POSITION
 updateBattleMakeAlexGetIntoPosition:
     ; Return if offscreen
     ld a, (v_entities.6.isOffScreenFlags.high)
@@ -62,8 +64,8 @@ updateBattleMakeAlexGetIntoPosition:
     ; Increment state
     inc (ix + Entity.state)
 
-    ; Set alex state to walk left
-    ld a, ALEX_BATTLE_WALK_TO_POSITION
+    ; Set Alex "go to battle position" state
+    ld a, ALEX_BATTLE_GO_TO_POSITION
     ld (v_alex.state), a
     ret
 
@@ -75,14 +77,14 @@ updateBattleMakeAlexGetIntoPosition:
 ; - Load opponent tiles
 ; - Request textbox message
 updateBattleLoadOpponentTilesAndShowTextbox1:
-    ; Wait alex stop walking left
+    ; Wait for Alex start dancing
     ld a, (v_alex.state)
     cp ALEX_BATTLE_DANCING
     ret nz
 
     inc (ix + Entity.state)
 
-    ; Delete entities 2 to 4, and maybe clear _RAM_C054_
+    ; Delete entities 2 to 4, and maybe reset _RAM_C054_
     call clearEntities2to4AndMaybeReset0xC054
 
     ; Load opponent sprite descriptor
@@ -91,11 +93,11 @@ updateBattleLoadOpponentTilesAndShowTextbox1:
     ld a, (v_entities.6.data)
     cp $01
 
-    ; Adjust opponent position if bit 1 is set.
-    jr nz, +
+    ; Adjust opponent position if data bit 1 is set.
+    jr nz, @skipAdjust
     ld (ix + Entity.xPos.high), $B8
     ld (ix + Entity.yPos.high), $80
-+:
+    @skipAdjust:
 
     ld a, $01
     ld (v_hasBattleStarted), a
@@ -115,7 +117,7 @@ updateBattleLoadOpponentTilesAndShowTextbox1:
     ld a, STATE_TEXT_BOX
     ld (v_gameState), a
     ld a, (v_battleOpponentMessagePointer)
-    ld (v_messageToShowInTheTextBoxIndex), a
+    ld (v_textBoxMessageIndex), a
     ret
 
 ; - Wait for player to close first textbox 
@@ -125,6 +127,7 @@ updateBattleLoadOpponentTilesAndShowTextbox1:
 updateBattleShowTextbox2:
     call isTextboxGameState
     ret z
+
     ld hl, (_RAM_C234_)
 
     call drawThoughtClouds
@@ -133,7 +136,7 @@ updateBattleShowTextbox2:
     ld a, STATE_TEXT_BOX
     ld (v_gameState), a
     ld a, $07
-    ld (v_messageToShowInTheTextBoxIndex), a
+    ld (v_textBoxMessageIndex), a
 
     inc (ix + Entity.state)
     ld (ix + Entity.animationTimerResetValue), $10
@@ -276,14 +279,14 @@ battleRoundResultHandlers:
 
 updateBattleRoundTie:
     ld a, TXT_BATTLE_ROUND_TIE
-    ld (v_messageToShowInTheTextBoxIndex), a
+    ld (v_textBoxMessageIndex), a
     ld (ix + Entity.state), $04
     ret
 
 updateBattleRoundLost:
     ; "I win. You got it." - Opponent
     ld a, TXT_BATTLE_ROUND_LOST
-    ld (v_messageToShowInTheTextBoxIndex), a
+    ld (v_textBoxMessageIndex), a
 
     ; Patch temporary results sprite descriptor
     ld e, (ix + Entity.unknown7)
@@ -320,7 +323,7 @@ updateBattleRoundLost:
 updateBattleRoundWon:
     ; "Darn it. I lose." - Opponent
     ld a, TXT_BATTLE_ROUND_WON
-    ld (v_messageToShowInTheTextBoxIndex), a
+    ld (v_textBoxMessageIndex), a
 
     ; Patch temporary results sprite descriptor
     ld e, (ix + Entity.unknown7)
@@ -362,7 +365,7 @@ updateBattleShowBattleLostTextbox:
     call destroyBattleEntities
 
     ld a, TXT_BATTLE_LOST
-    ld (v_messageToShowInTheTextBoxIndex), a
+    ld (v_textBoxMessageIndex), a
     ld a, STATE_TEXT_BOX
 
     ld (v_gameState), a
@@ -411,7 +414,7 @@ updateBattleRespawOpponent:
     exx
 
     ; Update opponent sprite descritpor
-    ld hl, nullSpriteDescriptor_DATA_80E1_
+    ld hl, nullSpriteDescriptor
     ld (v_entities.6.spriteDescriptorPointer), hl
 
     ; Restore opponent position

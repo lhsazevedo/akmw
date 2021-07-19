@@ -111,7 +111,7 @@ _LABEL_1C33_:
     ld hl, (v_shopEntranceEnteredFromDoorNametablePointer)
     ld (v_shopDoorNametableAddressPointer), hl
     xor a
-    ld (v_messageToShowInTheTextBoxIndex), a
+    ld (v_textBoxMessageIndex), a
     ld (v_shopFlags), a
     ld (v_shopSelectedItemIndex), a
     ld a, $82
@@ -227,7 +227,7 @@ _LABEL_1D04_:
     ld hl, _RAM_CC06_
     ld (v_shopDoorNametableAddressPointer), hl
     ld a, $16
-    ld (v_messageToShowInTheTextBoxIndex), a
+    ld (v_textBoxMessageIndex), a
     ld b, $03
     ld hl, _RAM_D7D0_
 -:
@@ -241,7 +241,7 @@ _LABEL_1D04_:
 
 +:
     ld a, $01
-    ld (v_messageToShowInTheTextBoxIndex), a
+    ld (v_textBoxMessageIndex), a
     xor a
     ld (v_itemBeignBoughtIndex), a
     ld de, $8006
@@ -367,7 +367,7 @@ _LABEL_1EAF_:
     ld (v_shopSelectedItemIndex), a
 _LABEL_1F0A_:
     ld a, $03
-    ld (v_messageToShowInTheTextBoxIndex), a
+    ld (v_textBoxMessageIndex), a
     ret
 
 +:
@@ -387,7 +387,7 @@ _LABEL_1F1E_:
     ld hl, v_shopFlags
     set 6, (hl)
     ld a, $02
-    ld (v_messageToShowInTheTextBoxIndex), a
+    ld (v_textBoxMessageIndex), a
     ret
 
 ; Data from 1F30 to 1F41 (18 bytes)

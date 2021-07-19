@@ -4,8 +4,8 @@ updateEntity0x10:
     ld bc, $0403
     ld (ix + Entity.unknown7), $0F
 _LABEL_49FC_:
-    ld (ix + Entity.spriteDescriptorPointer.low), <nullSpriteDescriptor_DATA_80E1_
-    ld (ix + Entity.spriteDescriptorPointer.high), >nullSpriteDescriptor_DATA_80E1_
+    ld (ix + Entity.spriteDescriptorPointer.low), <nullSpriteDescriptor
+    ld (ix + Entity.spriteDescriptorPointer.high), >nullSpriteDescriptor
     ld a, (v_scrollFlags)
     and $0F
     ret nz

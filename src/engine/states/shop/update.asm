@@ -7,7 +7,7 @@ updateShopState:
     jp nz, _LABEL_1C33_
     ld a, $09
     call waitForInterrupt
-    ld a, (v_messageToShowInTheTextBoxIndex)
+    ld a, (v_textBoxMessageIndex)
     or a
     jr z, +
     ld a, $07

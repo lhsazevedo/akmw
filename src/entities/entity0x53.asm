@@ -2,8 +2,8 @@
 updateEntity0x53:
     bit 0, (ix + Entity.flags)
     jr nz, +
-    ld (ix + Entity.spriteDescriptorPointer.low), <nullSpriteDescriptor_DATA_80E1_
-    ld (ix + Entity.spriteDescriptorPointer.high), >nullSpriteDescriptor_DATA_80E1_
+    ld (ix + Entity.spriteDescriptorPointer.low), <nullSpriteDescriptor
+    ld (ix + Entity.spriteDescriptorPointer.high), >nullSpriteDescriptor
     ld a, (v_scrollFlags)
     or a
     ret nz
@@ -11,12 +11,12 @@ updateEntity0x53:
     ld a, $07
     ld (v_gameState), a
     ld a, $11
-    ld (v_messageToShowInTheTextBoxIndex), a
+    ld (v_textBoxMessageIndex), a
     ld a, (v_hasLetterToNibana)
     or a
     ret z
     ld a, $10
-    ld (v_messageToShowInTheTextBoxIndex), a
+    ld (v_textBoxMessageIndex), a
     ret
 
 +:

@@ -23,7 +23,6 @@ handleInterruptTextBoxState:
     ld (v_currentMapOrTextNametablePointer), hl
     ret
 
-; Pointer Table from 7F50 to 7F7B (22 entries, indexed by v_messageToShowInTheTextBoxIndex)
 textPointers:
 .dw txtShopWelcome
 .dw txtShopInsufficientFunds

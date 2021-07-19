@@ -146,7 +146,7 @@ _LABEL_7ED3_:
 +:
     ld a, $87
     ld (Mapper_Slot2), a
-    ld a, (v_messageToShowInTheTextBoxIndex)
+    ld a, (v_textBoxMessageIndex)
     ld hl, textPointers - 2
     rst loadAthPointer
     ld a, (hl)
@@ -162,7 +162,7 @@ _LABEL_7ED3_:
     ld (ix+14), $11
     ld (ix+12), $09
     xor a
-    ld (v_messageToShowInTheTextBoxIndex), a
+    ld (v_textBoxMessageIndex), a
     ld (v_nextMapNametableUpdateTimer), a
     ld a, $94
     ld (v_soundControl), a

@@ -15,7 +15,7 @@ paletteUpdaterPointer dw
 .ende
 
 .enum $C011 export
-v_messageToShowInTheTextBoxIndex db
+v_textBoxMessageIndex db
 .ende
 
 .enum $C014 export

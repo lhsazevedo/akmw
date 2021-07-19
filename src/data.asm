@@ -404,7 +404,7 @@ parplinTiles:
 
 ; 1st entry of Pointer Table from 7653 (indexed by v_entities.6.data)
 ; Data from 12357 to 12AC1 (1899 bytes)
-_DATA_12357_:
+jankenTiles:
 .incbin "src/graphics/janken.bin"
 
 ; Pointer Table from 12AC2 to 12ACD (6 entries, indexed by _RAM_C218_)

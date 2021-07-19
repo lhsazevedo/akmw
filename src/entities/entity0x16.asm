@@ -1,7 +1,7 @@
 ; 22nd entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 updateEntity0x16:
-    ld (ix + Entity.spriteDescriptorPointer.low), <nullSpriteDescriptor_DATA_80E1_
-    ld (ix + Entity.spriteDescriptorPointer.high), >nullSpriteDescriptor_DATA_80E1_
+    ld (ix + Entity.spriteDescriptorPointer.low), <nullSpriteDescriptor
+    ld (ix + Entity.spriteDescriptorPointer.high), >nullSpriteDescriptor
     ld a, (v_scrollFlags)
     and $0F
     ret nz

@@ -11,7 +11,7 @@ updateSaintNurari:
     ld hl, _DATA_82D9_
 _LABEL_60D4_:
     set 0, (ix + Entity.flags)
-    ld (v_messageToShowInTheTextBoxIndex), a
+    ld (v_textBoxMessageIndex), a
     ld a, $01
     ld (v_shouldShowNuraiOrOldMan), a
     ld a, $07

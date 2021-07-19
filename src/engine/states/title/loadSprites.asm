@@ -24,7 +24,7 @@ loadTitleSprites:
     call loadAlexTilesToVRAM
 
     ; Load Janken tiles
-    ld hl, _DATA_12357_
+    ld hl, jankenTiles
     ld de, $6400
     call decompressTilesToVRAM
 

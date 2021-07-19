@@ -1143,13 +1143,12 @@ clearEntities2to4AndMaybeReset0xC054:
     and $F4
     ld (v_alex.unknown8), a
 
-    ; Return if _RAM_C054_ is 2
+    ; Clear _RAM_C054_ if it is equal to 2
     ld hl, _RAM_C054_
     ld a, (hl)
     cp $02
     ret z
 
-    ; Otherwise, set it to 0
     xor a
     ld (hl), a
     ret

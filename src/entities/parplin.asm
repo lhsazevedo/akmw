@@ -43,7 +43,7 @@ updateBattleBattleWon:
 
     ; "Well it looks like..."
     ld a, $0B
-    ld (v_messageToShowInTheTextBoxIndex), a
+    ld (v_textBoxMessageIndex), a
     ld a, STATE_TEXT_BOX
     ld (v_gameState), a
     ret
