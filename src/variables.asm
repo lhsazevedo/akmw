@@ -276,7 +276,7 @@ _RAM_C22A_ db
 .enum $C230 export
 v_battleOpponentSpriteDescriptorPointer dw
 v_battleOpponentTilesPointer dw
-_RAM_C234_ dw
+v_opponentNamePointer dw
 v_opponentAnimationDescriptorPointer dw
 v_opponentCountdownAnimationDescriptorPointer dw
 v_opponentThrowSpriteDescriptorPointer dw

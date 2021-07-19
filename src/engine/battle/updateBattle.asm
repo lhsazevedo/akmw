@@ -128,7 +128,7 @@ updateBattleShowTextbox2:
     call isTextboxGameState
     ret z
 
-    ld hl, (_RAM_C234_)
+    ld hl, (v_opponentNamePointer)
 
     call drawThoughtClouds
     call drawAlexName_LABEL_7941_

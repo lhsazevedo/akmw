@@ -4779,6 +4779,14 @@ drawAlexName_LABEL_7941_:
     ld bc, $0008
     ldir
 
+.IFDEF SHOW_OPPONENT_NAME
+    ; Draw opponent name
+    ld hl, (v_opponentNamePointer)
+    ld de, $c928
+    ld bc, $000E
+    ldir
+.ENDIF
+
     ; @TODO
     ; Related to entity 0x0C
     ld hl, _DATA_776B_
