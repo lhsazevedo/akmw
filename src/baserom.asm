@@ -3542,44 +3542,61 @@ loadLevel:
     ld a, (v_level)
     ld hl, LevelDescriptorPointerTable - 2
     rst loadAthPointer
-    
-    ; @TODO...
+
+    ; Load level bank number
     ld a, (hl)
     ld (Mapper_Slot2), a
     ld (v_levelBankNumber), a
+
+    ; Load level layout pointer
     inc hl
     ld e, (hl)
     inc hl
     ld d, (hl)
     ld (v_levelLayoutPointer), de
+
+    ; Load Second level layout pointer
+    ; @TODO: Analyze the second layout pointer 
     inc hl
     ld e, (hl)
     inc hl
     ld d, (hl)
     ld (v_SecondLevelLayoutPointer), de
+
+    ; Load initial screen numbers
     inc hl
     ld a, (hl)
     ld (v_horizontalScreenNumber), a
     inc hl
     ld a, (hl)
     ld (v_verticalScreenNumber), a
+
+    ; Load level width and height
     inc hl
     ld a, (hl)
     ld (v_levelWidth), a
     inc hl
     ld a, (hl)
     ld (v_levelHeight), a
+
+    ; Load level scrollability
     inc hl
     ld a, (hl)
     ld (v_levelScrollability), a
+
+    ; Load metatile nametable pointer
     inc hl
     ld e, (hl)
     inc hl
     ld d, (hl)
     ld (v_metatileNametablePointer), de
+
+    ; @TODO
     ld hl, $7800
     ld (_RAM_C0B7_), hl
     ld (_RAM_C0C5_), hl
+
+    ; @TODO...
 -:
     ld hl, $0100
     ld (v_horizontalScrollSpeed), hl
@@ -3590,14 +3607,19 @@ loadLevel:
     ld a, h
     or l
     jr nz, -
+
     ld a, (v_verticalScreenNumber)
     ld (v_currentScreenNumber), a
+
     ld hl, $0000
     ld (v_horizontalScrollSpeed), hl
+
     ld a, (v_level)
     cp $01
-    jr nz, +
--:
+    jr nz, @notLevel1
+
+; @TODO: Use meaningful label names
+@level1Or11:
     xor a
     ld (v_verticalScreenNumber), a
     ld a, $81
@@ -3615,11 +3637,13 @@ loadLevel:
     ld (v_scrollFlags), a
     ret
 
-+:
+@notLevel1:
     cp $11
-    jp z, -
+    jp z, @level1Or11
+
     cp $0D
-    jr z, +
+    jr z, @level13
+
     ld a, (v_levelScrollability)
     ld (v_scrollFlags), a
     rlca
@@ -3630,7 +3654,7 @@ loadLevel:
     ld (v_entityIndex), a
     ret
 
-+:
+@level13:
     ld a, $07
     ld (v_currentScreenNumber), a
     ld a, (v_levelScrollability)
