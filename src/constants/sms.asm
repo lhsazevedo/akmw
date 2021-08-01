@@ -1,6 +1,7 @@
 ; Ports
 Port_PSG = $7F
 Port_VDPData = $BE
+; @TODO: Rename to Port_VDPControl
 Port_VDPAddress = $BF
 _PORT_DE_ = $DE
 _PORT_DF_ = $DF
@@ -31,8 +32,8 @@ JOY_FIREB = 1 << JOY_BTN2_BIT
 ; VDP Register constants
 VDP_R0_DISABLE_VSCROLL_COLS_24_TO_32    = 1 << 7
 VDP_R0_DISABLE_HSCROLL_ROWS_0_AND_1     = 1 << 6
-VDP_R0_ENABLE_LINE_INTERRUPT            = 1 << 4
 VDP_R0_MASK_COL_0                       = 1 << 5
+VDP_R0_ENABLE_LINE_INTERRUPT            = 1 << 4
 VDP_R0_SHIFT_SPRITES_LEFT               = 1 << 3
 VDP_R0_USE_MODE_4                       = 1 << 2
 VDP_R0_CHANGE_HEIGHT_IN_MODE_4          = 1 << 1

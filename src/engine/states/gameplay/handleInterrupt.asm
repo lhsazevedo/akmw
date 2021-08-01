@@ -3,4 +3,4 @@ handleInterruptGameplayState:
     call _LABEL_264F_
     call handleNametableChangeRequest
     call updateLevelTiles
-    jp _LABEL_6920_
+    jp draw_LABEL_6920_

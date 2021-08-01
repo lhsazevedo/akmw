@@ -3582,6 +3582,7 @@ loadLevel:
     ; Load level scrollability
     inc hl
     ld a, (hl)
+    ; @TODO: Rename to levelScrollFlags
     ld (v_levelScrollability), a
 
     ; Load metatile nametable pointer
@@ -3597,16 +3598,17 @@ loadLevel:
     ld (_RAM_C0C5_), hl
 
     ; @TODO...
--:
+    ; Draw first screen
+@firstScreenLoop:
     ld hl, $0100
     ld (v_horizontalScrollSpeed), hl
     call updateScroll_LABEL_67C4_
     call updateNametable_LABEL_6B49_
-    call _LABEL_6920_
+    call draw_LABEL_6920_
     ld hl, (v_horizontalScroll)
     ld a, h
     or l
-    jr nz, -
+    jr nz, @firstScreenLoop
 
     ld a, (v_verticalScreenNumber)
     ld (v_currentScreenNumber), a
@@ -3616,36 +3618,43 @@ loadLevel:
 
     ld a, (v_level)
     cp $01
-    jr nz, @notLevel1
+    jr nz, @notFirstLevel
 
 ; @TODO: Use meaningful label names
-@level1Or11:
+@verticalLevel:
     xor a
     ld (v_verticalScreenNumber), a
     ld a, $81
     ld (v_currentScreenNumber), a
+
+    ; Draw next row
     ld a, $10
     ld (v_columnsToLoadToNametable), a
     call _LABEL_6A73_
     call updateNametable_LABEL_6B49_
-    call _LABEL_6920_
-    ld de, $8006
+    call draw_LABEL_6920_
+
+    ; Show first column
+    ld de, $8000 | VDP_R0_CHANGE_HEIGHT_IN_MODE_4 | VDP_R0_USE_MODE_4
     ld a, e
     ld (v_VDPRegister0Value), a
     rst setVDPAddress
+
     ld a, (v_levelScrollability)
     ld (v_scrollFlags), a
     ret
 
-@notLevel1:
+@notFirstLevel:
     cp $11
-    jp z, @level1Or11
+    jp z, @verticalLevel
 
     cp $0D
-    jr z, @level13
+    jr z, @reverseLevel
 
     ld a, (v_levelScrollability)
     ld (v_scrollFlags), a
+
+    ; Make alex start walking if scroll bit 7 is set
     rlca
     ret nc
     ld a, $01
@@ -3654,11 +3663,13 @@ loadLevel:
     ld (v_entityIndex), a
     ret
 
-@level13:
+@reverseLevel:
     ld a, $07
     ld (v_currentScreenNumber), a
+
     ld a, (v_levelScrollability)
     ld (v_scrollFlags), a
+
     ret
 
 _LABEL_6671_:
@@ -3913,7 +3924,7 @@ horizontalScrollBit7_LABEL_68A7_:
     res 7, (hl)
     ret
 
-_LABEL_6920_:
+draw_LABEL_6920_:
     ld a, (v_UpdateNameTableFlags)
     rrca
     jp nc, _LABEL_6968_
