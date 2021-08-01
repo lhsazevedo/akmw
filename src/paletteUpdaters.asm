@@ -1,5 +1,5 @@
 ; 1st entry of Jump Table from D2C (indexed by v_level)
-_LABEL_1089_:
+paletteUpdater_LABEL_1089_:
     ld a, (v_currentLevelIsBonusLevel)
     or a
     jp nz, _LABEL_10B0_
@@ -57,45 +57,45 @@ _DATA_10DA_:
 .db $33 $3F $33 $3F
 
 ; 2nd entry of Jump Table from D2C (indexed by v_level)
-_LABEL_10DE_:
+paletteUpdater_LABEL_10DE_:
     jp _LABEL_10B0_
 
 ; 4th entry of Jump Table from D2C (indexed by v_level)
-_LABEL_10E1_:
+paletteUpdater_LABEL_10E1_:
     jp _LABEL_10B0_
 
 ; 6th entry of Jump Table from D2C (indexed by v_level)
-_LABEL_10E4_:
+paletteUpdater_LABEL_10E4_:
     jp _LABEL_10B0_
 
 ; 7th entry of Jump Table from D2C (indexed by v_level)
-_LABEL_10E7_:
+paletteUpdater_LABEL_10E7_:
     jp _LABEL_10B0_
 
 ; 8th entry of Jump Table from D2C (indexed by v_level)
-_LABEL_10EA_:
+paletteUpdater_LABEL_10EA_:
     jp _LABEL_10B0_
 
 ; 10th entry of Jump Table from D2C (indexed by v_level)
-_LABEL_10ED_:
+paletteUpdater_LABEL_10ED_:
     jp _LABEL_10B0_
 
 ; 11th entry of Jump Table from D2C (indexed by v_level)
-_LABEL_10F0_:
+paletteUpdater_LABEL_10F0_:
     jp _LABEL_10B0_
 
 ; 12th entry of Jump Table from D2C (indexed by v_level)
-_LABEL_10F3_:
+paletteUpdater_LABEL_10F3_:
     jp _LABEL_10B0_
 
 ; 13th entry of Jump Table from D2C (indexed by v_level)
-_LABEL_10F6_:
+paletteUpdater_LABEL_10F6_:
     jp _LABEL_10B0_
 
 ; 14th entry of Jump Table from D2C (indexed by v_level)
-_LABEL_10F9_:
+paletteUpdater_LABEL_10F9_:
     jp _LABEL_10B0_
 
 ; 15th entry of Jump Table from D2C (indexed by v_level)
-_LABEL_10FC_:
+paletteUpdater_LABEL_10FC_:
     jp _LABEL_10B0_
