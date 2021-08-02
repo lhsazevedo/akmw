@@ -147,7 +147,7 @@ _LABEL_1735_:
     xor a
     ld (v_levelHeight), a
     ld a, $08
-    ld (v_levelScrollability), a
+    ld (v_levelScrollFlags), a
     ld hl, $7800
     ld (_RAM_C0B7_), hl
     ld (_RAM_C0C5_), hl
@@ -165,7 +165,7 @@ _LABEL_1735_:
     ld (v_currentScreenNumber), a
     ld hl, $0000
     ld (v_horizontalScrollSpeed), hl
-    ld a, (v_levelScrollability)
+    ld a, (v_levelScrollFlags)
     ld (v_scrollFlags), a
     ld ix, v_entities
     ld de, $0020

@@ -3382,14 +3382,14 @@ scrollFlagsUpdater_LABEL_647D_:
     ld hl, (v_horizontalScroll)
     ld de, (_RAM_C0AD_)
 ++:
-    ld a, (v_specialLevelScrollabilityFlag)
+    ld a, (v_specialLevelScrollFlags)
     or a
     jp nz, _LABEL_6502_
     ld a, (v_currentScreenNumber)
     bit 7, a
     jr z, _LABEL_6502_
     ld a, $01
-    ld (v_specialLevelScrollabilityFlag), a
+    ld (v_specialLevelScrollFlags), a
     ld a, b
     bit 0, a
     ld a, (v_verticalScreenNumber)
@@ -3462,7 +3462,7 @@ _LABEL_6502_:
     xor a
     ld (v_shouldBlankLeftmostColumn), a
     ld (v_shouldAlexStartWalkingtoNextScreen), a
-    ld (v_specialLevelScrollabilityFlag), a
+    ld (v_specialLevelScrollFlags), a
     ld hl, $0000
     ld (v_horizontalScrollSpeed), hl
     ld (v_verticalScrollSpeed), hl
@@ -3584,11 +3584,10 @@ loadLevel:
     ld a, (hl)
     ld (v_levelHeight), a
 
-    ; Load level scrollability
+    ; Load level scroll flags
     inc hl
     ld a, (hl)
-    ; @TODO: Rename to levelScrollFlags
-    ld (v_levelScrollability), a
+    ld (v_levelScrollFlags), a
 
     ; Load metatile nametable pointer
     inc hl
@@ -3645,7 +3644,7 @@ loadLevel:
     ld (v_VDPRegister0Value), a
     rst setVDPAddress
 
-    ld a, (v_levelScrollability)
+    ld a, (v_levelScrollFlags)
     ld (v_scrollFlags), a
     ret
 
@@ -3656,7 +3655,7 @@ loadLevel:
     cp $0D
     jr z, @reverseLevel
 
-    ld a, (v_levelScrollability)
+    ld a, (v_levelScrollFlags)
     ld (v_scrollFlags), a
 
     ; Make alex start walking if scroll bit 7 is set
@@ -3672,7 +3671,7 @@ loadLevel:
     ld a, $07
     ld (v_currentScreenNumber), a
 
-    ld a, (v_levelScrollability)
+    ld a, (v_levelScrollFlags)
     ld (v_scrollFlags), a
 
     ret

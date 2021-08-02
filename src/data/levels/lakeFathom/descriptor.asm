@@ -6,6 +6,6 @@
     startScreenY: .db $00
     xScreenCount: .db $05
     yScreenCount: .db $01
-    scrollability: .db $28
+    scrollFlags: .db $28
     metatileNameTablePointer: .dw metatilesTableA
 .ENDST

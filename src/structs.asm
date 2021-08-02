@@ -60,7 +60,7 @@
     startScreenY db ; 66fe
     xScreenCount db ; 66ff
     yScreenCount db ; 6700
-    scrollability db ; 6701
+    scrollFlags db ; 6701
     metatileNameTablePointer dw ; 6703
 .ENDST
 

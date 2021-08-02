@@ -97,14 +97,14 @@ v_nuraiOrOldManEntityTemporaryPointer dw
 v_nuraiOrOldManEntityAnimationDescriptorTemporaryPointer dw
 _RAM_C074_ dw
 v_shouldShowNuraiOrOldMan db
-v_specialLevelScrollabilityFlag db
+v_specialLevelScrollFlags db
 _RAM_C078_ dw
 _RAM_C07A_ dw
 v_questionMarkBoxIndex db
 v_textBoxCounter db
 v_textBoxFlags db
 _RAM_C07F_ db
-v_levelScrollability db
+v_levelScrollFlags db
 v_levelBankNumber db
 .ende
 
