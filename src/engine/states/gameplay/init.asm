@@ -160,6 +160,7 @@ initGameplayState:
     ld b, $05
     jp ---
 
+; @TODO
 _LABEL_BF3_:
     cp $10
     jp nz, initGameplayStateSecondary

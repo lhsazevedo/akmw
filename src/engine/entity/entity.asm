@@ -110,41 +110,42 @@ updateEntitySprites:
 
 _LABEL_273A_:
     ld de, (v_verticalScrollSpeed)
-    ld h, (ix+18)    ; v_entities.IX.ySpeed.high
-    ld l, (ix+17)    ; v_entities.IX.ySpeed
+    ld h, (ix + Entity.ySpeed.high)
+    ld l, (ix + Entity.ySpeed.low)
     or a
     sbc hl, de
     ret z
+
     ex de, hl
-    ld l, (ix+13)    ; v_entities.IX.yPos
-    ld h, (ix+14)    ; v_entities.IX.yPos.high
+    ld l, (ix + Entity.yPos.low)
+    ld h, (ix + Entity.yPos.high)
     add hl, de
     bit 7, d
     jp z, +
     jp c, ++
-    bit 1, (ix+1)    ; v_entities.IX.flags
+    bit 1, (ix + Entity.flags)
     jp nz, destroyCurrentEntity
     ld a, h
     sub $40
-    ld (ix+13), l
-    ld (ix+14), a
-    dec (ix+10)
+    ld (ix + Entity.yPos.low), l
+    ld (ix + Entity.yPos.high), a
+    dec (ix + Entity.isOffScreenFlags.high)
     ret
 
 +:
     ld a, h
     sub $C0
     jp c, ++
-    bit 1, (ix+1)
+    bit 1, (ix + Entity.flags)
     jp nz, destroyCurrentEntity
-    ld (ix+13), l
-    ld (ix+14), a
-    inc (ix+10)
+    ld (ix + Entity.yPos.low), l
+    ld (ix + Entity.yPos.high), a
+    inc (ix + Entity.isOffScreenFlags.high)
     ret
 
 ++:
-    ld (ix+13), l
-    ld (ix+14), h
+    ld (ix + Entity.yPos.low), l
+    ld (ix + Entity.yPos.high), h
     ret
 
 
@@ -230,31 +231,31 @@ clearEntity:
 
 _LABEL_27D0_:
     ld hl, (v_horizontalScrollSpeed)
-    ld d, (ix+16)    ; v_entities.IX.xSpeed.high
-    ld e, (ix+15)    ; v_entities.IX.xSpeed
+    ld d, (ix + Entity.xSpeed.high)
+    ld e, (ix + Entity.xSpeed)
     or a
     adc hl, de
     ret z
     ex de, hl
-    ld l, (ix+11)    ; v_entities.IX.xPos
-    ld h, (ix+12)    ; v_entities.IX.xPos.high
+    ld l, (ix + Entity.xPos)
+    ld h, (ix + Entity.xPos.high)
     add hl, de
     bit 7, d
     jp z, +
     jp c, ++
-    bit 1, (ix+1)    ; v_entities.IX.flags
+    bit 1, (ix + Entity.flags)
     jp nz, destroyCurrentEntity
-    inc (ix+9)    ; v_entities.IX.isOffScreenFlags
+    inc (ix + Entity.isOffScreenFlags.low)
     jp ++
 
 +:
     jp nc, ++
-    bit 1, (ix+1)
+    bit 1, (ix + Entity.flags)
     jp nz, destroyCurrentEntity
-    dec (ix+9)
+    dec (ix + Entity.isOffScreenFlags.low)
 ++:
-    ld (ix+11), l
-    ld (ix+12), h
+    ld (ix + Entity.xPos), l
+    ld (ix + Entity.xPos.high), h
     ret
 
 
