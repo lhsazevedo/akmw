@@ -77,7 +77,7 @@ updateLifeLostState:
 
     ; If scroll flag 7 is set...
     ld a, (v_scrollFlags)
-    bit 7, a
+    bit SCROLL_VERTICAL_BIT, a
     jp z, +
 
     ; And isn't first level...

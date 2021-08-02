@@ -69,7 +69,7 @@ _LABEL_603E_:
 
 _LABEL_6054_:
     ld a, (v_scrollFlags)
-    and $7F
+    and $FF ~ SCROLL_VERTICAL
     or a
     ret nz
     ld a, (v_alex.state)

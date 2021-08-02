@@ -830,7 +830,7 @@ alexHandler_31CC:
     call _LABEL_6671_
     pop ix
     ld hl, v_scrollFlags
-    set 0, (hl)
+    set SCROLL_DOWN_BIT, (hl)
     ret
 
 ; 19th entry of Jump Table from 2982 (indexed by v_alex.state)
@@ -980,7 +980,7 @@ _LABEL_3320_:
 ; 17th entry of Jump Table from 2982 (indexed by v_alex.state)
 alexHandler_3340:
     ld a, (v_scrollFlags)
-    and $0F
+    and SCROLL_ANY
     ret nz
     ld hl, (v_alexVerticalSpeedTemporaryCopy)
     ld (v_alex.ySpeed), hl
@@ -1683,7 +1683,7 @@ alexHandler_38C5:
     ld (ix+28), $00
     ld hl, _RAM_C20B_
     ld a, (v_scrollFlags)
-    and $01
+    and SCROLL_DOWN
     or (hl)
     ret nz
     ld de, $0008

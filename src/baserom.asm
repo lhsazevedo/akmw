@@ -1864,7 +1864,7 @@ _LABEL_3F75_:
     cp $44
     jp c, _LABEL_4124_
     ld a, (v_scrollFlags)
-    and $08
+    and SCROLL_RIGHT
     ret z
     ld de, (v_alex.xSpeed)
     xor a
@@ -1909,7 +1909,7 @@ _LABEL_3FD1_:
     call _LABEL_6671_
     pop ix
     ld hl, v_scrollFlags
-    set 0, (hl)
+    set SCROLL_DOWN_BIT, (hl)
 +++:
     ld a, (v_alex.yPos.high)
     cp $08
@@ -1925,7 +1925,7 @@ _LABEL_3FD1_:
 _LABEL_4025_:
     ld hl, v_scrollFlags
     ld a, (hl)
-    and $0F
+    and SCROLL_ANY
     jp z, +
     rrca
     jp c, _LABEL_40CB_
@@ -1966,7 +1966,7 @@ _LABEL_4025_:
     jp nz, ++
     call _LABEL_3320_
     ld hl, v_scrollFlags
-    set 2, (hl)
+    set SCROLL_LEFT_BIT, (hl)
     ld a, (v_alexStateTemporaryCopy)
     cp $05
     ld hl, $FFC0
@@ -1982,7 +1982,7 @@ _LABEL_4090_:
 ++:
     call _LABEL_3320_
     ld hl, v_scrollFlags
-    set 3, (hl)
+    set SCROLL_RIGHT_BIT, (hl)
     ld a, (v_alexStateTemporaryCopy)
     cp $05
     ld hl, $0040
@@ -2001,7 +2001,7 @@ _LABEL_40B6_:
     call _LABEL_6671_
     pop ix
     ld hl, v_scrollFlags
-    set 0, (hl)
+    set SCROLL_DOWN_BIT, (hl)
     ld hl, $0080
     ld (v_alex.ySpeed), hl
 _LABEL_40CB_:
@@ -2012,7 +2012,7 @@ _LABEL_40CB_:
 _LABEL_40D2_:
     call _LABEL_3320_
     ld hl, v_scrollFlags
-    set 1, (hl)
+    set SCROLL_UP_BIT, (hl)
     ld hl, $FF80
     ld (v_alex.ySpeed), hl
 _LABEL_40E0_:
@@ -2023,7 +2023,7 @@ _LABEL_40E0_:
 _LABEL_40E7_:
     ld hl, v_scrollFlags
     ld a, (hl)
-    and $03
+    and SCROLL_UP | SCROLL_DOWN
     jp z, _LABEL_415E_
     ld a, (v_alex.yPos.high)
     bit 7, (ix+18)
@@ -2060,7 +2060,7 @@ _LABEL_4124_:
     ld de, (v_alex.xSpeed)
     bit 7, d
     jr z, ++
-    bit 2, c
+    bit SCROLL_LEFT_BIT, c
     jr nz, +
     cp $04
     ret nc
@@ -2080,7 +2080,7 @@ _LABEL_4124_:
     ret
 
 ++:
-    bit 3, c
+    bit SCROLL_RIGHT_BIT, c
     jr nz, +
     cp $F4
     ret c
@@ -3334,28 +3334,33 @@ updateScrollFlags:
     jp (hl)
 
 ; 1st entry of Jump Table from D0A (indexed by v_level)
-_LABEL_6462_:
+scrollFlagsUpdater_LABEL_6462_:
     ld a, (v_scrollFlags)
     or a
     ret z
-    bit 7, a
+
+    bit SCROLL_VERTICAL_BIT, a
     ret z
-    and $03
+
+    and SCROLL_UP | SCROLL_DOWN
     ret nz
+
     di
-    ld de, $8026
+    ld de, $8000 | VDP_R0_MASK_COL_0 | VDP_R0_CHANGE_HEIGHT_IN_MODE_4 | VDP_R0_USE_MODE_4
     ld a, e
     ld (v_VDPRegister0Value), a
     rst setVDPAddress
     ei
-    ld a, $08
+
+    ld a, SCROLL_RIGHT
     ld (v_scrollFlags), a
     ret
 
 ; 11th entry of Jump Table from D0A (indexed by v_level)
-_LABEL_647D_:
+scrollFlagsUpdater_LABEL_647D_:
     ld a, (v_scrollFlags)
-    and $7F
+    ; Unary XOR is the same as NOT
+    and $FF ~ SCROLL_VERTICAL
     ret z
     ld b, a
     and $03
@@ -3446,7 +3451,7 @@ _LABEL_6502_:
     or l
     ret nz
     ld a, (v_scrollFlags)
-    bit 0, a
+    bit SCROLL_DOWN_BIT, a
     jr z, +
     ld hl, v_currentScreenNumber
     dec (hl)
@@ -3470,22 +3475,22 @@ _LABEL_6502_:
     ret
 
 ; 5th entry of Jump Table from D0A (indexed by v_level)
-_LABEL_6539_:
+scrollFlagsUpdater_LABEL_6539_:
     ld a, (v_scrollFlags)
     or a
     ret z
-    bit 7, a
+    bit SCROLL_VERTICAL_BIT, a
     jr nz, +
-    and $03
+    and SCROLL_UP | SCROLL_DOWN
     ret z
     ld a, (v_scrollFlags)
-    res 3, a
-    set 7, a
+    res SCROLL_RIGHT_BIT, a
+    set SCROLL_VERTICAL_BIT, a
     ld (v_scrollFlags), a
     ret
 
 +:
-    and $03
+    and SCROLL_UP | SCROLL_DOWN
     ret nz
     ld a, $01
     ld (v_verticalScreenNumber), a
@@ -3496,7 +3501,7 @@ _LABEL_6539_:
     ld a, (v_horizontalScreenNumber)
     cp $03
     jr nc, +
-    ld a, $08
+    ld a, SCROLL_RIGHT
     ld (v_scrollFlags), a
     ld a, $03
     ld (v_levelWidth), a
@@ -3508,17 +3513,17 @@ _LABEL_6539_:
     ret
 
 ; 3rd entry of Jump Table from D0A (indexed by v_level)
-_LABEL_657B_:
+scrollFlagsUpdater_LABEL_657B_:
     ld a, (v_scrollFlags)
     or a
     ret z
-    bit 7, a
+    bit SCROLL_VERTICAL_BIT, a
     jr nz, +
-    and $03
+    and SCROLL_UP | SCROLL_DOWN
     ret z
     ld a, (v_scrollFlags)
-    res 3, a
-    set 7, a
+    res SCROLL_RIGHT_BIT, a
+    set SCROLL_VERTICAL_BIT, a
     ld (v_scrollFlags), a
     ret
 
@@ -3533,7 +3538,7 @@ _LABEL_657B_:
     ld (v_verticalScreenNumber), a
     ld a, $01
     ld (v_levelWidth), a
-    ld a, $08
+    ld a, SCROLL_RIGHT
     ld (v_scrollFlags), a
     ret
 
@@ -3690,7 +3695,7 @@ _LABEL_6671_:
     add ix, de
     djnz -
     ld a, (v_scrollFlags)
-    and $E0
+    and SCROLL_VERTICAL | 0b01100000
     ret z
     rlca
     jr c, +++
@@ -3788,7 +3793,7 @@ updateScroll_LABEL_67C4_:
     inc (hl)
     res 7, (hl)
     ld hl, v_scrollFlags
-    res 2, (hl)
+    res SCROLL_LEFT_BIT, (hl)
     ld hl, $0000
     ld (v_horizontalScrollSpeed), hl
     ld a, $08
@@ -3863,7 +3868,7 @@ horizontalScrollBit7_LABEL_68A7_:
     ld (_RAM_C0AD_), hl
     ret c
     ld a, (v_scrollFlags)
-    bit 3, a
+    bit SCROLL_RIGHT_BIT, a
     jp nz, +
     ld hl, $0000
     ld (v_horizontalScrollSpeed), hl
@@ -3918,7 +3923,7 @@ horizontalScrollBit7_LABEL_68A7_:
     cp c
     ret c
     ld hl, v_scrollFlags
-    res 3, (hl)
+    res SCROLL_RIGHT_BIT, (hl)
     ld hl, v_currentScreenNumber
     dec (hl)
     res 7, (hl)
@@ -4114,7 +4119,7 @@ updateVerticalScroll_LABEL_69CB_:
     xor a
     ld (hl), a
     ld hl, v_scrollFlags
-    res 0, (hl)
+    res SCROLL_DOWN_BIT, (hl)
     ld hl, $0000
     ld (v_verticalScrollSpeed), hl
     ld a, (v_verticalScroll.high)
@@ -4210,7 +4215,7 @@ _LABEL_6ABF_:
     sub $01
     jp nc, +
     ld hl, v_scrollFlags
-    res 1, (hl)
+    res SCROLL_UP_BIT, (hl)
     ld hl, $0000
     ld (v_verticalScrollSpeed), hl
     ret

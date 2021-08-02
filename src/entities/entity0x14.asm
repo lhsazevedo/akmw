@@ -2,7 +2,7 @@
 updateEntity0x14:
     set 1, (ix + Entity.flags)
     ld a, (v_scrollFlags)
-    and $0F
+    and SCROLL_ANY
     ret nz
     dec (ix + Entity.data)
     ret nz

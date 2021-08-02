@@ -53,7 +53,7 @@ updateBattleMakeAlexGetIntoPosition:
 
     ; Return if screen is scrolling
     ld a, (v_scrollFlags)
-    and $0F
+    and SCROLL_ANY
     ret nz
 
     ; Return if alex isn't walking

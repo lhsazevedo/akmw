@@ -7,7 +7,7 @@ _LABEL_49FC_:
     ld (ix + Entity.spriteDescriptorPointer.low), <nullSpriteDescriptor
     ld (ix + Entity.spriteDescriptorPointer.high), >nullSpriteDescriptor
     ld a, (v_scrollFlags)
-    and $0F
+    and SCROLL_ANY
     ret nz
     ld (ix + Entity.state), l
     ld (ix + Entity.stateTimer), h

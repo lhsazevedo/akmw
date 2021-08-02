@@ -3,7 +3,7 @@ updateEntity0x15:
     ld (ix + Entity.spriteDescriptorPointer.low), <nullSpriteDescriptor
     ld (ix + Entity.spriteDescriptorPointer.high), >nullSpriteDescriptor
     ld a, (v_scrollFlags)
-    and $0F
+    and SCROLL_ANY
     ret nz
     bit 0, (ix + Entity.flags)
     jr z, _LABEL_4B7A_
