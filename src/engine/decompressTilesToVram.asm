@@ -1,4 +1,4 @@
-decompressTilesToVRAM:
+decompressTilesToVram:
     ld b, $04
 @bitplaneLoop:
     push bc

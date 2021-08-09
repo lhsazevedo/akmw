@@ -544,7 +544,7 @@ initialVDPRegistersWrites:
 ; Write to CRAM at $C0 command
 .db $10 $C0
 
-.INCLUDE "engine/decompress.asm"
+.INCLUDE "engine/decompressTilesToVram.asm"
 
 ; Unknown data
 .db $CF
@@ -4803,7 +4803,7 @@ prepareForBattle:
     ld hl, battleTiles
     ld de, $7000
     di
-    jp decompressTilesToVRAM
+    jp decompressTilesToVram
 
 drawAlexName_LABEL_7941_:
     ; Backup nametable to draw names

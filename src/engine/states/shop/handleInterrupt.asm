@@ -87,7 +87,7 @@ _LABEL_1C33_:
     ld (Mapper_Slot2), a
     ld hl, _DATA_172B1_
     ld de, $5600
-    call decompressTilesToVRAM
+    call decompressTilesToVram
     ld a, $82
     ld (Mapper_Slot2), a
     ld a, (_RAM_C054_)
@@ -192,10 +192,10 @@ _LABEL_1D04_:
     ld (Mapper_Slot2), a
     ld hl, _DATA_153F3_
     ld de, $4520
-    call decompressTilesToVRAM
+    call decompressTilesToVram
     ld hl, _DATA_15840_
     ld de, $4E00
-    call decompressTilesToVRAM
+    call decompressTilesToVram
     ld de, _RAM_CB08_
     ld hl, _DATA_15800_
     ld bc, $0808

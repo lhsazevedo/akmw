@@ -34,7 +34,7 @@ initLevelStartingState:
     ; Decompress map tiles to VRAM
     ld hl, mapTiles
     ld de, $4000
-    call decompressTilesToVRAM
+    call decompressTilesToVram
 
     ; Draw closed map parchment
     ld de, $78C8
@@ -102,7 +102,7 @@ initLevelStartingState:
 
     ld hl, tiles_AlexKiddEatingRiceBall
     ld de, $6C00
-    call decompressTilesToVRAM
+    call decompressTilesToVram
 
     ld ix, v_entities.3
     ld (ix + Entity.type), $62

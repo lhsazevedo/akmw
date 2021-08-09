@@ -26,7 +26,7 @@ loadTitleSprites:
     ; Load Janken tiles
     ld hl, jankenTiles
     ld de, $6400
-    call decompressTilesToVRAM
+    call decompressTilesToVram
 
     ; Load sprite descriptors
     ld a, $82

@@ -107,7 +107,7 @@ updateBattleLoadOpponentTilesAndShowTextbox1:
     ; Load opponent tiles
     ld hl, (v_battleOpponentTilesPointer)
     ld de, $6400
-    call decompressTilesToVRAM
+    call decompressTilesToVram
     ei
 
     ld a, $82
