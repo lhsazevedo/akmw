@@ -2605,7 +2605,7 @@ _LABEL_44E2_:
     ld de, $0A1F
     jr _LABEL_455E_
 
-_LABEL_4508_:
+handleAction:
     bit 0, (ix+28)
     ret nz
     ld a, (v_alex.isOffScreenFlags.high)

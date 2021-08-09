@@ -29,7 +29,7 @@ updateAlexWalking:
     jr z, +
     ld (ix + Entity.state), $01
     call resetEntityUnknown3AndAlexSpeed
-    jp _LABEL_4508_
+    jp handleAction
 
 +:
     bit 4, a
@@ -208,7 +208,7 @@ updateAlexInAir:
 ++:
     ld a, (v_inputDataChanges)
     and $20
-    call nz, _LABEL_4508_
+    call nz, handleAction
 +++:
     bit 2, (ix+28)
     jp nz, _LABEL_2D4A_
@@ -1000,7 +1000,7 @@ _LABEL_3392_:
 ++:
     ld a, (v_inputDataChanges)
     bit 5, a
-    jp nz, _LABEL_4508_
+    jp nz, handleAction
     ld a, (v_inputData)
     ld c, a
     bit JOY_UP_BIT, c
