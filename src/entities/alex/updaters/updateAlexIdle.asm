@@ -1,6 +1,6 @@
 ; 2nd entry of Jump Table from 2982 (indexed by v_alex.state)
 updateAlexIdle:
-    call _LABEL_3B56_
+    call resetEntityUnknown3AndAlexSpeed
     ld (v_alex.ySpeed), hl
     bit 4, (ix + Entity.unknown8)
     jp nz, _LABEL_3E0B_

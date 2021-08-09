@@ -1342,8 +1342,8 @@ _LABEL_3B50_:
     ld hl, (v_alex.xSpeed)
     add hl, de
     jr nc, +
-_LABEL_3B56_:
-    res 2, (ix+20)
+resetEntityUnknown3AndAlexSpeed:
+    res 2, (ix + Entity.unknown3)
     ld hl, $0000
 +:
     ld (v_alex.xSpeed), hl
@@ -1391,8 +1391,8 @@ _LABEL_3BA1_:
     ld hl, (v_alex.xSpeed)
     or a
     adc hl, de
-    jp nc, _LABEL_3B56_
-    jp z, _LABEL_3B56_
+    jp nc, resetEntityUnknown3AndAlexSpeed
+    jp z, resetEntityUnknown3AndAlexSpeed
     ld (v_alex.xSpeed), hl
     ret
 
@@ -2064,7 +2064,7 @@ _LABEL_4124_:
     jr nz, +
     cp $04
     ret nc
-    call _LABEL_3B56_
+    call resetEntityUnknown3AndAlexSpeed
     ld (v_horizontalScrollSpeed), hl
     ret
 
@@ -2084,7 +2084,7 @@ _LABEL_4124_:
     jr nz, +
     cp $F4
     ret c
-    call _LABEL_3B56_
+    call resetEntityUnknown3AndAlexSpeed
     ld (v_horizontalScrollSpeed), hl
     ret
 

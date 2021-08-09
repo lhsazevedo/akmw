@@ -1,8 +1,9 @@
-; 1st entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 updateAlex:
+    ; Reset scroll speed
     ld hl, $0000
     ld (v_horizontalScrollSpeed), hl
     ld (v_verticalScrollSpeed), hl
+
     bit 7, (ix + Entity.flags)
     call nz, _LABEL_2F41_
     ld a, (v_alex.state)

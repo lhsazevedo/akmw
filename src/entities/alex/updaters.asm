@@ -55,7 +55,7 @@ updateAlexWalking:
     bit 5, a
     jr z, +
     ld (ix + Entity.state), $01
-    call _LABEL_3B56_
+    call resetEntityUnknown3AndAlexSpeed
     jp _LABEL_4508_
 
 +:
@@ -78,7 +78,7 @@ updateAlexWalking:
     call _LABEL_39ED_
     jr nc, +++
 ++:
-    call _LABEL_3B56_
+    call resetEntityUnknown3AndAlexSpeed
     ld a, (v_inputData)
     bit JOY_DOWN_BIT, a
     jp nz, crouch
@@ -147,7 +147,7 @@ _LABEL_2C25_:
     call _LABEL_39ED_
     jr nc, +++
 ++:
-    call _LABEL_3B56_
+    call resetEntityUnknown3AndAlexSpeed
     ld a, (v_inputData)
     bit JOY_DOWN_BIT, a
     jp nz, crouch
@@ -320,7 +320,7 @@ _LABEL_2D7F_:
     jp _LABEL_3B4B_
 
 +++:
-    call _LABEL_3B56_
+    call resetEntityUnknown3AndAlexSpeed
     ld a, (v_inputData)
     bit JOY_RIGHT_BIT, a
     ret z
@@ -375,7 +375,7 @@ _LABEL_2DF3_:
     jp _LABEL_3B9C_
 
 +++:
-    call _LABEL_3B56_
+    call resetEntityUnknown3AndAlexSpeed
     ld a, (v_inputData)
     bit JOY_LEFT_BIT, a
     ret z
@@ -445,7 +445,7 @@ updateAlexCrouched:
     ld de, $0902
     ld a, $0D
     call _LABEL_3A03_
-    jp c, _LABEL_3B56_
+    jp c, resetEntityUnknown3AndAlexSpeed
     ld de, $0020
     jp _LABEL_3B4B_
 
@@ -502,10 +502,10 @@ _LABEL_2F2C_:
     ld de, $090E
     ld a, $0D
     call _LABEL_3A03_
-    jp c, _LABEL_3B56_
+    jp c, resetEntityUnknown3AndAlexSpeed
     ld de, $FFE0
     call _LABEL_3BA1_
-    jp nc, _LABEL_3B56_
+    jp nc, resetEntityUnknown3AndAlexSpeed
     ret
 
 _LABEL_2F41_:
@@ -775,7 +775,7 @@ alexHandler_3180:
 alexHandler_31A8:
     dec (ix+27)
     jr nz, ++
-    call _LABEL_3B56_
+    call resetEntityUnknown3AndAlexSpeed
     ld hl, v_gameState
     ld a, (hl)
     cp $85
@@ -825,7 +825,7 @@ alexHandler_31CC:
     ld (v_nametableChangeRequest), a
     ld hl, $00D0
     ld (v_alex.ySpeed), hl
-    call _LABEL_3B56_
+    call resetEntityUnknown3AndAlexSpeed
     push ix
     call _LABEL_6671_
     pop ix
@@ -847,7 +847,7 @@ _LABEL_3230_:
     add a, a
     and $F0
     ld (v_alex.xPos.high), a
-    call _LABEL_3B56_
+    call resetEntityUnknown3AndAlexSpeed
     ld hl, v_alex.unknown3
     ld a, (hl)
     and $2B
@@ -861,7 +861,7 @@ _LABEL_3230_:
 
 ; 11th entry of Jump Table from 2982 (indexed by v_alex.state)
 alexHandler_3256:
-    call _LABEL_3B56_
+    call resetEntityUnknown3AndAlexSpeed
     ld (v_alex.ySpeed), hl
     ld a, (v_inputData)
     rrca
@@ -1002,7 +1002,7 @@ saveTempAlexCopy:
 
 ; 8th entry of Jump Table from 2982 (indexed by v_alex.state)
 alexHandler_336F:
-    call _LABEL_3B56_
+    call resetEntityUnknown3AndAlexSpeed
     ld (v_alex.ySpeed), hl
     res 4, (ix+20)
     res 2, (ix+20)
@@ -1367,7 +1367,7 @@ _LABEL_363E_:
     jp _LABEL_3B4B_
 
 +:
-    call _LABEL_3B56_
+    call resetEntityUnknown3AndAlexSpeed
     ld a, (v_inputData)
     bit JOY_RIGHT_BIT, a
     ret z
@@ -1410,7 +1410,7 @@ _LABEL_369A_:
     jp _LABEL_3B9C_
 
 +:
-    call _LABEL_3B56_
+    call resetEntityUnknown3AndAlexSpeed
     ld a, (v_inputData)
     bit JOY_LEFT_BIT, a
     ret z
@@ -1494,7 +1494,7 @@ updateAlexFlyingPeticopter:
     jp _LABEL_3B4B_
 
 +:
-    call _LABEL_3B56_
+    call resetEntityUnknown3AndAlexSpeed
     ld a, (v_inputData)
     bit JOY_RIGHT_BIT, a
     ret z
@@ -1529,7 +1529,7 @@ _LABEL_378F_:
     jp _LABEL_3B9C_
 
 +:
-    call _LABEL_3B56_
+    call resetEntityUnknown3AndAlexSpeed
     ld a, (v_inputData)
     bit JOY_LEFT_BIT, a
     ret z
@@ -1649,7 +1649,7 @@ _LABEL_389C_:
     ld (v_shouldSpawnRidingBoat_RAM_C051_), a
     ld (_RAM_C054_), a
     call _LABEL_4415_
-    call _LABEL_3B56_
+    call resetEntityUnknown3AndAlexSpeed
     ld (v_alex.ySpeed), hl
     res 0, (ix+28)
     ld a, (v_alex.unknown3)
@@ -1662,11 +1662,11 @@ _LABEL_389C_:
 
 ; 28th entry of Jump Table from 2982 (indexed by v_alex.state)
 alexHandler_38C2:
-    jp _LABEL_3B56_
+    jp resetEntityUnknown3AndAlexSpeed
 
 ; 20th entry of Jump Table from 2982 (indexed by v_alex.state)
 alexHandler_38C5:
-    call _LABEL_3B56_
+    call resetEntityUnknown3AndAlexSpeed
     ld hl, _DATA_9122_
     call loadAlexAnimationDescriptor
     ld de, $1904
@@ -1763,7 +1763,7 @@ alexHandler_3961:
     jp _LABEL_4189_
 
 ++:
-    call _LABEL_3B56_
+    call resetEntityUnknown3AndAlexSpeed
     ld (v_alex.ySpeed), hl
     ld (ix + Entity.state), $17
     ld a, ($000A)
@@ -1784,7 +1784,7 @@ alexHandler_39A5:
 
 ; 26th entry of Jump Table from 2982 (indexed by v_alex.state)
 alexHandler_39B4:
-    call _LABEL_3B56_
+    call resetEntityUnknown3AndAlexSpeed
     bit 6, (ix+20)
     jr nz, +
     call _LABEL_3A68_
@@ -1802,6 +1802,6 @@ alexHandler_39B4:
 
 ; 27th entry of Jump Table from 2982 (indexed by v_alex.state)
 alexHandler_39D4:
-    call _LABEL_3B56_
+    call resetEntityUnknown3AndAlexSpeed
     ld (v_alex.ySpeed), hl
     ret
