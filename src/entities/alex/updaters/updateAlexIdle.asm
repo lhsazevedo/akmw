@@ -39,11 +39,12 @@ updateAlexIdle:
 
 +:
     ld a, (v_inputDataChanges)
+
     bit JOY_BTN2_BIT, a
     jp nz, _LABEL_4508_
 
     bit JOY_BTN1_BIT, a
-    jp nz, _LABEL_2CAE_
+    jp nz, jump
 
     ld a, (v_inputData)
     bit JOY_LEFT_BIT, a

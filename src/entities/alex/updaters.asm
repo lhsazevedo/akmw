@@ -33,7 +33,7 @@ updateAlexWalking:
 
 +:
     bit 4, a
-    jp nz, _LABEL_2CAE_
+    jp nz, jump
     bit 1, (ix+20)
     jp nz, _LABEL_2C25_
     ld de, $0102
@@ -169,7 +169,7 @@ _LABEL_2CA1_:
     set 2, (ix+28)
     jr +
 
-_LABEL_2CAE_:
+jump:
     ld a, $91
     ld (v_soundControl), a
     ld (ix+27), $16
