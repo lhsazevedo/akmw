@@ -2616,11 +2616,11 @@ handleAction:
     cp $05
     ret z
     ld a, (_RAM_C054_)
-    ld hl, _DATA_4523_
+    ld hl, actionHandlersPointers
     jp jumpToAthPointer
 
 ; Jump Table from 4523 to 453E (14 entries, indexed by _RAM_C054_)
-_DATA_4523_:
+actionHandlersPointers:
 .dw _LABEL_453F_ _LABEL_453F_ _LABEL_453F_ _LABEL_4641_ _LABEL_464E_ _LABEL_48C5_ _LABEL_453F_ _LABEL_468F_
 .dw _LABEL_4453_ _LABEL_4453_ _LABEL_453F_ _LABEL_453F_ _LABEL_453F_ _LABEL_453F_
 
