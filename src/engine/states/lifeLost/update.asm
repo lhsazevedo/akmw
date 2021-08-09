@@ -284,7 +284,7 @@ gameOver_LABEL_6DC9_:
     jp _LABEL_6E41_
 
 +:
-    ld a, (_RAM_C007_)
+    ld a, (v_inputDataChanges)
     and $20
     jp z, _LABEL_6E41_
     ld hl, v_itemBeignBoughtIndex

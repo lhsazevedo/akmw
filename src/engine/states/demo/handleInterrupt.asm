@@ -33,7 +33,7 @@ handleInterruptDemoState:
     ld (v_demoInputDataTimer), hl
     xor c
     and c
-    ld (_RAM_C007_), a
+    ld (v_inputDataChanges), a
 ++:
     ld (v_demoCurrentInputData), bc
     ld a, c

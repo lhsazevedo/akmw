@@ -51,7 +51,7 @@ updateAlexWalking:
     cp ALEX_WALKING
     ret nz
 ++:
-    ld a, (_RAM_C007_)
+    ld a, (v_inputDataChanges)
     bit 5, a
     jr z, +
     ld (ix + Entity.state), $01
@@ -233,7 +233,7 @@ updateAlexInAir:
     jr +++
 
 ++:
-    ld a, (_RAM_C007_)
+    ld a, (v_inputDataChanges)
     and $20
     call nz, _LABEL_4508_
 +++:
@@ -552,7 +552,7 @@ updateAlexRidingMotorcycle:
     ld a, $0F
     call _LABEL_3A41_
     jp nc, _LABEL_3013_
-    ld a, (_RAM_C007_)
+    ld a, (v_inputDataChanges)
     bit 4, a
     jp nz, _LABEL_301D_
     ld a, (v_alex.xSpeed.high)
@@ -657,11 +657,11 @@ updateAlexRidingBoat:
     call _LABEL_3C48_
     bit 0, (ix+28)
     jr nz, +
-    ld a, (_RAM_C007_)
+    ld a, (v_inputDataChanges)
     and $20
     call nz, _LABEL_4453_
 +:
-    ld a, (_RAM_C007_)
+    ld a, (v_inputDataChanges)
     bit 4, a
     jp nz, _LABEL_30F5_
     ld a, (v_alex.xSpeed.high)
@@ -705,7 +705,7 @@ updateAlexRidingBoatInAir:
     call _LABEL_3C48_
     bit 0, (ix+28)
     jr nz, +
-    ld a, (_RAM_C007_)
+    ld a, (v_inputDataChanges)
     and $20
     call nz, _LABEL_4453_
 +:
@@ -1025,7 +1025,7 @@ _LABEL_3392_:
     jp loadAlexAnimationDescriptor
 
 ++:
-    ld a, (_RAM_C007_)
+    ld a, (v_inputDataChanges)
     bit 5, a
     jp nz, _LABEL_4508_
     ld a, (v_inputData)
@@ -1209,7 +1209,7 @@ updateAlexSwiming:
     jr +++
 
 ++:
-    ld a, (_RAM_C007_)
+    ld a, (v_inputDataChanges)
     and $20
     jr z, +++
     call _LABEL_44E2_
@@ -1446,7 +1446,7 @@ _LABEL_369A_:
 updateAlexFlyingPeticopter:
     bit 6, (ix+28)
     jr nz, +
-    ld a, (_RAM_C007_)
+    ld a, (v_inputDataChanges)
     and $10
     ret z
     set 6, (ix+28)
@@ -1459,7 +1459,7 @@ updateAlexFlyingPeticopter:
     call _LABEL_3C48_
     bit 0, (ix+28)
     jr nz, +
-    ld a, (_RAM_C007_)
+    ld a, (v_inputDataChanges)
     and $20
     call nz, _LABEL_4453_
 +:
@@ -1559,7 +1559,7 @@ _LABEL_37D5_:
     ld a, (v_alex.stateTimer)
     or a
     jr nz, ++
-    ld a, (_RAM_C007_)
+    ld a, (v_inputDataChanges)
     and $10
     jr nz, +
     ld a, (v_alex.yPos.high)
@@ -1608,7 +1608,7 @@ _LABEL_382B_:
     ld a, (v_alex.stateTimer)
     or a
     jr nz, _LABEL_3868_
-    ld a, (_RAM_C007_)
+    ld a, (v_inputDataChanges)
     and $10
     jr nz, _LABEL_3864_
     ld de, $0020
@@ -1630,7 +1630,7 @@ _LABEL_3875_:
     ld a, (v_alex.stateTimer)
     or a
     jp nz, _LABEL_3868_
-    ld a, (_RAM_C007_)
+    ld a, (v_inputDataChanges)
     and $10
     jr nz, _LABEL_3864_
     ret
@@ -1707,7 +1707,7 @@ alexHandler_3919:
     jp _LABEL_4189_
 
 _LABEL_3928_:
-    ld a, (_RAM_C007_)
+    ld a, (v_inputDataChanges)
     bit 0, a
     jr z, +
     dec (ix+23)

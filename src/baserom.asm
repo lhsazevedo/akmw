@@ -1493,18 +1493,26 @@ _LABEL_3C28_:
 _LABEL_3C45_:
     ld de, $0C08
 _LABEL_3C48_:
+    ; @TODO
     xor a
     ld (_RAM_C213_), a
+
+    ; Return if offscreen
     ld a, (v_alex.isOffScreenFlags.high)
     or a
     ret nz
+
     call getTileNearEntityWithXYOffset
+
     bit 7, a
     jp nz, _LABEL_3CF3_
+
     bit 6, a
     jp z, +
+
     bit 5, a
     jr nz, _LABEL_3CCF_
+
     dec hl
     ld a, (hl)
     sub $90
@@ -1697,7 +1705,7 @@ _LABEL_3DBF_:
 
 _LABEL_3DD4_:
     jr z, +
-    ld a, (_RAM_C007_)
+    ld a, (v_inputDataChanges)
     bit 1, a
     ret z
     ld (ix + Entity.state), $11

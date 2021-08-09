@@ -3,7 +3,7 @@ _RAM_C000_ dsb $4
 v_VDPRegister1Value db
 v_inputFlags db
 v_inputData db      ; inverse of port Port_IOPort1 (port $DC)
-_RAM_C007_ db
+v_inputDataChanges db
 v_interruptFlags db
 v_spriteTerminatorPointer dw
 ; v_spriteTerminatorPointer.low db
