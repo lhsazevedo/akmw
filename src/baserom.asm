@@ -2621,8 +2621,20 @@ handleAction:
 
 ; Jump Table from 4523 to 453E (14 entries, indexed by _RAM_C054_)
 actionHandlersPointers:
-.dw _LABEL_453F_ _LABEL_453F_ _LABEL_453F_ _LABEL_4641_ _LABEL_464E_ _LABEL_48C5_ _LABEL_453F_ _LABEL_468F_
-.dw _LABEL_4453_ _LABEL_4453_ _LABEL_453F_ _LABEL_453F_ _LABEL_453F_ _LABEL_453F_
+.dw _LABEL_453F_
+.dw _LABEL_453F_
+.dw _LABEL_453F_
+.dw _LABEL_4641_
+.dw _LABEL_464E_
+.dw _LABEL_48C5_
+.dw _LABEL_453F_
+.dw _LABEL_468F_
+.dw _LABEL_4453_
+.dw _LABEL_4453_
+.dw _LABEL_453F_
+.dw _LABEL_453F_
+.dw _LABEL_453F_
+.dw _LABEL_453F_
 
 ; 1st entry of Jump Table from 4523 (indexed by _RAM_C054_)
 _LABEL_453F_:

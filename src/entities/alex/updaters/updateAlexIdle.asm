@@ -12,12 +12,12 @@ updateAlexIdle:
     ld de, $1904
     ld a, (v_alex.isOffScreenFlags.high)
     or a
-    jr z, +
+    jr z, @offScreen
     call _LABEL_3A4F_
     jp nc, _LABEL_2CA1_
     jr ++
 
-+:
+@offScreen:
     ld a, $08
     call _LABEL_3A41_
     jp nc, _LABEL_2CA1_
@@ -25,6 +25,7 @@ updateAlexIdle:
     ld a, (v_alex.state)
     cp ALEX_IDLE
     ret nz
+
 ++:
     ld a, (_RAM_C213_)
     or a
