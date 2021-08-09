@@ -1,30 +1,3 @@
-crouch:
-    ld (ix + Entity.state), ALEX_CROUCHED
-    bit 0, (ix + Entity.unknown3)
-    ld hl, _DATA_8DA7_
-    jp z, loadAlexAnimationDescriptor
-    ld hl, _DATA_8DBC_
-    jp loadAlexAnimationDescriptor
-
-walkLeft:
-    res 1, (ix + Entity.unknown3)
---:
-    res 0, (ix + Entity.unknown3)
-    ld (ix + Entity.state), ALEX_WALKING
-    ret
-
-walkRight:
-    set 1, (ix + Entity.unknown3)
--:
-    set 0, (ix + Entity.unknown3)
-    ld (ix + Entity.state), ALEX_WALKING
-    ret
-
-walk:
-    bit 1, (ix + Entity.unknown3)
-    jr z, --
-    jr -
-
 updateAlexWalking:
     ld hl, $0000
     ld (v_alex.ySpeed), hl

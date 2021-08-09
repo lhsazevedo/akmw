@@ -39,14 +39,46 @@ updateAlexIdle:
 
 +:
     ld a, (v_inputDataChanges)
-    bit 5, a
+    bit JOY_BTN2_BIT, a
     jp nz, _LABEL_4508_
-    bit 4, a
+
+    bit JOY_BTN1_BIT, a
     jp nz, _LABEL_2CAE_
+
     ld a, (v_inputData)
-    bit 2, a
+    bit JOY_LEFT_BIT, a
     jr nz, walkLeft
-    bit 3, a
+    
+    bit JOY_RIGHT_BIT, a
     jr nz, walkRight
-    bit 1, a
+
+    ; Return if pressing down, else fall through to crouch
+    bit JOY_DOWN_BIT, a
     ret z
+
+crouch:
+    ld (ix + Entity.state), ALEX_CROUCHED
+    bit 0, (ix + Entity.unknown3)
+    ld hl, _DATA_8DA7_
+    jp z, loadAlexAnimationDescriptor
+    ld hl, _DATA_8DBC_
+    jp loadAlexAnimationDescriptor
+
+walkLeft:
+    res 1, (ix + Entity.unknown3)
+--:
+    res 0, (ix + Entity.unknown3)
+    ld (ix + Entity.state), ALEX_WALKING
+    ret
+
+walkRight:
+    set 1, (ix + Entity.unknown3)
+-:
+    set 0, (ix + Entity.unknown3)
+    ld (ix + Entity.state), ALEX_WALKING
+    ret
+
+walk:
+    bit 1, (ix + Entity.unknown3)
+    jr z, --
+    jr -
