@@ -12,13 +12,13 @@ updateAlexWalking:
     or a
     jr z, +
     call _LABEL_3A4F_
-    jp nc, _LABEL_2CA1_
+    jp nc, fall
     jr ++
 
 +:
     ld a, $08
     call _LABEL_3A41_
-    jp nc, _LABEL_2CA1_
+    jp nc, fall
     call _LABEL_3D07_
     ld a, (v_alex.state)
     cp ALEX_WALKING
@@ -94,13 +94,13 @@ alex_LABEL_2BFA_:
 _LABEL_2C04_:
     ld hl, _DATA_90A7_
     ld a, (v_alex.unknown3)
-    bit 0, a
+    bit ALEX_UKNW3_FACING_RIGHT_BIT, a
     jp z, loadAlexAnimationDescriptor
     ld hl, _DATA_90BC_
     jp loadAlexAnimationDescriptor
 
 +:
-    set 0, (ix + Entity.unknown3)
+    set ALEX_UKNW3_FACING_RIGHT_BIT, (ix + Entity.unknown3)
     ld de, $0040
     call _LABEL_3B61_
     ld hl, _DATA_8CF4_

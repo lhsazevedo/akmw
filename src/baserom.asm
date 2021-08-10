@@ -1353,7 +1353,7 @@ _LABEL_3B61_:
     ld a, (v_alex.unknown3)
     bit 2, a
     jr z, +
-    set 0, a
+    set ALEX_UKNW3_FACING_RIGHT_BIT, a
     ld hl, (v_alex.xSpeed)
     add hl, de
     jr nc, ++
@@ -2813,7 +2813,7 @@ _LABEL_464E_:
     add a, $04
     ld (v_entities.4.yPos.high), a
     ld a, (v_alex.unknown3)
-    and $02
+    and ALEX_UKNW3_MOVING_RIGHT
     ld (v_entities.4.unknown3), a
     ld hl, $FF00
     jr z, +

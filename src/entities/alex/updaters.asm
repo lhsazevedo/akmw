@@ -1,26 +1,29 @@
 .INCLUDE "src/entities/alex/updaters/updateAlexWalking.asm"
 
-_LABEL_2CA1_:
+fall:
     ld a, (v_alex.unknown3)
     and $BF
     or $80
-    set 2, (ix+28)
+    set 2, (ix + Entity.unknown8)
     jr +
 
 jump:
-    ld a, $91
+    ld a, SOUND_JUMP
     ld (v_soundControl), a
-    ld (ix+27), $16
+
+    ld (ix + Entity.stateTimer), $16
     ld a, (v_alex.unknown3)
     and $3F
 +:
     ld (v_alex.unknown3), a
-    bit 0, a
-    ld (ix + Entity.state), $03
-    ld hl, _DATA_8F00_
-    jr z, +
-    ld hl, _DATA_8F15_
-+:
+    bit ALEX_UKNW3_FACING_RIGHT_BIT, a
+
+    ld (ix + Entity.state), ALEX_IN_AIR
+
+    ld hl, _DATA_8F00_  ; in air left anim descriptor
+    jr z, @left
+    ld hl, _DATA_8F15_  ; in air right anim descriptor
+@left:
     call loadAlexAnimationDescriptor
 
 ; 4th entry of Jump Table from 2982 (indexed by v_alex.state)
@@ -202,8 +205,8 @@ _LABEL_2DF3_:
 
 +++++:
     ld a, (v_alex.unknown3)
-    bit 0, a
-    res 0, a
+    bit ALEX_UKNW3_FACING_RIGHT_BIT, a
+    res ALEX_UKNW3_FACING_RIGHT_BIT, a
     ld (v_alex.unknown3), a
     ld hl, _DATA_8F00_
     ld a, (v_alex.unknown8)
@@ -232,13 +235,13 @@ updateAlexCrouched:
     or a
     jr z, +
     call _LABEL_3A4F_
-    jp nc, _LABEL_2CA1_
+    jp nc, fall
     jr ++
 
 +:
     ld a, $08
     call _LABEL_3A41_
-    jp nc, _LABEL_2CA1_
+    jp nc, fall
 ++:
     ld a, (v_inputData)
     bit JOY_DOWN_BIT, a
@@ -267,11 +270,11 @@ updateAlexCrouched:
     ld c, a
     ld a, (v_alex.unknown3)
     and $FB
-    bit 2, c
+    bit JOY_LEFT_BIT, c
     jr nz, ++
-    bit 3, c
+    bit JOY_RIGHT_BIT, c
     ret z
-    bit 1, c
+    bit JOY_DOWN_BIT, c
     jr nz, +
     ld de, $090E
     ld a, $0D
@@ -281,7 +284,7 @@ updateAlexCrouched:
     ld (v_alex.xSpeed), hl
     set 2, a
 +:
-    or $03
+    or ALEX_UKNW3_FACING_RIGHT | ALEX_UKNW3_MOVING_RIGHT
     bit 0, (ix+20)
     ld (v_alex.unknown3), a
     ret nz
@@ -694,7 +697,7 @@ alexHandler_3256:
     ld hl, $0100
     ld (v_alex.xSpeed), hl
     ld (ix+20), $07
-    jp _LABEL_2CA1_
+    jp fall
 
 +:
     ld de, $07FF
@@ -706,7 +709,7 @@ alexHandler_3256:
     ld hl, $FF00
     ld (v_alex.xSpeed), hl
     ld (ix+20), $04
-    jp _LABEL_2CA1_
+    jp fall
 
 ++:
     ld a, (v_alex.isOffScreenFlags.high)
@@ -774,7 +777,7 @@ _LABEL_3301_:
     dec hl
     ld a, (hl)
     cp $3F
-    jp nz, _LABEL_2CA1_
+    jp nz, fall
     jr _LABEL_3301_
 
 _LABEL_3320_:
@@ -932,7 +935,7 @@ _LABEL_345E_:
     ld a, (hl)
     and $E7
     ld (hl), a
-    jp _LABEL_2CA1_
+    jp fall
 
 ; 21st entry of Jump Table from 2982 (indexed by v_alex.state)
 updateAutoWalkingRight:
@@ -1185,7 +1188,7 @@ _LABEL_363E_:
     bit JOY_RIGHT_BIT, a
     ret z
     ld a, (v_alex.unknown3)
-    or $03
+    or ALEX_UKNW3_FACING_RIGHT | ALEX_UKNW3_MOVING_RIGHT
     ld (v_alex.unknown3), a
     ret
 
@@ -1312,7 +1315,7 @@ updateAlexFlyingPeticopter:
     bit JOY_RIGHT_BIT, a
     ret z
     ld a, (v_alex.unknown3)
-    or $03
+    or ALEX_UKNW3_FACING_RIGHT | ALEX_UKNW3_MOVING_RIGHT
     ld (v_alex.unknown3), a
     ret
 

@@ -5,28 +5,33 @@ updateAlexIdle:
 
     bit 4, (ix + Entity.unknown8)
     jp nz, _LABEL_3E0B_
+
     call _LABEL_3C45_
+
     ld a, (v_alex.state)
     cp ALEX_IDLE
     ret nz
+
     ld de, $1904
+
     ld a, (v_alex.isOffScreenFlags.high)
     or a
     jr z, @offScreen
+
     call _LABEL_3A4F_
-    jp nc, _LABEL_2CA1_
-    jr ++
+    jp nc, fall
+    jr @onGround
 
 @offScreen:
     ld a, $08
     call _LABEL_3A41_
-    jp nc, _LABEL_2CA1_
+    jp nc, fall
     call _LABEL_3D07_
     ld a, (v_alex.state)
     cp ALEX_IDLE
     ret nz
 
-++:
+@onGround:
     ld a, (_RAM_C213_)
     or a
     jp nz, _LABEL_3498_
