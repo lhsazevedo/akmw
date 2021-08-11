@@ -40,7 +40,7 @@ updateAlexWalking:
     bit JOY_BTN1_BIT, a
     jp nz, jump
 
-    bit 1, (ix + Entity.unknown3)
+    bit ALEX_UKNW3_MOVING_RIGHT_BIT, (ix + Entity.unknown3)
     jp nz, _LABEL_2C25_
     ld de, $0102
     ld a, (v_alex.isOffScreenFlags.high)

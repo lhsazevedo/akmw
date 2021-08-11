@@ -40,7 +40,7 @@ updateAlexInAir:
     call tickPunch
     jr nz, +++
     ld hl, alexAirLeftSpriteDescriptor
-    bit 0, (ix + Entity.unknown3)
+    bit ALEX_UKNW3_FACING_RIGHT_BIT, (ix + Entity.unknown3)
     jr z, +
     ld hl, alexAirRightSpriteDescriptor
 +:
@@ -106,7 +106,7 @@ _LABEL_2D4A_:
     jp z, setAlexIdleStateAndLoadIdleAnimationDescriptor
     call walk
 _LABEL_2D7F_:
-    bit 1, (ix + Entity.unknown3)
+    bit ALEX_UKNW3_MOVING_RIGHT_BIT, (ix + Entity.unknown3)
     jp nz, _LABEL_2DF3_
     ld de, $1802
     ld a, (v_alex.isOffScreenFlags.high)
@@ -256,7 +256,7 @@ updateAlexCrouched:
 +:
     bit 2, (ix + Entity.unknown3)
     jr z, +
-    bit 1, (ix + Entity.unknown3)
+    bit ALEX_UKNW3_MOVING_RIGHT_BIT, (ix + Entity.unknown3)
     jp nz, _LABEL_2F2C_
     ld de, $0902
     ld a, $0D
@@ -285,7 +285,7 @@ updateAlexCrouched:
     set 2, a
 +:
     or ALEX_UKNW3_FACING_RIGHT | ALEX_UKNW3_MOVING_RIGHT
-    bit 0, (ix + Entity.unknown3)
+    bit ALEX_UKNW3_FACING_RIGHT_BIT, (ix + Entity.unknown3)
     ld (v_alex.unknown3), a
     ret nz
     ld hl, _DATA_8DBC_
@@ -303,7 +303,7 @@ updateAlexCrouched:
     set 2, a
 +:
     and $FC
-    bit 0, (ix + Entity.unknown3)
+    bit ALEX_UKNW3_FACING_RIGHT_BIT, (ix + Entity.unknown3)
     ld (v_alex.unknown3), a
     ret z
     ld hl, _DATA_8DA7_
@@ -844,7 +844,7 @@ alexHandler_336F:
     call tickPunch
     ret nz
 _LABEL_3392_:
-    bit 1, (ix + Entity.unknown3)
+    bit ALEX_UKNW3_MOVING_RIGHT_BIT, (ix + Entity.unknown3)
     jr z, +
     ld hl, _DATA_90BC_
     jp loadAlexSpriteDescriptor
@@ -1034,7 +1034,7 @@ updateAlexSwiming:
     call tickPunch
     jr nz, +++
     ld hl, _DATA_8E01_
-    bit 0, (ix + Entity.unknown3)
+    bit ALEX_UKNW3_FACING_RIGHT_BIT, (ix + Entity.unknown3)
     jr z, +
     ld hl, _DATA_8E25_
 +:
@@ -1055,7 +1055,7 @@ updateAlexSwiming:
     ret nz
     ld c, $14
     ld a, (v_inputData)
-    bit 0, (ix + Entity.unknown3)
+    bit ALEX_UKNW3_FACING_RIGHT_BIT, (ix + Entity.unknown3)
     jr nz, ++
     bit JOY_BTN1_BIT, a
     jr z, +
@@ -1185,7 +1185,7 @@ _LABEL_35F8_:
     ret
 
 _LABEL_363E_:
-    bit 1, (ix + Entity.unknown3)
+    bit ALEX_UKNW3_MOVING_RIGHT_BIT, (ix + Entity.unknown3)
     jp nz, _LABEL_369A_
     ld de, $0301
     ld a, $0A
@@ -1311,7 +1311,7 @@ updateAlexFlyingPeticopter:
     jp loadAlexAnimationDescriptor
 
 ++:
-    bit 1, (ix + Entity.unknown3)
+    bit ALEX_UKNW3_MOVING_RIGHT_BIT, (ix + Entity.unknown3)
     jp nz, _LABEL_378F_
     ld de, $0302
     ld a, $0C
