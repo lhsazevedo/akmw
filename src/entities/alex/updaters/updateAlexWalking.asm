@@ -97,11 +97,11 @@ setAlexIdleStateAndLoadIdleAnimationDescriptor:
     ld (v_alex.state), a
 
 loadAlexIdleAnimationDescriptor:
-    ld hl, _DATA_90A7_
+    ld hl, alexIdleLeftSpriteDescriptor
     ld a, (v_alex.unknown3)
     bit ALEX_UKNW3_FACING_RIGHT_BIT, a
     jp z, loadAlexSpriteDescriptor
-    ld hl, _DATA_90BC_
+    ld hl, alexIdleRightSpriteDescriptor
     jp loadAlexSpriteDescriptor
 
 +:

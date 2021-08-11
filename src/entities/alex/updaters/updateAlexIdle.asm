@@ -76,9 +76,9 @@ updateAlexIdle:
 crouch:
     ld (ix + Entity.state), ALEX_CROUCHED
     bit ALEX_UKNW3_FACING_RIGHT_BIT, (ix + Entity.unknown3)
-    ld hl, _DATA_8DA7_
+    ld hl, alexCrouchingLeftSpriteDescriptor
     jp z, loadAlexSpriteDescriptor
-    ld hl, _DATA_8DBC_
+    ld hl, alexCrouchingRightSpriteDescriptor
     jp loadAlexSpriteDescriptor
 
 walkLeft:

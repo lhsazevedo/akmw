@@ -1099,7 +1099,7 @@ _LABEL_2A6E_:
     ld (ix + Entity.unknown11), $18
     ld (ix + Entity.unknown9), $08
     ld (ix + Entity.state), $07
-    ld hl, _DATA_90BC_
+    ld hl, alexIdleRightSpriteDescriptor
     jp loadAlexSpriteDescriptor
 
 startAutoWalkRight:
@@ -1108,7 +1108,7 @@ startAutoWalkRight:
     ld (ix + Entity.unknown9), $08
     ld (ix + Entity.state), ALEX_AUTO_WALKING_RIGHT
     ld (ix + Entity.yPos.high), $98
-    ld hl, _DATA_90BC_
+    ld hl, alexIdleRightSpriteDescriptor
     jp loadAlexSpriteDescriptor
 
 .INCLUDE "entities/alex/updaters/updateAlexIdle.asm"
@@ -2601,7 +2601,7 @@ _LABEL_43F2_:
     ld (v_alex.ySpeed), hl
     ld hl, $0000
     ld (v_alex.xSpeed), hl
-    ld hl, _DATA_90BC_
+    ld hl, alexIdleRightSpriteDescriptor
     call loadAlexSpriteDescriptor
 _LABEL_4415_:
     ld (ix+31), $18
@@ -2715,12 +2715,12 @@ punch:
     ld (ix + Entity.unknown7), ALEX_PUNCH_TIME
     bit ALEX_UKNW3_FACING_RIGHT_BIT, (ix + Entity.unknown3)
     jr nz, +
-    ld hl, _DATA_8DD1_
+    ld hl, alexPunchingLeftSpriteDescriptor
     ld de, $0CF9
     jr _LABEL_455E_
 
 +:
-    ld hl, _DATA_8DE9_
+    ld hl, alexPunchingRightSpriteDescriptor
     ld de, $0C17
 
 _LABEL_455E_:
@@ -2929,13 +2929,13 @@ _LABEL_48C5_:
     jr nz, +
     sub $08
     call nc, +++
-    ld hl, _DATA_8DD1_
+    ld hl, alexPunchingLeftSpriteDescriptor
     jr ++
 
 +:
     add a, $10
     call nc, ++++
-    ld hl, _DATA_8DE9_
+    ld hl, alexPunchingRightSpriteDescriptor
 ++:
     ld a, $A4
     ld (v_soundControl), a

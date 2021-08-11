@@ -157,7 +157,7 @@ _LABEL_2D7F_:
     and $03
     cp $01
     jr nz, +
-    ld hl, _DATA_8DE9_
+    ld hl, alexPunchingRightSpriteDescriptor
 +:
     call loadAlexSpriteDescriptor
     ld de, $0010
@@ -213,7 +213,7 @@ _LABEL_2DF3_:
     and $03
     cp $01
     jr nz, +
-    ld hl, _DATA_8DD1_
+    ld hl, alexPunchingLeftSpriteDescriptor
 +:
     call loadAlexSpriteDescriptor
     ld de, $FFF0
@@ -288,7 +288,7 @@ updateAlexCrouched:
     bit ALEX_UKNW3_FACING_RIGHT_BIT, (ix + Entity.unknown3)
     ld (v_alex.unknown3), a
     ret nz
-    ld hl, _DATA_8DBC_
+    ld hl, alexCrouchingRightSpriteDescriptor
     jp loadAlexSpriteDescriptor
 
 ++:
@@ -306,7 +306,7 @@ updateAlexCrouched:
     bit ALEX_UKNW3_FACING_RIGHT_BIT, (ix + Entity.unknown3)
     ld (v_alex.unknown3), a
     ret z
-    ld hl, _DATA_8DA7_
+    ld hl, alexCrouchingLeftSpriteDescriptor
     jp loadAlexSpriteDescriptor
 
 _LABEL_2F22_:
@@ -637,14 +637,14 @@ alexHandler_31CC:
     ld hl, $0080
     ld (v_alex.xSpeed), hl
     set 1, (ix + Entity.unknown3)
-    ld hl, _DATA_8D02_
+    ld hl, alexSwimmingRightAnimationDescriptor
     jp loadAlexAnimationDescriptor
 
 +:
     ld hl, $FF80
     ld (v_alex.xSpeed), hl
     res 1, (ix + Entity.unknown3)
-    ld hl, _DATA_8CFD_
+    ld hl, alexSwimmingLeftAnimationDescriptor
     jp loadAlexAnimationDescriptor
 
 ++:
@@ -846,11 +846,11 @@ alexHandler_336F:
 _LABEL_3392_:
     bit ALEX_UKNW3_MOVING_RIGHT_BIT, (ix + Entity.unknown3)
     jr z, +
-    ld hl, _DATA_90BC_
+    ld hl, alexIdleRightSpriteDescriptor
     jp loadAlexSpriteDescriptor
 
 +:
-    ld hl, _DATA_90A7_
+    ld hl, alexIdleLeftSpriteDescriptor
     jp loadAlexSpriteDescriptor
 
 ++:
@@ -1062,7 +1062,7 @@ updateAlexSwiming:
     ld c, $0A
 +:
     ld (ix + Entity.animationTimerResetValue), c
-    ld hl, _DATA_8CFD_
+    ld hl, alexSwimmingLeftAnimationDescriptor
     jp loadAlexAnimationDescriptor
 
 ++:
@@ -1072,7 +1072,7 @@ updateAlexSwiming:
     ld c, $0A
 +:
     ld (ix + Entity.animationTimerResetValue), c
-    ld hl, _DATA_8D02_
+    ld hl, alexSwimmingRightAnimationDescriptor
     jp loadAlexAnimationDescriptor
 
 +++:

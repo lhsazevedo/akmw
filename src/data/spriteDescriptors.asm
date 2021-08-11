@@ -836,44 +836,31 @@ _DATA_8CE6_:
 .db $02
 
 ; Pointer Table from 8CE7 to 8CEA (2 entries, indexed by v_alex.animationFrame)
-.dw _DATA_8E88_ _DATA_90BC_
+.dw _DATA_8E88_ alexIdleRightSpriteDescriptor
 
 ; Data from 8CEB to 8CEB (1 bytes)
 alexWalkingLeftAnimationDescriptor:
 .db $04
 .dw _DATA_8D2F_ _DATA_8D41_ _DATA_8D2F_ _DATA_8D56_
 
-; Data from 8CF4 to 8CF4 (1 bytes)
 alexWalkingRightAnimationDescriptor:
 .db $04
 .dw _DATA_8D6B_ _DATA_8D7D_ _DATA_8D6B_ _DATA_8D92_
 
-; Data from 8CFD to 8CFD (1 bytes)
-_DATA_8CFD_:
+alexSwimmingLeftAnimationDescriptor:
 .db $02
-
-; Pointer Table from 8CFE to 8D01 (2 entries, indexed by v_alex.animationFrame)
 .dw _DATA_8E01_ _DATA_8E13_
 
-; Data from 8D02 to 8D02 (1 bytes)
-_DATA_8D02_:
+alexSwimmingRightAnimationDescriptor:
 .db $02
-
-; Pointer Table from 8D03 to 8D06 (2 entries, indexed by v_alex.animationFrame)
 .dw _DATA_8E25_ _DATA_8E37_
 
-; Data from 8D07 to 8D07 (1 bytes)
 alexFlyingPeticopterLeftAnimationDescriptor:
 .db $04
-
-; Pointer Table from 8D08 to 8D0F (4 entries, indexed by v_alex.animationFrame)
 .dw _DATA_8F7B_ _DATA_8F9F_ _DATA_8FC6_ _DATA_8FEA_
 
-; Data from 8D10 to 8D10 (1 bytes)
 alexFlyingPeticopterRightAnimationDescriptor:
 .db $04
-
-; Pointer Table from 8D11 to 8D18 (4 entries, indexed by v_alex.animationFrame)
 .dw _DATA_9011_ _DATA_9035_ _DATA_905C_ _DATA_9080_
 
 ; Data from 8D19 to 8D19 (1 bytes)
@@ -941,22 +928,22 @@ _DATA_8D92_:
 .db $03 $01 $04 $09 $05
 
 ; Data from 8DA7 to 8DBB (21 bytes)
-_DATA_8DA7_:
+alexCrouchingLeftSpriteDescriptor:
 .db $86 $06 $14 $04 $04 $0C $0C $14 $14 $01 $00 $09 $01 $01 $02 $09
 .db $03 $03 $04 $0B $05
 
 ; Data from 8DBC to 8DD0 (21 bytes)
-_DATA_8DBC_:
+alexCrouchingRightSpriteDescriptor:
 .db $87 $06 $18 $04 $04 $0C $0C $14 $14 $00 $00 $08 $01 $00 $02 $08
 .db $03 $00 $04 $08 $05
 
 ; Data from 8DD1 to 8DE8 (24 bytes)
-_DATA_8DD1_:
+alexPunchingLeftSpriteDescriptor:
 .db $88 $07 $04 $01 $01 $08 $09 $09 $11 $11 $01 $00 $09 $01 $F9 $02
 .db $01 $03 $09 $04 $02 $05 $0A $06
 
 ; Data from 8DE9 to 8E00 (24 bytes)
-_DATA_8DE9_:
+alexPunchingRightSpriteDescriptor:
 .db $89 $07 $0C $01 $01 $09 $09 $08 $11 $11 $00 $00 $08 $01 $00 $02
 .db $08 $03 $10 $04 $01 $05 $09 $06
 
@@ -1111,13 +1098,13 @@ _DATA_9080_:
 .db $08 $05 $09 $0D $0A $15 $0B
 
 ; Data from 90A7 to 90BB (21 bytes)
-_DATA_90A7_:
+alexIdleLeftSpriteDescriptor:
 .db $A5 $06 $04 $00 $00 $08 $08 $10 $10 $01 $00 $09 $01 $01 $02 $09
 .db $03 $00 $04 $08 $05
 
 ; 2nd entry of Pointer Table from 8CE7 (indexed by v_alex.animationFrame)
 ; Data from 90BC to 90D0 (21 bytes)
-_DATA_90BC_:
+alexIdleRightSpriteDescriptor:
 .db $A6 $06 $0C $00 $00 $08 $08 $10 $10 $00 $00 $08 $01 $00 $02 $08
 .db $03 $00 $04 $08 $05
 
