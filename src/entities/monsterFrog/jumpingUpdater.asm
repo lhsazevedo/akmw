@@ -27,7 +27,7 @@ updateMonsterFrogJumping:
     ; whean the block underneath it is broken
     ; PS: Solid tile are the ones with charcode less than 128
     ld de, $1108
-    call getTileNearEntityWithXYOffset
+    call getNearEntityTileAttrWithOffset
     rlca
     ret nc
 

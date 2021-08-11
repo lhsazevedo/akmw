@@ -22,7 +22,7 @@ updateEntity0x2F:
     ld a, $01
     ld (ix + Entity.battleDecision), a
     ld de, $1108
-    call getTileNearEntityWithXYOffset
+    call getNearEntityTileAttrWithOffset
     rlca
     ret nc
     ld (ix + Entity.type), ENTITY_MONSTER_FROG_JUMPING

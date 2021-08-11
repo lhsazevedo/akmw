@@ -34,7 +34,7 @@ updateEntity0x09:
     res 0, (ix + Entity.unknown9)
 +++:
     ld de, $1004
-    call getTileNearEntityWithXYOffset
+    call getNearEntityTileAttrWithOffset
     rlca
     jr nc, +
     bit 1, (ix + Entity.unknown3)

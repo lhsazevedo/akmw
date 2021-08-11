@@ -3,11 +3,12 @@ updateAlexIdle:
     ; Reset alex ySpeed
     ld (v_alex.ySpeed), hl
 
-    bit 4, (ix + Entity.unknown8)
-    jp nz, _LABEL_3E0B_
+    bit ALEX_UKNW8_JITTER_BIT, (ix + Entity.unknown8)
+    jp nz, tickJitter
 
-    call _LABEL_3C45_
+    call interactWithTile
 
+    ; Return if state changed
     ld a, (v_alex.state)
     cp ALEX_IDLE
     ret nz
@@ -16,32 +17,40 @@ updateAlexIdle:
 
     ld a, (v_alex.isOffScreenFlags.high)
     or a
-    jr z, @offScreen
+    jr z, @onScreen
 
     call _LABEL_3A4F_
     jp nc, fall
     jr @onGround
 
-@offScreen:
+@onScreen:
     ld a, $08
     call _LABEL_3A41_
     jp nc, fall
-    call _LABEL_3D07_
+
+    call interactWithFloor
+
     ld a, (v_alex.state)
     cp ALEX_IDLE
     ret nz
 
 @onGround:
-    ld a, (_RAM_C213_)
+    ld a, (v_nametableEntryAttrLastThreeBits)
     or a
-    jp nz, _LABEL_3498_
-    bit 0, (ix + Entity.unknown8)
+    jp nz, splash
+
+    bit ALEX_UKNW8_PUNCH_BIT, (ix + Entity.unknown8)
     jr z, +
+
     bit 1, (ix + Entity.unknown8)
     jr nz, +
-    call _LABEL_462E_
+
+    call tickPunch
+
+    ; Return if punch is not over yet.
     ret nz
-    jp _LABEL_2C04_
+
+    jp loadAlexIdleAnimationDescriptor
 
 +:
     ld a, (v_inputDataChanges)
@@ -59,7 +68,8 @@ updateAlexIdle:
     bit JOY_RIGHT_BIT, a
     jr nz, walkRight
 
-    ; Return if pressing down, else fall through to crouch
+    ; Return if pressing down,
+    ; else fall through to crouch
     bit JOY_DOWN_BIT, a
     ret z
 
@@ -67,9 +77,9 @@ crouch:
     ld (ix + Entity.state), ALEX_CROUCHED
     bit 0, (ix + Entity.unknown3)
     ld hl, _DATA_8DA7_
-    jp z, loadAlexAnimationDescriptor
+    jp z, loadAlexSpriteDescriptor
     ld hl, _DATA_8DBC_
-    jp loadAlexAnimationDescriptor
+    jp loadAlexSpriteDescriptor
 
 walkLeft:
     res 1, (ix + Entity.unknown3)

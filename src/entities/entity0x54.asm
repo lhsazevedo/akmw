@@ -43,7 +43,7 @@ _LABEL_62F5_:
     xor $0C
     ld e, a
     ld d, $11
-    call getTileNearEntityWithXYOffset
+    call getNearEntityTileAttrWithOffset
     rlca
     jr c, _LABEL_6341_
     ld h, (ix + Entity.battleDecision)

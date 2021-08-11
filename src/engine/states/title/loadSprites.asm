@@ -39,7 +39,7 @@ loadTitleSprites:
     ld de, _RAM_C828_
     ld a, $0B
     call +
-    ld hl, _DATA_8F15_ + 1
+    ld hl, alexAirRightSpriteDescriptor + 1
     ld de, _RAM_C850_
     ld a, $13
     call +

@@ -6,7 +6,7 @@ updateBatRight:
     call checkAlexEntityCollision_LABEL_7D0B_
     jp nc, _LABEL_55A5_
     ld de, $0110
-    call getTileNearEntityWithXYOffset
+    call getNearEntityTileAttrWithOffset
     rlca
     jp nc, bat_LABEL_4F43_
     ld (ix + Entity.type), ENTITY_BAT_LEFT

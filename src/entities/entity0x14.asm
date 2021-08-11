@@ -44,10 +44,10 @@ updateEntity0x14:
     call _LABEL_4C23_
     ld (ix + Entity.unknown8), l
     ld (ix + Entity.unknown9), h
-    ld (_RAM_C204_), hl
+    ld (v_nametableChangeDestination), hl
     ld l, (ix + Entity.state)
     ld h, (ix + Entity.stateTimer)
-    ld (v_pointerToANametableEntry_RAM_C206_), hl
+    ld (nametableChangeSourceMetatile), hl
     ld l, (ix + Entity.unknown10)
     ld h, (ix + Entity.unknown11)
     ld (_RAM_C208_), hl

@@ -30,7 +30,7 @@ updateBattleBattleWon:
     ret z
 
     ; @TODO Set some alex descriptors
-    call alex_LABEL_2BFA_
+    call setAlexIdleStateAndLoadIdleAnimationDescriptor
     call destroyBattleEntities
 
     ; Skip boss fight if data bit 0 is zero

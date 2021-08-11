@@ -7,7 +7,7 @@ updateflameOrScorpionRight:
     jp nc, _LABEL_55A5_
 +:
     ld de, $0910
-    call getTileNearEntityWithXYOffset
+    call getNearEntityTileAttrWithOffset
     rlca
     jr nc, +
 --:

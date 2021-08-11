@@ -1,7 +1,7 @@
 ; 16th entry of Jump Table from 2982 (indexed by v_alex.state)
 updateAlexDead:
-    ld hl, _DATA_8D23_
-    call _LABEL_4189_
+    ld hl, alexDeadAnimationDescriptor
+    call loadAlexAnimationDescriptor
     ld a, (v_alex.yPos.high)
     cp $A8
     ret nc

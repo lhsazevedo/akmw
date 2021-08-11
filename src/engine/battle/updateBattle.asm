@@ -576,7 +576,7 @@ updateBattlePatchNametable:
     ld d, $00
     ld hl, (_RAM_C219_)
     add hl, de
-    ld de, _RAM_C204_
+    ld de, v_nametableChangeDestination
     ld bc, $0004
     ldir
 
@@ -585,7 +585,7 @@ updateBattlePatchNametable:
     ret
 
 +:
-    call alex_LABEL_2BFA_
+    call setAlexIdleStateAndLoadIdleAnimationDescriptor
     inc (ix + Entity.state)
 
 updateBattleNop:

@@ -144,11 +144,11 @@ updateLifeLostState:
     call _LABEL_6EAF_
 -:
     ld de, $1900
-    call getTileNearEntityWithXYOffset
+    call getNearEntityTileAttrWithOffset
     rlca
     jp nc, +
     ld de, $1908
-    call getTileNearEntityWithXYOffset
+    call getNearEntityTileAttrWithOffset
     rlca
     jp c, _LABEL_6D4F_
 +:

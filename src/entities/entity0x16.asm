@@ -40,7 +40,7 @@ _LABEL_4A86_:
     ld (_RAM_C208_), hl
     ld l, (ix + Entity.unknown8)
     ld h, (ix + Entity.unknown9)
-    ld (_RAM_C204_), hl
+    ld (v_nametableChangeDestination), hl
     dec l
     dec l
     ld (ix + Entity.unknown8), l

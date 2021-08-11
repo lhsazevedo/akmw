@@ -12,7 +12,7 @@ updateEntity0x05:
     jr z, +
     ld e, $0E
 +:
-    call getTileNearEntityWithXYOffset
+    call getNearEntityTileAttrWithOffset
     rlca
     ret nc
     ld hl, $0000

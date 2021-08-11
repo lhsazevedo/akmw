@@ -4,7 +4,7 @@ handleInterruptTextBoxState:
     or a
     ret z
     ld de, $0100
-    call getTileNearEntityWithXYOffset
+    call getNearEntityTileAttrWithOffset
     ld a, h
     xor $B0
     ld h, a

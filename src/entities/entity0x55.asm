@@ -37,7 +37,7 @@ updateEntity0x55:
     ld (ix + Entity.unknown6), a
 +:
     ld de, $1108
-    call getTileNearEntityWithXYOffset
+    call getNearEntityTileAttrWithOffset
     rlca
     jr nc, +
     ld (ix + Entity.ySpeed.low), $00

@@ -9,7 +9,7 @@ updateEntity0x1B:
     cp $F4
     jr nc, +
     ld de, $0404
-    call getTileNearEntityWithXYOffset
+    call getNearEntityTileAttrWithOffset
     rlca
     ret nc
     rlca

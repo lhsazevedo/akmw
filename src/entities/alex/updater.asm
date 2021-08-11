@@ -33,8 +33,8 @@ alexStateHandlersPointers:
 .dw alexHandler_3256
 .dw updateAlexRidingBoat
 .dw updateAlexRidingBoatInAir
-.dw alexHandler_3180
-.dw alexHandler_31A8
+.dw updateAlexReachingDoor
+.dw updateAlexCrossingDoor
 .dw updateAlexDead
 .dw alexHandler_3340
 .dw alexHandler_31CC

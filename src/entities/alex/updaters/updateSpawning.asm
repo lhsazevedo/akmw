@@ -20,7 +20,7 @@ updateAlexSpawning:
     jr z, _spawnFlyingPeticopter
     ld (ix + Entity.unknown11), $18
     ld (ix + Entity.unknown9), $08
-    call alex_LABEL_2BFA_
+    call setAlexIdleStateAndLoadIdleAnimationDescriptor
     ret
 
 _spawnRidingMotorcycle:
@@ -33,7 +33,7 @@ _spawnRidingMotorcycle:
     ld (ix + Entity.unknown9), $0F
     ld (ix + Entity.state), ALEX_RIDING_MOTORCYCLE
     ld hl, _DATA_8F2A_
-    jp loadAlexAnimationDescriptor
+    jp loadAlexSpriteDescriptor
 
 _spawnFlyingPeticopter:
     ld (ix + Entity.state), ALEX_FLYING_PETICOPTER
@@ -48,10 +48,10 @@ _spawnFlyingPeticopter:
     ld a, (v_level)
     cp $0D
     ld hl, _DATA_9011_
-    jp nz, loadAlexAnimationDescriptor
+    jp nz, loadAlexSpriteDescriptor
     ld (ix + Entity.unknown3), $00
     ld hl, _DATA_8F7B_
-    jp loadAlexAnimationDescriptor
+    jp loadAlexSpriteDescriptor
 
 
 _spawnRidingBoat:
@@ -65,4 +65,4 @@ _spawnRidingBoat:
     ld a, $08
     ld (_RAM_C054_), a
     ld hl, _DATA_9152_
-    jp loadAlexAnimationDescriptor
+    jp loadAlexSpriteDescriptor

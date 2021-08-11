@@ -7,7 +7,7 @@ updateEntity0x02:
     jr nz, +
     ld a, (v_entities.2.xPos.high)
     ld de, $0404
-    call getTileNearEntityWithXYOffset
+    call getNearEntityTileAttrWithOffset
     rlca
     jr nc, +
     rlca

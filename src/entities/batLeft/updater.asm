@@ -30,7 +30,7 @@ updateBatLeft:
 
     ; If colliding on left
     ld de, $0100
-    call getTileNearEntityWithXYOffset
+    call getNearEntityTileAttrWithOffset
     rlca
     jr nc, bat_LABEL_4F43_
         ; Change entity type and

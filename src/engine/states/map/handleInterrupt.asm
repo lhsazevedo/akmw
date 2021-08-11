@@ -473,7 +473,7 @@ updateEntity0x21:
     or a
     ret nz
     ld de, $1404
-    call getTileNearEntityWithXYOffset
+    call getNearEntityTileAttrWithOffset
     and $E0
     ret z
     ld d, a

@@ -26,7 +26,7 @@ updateEntity0x15:
     ld (_RAM_C209_), a
     ld l, (ix + Entity.unknown8)
     ld h, (ix + Entity.unknown9)
-    ld (_RAM_C204_), hl
+    ld (v_nametableChangeDestination), hl
     dec (ix + Entity.unknown6)
     jr z, ++
     call _LABEL_4C23_

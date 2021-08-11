@@ -1100,7 +1100,7 @@ _LABEL_2A6E_:
     ld (ix + Entity.unknown9), $08
     ld (ix + Entity.state), $07
     ld hl, _DATA_90BC_
-    jp loadAlexAnimationDescriptor
+    jp loadAlexSpriteDescriptor
 
 startAutoWalkRight:
     ld (ix + Entity.animationTimerResetValue), $05
@@ -1109,7 +1109,7 @@ startAutoWalkRight:
     ld (ix + Entity.state), ALEX_AUTO_WALKING_RIGHT
     ld (ix + Entity.yPos.high), $98
     ld hl, _DATA_90BC_
-    jp loadAlexAnimationDescriptor
+    jp loadAlexSpriteDescriptor
 
 .INCLUDE "entities/alex/updaters/updateAlexIdle.asm"
 .INCLUDE "entities/alex/updaters.asm"
@@ -1137,7 +1137,7 @@ _LABEL_39ED_:
 
 _LABEL_3A03_:
     ex af, af'
-    call getTileNearEntityWithXYOffset
+    call getNearEntityTileAttrWithOffset
     rlca
     ret c
     ex af, af'
@@ -1182,10 +1182,11 @@ _LABEL_3A11_:
 
 _LABEL_3A41_:
     ex af, af'
-    call getTileNearEntityWithXYOffset
+    call getNearEntityTileAttrWithOffset
     rlca
     ret c
     ex af, af'
+
     ld e, a
     call _LABEL_7C94_
     ld a, (hl)
@@ -1300,7 +1301,7 @@ _LABEL_3AE8_:
     ld a, $10
     add a, h
     ld d, a
-    call getTileNearEntityWithXYOffset
+    call getNearEntityTileAttrWithOffset
     bit 7, a
     jp nz, _LABEL_389C_
     and $E0
@@ -1490,36 +1491,46 @@ _LABEL_3C28_:
     ld (v_alex.unknown3), a
     ret
 
-_LABEL_3C45_:
+interactWithTile:
     ld de, $0C08
-_LABEL_3C48_:
+
+interactWithTileAtOffset:
     ; @TODO
     xor a
-    ld (_RAM_C213_), a
+    ld (v_nametableEntryAttrLastThreeBits), a
 
     ; Return if offscreen
     ld a, (v_alex.isOffScreenFlags.high)
     or a
     ret nz
 
-    call getTileNearEntityWithXYOffset
+    call getNearEntityTileAttrWithOffset
 
-    bit 7, a
-    jp nz, _LABEL_3CF3_
+    ; Kill Alex if inside an solid block
+    bit TILE_SOLID_BIT, a
+    jp nz, setAlexDeathBit
 
+    ; @TODO
     bit 6, a
     jp z, +
 
-    bit 5, a
-    jr nz, _LABEL_3CCF_
+    ; Shop door
+    bit TILE_SHOP_DOOR_BIT, a
+    jr nz, interactWithShopDoor
 
+    ; @TODO
     dec hl
     ld a, (hl)
     sub $90
-    jr nc, ++
+    jr nc, @indexGreaterOrEqualThan90
+
+    ; @TODO: Update tile address low byte
+    ; Maybe round down to the nearest multiple of 4?
     ld a, l
     and $BC
     ld l, a
+
+    ; @TODO: This handles some scroll edge case
     ld a, (_RAM_C0B0_)
     rra
     rra
@@ -1527,26 +1538,34 @@ _LABEL_3C48_:
     and $3E
     cp $3E
     ret z
+
+    ; Save nametable pointer
     push hl
+
     ld l, $00
     call takeMoney
-    ld a, $8E
+
+    ld a, SOUND_COINS
     ld (v_soundControl), a
+
+    ; Restore nametable pointer
     pop hl
+
     ld a, (v_nametableChangeRequest)
     or a
     ret nz
-    ld (_RAM_C204_), hl
-    jp _LABEL_45BE_
+
+    ld (v_nametableChangeDestination), hl
+    jp requestNametableChangeBackground
 
 +:
     and $E0
     cp $20
     ret nz
-    ld (_RAM_C213_), a
+    ld (v_nametableEntryAttrLastThreeBits), a
     ret
 
-++:
+@indexGreaterOrEqualThan90:
     ld e, a
     ld d, $00
     ld hl, _DATA_3CA3_
@@ -1557,11 +1576,52 @@ _LABEL_3C48_:
 
 ; Data from 3CA3 to 3CCE (44 bytes)
 _DATA_3CA3_:
-.db $01 $01 $02 $02 $02 $03 $03 $03 $03 $04 $04 $04 $04 $05 $05 $05
-.db $05 $06 $06 $06 $07 $07 $07 $07 $08 $08 $08 $08 $09 $09 $09 $09
-.db $0A $0A $0A $0A $0B $0B $0B $0B $0C $0C $0C $0C
+.db $01
+.db $01
+.db $02
+.db $02
+.db $02
+.db $03
+.db $03
+.db $03
+.db $03
+.db $04
+.db $04
+.db $04
+.db $04
+.db $05
+.db $05
+.db $05
+.db $05
+.db $06
+.db $06
+.db $06
+.db $07
+.db $07
+.db $07
+.db $07
+.db $08
+.db $08
+.db $08
+.db $08
+.db $09
+.db $09
+.db $09
+.db $09
+.db $0A
+.db $0A
+.db $0A
+.db $0A
+.db $0B
+.db $0B
+.db $0B
+.db $0B
+.db $0C
+.db $0C
+.db $0C
+.db $0C
 
-_LABEL_3CCF_:
+interactWithShopDoor:
     dec hl
     ld a, (hl)
     ld (_RAM_C211_), hl
@@ -1576,14 +1636,15 @@ _LABEL_3CCF_:
     ld a, (v_inputData)
     bit JOY_UP_BIT, a
     ret z
-    ld (ix + Entity.state), $0D
+    ld (ix + Entity.state), ALEX_REACHING_DOOR
     ret
 
 +:
     cp $3F
     jr z, +
-_LABEL_3CF3_:
-    set 7, (ix+1)
+
+setAlexDeathBit:
+    set 7, (ix + Entity.flags)
     ret
 
 +:
@@ -1594,13 +1655,13 @@ _LABEL_3CF3_:
     ld (v_alex.ySpeed), hl
     jp _LABEL_3230_
 
-_LABEL_3D07_:
+interactWithFloor:
     ld de, $1808
-_LABEL_3D0A_:
+interactWithFloorWithOffset:
     ld a, (v_alex.isOffScreenFlags.high)
     or a
     ret nz
-    call getTileNearEntityWithXYOffset
+    call getNearEntityTileAttrWithOffset
     and $E0
     cp $A0
     jr nz, _LABEL_3D5B_
@@ -1668,7 +1729,7 @@ _LABEL_3D70_:
     jr nz, +
     ld hl, _RAM_C229_
     inc (hl)
-    ld a, $8E
+    ld a, SOUND_COINS
     ld (v_soundControl), a
     ld a, (hl)
     cp $0A
@@ -1696,7 +1757,7 @@ _LABEL_3DBF_:
     dec (hl)
     ret p
     ld (hl), $7F
-    ld e, (ix+12)
+    ld e, (ix + Entity.xPos.high)
     ld a, (v_alex.yPos.high)
     add a, $18
     ld d, a
@@ -1706,7 +1767,7 @@ _LABEL_3DBF_:
 _LABEL_3DD4_:
     jr z, +
     ld a, (v_inputDataChanges)
-    bit 1, a
+    bit JOY_DOWN_BIT, a
     ret z
     ld (ix + Entity.state), $11
     ret
@@ -1723,15 +1784,16 @@ _LABEL_3DD4_:
 _DATA_3DF0_:
 .db $05 $01 $02 $03 $05 $02 $01 $04 $03 $04 $FF
 
-_LABEL_3DFB_:
-    ld (ix + Entity.state), $01
-    jr _LABEL_3E0B_
+idleAndTickJitter:
+    ld (ix + Entity.state), ALEX_IDLE
+    jr tickJitter
 
 _LABEL_3E01_:
     ld hl, $0000
     ld (v_alex.ySpeed), hl
     res 4, (ix+20)
-_LABEL_3E0B_:
+
+tickJitter:
     dec (ix+24)
     jr z, ++
     ld hl, $FF80
@@ -2126,14 +2188,14 @@ _LABEL_415E_:
     set 7, (ix+20)
     jr -
 
-_LABEL_4189_:
+loadAlexAnimationDescriptor:
     ld d, (hl)
     inc hl
     ld a, (v_alex.animationFrame)
-    dec (ix+5)
+    dec (ix + Entity.animationTimer)
     jr nz, +
-    ld e, (ix+6)
-    ld (ix+5), e
+    ld e, (ix + Entity.animationTimerResetValue)
+    ld (ix + Entity.animationTimer), e
     inc a
 +:
     cp d
@@ -2149,7 +2211,7 @@ _LABEL_4189_:
     inc hl
     ld h, (hl)
     ld l, a
-loadAlexAnimationDescriptor:
+loadAlexSpriteDescriptor:
     ld a, (hl)
     inc hl
     ld (v_alexTilesIndex), a
@@ -2247,13 +2309,21 @@ handleNametableChangeRequest:
     ld (hl), $00
     add a, a
     ret nc
-    ld hl, _DATA_4237_
+    ld hl, nametableChangeHandlersPointers
     jp jumpToPointerAtA
 
 ; Jump Table from 4237 to 424A (10 entries, indexed by v_nametableChangeRequest)
-_DATA_4237_:
-.dw _LABEL_424B_ _LABEL_4340_ _LABEL_434F_ _LABEL_42C3_ _LABEL_42B6_ _LABEL_4B9E_ _LABEL_4BF3_ _LABEL_4BCD_
-.dw _LABEL_437D_ _LABEL_43CA_
+nametableChangeHandlersPointers:
+.dw _LABEL_424B_
+.dw handleShopDoorNametableChange
+.dw _LABEL_434F_
+.dw _LABEL_42C3_
+.dw _LABEL_42B6_
+.dw _LABEL_4B9E_
+.dw _LABEL_4BF3_
+.dw _LABEL_4BCD_
+.dw _LABEL_437D_
+.dw _LABEL_43CA_
 
 ; 1st entry of Jump Table from 4237 (indexed by v_nametableChangeRequest)
 _LABEL_424B_:
@@ -2265,7 +2335,7 @@ _LABEL_424B_:
     ld a, (v_verticalScroll.high)
     and $F0
     ld c, a
-    ld hl, (_RAM_C204_)
+    ld hl, (v_nametableChangeDestination)
     ld a, l
     rra
     rra
@@ -2300,8 +2370,8 @@ _LABEL_424B_:
     dec l
     ld (hl), $01
 ++:
-    ld de, (_RAM_C204_)
-    ld hl, (v_pointerToANametableEntry_RAM_C206_)
+    ld de, (v_nametableChangeDestination)
+    ld hl, (nametableChangeSourceMetatile)
     ldi
     ldi
     ldi
@@ -2314,8 +2384,8 @@ _LABEL_424B_:
     ldi
     ldi
     ldi
-    ld de, (_RAM_C204_)
-    ld hl, (v_pointerToANametableEntry_RAM_C206_)
+    ld de, (v_nametableChangeDestination)
+    ld hl, (nametableChangeSourceMetatile)
     ld a, d
     sub $50
     ld d, a
@@ -2336,7 +2406,7 @@ _LABEL_42C3_:
     call ++
     ld hl, _DATA_14400_
 +:
-    ld de, (_RAM_C204_)
+    ld de, (v_nametableChangeDestination)
     ldi
     ldi
     ldi
@@ -2364,7 +2434,7 @@ _LABEL_42C3_:
     ld (Mapper_Slot2), a
     ld a, $03
 -:
-    ld hl, _DATA_1450B_
+    ld hl, waterMetatile
     ldi
     ldi
     ldi
@@ -2378,7 +2448,7 @@ _LABEL_42C3_:
     ex de, hl
     dec a
     jr nz, -
-    ld (_RAM_C204_), de
+    ld (v_nametableChangeDestination), de
     ld de, (v_shopDoorNametableAddressPointer)
     ld a, d
     sub $50
@@ -2386,7 +2456,7 @@ _LABEL_42C3_:
     ld b, $03
 -:
     push bc
-    ld hl, _DATA_1450B_
+    ld hl, waterMetatile
     ld b, $08
     rst memcpyToVRAM
     ld hl, $0040
@@ -2399,7 +2469,7 @@ _LABEL_42C3_:
     jp copyNameTableBlockToVRAM
 
 ; 2nd entry of Jump Table from 4237 (indexed by v_nametableChangeRequest)
-_LABEL_4340_:
+handleShopDoorNametableChange:
     ld hl, (v_shopDoorNametableAddressPointer)
     inc hl
     ld e, l
@@ -2532,7 +2602,7 @@ _LABEL_43F2_:
     ld hl, $0000
     ld (v_alex.xSpeed), hl
     ld hl, _DATA_90BC_
-    call loadAlexAnimationDescriptor
+    call loadAlexSpriteDescriptor
 _LABEL_4415_:
     ld (ix+31), $18
     ld (ix+29), $08
@@ -2621,29 +2691,29 @@ handleAction:
 
 ; Jump Table from 4523 to 453E (14 entries, indexed by _RAM_C054_)
 actionHandlersPointers:
-.dw _LABEL_453F_
-.dw _LABEL_453F_
-.dw _LABEL_453F_
+.dw punch
+.dw punch
+.dw punch
 .dw _LABEL_4641_
 .dw _LABEL_464E_
 .dw _LABEL_48C5_
-.dw _LABEL_453F_
+.dw punch
 .dw _LABEL_468F_
 .dw _LABEL_4453_
 .dw _LABEL_4453_
-.dw _LABEL_453F_
-.dw _LABEL_453F_
-.dw _LABEL_453F_
-.dw _LABEL_453F_
+.dw punch
+.dw punch
+.dw punch
+.dw punch
 
 ; 1st entry of Jump Table from 4523 (indexed by _RAM_C054_)
-_LABEL_453F_:
+punch:
     ld hl, v_alex.unknown8
     ld a, (hl)
     or $09
     ld (hl), a
-    ld (ix+25), $0A
-    bit 0, (ix+20)
+    ld (ix + Entity.unknown7), ALEX_PUNCH_TIME
+    bit ALEX_UKNW3_FACING_RIGHT_BIT, (ix + Entity.unknown3)
     jr nz, +
     ld hl, _DATA_8DD1_
     ld de, $0CF9
@@ -2652,10 +2722,11 @@ _LABEL_453F_:
 +:
     ld hl, _DATA_8DE9_
     ld de, $0C17
+
 _LABEL_455E_:
-    ld a, $8A
+    ld a, SOUND_PUNCH
     ld (v_soundControl), a
-    call loadAlexAnimationDescriptor
+    call loadAlexSpriteDescriptor
     ld a, (v_alex.xPos.high)
     add a, e
     cp $F8
@@ -2666,11 +2737,12 @@ _LABEL_455E_:
     and $C0
     cp $C0
     ret nz
+
 _LABEL_4578_:
     ld a, l
     and $BC
     ld l, a
-    ld (_RAM_C204_), hl
+    ld (v_nametableChangeDestination), hl
     ld a, (hl)
     exx
     ld d, a
@@ -2707,7 +2779,7 @@ _LABEL_4578_:
     ld a, c
     call requestBlockSound
     bit 5, b
-    jr z, _LABEL_45BE_
+    jr z, requestNametableChangeBackground
     exx
     ld a, d
     exx
@@ -2715,16 +2787,22 @@ _LABEL_4578_:
     ld b, d
     ld hl, _DATA_45D9_ - 2
     rst jumpToAthPointer
-_LABEL_45BE_:
+
+requestNametableChangeBackground:
+    ; Choose metatile based on alex state.
     ld a, (v_alex.state)
     cp ALEX_SWIMING
-    ld hl, _DATA_14503_
-    jr nz, +
-    ld hl, _DATA_1450B_
-+:
+    ld hl, backgroundMetatile
+    jr nz, @notSwiming
+    ld hl, waterMetatile
+    @notSwiming:
+
+    ; @TODO
     ld a, $85
     ld (_RAM_C203_), a
-    ld (v_pointerToANametableEntry_RAM_C206_), hl
+
+    ; Request nametable change
+    ld (nametableChangeSourceMetatile), hl
     ld a, $80
     ld (v_nametableChangeRequest), a
     ret
@@ -2732,7 +2810,7 @@ _LABEL_45BE_:
 ; Jump Table from 45D9 to 45F0 (12 entries, indexed by _RAM_C804_)
 _DATA_45D9_:
 .dw _LABEL_45F1_ _LABEL_45F1_ _LABEL_45F1_ _LABEL_45F1_ _LABEL_4615_ _LABEL_4615_ _LABEL_4615_ _LABEL_4615_
-.dw _LABEL_4627_ _LABEL_4627_ _LABEL_4627_ _LABEL_4627_
+.dw spawnMoneyBagAt spawnMoneyBagAt spawnMoneyBagAt spawnMoneyBagAt
 
 ; 1st entry of Jump Table from 45D9 (indexed by _RAM_C804_)
 _LABEL_45F1_:
@@ -2767,30 +2845,39 @@ _LABEL_4615_:
     jp spawnEntityAt
 
 ; 9th entry of Jump Table from 45D9 (indexed by _RAM_C804_)
-_LABEL_4627_:
+spawnMoneyBagAt:
     ld e, c
     ld d, b
     ld c, ENTITY_MONEY_BAG
     jp spawnEntityAt
 
-_LABEL_462E_:
+tickPunch:
+    ; @TODO
     ld hl, v_alex.unknown8
     ld a, (hl)
-    and $02
-    xor $02
+    and 0b00000010
+    xor 0b00000010
     ret z
-    dec (ix+25)
+
+    ; Tick punch timer.
+    dec (ix + Entity.unknown7)
+
+    ; Return if not zero.
     ret nz
+
+    ; Reset unknown8 punch bits.
     ld a, (hl)
-    and $F6
+    and 0b11110110
     ld (hl), a
+
+    ; Set zero flag.
     cp a
     ret
 
 ; 4th entry of Jump Table from 4523 (indexed by _RAM_C054_)
 _LABEL_4641_:
     ld iy, v_entities.4
-    ld (iy+0), $05
+    ld (iy + Entity.type), $05
     ld hl, $80E6
     jr +
 
@@ -2852,7 +2939,7 @@ _LABEL_48C5_:
 ++:
     ld a, $A4
     ld (v_soundControl), a
-    jp loadAlexAnimationDescriptor
+    jp loadAlexSpriteDescriptor
 
 +++:
     ld hl, $8093
@@ -2902,7 +2989,7 @@ _LABEL_4944_:
     ld a, d
     add a, h
     ld d, a
-    call getTileNearEntityWithXYOffset
+    call getNearEntityTileAttrWithOffset
     rlca
     ret nc
     ld a, b
@@ -2930,8 +3017,8 @@ _LABEL_4944_:
 _LABEL_4B9E_:
     ld a, $87
     ld (Mapper_Slot2), a
-    ld hl, (v_pointerToANametableEntry_RAM_C206_)
-    ld de, (_RAM_C204_)
+    ld hl, (nametableChangeSourceMetatile)
+    ld de, (v_nametableChangeDestination)
     ld bc, (_RAM_C208_)
 -:
     push bc
@@ -2961,7 +3048,7 @@ _LABEL_4B9E_:
 
 ; 8th entry of Jump Table from 4237 (indexed by v_nametableChangeRequest)
 _LABEL_4BCD_:
-    ld hl, (_RAM_C204_)
+    ld hl, (v_nametableChangeDestination)
     ld bc, (_RAM_C208_)
 --:
     push bc
@@ -2990,7 +3077,7 @@ _LABEL_4BCD_:
 
 ; 7th entry of Jump Table from 4237 (indexed by v_nametableChangeRequest)
 _LABEL_4BF3_:
-    ld hl, (_RAM_C204_)
+    ld hl, (v_nametableChangeDestination)
     ld a, (_RAM_C209_)
     ld b, a
     ld c, $43
@@ -4882,7 +4969,7 @@ restoreSomeNametableStuff_LABEL_796D_:
 .INCLUDE "entities/chokkinnaHead.asm"
 .INCLUDE "entities/parplinHead.asm"
 
-getTileNearEntityWithXYOffset:
+getNearEntityTileAttrWithOffset:
     ld a, (ix + Entity.xPos.high)
     add a, e
 _LABEL_7C4F_:
@@ -4949,13 +5036,16 @@ _LABEL_7C94_:
     ld a, l
     and $C0
     ld d, a
+
     ld a, c
     add a, e
     ld c, a
+
     rra
     rra
     and $3E
     or d
+
     inc a
     ld l, a
     ret

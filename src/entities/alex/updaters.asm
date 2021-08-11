@@ -20,31 +20,31 @@ jump:
 
     ld (ix + Entity.state), ALEX_IN_AIR
 
-    ld hl, _DATA_8F00_  ; in air left anim descriptor
+    ld hl, alexAirLeftSpriteDescriptor  ; in air left sprite descriptor
     jr z, @left
-    ld hl, _DATA_8F15_  ; in air right anim descriptor
+    ld hl, alexAirRightSpriteDescriptor  ; in air right sprite descriptor
 @left:
-    call loadAlexAnimationDescriptor
+    call loadAlexSpriteDescriptor
 
 ; 4th entry of Jump Table from 2982 (indexed by v_alex.state)
 updateAlexInAir:
-    call _LABEL_3C45_
+    call interactWithTile
     ld a, (v_alex.state)
     cp ALEX_IN_AIR 
     ret nz
-    ld a, (_RAM_C213_)
+    ld a, (v_nametableEntryAttrLastThreeBits)
     or a
-    jp nz, _LABEL_3498_
-    bit 0, (ix+28)
+    jp nz, splash
+    bit 0, (ix + Entity.unknown8)
     jr z, ++
-    call _LABEL_462E_
+    call tickPunch
     jr nz, +++
-    ld hl, _DATA_8F00_
-    bit 0, (ix+20)
+    ld hl, alexAirLeftSpriteDescriptor
+    bit 0, (ix + Entity.unknown3)
     jr z, +
-    ld hl, _DATA_8F15_
+    ld hl, alexAirRightSpriteDescriptor
 +:
-    call loadAlexAnimationDescriptor
+    call loadAlexSpriteDescriptor
     jr +++
 
 ++:
@@ -52,12 +52,12 @@ updateAlexInAir:
     and JOY_FIREB
     call nz, handleAction
 +++:
-    bit 2, (ix+28)
+    bit 2, (ix + Entity.unknown8)
     jp nz, _LABEL_2D4A_
     ld a, (v_inputData)
     bit JOY_BTN1_BIT, a
     jr z, ++
-    dec (ix+27)
+    dec (ix + Entity.stateTimer)
     jr z, ++
     ld de, (v_alex.xSpeed)
     bit 7, d
@@ -77,19 +77,19 @@ updateAlexInAir:
     ld (v_alex.ySpeed), hl
     ld de, $0104
     call _LABEL_3A7E_
-    bit 7, (ix+20)
+    bit 7, (ix + Entity.unknown3)
     jr z, _LABEL_2D7F_
-    set 2, (ix+28)
+    set 2, (ix + Entity.unknown8)
     jr _LABEL_2D7F_
 
 ++:
-    set 2, (ix+28)
+    set 2, (ix + Entity.unknown8)
 _LABEL_2D4A_:
     ld de, $0104
     call _LABEL_3A68_
-    bit 6, (ix+20)
+    bit 6, (ix + Entity.unknown3)
     jr z, _LABEL_2D7F_
-    res 2, (ix+28)
+    res 2, (ix + Entity.unknown8)
     ld a, $B1
     ld (v_soundControl), a
     ld a, (v_alex.unknown8)
@@ -97,16 +97,16 @@ _LABEL_2D4A_:
     jr z, +
     bit 1, a
     jr nz, +
-    res 2, (ix+20)
+    res 2, (ix + Entity.unknown3)
     ld (ix + Entity.state), $01
-    jp alex_LABEL_2BFA_
+    jp setAlexIdleStateAndLoadIdleAnimationDescriptor
 
 +:
-    bit 2, (ix+20)
-    jp z, alex_LABEL_2BFA_
+    bit 2, (ix + Entity.unknown3)
+    jp z, setAlexIdleStateAndLoadIdleAnimationDescriptor
     call walk
 _LABEL_2D7F_:
-    bit 1, (ix+20)
+    bit 1, (ix + Entity.unknown3)
     jp nz, _LABEL_2DF3_
     ld de, $1802
     ld a, (v_alex.isOffScreenFlags.high)
@@ -139,11 +139,11 @@ _LABEL_2D7F_:
     ld a, (v_inputData)
     bit JOY_RIGHT_BIT, a
     ret z
-    set 1, (ix+20)
+    set 1, (ix + Entity.unknown3)
     ret
 
 ++++:
-    set 2, (ix+20)
+    set 2, (ix + Entity.unknown3)
     ld de, $FFF0
     ld bc, $FE00
     jp _LABEL_3B2B_
@@ -152,14 +152,14 @@ _LABEL_2D7F_:
     ld a, (v_alex.unknown3)
     set 0, a
     ld (v_alex.unknown3), a
-    ld hl, _DATA_8F15_
+    ld hl, alexAirRightSpriteDescriptor
     ld a, (v_alex.unknown8)
     and $03
     cp $01
     jr nz, +
     ld hl, _DATA_8DE9_
 +:
-    call loadAlexAnimationDescriptor
+    call loadAlexSpriteDescriptor
     ld de, $0010
     jp _LABEL_3B61_
 
@@ -194,11 +194,11 @@ _LABEL_2DF3_:
     ld a, (v_inputData)
     bit JOY_LEFT_BIT, a
     ret z
-    res 1, (ix+20)
+    res 1, (ix + Entity.unknown3)
     ret
 
 ++++:
-    set 2, (ix+20)
+    set 2, (ix + Entity.unknown3)
     ld de, $0010
     ld bc, $0200
     jp _LABEL_3B7E_
@@ -208,14 +208,14 @@ _LABEL_2DF3_:
     bit ALEX_UKNW3_FACING_RIGHT_BIT, a
     res ALEX_UKNW3_FACING_RIGHT_BIT, a
     ld (v_alex.unknown3), a
-    ld hl, _DATA_8F00_
+    ld hl, alexAirLeftSpriteDescriptor
     ld a, (v_alex.unknown8)
     and $03
     cp $01
     jr nz, +
     ld hl, _DATA_8DD1_
 +:
-    call loadAlexAnimationDescriptor
+    call loadAlexSpriteDescriptor
     ld de, $FFF0
     jp _LABEL_3BB1_
 
@@ -224,9 +224,9 @@ _LABEL_2DF3_:
 updateAlexCrouched:
     ld hl, $0000
     ld (v_alex.ySpeed), hl
-    bit 4, (ix+28)
-    jp nz, _LABEL_3E0B_
-    call _LABEL_3C45_
+    bit 4, (ix + Entity.unknown8)
+    jp nz, tickJitter
+    call interactWithTile
     ld a, (v_alex.state)
     cp ALEX_CROUCHED
     ret nz
@@ -254,9 +254,9 @@ updateAlexCrouched:
     call _LABEL_3A41_
     jp nc, _LABEL_2F22_
 +:
-    bit 2, (ix+20)
+    bit 2, (ix + Entity.unknown3)
     jr z, +
-    bit 1, (ix+20)
+    bit 1, (ix + Entity.unknown3)
     jp nz, _LABEL_2F2C_
     ld de, $0902
     ld a, $0D
@@ -285,11 +285,11 @@ updateAlexCrouched:
     set 2, a
 +:
     or ALEX_UKNW3_FACING_RIGHT | ALEX_UKNW3_MOVING_RIGHT
-    bit 0, (ix+20)
+    bit 0, (ix + Entity.unknown3)
     ld (v_alex.unknown3), a
     ret nz
     ld hl, _DATA_8DBC_
-    jp loadAlexAnimationDescriptor
+    jp loadAlexSpriteDescriptor
 
 ++:
     bit 1, c
@@ -307,11 +307,11 @@ updateAlexCrouched:
     ld (v_alex.unknown3), a
     ret z
     ld hl, _DATA_8DA7_
-    jp loadAlexAnimationDescriptor
+    jp loadAlexSpriteDescriptor
 
 _LABEL_2F22_:
     bit 2, (ix + Entity.unknown3)
-    jp z, alex_LABEL_2BFA_
+    jp z, setAlexIdleStateAndLoadIdleAnimationDescriptor
     jp walk
 
 _LABEL_2F2C_:
@@ -363,7 +363,7 @@ updateAlexRidingMotorcycle:
     ld hl, $0000
     ld (v_alex.ySpeed), hl
     ld de, $0C0C
-    call _LABEL_3C48_
+    call interactWithTileAtOffset
     ld de, $1805
     ld a, $0F
     call _LABEL_3A41_
@@ -376,10 +376,10 @@ updateAlexRidingMotorcycle:
     add a, $07
     ld (v_alex.animationTimerResetValue), a
     ld hl, _DATA_8D19_
-    call _LABEL_4189_
+    call loadAlexAnimationDescriptor
 _LABEL_2FD5_:
     ld de, $0214
-    call getTileNearEntityWithXYOffset
+    call getNearEntityTileAttrWithOffset
     rlca
     jr nc, +
     rlca
@@ -389,7 +389,7 @@ _LABEL_2FD5_:
 
 +:
     ld de, $1218
-    call getTileNearEntityWithXYOffset
+    call getNearEntityTileAttrWithOffset
     rlca
     jr nc, ++
     rlca
@@ -411,27 +411,27 @@ _LABEL_2FD5_:
     jp _LABEL_3BCF_
 
 _LABEL_3013_:
-    set 7, (ix+20)
-    set 2, (ix+28)
+    set 7, (ix + Entity.unknown3)
+    set 2, (ix + Entity.unknown8)
     jr +
 
 _LABEL_301D_:
-    ld (ix+27), $10
+    ld (ix + Entity.stateTimer), $10
     res 7, (ix + Entity.unknown3)
 +:
     ld (ix + Entity.state), ALEX_RIDING_MOTORCYCLE_IN_AIR
     ld hl, _DATA_8F60_
-    call loadAlexAnimationDescriptor
+    call loadAlexSpriteDescriptor
 ; 10th entry of Jump Table from 2982 (indexed by v_alex.state)
 alexHandler_302F:
     ld de, $0C0C
-    call _LABEL_3C48_
-    bit 2, (ix+28)
+    call interactWithTileAtOffset
+    bit 2, (ix + Entity.unknown8)
     jr nz, ++
     ld a, (v_inputData)
     bit JOY_BTN1_BIT, a
     jr z, +
-    dec (ix+27)
+    dec (ix + Entity.stateTimer)
     jr z, +
     ld de, (v_alex.xSpeed)
     xor a
@@ -446,22 +446,22 @@ alexHandler_302F:
     ld (v_alex.ySpeed), hl
     ld de, $0102
     call _LABEL_3A7E_
-    bit 7, (ix+20)
+    bit 7, (ix + Entity.unknown3)
     jp z, _LABEL_2FD5_
-    set 2, (ix+28)
+    set 2, (ix + Entity.unknown8)
     jp _LABEL_2FD5_
 
 +:
-    set 2, (ix+28)
+    set 2, (ix + Entity.unknown8)
 ++:
     ld de, $0102
     call _LABEL_3A68_
-    bit 6, (ix+20)
+    bit 6, (ix + Entity.unknown3)
     jp z, _LABEL_2FD5_
     ld a, (v_alex.unknown3)
     and $3F
     ld (v_alex.unknown3), a
-    res 2, (ix+28)
+    res 2, (ix + Entity.unknown8)
     ld (ix + Entity.state), $08
     jp _LABEL_2FD5_
 
@@ -470,8 +470,8 @@ updateAlexRidingBoat:
     ld hl, $0000
     ld (v_alex.ySpeed), hl
     ld de, $0C0C
-    call _LABEL_3C48_
-    bit 0, (ix+28)
+    call interactWithTileAtOffset
+    bit 0, (ix + Entity.unknown8)
     jr nz, +
     ld a, (v_inputDataChanges)
     and $20
@@ -485,14 +485,14 @@ updateAlexRidingBoat:
     add a, $07
     ld (v_alex.animationTimerResetValue), a
     ld hl, _DATA_8D1E_
-    call _LABEL_4189_
+    call loadAlexAnimationDescriptor
 _LABEL_30C5_:
     ld de, $0212
-    call getTileNearEntityWithXYOffset
+    call getNearEntityTileAttrWithOffset
     rlca
     jp c, _LABEL_389C_
     ld de, $1214
-    call getTileNearEntityWithXYOffset
+    call getNearEntityTileAttrWithOffset
     rlca
     jp c, _LABEL_389C_
     ld a, (v_inputData)
@@ -510,27 +510,27 @@ _LABEL_30C5_:
     jp _LABEL_3BCF_
 
 _LABEL_30F5_:
-    ld (ix+27), $10
-    res 7, (ix+20)
+    ld (ix + Entity.stateTimer), $10
+    res 7, (ix + Entity.unknown3)
     ld (ix + Entity.state), $0C
     ld hl, _DATA_9137_
-    call loadAlexAnimationDescriptor
+    call loadAlexSpriteDescriptor
 ; 13th entry of Jump Table from 2982 (indexed by v_alex.state)
 updateAlexRidingBoatInAir:
     ld de, $0C0C
-    call _LABEL_3C48_
-    bit 0, (ix+28)
+    call interactWithTileAtOffset
+    bit 0, (ix + Entity.unknown8)
     jr nz, +
     ld a, (v_inputDataChanges)
     and $20
     call nz, _LABEL_4453_
 +:
-    bit 2, (ix+28)
+    bit 2, (ix + Entity.unknown8)
     jr nz, ++
     ld a, (v_inputData)
     bit JOY_BTN1_BIT, a
     jr z, +
-    dec (ix+27)
+    dec (ix + Entity.stateTimer)
     jr z, +
     ld de, (v_alex.xSpeed)
     xor a
@@ -545,71 +545,84 @@ updateAlexRidingBoatInAir:
     ld (v_alex.ySpeed), hl
     ld de, $0102
     call _LABEL_3A7E_
-    bit 7, (ix+20)
+    bit 7, (ix + Entity.unknown3)
     jp z, _LABEL_30C5_
-    set 2, (ix+28)
+    set 2, (ix + Entity.unknown8)
     jp _LABEL_30C5_
 
 +:
-    set 2, (ix+28)
+    set 2, (ix + Entity.unknown8)
 ++:
     ld de, $0102
     call _LABEL_3AE8_
     ld a, (v_alex.state)
     cp ALEX_DIVING
     ret z
-    bit 6, (ix+20)
+    bit 6, (ix + Entity.unknown3)
     jp z, _LABEL_30C5_
     ld a, (v_alex.unknown3)
     and $3F
     ld (v_alex.unknown3), a
-    res 2, (ix+28)
+    res 2, (ix + Entity.unknown8)
     ld (ix + Entity.state), $0B
     jp _LABEL_30C5_
 
-; 14th entry of Jump Table from 2982 (indexed by v_alex.state)
-alexHandler_3180:
+
+updateAlexReachingDoor:
+    ; 
     ld a, (v_shopEntranceHorizontalPosition)
     ld hl, (v_horizontalScroll)
     add a, h
-    cp (ix+12)
-    jr z, +
+    cp (ix + Entity.xPos.high)
+    ; Go to crossing door state
+    jr z, @reachedDoor
+
+    ; Walk left if Alex is past door
     jr c, ++
+
+    ; Walk right if Alex is before door
     ld hl, $0080
     ld (v_alex.xSpeed), hl
-    ld hl, _DATA_8CF4_
-    jp _LABEL_4189_
+    ld hl, alexWalkingRightAnimationDescriptor
+    jp loadAlexAnimationDescriptor
 
-+:
-    ld (ix + Entity.state), $0E
-    ld (ix+27), $21
+@reachedDoor:
+    ; Change state
+    ld (ix + Entity.state), ALEX_CROSSING_DOOR
+
+    ; Set door cross timer
+    ld (ix + Entity.stateTimer), $21
+
+    ; Request shopdoor nametable change
+    ; to draw Alex behind the door.
     ld a, $81
     ld (v_nametableChangeRequest), a
     ret
 
-; 15th entry of Jump Table from 2982 (indexed by v_alex.state)
-alexHandler_31A8:
-    dec (ix+27)
+updateAlexCrossingDoor:
+    dec (ix + Entity.stateTimer)
     jr nz, ++
+
     call resetEntityUnknown3AndAlexSpeed
     ld hl, v_gameState
     ld a, (hl)
-    cp $85
-    jr z, +
-    ld a, $05
+    cp STATE_CHANGED | STATE_SHOP
+    jr z, @inShop
+    ld a, STATE_SHOP
     ld (hl), a
     ret
 
-+:
-    ld a, $C5
+@inShop:
+    ld a, STATE_CHANGED | 0b01000000 | STATE_SHOP ; $C5
     ld (hl), a
     ret
 
 ++:
+    ; Walk left
     ld hl, $FF80
     ld (v_alex.xSpeed), hl
-    ld hl, _DATA_8CEB_
-    jp _LABEL_4189_
+    ld hl, alexWalkingLeftAnimationDescriptor
+    jp loadAlexAnimationDescriptor
 
 ; 18th entry of Jump Table from 2982 (indexed by v_alex.state)
 alexHandler_31CC:
@@ -618,25 +631,25 @@ alexHandler_31CC:
     ld a, (v_shopEntranceHorizontalPosition)
     ld hl, (v_horizontalScroll)
     add a, h
-    cp (ix+12)
+    cp (ix + Entity.xPos.high)
     jr z, ++
     jr c, +
     ld hl, $0080
     ld (v_alex.xSpeed), hl
-    set 1, (ix+20)
+    set 1, (ix + Entity.unknown3)
     ld hl, _DATA_8D02_
-    jp _LABEL_4189_
+    jp loadAlexAnimationDescriptor
 
 +:
     ld hl, $FF80
     ld (v_alex.xSpeed), hl
-    res 1, (ix+20)
+    res 1, (ix + Entity.unknown3)
     ld hl, _DATA_8CFD_
-    jp _LABEL_4189_
+    jp loadAlexAnimationDescriptor
 
 ++:
     ld (ix + Entity.state), $12
-    ld (ix+27), $40
+    ld (ix + Entity.stateTimer), $40
     ld a, $82
     ld (v_nametableChangeRequest), a
     ld hl, $00D0
@@ -653,9 +666,9 @@ alexHandler_31CC:
 alexHandler_3223:
     ld hl, $0300
     ld (v_verticalScrollSpeed), hl
-    dec (ix+27)
+    dec (ix + Entity.stateTimer)
     ret nz
-    jp _LABEL_3498_
+    jp splash
 
 _LABEL_3230_:
     ld a, (_RAM_C211_)
@@ -668,8 +681,8 @@ _LABEL_3230_:
     ld a, (hl)
     and $2B
     ld (hl), a
-    res 2, (ix+20)
-    ld (ix+6), $04
+    res 2, (ix + Entity.unknown3)
+    ld (ix + Entity.animationTimerResetValue), $04
     ld (ix + Entity.state), $0A
     ld a, $B1
     ld (v_soundControl), a
@@ -696,7 +709,7 @@ alexHandler_3256:
     ret c
     ld hl, $0100
     ld (v_alex.xSpeed), hl
-    ld (ix+20), $07
+    ld (ix + Entity.unknown3), $07
     jp fall
 
 +:
@@ -708,7 +721,7 @@ alexHandler_3256:
     ret c
     ld hl, $FF00
     ld (v_alex.xSpeed), hl
-    ld (ix+20), $04
+    ld (ix + Entity.unknown3), $04
     jp fall
 
 ++:
@@ -716,7 +729,7 @@ alexHandler_3256:
     or a
     ret nz
     ld de, $0008
-    call getTileNearEntityWithXYOffset
+    call getNearEntityTileAttrWithOffset
     rlca
     jr nc, +
     dec hl
@@ -725,29 +738,29 @@ alexHandler_3256:
     ret nz
 +:
     ld de, $0C08
-    call getTileNearEntityWithXYOffset
+    call getNearEntityTileAttrWithOffset
     dec hl
     ld a, (hl)
     cp $3F
     jr z, +
     ld de, $1908
-    call getTileNearEntityWithXYOffset
+    call getNearEntityTileAttrWithOffset
     rlca
     ret nc
     dec hl
     ld a, (hl)
     cp $3F
-    jp nz, alex_LABEL_2BFA_
+    jp nz, setAlexIdleStateAndLoadIdleAnimationDescriptor
 +:
-    res 3, (ix+20)
+    res 3, (ix + Entity.unknown3)
     ld hl, $FF00
     ld (v_alex.ySpeed), hl
     ld hl, _DATA_9188_
-    jp _LABEL_4189_
+    jp loadAlexAnimationDescriptor
 
 _LABEL_32DC_:
     ld de, $0C08
-    call getTileNearEntityWithXYOffset
+    call getNearEntityTileAttrWithOffset
     dec hl
     ld a, (hl)
     cp $3F
@@ -757,23 +770,23 @@ _LABEL_32DC_:
     cp $C0
     jr nc, _LABEL_3301_
     ld de, $1808
-    call getTileNearEntityWithXYOffset
+    call getNearEntityTileAttrWithOffset
     rlca
     jr nc, _LABEL_3301_
     dec hl
     ld a, (hl)
     cp $3F
-    jp nz, alex_LABEL_2BFA_
+    jp nz, setAlexIdleStateAndLoadIdleAnimationDescriptor
 _LABEL_3301_:
-    set 3, (ix+20)
+    set 3, (ix + Entity.unknown3)
     ld hl, $0100
     ld (v_alex.ySpeed), hl
     ld hl, _DATA_9188_
-    jp _LABEL_4189_
+    jp loadAlexAnimationDescriptor
 
 +:
     ld de, $1808
-    call getTileNearEntityWithXYOffset
+    call getNearEntityTileAttrWithOffset
     dec hl
     ld a, (hl)
     cp $3F
@@ -806,7 +819,7 @@ alexHandler_3340:
     ld (v_alex.state), a
     cp $14
     jr nz, saveTempAlexCopy
-    call alex_LABEL_2BFA_
+    call setAlexIdleStateAndLoadIdleAnimationDescriptor
 saveTempAlexCopy:
     ld hl, v_alex
     ld de, temporaryAlexCopy
@@ -820,25 +833,25 @@ saveTempAlexCopy:
 alexHandler_336F:
     call resetEntityUnknown3AndAlexSpeed
     ld (v_alex.ySpeed), hl
-    res 4, (ix+20)
-    res 2, (ix+20)
-    call _LABEL_3C45_
+    res 4, (ix + Entity.unknown3)
+    res 2, (ix + Entity.unknown3)
+    call interactWithTile
     ld a, (_RAM_C054_)
     cp $01
     jp nz, _LABEL_345E_
-    bit 0, (ix+28)
+    bit 0, (ix + Entity.unknown8)
     jr z, ++
-    call _LABEL_462E_
+    call tickPunch
     ret nz
 _LABEL_3392_:
-    bit 1, (ix+20)
+    bit 1, (ix + Entity.unknown3)
     jr z, +
     ld hl, _DATA_90BC_
-    jp loadAlexAnimationDescriptor
+    jp loadAlexSpriteDescriptor
 
 +:
     ld hl, _DATA_90A7_
-    jp loadAlexAnimationDescriptor
+    jp loadAlexSpriteDescriptor
 
 ++:
     ld a, (v_inputDataChanges)
@@ -854,8 +867,8 @@ _LABEL_3392_:
     call nz, _LABEL_3424_
     bit JOY_RIGHT_BIT, c
     call nz, _LABEL_3442_
-    inc (ix+27)
-    bit 2, (ix+27)
+    inc (ix + Entity.stateTimer)
+    bit 2, (ix + Entity.stateTimer)
     ld de, $0080
     jr z, +
     ld de, $FF80
@@ -877,9 +890,9 @@ _LABEL_3392_:
     ret c
     ld hl, $FF00
     ld (v_alex.ySpeed), hl
-    res 3, (ix+20)
-    res 7, (ix+20)
-    set 4, (ix+20)
+    res 3, (ix + Entity.unknown3)
+    res 7, (ix + Entity.unknown3)
+    set 4, (ix + Entity.unknown3)
     ret
 
 _LABEL_3400_:
@@ -894,9 +907,9 @@ _LABEL_3400_:
     ret nc
     ld hl, $0100
     ld (v_alex.ySpeed), hl
-    set 3, (ix+20)
-    set 7, (ix+20)
-    set 4, (ix+20)
+    set 3, (ix + Entity.unknown3)
+    set 7, (ix + Entity.unknown3)
+    set 4, (ix + Entity.unknown3)
     ret
 
 _LABEL_3424_:
@@ -941,9 +954,9 @@ _LABEL_345E_:
 updateAutoWalkingRight:
     ld hl, $0180
     ld (v_alex.xSpeed), hl
-    set 2, (ix+20)
-    ld hl, _DATA_8CF4_
-    jp _LABEL_4189_
+    set 2, (ix + Entity.unknown3)
+    ld hl, alexWalkingRightAnimationDescriptor
+    jp loadAlexAnimationDescriptor
 
 clearEntities2to4AndMaybeReset0xC054:
     ; Clear entities 2, 3 and 4.
@@ -969,22 +982,26 @@ clearEntities2to4AndMaybeReset0xC054:
     ld (hl), a
     ret
 
-_LABEL_3498_:
-    ld a, $92
+; Fallthrough
+splash:
+    ld a, SOUND_SPLASH
     ld (v_soundControl), a
-    ld (ix + Entity.state), $05
-    ld (ix+6), $0A
+
+    ld (ix + Entity.state), ALEX_SWIMING
+    ld (ix + Entity.animationTimerResetValue), $0A
+
     call clearEntities2to4AndMaybeReset0xC054
-    bit 7, (ix+18)
-    set 3, (ix+20)
+
+    bit 7, (ix + Entity.ySpeed.high)
+    set 3, (ix + Entity.unknown3)
     jr z, updateAlexSwiming
-    res 3, (ix+20)
-; 6th entry of Jump Table from 2982 (indexed by v_alex.state)
+    res 3, (ix + Entity.unknown3)
+
 updateAlexSwiming:
-    bit 4, (ix+28)
+    bit 4, (ix + Entity.unknown8)
     jp nz, _LABEL_3E01_
     ld de, $080C
-    call _LABEL_3C48_
+    call interactWithTileAtOffset
     ld a, (v_alex.state)
     cp ALEX_SWIMING
     ret nz
@@ -1012,16 +1029,16 @@ updateAlexSwiming:
     jp _LABEL_3230_
 
 +:
-    bit 0, (ix+28)
+    bit 0, (ix + Entity.unknown8)
     jr z, ++
-    call _LABEL_462E_
+    call tickPunch
     jr nz, +++
     ld hl, _DATA_8E01_
-    bit 0, (ix+20)
+    bit 0, (ix + Entity.unknown3)
     jr z, +
     ld hl, _DATA_8E25_
 +:
-    call loadAlexAnimationDescriptor
+    call loadAlexSpriteDescriptor
     jr +++
 
 ++:
@@ -1031,22 +1048,22 @@ updateAlexSwiming:
     call _LABEL_44E2_
 +++:
     ld de, $110C
-    call _LABEL_3D0A_
+    call interactWithFloorWithOffset
     call +++
     call _LABEL_363E_
-    bit 0, (ix+28)
+    bit 0, (ix + Entity.unknown8)
     ret nz
     ld c, $14
     ld a, (v_inputData)
-    bit 0, (ix+20)
+    bit 0, (ix + Entity.unknown3)
     jr nz, ++
     bit JOY_BTN1_BIT, a
     jr z, +
     ld c, $0A
 +:
-    ld (ix+6), c
+    ld (ix + Entity.animationTimerResetValue), c
     ld hl, _DATA_8CFD_
-    jp _LABEL_4189_
+    jp loadAlexAnimationDescriptor
 
 ++:
     ld c, $14
@@ -1054,23 +1071,23 @@ updateAlexSwiming:
     jr z, +
     ld c, $0A
 +:
-    ld (ix+6), c
+    ld (ix + Entity.animationTimerResetValue), c
     ld hl, _DATA_8D02_
-    jp _LABEL_4189_
+    jp loadAlexAnimationDescriptor
 
 +++:
-    bit 3, (ix+20)
+    bit 3, (ix + Entity.unknown3)
     jp nz, _LABEL_35F8_
     ld a, (v_alex.yPos.high)
-    add a, (ix+18)
+    add a, (ix + Entity.ySpeed.high)
     cp $02
     jr c, _LABEL_35BE_
     ld de, $0103
-    call getTileNearEntityWithXYOffset
+    call getNearEntityTileAttrWithOffset
     bit 7, a
     jr nz, _LABEL_35E3_
     ld de, $010C
-    call getTileNearEntityWithXYOffset
+    call getNearEntityTileAttrWithOffset
     bit 7, a
     jp nz, _LABEL_35E3_
     and $E0
@@ -1097,9 +1114,9 @@ updateAlexSwiming:
 
 ++:
     ld de, $0010
-    bit 4, (ix+20)
+    bit 4, (ix + Entity.unknown3)
     jp nz, _LABEL_3BF7_
-    set 3, (ix+20)
+    set 3, (ix + Entity.unknown3)
     ret
 
 _LABEL_35BE_:
@@ -1112,7 +1129,7 @@ _LABEL_35BE_:
     ld a, (v_inputData)
     and JOY_UP
     jr z, +
-    set 7, (ix+1)
+    set 7, (ix + Entity.flags)
     ret
 
 +:
@@ -1126,11 +1143,11 @@ _LABEL_35BE_:
 _LABEL_35E3_:
     ld hl, $0000
     ld (v_alex.ySpeed), hl
-    res 4, (ix+20)
+    res 4, (ix + Entity.unknown3)
     ld a, (v_inputData)
     bit JOY_DOWN_BIT, a
     ret z
-    set 3, (ix+20)
+    set 3, (ix + Entity.unknown3)
     ret
 
 _LABEL_35F8_:
@@ -1160,15 +1177,15 @@ _LABEL_35F8_:
 ++:
     ld hl, $0000
     ld (v_alex.ySpeed), hl
-    res 4, (ix+20)
+    res 4, (ix + Entity.unknown3)
     ld a, (v_inputData)
     bit JOY_DOWN_BIT, a
     ret nz
-    res 3, (ix+20)
+    res 3, (ix + Entity.unknown3)
     ret
 
 _LABEL_363E_:
-    bit 1, (ix+20)
+    bit 1, (ix + Entity.unknown3)
     jp nz, _LABEL_369A_
     ld de, $0301
     ld a, $0A
@@ -1205,7 +1222,7 @@ _LABEL_363E_:
     jp _LABEL_3B2B_
 
 +++:
-    set 0, (ix+20)
+    set 0, (ix + Entity.unknown3)
     ld de, $0010
     bit 4, a
     jp z, _LABEL_3B61_
@@ -1248,7 +1265,7 @@ _LABEL_369A_:
     jp _LABEL_3B7E_
 
 +++:
-    res 0, (ix+20)
+    res 0, (ix + Entity.unknown3)
     bit JOY_BTN1_BIT, a
     jr nz, +
     ld de, $FFF0
@@ -1260,20 +1277,20 @@ _LABEL_369A_:
 
 ; 7th entry of Jump Table from 2982 (indexed by v_alex.state)
 updateAlexFlyingPeticopter:
-    bit 6, (ix+28)
+    bit 6, (ix + Entity.unknown8)
     jr nz, +
     ld a, (v_inputDataChanges)
     and $10
     ret z
-    set 6, (ix+28)
+    set 6, (ix + Entity.unknown8)
 +:
     ld de, $040C
-    call _LABEL_3C48_
+    call interactWithTileAtOffset
     ld de, $140C
-    call _LABEL_3C48_
+    call interactWithTileAtOffset
     ld de, $1C0C
-    call _LABEL_3C48_
-    bit 0, (ix+28)
+    call interactWithTileAtOffset
+    bit 0, (ix + Entity.unknown8)
     jr nz, +
     ld a, (v_inputDataChanges)
     and $20
@@ -1281,20 +1298,20 @@ updateAlexFlyingPeticopter:
 +:
     call ++
     call _LABEL_37D5_
-    bit 0, (ix+20)
-    ld hl, _DATA_8D07_
+    bit ALEX_UKNW3_FACING_RIGHT_BIT, (ix + Entity.unknown3)
+    ld hl, alexFlyingPeticopterLeftAnimationDescriptor
     jr z, +
-    ld hl, _DATA_8D10_
+    ld hl, alexFlyingPeticopterRightAnimationDescriptor
 +:
     ld a, (v_alex.animationTimerResetValue)
     inc a
     cp $14
-    jp nc, _LABEL_4189_
+    jp nc, loadAlexAnimationDescriptor
     ld (v_alex.animationTimerResetValue), a
-    jp _LABEL_4189_
+    jp loadAlexAnimationDescriptor
 
 ++:
-    bit 1, (ix+20)
+    bit 1, (ix + Entity.unknown3)
     jp nz, _LABEL_378F_
     ld de, $0302
     ld a, $0C
@@ -1320,13 +1337,13 @@ updateAlexFlyingPeticopter:
     ret
 
 ++:
-    set 2, (ix+20)
+    set 2, (ix + Entity.unknown3)
     ld de, $FFC0
     ld bc, $FE00
     jp _LABEL_3B2B_
 
 +++:
-    set 0, (ix+20)
+    set 0, (ix + Entity.unknown3)
     ld de, $0040
     jp _LABEL_3B61_
 
@@ -1355,18 +1372,18 @@ _LABEL_378F_:
     ret
 
 ++:
-    set 2, (ix+20)
+    set 2, (ix + Entity.unknown3)
     ld de, $0040
     ld bc, $0200
     jp _LABEL_3B7E_
 
 +++:
-    res 0, (ix+20)
+    res 0, (ix + Entity.unknown3)
     ld de, $FFC0
     jp _LABEL_3BB1_
 
 _LABEL_37D5_:
-    bit 3, (ix+20)
+    bit 3, (ix + Entity.unknown3)
     jp nz, _LABEL_382B_
     ld de, $0204
     ld a, $10
@@ -1385,10 +1402,10 @@ _LABEL_37D5_:
     jp _LABEL_3BF7_
 
 +:
-    ld (ix+27), $07
+    ld (ix + Entity.stateTimer), $07
 ++:
-    dec (ix+27)
-    ld (ix+6), $02
+    dec (ix + Entity.stateTimer)
+    ld (ix + Entity.animationTimerResetValue), $02
     ld a, (v_alex.yPos.high)
     cp $04
     jr c, +++
@@ -1397,18 +1414,18 @@ _LABEL_37D5_:
     jp _LABEL_3BE1_
 
 +++:
-    res 4, (ix+20)
-    set 3, (ix+20)
+    res 4, (ix + Entity.unknown3)
+    set 3, (ix + Entity.unknown3)
     ld hl, $0000
     ld (v_alex.ySpeed), hl
     ret
 
 _LABEL_382B_:
     ld de, $2004
-    call getTileNearEntityWithXYOffset
+    call getNearEntityTileAttrWithOffset
     bit 7, a
     jr nz, _LABEL_3875_
-    ld a, (_RAM_C213_)
+    ld a, (v_nametableEntryAttrLastThreeBits)
     or a
     jp nz, _LABEL_388E_
     ld e, $08
@@ -1432,17 +1449,17 @@ _LABEL_382B_:
     jp _LABEL_3C12_
 
 _LABEL_3864_:
-    ld (ix+27), $07
+    ld (ix + Entity.stateTimer), $07
 _LABEL_3868_:
-    dec (ix+27)
-    ld (ix+6), $02
+    dec (ix + Entity.stateTimer)
+    ld (ix + Entity.animationTimerResetValue), $02
     ld de, $FFC0
     jp _LABEL_3C28_
 
 _LABEL_3875_:
     ld hl, $0000
     ld (v_alex.ySpeed), hl
-    res 4, (ix+20)
+    res 4, (ix + Entity.unknown3)
     ld a, (v_alex.stateTimer)
     or a
     jp nz, _LABEL_3868_
@@ -1467,7 +1484,7 @@ _LABEL_389C_:
     call _LABEL_4415_
     call resetEntityUnknown3AndAlexSpeed
     ld (v_alex.ySpeed), hl
-    res 0, (ix+28)
+    res 0, (ix + Entity.unknown8)
     ld a, (v_alex.unknown3)
     or $18
     ld (v_alex.unknown3), a
@@ -1484,7 +1501,7 @@ alexHandler_38C2:
 alexHandler_38C5:
     call resetEntityUnknown3AndAlexSpeed
     ld hl, _DATA_9122_
-    call loadAlexAnimationDescriptor
+    call loadAlexSpriteDescriptor
     ld de, $1904
     ld a, $08
     call _LABEL_3A41_
@@ -1496,17 +1513,17 @@ alexHandler_38C5:
     ld hl, $0000
 +:
     ld (v_alex.ySpeed), hl
-    ld (ix+28), $00
+    ld (ix + Entity.unknown8), $00
     ld hl, _RAM_C20B_
     ld a, (v_scrollFlags)
     and SCROLL_DOWN
     or (hl)
     ret nz
     ld de, $0008
-    call getTileNearEntityWithXYOffset
+    call getNearEntityTileAttrWithOffset
     and $E0
     cp $20
-    jp z, _LABEL_3498_
+    jp z, splash
     ret
 
 ; Data from 3904 to 3918 (21 bytes)
@@ -1520,7 +1537,7 @@ alexHandler_3919:
     ld a, (v_alex.battleDecision)
     ld (v_entities.28.battleDecision), a
     ld hl, _DATA_8D2A_
-    jp _LABEL_4189_
+    jp loadAlexAnimationDescriptor
 
 _LABEL_3928_:
     ld a, (v_inputDataChanges)
@@ -1553,7 +1570,7 @@ alexHandler_3949:
     inc hl
     ld h, (hl)
     ld l, a
-    jp loadAlexAnimationDescriptor
+    jp loadAlexSpriteDescriptor
 
 ; Pointer Table from 395B to 3960 (3 entries, indexed by _RAM_CF97_)
 _DATA_395B_:
@@ -1569,14 +1586,14 @@ alexHandler_3961:
     jr nc, +
     ld hl, $0100
     ld (v_alex.xSpeed), hl
-    ld hl, _DATA_8CF4_
-    jp _LABEL_4189_
+    ld hl, alexWalkingRightAnimationDescriptor
+    jp loadAlexAnimationDescriptor
 
 +:
     ld hl, $FF00
     ld (v_alex.xSpeed), hl
-    ld hl, _DATA_8CEB_
-    jp _LABEL_4189_
+    ld hl, alexWalkingLeftAnimationDescriptor
+    jp loadAlexAnimationDescriptor
 
 ++:
     call resetEntityUnknown3AndAlexSpeed
@@ -1587,7 +1604,7 @@ alexHandler_3961:
     call saveTempAlexCopy
     ld a, $01
     ld (_RAM_C25A_), a
-    ld (ix+6), $14
+    ld (ix + Entity.animationTimerResetValue), $14
     ret
 
 ; 24th entry of Jump Table from 2982 (indexed by v_alex.state)
@@ -1596,12 +1613,12 @@ alexHandler_39A5:
     ld a, (v_alex.battleDecision)
     ld (v_entities.28.battleDecision), a
     ld hl, _DATA_8CE6_
-    jp _LABEL_4189_
+    jp loadAlexAnimationDescriptor
 
 ; 26th entry of Jump Table from 2982 (indexed by v_alex.state)
 alexHandler_39B4:
     call resetEntityUnknown3AndAlexSpeed
-    bit 6, (ix+20)
+    bit 6, (ix + Entity.unknown3)
     jr nz, +
     call _LABEL_3A68_
     jr ++
@@ -1610,10 +1627,10 @@ alexHandler_39B4:
     ld (v_alex.ySpeed), hl
 ++:
     ld hl, _DATA_90D1_
-    call loadAlexAnimationDescriptor
+    call loadAlexSpriteDescriptor
     dec (ix+24)
     ret nz
-    set 7, (ix+1)
+    set 7, (ix + Entity.flags)
     ret
 
 ; 27th entry of Jump Table from 2982 (indexed by v_alex.state)

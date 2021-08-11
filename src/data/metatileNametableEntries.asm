@@ -125,12 +125,12 @@ _DATA_14502_:
 
 ; 33rd entry of Pointer Table from 14000 (indexed by unknown)
 ; Data from 14503 to 1450A (8 bytes)
-_DATA_14503_:
+backgroundMetatile:
 .db $35 $00 $36 $00 $37 $00 $38 $00
 
 ; 34th entry of Pointer Table from 14000 (indexed by unknown)
 ; Data from 1450B to 14512 (8 bytes)
-_DATA_1450B_:
+waterMetatile:
 .db $78 $20 $79 $20 $7A $20 $7B $20
 
 ; 35th entry of Pointer Table from 14000 (indexed by unknown)

@@ -26,7 +26,7 @@ updateflameOrScorpionLeft:
     ; else
 +:
     ld de, $0900
-    call getTileNearEntityWithXYOffset
+    call getNearEntityTileAttrWithOffset
     rlca
     jr nc, +
     

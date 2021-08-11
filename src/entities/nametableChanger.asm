@@ -94,7 +94,7 @@ updateNametableChanger:
     ld (v_nametableChangeRequest), a
 
     ld hl, (v_shopEntranceDoorNametablePointer)
-    ld de, _RAM_C204_
+    ld de, v_nametableChangeDestination
     ldi
     ldi
 
@@ -108,7 +108,7 @@ updateNametableChanger:
     ld (Mapper_Slot2), a
 
     ; Load metatile nametable pointer indexed by 2c (two times c)
-    ; and save it into v_pointerToANametableEntry_RAM_C206_
+    ; and save it into nametableChangeSourceMetatile
     ld hl, (v_metatileNametablePointer)
     add hl, bc
     add hl, bc
@@ -116,7 +116,7 @@ updateNametableChanger:
     inc hl
     ld h, (hl)
     ld l, a
-    ld (v_pointerToANametableEntry_RAM_C206_), hl
+    ld (nametableChangeSourceMetatile), hl
 
     ld a, $82
     ld (Mapper_Slot2), a

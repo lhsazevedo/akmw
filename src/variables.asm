@@ -238,8 +238,8 @@ v_alexTilesIndex db
 .enum $C202 export
 v_nametableChangeRequest db
 _RAM_C203_ db
-_RAM_C204_ dw
-v_pointerToANametableEntry_RAM_C206_ dw
+v_nametableChangeDestination dw
+nametableChangeSourceMetatile dw
 _RAM_C208_ db
 _RAM_C209_ db
 .ende
@@ -250,7 +250,7 @@ v_alexHorizontalSpeedTemporaryCopy dw
 v_alexVerticalSpeedTemporaryCopy dw
 v_alexStateTemporaryCopy db
 _RAM_C211_ dw
-_RAM_C213_ db
+v_nametableEntryAttrLastThreeBits db
 v_nextGhostSpawnTimer db
 v_hasBattleStarted db
 v_hasBattleEnded db

@@ -9,10 +9,10 @@ updateEntity0x63:
     or a
     ret nz
     ld (hl), $80
-    ld hl, _DATA_14503_
-    ld (v_pointerToANametableEntry_RAM_C206_), hl
+    ld hl, backgroundMetatile
+    ld (nametableChangeSourceMetatile), hl
     ld hl, _RAM_CC08_
-    ld (_RAM_C204_), hl
+    ld (v_nametableChangeDestination), hl
     jp destroyCurrentEntity
 
 +:

@@ -78,11 +78,11 @@ _LABEL_6054_:
     ld a, $80
     ld (v_nametableChangeRequest), a
     ld hl, _RAM_CE84_
-    ld (_RAM_C204_), hl
+    ld (v_nametableChangeDestination), hl
     ld a, $85
     ld (Mapper_Slot2), a
     ld hl, _DATA_14B5D_
-    ld (v_pointerToANametableEntry_RAM_C206_), hl
+    ld (nametableChangeSourceMetatile), hl
     ld a, $82
     ld (Mapper_Slot2), a
     jr _LABEL_6001_
