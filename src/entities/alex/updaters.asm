@@ -1,3 +1,4 @@
+.INCLUDE "entities/alex/updaters/updateAlexIdle.asm"
 .INCLUDE "src/entities/alex/updaters/updateAlexWalking.asm"
 
 fall:
@@ -146,7 +147,7 @@ _LABEL_2D7F_:
     set 2, (ix + Entity.unknown3)
     ld de, $FFF0
     ld bc, $FE00
-    jp _LABEL_3B2B_
+    jp accelerateAlexLeft
 
 +++++:
     ld a, (v_alex.unknown3)
@@ -201,7 +202,7 @@ _LABEL_2DF3_:
     set 2, (ix + Entity.unknown3)
     ld de, $0010
     ld bc, $0200
-    jp _LABEL_3B7E_
+    jp accelerateAlexRight
 
 +++++:
     ld a, (v_alex.unknown3)
@@ -401,7 +402,7 @@ _LABEL_2FD5_:
     jr z, +
     ld de, $0040
     ld bc, $0400
-    jp _LABEL_3B7E_
+    jp accelerateAlexRight
 
 +:
     bit 2, a
@@ -500,7 +501,7 @@ _LABEL_30C5_:
     jr z, +
     ld de, $0040
     ld bc, $0280
-    jp _LABEL_3B7E_
+    jp accelerateAlexRight
 
 +:
     bit 2, a
@@ -1214,12 +1215,12 @@ _LABEL_363E_:
     jr nz, +
     ld de, $FFF0
     ld bc, $FF00
-    jp _LABEL_3B2B_
+    jp accelerateAlexLeft
 
 +:
     ld de, $FFE0
     ld bc, $FE80
-    jp _LABEL_3B2B_
+    jp accelerateAlexLeft
 
 +++:
     set 0, (ix + Entity.unknown3)
@@ -1257,12 +1258,12 @@ _LABEL_369A_:
     jr nz, +
     ld de, $0010
     ld bc, $0100
-    jp _LABEL_3B7E_
+    jp accelerateAlexRight
 
 +:
     ld de, $0020
     ld bc, $0180
-    jp _LABEL_3B7E_
+    jp accelerateAlexRight
 
 +++:
     res 0, (ix + Entity.unknown3)
@@ -1340,7 +1341,7 @@ updateAlexFlyingPeticopter:
     set 2, (ix + Entity.unknown3)
     ld de, $FFC0
     ld bc, $FE00
-    jp _LABEL_3B2B_
+    jp accelerateAlexLeft
 
 +++:
     set 0, (ix + Entity.unknown3)
@@ -1375,7 +1376,7 @@ _LABEL_378F_:
     set 2, (ix + Entity.unknown3)
     ld de, $0040
     ld bc, $0200
-    jp _LABEL_3B7E_
+    jp accelerateAlexRight
 
 +++:
     res 0, (ix + Entity.unknown3)

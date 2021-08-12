@@ -1111,7 +1111,6 @@ startAutoWalkRight:
     ld hl, alexIdleRightSpriteDescriptor
     jp loadAlexSpriteDescriptor
 
-.INCLUDE "entities/alex/updaters/updateAlexIdle.asm"
 .INCLUDE "entities/alex/updaters.asm"
 
 .INCLUDE "entities/entity0x62.asm"
@@ -1317,7 +1316,7 @@ _LABEL_3AE8_:
     jr z, _LABEL_3AD5_
     ret
 
-_LABEL_3B2B_:
+accelerateAlexLeft:
     ld a, (v_alex.unknown3)
     or $04
     and $FC
@@ -1367,15 +1366,19 @@ _LABEL_3B61_:
     ld (v_alex.unknown3), a
     ret
 
-_LABEL_3B7E_:
+accelerateAlexRight:
     ld a, (v_alex.unknown3)
-    or $07
+    or 0b00000111
     ld (v_alex.unknown3), a
-    set 2, (ix+20)
+
+    set 2, (ix + Entity.unknown3)
+
     ld hl, (v_alex.xSpeed)
     add hl, de
+
     ld e, l
     ld d, h
+
     or a
     sbc hl, bc
     jr c, +

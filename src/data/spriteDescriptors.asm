@@ -833,7 +833,7 @@ riceBallSpriteDescriptor:
 
 ; Data from 8CE6 to 8CE6 (1 bytes)
 _DATA_8CE6_:
-.db $02
+.db $02 
 
 ; Pointer Table from 8CE7 to 8CEA (2 entries, indexed by v_alex.animationFrame)
 .dw _DATA_8E88_ alexIdleRightSpriteDescriptor

@@ -19,6 +19,7 @@ updateAlexIdle:
     or a
     jr z, @onScreen
 
+    ; @TODO
     call _LABEL_3A4F_
     jp nc, fall
     jr @onGround
@@ -40,19 +41,19 @@ updateAlexIdle:
     jp nz, splash
 
     bit ALEX_UKNW8_PUNCH_BIT, (ix + Entity.unknown8)
-    jr z, +
+    jr z, @skipPunch
 
     bit 1, (ix + Entity.unknown8)
-    jr nz, +
+    jr nz, @skipPunch
 
     call tickPunch
 
     ; Return if punch is not over yet.
     ret nz
 
-    jp loadAlexIdleAnimationDescriptor
+    jp leadAlexIdleSpriteDescriptor
 
-+:
+@skipPunch:
     ld a, (v_inputDataChanges)
 
     bit JOY_BTN2_BIT, a
@@ -75,23 +76,25 @@ updateAlexIdle:
 
 crouch:
     ld (ix + Entity.state), ALEX_CROUCHED
+
     bit ALEX_UKNW3_FACING_RIGHT_BIT, (ix + Entity.unknown3)
     ld hl, alexCrouchingLeftSpriteDescriptor
     jp z, loadAlexSpriteDescriptor
+
     ld hl, alexCrouchingRightSpriteDescriptor
     jp loadAlexSpriteDescriptor
 
 walkLeft:
-    res 1, (ix + Entity.unknown3)
+    res ALEX_UKNW3_MOVING_RIGHT_BIT, (ix + Entity.unknown3)
 --:
-    res 0, (ix + Entity.unknown3)
+    res ALEX_UKNW3_FACING_RIGHT_BIT, (ix + Entity.unknown3)
     ld (ix + Entity.state), ALEX_WALKING
     ret
 
 walkRight:
-    set 1, (ix + Entity.unknown3)
+    set ALEX_UKNW3_MOVING_RIGHT_BIT, (ix + Entity.unknown3)
 -:
-    set 0, (ix + Entity.unknown3)
+    set ALEX_UKNW3_FACING_RIGHT_BIT, (ix + Entity.unknown3)
     ld (ix + Entity.state), ALEX_WALKING
     ret
 
