@@ -141,7 +141,7 @@ _LABEL_7ED3_:
     ld a, (v_hasBattleStarted)
     or a
     jp z, +
-    ld a, $84
+    ld a, SOUND_CASTLE_SONG
     ld (v_soundControl), a
 +:
     ld a, $87
@@ -164,6 +164,6 @@ _LABEL_7ED3_:
     xor a
     ld (v_textBoxMessageIndex), a
     ld (v_nextMapNametableUpdateTimer), a
-    ld a, $94
+    ld a, SOUND_TEXTBOX
     ld (v_soundControl), a
     ret

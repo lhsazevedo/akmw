@@ -24,7 +24,7 @@ updateAlexSpawning:
     ret
 
 _spawnRidingMotorcycle:
-    ld a, $85
+    ld a, SOUND_BIKE_SONG
     ld (v_soundControl), a
     ld hl, $0040
     ld (v_alex.xSpeed), hl
@@ -37,7 +37,7 @@ _spawnRidingMotorcycle:
 
 _spawnFlyingPeticopter:
     ld (ix + Entity.state), ALEX_FLYING_PETICOPTER
-    ld a, $88
+    ld a, SOUND_PETICOPTER_SONG
     ld (v_soundControl), a
     ld a, (v_alex.yPos.high)
     sub $10

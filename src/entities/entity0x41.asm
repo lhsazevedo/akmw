@@ -14,7 +14,7 @@ updateEntity0x41:
     or a
     jr nz, +
     ld (ix + Entity.unknown6), $01
-    ld a, $9E
+    ld a, SOUND_LIGHTNING
     ld (v_soundControl), a
 +:
     ld a, (ix + Entity.animationFrame)

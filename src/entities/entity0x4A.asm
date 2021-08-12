@@ -16,7 +16,7 @@ _LABEL_54DF_:
     ld (ix + Entity.type), $4A
     ld (ix + Entity.battleDecision), $08
     inc (ix + Entity.unknown5)
-    ld a, $8B
+    ld a, SOUND_SMOKE_PUFF
     ld (v_soundControl), a
 ; 74th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 updateEntity0x4A:

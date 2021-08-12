@@ -513,7 +513,7 @@ _LABEL_73D8_:
 ; 16th entry of Jump Table from 7152 (indexed by v_entities.6.state)
 _LABEL_7447_:
     call audioEngine.handler_LABEL_99D3_
-    ld a, $95
+    ld a, SOUND_BOSS_DEFEATED
     ld (v_soundControl), a
     inc (ix + Entity.state)
     ret

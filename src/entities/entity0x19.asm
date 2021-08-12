@@ -17,7 +17,7 @@ _DATA_74DF_:
     ld (iy+26), $19
     ld (iy+24), $3C
     call audioEngine.handler_LABEL_99D3_
-    ld a, $93
+    ld a, SOUND_BATTLE_LOST
     ld (v_soundControl), a
     ld hl, v_entities.7
     call clearEntity

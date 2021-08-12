@@ -20,6 +20,6 @@ updateEntity0x50:
     bit 1, (ix + Entity.flags)
     ret nz
     set 1, (ix + Entity.flags)
-    ld a, $A3
+    ld a, SOUND_STAR_BOX
     ld (v_soundControl), a
     ret

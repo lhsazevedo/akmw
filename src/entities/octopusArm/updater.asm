@@ -47,7 +47,7 @@ updateOctopusArm:
 +:
     add ix, de
     djnz -
-    ld a, $95
+    ld a, SOUND_BOSS_DEFEATED
     ld (v_soundControl), a
     ld ix, $C3C0
     ld a, $83

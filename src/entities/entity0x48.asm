@@ -10,7 +10,7 @@ updateEntity0x48:
     ld a, (ix + Entity.battleDecision)
     cp $08
     jp nc, _LABEL_5D7B_
-    ld a, $8B
+    ld a, SOUND_SMOKE_PUFF
     ld (v_soundControl), a
     ld (ix + Entity.type), $49
     res 0, (ix + Entity.flags)

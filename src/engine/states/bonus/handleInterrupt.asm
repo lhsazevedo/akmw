@@ -252,7 +252,7 @@ _LABEL_189A_:
     ld (v_endingSequencePointer), hl
     ld hl, $0039
     ld (v_verticalScrollSpeed), hl
-    ld a, $B0
+    ld a, SOUND_ENDING_SONG
     ld (v_soundControl), a
     ld hl, v_gameState
     set 7, (hl)

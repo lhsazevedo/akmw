@@ -24,7 +24,7 @@ updateEntity0x52:
     ld iy, v_alex
     call checkEntityCollision
     ret c
-    ld a, $8F
+    ld a, SOUND_POWERUP
     ld (v_soundControl), a
     ld a, (ix + Entity.data)
     ld hl, _DATA_644A_

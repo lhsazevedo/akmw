@@ -352,7 +352,7 @@ _LABEL_2F41_:
     ld a, $01
     call waitForInterrupt
     djnz -
-    ld a, $89
+    ld a, SOUND_DEAD
     ld (v_soundControl), a
     ret
 
@@ -1490,7 +1490,7 @@ _LABEL_389C_:
     or $18
     ld (v_alex.unknown3), a
     ld (ix + Entity.state), $1B
-    ld a, $9B
+    ld a, SOUND_FALLING
     ld (v_soundControl), a
     ret
 

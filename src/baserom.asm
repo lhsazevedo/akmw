@@ -2595,7 +2595,7 @@ _LABEL_43CA_:
     ret
 
 _LABEL_43F2_:
-    ld a, $82
+    ld a, SOUND_BASE_SONG
     ld (v_soundControl), a
     ld (ix+28), $04
     ld (ix+26), $03
@@ -2629,7 +2629,7 @@ _LABEL_4415_:
 
 ; 9th entry of Jump Table from 4523 (indexed by _RAM_C054_)
 _LABEL_4453_:
-    ld a, $A8
+    ld a, SOUND_BULLET
     ld (v_soundControl), a
     ld hl, v_alex.unknown8
     ld a, (hl)
@@ -2940,7 +2940,7 @@ _LABEL_48C5_:
     call nc, ++++
     ld hl, alexPunchingRightSpriteDescriptor
 ++:
-    ld a, $A4
+    ld a, SOUND_SHOCK_WAVE
     ld (v_soundControl), a
     jp loadAlexSpriteDescriptor
 
@@ -3273,7 +3273,7 @@ mermanBubblesVelocities:
 ; - Spaw boss smoke puff (that will spaw the onigiri)
 killOpponent:
     ; Request boss defeated sfx
-    ld a, $95
+    ld a, SOUND_BOSS_DEFEATED
     ld (v_soundControl), a
 
     call earnEntityPoints
@@ -3288,7 +3288,7 @@ killOpponent:
 
 _LABEL_555C_:
     call earnEntityPoints
-    ld a, $95
+    ld a, SOUND_BOSS_DEFEATED
     ld (v_soundControl), a
     ld (ix+2), $00
     res 0, (ix+1)
@@ -3326,7 +3326,7 @@ _LABEL_55B6_:
     ld a, (iy+0)
     or a
     jr nz, +
-    ld a, $98
+    ld a, SOUND_MONKEY_LEAF
     ld (v_soundControl), a
     ld (iy+0), $29
     ld a, (ix+12)

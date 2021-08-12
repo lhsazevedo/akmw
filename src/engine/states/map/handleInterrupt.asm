@@ -135,7 +135,7 @@ _LABEL_1FE9_:
     ld a, (v_currentLevelIsBonusLevel)
     or a
     jr z, +
-    ld a, $82
+    ld a, SOUND_BASE_SONG
     ld (v_soundControl), a
     jr ++
 
@@ -143,26 +143,26 @@ _LABEL_1FE9_:
     ld a, (v_alex.state)
     cp ALEX_SWIMING
     jr nz, ++
-    ld a, $83
+    ld a, SOUND_UNDERWATER_SONG
     ld (v_soundControl), a
     ld a, (v_level)
     cp $10
     jp nz, ++
-    ld a, $84
+    ld a, SOUND_CASTLE_SONG
     ld (v_soundControl), a
 ++:
     ld a, (_RAM_C054_)
     cp $07
     jp c, ++
     jp nz, +
-    ld a, $85
+    ld a, SOUND_BIKE_SONG
     ld (v_soundControl), a
     jp ++
 
 +:
     cp $08
     jp z, ++
-    ld a, $88
+    ld a, SOUND_PETICOPTER_SONG
     ld (v_soundControl), a
 ++:
     ei
@@ -392,32 +392,32 @@ initMapState:
     ld a, (v_alex.state)
     cp ALEX_SWIMING
     jr nz, +
-    ld a, $83
+    ld a, SOUND_UNDERWATER_SONG
     ld (v_soundControl), a
     ld a, (v_level)
     cp $10
     jp nz, +
-    ld a, $84
+    ld a, SOUND_CASTLE_SONG
     ld (v_soundControl), a
 +:
     ld a, (_RAM_C054_)
     cp $07
     jp c, ++
     jp nz, +
-    ld a, $85
+    ld a, SOUND_BIKE_SONG
     ld (v_soundControl), a
     jp ++
 
 +:
     cp $08
     jp z, ++
-    ld a, $88
+    ld a, SOUND_PETICOPTER_SONG
     ld (v_soundControl), a
 ++:
     ld a, (v_currentLevelIsBonusLevel)
     or a
     jr z, +
-    ld a, $82
+    ld a, SOUND_BASE_SONG
     ld (v_soundControl), a
 +:
     ei
@@ -484,7 +484,7 @@ updateEntity0x21:
     ld a, (v_inputData)
     and $30
     ret z
-    ld a, $8F
+    ld a, SOUND_POWERUP
     ld (v_soundControl), a
     ld a, $81
     ld (v_inventoryItemSelectionState), a

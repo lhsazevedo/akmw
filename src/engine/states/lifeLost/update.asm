@@ -216,13 +216,13 @@ _LABEL_6D73_:
     ld a, (v_alexStateBeforeHit)
     cp $05
     jp nz, +
-    ld a, $83
+    ld a, SOUND_UNDERWATER_SONG
     ld (v_soundControl), a
 +:
     ld a, (v_hasBattleStarted)
     or a
     jp z, +
-    ld a, $84
+    ld a, SOUND_CASTLE_SONG
     ld (v_soundControl), a
 +:
     ld a, $82
@@ -265,7 +265,7 @@ gameOver_LABEL_6DC9_:
     ld a, e
     ld (v_VDPRegister0Value), a
     rst setVDPAddress
-    ld a, $AF
+    ld a, SOUND_GAME_OVER_SONG
     ld (v_soundControl), a
     ei
     call enableDisplay
@@ -321,7 +321,7 @@ _LABEL_6E41_:
     ld b, $0D
     call copyNametableEntriesToVRAM
     ei
-    ld a, $8F
+    ld a, SOUND_POWERUP
     ld (v_soundControl), a
     ld b, $1E
     call sleepTenthsOfSecond
