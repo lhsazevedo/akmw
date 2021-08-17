@@ -17,6 +17,8 @@ updateAlexWalking:
     ld a, (v_alex.isOffScreenFlags.high)
     or a
     jr z, @onScreen
+
+    ; Offscreen
     call _LABEL_3A4F_
     jp nc, fall
     jr @continue
@@ -50,6 +52,7 @@ updateAlexWalking:
     bit ALEX_UKNW3_MOVING_RIGHT_BIT, (ix + Entity.unknown3)
     jp nz, onMovingRightBit
 
+    ; Left wall collision related
     ld de, $0102
 
     ld a, (v_alex.isOffScreenFlags.high)
@@ -63,7 +66,7 @@ updateAlexWalking:
     jr @pathFree
 
 @onScreen2:
-
+    ; Left wall collision related
     ld a, $0E
     ld b, $01
     call _LABEL_39ED_
@@ -88,7 +91,7 @@ updateAlexWalking:
 @pathFree:
     ld a, (v_inputData)
     bit JOY_LEFT_BIT, a
-    jr z, +
+    jr z, onLeftReleased
 
     set 2, (ix + Entity.unknown3)
     ld de, $FFC0
@@ -99,9 +102,9 @@ loadAlexWalkingLeftAnimationDescriptor:
     ld hl, alexWalkingLeftAnimationDescriptor
     jp loadAlexAnimationDescriptor
 
-+:
+onLeftReleased:
     bit JOY_RIGHT_BIT, a
-    jp nz, +
+    jp nz, onRightTurn
 
     bit JOY_DOWN_BIT, a
     jp nz, crouch
@@ -110,7 +113,7 @@ loadAlexWalkingLeftAnimationDescriptor:
     jr z, setAlexIdleStateAndLoadIdleAnimationDescriptor
 
     ld de, $0020
-    call _LABEL_3B50_
+    call applyFrictionMovingLeft
     jr nc, loadAlexWalkingLeftAnimationDescriptor
 
 setAlexIdleStateAndLoadIdleAnimationDescriptor:
@@ -127,10 +130,14 @@ leadAlexIdleSpriteDescriptor:
     ld hl, alexIdleRightSpriteDescriptor
     jp loadAlexSpriteDescriptor
 
-+:
+onRightTurn:
+    ; Set Alex facing right bit
+    ; Will make Alex face right when stopped
     set ALEX_UKNW3_FACING_RIGHT_BIT, (ix + Entity.unknown3)
+
+    ; Activate brake
     ld de, $0040
-    call _LABEL_3B61_
+    call leftBrake
     ld hl, alexWalkingRightAnimationDescriptor
     jp loadAlexAnimationDescriptor
 
@@ -185,7 +192,7 @@ loadAlexWalkingRightAnimationDescriptor:
 
 onRightReleased:
     bit JOY_LEFT_BIT, a
-    jr nz, @activeBrake
+    jr nz, @onLeftTurn
 
     bit JOY_DOWN_BIT, a
     jp nz, crouch
@@ -195,21 +202,22 @@ onRightReleased:
 
     ; Friction brake
     ld de, $FFE0
-    call _LABEL_3BA1_
+    call applyFrictionMovingRight
 
     jr c, loadAlexWalkingRightAnimationDescriptor
     jp setAlexIdleStateAndLoadIdleAnimationDescriptor
 
-@activeBrake:
+@onLeftTurn:
     ; Set moving bit just in case
     set ALEX_UKNW3_MOVING_BIT, (ix + Entity.unknown3)
 
-    ; Make Alex face left when stopped
+    ; Reset Alex facing right bit
+    ; Will make Alex face left when stopped
     res ALEX_UKNW3_FACING_RIGHT_BIT, (ix + Entity.unknown3)
 
-    ; Active brake
+    ; Activate brake
     ld de, $FFC0
-    call _LABEL_3BB1_
+    call rightBrake
 
     ; ?
     ld hl, alexWalkingRightAnimationDescriptor

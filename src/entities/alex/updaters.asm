@@ -162,7 +162,7 @@ _LABEL_2D7F_:
 +:
     call loadAlexSpriteDescriptor
     ld de, $0010
-    jp _LABEL_3B61_
+    jp leftBrake
 
 _LABEL_2DF3_:
     ld de, $180E
@@ -218,7 +218,7 @@ _LABEL_2DF3_:
 +:
     call loadAlexSpriteDescriptor
     ld de, $FFF0
-    jp _LABEL_3BB1_
+    jp rightBrake
 
 
 ; 5th entry of Jump Table from 2982 (indexed by v_alex.state)
@@ -321,7 +321,7 @@ _LABEL_2F2C_:
     call _LABEL_3A03_
     jp c, resetEntityUnknown3AndAlexSpeed
     ld de, $FFE0
-    call _LABEL_3BA1_
+    call applyFrictionMovingRight
     jp nc, resetEntityUnknown3AndAlexSpeed
     ret
 
@@ -1226,9 +1226,9 @@ _LABEL_363E_:
     set 0, (ix + Entity.unknown3)
     ld de, $0010
     bit 4, a
-    jp z, _LABEL_3B61_
+    jp z, leftBrake
     ld de, $0020
-    jp _LABEL_3B61_
+    jp leftBrake
 
 _LABEL_369A_:
     ld de, $0317
@@ -1270,11 +1270,11 @@ _LABEL_369A_:
     bit JOY_BTN1_BIT, a
     jr nz, +
     ld de, $FFF0
-    jp _LABEL_3BB1_
+    jp rightBrake
 
 +:
     ld de, $FFE0
-    jp _LABEL_3BB1_
+    jp rightBrake
 
 ; 7th entry of Jump Table from 2982 (indexed by v_alex.state)
 updateAlexFlyingPeticopter:
@@ -1346,7 +1346,7 @@ updateAlexFlyingPeticopter:
 +++:
     set 0, (ix + Entity.unknown3)
     ld de, $0040
-    jp _LABEL_3B61_
+    jp leftBrake
 
 _LABEL_378F_:
     ld de, $0316
@@ -1381,7 +1381,7 @@ _LABEL_378F_:
 +++:
     res 0, (ix + Entity.unknown3)
     ld de, $FFC0
-    jp _LABEL_3BB1_
+    jp rightBrake
 
 _LABEL_37D5_:
     bit 3, (ix + Entity.unknown3)

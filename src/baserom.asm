@@ -1338,7 +1338,7 @@ accelerateAlexLeft:
 _LABEL_3B4B_:
     bit 2, (ix+20)
     ret z
-_LABEL_3B50_:
+applyFrictionMovingLeft:
     ld hl, (v_alex.xSpeed)
     add hl, de
     jr nc, +
@@ -1349,7 +1349,7 @@ resetEntityUnknown3AndAlexSpeed:
     ld (v_alex.xSpeed), hl
     ret
 
-_LABEL_3B61_:
+leftBrake:
     ld a, (v_alex.unknown3)
     bit 2, a
     jr z, +
@@ -1391,7 +1391,7 @@ accelerateAlexRight:
 _LABEL_3B9C_:
     bit 2, (ix+20)
     ret z
-_LABEL_3BA1_:
+applyFrictionMovingRight:
     ld hl, (v_alex.xSpeed)
     or a
     adc hl, de
@@ -1400,7 +1400,7 @@ _LABEL_3BA1_:
     ld (v_alex.xSpeed), hl
     ret
 
-_LABEL_3BB1_:
+rightBrake:
     ld a, (v_alex.unknown3)
     bit 2, a
     jr z, +
