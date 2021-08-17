@@ -857,25 +857,28 @@ alexSwimmingRightAnimationDescriptor:
 
 alexFlyingPeticopterLeftAnimationDescriptor:
 .db $04
-.dw _DATA_8F7B_ _DATA_8F9F_ _DATA_8FC6_ _DATA_8FEA_
+.dw alexFlyingPeticopterLeftFrame0SpriteDescriptor _DATA_8F9F_ _DATA_8FC6_ _DATA_8FEA_
 
 alexFlyingPeticopterRightAnimationDescriptor:
 .db $04
-.dw _DATA_9011_ _DATA_9035_ _DATA_905C_ _DATA_9080_
+.dw alexFlyingPeticopterRightFrame0SpriteDescriptor
+.dw _DATA_9035_
+.dw _DATA_905C_
+.dw _DATA_9080_
 
 ; Data from 8D19 to 8D19 (1 bytes)
-_DATA_8D19_:
+alexRidingMotorcycleAnimationDescriptor:
 .db $02
 
 ; Pointer Table from 8D1A to 8D1D (2 entries, indexed by v_alex.animationFrame)
-.dw _DATA_8F2A_ _DATA_8F45_
+.dw alexRidingMotorcycleFrame1SpriteDescriptor _DATA_8F45_
 
 ; Data from 8D1E to 8D1E (1 bytes)
-_DATA_8D1E_:
+alexRidingBoatAnimationDescriptor:
 .db $02
 
 ; Pointer Table from 8D1F to 8D22 (2 entries, indexed by v_alex.animationFrame)
-.dw _DATA_9152_ _DATA_916D_
+.dw alexRidingBoatFrame0SpriteDescriptor _DATA_916D_
 
 ; Data from 8D23 to 8D23 (1 bytes)
 alexDeadAnimationDescriptor:
@@ -1026,7 +1029,7 @@ alexAirRightSpriteDescriptor:
 
 ; 1st entry of Pointer Table from 8D1A (indexed by v_alex.animationFrame)
 ; Data from 8F2A to 8F44 (27 bytes)
-_DATA_8F2A_:
+alexRidingMotorcycleFrame1SpriteDescriptor:
 .db $97 $08 $3C $00 $00 $08 $08 $08 $10 $10 $10 $02 $00 $0A $01 $01
 .db $02 $09 $03 $11 $04 $00 $05 $08 $06 $10 $07
 
@@ -1043,7 +1046,7 @@ _DATA_8F60_:
 
 ; 1st entry of Pointer Table from 8D08 (indexed by v_alex.animationFrame)
 ; Data from 8F7B to 8F9E (36 bytes)
-_DATA_8F7B_:
+alexFlyingPeticopterLeftFrame0SpriteDescriptor:
 .db $9D $0B $4C $00 $00 $00 $08 $08 $08 $10 $10 $10 $18 $18 $00 $00
 .db $08 $01 $10 $02 $00 $03 $08 $04 $10 $05 $00 $06 $08 $07 $10 $08
 .db $02 $09 $0A $0A
@@ -1071,7 +1074,7 @@ _DATA_8FEA_:
 
 ; 1st entry of Pointer Table from 8D11 (indexed by v_alex.animationFrame)
 ; Data from 9011 to 9034 (36 bytes)
-_DATA_9011_:
+alexFlyingPeticopterRightFrame0SpriteDescriptor:
 .db $A1 $0B $50 $00 $00 $00 $08 $08 $08 $10 $10 $10 $18 $18 $00 $00
 .db $08 $01 $10 $02 $00 $03 $08 $04 $10 $05 $00 $06 $08 $07 $10 $08
 .db $06 $09 $0E $0A
@@ -1143,7 +1146,7 @@ _DATA_9137_:
 
 ; 1st entry of Pointer Table from 8D1F (indexed by v_alex.animationFrame)
 ; Data from 9152 to 916C (27 bytes)
-_DATA_9152_:
+alexRidingBoatFrame0SpriteDescriptor:
 .db $9B $08 $44 $00 $00 $08 $08 $08 $10 $10 $10 $00 $00 $08 $01 $00
 .db $02 $08 $03 $10 $04 $00 $05 $08 $06 $10 $07
 

@@ -31,11 +31,11 @@ loadTitleSprites:
     ; Load sprite descriptors
     ld a, $82
     ld (Mapper_Slot2), a
-    ld hl, _DATA_8F7B_ + 1
+    ld hl, alexFlyingPeticopterLeftFrame0SpriteDescriptor + 1
     ld de, _RAM_C800_
     xor a
     call +
-    ld hl, _DATA_9152_ + 1
+    ld hl, alexRidingBoatFrame0SpriteDescriptor + 1
     ld de, _RAM_C828_
     ld a, $0B
     call +
