@@ -1,4 +1,5 @@
 # Alex Kidd in Miracle World Disassembly
+[![CI](https://github.com/lhsazevedo/akmw/actions/workflows/ci.yml/badge.svg)](https://github.com/lhsazevedo/akmw/actions/workflows/ci.yml)
 
 This project aims to understand and document the disasssembly of the game [Alex Kidd in Miracle World](https://wikipedia.org/wiki/Alex_Kidd_in_Miracle_World) released in 1986 for the Sega Master System.
 
