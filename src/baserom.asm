@@ -161,6 +161,7 @@ init:
 
 
 handleInterrupt:
+    ; Save registers in the stack.
     push af
     push bc
     push de
@@ -173,6 +174,8 @@ handleInterrupt:
     push hl
     push ix
     push iy
+
+    ; Handle reset.
     in a, (Port_VDPStatus)
     in a, (Port_IOPort2)
     and $10
@@ -182,34 +185,44 @@ handleInterrupt:
     xor c
     and c
     jp nz, -
+
+    ; Save mapper slot in the stack.
     ld a, (Mapper_Slot2)
     push af
+
     ld a, (v_interruptFlags)
     rrca
     push af
     call c, updateSprites
     call _LABEL_41B3_
+
     pop af
     rrca
     push af
     call readInput
     call updatePalette
+
     pop af
     rrca
     push af
     call _LABEL_264F_
+
     pop af
     rrca
     ld a, (v_gameState)
     ld hl, gameStateInterruptHandlersPointers
     call c, jumpToAthPointerIfBit7
+
     ld a, $82
     ld (Mapper_Slot2), a
     call audioEngine.update
+
     xor a
     ld (v_interruptFlags), a
+
+    ; Restore registers and mapper slot from the stack.
     pop af
-    ld (Mapper_Slot2), a
+    ld (Mapper_Slot2), a    
     pop iy
     pop ix
     pop hl
