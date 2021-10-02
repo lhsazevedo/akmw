@@ -3354,7 +3354,7 @@ _LABEL_55ED_:
 
 .INCLUDE "entities/seaHorseLeft/updater.asm"
 .INCLUDE "entities/seaHorseRight/updater.asm"
-.INCLUDE "entities/debrisTopLeft/updater.asm"
+.INCLUDE "entities/debrisTopLeft.asm"
 .INCLUDE "entities/entity0x39.asm"
 .INCLUDE "entities/entity0x3A.asm"
 .INCLUDE "entities/entity0x3B.asm"
