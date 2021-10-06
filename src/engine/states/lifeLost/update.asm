@@ -98,13 +98,13 @@ updateLifeLostState:
     ld a, (hl)
     ld (v_alexTilesIndex), a
 
-    ; @TODO
-    ld a, $02
+    ; Setup respaw grace period.
+    ld a, ALEX_C054_INVINCIBLE
     ld (_RAM_C054_), a
 
-    ; @TODO: Add respaw grace period constant (max, here)
-    ld a, $FF
+    ld a, ALEX_RESPAWN_GRADE
     ld (v_invincibilityTimer), a
+
     jp _LABEL_6D73_
 
 
@@ -185,10 +185,11 @@ lifeLostAlexSwiming_LABEL_6D3C_:
     ld (ix + Entity.state), $02
     call _LABEL_6EAF_
 _LABEL_6D4F_:
-    ld a, $02
+    ld a, ALEX_C054_INVINCIBLE
     ld (_RAM_C054_), a
-    ld a, $FF
+    ld a, ALEX_RESPAWN_GRADE
     ld (v_invincibilityTimer), a
+
     ld (ix + Entity.unknown6), $00
     ld (ix + Entity.unknown5), $00
     ld (ix + Entity.battleDecision), $00

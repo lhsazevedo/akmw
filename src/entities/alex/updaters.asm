@@ -753,14 +753,15 @@ clearEntities2to4AndMaybeReset0xC054:
     and $F4
     ld (v_alex.unknown8), a
 
-    ; Clear _RAM_C054_ if it is equal to 2
+    ; Clear _RAM_C054_ if it is not 2.
     ld hl, _RAM_C054_
     ld a, (hl)
-    cp $02
+    cp ALEX_C054_INVINCIBLE
     ret z
 
     xor a
     ld (hl), a
+
     ret
 
 ; Fallthrough

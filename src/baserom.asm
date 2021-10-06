@@ -141,7 +141,7 @@ init:
 
     call sleepOneSecond
     call configurePPI
--:
+reset:
     ld a, $82
     ld (Mapper_Slot2), a
 
@@ -175,8 +175,9 @@ handleInterrupt:
     push ix
     push iy
 
-    ; Handle reset.
     in a, (Port_VDPStatus)
+
+    ; Handle reset.
     in a, (Port_IOPort2)
     and $10
     ld hl, v_resetButtonState
@@ -184,29 +185,35 @@ handleInterrupt:
     ld (hl), a
     xor c
     and c
-    jp nz, -
+    jp nz, reset
 
     ; Save mapper slot in the stack.
     ld a, (Mapper_Slot2)
     push af
 
+    ; Update sprites if interrupt flags bit 0 is set.
     ld a, (v_interruptFlags)
     rrca
     push af
     call c, updateSprites
-    call _LABEL_41B3_
 
+    call requestLevelTilesUpdateIfAlexTilesChanged
+
+    ; Get v_interruptFlags bit 1, not used here.
     pop af
     rrca
     push af
+
     call readInput
     call updatePalette
 
+    ; Get v_interruptFlags bit 2, not used here.
     pop af
     rrca
     push af
-    call _LABEL_264F_
+    call updateInvincibility
 
+    ; Run interrupt handler if v_interruptFlags bit 3 is set.
     pop af
     rrca
     ld a, (v_gameState)
@@ -235,7 +242,10 @@ handleInterrupt:
     pop de
     pop bc
     pop af
+
+    ; Enable interrupts, just in case.
     ei
+
     ret
 
 ; Jump Table from 127 to 13E (12 entries, indexed by v_gameState)
@@ -1072,13 +1082,15 @@ divideHLByE:
 .INCLUDE "engine/states/map/update.asm"
 .INCLUDE "engine/states/map/handleInterrupt.asm"
 
-; @TODO: Uses _RAM_C054_
-_LABEL_264F_:
+updateInvincibility:
+    ; Return if _RAM_C054_ isn't ALEX_C054_STATE_1 or ALEX_C054_INVINCIBLE.
     ld a, (_RAM_C054_)
     or a
     ret z
     cp $03
     ret nc
+
+    ; Tick invincibility and return.
     ld hl, (v_invincibilityTimer)
     ld a, h
     or l
@@ -1088,10 +1100,15 @@ _LABEL_264F_:
     ret
 
 +:
-    ld a, $B2
+    ; Stop Teleport Power sfx.
+    ld a, SOUND_FX_CUT
     ld (v_soundControl), a
+
+    ; Reset _RAM_C054_.
     xor a
     ld (_RAM_C054_), a
+
+    ; Restore clothes color.
     ld a, $03
     ld de, $C014
     jp writeAToVRAM
@@ -2235,12 +2252,13 @@ loadAlexSpriteDescriptor:
     ret
 
 
-_LABEL_41B3_:
+requestLevelTilesUpdateIfAlexTilesChanged:
     ld hl, v_alexTilesIndex
     ld a, (hl)
     inc hl
     cp (hl)
     ret z
+
     ld (hl), a
     ld hl, v_shouldUpdateLevelTiles
     ld (hl), $01

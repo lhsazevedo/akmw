@@ -17,12 +17,11 @@ handleInterruptTitleScreenState:
     dec hl
     ld (hl), $03
 
-    ; Increment color index
+    ; Increment color index and load color
     inc hl
     inc hl
     inc (hl)
 
-    ; Load color indexed by current logo color
     ld a, (hl)
     and $03
     ld hl, titleLogoAnimationColors
