@@ -761,7 +761,7 @@ saveInput:
 
 ; l = index to moneybag value table
 takeMoney:
-    ; Return if Button B is pressed
+    ; Return if Button B is pressed?
     ld a, (v_inputFlags)
     and JOY_FIREB
     ret nz

@@ -192,7 +192,7 @@ v_waterColorTimer db
 
 .enum $C103 export
 v_introTimer dw
-v_demoInputDataTimer dw
+v_demoInputDataPointer dw
 v_demoCurrentInputData dw
 .ende
 

@@ -1,11 +1,14 @@
-; 3rd entry of Jump Table from 127 (indexed by v_gameState)
 handleInterruptDemoState:
     ld a, $85
     ld (Mapper_Slot2), a
+
+    ; Return if to menu on button press.
     ld a, (v_inputData)
-    and $30
+    and JOY_FIREA | JOY_FIREB
     jr z, +
-    ld a, $01
+
+    
+    ld a, STATE_TITLE_FROM_DEMO
     ld (v_gameState), a
     ld hl, v_inputFlags
     res 5, (hl)
@@ -13,31 +16,44 @@ handleInterruptDemoState:
 
 +:
     ld bc, (v_demoCurrentInputData)
-    djnz ++
-    ld hl, (v_demoInputDataTimer)
+    djnz @tickData
+
+    ld hl, (v_demoInputDataPointer)
     inc hl
     ld a, (hl)
     or a
     jr nz, +
-    ld a, $00
+
+    ; Return to title on data end.
+    ld a, STATE_TITLE
     ld (v_gameState), a
     ld hl, v_inputFlags
     res 5, (hl)
     ret
 
 +:
+    ; Load duration byte.
     ld b, a
+
+    ; Load input byte.
     inc hl
     ld a, c
     ld c, (hl)
-    ld (v_demoInputDataTimer), hl
+
+    ld (v_demoInputDataPointer), hl
+
+    ; Update input changes.
     xor c
     and c
     ld (v_inputDataChanges), a
-++:
+
+@tickData:
+    ; Tick input data.
     ld (v_demoCurrentInputData), bc
     ld a, c
     ld (v_inputData), a
+
+    ; Jump to game play interrupt handler.
     jp handleInterruptGameplayState
 
 ; Data from A7C to A7F (4 bytes)

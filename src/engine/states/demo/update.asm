@@ -28,7 +28,7 @@ updateDemoState:
     ld hl, demoInputPointers - 2
     rst loadAthPointer
     dec hl
-    ld (v_demoInputDataTimer), hl
+    ld (v_demoInputDataPointer), hl
     ld hl, v_inputFlags
     ld a, (hl)
     and $03

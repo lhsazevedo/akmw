@@ -1,23 +1,25 @@
-; 1st entry of Jump Table from 127 (indexed by v_gameState)
 handleInterruptTitleScreenState:
-    ; Wait for v_titleScreenTimer
+    ; Wait for v_titleScreenTimer.
     ld hl, v_titleScreenTimer
     dec (hl)
     ret nz
 
-    ; Reset timer to $20 and check if we are at the last tile screen.
-    ; If so, apply logo animation. If not, show the next tile.
-    ld (hl), $20
+    ; Reset timer for tile screens.
+    ld (hl), TITLE_SCREEN_TILE_DURATION
+
+    ; Check if we are at the last tile screen. If not,
+    ; jump to next tile. Else, continue to logo animation.
+    
     inc hl
     ld a, (hl)
     cp $06
     jr c, advanceTitleScreenLevelTile
 
-    ; Set logo color duration
+    ; Reset timer for title color.
     dec hl
     ld (hl), $03
 
-    ; Increment color index and load color
+    ; Increment color index and load color.
     inc hl
     inc hl
     inc (hl)
@@ -87,10 +89,10 @@ showTitlePushStartFrame:
     jp copyNameTableBlockToVRAM
 
 
-; Data from 8C6 to 8C9 (4 bytes)
 titleScreenPalette:
 .db $2F $00 $03 $04
 
+; @TODO
 ; 5th entry of Pointer Table from 1BF61 (indexed by unknown)
 ; Data from 8CA to 8E5 (28 bytes)
 _DATA_8CA_:
