@@ -1,7 +1,6 @@
 updateLevelStartingState:
     exx
 
-    ; @TODO
     bit 7, (hl)
     jp z, initLevelStartingState
 

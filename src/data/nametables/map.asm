@@ -2,7 +2,7 @@
 _DATA_15E45_:
 .dw _DATA_15E75_ _DATA_15E99_ _DATA_15EBD_ _DATA_15EE1_ _DATA_15F05_ _DATA_15F29_ _DATA_15F4D_ _DATA_15F71_
 .dw _DATA_15F95_ _DATA_15FB9_ _DATA_15FDD_ _DATA_16001_ _DATA_16025_ _DATA_16049_ _DATA_1606D_ _DATA_16091_
-.dw _DATA_160B5_ _DATA_160D9_ _DATA_160FD_ _DATA_16121_ _DATA_16145_ _DATA_16169_ _DATA_1618D_ _DATA_161B1_
+.dw _DATA_160B5_ _DATA_160D9_ _DATA_160FD_ _DATA_16121_ _DATA_16145_ _DATA_16169_ mapParchmentRightSideColumn1 mapParchmentRightSideColumn2
 
 ; 1st entry of Pointer Table from 15E45 (indexed by v_mapLoadingState)
 ; Data from 15E75 to 15E98 (36 bytes)
@@ -160,14 +160,14 @@ _DATA_16169_:
 
 ; 23rd entry of Pointer Table from 15E45 (indexed by v_mapLoadingState)
 ; Data from 1618D to 161B0 (36 bytes)
-_DATA_1618D_:
+mapParchmentRightSideColumn1:
 .db $02 $02 $09 $02 $09 $02 $09 $02 $09 $02 $09 $02 $09 $02 $09 $02
 .db $09 $02 $09 $02 $09 $02 $09 $02 $09 $02 $09 $02 $09 $02 $09 $02
 .db $64 $02 $66 $02
 
 ; 24th entry of Pointer Table from 15E45 (indexed by v_mapLoadingState)
 ; Data from 161B1 to 161D4 (36 bytes)
-_DATA_161B1_:
+mapParchmentRightSideColumn2:
 .db $01 $02 $08 $02 $08 $02 $08 $02 $08 $02 $08 $02 $08 $02 $08 $02
 .db $08 $02 $08 $02 $08 $02 $08 $02 $08 $02 $08 $02 $08 $02 $08 $02
 .db $63 $02 $65 $02

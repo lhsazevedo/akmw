@@ -1,6 +1,6 @@
 handleInterruptLevelStartingState:
 
-    ld a, :_DATA_1618D_ | $80
+    ld a, :mapParchmentRightSideColumn1 | $80
     ld (Mapper_Slot2), a
 
     ; Draw revealed map block
@@ -9,27 +9,30 @@ handleInterruptLevelStartingState:
     ld bc, $1202
     call copyNameTableBlockToVRAM
 
-    ; Draw right side of map parchmennt
+    ; Draw right side of map parchment, in two columns.
     ld de, (v_currentMapNametableDestinationPointer)
     inc de
     inc de
     ld (v_currentMapNametableDestinationPointer), de
-    ld hl, _DATA_1618D_
+    ld hl, mapParchmentRightSideColumn1
     ld bc, $1202
     call copyNameTableBlockToVRAM
+
     ld de, (v_currentMapNametableDestinationPointer)
     inc de
     inc de
     ld (v_currentMapNametableDestinationPointer), de
-    ld hl, _DATA_161B1_
+    ld hl, mapParchmentRightSideColumn2
     ld bc, $1202
     call copyNameTableBlockToVRAM
+
     ld de, (v_currentMapNametableDestinationPointer)
 
-    ; @TODO: Why 4 decs?
+    ; Restore map pointer (changed while drawing the right roll)
     dec de
     dec de
     dec de
     dec de
     ld (v_currentMapNametableDestinationPointer), de
+
     ret
