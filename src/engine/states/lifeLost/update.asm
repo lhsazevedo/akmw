@@ -261,7 +261,7 @@ gameOver_LABEL_6DC9_:
     call copyNametableEntriesToVRAM
     ld hl, $C022
     ld de, $7B9C
-    call drawThreeBCDDigits
+    call drawThreeBcdBytes
     ld de, $8026
     ld a, e
     ld (v_VDPRegister0Value), a

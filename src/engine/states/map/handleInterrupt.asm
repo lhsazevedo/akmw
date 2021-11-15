@@ -370,7 +370,7 @@ initMapState:
     call writeAToVRAM
     ld hl, $C032
     ld de, $7D06
-    call drawThreeBCDDigits
+    call drawThreeBcdBytes
     ld a, $08
     ld (v_nametableCopyFlags), a
     ld hl, _DATA_241D_
@@ -379,7 +379,7 @@ initMapState:
     call copyNametableEntriesToVRAM
     ld hl, $C022
     ld de, $7D9E
-    call drawThreeBCDDigits
+    call drawThreeBcdBytes
     ld a, $82
     ld (Mapper_Slot2), a
     ld a, (v_level)

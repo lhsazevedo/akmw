@@ -895,7 +895,7 @@ updateHighScore:
     lddr
     ret
 
-drawThreeBCDDigits:
+drawThreeBcdBytes:
     ld c, $03
 drawBCDDigits:
     call setVDPAddress

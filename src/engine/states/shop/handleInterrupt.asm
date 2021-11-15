@@ -1,8 +1,7 @@
-; 6th entry of Jump Table from 127 (indexed by v_gameState)
 handleInterruptShopState:
     ld hl, $C032
     ld de, $7D48
-    call drawThreeBCDDigits
+    call drawThreeBcdBytes
     call handleNametableChangeRequest
     ld a, (v_itemBeignBoughtIndex)
     or a
@@ -302,7 +301,7 @@ _LABEL_1E77_:
     call copyBytesToVRAM
     ld hl, $C032
     ld de, $7D48
-    call drawThreeBCDDigits
+    call drawThreeBcdBytes
     ld a, $82
     ld (Mapper_Slot2), a
     ei
