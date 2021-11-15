@@ -23,7 +23,7 @@ paletteUpdater_LABEL_1089_:
     ld a, (hl)
     call writeAToVRAM
 _LABEL_10B0_:
-    ld a, (_RAM_C054_)
+    ld a, (v_alexActionState)
     or a
     ret z
     cp $03

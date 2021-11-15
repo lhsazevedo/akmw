@@ -20,7 +20,7 @@ updateDemoState:
     cp $02
     jp nz, +
     ld a, $07
-    ld (_RAM_C054_), a
+    ld (v_alexActionState), a
 +:
     ld a, $85
     ld (Mapper_Slot2), a

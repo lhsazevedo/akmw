@@ -49,7 +49,7 @@ _LABEL_1FE9_:
     call decompressTilesToVram
     ld a, $87
     ld (Mapper_Slot2), a
-    ld a, (_RAM_C054_)
+    ld a, (v_alexActionState)
     cp $03
     jr nz, +
     ld hl, _DATA_1DCC9_
@@ -108,7 +108,7 @@ _LABEL_1FE9_:
     ld (v_level), a
     ld a, $82
     ld (Mapper_Slot2), a
-    ld a, (_RAM_C054_)
+    ld a, (v_alexActionState)
     cp $01
     jr nz, +
     ld ix, v_entities
@@ -151,7 +151,7 @@ _LABEL_1FE9_:
     ld a, SOUND_CASTLE_SONG
     ld (v_soundControl), a
 ++:
-    ld a, (_RAM_C054_)
+    ld a, (v_alexActionState)
     cp $07
     jp c, ++
     jp nz, +
@@ -170,7 +170,7 @@ _LABEL_1FE9_:
     ld (v_gameState), a
     ld a, $09
     call waitForInterrupt
-    ld a, (_RAM_C054_)
+    ld a, (v_alexActionState)
     or a
     jr z, ++
     cp $03
@@ -400,7 +400,7 @@ initMapState:
     ld a, SOUND_CASTLE_SONG
     ld (v_soundControl), a
 +:
-    ld a, (_RAM_C054_)
+    ld a, (v_alexActionState)
     cp $07
     jp c, ++
     jp nz, +
@@ -463,7 +463,7 @@ updateEntity0x21:
     ld a, (v_alex.state)
     cp $10
     ret z
-    ld a, (_RAM_C054_)
+    ld a, (v_alexActionState)
     cp $07
     ret nc
     ld a, (v_shouldSpawnRidingBoat_RAM_C051_)
@@ -665,7 +665,7 @@ _LABEL_25A8_:
     ld de, _RAM_CCDC_
     ld a, $05
 _LABEL_25B4_:
-    ld (_RAM_C054_), a
+    ld (v_alexActionState), a
     ld (v_selectedItemNametablePointer), hl
     ld bc, $0204
     call _LABEL_2532_

@@ -64,7 +64,7 @@ v_shouldSpawnRidingBoat_RAM_C051_ db
 
 .enum $C053 export
 v_inventoryItemSelectionState db
-_RAM_C054_ db
+v_alexActionState db
 v_shopFlags db
 v_shopSelectedItemIndex db
 v_itemBeignBoughtIndex db

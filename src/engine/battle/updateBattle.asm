@@ -84,7 +84,7 @@ updateBattleLoadOpponentTilesAndShowTextbox1:
 
     inc (ix + Entity.state)
 
-    ; Delete entities 2 to 4, and maybe reset _RAM_C054_
+    ; Delete entities 2 to 4, and maybe reset v_alexActionState
     call clearEntities2to4AndMaybeReset0xC054
 
     ; Load opponent sprite descriptor

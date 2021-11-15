@@ -119,7 +119,7 @@ _LABEL_2F41_:
     ld l, a
     ld (v_alex.xSpeed), hl
     ld (v_alex.unknown8), a
-    ld (_RAM_C054_), a
+    ld (v_alexActionState), a
     res 2, (ix + Entity.unknown3)
     ld hl, $FF38
     ld (v_alex.ySpeed), hl
@@ -617,7 +617,7 @@ alexHandler_336F:
     res 4, (ix + Entity.unknown3)
     res 2, (ix + Entity.unknown3)
     call interactWithTile
-    ld a, (_RAM_C054_)
+    ld a, (v_alexActionState)
     cp $01
     jp nz, _LABEL_345E_
     bit 0, (ix + Entity.unknown8)
@@ -753,8 +753,8 @@ clearEntities2to4AndMaybeReset0xC054:
     and $F4
     ld (v_alex.unknown8), a
 
-    ; Clear _RAM_C054_ if it is not 2.
-    ld hl, _RAM_C054_
+    ; Clear v_alexActionState if it is not 2.
+    ld hl, v_alexActionState
     ld a, (hl)
     cp ALEX_C054_INVINCIBLE
     ret z
@@ -1259,10 +1259,10 @@ _LABEL_388E_:
     or a
     jp z, _LABEL_43F2_
 _LABEL_389C_:
-    ; Reset v_shouldSpawnRidingBoat_RAM_C051_ and _RAM_C054_
+    ; Reset v_shouldSpawnRidingBoat_RAM_C051_ and v_alexActionState
     xor a
     ld (v_shouldSpawnRidingBoat_RAM_C051_), a
-    ld (_RAM_C054_), a
+    ld (v_alexActionState), a
     call _LABEL_4415_
     call resetEntityUnknown3AndAlexSpeed
     ld (v_alex.ySpeed), hl

@@ -89,7 +89,7 @@ _LABEL_1C33_:
     call decompressTilesToVram
     ld a, $82
     ld (Mapper_Slot2), a
-    ld a, (_RAM_C054_)
+    ld a, (v_alexActionState)
     cp $07
     jr c, +
     cp $08
@@ -360,7 +360,7 @@ _LABEL_1EAF_:
 +:
     cp $08
     jr z, +
-    ld (_RAM_C054_), a
+    ld (v_alexActionState), a
     xor a
     ld (v_invincibilityTimer), a
     ld (v_shopSelectedItemIndex), a

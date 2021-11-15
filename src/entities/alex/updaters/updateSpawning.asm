@@ -17,7 +17,7 @@ updateAlexSpawning:
     or a
     jr nz, spawnRidingBoat
 
-    ld a, (_RAM_C054_)
+    ld a, (v_alexActionState)
     cp ALEX_C054_RIDING_MOTORCYCLES
     jr z, spawnRidingMotorcycle
 
@@ -77,7 +77,7 @@ spawnRidingBoat:
     ld (ix + Entity.state), ALEX_RIDING_BOAT
 
     ld a, ALEX_C054_RIDING_BOAT
-    ld (_RAM_C054_), a
+    ld (v_alexActionState), a
 
     ld hl, alexRidingBoatFrame0SpriteDescriptor
     jp loadAlexSpriteDescriptor

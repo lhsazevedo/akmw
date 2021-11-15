@@ -52,7 +52,7 @@ updateLevelCompletedState:
     xor a
     ld (v_newEntityHorizontalOffset), a
     ld (v_shopFlags), a
-    ld (_RAM_C054_), a
+    ld (v_alexActionState), a
     ld (v_shouldSpawnRidingBoat_RAM_C051_), a
     ld (v_currentLevelIsBonusLevel), a
 

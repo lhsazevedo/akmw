@@ -31,7 +31,7 @@ initGameplayState:
     ; If current level data is 1:
     ;    Set v_shouldSpawnRidingBoat_RAM_C051_ to $1 and load bullet tiles
     ; If current level data is > 1:
-    ;   Set _RAM_C054_ to $9 and load bullet tiles
+    ;   Set v_alexActionState to $9 and load bullet tiles
     ld a, (v_level)
     ld hl, levelSpawnStates - 1
     ld c, a
@@ -50,7 +50,7 @@ initGameplayState:
 
 @dataIsBiggerThanOne:
     ld a, $09
-    ld (_RAM_C054_), a
+    ld (v_alexActionState), a
 
 @loadBulletTiles
     ld hl, _DATA_1DB29_

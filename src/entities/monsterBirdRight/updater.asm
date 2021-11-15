@@ -1,4 +1,3 @@
-; 51st entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 updateMonsterbirdRight:
     ; Reset animation if bit 0 is set
     bit 0, (ix + Entity.flags)
@@ -10,12 +9,13 @@ updateMonsterbirdRight:
     jr ++
 
 +:
+    ; Skip to ++ if monster is offscreen
     ld a, (ix + Entity.isOffScreenFlags.low)
     or (ix + Entity.isOffScreenFlags.high)
     jr nz, ++
-    ; Skip to ++ if monster is offscreen
-    ld (ix+ Entity.xSpeed.high), $00
-    ld (ix+ Entity.xSpeed), $80
+
+    ld (ix + Entity.xSpeed.high), $00
+    ld (ix + Entity.xSpeed), $80
     set 1, (ix + Entity.flags)
     ld a, (ix + Entity.isOffScreenFlags.low)
     or (ix + Entity.isOffScreenFlags.high)

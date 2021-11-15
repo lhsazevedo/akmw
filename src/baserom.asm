@@ -1083,8 +1083,8 @@ divideHLByE:
 .INCLUDE "engine/states/map/handleInterrupt.asm"
 
 updateInvincibility:
-    ; Return if _RAM_C054_ isn't ALEX_C054_STATE_1 or ALEX_C054_INVINCIBLE.
-    ld a, (_RAM_C054_)
+    ; Return if v_alexActionState isn't ALEX_C054_STATE_1 or ALEX_C054_INVINCIBLE.
+    ld a, (v_alexActionState)
     or a
     ret z
     cp $03
@@ -1104,9 +1104,9 @@ updateInvincibility:
     ld a, SOUND_FX_CUT
     ld (v_soundControl), a
 
-    ; Reset _RAM_C054_.
+    ; Reset v_alexActionState.
     xor a
-    ld (_RAM_C054_), a
+    ld (v_alexActionState), a
 
     ; Restore clothes color.
     ld a, $03
@@ -2641,7 +2641,7 @@ _LABEL_4415_:
     ld (ix+31), $18
     ld (ix+29), $08
     xor a
-    ld (_RAM_C054_), a
+    ld (v_alexActionState), a
     ld iy, v_entities.4
     ld a, (v_alex.xPos.high)
     add a, $08
@@ -2658,7 +2658,7 @@ _LABEL_4415_:
 ; 3rd entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 .INCLUDE "entities/entity0x03.asm"
 
-; 9th entry of Jump Table from 4523 (indexed by _RAM_C054_)
+; 9th entry of Jump Table from 4523 (indexed by v_alexActionState)
 _LABEL_4453_:
     ld a, SOUND_BULLET
     ld (v_soundControl), a
@@ -2719,11 +2719,11 @@ handleAction:
     and $0F
     cp $05
     ret z
-    ld a, (_RAM_C054_)
+    ld a, (v_alexActionState)
     ld hl, actionHandlersPointers
     jp jumpToAthPointer
 
-; Jump Table from 4523 to 453E (14 entries, indexed by _RAM_C054_)
+; Jump Table from 4523 to 453E (14 entries, indexed by v_alexActionState)
 actionHandlersPointers:
 .dw punch
 .dw punch
@@ -2740,7 +2740,7 @@ actionHandlersPointers:
 .dw punch
 .dw punch
 
-; 1st entry of Jump Table from 4523 (indexed by _RAM_C054_)
+; 1st entry of Jump Table from 4523 (indexed by v_alexActionState)
 punch:
     ld hl, v_alex.unknown8
     ld a, (hl)
@@ -2848,7 +2848,7 @@ _DATA_45D9_:
 
 ; 1st entry of Jump Table from 45D9 (indexed by _RAM_C804_)
 _LABEL_45F1_:
-    ld a, (_RAM_C054_)
+    ld a, (v_alexActionState)
     ld e, a
     ld d, $00
     ld hl, _DATA_4607_
@@ -2908,14 +2908,14 @@ tickPunch:
     cp a
     ret
 
-; 4th entry of Jump Table from 4523 (indexed by _RAM_C054_)
+; 4th entry of Jump Table from 4523 (indexed by v_alexActionState)
 _LABEL_4641_:
     ld iy, v_entities.4
     ld (iy + Entity.type), $05
     ld hl, $80E6
     jr +
 
-; 5th entry of Jump Table from 4523 (indexed by _RAM_C054_)
+; 5th entry of Jump Table from 4523 (indexed by v_alexActionState)
 _LABEL_464E_:
     ld iy, v_entities.4
     ld (iy+0), $07
@@ -2943,7 +2943,7 @@ _LABEL_464E_:
     ld (v_entities.4.xSpeed), hl
     ld hl, $FE00
     ld (v_entities.4.ySpeed), hl
-; 8th entry of Jump Table from 4523 (indexed by _RAM_C054_)
+; 8th entry of Jump Table from 4523 (indexed by v_alexActionState)
 _LABEL_468F_:
     ret
 
@@ -2956,7 +2956,7 @@ _LABEL_468F_:
 
 .INCLUDE "entities/entity0x08.asm"
 
-; 6th entry of Jump Table from 4523 (indexed by _RAM_C054_)
+; 6th entry of Jump Table from 4523 (indexed by v_alexActionState)
 _LABEL_48C5_:
     bit 0, (ix+20)
     ld a, (v_alex.xPos.high)
@@ -5119,16 +5119,29 @@ checkAlexEntityCollision_LABEL_7D0B_:
     ld a, (v_alex.state)
     cp ALEX_SWIMING
     jp z, _LABEL_7D38_
-    ld a, (_RAM_C054_)
+
+    ld a, (v_alexActionState)
     ld hl, _DATA_7D1C_
     jp jumpToAthPointer
 
-; Jump Table from 7D1C to 7D37 (14 entries, indexed by _RAM_C054_)
+; Jump Table from 7D1C to 7D37 (14 entries, indexed by v_alexActionState)
 _DATA_7D1C_:
-.dw _LABEL_7D38_ _LABEL_7D38_ _LABEL_7D38_ _LABEL_7D6E_ _LABEL_7D84_ _LABEL_7D92_ _LABEL_7D38_ _LABEL_7D8B_
-.dw _LABEL_7D61_ _LABEL_7D61_ _LABEL_7D38_ _LABEL_7D38_ _LABEL_7D38_ _LABEL_7D38_
+.dw _LABEL_7D38_
+.dw _LABEL_7D38_
+.dw _LABEL_7D38_
+.dw _LABEL_7D6E_
+.dw _LABEL_7D84_
+.dw _LABEL_7D92_
+.dw _LABEL_7D38_
+.dw _LABEL_7D8B_
+.dw _LABEL_7D61_
+.dw _LABEL_7D61_
+.dw _LABEL_7D38_
+.dw _LABEL_7D38_
+.dw _LABEL_7D38_
+.dw _LABEL_7D38_
 
-; 1st entry of Jump Table from 7D1C (indexed by _RAM_C054_)
+; 1st entry of Jump Table from 7D1C (indexed by v_alexActionState)
 _LABEL_7D38_:
     ; Return if alex unkown8 is not set
     ld a, (v_alex.unknown8)
@@ -5137,6 +5150,7 @@ _LABEL_7D38_:
     ret z
 
     ; hl = alex.unkown2 + _DATA_91D0_ + 4
+    ; _DATA_91D0_ maybe a sprite descriptor
     ld iy, v_alex
     ld a, (v_alex.unknown2)
     add a, $04
@@ -5162,7 +5176,7 @@ _LABEL_7D38_:
     add a, (iy + Entity.xPos.high)
     jp checkEntityCollisionSub_LABEL_7CE6_
 
-; 9th entry of Jump Table from 7D1C (indexed by _RAM_C054_)
+; 9th entry of Jump Table from 7D1C (indexed by v_alexActionState)
 _LABEL_7D61_:
     ld iy, v_entities.2
     call _LABEL_7CBC_
@@ -5170,7 +5184,7 @@ _LABEL_7D61_:
     set 7, (iy+1)
     ret
 
-; 4th entry of Jump Table from 7D1C (indexed by _RAM_C054_)
+; 4th entry of Jump Table from 7D1C (indexed by v_alexActionState)
 _LABEL_7D6E_:
     ld iy, v_entities.3
     call checkEntityCollision
@@ -5182,34 +5196,34 @@ _LABEL_7D6E_:
     set 7, (iy+1)
     ret
 
-; 5th entry of Jump Table from 7D1C (indexed by _RAM_C054_)
+; 5th entry of Jump Table from 7D1C (indexed by v_alexActionState)
 _LABEL_7D84_:
     ld iy, v_entities.4
     jp checkEntityCollision
 
-; 8th entry of Jump Table from 7D1C (indexed by _RAM_C054_)
+; 8th entry of Jump Table from 7D1C (indexed by v_alexActionState)
 _LABEL_7D8B_:
     ld iy, v_alex
     jp checkEntityCollision
 
-; 6th entry of Jump Table from 7D1C (indexed by _RAM_C054_)
+; 6th entry of Jump Table from 7D1C (indexed by v_alexActionState)
 _LABEL_7D92_:
     ld iy, v_entities.2
     jp checkEntityCollision
 
-; Check if is colliding with Alex
 tryToKillAlexIfColliding:
-    ; Return if Alex state is $0F
+    ; Return if Alex is dead
     ld a, (v_alex.state)
     cp ALEX_DEAD
     ret nc
-    ld a, (_RAM_C054_)
-    ld hl, _DATA_7DA8_
+
+    ld a, (v_alexActionState)
+    ld hl, alexActionStateDamageHandlersPointers
     jp jumpToAthPointer
 
 ; This table controls wehther alex can be hurt when colliding with an entity
-; based on it's mechanics state (_RAM_C054_)
-_DATA_7DA8_:
+; based v_alexActionState
+alexActionStateDamageHandlersPointers:
 .dw killAlexIfColliding
 .dw killAlexIfColliding
 .dw doNotKillAlex
@@ -5225,7 +5239,7 @@ killAlexIfColliding:
     ld iy, v_alex
     call checkEntityCollision
     ret c
-    set 7, (iy+1)
+    set 7, (iy + Entity.flags)
 
 doNotKillAlex:
     ret

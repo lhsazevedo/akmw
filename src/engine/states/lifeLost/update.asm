@@ -100,7 +100,7 @@ updateLifeLostState:
 
     ; Setup respaw grace period.
     ld a, ALEX_C054_INVINCIBLE
-    ld (_RAM_C054_), a
+    ld (v_alexActionState), a
 
     ld a, ALEX_RESPAWN_GRADE
     ld (v_invincibilityTimer), a
@@ -116,14 +116,14 @@ updateLifeLostState:
     ; Jump to _LABEL_6D26_ if:
     ; Level is 0x0D (13)
     ; OR (v_shouldSpawnRidingBoat_RAM_C051_) is not 0
-    ; OR (_RAM_C054_) >= 7
+    ; OR (v_alexActionState) >= 7
     ld a, (v_level)
     cp $0D
     jp z, _LABEL_6D26_
     ld a, (v_shouldSpawnRidingBoat_RAM_C051_)
     or a
     jp nz, _LABEL_6D26_
-    ld a, (_RAM_C054_)
+    ld a, (v_alexActionState)
     cp $07
     jp nc, _LABEL_6D26_
 
@@ -186,7 +186,7 @@ lifeLostAlexSwiming_LABEL_6D3C_:
     call _LABEL_6EAF_
 _LABEL_6D4F_:
     ld a, ALEX_C054_INVINCIBLE
-    ld (_RAM_C054_), a
+    ld (v_alexActionState), a
     ld a, ALEX_RESPAWN_GRADE
     ld (v_invincibilityTimer), a
 

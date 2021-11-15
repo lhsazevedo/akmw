@@ -120,7 +120,7 @@ _LABEL_485A_:
     and $F4
     ld (hl), a
     xor a
-    ld (_RAM_C054_), a
+    ld (v_alexActionState), a
 +:
     call destroyCurrentEntity
     or a

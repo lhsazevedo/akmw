@@ -25,5 +25,5 @@ updateEntity0x08:
     and $F4
     ld (hl), a
     xor a
-    ld (_RAM_C054_), a
+    ld (v_alexActionState), a
     jp destroyCurrentEntity
