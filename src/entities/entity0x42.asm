@@ -23,8 +23,8 @@ updateEntity0x42:
 
 +:
     call tryToKillAlexIfColliding
-    call checkAlexEntityCollision_LABEL_7D0B_
-    jp nc, _LABEL_55A5_
+    call isAlexAttackingEntity
+    jp nc, killEnemy
     ld h, (ix + Entity.ySpeed.high)
     ld l, (ix + Entity.ySpeed.low)
     ld d, $00

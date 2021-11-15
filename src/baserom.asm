@@ -1147,7 +1147,7 @@ startAutoWalkRight:
 
 _LABEL_39ED_:
     push bc
-    call _LABEL_3A03_
+    call isEntityCollidingWithTerrainAtOffset
     pop de
     ret c
     ld a, d
@@ -1164,7 +1164,8 @@ _LABEL_39ED_:
     or a
     ret
 
-_LABEL_3A03_:
+isEntityCollidingWithTerrainAtOffset:
+    ; @TODO
     ex af, af'
     call getNearEntityTileAttrWithOffset
     rlca
@@ -3335,13 +3336,18 @@ _LABEL_5571_:
 .INCLUDE "entities/entity0x2A.asm"
 
 ; Shared
-_LABEL_55A5_:
+killEnemy:
     call earnEntityPoints
+
     ld a, SOUND_SMOKE_PUFF
     ld (v_soundControl), a
-    ld (ix+0), ENTITY_SMOKE_PUFF
-    res 0, (ix+1)
+
+    ld (ix + Entity.type), ENTITY_SMOKE_PUFF
+
+    res 0, (ix + Entity.flags)
+
     ret
+
 
 _LABEL_55B6_:
     ld a, (ix+4)
@@ -5115,7 +5121,7 @@ _LABEL_7CBC_:
 .INCLUDE "engine/entity/checkEntityCollision.asm"
 
 
-checkAlexEntityCollision_LABEL_7D0B_:
+isAlexAttackingEntity:
     ld a, (v_alex.state)
     cp ALEX_SWIMING
     jp z, _LABEL_7D38_
@@ -5189,11 +5195,13 @@ _LABEL_7D6E_:
     ld iy, v_entities.3
     call checkEntityCollision
     jr nc, +
+
     ld iy, v_entities.2
     call checkEntityCollision
     ret c
+
 +:
-    set 7, (iy+1)
+    set 7, (iy+ Entity.flags)
     ret
 
 ; 5th entry of Jump Table from 7D1C (indexed by v_alexActionState)

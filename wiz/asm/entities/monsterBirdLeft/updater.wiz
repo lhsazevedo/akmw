@@ -17,13 +17,13 @@ func updateMonsterbirdLeft(monster: *Entity in ix) {
             monster.flags $ 1 = true;
 
             baserom.tryToKillAlexIfColliding();
-            baserom.checkAlexEntityCollision_LABEL_7D0B_();
+            baserom.isAlexAttackingEntity();
 
             ^goto (0x55a5 as func) if !carry;
 
             de = 0x0100;
             a = 0x08;
-            baserom._LABEL_55A5_();
+            baserom.killEnemy();
             if (carry) {
                 monster.type = 0x33;
                 monster.xSpeed.high = 0x00;

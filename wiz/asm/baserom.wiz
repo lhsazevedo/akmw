@@ -3,7 +3,7 @@ import "banks";
 in prg @ 0x7D0B {
     namespace baserom {
         #[fallthrough]
-        func checkAlexEntityCollision_LABEL_7D0B_() {}
+        func isAlexAttackingEntity() {}
     }
 }
 
@@ -17,7 +17,7 @@ in prg @ 0x280E {
 in prg @ 0x3A03 {
     namespace baserom {
         #[fallthrough]
-        func _LABEL_3A03_() {}
+        func isEntityCollidingWithTerrainAtOffset() {}
     }
 }
 
@@ -30,6 +30,6 @@ in prg @ 0x7D99 {
 
 in prg @ 0x55A5 {
     namespace baserom {
-        func _LABEL_55A5_() {}
+        func killEnemy() {}
     }
 }

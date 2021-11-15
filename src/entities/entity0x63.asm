@@ -2,7 +2,7 @@
 updateEntity0x63:
     bit 0, (ix + Entity.flags)
     jr z, +
-    call checkAlexEntityCollision_LABEL_7D0B_
+    call isAlexAttackingEntity
     ret c
     ld hl, v_nametableChangeRequest
     ld a, (hl)

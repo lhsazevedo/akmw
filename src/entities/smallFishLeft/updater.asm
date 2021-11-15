@@ -16,11 +16,11 @@ updateSmallFishLeft:
     ld (ix + Entity.xSpeed.low), $A0
     set 1, (ix + Entity.flags)
     call tryToKillAlexIfColliding
-    call checkAlexEntityCollision_LABEL_7D0B_
-    jp nc, _LABEL_55A5_
+    call isAlexAttackingEntity
+    jp nc, killEnemy
     ld de, $0100
     ld a, $08
-    call _LABEL_3A03_
+    call isEntityCollidingWithTerrainAtOffset
     jr nc, ++
     ld (ix + Entity.type), ENTITY_SMALL_FISH_RIGHT
     ld (ix + Entity.xSpeed.high), $00

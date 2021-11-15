@@ -1,6 +1,6 @@
 Here are some temporary notes taken during debugging:
 
-# _RAM_C054_
+# v_alexActionState
 State for Alex mechanics
 - 00: Normal
 - 01: ?
@@ -28,7 +28,7 @@ v_addedEntitiesShouldBeOffscreenVertically vai pra Entity.isOffScreenFlags.high
 0xB81D é passagem em fase bonus
 
 
-_RAM_C054_ is 7 on bike, 9 on peticopter and 2 when invincible
+v_alexActionState is 7 on bike, 9 on peticopter and 2 when invincible
 
 
 Alex unknown8 bit 0 is punching

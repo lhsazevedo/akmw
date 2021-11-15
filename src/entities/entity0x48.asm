@@ -4,7 +4,7 @@ updateEntity0x48:
     cp $D8
     jr nc, ++
     call tryToKillAlexIfColliding
-    call checkAlexEntityCollision_LABEL_7D0B_
+    call isAlexAttackingEntity
     jr c, +
     inc (ix + Entity.battleDecision)
     ld a, (ix + Entity.battleDecision)

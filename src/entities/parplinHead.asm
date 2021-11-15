@@ -8,12 +8,12 @@ updateParplinHead:
     jr ++
 
 +:
-    call checkAlexEntityCollision_LABEL_7D0B_
+    call isAlexAttackingEntity
     jr c, ++
     inc (ix + Entity.unknown1)
     ld a, (v_entities.7.unknown1)
     cp $03
-    jp nc, _LABEL_55A5_
+    jp nc, killEnemy
     ld a, $8D
     ld (v_soundControl), a
     ld (ix + Entity.stateTimer), $1E

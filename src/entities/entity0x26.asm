@@ -20,7 +20,7 @@ updateEntity0x26:
     ld a, (ix + Entity.unknown2)
     ld (ix + Entity.unknown6), a
     ld (ix + Entity.unknown2), $A8
-    call checkAlexEntityCollision_LABEL_7D0B_
+    call isAlexAttackingEntity
     jp nc, _LABEL_54DF_
     ld a, (ix + Entity.unknown6)
     ld (ix + Entity.unknown2), a

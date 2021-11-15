@@ -470,7 +470,7 @@ _LABEL_73D8_:
     jr z, ++
     res 3, (hl)
     ld (ix+19), $D0
-    call checkAlexEntityCollision_LABEL_7D0B_
+    call isAlexAttackingEntity
     jr c, ++
     inc (ix+2)
     ld a, (v_entities.6.unknown1)

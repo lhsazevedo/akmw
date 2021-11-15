@@ -22,7 +22,7 @@ updateOctopusArm:
     or (ix + Entity.isOffScreenFlags.high)
     jp nz, _LABEL_4CDE_
     call tryToKillAlexIfColliding
-    call checkAlexEntityCollision_LABEL_7D0B_
+    call isAlexAttackingEntity
     jp c, _LABEL_4CDE_
     ld a, (ix + Entity.unknown4)
     or a
@@ -164,4 +164,4 @@ _LABEL_4D92_:
     ld a, (ix + Entity.data)
     cp $03
     jp c, _LABEL_4CDE_
-    jp _LABEL_55A5_
+    jp killEnemy

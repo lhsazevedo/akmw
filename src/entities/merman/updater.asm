@@ -13,7 +13,7 @@ updateMerman:
     set 1, (ix + Entity.flags)
 +:
     call tryToKillAlexIfColliding
-    call checkAlexEntityCollision_LABEL_7D0B_
+    call isAlexAttackingEntity
     jr nc, +++
 -:
     inc (ix + Entity.battleDecision)
@@ -42,5 +42,5 @@ updateMerman:
     inc (ix + Entity.data)
     ld a, (ix + Entity.data)
     cp $03
-    jp nc, _LABEL_55A5_
+    jp nc, killEnemy
     jr -

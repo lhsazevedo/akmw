@@ -25,8 +25,8 @@ updateBatLeft:
     call tryToKillAlexIfColliding
 
     ; @TODO
-    call checkAlexEntityCollision_LABEL_7D0B_
-    jp nc, _LABEL_55A5_
+    call isAlexAttackingEntity
+    jp nc, killEnemy
 
     ; If colliding on left
     ld de, $0100

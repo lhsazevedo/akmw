@@ -16,14 +16,14 @@ updateEntity0x55:
     ld (ix + Entity.unknown6), $0E
 +:
     call tryToKillAlexIfColliding
-    call checkAlexEntityCollision_LABEL_7D0B_
-    jp nc, _LABEL_55A5_
+    call isAlexAttackingEntity
+    jp nc, killEnemy
     ld a, (ix + Entity.unknown6)
     xor $0C
     ld e, a
     ld d, $01
     ld a, $08
-    call _LABEL_3A03_
+    call isEntityCollidingWithTerrainAtOffset
     jr nc, +
     ld a, (ix + Entity.xSpeed.high)
     cpl

@@ -3,8 +3,8 @@ updateBatRight:
     or (ix + Entity.isOffScreenFlags.high)
     jp nz, destroyCurrentEntity
     call tryToKillAlexIfColliding
-    call checkAlexEntityCollision_LABEL_7D0B_
-    jp nc, _LABEL_55A5_
+    call isAlexAttackingEntity
+    jp nc, killEnemy
     ld de, $0110
     call getNearEntityTileAttrWithOffset
     rlca

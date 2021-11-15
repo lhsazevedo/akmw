@@ -55,7 +55,7 @@ updateChokkinnaHeadState1:
 
 updateChokkinnaHeadState2:
     call tryToKillAlexIfColliding
-    call checkAlexEntityCollision_LABEL_7D0B_
+    call isAlexAttackingEntity
     jp nc, _LABEL_7A41_
     ld a, (v_entities.7.yPos.high)
     cp $28
@@ -74,7 +74,7 @@ updateChokkinnaHeadState2:
 
 _LABEL_7B18_:
     call tryToKillAlexIfColliding
-    call checkAlexEntityCollision_LABEL_7D0B_
+    call isAlexAttackingEntity
     jp nc, _LABEL_7A40_
     bit 1, (ix+20)
     ld de, $0028

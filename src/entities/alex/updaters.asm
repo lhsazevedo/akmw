@@ -41,7 +41,7 @@ updateAlexCrouched:
     jp nz, _LABEL_2F2C_
     ld de, $0902
     ld a, $0D
-    call _LABEL_3A03_
+    call isEntityCollidingWithTerrainAtOffset
     jp c, resetEntityUnknown3AndAlexSpeed
     ld de, $0020
     jp _LABEL_3B4B_
@@ -59,7 +59,7 @@ updateAlexCrouched:
     jr nz, +
     ld de, $090E
     ld a, $0D
-    call _LABEL_3A03_
+    call isEntityCollidingWithTerrainAtOffset
     jr c, +
     ld hl, $0020
     ld (v_alex.xSpeed), hl
@@ -77,7 +77,7 @@ updateAlexCrouched:
     jr nz, +
     ld de, $0902
     ld a, $0D
-    call _LABEL_3A03_
+    call isEntityCollidingWithTerrainAtOffset
     jr c, +
     ld hl, $FFE0
     ld (v_alex.xSpeed), hl
@@ -98,7 +98,7 @@ _LABEL_2F22_:
 _LABEL_2F2C_:
     ld de, $090E
     ld a, $0D
-    call _LABEL_3A03_
+    call isEntityCollidingWithTerrainAtOffset
     jp c, resetEntityUnknown3AndAlexSpeed
     ld de, $FFE0
     call applyFrictionMovingRight
@@ -971,7 +971,7 @@ _LABEL_363E_:
     jp nz, _LABEL_369A_
     ld de, $0301
     ld a, $0A
-    call _LABEL_3A03_
+    call isEntityCollidingWithTerrainAtOffset
     jr c, +
     ld a, (v_inputData)
     bit JOY_LEFT_BIT, a
@@ -1014,7 +1014,7 @@ _LABEL_363E_:
 _LABEL_369A_:
     ld de, $0317
     ld a, $0A
-    call _LABEL_3A03_
+    call isEntityCollidingWithTerrainAtOffset
     jr c, +
     ld a, (v_inputData)
     bit JOY_RIGHT_BIT, a

@@ -4,11 +4,11 @@ updateSmallFishRight:
     or (ix + Entity.isOffScreenFlags.high)
     jr nz, +
     call tryToKillAlexIfColliding
-    call checkAlexEntityCollision_LABEL_7D0B_
-    jp nc, _LABEL_55A5_
+    call isAlexAttackingEntity
+    jp nc, killEnemy
     ld de, $0110
     ld a, $08
-    call _LABEL_3A03_
+    call isEntityCollidingWithTerrainAtOffset
     jr nc, +
     ld (ix + Entity.type), ENTITY_SMALL_FISH_LEFT
     ld (ix + Entity.xSpeed.high), $FF

@@ -51,7 +51,7 @@ updateNametableChanger:
     jr z, @updateCollisionKind
 
     ; Else, handle punch kind
-    call checkAlexEntityCollision_LABEL_7D0B_
+    call isAlexAttackingEntity
     jr @updatePunchKind
 
     @updateCollisionKind:
@@ -123,7 +123,7 @@ updateNametableChanger:
     ret
 
     @updateIncrementKind:
-    call checkAlexEntityCollision_LABEL_7D0B_
+    call isAlexAttackingEntity
     ret c
     ld hl, _RAM_C07F_
     inc (hl)

@@ -62,7 +62,7 @@ updateGoosekaHeadState2:
 
 _LABEL_7A10_:
     call tryToKillAlexIfColliding
-    call checkAlexEntityCollision_LABEL_7D0B_
+    call isAlexAttackingEntity
     jr nc, _LABEL_7A40_
     bit 1, (ix + Entity.unknown3)
     jr z, +
@@ -90,7 +90,7 @@ _LABEL_7A41_:
     inc (ix+2)
     ld a, (v_entities.7.unknown1)
     cp $03
-    jp nc, _LABEL_55A5_
+    jp nc, killEnemy
     ld a, $8D
     ld (v_soundControl), a
     ld a, (v_entities.7.state)

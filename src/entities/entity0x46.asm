@@ -19,7 +19,7 @@ updateEntity0x46:
     cp $18
     jr c, _LABEL_5C9C_
     call tryToKillAlexIfColliding
-    call checkAlexEntityCollision_LABEL_7D0B_
+    call isAlexAttackingEntity
     jr c, _LABEL_5C96_
     inc (ix + Entity.battleDecision)
     ld a, (ix + Entity.battleDecision)
