@@ -1,5 +1,5 @@
 updateMonsterbirdRight:
-    ; Reset animation if bit 0 isn't set
+    ; Initialize entity or run main updater
     bit 0, (ix + Entity.flags)
     jr nz, +
 
@@ -33,6 +33,7 @@ updateMonsterbirdRight:
     call isAlexAttackingEntity
     jp nc, killEnemy
 
+    ; Turn left if colliding with terrain
     ld de, $0118
     ld a, $08
     call isEntityCollidingWithTerrainAtOffset

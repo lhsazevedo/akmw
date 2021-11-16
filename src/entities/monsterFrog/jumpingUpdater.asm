@@ -24,7 +24,7 @@ updateMonsterFrogJumping:
 
     ; Return if not directly above a solid tile.
     ; This is needed so the frog can continue falling
-    ; whean the block underneath it is broken
+    ; whean the block underneath it is broken.
     ; PS: Solid tile are the ones with charcode less than 128
     ld de, $1108
     call getNearEntityTileAttrWithOffset

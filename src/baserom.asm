@@ -5124,31 +5124,31 @@ _LABEL_7CBC_:
 isAlexAttackingEntity:
     ld a, (v_alex.state)
     cp ALEX_SWIMING
-    jp z, _LABEL_7D38_
+    jp z, checkAlexPunchHit
 
     ld a, (v_alexActionState)
-    ld hl, _DATA_7D1C_
+    ld hl, alexAttackHitCheckersPointers
     jp jumpToAthPointer
 
 ; Jump Table from 7D1C to 7D37 (14 entries, indexed by v_alexActionState)
-_DATA_7D1C_:
-.dw _LABEL_7D38_
-.dw _LABEL_7D38_
-.dw _LABEL_7D38_
+alexAttackHitCheckersPointers:
+.dw checkAlexPunchHit
+.dw checkAlexPunchHit
+.dw checkAlexPunchHit
 .dw _LABEL_7D6E_
 .dw _LABEL_7D84_
 .dw _LABEL_7D92_
-.dw _LABEL_7D38_
+.dw checkAlexPunchHit
 .dw _LABEL_7D8B_
 .dw _LABEL_7D61_
 .dw _LABEL_7D61_
-.dw _LABEL_7D38_
-.dw _LABEL_7D38_
-.dw _LABEL_7D38_
-.dw _LABEL_7D38_
+.dw checkAlexPunchHit
+.dw checkAlexPunchHit
+.dw checkAlexPunchHit
+.dw checkAlexPunchHit
 
-; 1st entry of Jump Table from 7D1C (indexed by v_alexActionState)
-_LABEL_7D38_:
+checkAlexPunchHit:
+    ; @TODO
     ; Return if alex unkown8 is not set
     ld a, (v_alex.unknown8)
     bit 0, a
