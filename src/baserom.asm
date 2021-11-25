@@ -147,6 +147,7 @@ reset:
 
     ; Reset stack pointer
     ld sp, $DFF0
+
     call audioEngine.resetVolume
     call initVDPRegisters
 

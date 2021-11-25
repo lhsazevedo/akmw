@@ -1,9 +1,8 @@
-; @param r unknown6
 ; @param d yPos
 ; @param e yPos
 ; @param c type
 spawnEntityAt:
-    ; Choose an available entity slot for spawing the item
+    ; Pick an available entity slot
     ld iy, v_entities.27
     ld a, (iy + Entity.type)
     or a
@@ -21,17 +20,19 @@ spawnEntityAt:
     ld iy, v_entities.27
 
     @availableEntitySlotFound:
-    ; Spaw entity
+    ; Load a random value into Entity.unknown6
     ld a, r
     and $07
     ld (iy + Entity.unknown6), a
+
     ld (iy + Entity.yPos.high), d
     ld (iy + Entity.xPos.high), e
     ld (iy + Entity.type), c
 
-    ; Make sure entity will be initialized
+    ; Mark entity as uninitialized
     res 0, (iy + Entity.flags)
 
+    ; @TODO
     ld a, (v_horizontalScroll)
     ld (iy + Entity.xPos.low), a
     ld a, (v_verticalScroll)
