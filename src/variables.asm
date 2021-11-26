@@ -1,3 +1,7 @@
+.org $C000
+
+ramStart:
+
 .enum $C000 export
 _RAM_C000_ dsb $4
 v_VDPRegister1Value db
@@ -20,7 +24,7 @@ v_textBoxMessageIndex db
 
 .enum $C014 export
 _RAM_C014_ db
-shouldDisplayMapOpening db
+v_disallowMap db
 v_nextDemoIndex db
 .ende
 
@@ -472,3 +476,7 @@ v_unknownEntityByteCount_RAM_D8A0_ db
 .enum $D900 export
 _RAM_D900_ dsb $600
 .ende
+
+.org $DFFF
+
+ramEnd:

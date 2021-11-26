@@ -92,6 +92,7 @@ initMainLoop:
     ; Reset game state to STATE_TITLE
     xor a
     ld (v_gameState), a
+
 mainLoop:
     ld hl, v_gameState
     ld a, (hl)
@@ -101,13 +102,12 @@ mainLoop:
     ; Jump to state updater
     ld hl, gameStateMainLoopPointers
     rst jumpToAthPointer
+
+    ; Loop
     jp mainLoop
 
 
-; Data from 65 to 65 (1 bytes)
-.db $FF
-
-
+.org $66
 handlePauseInterrupt:
     push af
     ; Skip if alex is dead
@@ -115,7 +115,7 @@ handlePauseInterrupt:
     cp ALEX_DEAD
     jp z, +
 
-    ld a, (shouldDisplayMapOpening)
+    ld a, (v_disallowMap)
     or a
     jp nz, +
     ld a, (v_gameState)
@@ -133,14 +133,15 @@ init:
     call audioEngine.resetVolume
 
     ; Clear RAM
-    ld hl, $C000
-    ld de, $C000 + 1
-    ld bc, $1FFF
+    ld hl, ramStart
+    ld de, ramStart + 1
+    ld bc, ramEnd - ramStart
     ld (hl), l
     ldir
 
     call sleepOneSecond
     call configurePPI
+
 reset:
     ld a, $82
     ld (Mapper_Slot2), a
@@ -156,6 +157,8 @@ reset:
     ld de, $4000
     ld bc, $3800
     call fillVRAM
+
+    ; Enable interrupts, display and jump to main loop
     ei
     call enableDisplay
     jp initMainLoop
