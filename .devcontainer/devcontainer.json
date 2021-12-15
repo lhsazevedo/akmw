@@ -1,5 +1,6 @@
 {
     "dockerFile": "Dockerfile",
     "remoteUser": "dockeruser",
-    "workspaceFolder": "/app",
+    "workspaceMount": "source=${localWorkspaceFolder},target=/app,type=bind",
+    "workspaceFolder": "/app"
 }
