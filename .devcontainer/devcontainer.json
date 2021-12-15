@@ -1,0 +1,5 @@
+{
+    "dockerFile": "Dockerfile",
+    "remoteUser": "dockeruser",
+    "workspaceFolder": "/app",
+}
