@@ -47,7 +47,7 @@ showTitleUnderwaterFrame:
     ld hl, titleUnderwaterFrameNametable
     ld de, $7828
     ld bc, $0718
-    call copyNameTableBlockToVRAM
+    call copyNameTableBlockToVram
     jp createTitleEntityAlexSwiming
 
 
@@ -55,7 +55,7 @@ showTitleBoatFrame:
     ld hl, titleBoatFrameNametable
     ld de, $7B98
     ld bc, $061C
-    call copyNameTableBlockToVRAM
+    call copyNameTableBlockToVram
     jp createTitleEntityAlexRidingBoat
 
 
@@ -63,14 +63,14 @@ showTitleTreeFrame:
     ld hl, titleTreeFrameNametable
     ld de, $7800
     ld bc, $080E
-    jp copyNameTableBlockToVRAM
+    jp copyNameTableBlockToVram
 
 
 showTitlePeticopterFrame:
     ld hl, titlePeticopterFrameNametable
     ld de, $79F4
     ld bc, $0C0C
-    call copyNameTableBlockToVRAM
+    call copyNameTableBlockToVram
     jp createTitleEntityAlexFlyingPeticopter
 
 
@@ -78,7 +78,7 @@ showTitleJankenFrame:
     ld hl, titleJankenFrameNametable 
     ld de, $7A00
     ld bc, $1018
-    call copyNameTableBlockToVRAM
+    call copyNameTableBlockToVram
     jp createTitleEntitiesJankenFlight
 
 
@@ -86,7 +86,7 @@ showTitlePushStartFrame:
     ld hl, titlePushStartFrameNametable
     ld de, $7D1A
     ld bc, $0322
-    jp copyNameTableBlockToVRAM
+    jp copyNameTableBlockToVram
 
 
 titleScreenPalette:

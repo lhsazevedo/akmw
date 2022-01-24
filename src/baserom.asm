@@ -13,7 +13,7 @@ start:
     jr init
 
 ; Set DE as VDP Address
-setVDPAddress:
+setVdpAddress:
     ld a, e
     out (Port_VDPAddress), a
     ld a, d
@@ -63,7 +63,7 @@ jumpToPointerAtA:
 .ORG $30
 ; Copy B bytes from (HL) to VRAM (DE) onwards
 memcpyToVRAM:
-    rst setVDPAddress
+    rst setVdpAddress
     ld c, Port_VDPData
 -:
     outi
@@ -156,7 +156,7 @@ reset:
     ld hl, $0000
     ld de, $4000
     ld bc, $3800
-    call fillVRAM
+    call fillVram
 
     ; Enable interrupts, display and jump to main loop
     ei
@@ -269,14 +269,14 @@ gameStateInterruptHandlersPointers:
 
 writeAToVRAM:
     push af
-    rst setVDPAddress
+    rst setVdpAddress
     pop af
     out (Port_VDPData), a
     ret
 
 ; Copy BC bytes from (HL) to VRAM DE
 copyBytesToVRAM:
-    rst setVDPAddress
+    rst setVdpAddress
     ld a, c
     or a
     jr z, +
@@ -298,7 +298,7 @@ copyBytesToVRAM:
 ; @param HL source
 ; @param v_nametableCopyFlags flags
 copyNametableEntriesToVRAM:
-    rst setVDPAddress
+    rst setVdpAddress
     ld a, (v_nametableCopyFlags)
     ld c, Port_VDPData
 -:
@@ -311,7 +311,7 @@ copyNametableEntriesToVRAM:
 
 ; Data from 168 to 17B (20 bytes)
 copyBytesFromVRAM:
-    rst setVDPAddress
+    rst setVdpAddress
     ld a, c
     or a
     jr z, +
@@ -331,9 +331,13 @@ clearNameTable:
     ld de, $7800
     ld bc, $0700
     ld l, $00
-; TODO: Understand parameters
-fillVRAM:
-    rst setVDPAddress
+
+; Fill the 
+; de = target
+; bc = length
+; l = byte
+fillVram:
+    rst setVdpAddress
     ld a, c
     or a
     ld a, l
@@ -347,9 +351,9 @@ fillVRAM:
     ret
 
 ; Copy CxB (WxH) tiles from HL to DE
-copyNameTableBlockToVRAM:
+copyNameTableBlockToVram:
     push bc
-    rst setVDPAddress
+    rst setVdpAddress
     ld b, c
     ld c, Port_VDPData
 -:
@@ -362,7 +366,7 @@ copyNameTableBlockToVRAM:
     add hl, bc
     ex de, hl
     pop bc
-    djnz copyNameTableBlockToVRAM
+    djnz copyNameTableBlockToVram
     ret
 
 
@@ -371,7 +375,7 @@ copyNameTableBlockToVramWithFlag:
 
     --:
     push bc
-    rst setVDPAddress
+    rst setVdpAddress
     ld b,c
     ld c, Port_VDPData
 
@@ -393,7 +397,7 @@ copyNameTableBlockToVramWithFlag:
 
 clearNametableArea:
     ld hl, $0040
-    rst setVDPAddress
+    rst setVdpAddress
     push bc
     xor a
 -:
@@ -408,7 +412,7 @@ clearNametableArea:
 
 load1bppTiles:
     ld (v_1bppTileColor), a
-    rst setVDPAddress
+    rst setVdpAddress
 --:
     ld a, (hl)
     exx
@@ -448,7 +452,7 @@ updateSprites:
     ld hl, v_tempSprites
     ld de, $7F00
     ld bc,  $4000 | Port_VDPData
-    rst setVDPAddress
+    rst setVdpAddress
 
 @oddYLoop:
     outi
@@ -457,7 +461,7 @@ updateSprites:
     ld hl, v_tempSprites + $80
     ld de, $7F80
     ld b, $80
-    rst setVDPAddress
+    rst setVdpAddress
 
 @oddXLoop:
     outi
@@ -472,7 +476,7 @@ updateSprites:
     ld hl, v_tempSprites
     ld bc,  $1100 | Port_VDPData
     ld de, $7F00
-    rst setVDPAddress
+    rst setVdpAddress
 
 @evenFixedYLoop:
     outi
@@ -494,7 +498,7 @@ updateSprites:
     ld hl, v_tempSprites + $80
     ld de, $7F80
     ld b, $22
-    rst setVDPAddress
+    rst setVdpAddress
 
 @evenFixedXLoop:
     outi
@@ -622,7 +626,7 @@ enableDisplay:
     ld (v_VDPRegister1Value), a
     ld e, a
     ld d, $81
-    rst setVDPAddress
+    rst setVdpAddress
     ret
 
 clearScroll:
@@ -631,9 +635,9 @@ clearScroll:
     ld (_RAM_C0B0_), a
     ld e, a
     ld d, $89
-    rst setVDPAddress
+    rst setVdpAddress
     dec d
-    rst setVDPAddress
+    rst setVdpAddress
     ret
 
 
@@ -655,9 +659,9 @@ clearVDPTablesAndDisableScreen:
     ld (hl), $E0
     ldir
     ld de, $8800
-    rst setVDPAddress
+    rst setVdpAddress
     ld d, $89
-    rst setVDPAddress
+    rst setVdpAddress
 
     ; Enable interrupts and wait
     ei
@@ -902,7 +906,7 @@ updateHighScore:
 drawThreeBcdBytes:
     ld c, $03
 drawBCDDigits:
-    call setVDPAddress
+    call setVdpAddress
     set 7, e
 --:
     ld a, $C0
@@ -2276,7 +2280,7 @@ loadAlexTilesToVRAM2000:
     ld c, a
     ld b, $00
     ld de, $6000
-    rst setVDPAddress
+    rst setVdpAddress
 
 ; Load tiles from Alex tile descriptors to VRAM.
 ; Assumes that VA is already set.
@@ -2429,7 +2433,7 @@ _LABEL_424B_:
     sub $50
     ld d, a
     ld bc, $0204
-    call copyNameTableBlockToVRAM
+    call copyNameTableBlockToVram
     ret
 
 ; 5th entry of Jump Table from 4237 (indexed by v_nametableChangeRequest)
@@ -2505,7 +2509,7 @@ _LABEL_42C3_:
     djnz -
     ld hl, _DATA_14400_
     ld bc, $0208
-    jp copyNameTableBlockToVRAM
+    jp copyNameTableBlockToVram
 
 ; 2nd entry of Jump Table from 4237 (indexed by v_nametableChangeRequest)
 handleShopDoorNametableChange:
@@ -2530,7 +2534,7 @@ _LABEL_434F_:
     ld d, a
     ld bc, $0404
 _LABEL_435F_:
-    rst setVDPAddress
+    rst setVdpAddress
     push bc
     push hl
     push de
@@ -2615,7 +2619,7 @@ _LABEL_43CA_:
     ld hl, _DATA_14420_
     ld de, $7BB4
     ld bc, $0608
-    call copyNameTableBlockToVRAM
+    call copyNameTableBlockToVram
     ld hl, _DATA_14420_
     ld de, _RAM_CBB4_
     ld a, $06
@@ -3103,7 +3107,7 @@ _LABEL_4BCD_:
     djnz -
     pop hl
     pop bc
-    call setVDPAddress
+    call setVdpAddress
 -:
     xor a
     out (Port_VDPData), a
@@ -3500,7 +3504,7 @@ scrollFlagsUpdater_LABEL_6462_:
     ld de, $8000 | VDP_R0_MASK_COL_0 | VDP_R0_CHANGE_HEIGHT_IN_MODE_4 | VDP_R0_USE_MODE_4
     ld a, e
     ld (v_VDPRegister0Value), a
-    rst setVDPAddress
+    rst setVdpAddress
     ei
 
     ld a, SCROLL_RIGHT
@@ -3527,7 +3531,7 @@ scrollFlagsUpdater_LABEL_647D_:
     ld de, $8026
     ld a, e
     ld (v_VDPRegister0Value), a
-    rst setVDPAddress
+    rst setVdpAddress
     ei
 +:
     ld hl, (v_horizontalScroll)
@@ -3621,7 +3625,7 @@ _LABEL_6502_:
     ld de, $8006
     ld a, e
     ld (v_VDPRegister0Value), a
-    rst setVDPAddress
+    rst setVdpAddress
     ei
     ret
 
@@ -3793,7 +3797,7 @@ loadLevel:
     ld de, $8000 | VDP_R0_CHANGE_HEIGHT_IN_MODE_4 | VDP_R0_USE_MODE_4
     ld a, e
     ld (v_VDPRegister0Value), a
-    rst setVDPAddress
+    rst setVdpAddress
 
     ld a, (v_levelScrollFlags)
     ld (v_scrollFlags), a
@@ -4107,7 +4111,7 @@ draw_LABEL_6920_:
     ld a, $18
 -:
     ex af, af'
-    call setVDPAddress
+    call setVdpAddress
     ld a, (hl)
     out (Port_VDPData), a
     inc hl
@@ -4175,10 +4179,10 @@ _LABEL_69B5_:
     ld (v_UpdateNameTableFlags), a
     ld de, (_RAM_C0B0_)
     ld d, $88
-    call setVDPAddress
+    call setVdpAddress
     ld de, (v_verticalScroll.high)
     ld d, $89
-    jp setVDPAddress
+    jp setVdpAddress
 
 updateVerticalScroll_LABEL_69CB_:
     ld de, (v_verticalScrollSpeed)

@@ -52,7 +52,7 @@ handleInterruptBonusLevelState:
     pop de
     ld l, $00
     ld bc, $0040
-    call fillVRAM
+    call fillVram
     exx
     ld a, (hl)
     or e
@@ -74,11 +74,11 @@ _LABEL_170D_:
     ld bc, $0040
     jr c, +
     ld bc, $0020
-    call fillVRAM
+    call fillVram
     ld bc, $0020
     ld de, $7800
 +:
-    call fillVRAM
+    call fillVram
     pop hl
     jr _LABEL_170D_
 
@@ -223,7 +223,7 @@ _LABEL_1874_:
     call updateAlexSpawning
     call updateEntities
     ld de, $8026
-    rst setVDPAddress
+    rst setVdpAddress
     ld a, (v_level)
     inc a
     ld c, a

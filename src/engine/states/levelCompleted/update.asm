@@ -46,7 +46,7 @@ updateLevelCompletedState:
     set 0, (hl)
 +:
     ld de, $8026
-    call setVDPAddress
+    call setVdpAddress
 
     ; Reset some values
     xor a

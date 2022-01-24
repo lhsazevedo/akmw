@@ -15,7 +15,7 @@ updateTitleScreenState:
     ld de, $6000
     ld bc, $0020
     ld l, $00
-    call fillVRAM
+    call fillVram
 
     ; Map slot 2 to bank 2
     ld a, $82
@@ -52,11 +52,11 @@ updateTitleScreenState:
     ld hl, logoTopNametable
     ld de, $788E
     ld bc, $061C
-    call copyNameTableBlockToVRAM
+    call copyNameTableBlockToVram
     ld hl, logoBottomNametable
     ld de, $79DA
     ld bc, $071A
-    call copyNameTableBlockToVRAM
+    call copyNameTableBlockToVram
 
     ; Set titlescreen palette
     ld hl, titleScreenPalette

@@ -7,7 +7,7 @@ handleInterruptLevelStartingState:
     ld hl, (v_currentMapOrTextNametablePointer)
     ld de, (v_currentMapNametableDestinationPointer)
     ld bc, $1202
-    call copyNameTableBlockToVRAM
+    call copyNameTableBlockToVram
 
     ; Draw right side of map parchment, in two columns.
     ld de, (v_currentMapNametableDestinationPointer)
@@ -16,7 +16,7 @@ handleInterruptLevelStartingState:
     ld (v_currentMapNametableDestinationPointer), de
     ld hl, mapParchmentRightSideColumn1
     ld bc, $1202
-    call copyNameTableBlockToVRAM
+    call copyNameTableBlockToVram
 
     ld de, (v_currentMapNametableDestinationPointer)
     inc de
@@ -24,7 +24,7 @@ handleInterruptLevelStartingState:
     ld (v_currentMapNametableDestinationPointer), de
     ld hl, mapParchmentRightSideColumn2
     ld bc, $1202
-    call copyNameTableBlockToVRAM
+    call copyNameTableBlockToVram
 
     ld de, (v_currentMapNametableDestinationPointer)
 

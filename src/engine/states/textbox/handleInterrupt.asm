@@ -10,7 +10,7 @@ handleInterruptTextBoxState:
     ld h, a
     dec hl
     ex de, hl
-    rst setVDPAddress
+    rst setVdpAddress
     ld hl, (v_currentMapOrTextNametablePointer)
     ld a, (hl)
     out (Port_VDPData), a

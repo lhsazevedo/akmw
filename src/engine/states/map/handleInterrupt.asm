@@ -263,7 +263,7 @@ initMapState:
     ld de, $6800
     ld bc, $0020
     ld l, $00
-    call fillVRAM
+    call fillVram
     ld hl, _DATA_1E209_
     ld de, $6820
     ld bc, $0020
@@ -356,7 +356,7 @@ initMapState:
     ld hl, _DATA_2429_
     ld de, $7D42
     ld bc, $0204
-    call copyNameTableBlockToVRAM
+    call copyNameTableBlockToVram
     ld hl, $C025
     ld de, $7D88
     ld c, $01
@@ -364,7 +364,7 @@ initMapState:
     ld hl, _DATA_2431_
     ld de, $7CC2
     ld bc, $0204
-    call copyNameTableBlockToVRAM
+    call copyNameTableBlockToVram
     ld a, $C0
     ld de, $7D12
     call writeAToVRAM
@@ -699,7 +699,7 @@ _LABEL_25D3_:
     ld hl, _DATA_15924_
     ld de, $7892
     ld bc, $1218
-    call copyNameTableBlockToVRAM
+    call copyNameTableBlockToVram
     ld hl, _DATA_15AD4_
     ld de, $4000
     call decompressTilesToVram

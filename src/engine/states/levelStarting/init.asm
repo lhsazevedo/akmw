@@ -41,28 +41,28 @@ initLevelStartingState:
     ld (v_currentMapNametableDestinationPointer), de
     ld hl, _DATA_15E75_
     ld bc, $1202
-    call copyNameTableBlockToVRAM
+    call copyNameTableBlockToVram
     ld de, (v_currentMapNametableDestinationPointer)
     inc de
     inc de
     ld (v_currentMapNametableDestinationPointer), de
     ld hl, _DATA_15E99_
     ld bc, $1202
-    call copyNameTableBlockToVRAM
+    call copyNameTableBlockToVram
     ld de, (v_currentMapNametableDestinationPointer)
     inc de
     inc de
     ld (v_currentMapNametableDestinationPointer), de
     ld hl, mapParchmentRightSideColumn1
     ld bc, $1202
-    call copyNameTableBlockToVRAM
+    call copyNameTableBlockToVram
     ld de, (v_currentMapNametableDestinationPointer)
     inc de
     inc de
     ld (v_currentMapNametableDestinationPointer), de
     ld hl, mapParchmentRightSideColumn2
     ld bc, $1202
-    call copyNameTableBlockToVRAM
+    call copyNameTableBlockToVram
 
     ld de, $78C8
     inc de
@@ -78,7 +78,7 @@ initLevelStartingState:
     ld de, $6800
     ld bc, $0020
     ld l, $00
-    call fillVRAM
+    call fillVram
 
     ; Load map arrow tile
     ld hl, _DATA_1E209_

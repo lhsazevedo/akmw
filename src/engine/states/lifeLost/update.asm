@@ -265,7 +265,7 @@ gameOver_LABEL_6DC9_:
     ld de, $8026
     ld a, e
     ld (v_VDPRegister0Value), a
-    rst setVDPAddress
+    rst setVdpAddress
     ld a, SOUND_GAME_OVER_SONG
     ld (v_soundControl), a
     ei

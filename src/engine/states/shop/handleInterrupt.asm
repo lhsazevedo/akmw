@@ -117,7 +117,7 @@ _LABEL_1C33_:
     ld (Mapper_Slot2), a
     ld e, $26
     ld d, $80
-    rst setVDPAddress
+    rst setVdpAddress
     ei
     ld a, $09
     call waitForInterrupt
@@ -244,7 +244,7 @@ _LABEL_1D04_:
     xor a
     ld (v_itemBeignBoughtIndex), a
     ld de, $8006
-    rst setVDPAddress
+    rst setVdpAddress
     ld a, $86
     ld (Mapper_Slot2), a
     ld a, (v_level)

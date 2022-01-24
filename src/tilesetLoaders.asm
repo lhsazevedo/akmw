@@ -21,7 +21,7 @@ loadMtEthernalTileset:
     ld de, $46A0
     ld bc, $0080
     ld l, $00
-    call fillVRAM
+    call fillVram
     ld a, (v_level)
     ld hl, levelMainTilesetPointers - 2
     rst loadAthPointer
@@ -49,7 +49,7 @@ loadJankensCastleTileset:
     ld de, $46A0
     ld bc, $0080
     ld l, $00
-    call fillVRAM
+    call fillVram
     ld a, (v_level)
     ld hl, levelMainTilesetPointers - 2
     rst loadAthPointer
@@ -63,7 +63,7 @@ loadBingooLowlandTileset:
     ld de, $46A0
     ld bc, $0080
     ld l, $00
-    call fillVRAM
+    call fillVram
     ld a, (v_level)
     ld hl, levelMainTilesetPointers - 2
     rst loadAthPointer
@@ -77,7 +77,7 @@ loadLakeFathomTileset:
     ld de, $46A0
     ld bc, $0200
     ld l, $00
-    call fillVRAM
+    call fillVram
     ld a, (v_level)
     ld hl, levelMainTilesetPointers - 2
     rst loadAthPointer
@@ -98,7 +98,7 @@ loadTheIslandOfStNurariTileset:
     ld de, $46A0
     ld bc, $0080
     ld l, $00
-    call fillVRAM
+    call fillVram
     ld a, (v_level)
     ld hl, levelMainTilesetPointers - 2
     rst loadAthPointer
@@ -109,7 +109,7 @@ loadTheVillageOfNamuiTileset:
     ld de, $46A0
     ld bc, $0080
     ld l, $00
-    call fillVRAM
+    call fillVram
     ld a, $02
     ld hl, $847E
     rst loadAthPointer
@@ -137,7 +137,7 @@ loadMtKaveTileset:
     ld de, $46A0
     ld bc, $0080
     ld l, $0A
-    call fillVRAM
+    call fillVram
     ld a, (v_level)
     ld hl, levelMainTilesetPointers - 2
     rst loadAthPointer
@@ -148,7 +148,7 @@ loadRiverTileset:
     ld de, $46A0
     ld bc, $0080
     ld l, $00
-    call fillVRAM
+    call fillVram
     ld a, (v_level)
     ld hl, levelMainTilesetPointers - 2
     rst loadAthPointer
@@ -168,7 +168,7 @@ loadMtEthernalStage2Tileset:
     ld de, $46A0
     ld bc, $0080
     ld l, $00
-    call fillVRAM
+    call fillVram
     ld a, $02
     ld hl, $847E
     rst loadAthPointer
@@ -185,7 +185,7 @@ loadCraggLakeTileset:
     ld de, $46A0
     ld bc, $0200
     ld l, $00
-    call fillVRAM
+    call fillVram
     ld a, $03
     ld hl, $847E
     rst loadAthPointer
@@ -207,7 +207,7 @@ loadTheKingdomOfNibanaPart1Tileset:
     ld de, $46A0
     ld bc, $0080
     ld l, $00
-    call fillVRAM
+    call fillVram
     ld a, $0B
     ld hl, $847E
     rst loadAthPointer
