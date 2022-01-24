@@ -332,7 +332,7 @@ clearNameTable:
     ld bc, $0700
     ld l, $00
 
-; Fill the 
+; Copy the byte l to the first l bytes pointed by de
 ; de = target
 ; bc = length
 ; l = byte
@@ -805,9 +805,8 @@ addScore:
     call sumBCD
     ret nc
 
-    ; Limit to 999999
-    ; @TODO: Why C000?
-    ld hl, _RAM_C000_
+    ; Limit highScore to 999999
+    ld hl, v_highScore
     ld c, $99
     ld (hl), c
     inc hl
@@ -886,7 +885,7 @@ subtractBCDToA:
 
 updateHighScore:
     ld de, v_score
-    ld hl, _RAM_C000_
+    ld hl, v_highScore
     ld b, $03
     or a
 -:
@@ -1172,13 +1171,26 @@ _LABEL_39ED_:
     or a
     ret
 
+; ix: *Entity
+; d: Y offset
+; e: X offset
+; a: ?
+; c: ?
 isEntityCollidingWithTerrainAtOffset:
-    ; @TODO
+    ; Save a
     ex af, af'
+
+    ; TODO: Params
     call getNearEntityTileAttrWithOffset
+
+    ; Return of attr bit 0 is set
     rlca
     ret c
+
+    ; Restore a
     ex af, af'
+
+
     ld d, a
     call _LABEL_7CA3_
     ld a, (hl)
@@ -2013,11 +2025,24 @@ _LABEL_3FD1_:
     ld (v_horizontalScrollSpeed), hl
     ld hl, $0100
     ld (v_alex.xSpeed), hl
+
+.IFDEF _REV1
+    .BANK 1 SLOT 1
+    .ORG $0000
+.ENDIF
+
     ret
+
 
 ++:
     ld (ix+26), $13
     push ix
+
+.IFDEF _REV0
+    .BANK 1 SLOT 1
+    .ORG $0000
+.ENDIF
+
     call _LABEL_6671_
     pop ix
     ld hl, v_scrollFlags
@@ -5017,6 +5042,12 @@ restoreSomeNametableStuff_LABEL_796D_:
 .INCLUDE "entities/chokkinnaHead.asm"
 .INCLUDE "entities/parplinHead.asm"
 
+; ix: *Entity
+; d: Y Offset
+; e: X Offset
+;
+; Return:
+; a: Tile attributes
 getNearEntityTileAttrWithOffset:
     ld a, (ix + Entity.xPos.high)
     add a, e
@@ -5098,23 +5129,38 @@ _LABEL_7C94_:
     ld l, a
     ret
 
+; l: ?
+; b: ?
+; d: ?
 _LABEL_7CA3_:
+    ; e = a = l & 0x3f
     ld a, l
     and $3F
     ld e, a
+
+    ; b = a = b + d
     ld a, b
     add a, d
     ld b, a
+
+    ; if (a < 0xe0) {
+    ;     a -= 0xe0
+    ; }
     cp $E0
-    jr c, +
-    sub $E0
-+:
+    jr c, @endif
+        sub $E0
+    @endif:
+
+    ; a &= 0xf8
     and $F8
+
+    ; hl = a * 4
     ld l, a
     ld h, $00
     add hl, hl
     add hl, hl
     add hl, hl
+
     ld d, $C8
     add hl, de
     ret
@@ -5263,9 +5309,7 @@ doNotKillAlex:
 .INCLUDE "engine/states/textbox/update.asm"
 .INCLUDE "engine/states/textbox/handleInterrupt.asm"
 
-.BANK 1 SLOT 1
-.ORG $0000
-
+.ORG $3ff0
 ; ROM header from 7FF0 to 7FFF (16 bytes)
 .INCLUDE "header.asm"
 

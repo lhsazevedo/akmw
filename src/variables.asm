@@ -3,7 +3,7 @@
 ramStart:
 
 .enum $C000 export
-_RAM_C000_ dsb $4
+v_highScore dsb $4
 v_VDPRegister1Value db
 v_inputFlags db
 v_inputData db      ; inverse of port Port_IOPort1 (port $DC)
