@@ -56,6 +56,9 @@ handleInterruptDemoState:
     ; Jump to game play interrupt handler.
     jp handleInterruptGameplayState
 
-; Data from A7C to A7F (4 bytes)
+
 demoLevels:
-.db $02 $03 $04 $05
+.db $02
+.db $03
+.db $04
+.db $05

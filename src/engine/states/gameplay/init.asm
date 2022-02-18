@@ -1,18 +1,25 @@
 initGameplayState:
     call clearVDPTablesAndDisableScreen
     call clearEntities
+
     ld a, $82
     ld (Mapper_Slot2), a
+
     call audioEngine.reset
+
+    ; TODO: Clear some run
     ld hl, v_levelWidth
     ld de, v_levelWidth + 1
     ld bc, $002A
     ld (hl), $00
     ldir
+
     ld a, ENTITY_ARRAY_SIZE
     ld (v_entitydataArrayLength), a
+
     ld hl, v_entities
     ld (v_entitydataArrayPointer), hl
+
     call loadLevelPalette
     call loadLevelSpriteTiles
 
@@ -29,9 +36,10 @@ initGameplayState:
     call copyBytesToVRAM
 
     ; If current level data is 1:
-    ;    Set v_shouldSpawnRidingBoat_RAM_C051_ to $1 and load bullet tiles
+    ;    Set v_shouldSpawnRidingBoat_RAM_C051_ and load bullet tiles
     ; If current level data is > 1:
-    ;   Set v_alexActionState to $9 and load bullet tiles
+    ;   Set v_alexActionState to ALEX_C054_FLYING_PETICOPTER and load bullet
+    ;   tiles
     ld a, (v_level)
     ld hl, levelSpawnStates - 1
     ld c, a
@@ -39,7 +47,6 @@ initGameplayState:
     add hl, bc
     ld a, (hl)
     or a
-
     jp z, @done
     cp $01
     jp nz, @dataIsBiggerThanOne
@@ -49,7 +56,7 @@ initGameplayState:
     jp @loadBulletTiles
 
 @dataIsBiggerThanOne:
-    ld a, $09
+    ld a, ALEX_C054_FLYING_PETICOPTER
     ld (v_alexActionState), a
 
 @loadBulletTiles

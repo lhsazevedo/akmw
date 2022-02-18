@@ -1,42 +1,59 @@
-; 3rd entry of Jump Table from 3B (indexed by v_gameState)
 updateDemoState:
+    ; Skip if state was already initialized
     ld hl, v_gameState
     bit 7, (hl)
     jp nz, updateGameplayState
+
+    ; Mark as initialized
     set 7, (hl)
+
+    ; Reset demo index if needed
     ld a, (v_nextDemoIndex)
     inc a
     cp $05
-    jp c, +
-    ld a, $01
-+:
+    jp c, @endif
+        ld a, $01
+    @endif:
     ld (v_nextDemoIndex), a
+
+    ; Load demo level index
     ld c, a
     ld b, $00
     ld hl, demoLevels - 1
     add hl, bc
     ld a, (hl)
     ld (v_level), a
+
+    ; If on level 2, make Alex start riding motorcycle. During normal gameplay,
+    ; the player would have to buy it first on the shop.
     cp $02
-    jp nz, +
-    ld a, $07
-    ld (v_alexActionState), a
-+:
+    jp nz, @endif2
+        ld a, ALEX_C054_RIDING_MOTORCYCLE
+        ld (v_alexActionState), a
+    @endif2:
+
     ld a, $85
     ld (Mapper_Slot2), a
+
     ld a, (v_nextDemoIndex)
     ld hl, demoInputPointers - 2
     rst loadAthPointer
+
     dec hl
     ld (v_demoInputDataPointer), hl
+
+    ; TODO: Update input flags
     ld hl, v_inputFlags
     ld a, (hl)
     and $03
     or $20
     ld (hl), a
+
+    ; TODO
     ld hl, $01FF
     ld (v_demoCurrentInputData), hl
+
     jp initGameplayState
 
-; Data from A34 to A34 (1 bytes)
-.db $C9
+    ; Unreachable return
+    ret

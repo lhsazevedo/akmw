@@ -1,4 +1,3 @@
-; 10th entry of Jump Table from 127 (indexed by v_gameState)
 handleInterruptGameplayState:
     call updateInvincibility
     call handleNametableChangeRequest

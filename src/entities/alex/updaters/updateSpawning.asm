@@ -18,7 +18,7 @@ updateAlexSpawning:
     jr nz, spawnRidingBoat
 
     ld a, (v_alexActionState)
-    cp ALEX_C054_RIDING_MOTORCYCLES
+    cp ALEX_C054_RIDING_MOTORCYCLE
     jr z, spawnRidingMotorcycle
 
     cp ALEX_C054_FLYING_PETICOPTER
