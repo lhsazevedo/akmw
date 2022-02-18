@@ -28,25 +28,30 @@ loadTitleSprites:
     ld de, $6400
     call decompressTilesToVram
 
-    ; Load sprite descriptors
     ld a, $82
     ld (Mapper_Slot2), a
+
+    ; Load Alex additional sprite descriptors
     ld hl, alexFlyingPeticopterLeftFrame0SpriteDescriptor + 1
     ld de, _RAM_C800_
     xor a
     call +
+
     ld hl, alexRidingBoatFrame0SpriteDescriptor + 1
     ld de, _RAM_C828_
     ld a, $0B
     call +
+
     ld hl, alexAirRightSpriteDescriptor + 1
     ld de, _RAM_C850_
     ld a, $13
     call +
+
     ld hl, _DATA_8E01_ + 1
     ld de, _RAM_C878_
     ld a, $19
 +:
+    ; @TODO
     push de
     ld bc, $0024
     ldir

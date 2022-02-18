@@ -75,8 +75,8 @@ handleInterruptEntrypoint:
 
 ; Jump Table from 3B to 52 (12 entries, indexed by v_gameState)
 gameStateMainLoopPointers:
-.dw updateTitleScreenState
-.dw updateTitleScreenState
+.dw initOrUpdateTitleScreenState
+.dw initOrUpdateTitleScreenState
 .dw updateDemoState
 .dw updateLevelStartingState
 .dw updateLevelCompletedState

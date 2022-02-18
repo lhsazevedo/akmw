@@ -1,15 +1,16 @@
-; 1st entry of Jump Table from 3B (indexed by v_gameState)
-updateTitleScreenState:
+initOrUpdateTitleScreenState:
     exx
 
-    ; Skip initialization
+    ; Update if already initialized
     bit 7, (hl)
-    jp nz, realUpdateTitleScreenState
+    jp nz, updateTitleScreenState
 
+    ; Mark as initialized
     set 7, (hl)
-    
+
     xor a
     ld (v_nametableCopyFlags), a
+
     call clearVDPTablesAndDisableScreen
     
     ld de, $6000
@@ -17,15 +18,13 @@ updateTitleScreenState:
     ld l, $00
     call fillVram
 
-    ; Map slot 2 to bank 2
     ld a, $82
     ld (Mapper_Slot2), a
 
     call audioEngine.reset
     call updateHighScore
 
-    ; Clear some RAM
-    ; @TODO: Identify which part is being cleared
+    ; Clear RAM from $C020 to $1DDF
     ld hl, v_score
     ld de, v_score + 1
     ld bc, $1DDF
@@ -39,32 +38,33 @@ updateTitleScreenState:
     ld (v_currentTitleScreen), a
     ld (v_titleScreenLogoTimer), a
 
-    ; Map slot 2 to titleScreenTiles bank
     ld a, :titleScreenTiles | $80
     ld (Mapper_Slot2), a
 
-    ; Loag tiles
+    ; Load tiles
     ld hl, titleScreenTiles
     ld de, $4020
     call decompressTilesToVram
 
-    ; Load logo nametable
+    ; Draw logo top
     ld hl, logoTopNametable
     ld de, $788E
     ld bc, $061C
     call copyNameTableBlockToVram
+
+    ; Draw logo bottom
     ld hl, logoBottomNametable
     ld de, $79DA
     ld bc, $071A
     call copyNameTableBlockToVram
 
-    ; Set titlescreen palette
+    ; Load title screen palette
     ld hl, titleScreenPalette
     ld de, $C000
     ld b, $20
     rst memcpyToVRAM
 
-    ; Copy alex/janken sprite tiles to VRAM
+    ; Load alex/janken sprite tiles to VRAM
     call loadTitleSprites
 
     call enableDisplay
@@ -77,7 +77,7 @@ updateTitleScreenState:
     ld (v_soundControl), a
 
 
-realUpdateTitleScreenState:
+updateTitleScreenState:
     ld a, $09
     call waitForInterrupt
     call updateEntities
