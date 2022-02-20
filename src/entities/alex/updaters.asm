@@ -351,7 +351,7 @@ updateAlexRidingBoatInAir:
 
 updateAlexReachingDoor:
     ; 
-    ld a, (v_shopEntranceHorizontalPosition)
+    ld a, (v_shopDoorOffset)
     ld hl, (v_horizontalScroll)
     add a, h
     cp (ix + Entity.xPos.high)
@@ -409,7 +409,7 @@ updateAlexCrossingDoor:
 alexHandler_31CC:
     ld hl, $0000
     ld (v_alex.ySpeed), hl
-    ld a, (v_shopEntranceHorizontalPosition)
+    ld a, (v_shopDoorOffset)
     ld hl, (v_horizontalScroll)
     add a, h
     cp (ix + Entity.xPos.high)

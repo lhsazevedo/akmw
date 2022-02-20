@@ -83,7 +83,7 @@ v_VDPRegister0Value db
 .ende
 
 .enum $C061 export
-v_entitydataPointersPointer dw
+v_entityDescriptorsPointer dw
 v_addedEntitiesShouldBeOffscreenHorizontally db
 v_addedEntitiesShouldBeOffscreenVertically db
 v_entityIndex db
@@ -92,7 +92,7 @@ v_newEntityVerticalOffset db
 .ende
 
 .enum $C069 export
-v_shopEntranceHorizontalPosition db
+v_shopDoorOffset db
 v_shopEntranceDoorNametablePointer dw
 v_horizontalPositionShopHasBeenEnteredFrom db
 v_shopEntranceEnteredFromDoorNametablePointer dw
@@ -131,6 +131,8 @@ _RAM_C095_ db
 v_resetButtonState db
 .ende
 
+; Level variables.
+; $2A (42 bytes) from $C0A0 to $C0CA.
 .enum $C0A0 export
 v_levelWidth db
 v_linesToLoadToNametable db
@@ -189,7 +191,7 @@ _RAM_C0FB_ db
 .ende
 
 .enum $C0FD export
-v_shopDoorNametableAddressPointer dw
+v_shopDoorNametablePointer dw
 _RAM_C0FF_ db
 v_waterColorTimer db
 .ende

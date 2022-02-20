@@ -8,10 +8,8 @@ updateGameplayState:
     call loadNewEntities
     call updateEntities
 
-    ; Somothing related to scrolling
+    ; TODO
     call updateScroll_LABEL_67C4_
-
-    ; Something related to nametable
     call updateNametable_LABEL_6B49_
 
     ld a, $09

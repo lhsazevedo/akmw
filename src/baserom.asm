@@ -2463,14 +2463,14 @@ _LABEL_424B_:
 
 ; 5th entry of Jump Table from 4237 (indexed by v_nametableChangeRequest)
 _LABEL_42B6_:
-    ld de, (v_shopDoorNametableAddressPointer)
+    ld de, (v_shopDoorNametablePointer)
     call ++
     ld hl, _DATA_14410_
     jp +
 
 ; 4th entry of Jump Table from 4237 (indexed by v_nametableChangeRequest)
 _LABEL_42C3_:
-    ld de, (v_shopDoorNametableAddressPointer)
+    ld de, (v_shopDoorNametablePointer)
     call ++
     ld hl, _DATA_14400_
 +:
@@ -2517,7 +2517,7 @@ _LABEL_42C3_:
     dec a
     jr nz, -
     ld (v_nametableChangeDestination), de
-    ld de, (v_shopDoorNametableAddressPointer)
+    ld de, (v_shopDoorNametablePointer)
     ld a, d
     sub $50
     ld d, a
@@ -2538,7 +2538,7 @@ _LABEL_42C3_:
 
 ; 2nd entry of Jump Table from 4237 (indexed by v_nametableChangeRequest)
 handleShopDoorNametableChange:
-    ld hl, (v_shopDoorNametableAddressPointer)
+    ld hl, (v_shopDoorNametablePointer)
     inc hl
     ld e, l
     ld a, h
@@ -2549,7 +2549,7 @@ handleShopDoorNametableChange:
 
 ; 3rd entry of Jump Table from 4237 (indexed by v_nametableChangeRequest)
 _LABEL_434F_:
-    ld hl, (v_shopDoorNametableAddressPointer)
+    ld hl, (v_shopDoorNametablePointer)
     inc hl
     ld de, $00C0
     add hl, de
@@ -3458,8 +3458,13 @@ requestBlockSound:
     res 0, (iy + Entity.flags)
     ret
 
-; Data from 5C27 to 5C35 (15 bytes)
-.db $FD $21 $40 $C6 $FD $36 $00 $44 $FD $72 $0E $FD $73 $0C $C9
+; TODO
+unused_LABEL_5C27_:	
+    ld iy, v_entities.27
+    ld (iy+0), $44
+    ld (iy+14), d
+    ld (iy+12), e
+    ret
 
 .INCLUDE "entities/entity0x46.asm"
 .INCLUDE "entities/entity0x47.asm"
@@ -3470,10 +3475,12 @@ _LABEL_5D7B_:
     jp _LABEL_555C_
 
 ; Data from 5D7E to 5D8B (14 bytes)
+; TODO
 _DATA_5D7E_:
 .db $40 $10 $38 $20 $33 $30 $2E $40 $2A $50 $27 $60 $24 $70
 
 ; Pointer Table from 5D8C to 5D93 (4 entries, indexed by _RAM_CF98_)
+; TODO
 _DATA_5D8C_:
 .dw _DATA_8022_ _DATA_8111_ _DATA_8120_ _DATA_8102_
 
@@ -3496,365 +3503,49 @@ _DATA_5D8C_:
 
 ; Pointer Table from 6422 to 6435 (10 entries, indexed by _RAM_CF83_)
 _DATA_6422_:
-.dw _DATA_80D3_ _DATA_80C5_ _DATA_8057_ _DATA_8065_ _DATA_8A27_ lifeSpriteDescriptor powerBraceletSpriteDescriptor _DATA_801C_
-.dw _DATA_800E_ _DATA_8000_
+.dw _DATA_80D3_
+.dw _DATA_80C5_
+.dw _DATA_8057_
+.dw _DATA_8065_
+.dw _DATA_8A27_
+.dw lifeSpriteDescriptor
+.dw powerBraceletSpriteDescriptor
+.dw _DATA_801C_
+.dw _DATA_800E_
+.dw _DATA_8000_
 
 ; Pointer Table from 6436 to 6449 (10 entries, indexed by _RAM_CF83_)
 _DATA_6436_:
-.dw v_hasTelepathyBall v_hasTelepathyBall v_hasLetterToNibana v_hasHirottaStone v_hasMoonstoneMedallion v_hasMoonstoneMedallion v_hasPowerBracelet v_hasTeleportPowder
-.dw v_hasSunstoneMedallion v_hasSunstoneMedallion
+.dw v_hasTelepathyBall
+.dw v_hasTelepathyBall
+.dw v_hasLetterToNibana
+.dw v_hasHirottaStone
+.dw v_hasMoonstoneMedallion
+.dw v_hasMoonstoneMedallion
+.dw v_hasPowerBracelet
+.dw v_hasTeleportPowder
+.dw v_hasSunstoneMedallion
+.dw v_hasSunstoneMedallion
 
 ; Pointer Table from 644A to 645D (10 entries, indexed by _RAM_CF83_)
 _DATA_644A_:
-.dw _RAM_D800_ _RAM_D801_ _RAM_D802_ _RAM_D803_ _RAM_D804_ _RAM_D805_ _RAM_D806_ _RAM_D807_
-.dw _RAM_D800_ _RAM_D807_
+.dw _RAM_D800_
+.dw _RAM_D801_
+.dw _RAM_D802_
+.dw _RAM_D803_
+.dw _RAM_D804_
+.dw _RAM_D805_
+.dw _RAM_D806_
+.dw _RAM_D807_
+.dw _RAM_D800_
+.dw _RAM_D807_
 
 updateScrollFlags:
     ld hl, (scrollFlagsUpdaterPointer)
     jp (hl)
 
-; 1st entry of Jump Table from D0A (indexed by v_level)
-scrollFlagsUpdater_LABEL_6462_:
-    ld a, (v_scrollFlags)
-    or a
-    ret z
-
-    bit SCROLL_VERTICAL_BIT, a
-    ret z
-
-    and SCROLL_UP | SCROLL_DOWN
-    ret nz
-
-    di
-    ld de, $8000 | VDP_R0_MASK_COL_0 | VDP_R0_CHANGE_HEIGHT_IN_MODE_4 | VDP_R0_USE_MODE_4
-    ld a, e
-    ld (v_VDPRegister0Value), a
-    rst setVdpAddress
-    ei
-
-    ld a, SCROLL_RIGHT
-    ld (v_scrollFlags), a
-    ret
-
-; 11th entry of Jump Table from D0A (indexed by v_level)
-scrollFlagsUpdater_LABEL_647D_:
-    ld a, (v_scrollFlags)
-    ; Unary XOR is the same as NOT
-    and $FF ~ SCROLL_VERTICAL
-    ret z
-    ld b, a
-    and $03
-    ld hl, (_RAM_C0C2_)
-    ld de, (_RAM_C0BB_)
-    jr nz, ++
-    ld a, (v_shouldBlankLeftmostColumn)
-    or a
-    jr nz, +
-    ld a, $01
-    ld (v_shouldBlankLeftmostColumn), a
-    di
-    ld de, $8026
-    ld a, e
-    ld (v_VDPRegister0Value), a
-    rst setVdpAddress
-    ei
-+:
-    ld hl, (v_horizontalScroll)
-    ld de, (_RAM_C0AD_)
-++:
-    ld a, (v_specialLevelScrollFlags)
-    or a
-    jp nz, _LABEL_6502_
-    ld a, (v_currentScreenNumber)
-    bit 7, a
-    jr z, _LABEL_6502_
-    ld a, $01
-    ld (v_specialLevelScrollFlags), a
-    ld a, b
-    bit 0, a
-    ld a, (v_verticalScreenNumber)
-    jr z, +
-    inc a
-+:
-    push af
-    exx
-    ld b, a
-    ld c, $00
-    ld hl, _RAM_D900_
-    add hl, bc
-    pop af
-    ld b, a
-    ld a, (v_currentScreenNumber)
-    and $7F
-    sub b
-    rlca
-    rlca
-    rlca
-    rlca
-    rlca
-    ld b, $00
-    ld c, a
-    add hl, bc
-    ld (_RAM_C078_), hl
-    ld a, (hl)
-    or a
-    jr z, ++
-    ld b, a
-    inc hl
--:
-    ld a, (hl)
-    or a
-    jr z, +
-    inc hl
-    push hl
-    ld a, (hl)
-    ld e, a
-    ld d, $00
-    ld hl, _RAM_D700_
-    add hl, de
-    ld a, $00
-    ld (hl), a
-    pop hl
-    dec hl
-+:
-    inc hl
-    inc hl
-    djnz -
-++:
-    exx
-_LABEL_6502_:
-    ld a, h
-    or l
-    ret nz
-    ex de, hl
-    ld a, h
-    or l
-    ret nz
-    ld a, (v_scrollFlags)
-    bit SCROLL_DOWN_BIT, a
-    jr z, +
-    ld hl, v_currentScreenNumber
-    dec (hl)
-    res 7, (hl)
-+:
-    and $80
-    ld (v_scrollFlags), a
-    xor a
-    ld (v_shouldBlankLeftmostColumn), a
-    ld (v_shouldAlexStartWalkingtoNextScreen), a
-    ld (v_specialLevelScrollFlags), a
-    ld hl, $0000
-    ld (v_horizontalScrollSpeed), hl
-    ld (v_verticalScrollSpeed), hl
-    di
-    ld de, $8006
-    ld a, e
-    ld (v_VDPRegister0Value), a
-    rst setVdpAddress
-    ei
-    ret
-
-; 5th entry of Jump Table from D0A (indexed by v_level)
-scrollFlagsUpdater_LABEL_6539_:
-    ld a, (v_scrollFlags)
-    or a
-    ret z
-    bit SCROLL_VERTICAL_BIT, a
-    jr nz, +
-    and SCROLL_UP | SCROLL_DOWN
-    ret z
-    ld a, (v_scrollFlags)
-    res SCROLL_RIGHT_BIT, a
-    set SCROLL_VERTICAL_BIT, a
-    ld (v_scrollFlags), a
-    ret
-
-+:
-    and SCROLL_UP | SCROLL_DOWN
-    ret nz
-    ld a, $01
-    ld (v_verticalScreenNumber), a
-    ld hl, $0000
-    ld (_RAM_C0B4_), hl
-    ld (_RAM_C0B3_), hl
-    ld (_RAM_C0B7_), hl
-    ld a, (v_horizontalScreenNumber)
-    cp $03
-    jr nc, +
-    ld a, SCROLL_RIGHT
-    ld (v_scrollFlags), a
-    ld a, $03
-    ld (v_levelWidth), a
-    ret
-
-+:
-    xor a
-    ld (v_scrollFlags), a
-    ret
-
-; 3rd entry of Jump Table from D0A (indexed by v_level)
-scrollFlagsUpdater_LABEL_657B_:
-    ld a, (v_scrollFlags)
-    or a
-    ret z
-    bit SCROLL_VERTICAL_BIT, a
-    jr nz, +
-    and SCROLL_UP | SCROLL_DOWN
-    ret z
-    ld a, (v_scrollFlags)
-    res SCROLL_RIGHT_BIT, a
-    set SCROLL_VERTICAL_BIT, a
-    ld (v_scrollFlags), a
-    ret
-
-+:
-    and $03
-    ret nz
-    ld hl, $0000
-    ld (_RAM_C0B4_), hl
-    ld (_RAM_C0B3_), hl
-    ld (_RAM_C0B7_), hl
-    ld a, $01
-    ld (v_verticalScreenNumber), a
-    ld a, $01
-    ld (v_levelWidth), a
-    ld a, SCROLL_RIGHT
-    ld (v_scrollFlags), a
-    ret
-
-loadLevel:
-    ; Get level descriptor pointer
-    ld a, (v_level)
-    ld hl, LevelDescriptorPointerTable - 2
-    rst loadAthPointer
-
-    ; Load level bank number
-    ld a, (hl)
-    ld (Mapper_Slot2), a
-    ld (v_levelBankNumber), a
-
-    ; Load level layout pointer
-    inc hl
-    ld e, (hl)
-    inc hl
-    ld d, (hl)
-    ld (v_levelLayoutPointer), de
-
-    ; Load Second level layout pointer
-    ; @TODO: Analyze the second layout pointer 
-    inc hl
-    ld e, (hl)
-    inc hl
-    ld d, (hl)
-    ld (v_SecondLevelLayoutPointer), de
-
-    ; Load initial screen numbers
-    inc hl
-    ld a, (hl)
-    ld (v_horizontalScreenNumber), a
-    inc hl
-    ld a, (hl)
-    ld (v_verticalScreenNumber), a
-
-    ; Load level width and height
-    inc hl
-    ld a, (hl)
-    ld (v_levelWidth), a
-    inc hl
-    ld a, (hl)
-    ld (v_levelHeight), a
-
-    ; Load level scroll flags
-    inc hl
-    ld a, (hl)
-    ld (v_levelScrollFlags), a
-
-    ; Load metatile nametable pointer
-    inc hl
-    ld e, (hl)
-    inc hl
-    ld d, (hl)
-    ld (v_metatileNametablePointer), de
-
-    ; @TODO
-    ld hl, $7800
-    ld (_RAM_C0B7_), hl
-    ld (_RAM_C0C5_), hl
-
-    ; @TODO...
-    ; Draw first screen
-@firstScreenLoop:
-    ld hl, $0100
-    ld (v_horizontalScrollSpeed), hl
-    call updateScroll_LABEL_67C4_
-    call updateNametable_LABEL_6B49_
-    call draw_LABEL_6920_
-    ld hl, (v_horizontalScroll)
-    ld a, h
-    or l
-    jr nz, @firstScreenLoop
-
-    ld a, (v_verticalScreenNumber)
-    ld (v_currentScreenNumber), a
-
-    ld hl, $0000
-    ld (v_horizontalScrollSpeed), hl
-
-    ld a, (v_level)
-    cp $01
-    jr nz, @notFirstLevel
-
-; @TODO: Use meaningful label names
-@verticalLevel:
-    xor a
-    ld (v_verticalScreenNumber), a
-    ld a, $81
-    ld (v_currentScreenNumber), a
-
-    ; Draw next row
-    ld a, $10
-    ld (v_columnsToLoadToNametable), a
-    call _LABEL_6A73_
-    call updateNametable_LABEL_6B49_
-    call draw_LABEL_6920_
-
-    ; Show first column
-    ld de, $8000 | VDP_R0_CHANGE_HEIGHT_IN_MODE_4 | VDP_R0_USE_MODE_4
-    ld a, e
-    ld (v_VDPRegister0Value), a
-    rst setVdpAddress
-
-    ld a, (v_levelScrollFlags)
-    ld (v_scrollFlags), a
-    ret
-
-@notFirstLevel:
-    cp $11
-    jp z, @verticalLevel
-
-    cp $0D
-    jr z, @reverseLevel
-
-    ld a, (v_levelScrollFlags)
-    ld (v_scrollFlags), a
-
-    ; Make alex start walking if scroll bit 7 is set
-    rlca
-    ret nc
-    ld a, $01
-    ld (v_shouldAlexStartWalkingtoNextScreen), a
-    ld a, (v_levelHeight)
-    ld (v_entityIndex), a
-    ret
-
-@reverseLevel:
-    ld a, $07
-    ld (v_currentScreenNumber), a
-
-    ld a, (v_levelScrollFlags)
-    ld (v_scrollFlags), a
-
-    ret
+.INCLUDE "scrollFlagsUpdaters.asm"
+.INCLUDE "engine/loadLevel.asm"
 
 _LABEL_6671_:
     ld a, $01
@@ -4111,16 +3802,18 @@ horizontalScrollBit7_LABEL_68A7_:
 draw_LABEL_6920_:
     ld a, (v_UpdateNameTableFlags)
     rrca
-    jp nc, _LABEL_6968_
+    jp nc, bit1_LABEL_6968_
+
     ld a, (_RAM_C0B0_)
     ld b, a
     ld a, (_RAM_C0AC_)
     bit 7, a
-    jp nz, +
-    ld a, b
-    sub $08
-    ld b, a
-+:
+    jp nz, @endif
+        ld a, b
+        sub $08
+        ld b, a
+    @endif:
+
     ld a, b
     cpl
     rrca
@@ -4132,29 +3825,35 @@ draw_LABEL_6920_:
     add hl, bc
     ex de, hl
     ld hl, _RAM_CF00_
+
+    ; TODO: If halved, only the upper tiles of each metatile is draw.
     ld bc, $0040
+
+    ; TODO: If halved, only the upper half of the screen is draw.
     ld a, $18
--:
-    ex af, af'
-    call setVdpAddress
-    ld a, (hl)
-    out (Port_VDPData), a
-    inc hl
-    ld a, (hl)
-    inc hl
-    out (Port_VDPData), a
-    ex de, hl
-    add hl, bc
-    ld a, h
-    cp $7F
-    jp nz, +
-    ld h, $78
-+:
-    ex de, hl
-    ex af, af'
-    dec a
+
+    -:
+        ex af, af'
+        call setVdpAddress
+        ld a, (hl)
+        out (Port_VDPData), a
+        inc hl
+        ld a, (hl)
+        inc hl
+        out (Port_VDPData), a
+        ex de, hl
+        add hl, bc
+        ld a, h
+        cp $7F
+        jp nz, @endif2
+            ld h, $78
+        @endif2:
+        ex de, hl
+        ex af, af'
+        dec a
     jr nz, -
-_LABEL_6968_:
+
+bit1_LABEL_6968_:
     ld a, (v_UpdateNameTableFlags)
     rrca
     rrca
@@ -4586,7 +4285,7 @@ loadEntitiesNormal_LABEL_6F48_:
     ret z
     res 7, (hl)
     ld a, (hl)
-    ld hl, (v_entitydataPointersPointer)
+    ld hl, (v_entityDescriptorsPointer)
     rst loadAthPointer
     xor a
     ld (v_newEntityVerticalOffset), a
@@ -4724,7 +4423,7 @@ loadOctopusArms:
     ld e, (hl)
     inc hl
     ld d, (hl)
-    ld (v_shopDoorNametableAddressPointer), de
+    ld (v_shopDoorNametablePointer), de
     inc hl
     ld ix, v_entities.7
     ld de, $0020
@@ -4782,7 +4481,7 @@ loadEntitiesSpecial_LABEL_6F48_:
     ld hl, v_entityIndex
     inc (hl)
     ld a, (hl)
-    ld hl, (v_entitydataPointersPointer)
+    ld hl, (v_entityDescriptorsPointer)
     rst loadAthPointer
     jp _LABEL_6F7E_
 
@@ -4797,7 +4496,7 @@ loadEntitiesSpecial_LABEL_6F48_:
     ld a, (v_entityIndex)
     add a, b
     ld (v_entityIndex), a
-    ld hl, (v_entitydataPointersPointer)
+    ld hl, (v_entityDescriptorsPointer)
     rst loadAthPointer
     jp _LABEL_6F7E_
 
@@ -4811,7 +4510,7 @@ loadEntitiesSpecial_LABEL_6F48_:
     ld a, c
     sub b
     ld (v_entityIndex), a
-    ld hl, (v_entitydataPointersPointer)
+    ld hl, (v_entityDescriptorsPointer)
     rst loadAthPointer
     jp _LABEL_6F7E_
 
@@ -4819,7 +4518,7 @@ _LABEL_70F6_:
     ld hl, v_entityIndex
     dec (hl)
     ld a, (hl)
-    ld hl, (v_entitydataPointersPointer)
+    ld hl, (v_entityDescriptorsPointer)
     rst loadAthPointer
     jp _LABEL_6F7E_
 

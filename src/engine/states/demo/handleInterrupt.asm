@@ -2,36 +2,35 @@ handleInterruptDemoState:
     ld a, $85
     ld (Mapper_Slot2), a
 
-    ; Return if to menu on button press.
+    ; Return to menu on button press.
     ld a, (v_inputData)
     and JOY_FIREA | JOY_FIREB
-    jr z, +
+    jr z, @endif
+        ld a, STATE_TITLE_FROM_DEMO
+        ld (v_gameState), a
+        ld hl, v_inputFlags
+        res 5, (hl)
+        ret
+    @endif:
 
-    
-    ld a, STATE_TITLE_FROM_DEMO
-    ld (v_gameState), a
-    ld hl, v_inputFlags
-    res 5, (hl)
-    ret
-
-+:
+    ; Jump to @tickData if current data timer isn't up yet.
     ld bc, (v_demoCurrentInputData)
     djnz @tickData
 
+    ; Load next input command. If it's 0, then the demo is over
+    ; and we return after changing the game state to STATE_TITLE.
     ld hl, (v_demoInputDataPointer)
     inc hl
     ld a, (hl)
     or a
-    jr nz, +
+    jr nz, @endif2
+        ld a, STATE_TITLE
+        ld (v_gameState), a
+        ld hl, v_inputFlags
+        res 5, (hl)
+        ret
+    @endif2:
 
-    ; Return to title on data end.
-    ld a, STATE_TITLE
-    ld (v_gameState), a
-    ld hl, v_inputFlags
-    res 5, (hl)
-    ret
-
-+:
     ; Load duration byte.
     ld b, a
 
@@ -40,9 +39,10 @@ handleInterruptDemoState:
     ld a, c
     ld c, (hl)
 
+    ; Save both bytes in memory.
     ld (v_demoInputDataPointer), hl
 
-    ; Update input changes.
+    ; XOR new input data with old one to get input changes.
     xor c
     and c
     ld (v_inputDataChanges), a

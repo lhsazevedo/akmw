@@ -106,9 +106,9 @@ _LABEL_1C33_:
     call copyBytesToVRAM
 +:
     ld a, (v_horizontalPositionShopHasBeenEnteredFrom)
-    ld (v_shopEntranceHorizontalPosition), a
+    ld (v_shopDoorOffset), a
     ld hl, (v_shopEntranceEnteredFromDoorNametablePointer)
-    ld (v_shopDoorNametableAddressPointer), hl
+    ld (v_shopDoorNametablePointer), hl
     xor a
     ld (v_textBoxMessageIndex), a
     ld (v_shopFlags), a
@@ -217,14 +217,14 @@ _LABEL_1D04_:
     call copyBytesToVRAM
     ld a, $01
     ld (v_shopFlags), a
-    ld a, (v_shopEntranceHorizontalPosition)
+    ld a, (v_shopDoorOffset)
     ld (v_horizontalPositionShopHasBeenEnteredFrom), a
     ld a, $28
-    ld (v_shopEntranceHorizontalPosition), a
-    ld hl, (v_shopDoorNametableAddressPointer)
+    ld (v_shopDoorOffset), a
+    ld hl, (v_shopDoorNametablePointer)
     ld (v_shopEntranceEnteredFromDoorNametablePointer), hl
     ld hl, _RAM_CC06_
-    ld (v_shopDoorNametableAddressPointer), hl
+    ld (v_shopDoorNametablePointer), hl
     ld a, $16
     ld (v_textBoxMessageIndex), a
     ld b, $03

@@ -1,3 +1,5 @@
-; Pointer Table from A80 to A87 (4 entries, indexed by v_nextDemoIndex)
 demoInputPointers:
-.dw demo1Input demo2Input demo3Input demo4Input
+.dw demo1Input
+.dw demo2Input
+.dw demo3Input
+.dw demo4Input
