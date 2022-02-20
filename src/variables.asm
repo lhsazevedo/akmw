@@ -102,8 +102,8 @@ v_nuraiOrOldManEntityAnimationDescriptorTemporaryPointer dw
 _RAM_C074_ dw
 v_shouldShowNuraiOrOldMan db
 v_specialLevelScrollFlags db
-_RAM_C078_ dw
-_RAM_C07A_ dw
+targetBase_RAM_C07A_ dw
+targetBlock_RAM_C07A_ dw
 v_questionMarkBoxIndex db
 v_textBoxCounter db
 v_textBoxFlags db
@@ -448,7 +448,7 @@ _RAM_D506_ db
 .ende
 
 .enum $D700 export
-_RAM_D700_ db
+v_decompressedLevelLayoutData db
 .ende
 
 .enum $D7D0 export

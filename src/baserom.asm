@@ -2421,7 +2421,7 @@ _LABEL_424B_:
     jr nc, +
     sub $20
 +:
-    ld hl, (_RAM_C078_)
+    ld hl, (targetBase_RAM_C07A_)
     ld b, (hl)
     inc b
     dec b
@@ -3691,12 +3691,12 @@ _LABEL_6841_:
     inc hl
     ld h, (hl)
     ld l, a
-    ld de, _RAM_D700_
+    ld de, v_decompressedLevelLayoutData
     call _LABEL_6BEF_
 _LABEL_6865_:
     ld a, $01
     ld (v_UpdateNameTableFlags), a
-    ld hl, _RAM_D700_
+    ld hl, v_decompressedLevelLayoutData
     ld a, (_RAM_C0B5_)
     ld c, a
     ld b, $00
@@ -4015,7 +4015,7 @@ _LABEL_6A73_:
 _LABEL_6A76_:
     ld a, $02
     ld (v_UpdateNameTableFlags), a
-    ld hl, _RAM_D700_
+    ld hl, v_decompressedLevelLayoutData
     ld a, (_RAM_C0C3_)
     or a
     jp z, +
@@ -4130,7 +4130,7 @@ _LABEL_6B21_:
     inc hl
     ld h, (hl)
     ld l, a
-    ld de, _RAM_D700_
+    ld de, v_decompressedLevelLayoutData
     jp _LABEL_6BEF_
 
 updateNametable_LABEL_6B49_:
@@ -5019,9 +5019,30 @@ doNotKillAlex:
 
 ; Data from 97DD to 97FF (35 bytes)
 _DATA_97DD_:
-.db $00 $04 $58 $59 $5B $5C $00 $04 $56 $66 $5B $6B $00 $00 $02 $69
-.db $6A $00 $01 $21 $03 $86 $96 $78
-.dsb 10, $00
+.db $00
+.db $04 $58 $59 $5B $5C
+.db $00
+.db $04 $56 $66 $5B $6B
+.db $00
+
+.db $00
+.db $02 $69 $6A
+.db $00
+.db $01 $21
+.db $03 $86 $96 $78
+
+.db $00
+.db $00
+.db $00
+.db $00
+.db $00
+
+.db $00
+.db $00
+.db $00
+.db $00
+.db $00
+
 .db $FF
 
 ; Data from 9800 to 984E (79 bytes)
@@ -5033,6 +5054,7 @@ _DATA_9800_:
 .db $00
 .db $00
 .db $01 $6E
+
 .db $00
 .db $02 $9D $9E
 .db $00
@@ -5040,6 +5062,7 @@ _DATA_9800_:
 .db $00
 .db $00
 .db $00
+
 .db $00
 .db $03 $42 $8B $A4
 .db $01 $A1
@@ -5047,6 +5070,7 @@ _DATA_9800_:
 .db $02 $AB $84
 .db $00
 .db $00
+
 .db $00
 .db $00
 .db $01 $32
@@ -5054,6 +5078,7 @@ _DATA_9800_:
 .db $01 $53
 .db $00
 .db $00
+
 .db $00
 .db $02 $71 $91
 .db $00
@@ -5061,6 +5086,7 @@ _DATA_9800_:
 .db $00
 .db $02 $64 $74
 .db $00
+
 .db $00
 .db $01 $26
 .db $01 $6E

@@ -31,22 +31,22 @@ scrollFlagsUpdater_LABEL_647D_:
     and $03
     ld hl, (_RAM_C0C2_)
     ld de, (_RAM_C0BB_)
-    jr nz, ++
-    ld a, (v_shouldBlankLeftmostColumn)
-    or a
-    jr nz, +
-    ld a, $01
-    ld (v_shouldBlankLeftmostColumn), a
-    di
-    ld de, $8026
-    ld a, e
-    ld (v_VDPRegister0Value), a
-    rst setVdpAddress
-    ei
-+:
-    ld hl, (v_horizontalScroll)
-    ld de, (_RAM_C0AD_)
-++:
+    jr nz, @endif
+        ld a, (v_shouldBlankLeftmostColumn)
+        or a
+        jr nz, @endif2
+            ld a, $01
+            ld (v_shouldBlankLeftmostColumn), a
+            di
+            ld de, $8026
+            ld a, e
+            ld (v_VDPRegister0Value), a
+            rst setVdpAddress
+            ei
+        @endif2:
+        ld hl, (v_horizontalScroll)
+        ld de, (_RAM_C0AD_)
+    @endif:
     ld a, (v_specialLevelScrollFlags)
     or a
     jp nz, _LABEL_6502_
@@ -58,9 +58,9 @@ scrollFlagsUpdater_LABEL_647D_:
     ld a, b
     bit 0, a
     ld a, (v_verticalScreenNumber)
-    jr z, +
-    inc a
-+:
+    jr z, @endif3
+        inc a
+    @endif3:
     push af
     exx
     ld b, a
@@ -69,6 +69,9 @@ scrollFlagsUpdater_LABEL_647D_:
     add hl, bc
     pop af
     ld b, a
+
+    ; horizontalScreen = (currentScreen & $7F) - verticalScreen
+    ; Addr = verticalScreen * $100 + horizontalScreen * 32
     ld a, (v_currentScreenNumber)
     and $7F
     sub b
@@ -80,33 +83,34 @@ scrollFlagsUpdater_LABEL_647D_:
     ld b, $00
     ld c, a
     add hl, bc
-    ld (_RAM_C078_), hl
+    ld (targetBase_RAM_C07A_), hl
     ld a, (hl)
     or a
-    jr z, ++
-    ld b, a
-    inc hl
--:
-    ld a, (hl)
-    or a
-    jr z, +
-    inc hl
-    push hl
-    ld a, (hl)
-    ld e, a
-    ld d, $00
-    ld hl, _RAM_D700_
-    add hl, de
-    ld a, $00
-    ld (hl), a
-    pop hl
-    dec hl
-+:
-    inc hl
-    inc hl
-    djnz -
-++:
+    jr z, @endif4
+        ld b, a
+        inc hl
+        -:
+            ld a, (hl)
+            or a
+            jr z, @endif5
+                inc hl
+                push hl
+                ld a, (hl)
+                ld e, a
+                ld d, $00
+                ld hl, v_decompressedLevelLayoutData
+                add hl, de
+                ld a, $00
+                ld (hl), a
+                pop hl
+                dec hl
+            @endif5:
+            inc hl
+            inc hl
+        djnz -
+    @endif4:
     exx
+
 _LABEL_6502_:
     ld a, h
     or l
@@ -115,13 +119,15 @@ _LABEL_6502_:
     ld a, h
     or l
     ret nz
+
     ld a, (v_scrollFlags)
     bit SCROLL_DOWN_BIT, a
-    jr z, +
-    ld hl, v_currentScreenNumber
-    dec (hl)
-    res 7, (hl)
-+:
+    jr z, @endif
+        ld hl, v_currentScreenNumber
+        dec (hl)
+        res 7, (hl)
+    @endif:
+
     and $80
     ld (v_scrollFlags), a
     xor a
@@ -193,7 +199,7 @@ scrollFlagsUpdater_LABEL_657B_:
     ret
 
 +:
-    and $03
+    and SCROLL_UP | SCROLL_DOWN
     ret nz
     ld hl, $0000
     ld (_RAM_C0B4_), hl

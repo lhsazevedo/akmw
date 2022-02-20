@@ -145,19 +145,34 @@ initGameplayState:
     ld a, $01
     ld (_RAM_C08E_), a
 
-    ; TODO: Maybe related to scroll flags? Or nametable changes?
+    ; Copy persistent metatile deletes variables to RAM.
+    ; 
+    ; y/x    0    1    2    3    4    5    6    7
+    ; 0   d900 d920 d940 d960 d980 d9a0 d9c0 d9e0
+    ; 1   da00 da20 d940 d960 d980 d9a0 d9c0 d9e0
+    ; 2   db00 db20 db40 db60 db80 dba0 dbc0 dbe0
+    ; 3   dc00 dc20 dc40 dc60 dc80 dca0 dcc0 dce0
+    ; 4   dd00 dd20 dd40 dd60 dd80 dda0 ddc0 dde0
+    ; 5   de00 de20 de40 de60 de80 dea0 dec0 dee0
+
+    ; TODO: Name variables and data.
     ld hl, _DATA_97DD_
     ld b, $05
     ld de, _RAM_D900_
+
     ---:
-        ld (_RAM_C078_), de
-        ld (_RAM_C07A_), de
+        ld (targetBase_RAM_C07A_), de
+        ld (targetBlock_RAM_C07A_), de
+    
         --:
             push bc
             ld a, (hl)
             or a
             inc hl
-            jp z, +
+
+            ; If length is not zero
+            jp z, @endif3
+                ; Increment length to account for length byte.
                 inc a
                 dec hl
                 -:
@@ -165,24 +180,25 @@ initGameplayState:
                     inc de
                     dec a
                 jp nz, -
-            +:
+            @endif3:
 
             ex de, hl
-            ld hl, (_RAM_C07A_)
+            ld hl, (targetBlock_RAM_C07A_)
             ld bc, $0020
             add hl, bc
-            ld (_RAM_C07A_), hl
+            ld (targetBlock_RAM_C07A_), hl
             ex de, hl
             pop bc
         djnz --
+    
         ld a, (hl)
         cp $FF
         jp z, initGameplayStateSecondary
         ex de, hl
-        ld hl, (_RAM_C078_)
+        ld hl, (targetBase_RAM_C07A_)
         ld bc, $0100
         add hl, bc
-        ld (_RAM_C078_), hl
+        ld (targetBase_RAM_C07A_), hl
         ex de, hl
         ld b, $05
     jp ---
@@ -196,15 +212,18 @@ _LABEL_BF3_:
     ld hl, _DATA_9800_
     ld b, $07
     ld de, _RAM_D900_
+
     ---:
-        ld (_RAM_C078_), de
-        ld (_RAM_C07A_), de
+        ld (targetBase_RAM_C07A_), de
+        ld (targetBlock_RAM_C07A_), de
+
         --:
             push bc
             ld a, (hl)
             or a
             inc hl
-            jp z, +
+
+            jp z, @endif
                 inc a
                 dec hl
                 -:
@@ -212,23 +231,25 @@ _LABEL_BF3_:
                     inc de
                     dec a
                 jp nz, -
-            +:
+            @endif:
+
             ex de, hl
-            ld hl, (_RAM_C07A_)
+            ld hl, (targetBlock_RAM_C07A_)
             ld bc, $0020
             add hl, bc
-            ld (_RAM_C07A_), hl
+            ld (targetBlock_RAM_C07A_), hl
             ex de, hl
             pop bc
         djnz --
+
         ld a, (hl)
         cp $FF
         jp z, initGameplayStateSecondary
         ex de, hl
-        ld hl, (_RAM_C078_)
+        ld hl, (targetBase_RAM_C07A_)
         ld bc, $0100
         add hl, bc
-        ld (_RAM_C078_), hl
+        ld (targetBase_RAM_C07A_), hl
         ex de, hl
         ld b, $07
     jp ---
