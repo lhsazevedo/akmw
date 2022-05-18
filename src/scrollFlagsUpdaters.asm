@@ -65,7 +65,7 @@ scrollFlagsUpdater_LABEL_647D_:
     exx
     ld b, a
     ld c, $00
-    ld hl, _RAM_D900_
+    ld hl, v_metatileDeletesTable
     add hl, bc
     pop af
     ld b, a

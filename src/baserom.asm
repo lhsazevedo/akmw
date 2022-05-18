@@ -4275,7 +4275,7 @@ handleInterruptLifeLostState:
 .INCLUDE "engine/states/lifeLost/updateAdditional.asm"
 
 loadNewEntities:
-    ld hl, (newEntitiesLoaderPointer)
+    ld hl, (v_entityLoaderPointer)
     jp (hl)
 
 ; 1st entry of Jump Table from D4E (indexed by v_level)
@@ -5018,7 +5018,7 @@ doNotKillAlex:
 .INCLUDE "data/spriteDescriptors.asm"
 
 ; Data from 97DD to 97FF (35 bytes)
-_DATA_97DD_:
+radactianCastleMetatileDeletes:
 .db $00
 .db $04 $58 $59 $5B $5C
 .db $00
@@ -5046,7 +5046,7 @@ _DATA_97DD_:
 .db $FF
 
 ; Data from 9800 to 984E (79 bytes)
-_DATA_9800_:
+craggLakeMetatileDeletes:
 .db $00
 .db $00
 .db $00

@@ -125,9 +125,9 @@ initGameplayState:
     ld (v_hasBattleStarted), a
 
     ; Clear $600 bytes (1.5KB) starting from $D900
-    ld hl, _RAM_D900_
+    ld hl, v_metatileDeletesTable
     ld (hl), $00
-    ld de, _RAM_D900_ + 1
+    ld de, v_metatileDeletesTable + 1
     ld bc, $05FF
     ldir
 
@@ -156,9 +156,9 @@ initGameplayState:
     ; 5   de00 de20 de40 de60 de80 dea0 dec0 dee0
 
     ; TODO: Name variables and data.
-    ld hl, _DATA_97DD_
+    ld hl, radactianCastleMetatileDeletes
     ld b, $05
-    ld de, _RAM_D900_
+    ld de, v_metatileDeletesTable
 
     ---:
         ld (targetBase_RAM_C07A_), de
@@ -205,13 +205,16 @@ initGameplayState:
 
 ; @TODO
 _LABEL_BF3_:
+    ; Jump to initGameplayStateSecondary if level is not $10 (16, CraggLake)
     cp $10
     jp nz, initGameplayStateSecondary
+
+    ; If we reach here, level is CraggLake
     ld a, $01
     ld (_RAM_C08E_), a
-    ld hl, _DATA_9800_
+    ld hl, craggLakeMetatileDeletes
     ld b, $07
-    ld de, _RAM_D900_
+    ld de, v_metatileDeletesTable
 
     ---:
         ld (targetBase_RAM_C07A_), de
@@ -223,7 +226,9 @@ _LABEL_BF3_:
             or a
             inc hl
 
+            ; If length is not zero
             jp z, @endif
+                ; Increment length to account for length byte.
                 inc a
                 dec hl
                 -:
@@ -255,10 +260,11 @@ _LABEL_BF3_:
     jp ---
 
 initGameplayStateSecondary:
+    ; Spawn Alex
     ld ix, v_alex
     ld (ix + Entity.type), ENTITY_ALEX
 
-    ; Load starting position
+    ; Set Alex starting position
     ld a, (v_level)
     add a, a
     ld c, a
@@ -308,7 +314,7 @@ initGameplayStateSecondary:
     ld a, (v_level)
     ld hl, entityLoadersPointers - 2
     call loadAthPointer
-    ld (newEntitiesLoaderPointer), hl
+    ld (v_entityLoaderPointer), hl
 
     ; Load Question Mark Box index
     ; @TODO: Understand v_questionMarkBoxIndex better

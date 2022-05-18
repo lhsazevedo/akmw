@@ -115,7 +115,7 @@ v_levelBankNumber db
 .enum $C085 export
 scrollFlagsUpdaterPointer dw
 v_metatileNametablePointer dw
-newEntitiesLoaderPointer dw
+v_entityLoaderPointer dw
 .ende
 
 .enum $C08D export
@@ -476,7 +476,7 @@ v_unknownEntityByteCount_RAM_D8A0_ db
 .ende
 
 .enum $D900 export
-_RAM_D900_ dsb $600
+v_metatileDeletesTable dsb $600
 .ende
 
 .org $DFFF
