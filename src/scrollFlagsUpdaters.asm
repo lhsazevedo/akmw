@@ -45,7 +45,7 @@ scrollFlagsUpdater_LABEL_647D_:
             ei
         @endif2:
         ld hl, (v_horizontalScroll)
-        ld de, (_RAM_C0AD_)
+        ld de, (v_horizontalScrollAccumulator)
     @endif:
     ld a, (v_specialLevelScrollFlags)
     or a

@@ -3605,32 +3605,36 @@ _LABEL_6671_:
 .INCLUDE "data/levels/descriptors.asm"
 
 updateScroll_LABEL_67C4_:
+    ; Check if we should scroll horizontally,
+    ; otherwise skip to vertical scroll.
     ld de, (v_horizontalScrollSpeed)
     ld a, d
     or e
     jp z, updateVerticalScroll_LABEL_69CB_
 
-
     ld a, $0C
     ld (v_linesToLoadToNametable), a
 
-    ld bc, (_RAM_C0AD_)
+    ld bc, (v_horizontalScrollAccumulator)
 
+    ; Add horizontal scroll velocity to horizontal scroll
     ld hl, (v_horizontalScroll)
     add hl, de
     ld (v_horizontalScroll), hl
 
+    ; Check if is moving right (velocity is negative)
     ex de, hl
     bit 7, h
-    jp nz, horizontalScrollBit7_LABEL_68A7_
+    jp nz, negativeHorizontalVelocity_LABEL_68A7_
 
     add hl, bc
     ld a, h
     cp $08
-    ld (_RAM_C0AD_), hl
+    ld (v_horizontalScrollAccumulator), hl
     ret c
+
     and $07
-    ld (_RAM_C0AE_), a
+    ld (v_horizontalScrollAccumulator.high), a
     ld a, (_RAM_C0B7_)
     sub $02
     jp nc, +
@@ -3733,80 +3737,90 @@ _LABEL_6865_:
     add hl, bc
     jp -
 
-horizontalScrollBit7_LABEL_68A7_:
+negativeHorizontalVelocity_LABEL_68A7_:
     add hl, bc
-    ld (_RAM_C0AD_), hl
+    ld (v_horizontalScrollAccumulator), hl
     ret c
+
     ld a, (v_scrollFlags)
     bit SCROLL_RIGHT_BIT, a
     jp nz, +
-    ld hl, $0000
-    ld (v_horizontalScrollSpeed), hl
-    ret
+        ld hl, $0000
+        ld (v_horizontalScrollSpeed), hl
+        ret
+    +:
 
-+:
     ld a, h
     and $07
-    ld (_RAM_C0AE_), a
+    ld (v_horizontalScrollAccumulator.high), a
+
     ld a, (_RAM_C0B7_)
     or a
     jp nz, +
-    ld hl, v_currentScreenNumber
-    inc (hl)
-    set 7, (hl)
-    ld hl, v_horizontalScreenNumber
-    ld a, (hl)
-    inc a
-    call _LABEL_6841_
-    jp ++
+        ld hl, v_currentScreenNumber
+        inc (hl)
+        set 7, (hl)
+        ld hl, v_horizontalScreenNumber
+        ld a, (hl)
+        inc a
+        call _LABEL_6841_
+        jp ++
+    +:
+        call _LABEL_6865_
+    ++:
 
-+:
-    call _LABEL_6865_
-++:
     ld a, (_RAM_C0B7_)
     add a, $02
     cp $40
     jp c, +
-    xor a
-+:
+        xor a
+    +:
     ld (_RAM_C0B7_), a
+
     ld hl, (_RAM_C0B4_)
     ld bc, $0080
     add hl, bc
     ld a, h
     cp $10
     jp c, +
-    ld hl, $0000
-+:
+        ld hl, $0000
+    +:
     ex af, af'
     ld (_RAM_C0B4_), hl
+
     ld a, (_RAM_C0B3_)
     inc a
     and $01
     ld (_RAM_C0B3_), a
+
     ld hl, v_horizontalScreenNumber
     ld bc, (v_levelWidth)
     ex af, af'
     ret c
+
     inc (hl)
     ld a, (hl)
     cp c
     ret c
+
     ld hl, v_scrollFlags
     res SCROLL_RIGHT_BIT, (hl)
+
     ld hl, v_currentScreenNumber
     dec (hl)
     res 7, (hl)
+
     ret
 
-draw_LABEL_6920_:
+draw:
+    ; TODO
     ld a, (v_UpdateNameTableFlags)
     rrca
-    jp nc, bit1_LABEL_6968_
+    jp nc, @bit1_LABEL_6968_
 
     ld a, (_RAM_C0B0_)
     ld b, a
-    ld a, (_RAM_C0AC_)
+    ld a, (v_horizontalScrollSpeed.high)
     bit 7, a
     jp nz, @endif
         ld a, b
@@ -3853,7 +3867,7 @@ draw_LABEL_6920_:
         dec a
     jr nz, -
 
-bit1_LABEL_6968_:
+@bit1_LABEL_6968_:
     ld a, (v_UpdateNameTableFlags)
     rrca
     rrca
@@ -3898,6 +3912,7 @@ bit1_LABEL_6968_:
     and $C0
     ld e, a
     call copyBytesToVRAM
+
 _LABEL_69B5_:
     xor a
     ld (v_UpdateNameTableFlags), a
@@ -4141,7 +4156,7 @@ updateNametable_LABEL_6B49_:
     jp nc, _LABEL_6B9C_
     ld a, (_RAM_C0B0_)
     ld b, a
-    ld a, (_RAM_C0AC_)
+    ld a, (v_horizontalScrollSpeed.high)
     bit 7, a
     jp nz, +
     ld a, b

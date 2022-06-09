@@ -147,10 +147,12 @@ v_columnsToLoadToNametable db
 .enum $C0A8 export
 v_SecondLevelLayoutPointer dw
 v_UpdateNameTableFlags db
-v_horizontalScrollSpeed db
-_RAM_C0AC_ db
-_RAM_C0AD_ db
-_RAM_C0AE_ db
+v_horizontalScrollSpeed .dw
+v_horizontalScrollSpeed.low db
+v_horizontalScrollSpeed.high db
+v_horizontalScrollAccumulator .dw
+v_horizontalScrollAccumulator.low db
+v_horizontalScrollAccumulator.high db
 v_horizontalScroll db
 _RAM_C0B0_ dw
 .ende

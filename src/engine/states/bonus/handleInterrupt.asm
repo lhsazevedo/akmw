@@ -156,7 +156,7 @@ _LABEL_1735_:
     ld (v_horizontalScrollSpeed), hl
     call updateScroll_LABEL_67C4_
     call updateNametable_LABEL_6B49_
-    call draw_LABEL_6920_
+    call draw
     ld hl, (v_horizontalScroll)
     ld a, h
     or l

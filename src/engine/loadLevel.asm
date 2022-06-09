@@ -64,7 +64,7 @@ loadLevel:
     ld (v_horizontalScrollSpeed), hl
     call updateScroll_LABEL_67C4_
     call updateNametable_LABEL_6B49_
-    call draw_LABEL_6920_
+    call draw
     ld hl, (v_horizontalScroll)
     ld a, h
     or l
@@ -92,7 +92,7 @@ loadLevel:
     ld (v_columnsToLoadToNametable), a
     call _LABEL_6A73_
     call updateNametable_LABEL_6B49_
-    call draw_LABEL_6920_
+    call draw
 
     ; Show first column
     ld de, $8000 | VDP_R0_CHANGE_HEIGHT_IN_MODE_4 | VDP_R0_USE_MODE_4
