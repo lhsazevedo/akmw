@@ -104,12 +104,54 @@ readSoundRequest:
 
 ; Pointer Table from 98DD to 993C (48 entries, indexed by v_soundControl)
 sounds:
-.dw musicIntro musicDefault musicUnderwater musicCastle_DATA_A57D_ musicBike_DATA_A57D_ musicLevelStarting musicBattle musicPeticopter
-.dw musicDead _DATA_AC81_ _DATA_AC9B_ _DATA_ACB2_ _DATA_ACC9_ _DATA_ACE1_ _DATA_AD02_ _DATA_AD1E_
-.dw _DATA_AD2C_ _DATA_AD46_ _DATA_AD8D_ _DATA_ADA7_ _DATA_ADCC_ _DATA_AE59_ _DATA_AE7F_ _DATA_AEA3_
-.dw _DATA_AEB3_ _DATA_AECC_ _DATA_AEE3_ _DATA_AEFA_ _DATA_AF14_ _DATA_AF36_ _DATA_AF6D_ _DATA_AF84_
-.dw _DATA_AFBD_ _DATA_AFCA_ _DATA_AFE9_ _DATA_B034_ _DATA_B04D_ _DATA_B062_ _DATA_B076_ _DATA_B090_
-.dw _DATA_B0AA_ _DATA_B0BE_ _DATA_B0DD_ _DATA_B0F4_ _DATA_B11D_ _DATA_B16F_ _DATA_B189_ _DATA_B1D4_
+.dw musicIntro
+.dw musicDefault
+.dw musicUnderwater
+.dw musicCastle_DATA_A57D_
+.dw musicBike_DATA_A57D_
+.dw musicLevelStarting
+.dw musicBattle
+.dw musicPeticopter
+.dw musicDead
+.dw _DATA_AC81_
+.dw _DATA_AC9B_
+.dw _DATA_ACB2_
+.dw _DATA_ACC9_
+.dw _DATA_ACE1_
+.dw _DATA_AD02_
+.dw _DATA_AD1E_
+.dw _DATA_AD2C_
+.dw _DATA_AD46_
+.dw _DATA_AD8D_
+.dw _DATA_ADA7_
+.dw _DATA_ADCC_
+.dw _DATA_AE59_
+.dw _DATA_AE7F_
+.dw _DATA_AEA3_
+.dw _DATA_AEB3_
+.dw _DATA_AECC_
+.dw _DATA_AEE3_
+.dw _DATA_AEFA_
+.dw _DATA_AF14_
+.dw _DATA_AF36_
+.dw _DATA_AF6D_
+.dw _DATA_AF84_
+.dw _DATA_AFBD_
+.dw _DATA_AFCA_
+.dw _DATA_AFE9_
+.dw _DATA_B034_
+.dw _DATA_B04D_
+.dw _DATA_B062_
+.dw _DATA_B076_
+.dw _DATA_B090_
+.dw _DATA_B0AA_
+.dw _DATA_B0BE_
+.dw _DATA_B0DD_
+.dw _DATA_B0F4_
+.dw _DATA_B11D_
+.dw _DATA_B16F_
+.dw _DATA_B189_
+.dw _DATA_B1D4_
 
 .INCLUDE "audio/soundHandlers.asm"
 
