@@ -3656,7 +3656,7 @@ updateScroll_LABEL_67C4_:
     ld (_RAM_C0B3_), a
     ld hl, v_horizontalScreenNumber
     ex af, af'
-    jp nc, _LABEL_6865_
+    jp nc, loadLinesToNametable_LABEL_6865_
     ld a, (hl)
     sub $01
     ld (hl), a
@@ -3678,63 +3678,80 @@ _LABEL_6841_:
     add a, a
     ld c, a
     ld b, $00
+
     ld a, (v_verticalScreenNumber)
     add a, a
     ld e, a
     ld d, $00
+
     ld a, (v_levelBankNumber)
     ld (Mapper_Slot2), a
+
     ld hl, (v_levelLayoutPointer)
     add hl, de
     ld a, (hl)
+
     inc hl
     ld h, (hl)
     ld l, a
     add hl, bc
     ld a, (hl)
+
     inc hl
     ld h, (hl)
     ld l, a
     ld de, v_decompressedLevelLayoutData
     call _LABEL_6BEF_
-_LABEL_6865_:
+
+loadLinesToNametable_LABEL_6865_:
+    // TODO
     ld a, $01
     ld (v_UpdateNameTableFlags), a
+
     ld hl, v_decompressedLevelLayoutData
     ld a, (_RAM_C0B5_)
     ld c, a
     ld b, $00
     add hl, bc
+
     ld de, _RAM_CF00_
     ld a, $85
     ld (Mapper_Slot2), a
--:
-    push hl
-    ld c, (hl)
-    ld hl, (v_metatileNametablePointer)
-    add hl, bc
-    add hl, bc
-    ld a, (hl)
-    inc hl
-    ld h, (hl)
-    ld l, a
-    ld a, (_RAM_C0B3_)
-    add a, a
-    ld c, a
-    add hl, bc
-    ldi
-    ldi
-    inc hl
-    inc hl
-    ldi
-    ldi
-    ld a, (v_linesToLoadToNametable)
-    dec a
-    ld (v_linesToLoadToNametable), a
-    pop hl
-    ret z
-    ld bc, $0010
-    add hl, bc
+    -:
+        // TODO
+        push hl
+
+        ld c, (hl)
+        ld hl, (v_metatileNametablePointer)
+        add hl, bc
+        add hl, bc
+        ld a, (hl)
+
+        inc hl
+        ld h, (hl)
+        ld l, a
+        ld a, (_RAM_C0B3_)
+        add a, a
+        ld c, a
+        add hl, bc
+        ldi
+        ldi
+
+        inc hl
+        inc hl
+        ldi
+        ldi
+
+        ld a, (v_linesToLoadToNametable)
+        dec a
+        ld (v_linesToLoadToNametable), a
+
+        pop hl
+
+        ret z
+
+        ld bc, $0010
+        add hl, bc
     jp -
 
 negativeHorizontalVelocity_LABEL_68A7_:
@@ -3766,7 +3783,7 @@ negativeHorizontalVelocity_LABEL_68A7_:
         call _LABEL_6841_
         jp ++
     +:
-        call _LABEL_6865_
+        call loadLinesToNametable_LABEL_6865_
     ++:
 
     ld a, (_RAM_C0B7_)
