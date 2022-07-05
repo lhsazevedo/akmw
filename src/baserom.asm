@@ -3837,17 +3837,17 @@ draw:
     ; TODO
     ld a, (v_UpdateNameTableFlags)
     rrca
-    jp nc, @bit1_LABEL_6968_
+    jp nc, @drawRow
 
     ld a, (_RAM_C0B0_)
     ld b, a
     ld a, (v_horizontalScrollSpeed.high)
     bit 7, a
-    jp nz, @endif
+    jp nz, +
         ld a, b
         sub $08
         ld b, a
-    @endif:
+    +:
 
     ld a, b
     cpl
@@ -3888,7 +3888,7 @@ draw:
         dec a
     jr nz, -
 
-@bit1_LABEL_6968_:
+@drawRow:
     ld a, (v_UpdateNameTableFlags)
     rrca
     rrca
@@ -3897,15 +3897,15 @@ draw:
     bit 7, a
     ld a, (v_verticalScroll.high)
     jp z, +
-    and $F8
-    jp ++
+        and $F8
+        jp ++
+    +:
+        and $F8
+        sub $20
+        jp nc, ++
+        sub $20
+    ++:
 
-+:
-    and $F8
-    sub $20
-    jp nc, ++
-    sub $20
-++:
     ld h, $00
     ld l, a
     add hl, hl
