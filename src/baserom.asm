@@ -3625,7 +3625,7 @@ updateScroll_LABEL_67C4_:
     ; Check if is moving right (velocity is negative)
     ex de, hl
     bit 7, h
-    jp nz, negativeHorizontalVelocity_LABEL_68A7_
+    jp nz, scrollRight_LABEL_68A7_
 
     add hl, bc
     ld a, h
@@ -3754,11 +3754,12 @@ loadLinesToNametable_LABEL_6865_:
         add hl, bc
     jp -
 
-negativeHorizontalVelocity_LABEL_68A7_:
+scrollRight_LABEL_68A7_:
     add hl, bc
     ld (v_horizontalScrollAccumulator), hl
     ret c
 
+    // Return if scroll right is disabled
     ld a, (v_scrollFlags)
     bit SCROLL_RIGHT_BIT, a
     jp nz, +
@@ -3767,10 +3768,13 @@ negativeHorizontalVelocity_LABEL_68A7_:
         ret
     +:
 
+    // Overwrite accumulator high byte with itself modulus 7
     ld a, h
     and $07
     ld (v_horizontalScrollAccumulator.high), a
 
+    // TODO
+    // If _RAM_C0B7_ is zero, deal with screen numbers. Else, scroll normally.
     ld a, (_RAM_C0B7_)
     or a
     jp nz, +
