@@ -3839,6 +3839,7 @@ draw:
     rrca
     jp nc, @drawRow
 
+    ; Draw column
     ld a, (_RAM_C0B0_)
     ld b, a
     ld a, (v_horizontalScrollSpeed.high)
@@ -3856,39 +3857,52 @@ draw:
     and $3E
     ld c, a
     ld b, $00
+
+    ; Target VDP Address
     ld hl, (_RAM_C0C5_)
     add hl, bc
     ex de, hl
+
+    ; TODO: Nametable source
     ld hl, _RAM_CF00_
 
-    ; TODO: If halved, only the upper tiles of each metatile is draw.
+    ; Bytes to skip for next row
     ld bc, $0040
 
-    ; TODO: If halved, only the upper half of the screen is draw.
+    ; For each tile in the tilemap row
     ld a, $18
-
     -:
         ex af, af'
         call setVdpAddress
+
+        ; Set tile index
         ld a, (hl)
         out (Port_VDPData), a
+
+        ; Set tile attributes
         inc hl
         ld a, (hl)
         inc hl
         out (Port_VDPData), a
+
+        ; Move VDP address to next line
         ex de, hl
         add hl, bc
+
+        ; TODO
         ld a, h
         cp $7F
-        jp nz, @endif2
+        jp nz, +
             ld h, $78
-        @endif2:
+        +:
+
         ex de, hl
         ex af, af'
         dec a
     jr nz, -
 
 @drawRow:
+    ; TODO
     ld a, (v_UpdateNameTableFlags)
     rrca
     rrca
