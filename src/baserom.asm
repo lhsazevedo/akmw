@@ -3714,7 +3714,7 @@ loadLinesToNametable_LABEL_6865_:
     ld b, $00
     add hl, bc
 
-    ld de, _RAM_CF00_
+    ld de, v_columnToDraw
     ld a, $85
     ld (Mapper_Slot2), a
     -:
@@ -3864,7 +3864,7 @@ draw:
     ex de, hl
 
     ; TODO: Nametable source
-    ld hl, _RAM_CF00_
+    ld hl, v_columnToDraw
 
     ; Bytes to skip for next row
     ld bc, $0040
@@ -3936,7 +3936,7 @@ draw:
     ex de, hl
     ld b, $00
     ld c, a
-    ld hl, _RAM_CF38_
+    ld hl, v_rowToDraw
     call copyBytesToVRAM
     ex af, af'
     or a
@@ -4075,7 +4075,7 @@ _LABEL_6A76_:
     dec a
     jp nz, -
 +:
-    ld de, _RAM_CF38_
+    ld de, v_rowToDraw
     ld a, $85
     ld (Mapper_Slot2), a
 -:
@@ -4214,7 +4214,7 @@ updateNametable_LABEL_6B49_:
     ld hl, $C800
     add hl, de
     ex de, hl
-    ld hl, _RAM_CF00_
+    ld hl, v_columnToDraw
     ld bc, $0040
     ld a, $18
 -:
@@ -4276,7 +4276,7 @@ _LABEL_6B9C_:
     sub b
     ld b, $00
     ld c, a
-    ld hl, _RAM_CF38_
+    ld hl, v_rowToDraw
     ldir
     ex af, af'
     or a

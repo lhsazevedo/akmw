@@ -422,11 +422,9 @@ _RAM_CE84_ db
 .ende
 
 .enum $CF00 export
-_RAM_CF00_ db
-.ende
-
-.enum $CF38 export
-_RAM_CF38_ db
+v_columnToDraw dsb $38
+// $CF38
+v_rowToDraw dsb $40
 .ende
 
 .enum $CF80 export
