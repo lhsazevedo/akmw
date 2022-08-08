@@ -11,14 +11,15 @@ It builds the following roms:
   SHA1: `8cecf8ed0f765163b2657be1b0a3ce2a9cb767f4`  
   CRC32: `17a40e29`
 
-⚠️ **Note**  
-This repository does not contains the necessary assets to build the game. A copy of the game is required to extract them.
-
 ## Requirements
-To compile, both WLA DX assembler for z80 (wla-z80) and the WLA-LINK linker (wlalink) must be avaliable on your PATH.
+
+- WLA-DX assembler for z80 (wla-z80) v10.1
+- WLA-DX linker (wla-link) v10.1
+
+Both programs must be avaliable on your PATH.
 
 ## Compiling
-Execute de compile script for your system:
+Execute the compile script for your system. It will build both ROM revisions (REV0 e REV1), and check if the result is identical to the original ones.
 
 **Linux:**
 ```
@@ -26,11 +27,10 @@ Execute de compile script for your system:
 ```
 
 **Windows:**
+Note: I don't test this regurlarly so it may need some tweaking to work.
 ```
 ./compile.bat
 ```
-
-The script will build both ROM revisions (REV0 e REV1), and check if the result is identical to the original ones.
 
 
 ## Documentation
