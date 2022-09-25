@@ -3704,7 +3704,7 @@ _LABEL_6841_:
     call _LABEL_6BEF_
 
 loadLinesToNametable_LABEL_6865_:
-    // TODO
+    ; TODO
     ld a, $01
     ld (v_UpdateNameTableFlags), a
 
@@ -3718,7 +3718,7 @@ loadLinesToNametable_LABEL_6865_:
     ld a, $85
     ld (Mapper_Slot2), a
     -:
-        // TODO
+        ; TODO
         push hl
 
         ld c, (hl)
@@ -3906,7 +3906,9 @@ draw:
     ld a, (v_UpdateNameTableFlags)
     rrca
     rrca
-    jp nc, _LABEL_69B5_
+    jp nc, @done
+
+    ; TODO
     ld a, (_RAM_C0BA_)
     bit 7, a
     ld a, (v_verticalScroll.high)
@@ -3926,10 +3928,12 @@ draw:
     add hl, hl
     add hl, hl
     ex de, hl
+
     ld hl, (_RAM_C0B7_)
     add hl, de
     ld a, (_RAM_C0B7_)
     ld b, a
+
     ex af, af'
     ld a, $40
     sub b
@@ -3938,9 +3942,11 @@ draw:
     ld c, a
     ld hl, v_rowToDraw
     call copyBytesToVRAM
+
     ex af, af'
     or a
-    jp z, _LABEL_69B5_
+    jp z, @done
+
     ld c, a
     ld b, $00
     ld a, e
@@ -3948,7 +3954,7 @@ draw:
     ld e, a
     call copyBytesToVRAM
 
-_LABEL_69B5_:
+@done:
     xor a
     ld (v_UpdateNameTableFlags), a
     ld de, (_RAM_C0B0_)
