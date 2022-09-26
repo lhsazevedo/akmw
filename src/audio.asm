@@ -9,13 +9,13 @@ update:
     ; Run each channel
     ld ix, v_soundMusicSoftwareChannels
     ld b, $07
--:
-    push bc
-    bit 7, (ix + SoftwareChannel.flags)
-    call nz, runChannel_LABEL_9ACC_
-    ld de, $0020
-    add ix, de
-    pop bc
+    -:
+        push bc
+        bit 7, (ix + SoftwareChannel.flags)
+        call nz, runChannel_LABEL_9ACC_
+        ld de, $0020
+        add ix, de
+        pop bc
     djnz -
     ret
 
@@ -27,35 +27,42 @@ update:
     ld a, (v_soundFadeOutTimer)
     dec a
     jr z, +
-    ld (v_soundFadeOutTimer), a
-    jr ++
+        ld (v_soundFadeOutTimer), a
+        jr ++
+    +:
 
-+:
+    ; Reset fade out timer
     ld a, $1E
     ld (v_soundFadeOutTimer), a
+
+    ; Decrement fade out volume
     ld a, (v_soundFadeOutVolume)
     dec a
     cp $03
     jr nz, +
-    xor a
-+:
+        xor a
+    +:
+
+    ; Apply fade out
     ld (v_soundFadeOutVolume), a
     ld (v_soundMusicChannels.1.volume), a
     ld (v_soundMusicChannels.2.volume), a
     ld (v_soundMusicChannels.3.volume), a
+
 ++:
     ; @TODO
     ld hl, _RAM_C1D8_
     bit 7, (hl)
     ret z
+
     inc hl
     bit 5, (hl)
     jr z, +
-    ld hl, v_soundMusicChannels.4.flags
-    set 2, (hl)
-    ret
+        ld hl, v_soundMusicChannels.4.flags
+        set 2, (hl)
+        ret
+    +:
 
-+:
     ld hl, v_soundMusicChannels.3.flags
     set 2, (hl)
     ret
@@ -63,7 +70,7 @@ update:
 readSoundRequest:
     ld a, (v_soundControl)
 
-    ; Deactivage engine if bit 7 is not set or sound > 0xB3
+    ; Deactivate engine if bit 7 is not set or sound > 0xB3
     bit 7, a
     jp z, reset
     cp $B4
@@ -78,9 +85,10 @@ readSoundRequest:
     ; Save soundNumber if a < 0x30
     cp $30
     jr nc, +
-    ld (v_soundNumber), a
-+:
-    ; Load sound data pointer into BC from table at 98DD indexed by sound
+        ld (v_soundNumber), a
+    +:
+
+    ; Load sound data pointer into BC to be used by the sound handler
     ld c, a
     ld b, $00
     ld hl, sounds
@@ -90,7 +98,7 @@ readSoundRequest:
     inc hl
     ld b, (hl)
 
-    ; Jump to the respective sound handler at table 993D
+    ; Jump to the respective sound handler
     ld de, _sizeof_sounds - 1
     add hl, de
     ld a, (hl)
@@ -102,17 +110,16 @@ readSoundRequest:
     ld e, a
     jp (hl)
 
-; Pointer Table from 98DD to 993C (48 entries, indexed by v_soundControl)
 sounds:
-.dw musicIntro
-.dw musicDefault
-.dw musicUnderwater
-.dw musicCastle_DATA_A57D_
-.dw musicBike_DATA_A57D_
-.dw musicLevelStarting
-.dw musicBattle
-.dw musicPeticopter
-.dw musicDead
+.dw songIntro
+.dw songDefault
+.dw songUnderwater
+.dw songCastle_DATA_A57D_
+.dw songBike_DATA_A57D_
+.dw songLevelStarting
+.dw songBattle
+.dw songPeticopter
+.dw songDead
 .dw _DATA_AC81_
 .dw _DATA_AC9B_
 .dw _DATA_ACB2_
@@ -410,7 +417,7 @@ readChannelInstruction:
     ld d, (ix + SoftwareChannel.dataPointer.high)
 
 ; Load sound data from rom pointed by DE
-; Expects IX to be software channel pointer
+; @param IX soft. channel pointer
 readInstruction:
     ; Read byte
     ld a, (de)

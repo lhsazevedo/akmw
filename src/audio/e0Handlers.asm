@@ -10,8 +10,8 @@ handleF1:
     cp $10
     ret z
     push de
-    ld bc, musicUnderwater
-    call handleMusic
+    ld bc, songUnderwater
+    call handleSong
     pop de
     ret
 
