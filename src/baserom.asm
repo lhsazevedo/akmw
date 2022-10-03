@@ -1869,7 +1869,10 @@ tickJitter:
 
 ; Jump Table from 3E38 to 3E3F (4 entries, indexed by _RAM_CF9A_)
 _DATA_3E38_:
-.dw _LABEL_3E40_ _LABEL_3E50_ _LABEL_3E90_ _LABEL_3EA6_
+.dw _LABEL_3E40_
+.dw _LABEL_3E50_
+.dw _LABEL_3E90_
+.dw _LABEL_3EA6_
 
 ; 1st entry of Jump Table from 3E38 (indexed by _RAM_CF9A_)
 _LABEL_3E40_:

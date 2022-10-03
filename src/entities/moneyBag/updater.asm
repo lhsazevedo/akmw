@@ -1,4 +1,3 @@
-; @TODO: Add description
 ; 60th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 updateMoneyBag:
     ; Skip initialization if its already done

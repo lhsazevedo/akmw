@@ -2,15 +2,14 @@ updateMonsterbirdLeft:
     ; Initialize entity or run main updater
     bit 0, (ix + Entity.flags)
     jr nz, +
+        ; Initialize entity
+        set 0, (ix + Entity.flags)
+        ld (ix + Entity.unknown3), $04
+        ld (ix + Entity.animationTimer), $10
+        ld (ix + Entity.animationTimerResetValue), $10
+        jr ++
+    +:
 
-    ; Initialize entity
-    set 0, (ix + Entity.flags)
-    ld (ix + Entity.unknown3), $04
-    ld (ix + Entity.animationTimer), $10
-    ld (ix + Entity.animationTimerResetValue), $10
-    jr ++
-
-+:
     ; Do nothing if offscreen
     ld a, (ix + Entity.isOffScreenFlags.low)
     or (ix + Entity.isOffScreenFlags.high)
