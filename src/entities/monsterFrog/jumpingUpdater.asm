@@ -6,12 +6,11 @@ updateMonsterFrogJumping:
     ret nz
 
     call tryToKillAlexIfColliding
-    ; @TODO
+
     call isAlexAttackingEntity
     jp nc, killEnemy
 
-    ; Update Y velocity
-    ; @TODO: Understand better
+    ; Update Y velocity.
     ld h, (ix + Entity.ySpeed.high)
     ld l, (ix + Entity.ySpeed.low)
     ld de, $0008
