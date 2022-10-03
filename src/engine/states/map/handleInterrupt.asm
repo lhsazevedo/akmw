@@ -15,7 +15,7 @@ _LABEL_1FE9_:
     ld de, $7800
     ld bc, $0700
     call copyBytesToVRAM
-    call _LABEL_69B5_
+    call updateVdpAddressAfterDraw
     ld hl, v_entities
     ld (v_entitydataArrayPointer), hl
     ld a, ENTITY_ARRAY_SIZE
@@ -257,7 +257,7 @@ initMapState:
     ld bc, $005F
     ld (hl), $00
     ldir
-    call _LABEL_69B5_
+    call updateVdpAddressAfterDraw
     ld a, $87
     ld (Mapper_Slot2), a
     ld de, $6800

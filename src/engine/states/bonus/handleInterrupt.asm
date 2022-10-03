@@ -2,7 +2,7 @@ handleInterruptBonusLevelState:
     ld a, (_RAM_D800_)
     or a
     ret z
-    call _LABEL_69B5_
+    call updateVdpAddressAfterDraw
     ld hl, (v_verticalScrollSpeed)
     ld de, (v_verticalScroll)
     add hl, de

@@ -57,7 +57,7 @@ _LABEL_1C33_:
     ld de, $7800
     ld bc, $0700
     call copyBytesToVRAM
-    call _LABEL_69B5_
+    call updateVdpAddressAfterDraw
     ld hl, v_temporaryLevelDataCopy
     ld de, v_levelWidth
     ld bc, $002A
