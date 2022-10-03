@@ -3906,7 +3906,7 @@ draw:
     ld a, (v_UpdateNameTableFlags)
     rrca
     rrca
-    jp nc, @done
+    jp nc, _LABEL_69B5_
 
     ; TODO
     ld a, (_RAM_C0BA_)
@@ -3945,7 +3945,7 @@ draw:
 
     ex af, af'
     or a
-    jp z, @done
+    jp z, _LABEL_69B5_
 
     ld c, a
     ld b, $00
@@ -3954,7 +3954,7 @@ draw:
     ld e, a
     call copyBytesToVRAM
 
-@done:
+_LABEL_69B5_:
     xor a
     ld (v_UpdateNameTableFlags), a
     ld de, (_RAM_C0B0_)
