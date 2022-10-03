@@ -3398,7 +3398,7 @@ _LABEL_55B6_:
     jr nz, +
     ld a, SOUND_MONKEY_LEAF
     ld (v_soundControl), a
-    ld (iy+0), $29
+    ld (iy+0), ENTITY_MONKEY_LEAF
     ld a, (ix+12)
     ld (iy+12), a
     ld a, (ix+14)
@@ -3412,7 +3412,7 @@ _LABEL_55ED_:
     ld hl, _DATA_84ED_
     jp handleEntityAnimation
 
-.INCLUDE "entities/entity0x29.asm"
+.INCLUDE "entities/monkeyLeaf.asm"
 .INCLUDE "entities/entity0x43.asm"
 .INCLUDE "entities/smokePuff/updater.asm"
 .INCLUDE "entities/entity0x2F.asm"

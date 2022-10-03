@@ -40,7 +40,7 @@ entityTypeJumpTable:
 .dw updateEntity0x26
 .dw updateEntity0x27
 .dw updateEntity0x28
-.dw updateEntity0x29
+.dw updateMonkeyLeaf
 .dw updateEntity0x2A
 .dw updateSmokePuff
 .dw updatePlant
