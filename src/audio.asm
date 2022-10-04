@@ -4,7 +4,7 @@
 ; Audio engine entry
 update:
     call readSoundRequest
-    call +
+    call handleFadeOutAndSfx
 
     ; Run each channel
     ld ix, v_soundMusicSoftwareChannels
@@ -12,15 +12,14 @@ update:
     -:
         push bc
         bit 7, (ix + SoftwareChannel.flags)
-        call nz, runChannel_LABEL_9ACC_
+        call nz, runChannel
         ld de, $0020
         add ix, de
         pop bc
     djnz -
     ret
 
-; @TODO
-+:
+handleFadeOutAndSfx:
     ; 
     ld a, (v_soundFadeOutVolume)
     or a
@@ -50,20 +49,26 @@ update:
             ld (v_soundMusicChannels.3.volume), a
 
     ++:
-    ; @TODO
+    ; Return if no SFX is being played.
     ld hl, v_soundEffectsChannels.3.flags
     bit 7, (hl)
     ret z
 
+    ; @TODO: Set flag bit 5 for either music channel 4 or 3
+    ; depending on HW channel of sfx channel 3.
+    ; HW ch gets muted when noise
+    ; sfx is playing Is this a bug?
     inc hl
     bit 5, (hl)
     jr z, +
         ld hl, v_soundMusicChannels.4.flags
+        ; No effect observed...
         set 2, (hl)
         ret
     +:
 
     ld hl, v_soundMusicChannels.3.flags
+    ; No effect observed...
     set 2, (hl)
     ret
 
@@ -163,7 +168,7 @@ sounds:
 .INCLUDE "audio/soundHandlers.asm"
 
 ; Run soft channel
-runChannel_LABEL_9ACC_:
+runChannel:
     ; Increment current play duration
     ld e, (ix + SoftwareChannel.currentPlayDuration.low)
     ld d, (ix + SoftwareChannel.currentPlayDuration.high)
@@ -178,16 +183,16 @@ runChannel_LABEL_9ACC_:
     sbc hl, de
     call z, readChannelInstruction
 
-    ; Mute volume if frequency is 0x0000 (and call 9C87)
+    ; Mute volume if frequency is 0x0000
     ld e, (ix + SoftwareChannel.noteFrequency.low)
     ld d, (ix + SoftwareChannel.noteFrequency.high)
     ld a, e
     or d
     jr nz, +
-    ld (ix + SoftwareChannel.volumeToWrite), $0F
-    jp writeChannelVolume
+        ld (ix + SoftwareChannel.volumeToWrite), $0F
+        jp writeChannelVolume
+    +:
 
-+:
     ; @TODO: What bit 5 means?
     bit 5, (ix + SoftwareChannel.flags)
     jr nz, +
@@ -219,6 +224,7 @@ applyVibratoThenEnvelope_LABEL_9B16_:
     jr envelopeOrVolume_LABEL_9B5E_
 
 +:
+    ; @TODO
     push de
     ld l, (ix + SoftwareChannel.noteFrequency2.low)
     ld h, (ix + SoftwareChannel.noteFrequency2.high)
@@ -227,11 +233,13 @@ applyVibratoThenEnvelope_LABEL_9B16_:
     push af
     ld a, l
     jp p, +
-    neg
-+:
+        neg
+    +:
+
     ld h, a
     ld e, (ix + SoftwareChannel.currentPlayDuration.low)
     call littleEndianMultiply_LABEL_9EAE_
+
     ld e, (ix + SoftwareChannel.noteDuration.low)
     dec e
     call _LABEL_9EBA_
