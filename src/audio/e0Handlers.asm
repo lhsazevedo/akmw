@@ -118,7 +118,7 @@ handleE2:
     res 2, (hl)
     ld hl, v_soundMusicChannels.4.flags
     res 2, (hl)
-    ld hl, _RAM_C1D8_
+    ld hl, v_soundEffectsChannels.3.flags
     res 2, (hl)
     ld a, (v_soundEffectsChannels.2.flags)
     bit 7, a

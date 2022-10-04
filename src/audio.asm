@@ -21,37 +21,37 @@ update:
 
 ; @TODO
 +:
+    ; 
     ld a, (v_soundFadeOutVolume)
     or a
     jr z, ++
-    ld a, (v_soundFadeOutTimer)
-    dec a
-    jr z, +
-        ld (v_soundFadeOutTimer), a
-        jr ++
-    +:
+        ld a, (v_soundFadeOutTimer)
+        dec a
+        jr z, +
+            ld (v_soundFadeOutTimer), a
+            jr ++
+        +:
+            ; Reset fade out timer
+            ld a, $1E
+            ld (v_soundFadeOutTimer), a
 
-    ; Reset fade out timer
-    ld a, $1E
-    ld (v_soundFadeOutTimer), a
+            ; Decrement fade out volume
+            ld a, (v_soundFadeOutVolume)
+            dec a
+            cp $03
+            jr nz, +
+                xor a
+            +:
 
-    ; Decrement fade out volume
-    ld a, (v_soundFadeOutVolume)
-    dec a
-    cp $03
-    jr nz, +
-        xor a
-    +:
+            ; Apply fade out
+            ld (v_soundFadeOutVolume), a
+            ld (v_soundMusicChannels.1.volume), a
+            ld (v_soundMusicChannels.2.volume), a
+            ld (v_soundMusicChannels.3.volume), a
 
-    ; Apply fade out
-    ld (v_soundFadeOutVolume), a
-    ld (v_soundMusicChannels.1.volume), a
-    ld (v_soundMusicChannels.2.volume), a
-    ld (v_soundMusicChannels.3.volume), a
-
-++:
+    ++:
     ; @TODO
-    ld hl, _RAM_C1D8_
+    ld hl, v_soundEffectsChannels.3.flags
     bit 7, (hl)
     ret z
 

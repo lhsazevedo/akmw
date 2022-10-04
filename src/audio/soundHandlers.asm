@@ -63,7 +63,7 @@ _LABEL_99A3_:
     ld (v_soundEffectsChannels.2.flags), a
     ld a, $80
     ld (v_soundMusicChannels.3.flags), a
-    ld hl, _RAM_C1D8_
+    ld hl, v_soundEffectsChannels.3.flags
     res 2, (hl)
     jp resetSoundControl
 
@@ -82,7 +82,7 @@ _LABEL_99BE_:
 ; 50th entry of Jump Table from 993D (indexed by v_soundControl)
 handler_LABEL_99D3_:
     xor a
-    ld (_RAM_C1D8_), a
+    ld (v_soundEffectsChannels.3.flags), a
     ld (v_soundSoftwareChannelSevenState), a
     ld a, $DF
     ld a, $80
@@ -126,7 +126,7 @@ _LABEL_9A04_:
     ld hl, v_soundMusicChannels.3.flags
     set 2, (hl)
     ; @TODO
-    ld hl, _RAM_C1D8_
+    ld hl, v_soundEffectsChannels.3.flags
     set 2, (hl)
     ld de, v_soundEffectsChannels.1
     jp _LABEL_9A9D_
@@ -147,7 +147,7 @@ _LABEL_9A24_:
     set 2, (hl)
     ld hl, v_soundMusicChannels.4.flags
     set 2, (hl)
-    ld hl, _RAM_C1D8_
+    ld hl, v_soundEffectsChannels.3.flags
     set 2, (hl)
 +:
     ld de, v_soundEffectsChannels.1
@@ -168,7 +168,7 @@ _LABEL_9A47_:
     set 2, (hl)
     ld hl, v_soundMusicChannels.3.flags
     set 2, (hl)
-    ld hl, _RAM_C1D8_
+    ld hl, v_soundEffectsChannels.3.flags
     set 2, (hl)
     ld de, v_soundEffectsChannels.2
     jr _LABEL_9A9D_
@@ -189,7 +189,7 @@ _LABEL_9A6D_:
     ld hl, v_soundEffectsChannels.2.flags
     set 2, (hl)
     call _LABEL_9E0F_
-    ld de, _RAM_C1D8_
+    ld de, v_soundEffectsChannels.3
     jr realHandleSong
 
 ; 10th entry of Jump Table from 993D (indexed by v_soundControl)
@@ -221,7 +221,7 @@ _LABEL_9A8B_:
     jr c, resetSoundControl
     ld hl, v_soundMusicChannels.3.flags
     set 2, (hl)
-    ld hl, _RAM_C1D8_
+    ld hl, v_soundEffectsChannels.3.flags
     set 2, (hl)
     ld de, v_soundEffectsChannels.2
     jr _LABEL_9A9D_

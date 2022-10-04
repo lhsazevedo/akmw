@@ -235,10 +235,6 @@ v_soundNumber db
 ; v_soundMusicSoftwareChannels dsb $8
 .ende
 
-.enum $C1D8 export
-_RAM_C1D8_ dsb $9
-.ende
-
 .enum $C200 export
 v_alexTilesIndex db
 .ende
