@@ -56,9 +56,9 @@ entityTypeJumpTable:
 .dw updateBatRight
 .dw updateMonsterFrogJumping
 .dw updateDebrisTopLeft
-.dw updateEntity0x39
-.dw updateEntity0x3A
-.dw updateEntity0x3B
+.dw updateDebrisBottomLeft
+.dw updateDebrisTopRight
+.dw updateDebrisBottomRight
 .dw updateMoneyBag
 .dw updateCircularFlame
 .dw updateflameOrScorpionLeft
