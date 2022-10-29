@@ -1,7 +1,9 @@
 ; 58th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
-updateEntity0x3A:
+updateDebrisTopRight:
     bit 0, (ix + Entity.flags)
     jr nz, updateDebris
+
+    ; Initialize top right debris
     set 0, (ix + Entity.flags)
     ld a, (v_entities.23.xPos.high)
     add a, $08
