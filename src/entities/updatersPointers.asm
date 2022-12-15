@@ -32,7 +32,7 @@ entityTypeJumpTable:
 .dw updateChokkinna
 .dw updateParplin
 .dw updateBatLeft
-.dw updateEntity0x21
+.dw updateItemSelectArrow
 .dw updateMermanBubbles
 .dw updateMerman
 .dw updateOctopusArm

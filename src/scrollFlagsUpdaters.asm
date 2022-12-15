@@ -29,8 +29,8 @@ scrollFlagsUpdater_LABEL_647D_:
     ret z
     ld b, a
     and $03
-    ld hl, (_RAM_C0C2_)
-    ld de, (_RAM_C0BB_)
+    ld hl, (v_levelData_C0C2_)
+    ld de, (v_levelData_C0BB_)
     jr nz, @endif
         ld a, (v_shouldBlankLeftmostColumn)
         or a
@@ -166,9 +166,9 @@ scrollFlagsUpdater_LABEL_6539_:
     ld a, $01
     ld (v_verticalScreenNumber), a
     ld hl, $0000
-    ld (_RAM_C0B4_), hl
-    ld (_RAM_C0B3_), hl
-    ld (_RAM_C0B7_), hl
+    ld (v_levelData_C0B4_), hl
+    ld (v_levelData_C0B3_), hl
+    ld (v_levelData_C0B7_), hl
     ld a, (v_horizontalScreenNumber)
     cp $03
     jr nc, +
@@ -202,9 +202,9 @@ scrollFlagsUpdater_LABEL_657B_:
     and SCROLL_UP | SCROLL_DOWN
     ret nz
     ld hl, $0000
-    ld (_RAM_C0B4_), hl
-    ld (_RAM_C0B3_), hl
-    ld (_RAM_C0B7_), hl
+    ld (v_levelData_C0B4_), hl
+    ld (v_levelData_C0B3_), hl
+    ld (v_levelData_C0B7_), hl
     ld a, $01
     ld (v_verticalScreenNumber), a
     ld a, $01

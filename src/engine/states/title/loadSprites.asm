@@ -33,7 +33,7 @@ loadTitleSprites:
 
     ; Load Alex additional sprite descriptors
     ld hl, alexFlyingPeticopterLeftFrame0SpriteDescriptor + 1
-    ld de, _RAM_C800_
+    ld de, v_nametable
     xor a
     call +
 

@@ -1,130 +1,189 @@
+; 12th entry of Jump Table from 3B (indexed by v_gameState)
+updateMapState:
+    exx
+    bit 7, (hl)
+    jp z, initMapState
+
+    call updateEntities
+
+    ld a, $09
+    call waitForInterrupt
+
+    ld a, (v_shouldOpenMap)
+    or a
+    ret z
+
+    xor a
+    ld (v_shouldOpenMap), a
+    jr exitMapState
+
 ; 12th entry of Jump Table from 127 (indexed by v_gameState)
 handleInterruptMapState:
-    jp _LABEL_263D_
+    jp realHandleInterruptMapState
 
-_LABEL_1FE9_:
+exitMapState:
     call audioEngine.reset
+
     ld a, $82
     ld (Mapper_Slot2), a
+
     call clearVDPTablesAndDisableScreen
-    ld de, _RAM_C800_
-    ld hl, nametableCopy
+
+    ; Restore nametable
+    ld de, v_nametable
+    ld hl, v_nametableCopy
     ld bc, $0700
     ldir
-    ld hl, _RAM_C800_
+
+    ; Draw nametable
+    ld hl, v_nametable
     ld de, $7800
     ld bc, $0700
     call copyBytesToVRAM
     call updateVdpAddressAfterDraw
+
+    ; Restore entitydata pointer
     ld hl, v_entities
     ld (v_entitydataArrayPointer), hl
+
+    ; Restore entity array length
     ld a, ENTITY_ARRAY_SIZE
     ld (v_entitydataArrayLength), a
+
+    ; Restore level data
     ld hl, v_temporaryLevelDataCopy
     ld de, v_levelWidth
     ld bc, $002A
     ldir
+
+    ; Increment v_level if is bonus level (TODO: Why?)
     ld a, (v_level)
     push af
     ld a, (v_currentLevelIsBonusLevel)
     or a
     jr z, +
-    ld hl, v_level
-    inc (hl)
-+:
+        ld hl, v_level
+        inc (hl)
+    +:
+
     call loadLevelPalette
+
+    ; Load tiles
     ld a, $83
     ld (Mapper_Slot2), a
+
     call loadLevelTiles
-    ld hl, _DATA_C000_
+
+    ld hl, tiles_boxes
     ld de, $4020
     ld bc, $0480
     call copyBytesToVRAM
+
+    ; Restore level
     pop af
     ld (v_level), a
+
     ld a, $85
     ld (Mapper_Slot2), a
-    ld hl, _DATA_172B1_
+
+    ld hl, tiles_4bppCharacters
     ld de, $5600
     call decompressTilesToVram
+
     ld a, $87
     ld (Mapper_Slot2), a
+
     ld a, (v_alexActionState)
-    cp $03
-    jr nz, +
-    ld hl, _DATA_1DCC9_
-    ld de, $6200
-    ld bc, $0080
-    call copyBytesToVRAM
-    ld hl, _DATA_1DCC9_
-    ld bc, $0080
-    call copyMirroredTilesToVramAtCurrentAddress
-    ld a, $85
-    ld (Mapper_Slot2), a
-    ld hl, _DATA_16FB1_
-    ld de, $6300
-    ld bc, $0080
-    call copyBytesToVRAM
-    jr ++
+        cp ALEX_C054_MAGIC_CAPSULE_A
+        jr nz, +
+            ld hl, _DATA_1DCC9_
+            ld de, $6200
+            ld bc, $0080
+            call copyBytesToVRAM
+            ld hl, _DATA_1DCC9_
+            ld bc, $0080
+            call copyMirroredTilesToVramAtCurrentAddress
+            ld a, $85
+            ld (Mapper_Slot2), a
+            ld hl, _DATA_16FB1_
+            ld de, $6300
+            ld bc, $0080
+            call copyBytesToVRAM
+            jr ++
 
-+:
-    cp $04
-    jr nz, +
-    ld hl, _DATA_1C4C9_
-    ld de, $6280
-    ld bc, $00C0
-    call copyBytesToVRAM
-    ld a, $85
-    ld (Mapper_Slot2), a
-    ld hl, _DATA_17031_
-    ld de, $6200
-    ld bc, $0080
-    call copyBytesToVRAM
-    jr ++
+        +:
+        cp ALEX_C054_MAGIC_CAPSULE_B
+        jr nz, +
+            ld hl, _DATA_1C4C9_
+            ld de, $6280
+            ld bc, $00C0
+            call copyBytesToVRAM
+            ld a, $85
+            ld (Mapper_Slot2), a
+            ld hl, _DATA_17031_
+            ld de, $6200
+            ld bc, $0080
+            call copyBytesToVRAM
+            jr ++
 
-+:
-    cp $05
-    jr nz, ++
-    ld hl, _DATA_1C3A9_
-    ld de, $6200
-    ld bc, $0020
-    call copyBytesToVRAM
-    ld hl, _DATA_1C3A9_
-    ld bc, $0020
-    call copyMirroredTilesToVramAtCurrentAddress
-++:
+        +:
+        cp ALEX_C054_POWER_BRACELET
+        jr nz, ++
+            ld hl, _DATA_1C3A9_
+            ld de, $6200
+            ld bc, $0020
+            call copyBytesToVRAM
+            ld hl, _DATA_1C3A9_
+            ld bc, $0020
+            call copyMirroredTilesToVramAtCurrentAddress
+
+    ++:
     ld a, (v_level)
     push af
+
+    ; Increment v_level if is bonus level (TODO: Why?)
     ld a, (v_currentLevelIsBonusLevel)
     or a
     jr z, +
-    ld hl, v_level
-    inc (hl)
-+:
+        ld hl, v_level
+        inc (hl)
+    +:
+
     ld a, $87
     ld (Mapper_Slot2), a
     call loadLevelSpriteTiles
+
+    ; Restore level
     pop af
     ld (v_level), a
+
     ld a, $82
     ld (Mapper_Slot2), a
     ld a, (v_alexActionState)
-    cp $01
+    cp ALEX_IDLE
     jr nz, +
+        ; TODO
+        ld ix, v_entities
+        call _LABEL_2A6E_
+    +:
+
+    ; TODO
+    ld ix, v_mapEntities
+    call destroyCurrentEntity
+    ld ix, v_mapEntities.2
+    call destroyCurrentEntity
+    ld ix, v_mapEntities.3
+    call destroyCurrentEntity
+
     ld ix, v_entities
-    call _LABEL_2A6E_
-+:
-    ld ix, _RAM_CF80_
-    call destroyCurrentEntity
-    ld ix, _RAM_CFA0_
-    call destroyCurrentEntity
-    ld ix, _RAM_CFC0_
-    call destroyCurrentEntity
-    ld ix, $C300
     call updateEntities
+
     call updateScroll_LABEL_67C4_
     call updateNametable_LABEL_6B49_
-    ld ix, $C300
+
+    ld ix, v_entities
+
+    ; Restore BGM
     ld a, (v_level)
     ld c, a
     ld b, $00
@@ -132,245 +191,342 @@ _LABEL_1FE9_:
     add hl, bc
     ld a, (hl)
     ld (v_soundControl), a
+
     ld a, (v_currentLevelIsBonusLevel)
     or a
     jr z, +
-    ld a, SOUND_BASE_SONG
-    ld (v_soundControl), a
-    jr ++
+        ld a, SOUND_BASE_SONG
+        ld (v_soundControl), a
+        jr ++
+    +:
+        ld a, (v_alex.state)
+        cp ALEX_SWIMING
+        jr nz, ++
 
-+:
-    ld a, (v_alex.state)
-    cp ALEX_SWIMING
-    jr nz, ++
-    ld a, SOUND_UNDERWATER_SONG
-    ld (v_soundControl), a
-    ld a, (v_level)
-    cp $10
-    jp nz, ++
-    ld a, SOUND_CASTLE_SONG
-    ld (v_soundControl), a
-++:
+        ld a, SOUND_UNDERWATER_SONG
+        ld (v_soundControl), a
+        ld a, (v_level)
+        cp $10
+        jp nz, ++
+
+        ld a, SOUND_CASTLE_SONG
+        ld (v_soundControl), a
+    ++:
+
+    ; Handle more action state BGMs
     ld a, (v_alexActionState)
-    cp $07
+    cp ALEX_C054_RIDING_MOTORCYCLE
     jp c, ++
-    jp nz, +
-    ld a, SOUND_BIKE_SONG
-    ld (v_soundControl), a
-    jp ++
+        jp nz, +
+            ld a, SOUND_BIKE_SONG
+            ld (v_soundControl), a
+            jp ++
+        +:
+        cp $08
+        jp z, ++
+            ld a, SOUND_PETICOPTER_SONG
+            ld (v_soundControl), a
+    ++:
 
-+:
-    cp $08
-    jp z, ++
-    ld a, SOUND_PETICOPTER_SONG
-    ld (v_soundControl), a
-++:
     ei
-    ld a, $8A
+
+    ld a, STATE_GAMEPLAY | STATE_CHANGED
     ld (v_gameState), a
+
     ld a, $09
     call waitForInterrupt
+
+    ; Understand this
     ld a, (v_alexActionState)
     or a
     jr z, ++
-    cp $03
-    jr nc, ++
-    ld b, $AA
-    cp $01
-    jr z, +
-    ld b, $AB
-+:
-    ld a, b
-    ld (v_soundControl), a
-++:
+        cp ALEX_C054_MAGIC_CAPSULE_A
+        jr nc, ++
+        ld b, SOUND_MAGIC_CAPSULE_A
+
+        cp ALEX_C054_STATE_1
+        jr z, +
+            ld b, SOUND_MAGIC_CAPSULE_B
+        +:
+        ld a, b
+        ld (v_soundControl), a
+    ++:
+
     call enableDisplay
+
     ld b, $0A
     jp sleepTenthsOfSecond
 
 initMapState:
     set 7, (hl)
+
     call audioEngine.reset
+
+    ; Backup level data
     ld hl, v_levelWidth
     ld de, v_temporaryLevelDataCopy
     ld bc, $002A
     ldir
+
+    ; Reset scroll flags
     dec hl
     ld (hl), $00
+
+    ; Clear level data
     ld d, h
     ld e, l
     dec de
     ld bc, $0029
     lddr
+
     call clearVDPTablesAndDisableScreen
+
     ld b, $05
     call sleepTenthsOfSecond
-    ld hl, _RAM_C800_
-    ld de, nametableCopy
+
+    ; Backup nametable
+    ld hl, v_nametable
+    ld de, v_nametableCopy
     ld bc, $0700
     ldir
-    ld hl, _RAM_C800_
-    ld de, _RAM_C800_ + 1
+
+    ; Clear nametable
+    ld hl, v_nametable
+    ld de, v_nametable + 1
     ld bc, $06FF
     ld (hl), $00
     ldir
+
+    ; Set map loading state
     xor a
     ld (v_mapLoadingState), a
+
     ld a, $85
     ld (Mapper_Slot2), a
+
+    ; TODO
     ld b, $18
-    ld de, _RAM_C808_
+    ld de, v_nametable + $8
+
     ld (v_currentMapNametableDestinationPointer), de
     ld hl, chokkinnaTilesB
     ld (v_currentMapOrTextNametablePointer), hl
--:
-    push bc
-    ld de, (v_currentMapNametableDestinationPointer)
-    ld hl, (v_currentMapOrTextNametablePointer)
-    ld bc, $1202
-    call _LABEL_2522_
-    ld de, (v_currentMapNametableDestinationPointer)
-    inc de
-    inc de
-    ld (v_currentMapNametableDestinationPointer), de
-    ld hl, v_mapLoadingState
-    inc (hl)
-    ld a, (hl)
-    add a, a
-    ld b, $00
-    ld c, a
-    ld hl, _DATA_15E45_
-    add hl, bc
-    ld a, (hl)
-    inc hl
-    ld h, (hl)
-    ld l, a
-    ld (v_currentMapOrTextNametablePointer), hl
-    pop bc
+
+    -:
+        push bc
+        ld de, (v_currentMapNametableDestinationPointer)
+        ld hl, (v_currentMapOrTextNametablePointer)
+        ld bc, $1202
+        ; TODO
+        call _LABEL_2522_
+
+        ld de, (v_currentMapNametableDestinationPointer)
+        inc de
+        inc de
+        ld (v_currentMapNametableDestinationPointer), de
+
+        ld hl, v_mapLoadingState
+        inc (hl)
+    
+        ld a, (hl)
+        add a, a
+        ld b, $00
+        ld c, a
+        ld hl, mapParchmentColumns
+        add hl, bc
+        ld a, (hl)
+        inc hl
+        ld h, (hl)
+        ld l, a
+        ld (v_currentMapOrTextNametablePointer), hl
+        pop bc
     djnz -
+
     xor a
     ld (v_inventoryItemSelectionState), a
+
+    ; Configure entity array
     ld a, $03
     ld (v_entitydataArrayLength), a
-    ld hl, _RAM_CF80_
+    ld hl, v_mapEntities
     ld (v_entitydataArrayPointer), hl
-    ld de, _RAM_CF80_ + 1
+
+    ; Clear map entities
+    ld de, v_mapEntities + 1
     ld bc, $005F
     ld (hl), $00
     ldir
+
     call updateVdpAddressAfterDraw
+
     ld a, $87
     ld (Mapper_Slot2), a
+
+    ; Clear tile $40
     ld de, $6800
     ld bc, $0020
     ld l, $00
     call fillVram
+
+    ; Load arrow tile
     ld hl, _DATA_1E209_
     ld de, $6820
     ld bc, $0020
     call copyBytesToVRAM
+
+    ; Load Janken Castle tiles
     ld hl, _DATA_1C269_
     ld de, $6840
     ld bc, $0140
     call copyBytesToVRAM
+
     ld a, $82
     ld (Mapper_Slot2), a
-    ld ix, _RAM_CF80_
-    ld (ix+0), $21
-    ld (ix+7), <arrowSprite0Descriptor
-    ld (ix+8), >arrowSprite0Descriptor
-    ld (ix+6), $08
-    ld (ix+5), $08
-    ld (ix+12), $74
-    ld (ix+14), $8E
-    set 0, (ix+1)
-    ld ix, _RAM_CFA0_
-    ld (ix+0), $56
-    res 0, (ix+1)
+
+    ; Spaw item select arrow
+    ld ix, v_mapEntities.1
+    ld (ix + Entity.type), ENTITY_ITEM_SELECT_ARROW
+    ld (ix + Entity.spriteDescriptorPointer.low), <arrowSprite0Descriptor
+    ld (ix + Entity.spriteDescriptorPointer.high), >arrowSprite0Descriptor
+    ld (ix + Entity.animationTimerResetValue), $08
+    ld (ix + Entity.animationTimer), $08
+    ld (ix + Entity.xPos.high), $74
+    ld (ix + Entity.yPos.high), $8E
+    set 0, (ix + Entity.flags)
+
+    ; Spaw map arrow
+    ld ix, v_mapEntities.2
+    ld (ix + Entity.type), ENTITY_ARROW
+    res 0, (ix + Entity.flags)
+
     call updateEntities
+
+    ; Spaw Janken's Castle if on level 10
     ld a, (v_level)
     cp $10
     jr c, +
-    ld ix, _RAM_CFC0_
-    ld (ix+0), $58
-    ld (ix+12), $98
-    ld (ix+14), $38
-+:
+        ld ix, v_mapEntities.3
+        ld (ix+0), ENTITY_JANKENS_CASTLE
+        ld (ix + Entity.xPos.high), $98
+        ld (ix + Entity.yPos.high), $38
+    +:
+
     ld a, $82
     ld (Mapper_Slot2), a
+
+    ; Load number tiles
     ld de, $5800
     ld hl, _DATA_B385_
     ld bc, $0050
     ld a, $01
     call load1bppTiles
+
     ld a, $85
     ld (Mapper_Slot2), a
+
+    ; Load map tiles
     ld hl, mapTiles
     ld de, $4000
     call decompressTilesToVram
+
+    ; Load Magic Capsules tiles
     ld hl, _DATA_16F11_
     ld de, $5980
     ld bc, $01C0
     call copyBytesToVRAM
+
+    ; Load Alex state tiles
     ld hl, _DATA_170B1_
     ld de, $5BA0
     ld bc, $01E0
     call copyBytesToVRAM
+
     ld a, $87
     ld (Mapper_Slot2), a
+
+    ; Load "Score" tiles
     ld hl, _DATA_1C000_
     ld de, $5F80
     call decompressTilesToVram
+
+    ; Load Telepathy Ball tiles
     ld hl, _DATA_1C3C9_
     ld de, $5B20
     ld bc, $0080
     call copyBytesToVRAM
+
+    ; Load Moonlight Stone Medalion tiles
     ld hl, _DATA_1E229_
     ld de, $5D80
     ld bc, $0080
     call copyBytesToVRAM
+
+    ; Load Letter tiles
     ld hl, _DATA_1C169_
     ld de, $5E00
     ld bc, $0080
     call copyBytesToVRAM
+
+    ; Load Hirotta Stone tiles
     ld hl, _DATA_1C1E9_
     ld de, $5E80
     ld bc, $0080
     call copyBytesToVRAM
+
+    ; Load Money Bag tiles
     ld hl, _DATA_1D349_
     ld de, $5780
     ld bc, $0080
     call copyBytesToVRAM
+
+    ; Load Sun Stone Medallion
     ld hl, _DATA_1E189_
     ld de, $5F00
     ld bc, $0080
     call copyBytesToVRAM
-    ld hl, _DATA_23FD_
+
+    ; Load pause palette
+    ld hl, pauseMenuPalette
     ld de, $C000
     ld bc, $0020
     call copyBytesToVRAM
+
+    ; TODO
     call _LABEL_24EC_
+
+    ; Draw nametable
     ld de, $7800
-    ld hl, _RAM_C800_
+    ld hl, v_nametable
     ld bc, $0600
     call copyBytesToVRAM
+
+    ; Draw lives icon (Alex)
     ld hl, _DATA_2429_
     ld de, $7D42
     ld bc, $0204
     call copyNameTableBlockToVram
+
+    ; Draw life count
     ld hl, $C025
     ld de, $7D88
     ld c, $01
     call drawBCDDigits
+
+    ; Draw money bag
     ld hl, _DATA_2431_
     ld de, $7CC2
     ld bc, $0204
     call copyNameTableBlockToVram
+
+    ; Draw money amount
     ld a, $C0
     ld de, $7D12
     call writeAToVRAM
     ld hl, $C032
     ld de, $7D06
     call drawThreeBcdBytes
+
+    ; Draw "Score"
     ld a, $08
     ld (v_nametableCopyFlags), a
     ld hl, _DATA_241D_
@@ -380,8 +536,10 @@ initMapState:
     ld hl, $C022
     ld de, $7D9E
     call drawThreeBcdBytes
+
     ld a, $82
     ld (Mapper_Slot2), a
+
     ld a, (v_level)
     ld c, a
     ld b, $00
@@ -389,43 +547,46 @@ initMapState:
     add hl, bc
     ld a, (hl)
     ld (v_soundControl), a
+
     ld a, (v_alex.state)
     cp ALEX_SWIMING
     jr nz, +
-    ld a, SOUND_UNDERWATER_SONG
-    ld (v_soundControl), a
-    ld a, (v_level)
-    cp $10
-    jp nz, +
-    ld a, SOUND_CASTLE_SONG
-    ld (v_soundControl), a
-+:
+        ld a, SOUND_UNDERWATER_SONG
+        ld (v_soundControl), a
+        ld a, (v_level)
+        cp $10
+        jp nz, +
+        ld a, SOUND_CASTLE_SONG
+        ld (v_soundControl), a
+    +:
+
     ld a, (v_alexActionState)
-    cp $07
+    cp ALEX_C054_RIDING_MOTORCYCLE
     jp c, ++
     jp nz, +
-    ld a, SOUND_BIKE_SONG
-    ld (v_soundControl), a
-    jp ++
+        ld a, SOUND_BIKE_SONG
+        ld (v_soundControl), a
+        jp ++
+    +:
+        cp ALEX_C054_RIDING_BOAT
+        jp z, ++
+        ld a, SOUND_PETICOPTER_SONG
+        ld (v_soundControl), a
+    ++:
 
-+:
-    cp $08
-    jp z, ++
-    ld a, SOUND_PETICOPTER_SONG
-    ld (v_soundControl), a
-++:
     ld a, (v_currentLevelIsBonusLevel)
     or a
     jr z, +
-    ld a, SOUND_BASE_SONG
-    ld (v_soundControl), a
-+:
+        ld a, SOUND_BASE_SONG
+        ld (v_soundControl), a
+    +:
+
     ei
     call enableDisplay
     ret
 
 ; Data from 23FD to 241C (32 bytes)
-_DATA_23FD_:
+pauseMenuPalette:
 .db $00 $2F $0B $06 $01 $0C $08 $04 $3F $3E $38 $03 $30 $00 $0F $00
 .db $00 $3F $05 $0B $03 $02 $00 $30 $3C $0C $0F $08 $3A $36 $03 $0A
 
@@ -441,8 +602,8 @@ _DATA_2429_:
 _DATA_2431_:
 .db $BC $08 $BD $08 $BE $08 $BF $08
 
-; 33rd entry of Jump Table from 2892 (indexed by _RAM_CF80_)
-updateEntity0x21:
+; 33rd entry of Jump Table from 2892 (indexed by v_mapEntities)
+updateItemSelectArrow:
     ld b, (ix+20)
     ld (ix+7), <arrowSprite0Descriptor
     ld (ix+8), >arrowSprite0Descriptor
@@ -508,9 +669,23 @@ updateEntity0x21:
 _LABEL_24B6_:
     ret
 
-; Data from 24B7 to 24CE (24 bytes)
-.db $0F $DD $7E $0E $38 $09 $FE $9C $D0 $21 $00 $02 $CB $E0 $C9 $FE
-.db $88 $D8 $21 $00 $FE $CB $98 $C9
+; TODO: Unused?
+_LABEL_24B7_:	
+    rrca
+    ld a, (ix+14)
+    jr c, +
+    cp $9C
+    ret nc
+    ld hl, $0200
+    set 4, b
+    ret
+
++:
+    cp $88
+    ret c
+    ld hl, $FE00
+    res 3, b
+    ret
 
 _LABEL_24CF_:
     ld a, c
@@ -573,17 +748,18 @@ _LABEL_24EC_:
     ret
 
 _LABEL_2522_:
-    push bc
-    ld b, $00
-    push de
-    ldir
-    pop de
-    ex de, hl
-    ld c, $40
-    add hl, bc
-    ex de, hl
-    pop bc
-    djnz _LABEL_2522_
+    -:
+        push bc
+        ld b, $00
+        push de
+        ldir
+        pop de
+        ex de, hl
+        ld c, $40
+        add hl, bc
+        ex de, hl
+        pop bc
+    djnz -
     ret
 
 _LABEL_2532_:
@@ -685,8 +861,8 @@ _LABEL_25B4_:
 _LABEL_25D3_:
     call audioEngine.reset
     call clearVDPTablesAndDisableScreen
-    ld hl, _RAM_C800_
-    ld de, _RAM_C800_ + 1
+    ld hl, v_nametable
+    ld de, v_nametable + 1
     ld (hl), $00
     ld bc, $06FF
     ldir
@@ -705,7 +881,7 @@ _LABEL_25D3_:
     call decompressTilesToVram
     ld a, $82
     ld (Mapper_Slot2), a
-    ld ix, _RAM_CF80_
+    ld ix, v_mapEntities
     ld b, $03
     ld de, $0020
 -:
@@ -724,9 +900,9 @@ _LABEL_25D3_:
     jr z, -
     xor a
     ld (v_shouldOpenMap), a
-    jp _LABEL_1FE9_
+    jp exitMapState
 
-_LABEL_263D_:
+realHandleInterruptMapState:
     ld hl, v_inventoryItemSelectionState
     bit 7, (hl)
     ret z

@@ -136,15 +136,11 @@ v_resetButtonState db
 .enum $C0A0 export
 v_levelWidth db
 v_linesToLoadToNametable db
-.ende
-
-.enum $C0A3 export
+v_levelData_C0A2 db
 v_levelLayoutPointer dw
 v_levelHeight db
 v_columnsToLoadToNametable db
-.ende
-
-.enum $C0A8 export
+v_levelData_C0A7 db
 v_SecondLevelLayoutPointer dw
 v_UpdateNameTableFlags db
 v_horizontalScrollSpeed .dw
@@ -154,35 +150,33 @@ v_horizontalScrollAccumulator .dw
 v_horizontalScrollAccumulator.low db
 v_horizontalScrollAccumulator.high db
 v_horizontalScroll db
-_RAM_C0B0_ dw
-.ende
-
-.enum $C0B3 export
-_RAM_C0B3_ db
-_RAM_C0B4_ db
-_RAM_C0B5_ db
+v_levelData_C0B0 dw
+v_levelData_C0B2 db
+v_levelData_C0B3_ db
+v_levelData_C0B4_ db
+v_levelData_C0B5_ db
 v_horizontalScreenNumber db
-_RAM_C0B7_ dw
+v_levelData_C0B7_ dw
 v_verticalScrollSpeed db
-_RAM_C0BA_ db
-_RAM_C0BB_ db
-_RAM_C0BC_ db
+v_levelData_C0BA_ db
+v_levelData_C0BB_ db
+v_levelData_C0BC_ db
 v_verticalScroll .dw
 v_verticalScroll.low db
 v_verticalScroll.high db
-.ende
-
-.enum $C0C1 export
-_RAM_C0C1_ db
-_RAM_C0C2_ db
-_RAM_C0C3_ db
+v_levelData_C0BF db
+v_levelData_C0C0 db
+v_levelData_C0C1_ db
+v_levelData_C0C2_ db
+v_levelData_C0C3_ db
 v_verticalScreenNumber db
-_RAM_C0C5_ dw
-.ende
-
-.enum $C0C9 export
+v_levelData_C0C5_ dw
+v_levelData_C0C7 db
+v_levelData_C0C8 db
 v_scrollFlags db
+
 v_temporaryLevelDataCopy dsb $2a
+
 _RAM_C0F4_ dw
 .ende
 
@@ -319,7 +313,7 @@ _RAM_C706_ db
 .ende
 
 .enum $C800 export
-_RAM_C800_ dsb $8
+v_nametable dsb $8
 _RAM_C808_ dw
 .ende
 
@@ -424,9 +418,7 @@ v_rowToDraw dsb $40
 .ende
 
 .enum $CF80 export
-_RAM_CF80_ dsb $20
-_RAM_CFA0_ dsb $20
-_RAM_CFC0_ db
+    v_mapEntities INSTANCEOF Entity $3
 .ende
 
 .enum $CFE0 export
@@ -434,7 +426,7 @@ v_textboxCursor db
 .ende
 
 .enum $D000 export
-nametableCopy dsb $503
+v_nametableCopy dsb $503
 _RAM_D503_ db
 _RAM_D504_ db
 .ende

@@ -13,7 +13,7 @@
 .ORG $0000
 
 ; Data from C000 to C47F (1152 bytes)
-_DATA_C000_:
+tiles_boxes:
 .incbin "src/graphics/boxes/skull.bin"
 .incbin "src/graphics/boxes/question_mark.bin"
 .incbin "src/graphics/boxes/star.bin"
@@ -703,7 +703,7 @@ _DATA_17291_:
 .db $FF $00 $00 $00 $66 $00 $00 $00 $66 $00 $00 $00 $3C $00 $00 $00
 
 ; Data from 172B1 to 17852 (1442 bytes)
-_DATA_172B1_:
+tiles_4bppCharacters:
 .incbin "src/data/4bppCharacters.bin"
 
 ; 1st entry of Pointer Table from 1620 (indexed by v_sixFrameLevelTileIndex)

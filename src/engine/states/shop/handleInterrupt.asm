@@ -49,11 +49,11 @@ _LABEL_1C33_:
     ld (Mapper_Slot2), a
     ld a, $8A
     ld (v_gameState), a
-    ld de, _RAM_C800_
-    ld hl, nametableCopy
+    ld de, v_nametable
+    ld hl, v_nametableCopy
     ld bc, $0700
     ldir
-    ld hl, _RAM_C800_
+    ld hl, v_nametable
     ld de, $7800
     ld bc, $0700
     call copyBytesToVRAM
@@ -72,7 +72,7 @@ _LABEL_1C33_:
     ld a, ENTITY_ARRAY_SIZE
     ld (v_entitydataArrayLength), a
     ld de, v_entities
-    ld hl, _RAM_CFA0_
+    ld hl, v_mapEntities.2
     ld bc, $0020
     ldir
     ld ix, v_alex
@@ -84,7 +84,7 @@ _LABEL_1C33_:
     call loadLevelTiles
     ld a, $85
     ld (Mapper_Slot2), a
-    ld hl, _DATA_172B1_
+    ld hl, tiles_4bppCharacters
     ld de, $5600
     call decompressTilesToVram
     ld a, $82
@@ -143,26 +143,26 @@ _LABEL_1D04_:
     ld b, $05
     call sleepTenthsOfSecond
     call clearScroll
-    ld hl, _RAM_C800_
-    ld de, nametableCopy
+    ld hl, v_nametable
+    ld de, v_nametableCopy
     ld bc, $0700
     ldir
     ld a, $85
     ld (Mapper_Slot2), a
     ld hl, shopNametableEntries
-    ld de, _RAM_C800_
+    ld de, v_nametable
     call decompressNametable
     ld a, $01
     ld (v_entitydataArrayLength), a
-    ld hl, _RAM_CF80_
-    ld de, _RAM_CF80_ + 1
+    ld hl, v_mapEntities
+    ld de, v_mapEntities + 1
     ld bc, $005F
     ld (hl), $00
     ldir
     ld a, $82
     ld (Mapper_Slot2), a
     ld hl, v_entities
-    ld de, _RAM_CFA0_
+    ld de, v_mapEntities.2
     ld bc, $0020
     ldir
     ld ix, v_alex
@@ -296,7 +296,7 @@ _LABEL_1E77_:
     ld bc, $0012
     ldir
     ld de, $7800
-    ld hl, _RAM_C800_
+    ld hl, v_nametable
     ld bc, $0600
     call copyBytesToVRAM
     ld hl, $C032

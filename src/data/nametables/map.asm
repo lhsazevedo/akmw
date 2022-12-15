@@ -1,8 +1,29 @@
 ; Pointer Table from 15E45 to 15E74 (24 entries, indexed by v_mapLoadingState)
-_DATA_15E45_:
-.dw _DATA_15E75_ _DATA_15E99_ _DATA_15EBD_ _DATA_15EE1_ _DATA_15F05_ _DATA_15F29_ _DATA_15F4D_ _DATA_15F71_
-.dw _DATA_15F95_ _DATA_15FB9_ _DATA_15FDD_ _DATA_16001_ _DATA_16025_ _DATA_16049_ _DATA_1606D_ _DATA_16091_
-.dw _DATA_160B5_ _DATA_160D9_ _DATA_160FD_ _DATA_16121_ _DATA_16145_ _DATA_16169_ mapParchmentRightSideColumn1 mapParchmentRightSideColumn2
+mapParchmentColumns:
+.dw _DATA_15E75_
+.dw _DATA_15E99_
+.dw _DATA_15EBD_
+.dw _DATA_15EE1_
+.dw _DATA_15F05_
+.dw _DATA_15F29_
+.dw _DATA_15F4D_
+.dw _DATA_15F71_
+.dw _DATA_15F95_
+.dw _DATA_15FB9_
+.dw _DATA_15FDD_
+.dw _DATA_16001_
+.dw _DATA_16025_
+.dw _DATA_16049_
+.dw _DATA_1606D_
+.dw _DATA_16091_
+.dw _DATA_160B5_
+.dw _DATA_160D9_
+.dw _DATA_160FD_
+.dw _DATA_16121_
+.dw _DATA_16145_
+.dw _DATA_16169_
+.dw mapParchmentRightSideColumn1
+.dw mapParchmentRightSideColumn2
 
 ; 1st entry of Pointer Table from 15E45 (indexed by v_mapLoadingState)
 ; Data from 15E75 to 15E98 (36 bytes)

@@ -35,7 +35,7 @@ updateLevelStartingState:
     add a, a
     ld b, $00
     ld c, a
-    ld hl, _DATA_15E45_
+    ld hl, mapParchmentColumns
     add hl, bc
     ld a, (hl)
     inc hl

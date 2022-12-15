@@ -6,9 +6,9 @@ drawThoughtClouds:
     inc hl
     call clearEntity
 
-    ; Copy 0xEC bytes from nametable at 0xCA08 to nametableCopy
+    ; Copy 0xEC bytes from nametable at 0xCA08 to v_nametableCopy
     ld hl, _RAM_CA08_
-    ld de, nametableCopy
+    ld de, v_nametableCopy
     ld bc, $00EC
     ldir
 

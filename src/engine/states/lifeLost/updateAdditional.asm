@@ -53,7 +53,7 @@ _LABEL_6EBB_:
     ret
 
 _LABEL_6F21_:
-    ld a, (_RAM_C0BC_)
+    ld a, (v_levelData_C0BC_)
     cp $07
     ret nc
     ld b, a

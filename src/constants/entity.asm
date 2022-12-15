@@ -12,6 +12,7 @@ ENTITY_GOOSEKA                  = $1D
 ENTITY_CHOKKINNA                = $1E
 ENTITY_PARPLIN                  = $1F
 ENTITY_BAT_LEFT                 = $20
+ENTITY_ITEM_SELECT_ARROW        = $21
 ENTITY_MERMAN_BUBBLE            = $22
 ENTITY_MERMAN                   = $23
 ENTITY_OCTOPUS_ARM              = $24

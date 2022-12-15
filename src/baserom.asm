@@ -632,7 +632,7 @@ enableDisplay:
 clearScroll:
     xor a
     ld (v_verticalScroll.high), a
-    ld (_RAM_C0B0_), a
+    ld (v_levelData_C0B0), a
     ld e, a
     ld d, $89
     rst setVdpAddress
@@ -1086,8 +1086,7 @@ divideHLByE:
 .INCLUDE "engine/states/shop/update.asm"
 .INCLUDE "engine/states/shop/handleInterrupt.asm"
 
-.INCLUDE "engine/states/map/update.asm"
-.INCLUDE "engine/states/map/handleInterrupt.asm"
+.INCLUDE "engine/states/map/map.asm"
 
 updateInvincibility:
     ; Return if v_alexActionState isn't ALEX_C054_STATE_1 or ALEX_C054_INVINCIBLE.
@@ -1585,7 +1584,7 @@ interactWithTileAtOffset:
     ld l, a
 
     ; @TODO: This handles some scroll edge case
-    ld a, (_RAM_C0B0_)
+    ld a, (v_levelData_C0B0)
     rra
     rra
     add a, l
@@ -2015,7 +2014,7 @@ _LABEL_3FD1_:
     jp +++
 
 +:
-    ld a, (_RAM_C0B7_)
+    ld a, (v_levelData_C0B7_)
     and $02
     jr z, ++
     ld a, (v_alex.yPos.high)
@@ -2692,7 +2691,7 @@ _LABEL_4415_:
     ld (iy+6), $04
     ret
 
-; 3rd entry of Jump Table from 2892 (indexed by _RAM_CF80_)
+; 3rd entry of Jump Table from 2892 (indexed by v_mapEntities)
 .INCLUDE "entities/entity0x03.asm"
 
 ; 9th entry of Jump Table from 4523 (indexed by v_alexActionState)
@@ -3193,7 +3192,7 @@ _LABEL_4C23_:
     ld h, $C8
     ret
 
-; 36th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
+; 36th entry of Jump Table from 2892 (indexed by v_mapEntities)
 .INCLUDE "entities/octopusArm/updater.asm"
 
 getVelocitiesToPursuitAlex:
@@ -3589,7 +3588,7 @@ _LABEL_6671_:
     add a, $90
     ld (v_currentScreenNumber), a
 ++:
-    ld a, (_RAM_C0B0_)
+    ld a, (v_levelData_C0B0)
     ld (v_newEntityHorizontalOffset), a
 -:
     ld a, $10
@@ -3638,13 +3637,13 @@ updateScroll_LABEL_67C4_:
 
     and $07
     ld (v_horizontalScrollAccumulator.high), a
-    ld a, (_RAM_C0B7_)
+    ld a, (v_levelData_C0B7_)
     sub $02
     jp nc, +
     ld a, $3E
 +:
-    ld (_RAM_C0B7_), a
-    ld hl, (_RAM_C0B4_)
+    ld (v_levelData_C0B7_), a
+    ld hl, (v_levelData_C0B4_)
     ld bc, $0080
     or a
     sbc hl, bc
@@ -3652,11 +3651,11 @@ updateScroll_LABEL_67C4_:
     ld hl, $0F80
 +:
     ex af, af'
-    ld (_RAM_C0B4_), hl
-    ld a, (_RAM_C0B3_)
+    ld (v_levelData_C0B4_), hl
+    ld a, (v_levelData_C0B3_)
     dec a
     and $01
-    ld (_RAM_C0B3_), a
+    ld (v_levelData_C0B3_), a
     ld hl, v_horizontalScreenNumber
     ex af, af'
     jp nc, loadLinesToNametable_LABEL_6865_
@@ -3674,7 +3673,7 @@ updateScroll_LABEL_67C4_:
     ld hl, $0000
     ld (v_horizontalScrollSpeed), hl
     ld a, $08
-    ld (_RAM_C0B0_), a
+    ld (v_levelData_C0B0), a
     ret
 
 _LABEL_6841_:
@@ -3712,7 +3711,7 @@ loadLinesToNametable_LABEL_6865_:
     ld (v_UpdateNameTableFlags), a
 
     ld hl, v_decompressedLevelLayoutData
-    ld a, (_RAM_C0B5_)
+    ld a, (v_levelData_C0B5_)
     ld c, a
     ld b, $00
     add hl, bc
@@ -3733,7 +3732,7 @@ loadLinesToNametable_LABEL_6865_:
         inc hl
         ld h, (hl)
         ld l, a
-        ld a, (_RAM_C0B3_)
+        ld a, (v_levelData_C0B3_)
         add a, a
         ld c, a
         add hl, bc
@@ -3777,8 +3776,8 @@ scrollRight_LABEL_68A7_:
     ld (v_horizontalScrollAccumulator.high), a
 
     // TODO
-    // If _RAM_C0B7_ is zero, deal with screen numbers. Else, scroll normally.
-    ld a, (_RAM_C0B7_)
+    // If v_levelData_C0B7_ is zero, deal with screen numbers. Else, scroll normally.
+    ld a, (v_levelData_C0B7_)
     or a
     jp nz, +
         ld hl, v_currentScreenNumber
@@ -3793,15 +3792,15 @@ scrollRight_LABEL_68A7_:
         call loadLinesToNametable_LABEL_6865_
     ++:
 
-    ld a, (_RAM_C0B7_)
+    ld a, (v_levelData_C0B7_)
     add a, $02
     cp $40
     jp c, +
         xor a
     +:
-    ld (_RAM_C0B7_), a
+    ld (v_levelData_C0B7_), a
 
-    ld hl, (_RAM_C0B4_)
+    ld hl, (v_levelData_C0B4_)
     ld bc, $0080
     add hl, bc
     ld a, h
@@ -3810,12 +3809,12 @@ scrollRight_LABEL_68A7_:
         ld hl, $0000
     +:
     ex af, af'
-    ld (_RAM_C0B4_), hl
+    ld (v_levelData_C0B4_), hl
 
-    ld a, (_RAM_C0B3_)
+    ld a, (v_levelData_C0B3_)
     inc a
     and $01
-    ld (_RAM_C0B3_), a
+    ld (v_levelData_C0B3_), a
 
     ld hl, v_horizontalScreenNumber
     ld bc, (v_levelWidth)
@@ -3843,7 +3842,7 @@ draw:
     jp nc, @drawRow
 
     ; Draw column
-    ld a, (_RAM_C0B0_)
+    ld a, (v_levelData_C0B0)
     ld b, a
     ld a, (v_horizontalScrollSpeed.high)
     bit 7, a
@@ -3862,7 +3861,7 @@ draw:
     ld b, $00
 
     ; Target VDP Address
-    ld hl, (_RAM_C0C5_)
+    ld hl, (v_levelData_C0C5_)
     add hl, bc
     ex de, hl
 
@@ -3912,7 +3911,7 @@ draw:
     jp nc, updateVdpAddressAfterDraw
 
     ; TODO
-    ld a, (_RAM_C0BA_)
+    ld a, (v_levelData_C0BA_)
     bit 7, a
     ld a, (v_verticalScroll.high)
     jp z, +
@@ -3932,9 +3931,9 @@ draw:
     add hl, hl
     ex de, hl
 
-    ld hl, (_RAM_C0B7_)
+    ld hl, (v_levelData_C0B7_)
     add hl, de
-    ld a, (_RAM_C0B7_)
+    ld a, (v_levelData_C0B7_)
     ld b, a
 
     ex af, af'
@@ -3960,7 +3959,7 @@ draw:
 updateVdpAddressAfterDraw:
     xor a
     ld (v_UpdateNameTableFlags), a
-    ld de, (_RAM_C0B0_)
+    ld de, (v_levelData_C0B0)
     ld d, $88
     call setVdpAddress
     ld de, (v_verticalScroll.high)
@@ -3976,7 +3975,7 @@ updateVerticalScroll_LABEL_69CB_:
     ld a, $10
     ld (v_columnsToLoadToNametable), a
 
-    ld bc, (_RAM_C0BB_)
+    ld bc, (v_levelData_C0BB_)
     ld hl, (v_verticalScroll)
     add hl, de
     ld (v_verticalScroll), hl
@@ -4010,19 +4009,19 @@ updateVerticalScroll_LABEL_69CB_:
     ; Sum BC to speed (HL)
     add hl, bc
 
-    ; Save speed to _RAM_C0BB_ and return
+    ; Save speed to v_levelData_C0BB_ and return
     ; if high byte is less than 8.
     ld a, h
     cp $08
-    ld (_RAM_C0BB_), hl
+    ld (v_levelData_C0BB_), hl
     ret c
 
-    ; Save the first 3 bits of high byte to _RAM_C0BC_ 
+    ; Save the first 3 bits of high byte to v_levelData_C0BC_ 
     and $07
-    ld (_RAM_C0BC_), a
+    ld (v_levelData_C0BC_), a
 
     ; @TODO: ...
-    ld hl, (_RAM_C0C5_)
+    ld hl, (v_levelData_C0C5_)
     ld bc, $0040
     add hl, bc
     ld a, h
@@ -4030,23 +4029,23 @@ updateVerticalScroll_LABEL_69CB_:
     jp nz, +
     ld h, $78
 +:
-    ld (_RAM_C0C5_), hl
-    ld a, (_RAM_C0C1_)
+    ld (v_levelData_C0C5_), hl
+    ld a, (v_levelData_C0C1_)
     inc a
     and $01
-    ld (_RAM_C0C1_), a
-    ld hl, (_RAM_C0C2_)
+    ld (v_levelData_C0C1_), a
+    ld hl, (v_levelData_C0C2_)
     ld bc, $0080
     add hl, bc
     ld a, h
     cp $0C
-    ld (_RAM_C0C2_), hl
+    ld (v_levelData_C0C2_), hl
     jp c, _LABEL_6A76_
     ld hl, v_currentScreenNumber
     inc (hl)
     set 7, (hl)
     ld hl, $0000
-    ld (_RAM_C0C2_), hl
+    ld (v_levelData_C0C2_), hl
     ld bc, (v_levelHeight)
     ld hl, v_verticalScreenNumber
     inc (hl)
@@ -4063,7 +4062,7 @@ updateVerticalScroll_LABEL_69CB_:
     and $F0
     ld (v_verticalScroll.high), a
     xor a
-    ld (_RAM_C0BC_), a
+    ld (v_levelData_C0BC_), a
     ld hl, v_currentScreenNumber
     dec (hl)
     res 7, (hl)
@@ -4075,7 +4074,7 @@ _LABEL_6A76_:
     ld a, $02
     ld (v_UpdateNameTableFlags), a
     ld hl, v_decompressedLevelLayoutData
-    ld a, (_RAM_C0C3_)
+    ld a, (v_levelData_C0C3_)
     or a
     jp z, +
     ld bc, $0010
@@ -4099,7 +4098,7 @@ _LABEL_6A76_:
     inc hl
     ld h, (hl)
     ld l, a
-    ld a, (_RAM_C0C1_)
+    ld a, (v_levelData_C0C1_)
     add a, a
     add a, a
     ld c, a
@@ -4118,12 +4117,12 @@ _LABEL_6A76_:
 
 _LABEL_6ABF_:
     add hl, bc
-    ld (_RAM_C0BB_), hl
+    ld (v_levelData_C0BB_), hl
     ret c
     ld a, h
     and $07
-    ld (_RAM_C0BC_), a
-    ld hl, (_RAM_C0C5_)
+    ld (v_levelData_C0BC_), a
+    ld hl, (v_levelData_C0C5_)
     ld bc, $0040
     or a
     sbc hl, bc
@@ -4132,8 +4131,8 @@ _LABEL_6ABF_:
     jp nz, +
     ld h, $7E
 +:
-    ld (_RAM_C0C5_), hl
-    ld hl, (_RAM_C0C2_)
+    ld (v_levelData_C0C5_), hl
+    ld hl, (v_levelData_C0C2_)
     ld bc, $0080
     or a
     sbc hl, bc
@@ -4141,11 +4140,11 @@ _LABEL_6ABF_:
     ld hl, $0B80
 +:
     ex af, af'
-    ld (_RAM_C0C2_), hl
-    ld a, (_RAM_C0C1_)
+    ld (v_levelData_C0C2_), hl
+    ld a, (v_levelData_C0C1_)
     dec a
     and $01
-    ld (_RAM_C0C1_), a
+    ld (v_levelData_C0C1_), a
     ex af, af'
     ld a, (v_verticalScreenNumber)
     jp nc, _LABEL_6A76_
@@ -4198,7 +4197,7 @@ updateNametable_LABEL_6B49_:
     ld a, (v_UpdateNameTableFlags)
     rrca
     jp nc, _LABEL_6B9C_
-    ld a, (_RAM_C0B0_)
+    ld a, (v_levelData_C0B0)
     ld b, a
     ld a, (v_horizontalScrollSpeed.high)
     bit 7, a
@@ -4214,7 +4213,7 @@ updateNametable_LABEL_6B49_:
     and $3E
     ld c, a
     ld b, $00
-    ld hl, (_RAM_C0C5_)
+    ld hl, (v_levelData_C0C5_)
     ld a, h
     and $07
     ld h, a
@@ -4252,7 +4251,7 @@ _LABEL_6B9C_:
     rrca
     rrca
     ret nc
-    ld a, (_RAM_C0BA_)
+    ld a, (v_levelData_C0BA_)
     bit 7, a
     ld a, (v_verticalScroll.high)
     jp z, +
@@ -4271,14 +4270,14 @@ _LABEL_6B9C_:
     add hl, hl
     add hl, hl
     ex de, hl
-    ld hl, (_RAM_C0B7_)
+    ld hl, (v_levelData_C0B7_)
     ld h, $00
     add hl, de
     ex de, hl
     ld hl, $C800
     add hl, de
     ex de, hl
-    ld a, (_RAM_C0B7_)
+    ld a, (v_levelData_C0B7_)
     ld b, a
     ex af, af'
     ld a, $40
@@ -4545,7 +4544,7 @@ loadEntitiesSpecial_LABEL_6F48_:
     jp _LABEL_6F7E_
 
 +:
-    ld a, (_RAM_C0BC_)
+    ld a, (v_levelData_C0BC_)
     neg
     ld (v_newEntityVerticalOffset), a
     xor a
@@ -4560,7 +4559,7 @@ loadEntitiesSpecial_LABEL_6F48_:
     jp _LABEL_6F7E_
 
 ++:
-    ld a, (_RAM_C0BC_)
+    ld a, (v_levelData_C0BC_)
     ld (v_newEntityVerticalOffset), a
     ld a, (v_entityIndex)
     ld c, a
@@ -4785,7 +4784,7 @@ restoreSomeNametableStuff_LABEL_796D_:
     ld bc, $002E
     ldir
 
-    ld hl, nametableCopy
+    ld hl, v_nametableCopy
     ld de, _RAM_CA08_
     ld bc, $00EC
     ldir

@@ -122,7 +122,7 @@ _LABEL_7E5E_:
     call waitForInterrupt
     di
     call disableDisplay
-    ld hl, _RAM_C800_
+    ld hl, v_nametable
     ld de, $7800
     ld bc, $0700
     call copyBytesToVRAM

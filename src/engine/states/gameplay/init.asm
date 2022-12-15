@@ -77,13 +77,13 @@ initGameplayState:
     ld a, $85
     ld (Mapper_Slot2), a
     ld de, $5600
-    ld hl, _DATA_172B1_
+    ld hl, tiles_4bppCharacters
     call decompressTilesToVram
 
     ; Load boxes tiles
     ld a, $83
     ld (Mapper_Slot2), a
-    ld hl, _DATA_C000_
+    ld hl, tiles_boxes
     ld de, $4020
     ld bc, $0480
     call copyBytesToVRAM

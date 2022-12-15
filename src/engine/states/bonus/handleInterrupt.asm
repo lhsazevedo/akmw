@@ -149,8 +149,8 @@ _LABEL_1735_:
     ld a, $08
     ld (v_levelScrollFlags), a
     ld hl, $7800
-    ld (_RAM_C0B7_), hl
-    ld (_RAM_C0C5_), hl
+    ld (v_levelData_C0B7_), hl
+    ld (v_levelData_C0C5_), hl
 -:
     ld hl, $0100
     ld (v_horizontalScrollSpeed), hl

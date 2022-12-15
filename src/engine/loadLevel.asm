@@ -54,8 +54,8 @@ loadLevel:
 
     ; @TODO
     ld hl, $7800
-    ld (_RAM_C0B7_), hl
-    ld (_RAM_C0C5_), hl
+    ld (v_levelData_C0B7_), hl
+    ld (v_levelData_C0C5_), hl
 
     ; @TODO...
     ; Draw first screen
