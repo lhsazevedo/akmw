@@ -1,4 +1,3 @@
-; 65th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 updateEntity0x41:
     call tryToKillAlexIfColliding
     ld h, (ix + Entity.xSpeed.high)

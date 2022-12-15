@@ -1,4 +1,3 @@
-; 16th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 updateEntity0x10:
     ld hl, $BE9E
     ld bc, $0403

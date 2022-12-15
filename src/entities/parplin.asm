@@ -1,4 +1,3 @@
-; 31st entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 updateParplin:
     ld a, (v_entities.6.state)
     ld hl, parplinUpdaters

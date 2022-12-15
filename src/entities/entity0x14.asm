@@ -1,4 +1,3 @@
-; 20th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 updateEntity0x14:
     set 1, (ix + Entity.flags)
     ld a, (v_scrollFlags)

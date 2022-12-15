@@ -1,4 +1,3 @@
-; 55th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 updateMonsterFrogJumping:
     ; Return if offscreen
     ld a, (ix + Entity.isOffScreenFlags.low)

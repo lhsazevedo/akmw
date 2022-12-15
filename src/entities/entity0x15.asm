@@ -1,4 +1,3 @@
-; 21st entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 updateEntity0x15:
     ld (ix + Entity.spriteDescriptorPointer.low), <nullSpriteDescriptor
     ld (ix + Entity.spriteDescriptorPointer.high), >nullSpriteDescriptor

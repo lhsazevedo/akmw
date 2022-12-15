@@ -1,4 +1,3 @@
-; 49th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 updateSeaHorseLeft:
     bit 0, (ix + Entity.flags)
     jr nz, +

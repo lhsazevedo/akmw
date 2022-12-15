@@ -1,4 +1,3 @@
-; 53rd entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 updateKillerFishRight:
     ld a, (ix + Entity.isOffScreenFlags.low)
     or (ix + Entity.isOffScreenFlags.high)

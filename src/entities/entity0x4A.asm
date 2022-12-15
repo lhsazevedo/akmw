@@ -18,7 +18,6 @@ _LABEL_54DF_:
     inc (ix + Entity.unknown5)
     ld a, SOUND_SMOKE_PUFF
     ld (v_soundControl), a
-; 74th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 updateEntity0x4A:
     ld a, (ix + Entity.isOffScreenFlags.low)
     or (ix + Entity.isOffScreenFlags.high)

@@ -1,4 +1,3 @@
-; 30th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 updateChokkinna:
     ld a, (v_entities.6.state)
     ld hl, chokkinnaUpdaters

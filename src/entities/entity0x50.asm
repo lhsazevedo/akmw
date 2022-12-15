@@ -1,4 +1,3 @@
-; 80th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 updateEntity0x50:
     ld (ix + Entity.spriteDescriptorPointer.low), <_DATA_802F_
     ld (ix + Entity.spriteDescriptorPointer.high), >_DATA_802F_

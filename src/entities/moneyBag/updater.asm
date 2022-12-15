@@ -1,4 +1,3 @@
-; 60th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 updateMoneyBag:
     ; Skip initialization if its already done
     bit 0, (ix + Entity.flags)

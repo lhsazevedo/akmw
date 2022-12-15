@@ -1,4 +1,3 @@
-; 72nd entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 updateEntity0x48:
     ld a, (ix + Entity.xPos.high)
     cp $D8

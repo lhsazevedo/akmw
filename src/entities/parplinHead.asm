@@ -1,4 +1,3 @@
-; 15th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 updateParplinHead:
     call tryToKillAlexIfColliding
     ld a, (v_entities.7.stateTimer)

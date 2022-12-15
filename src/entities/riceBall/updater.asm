@@ -1,4 +1,3 @@
-; 68th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 updateRiceBall:
     bit 0, (ix + Entity.flags)
     jr nz, @skipInit

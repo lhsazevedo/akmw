@@ -1,4 +1,3 @@
-; 69th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 updateSaintNurari:
     ld (ix + Entity.spriteDescriptorPointer.low), <_DATA_82DE_
     ld (ix + Entity.spriteDescriptorPointer.high), >_DATA_82DE_

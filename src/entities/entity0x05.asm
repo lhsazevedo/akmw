@@ -1,4 +1,3 @@
-; 5th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 updateEntity0x05:
     ld a, (v_entities.4.isOffScreenFlags.low)
     or (ix + Entity.isOffScreenFlags.high)

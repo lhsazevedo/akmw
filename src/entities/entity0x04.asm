@@ -1,4 +1,3 @@
-; 4th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 updateEntity0x04:
     dec (ix + Entity.unknown7)
     ret nz

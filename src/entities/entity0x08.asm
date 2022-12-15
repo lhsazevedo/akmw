@@ -1,4 +1,3 @@
-; 8th entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 updateEntity0x08:
     ld hl, (v_entities.4.stateTimer)
     dec hl

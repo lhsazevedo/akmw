@@ -1,4 +1,3 @@
-; 42nd entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 updateEntity0x2A:
     bit 0, (ix + Entity.flags)
     jr nz, +

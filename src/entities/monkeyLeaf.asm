@@ -1,4 +1,3 @@
-; 41st entry of Jump Table from 2892 (indexed by _RAM_CF80_)
 updateMonkeyLeaf:
     ; Initialize entity
     bit 0, (ix + Entity.flags)
