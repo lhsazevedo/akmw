@@ -369,13 +369,13 @@ initMapState:
     call fillVram
 
     ; Load arrow tile
-    ld hl, _DATA_1E209_
+    ld hl, tiles_arrow
     ld de, $6820
     ld bc, $0020
     call copyBytesToVRAM
 
     ; Load Janken Castle tiles
-    ld hl, _DATA_1C269_
+    ld hl, tiles_jankensCastle
     ld de, $6840
     ld bc, $0140
     call copyBytesToVRAM
@@ -416,7 +416,7 @@ initMapState:
 
     ; Load number tiles
     ld de, $5800
-    ld hl, _DATA_B385_
+    ld hl, tiles_numbers
     ld bc, $0050
     ld a, $01
     call load1bppTiles
@@ -425,18 +425,18 @@ initMapState:
     ld (Mapper_Slot2), a
 
     ; Load map tiles
-    ld hl, mapTiles
+    ld hl, tiles_map
     ld de, $4000
     call decompressTilesToVram
 
     ; Load Magic Capsules tiles
-    ld hl, _DATA_16F11_
+    ld hl, tiles_magicCapsules
     ld de, $5980
     ld bc, $01C0
     call copyBytesToVRAM
 
     ; Load Alex state tiles
-    ld hl, _DATA_170B1_
+    ld hl, tiles_alexStates
     ld de, $5BA0
     ld bc, $01E0
     call copyBytesToVRAM
@@ -445,42 +445,42 @@ initMapState:
     ld (Mapper_Slot2), a
 
     ; Load "Score" tiles
-    ld hl, _DATA_1C000_
+    ld hl, tiles_pauseScoreText
     ld de, $5F80
     call decompressTilesToVram
 
     ; Load Telepathy Ball tiles
-    ld hl, _DATA_1C3C9_
+    ld hl, tiles_telepathyBall
     ld de, $5B20
     ld bc, $0080
     call copyBytesToVRAM
 
     ; Load Moonlight Stone Medalion tiles
-    ld hl, _DATA_1E229_
+    ld hl, tiles_moonlightStoneMedalion
     ld de, $5D80
     ld bc, $0080
     call copyBytesToVRAM
 
     ; Load Letter tiles
-    ld hl, _DATA_1C169_
+    ld hl, tiles_letter
     ld de, $5E00
     ld bc, $0080
     call copyBytesToVRAM
 
     ; Load Hirotta Stone tiles
-    ld hl, _DATA_1C1E9_
+    ld hl, tiles_hirottaStone
     ld de, $5E80
     ld bc, $0080
     call copyBytesToVRAM
 
     ; Load Money Bag tiles
-    ld hl, _DATA_1D349_
+    ld hl, tiles_moneyBags
     ld de, $5780
     ld bc, $0080
     call copyBytesToVRAM
 
     ; Load Sun Stone Medallion
-    ld hl, _DATA_1E189_
+    ld hl, tiles_sunStoneMedallion
     ld de, $5F00
     ld bc, $0080
     call copyBytesToVRAM

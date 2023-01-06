@@ -183,7 +183,7 @@ _LABEL_1D04_:
     ld a, $82
     ld (Mapper_Slot2), a
     ld de, $5800
-    ld hl, _DATA_B385_
+    ld hl, tiles_numbers
     ld bc, $0050
     ld a, $01
     call load1bppTiles
@@ -199,7 +199,7 @@ _LABEL_1D04_:
     ld hl, _DATA_15800_
     ld bc, $0808
     call _LABEL_2522_
-    ld hl, _DATA_16F11_
+    ld hl, tiles_magicCapsules
     ld de, $5200
     ld bc, $01C0
     call copyBytesToVRAM
@@ -207,7 +207,7 @@ _LABEL_1D04_:
     ld de, $5FE0
     ld bc, $0020
     call copyBytesToVRAM
-    ld hl, _DATA_170B1_
+    ld hl, tiles_alexStates
     ld de, $5420
     ld bc, $01E0
     call copyBytesToVRAM

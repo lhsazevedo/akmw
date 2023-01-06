@@ -17,7 +17,7 @@ initLevelStartingState:
     ld a, $03
     ld (v_nextMapNametableUpdateTimer), a
 
-    ld a, :mapTiles | $80
+    ld a, :tiles_map | $80
     ld (Mapper_Slot2), a
 
     ; Load pallete
@@ -32,7 +32,7 @@ initLevelStartingState:
     call writeAToVRAM
 
     ; Decompress map tiles to VRAM
-    ld hl, mapTiles
+    ld hl, tiles_map
     ld de, $4000
     call decompressTilesToVram
 
@@ -72,7 +72,7 @@ initLevelStartingState:
     ld a, $01
     ld (v_mapLoadingState), a
 
-    ld a, :_DATA_1E209_ | $80
+    ld a, :tiles_arrow | $80
     ld (Mapper_Slot2), a
 
     ld de, $6800
@@ -81,13 +81,13 @@ initLevelStartingState:
     call fillVram
 
     ; Load map arrow tile
-    ld hl, _DATA_1E209_
+    ld hl, tiles_arrow
     ld de, $6820
     ld bc, $0020
     call copyBytesToVRAM
 
     ; Load Janken's castle tiles
-    ld hl, _DATA_1C269_
+    ld hl, tiles_jankensCastle
     ld de, $6840
     ld bc, $0140
     call copyBytesToVRAM

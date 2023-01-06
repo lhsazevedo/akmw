@@ -7,7 +7,7 @@ tiles_villageElder:
 .db $C0 $20 $20 $00 $40 $A0 $A0 $00 $20 $F0 $D0 $00 $F0 $F8 $08 $00
 
 ; Data from 1C169 to 1C1E8 (128 bytes)
-_DATA_1C169_:
+tiles_letter:
 .db $00 $00 $00 $00 $00 $C7 $C7 $00 $47 $B8 $B8 $00 $7F $80 $80 $00
 .db $5B $A4 $A4 $00 $5B $A4 $A4 $00 $5F $A0 $A0 $00 $7B $84 $84 $00
 .db $00 $F8 $F8 $00 $F8 $06 $06 $00 $EE $11 $13 $02 $6E $91 $91 $00
@@ -18,7 +18,7 @@ _DATA_1C169_:
 .db $F2 $0D $0F $02 $04 $FF $FB $00 $04 $0F $0B $00 $00 $0E $0E $00
 
 ; Data from 1C1E9 to 1C268 (128 bytes)
-_DATA_1C1E9_:
+tiles_hirottaStone:
 .db $0E $01 $0F $0E $37 $08 $3F $37 $5D $22 $7F $5D $77 $1C $63 $6B
 .db $A2 $5D $E3 $BE $F7 $1C $E3 $EB $DD $22 $FF $DD $77 $88 $FF $77
 .db $30 $0C $3C $30 $6C $92 $FE $6C $EE $11 $EF $FE $82 $7D $C7 $BA
@@ -29,7 +29,7 @@ _DATA_1C1E9_:
 .db $E4 $1A $E6 $FC $4C $B2 $CE $7C $18 $64 $7C $18 $00 $18 $18 $00
 
 ; Data from 1C269 to 1C3A8 (320 bytes)
-_DATA_1C269_:
+tiles_jankensCastle:
 .dsb 9, $00
 .db $DB $DB $00 $1B $FF $A4 $00 $3F $C5 $BA $00 $7F $B2 $CD $00 $4F
 .db $F9 $B6 $00 $4F $FA $B5
@@ -59,7 +59,7 @@ _DATA_1C3A9_:
 .db $98 $7C $04 $64 $58 $3C $04 $24 $6C $1E $02 $12 $39 $07 $00 $06
 
 ; Data from 1C3C9 to 1C448 (128 bytes)
-_DATA_1C3C9_:
+tiles_telepathyBall:
 .db $00 $03 $03 $00 $03 $0F $0F $00 $0C $1C $1F $03 $11 $30 $3C $0E
 .db $26 $60 $70 $19 $28 $60 $70 $17 $48 $C1 $E1 $37 $50 $C7 $E7 $2F
 .db $00 $C0 $C0 $00 $C0 $F0 $F0 $00 $30 $38 $F8 $C0 $88 $0C $3C $70
@@ -363,7 +363,7 @@ _DATA_1D0C9_:
 .db $D8 $F8 $00 $70 $FC $74 $88
 
 ; Data from 1D349 to 1D428 (224 bytes)
-_DATA_1D349_:
+tiles_moneyBags:
 .db $00 $1B $1B $00 $1B $24 $24 $00 $0F $10 $10 $00 $07 $08 $08 $00
 .db $03 $0F $0C $00 $0F $30 $30 $00 $3F $40 $40 $00 $7B $84 $84 $00
 .db $00 $60 $60 $00 $60 $90 $90 $00 $C0 $20 $20 $00 $80 $40 $40 $00
@@ -646,7 +646,7 @@ _DATA_1E0C9_:
 .db $FC $02 $FE $FC $7C $82 $FE $7C $38 $44 $7C $38 $00 $38 $38 $00
 
 ; Data from 1E189 to 1E208 (128 bytes)
-_DATA_1E189_:
+tiles_sunStoneMedallion:
 .db $00 $03 $03 $00 $02 $0F $0F $01 $0C $1D $1F $03 $00 $30 $3C $1F
 .db $20 $6B $7B $1F $23 $67 $74 $1C $46 $CF $E8 $39 $04 $EF $E8 $7B
 .db $00 $80 $80 $00 $80 $E0 $E0 $00 $60 $70 $F0 $80 $00 $18 $78 $F0
@@ -657,12 +657,12 @@ _DATA_1E189_:
 .db $60 $70 $F0 $80 $80 $E0 $E0 $00 $00 $80 $80 $00 $00 $00 $00 $00
 
 ; Data from 1E209 to 1E228 (32 bytes)
-_DATA_1E209_:
+tiles_arrow:
 .db $00 $7E $7E $00 $3C $42 $42 $00 $3C $42 $42 $00 $3C $42 $42 $00
 .db $7E $81 $81 $00 $3C $42 $42 $00 $18 $24 $24 $00 $00 $18 $18 $00
 
 ; Data from 1E229 to 1E2A8 (128 bytes)
-_DATA_1E229_:
+tiles_moonlightStoneMedalion:
 .db $00 $03 $03 $00 $00 $0F $0C $03 $00 $1F $10 $0F $00 $3F $27 $1F
 .db $00 $7F $4F $3F $0B $7F $50 $34 $1B $FF $80 $64 $00 $FF $80 $7F
 .db $00 $80 $80 $00 $00 $E0 $60 $80 $00 $F0 $10 $E0 $00 $F8 $C8 $F0

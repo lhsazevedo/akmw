@@ -607,11 +607,11 @@ _DATA_15840_:
 .INCLUDE "graphics/hirotaStoneCloseUp.asm"
 
 .INCLUDE "data/nametables/map.asm"
-mapTiles:
+tiles_map:
 .incbin "src/graphics/map.bin"
 
 ; Data from 16F11 to 16F50 (64 bytes)
-_DATA_16F11_:
+tiles_magicCapsules:
 .db $00 $38 $38 $00 $00 $44 $7C $38 $00 $92 $FE $6C $00 $AA $EE $44
 .db $00 $92 $FE $6C $00 $74 $7C $08 $00 $24 $3C $18 $00 $28 $38 $10
 .db $00 $28 $38 $10 $00 $28 $38 $10 $00 $28 $38 $10 $00 $28 $38 $10
@@ -656,7 +656,7 @@ _DATA_17031_:
 .db $00 $00 $00 $F8 $00 $00 $00
 
 ; Data from 170B1 to 170F0 (64 bytes)
-_DATA_170B1_:
+tiles_alexStates:
 .db $00 $03 $03 $00 $03 $04 $04 $00 $04 $0B $0B $03 $08 $17 $16 $07
 .db $10 $2F $2C $0F $38 $57 $56 $07 $3C $5B $5B $03 $7F $B8 $B8 $00
 .db $00 $C0 $C0 $00 $C0 $20 $20 $00 $20 $D0 $D0 $C0 $10 $E8 $68 $E0

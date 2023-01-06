@@ -364,7 +364,7 @@ loadEgleTiles:
     jp copyBytesToVRAM
 
 loadMoonlightStoneMedallionTiles:
-    ld hl, _DATA_1E229_
+    ld hl, tiles_moonlightStoneMedalion
     ld de, $6DC0
     ld bc, $0080
     jp copyBytesToVRAM
@@ -412,19 +412,19 @@ loadWoodsDebrisTiles:
     jp copyBytesToVRAM
 
 loadTelapathyBallTiles:
-    ld hl, _DATA_1C3C9_
+    ld hl, tiles_telepathyBall
     ld de, $6F80
     ld bc, $0080
     jp copyBytesToVRAM
 
 loadLetterTiles:
-    ld hl, _DATA_1C169_
+    ld hl, tiles_letter
     ld de, $7100
     ld bc, $0080
     jp copyBytesToVRAM
 
 loadHirottaStoneTiles:
-    ld hl, _DATA_1C1E9_
+    ld hl, tiles_hirottaStone
     ld de, $6B20
     ld bc, $0080
     jp copyBytesToVRAM
@@ -471,7 +471,7 @@ loadPeticopterTiles:
     ret
 
 loadSunStoneMedallionTiles:
-    ld hl, _DATA_1E189_
+    ld hl, tiles_sunStoneMedallion
     ld de, $7180
     ld bc, $0080
     jp copyBytesToVRAM

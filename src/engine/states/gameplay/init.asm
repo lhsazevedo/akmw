@@ -31,7 +31,7 @@ initGameplayState:
 
     ; Load Money Bag tiles
     ; TODO: Also loads an extra tile
-    ld hl, _DATA_1D349_
+    ld hl, tiles_moneyBags
     ld de, $66C0
     ld bc, $0100
     call copyBytesToVRAM
@@ -347,7 +347,7 @@ initGameplayStateSecondary:
     call copyBytesToVRAM
 
     ; Load Power Bracelet tiles
-    ld hl, _DATA_170B1_
+    ld hl, tiles_alexStates
     ld de, $6640
     ld bc, $0060
     call copyBytesToVRAM
