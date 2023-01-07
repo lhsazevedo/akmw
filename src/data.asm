@@ -902,59 +902,57 @@ _DATA_17E73_:
 .INCLUDE "data/levels/layouts.asm"
 
 ; Pointer Table from 1BDB9 to 1BDCC (10 entries, indexed by unknown)
-_DATA_1BDB9_:
-.dw _DATA_1BDF1_ _DATA_1BDED_ _DATA_1BDE9_ _DATA_1BDE5_ _DATA_1BDE1_ _DATA_1BDDD_ _DATA_1BDD9_ _DATA_1BDD5_
-.dw _DATA_1BDD1_ _DATA_1BDCD_
+pauseItemsDrawEntries:
+.dw magicCapsuleAPauseDrawEntry
+.dw magicCapsuleBPauseDrawEntry
+.dw telepathyBallPauseDrawEntry
+.dw caneOfFlightPauseDrawEntry
+.dw teleportPowderPauseDrawEntry
+.dw moonstoneMedallionPauseDrawEntry
+.dw letterToNibanaPauseDrawEntry
+.dw powerBraceletPauseDrawEntry
+.dw hirottaStonePauseDrawEntry
+.dw sunStoneMedallionPauseDrawEntry
 
-; 10th entry of Pointer Table from 1BDB9 (indexed by unknown)
-; Pointer Table from 1BDCD to 1BDD0 (2 entries, indexed by unknown)
-_DATA_1BDCD_:
-.dw _RAM_CCF4_ _DATA_1BDF5_
+sunStoneMedallionPauseDrawEntry:
+.dw _RAM_CCF4_
+.dw _DATA_1BDF5_
 
-; 9th entry of Pointer Table from 1BDB9 (indexed by unknown)
-; Pointer Table from 1BDD1 to 1BDD4 (2 entries, indexed by unknown)
-_DATA_1BDD1_:
-.dw _RAM_CCF8_ _DATA_1BDFD_
+hirottaStonePauseDrawEntry:
+.dw _RAM_CCF8_
+.dw _DATA_1BDFD_
 
-; 8th entry of Pointer Table from 1BDB9 (indexed by unknown)
-; Pointer Table from 1BDD5 to 1BDD8 (2 entries, indexed by unknown)
-_DATA_1BDD5_:
-.dw _RAM_CCE0_ _DATA_1BE05_
+powerBraceletPauseDrawEntry:
+.dw _RAM_CCE0_
+.dw _DATA_1BE05_
 
-; 7th entry of Pointer Table from 1BDB9 (indexed by unknown)
-; Pointer Table from 1BDD9 to 1BDDC (2 entries, indexed by unknown)
-_DATA_1BDD9_:
-.dw _RAM_CCF0_ _DATA_1BE0D_
+letterToNibanaPauseDrawEntry:
+.dw _RAM_CCF0_
+.dw _DATA_1BE0D_
 
-; 6th entry of Pointer Table from 1BDB9 (indexed by unknown)
-; Pointer Table from 1BDDD to 1BDE0 (2 entries, indexed by unknown)
-_DATA_1BDDD_:
-.dw _RAM_CCEC_ _DATA_1BE15_
+moonstoneMedallionPauseDrawEntry:
+.dw _RAM_CCEC_
+.dw _DATA_1BE15_
 
-; 5th entry of Pointer Table from 1BDB9 (indexed by unknown)
-; Pointer Table from 1BDE1 to 1BDE4 (2 entries, indexed by unknown)
-_DATA_1BDE1_:
-.dw _RAM_CCD8_ _DATA_1BE1D_
+teleportPowderPauseDrawEntry:
+.dw _RAM_CCD8_
+.dw _DATA_1BE1D_
 
-; 4th entry of Pointer Table from 1BDB9 (indexed by unknown)
-; Pointer Table from 1BDE5 to 1BDE8 (2 entries, indexed by unknown)
-_DATA_1BDE5_:
-.dw _RAM_CCE4_ _DATA_1BE25_
+caneOfFlightPauseDrawEntry:
+.dw _RAM_CCE4_
+.dw _DATA_1BE25_
 
-; 3rd entry of Pointer Table from 1BDB9 (indexed by unknown)
-; Pointer Table from 1BDE9 to 1BDEC (2 entries, indexed by unknown)
-_DATA_1BDE9_:
-.dw _RAM_CCDC_ _DATA_1BE2D_
+telepathyBallPauseDrawEntry:
+.dw _RAM_CCDC_
+.dw _DATA_1BE2D_
 
-; 2nd entry of Pointer Table from 1BDB9 (indexed by unknown)
-; Pointer Table from 1BDED to 1BDF0 (2 entries, indexed by unknown)
-_DATA_1BDED_:
-.dw _RAM_CCE8_ _DATA_1BE35_
+magicCapsuleBPauseDrawEntry:
+.dw _RAM_CCE8_
+.dw _DATA_1BE35_
 
-; 1st entry of Pointer Table from 1BDB9 (indexed by unknown)
-; Pointer Table from 1BDF1 to 1BDF4 (2 entries, indexed by unknown)
-_DATA_1BDF1_:
-.dw _RAM_CCD4_ _DATA_1BE3D_
+magicCapsuleAPauseDrawEntry:
+.dw _RAM_CCD4_
+.dw _DATA_1BE3D_
 
 ; 2nd entry of Pointer Table from 1BDCD (indexed by unknown)
 ; Data from 1BDF5 to 1BDFC (8 bytes)

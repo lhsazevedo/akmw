@@ -318,7 +318,7 @@ initMapState:
         ld hl, (v_currentMapOrTextNametablePointer)
         ld bc, $1202
         ; TODO
-        call _LABEL_2522_
+        call copyTileBlock
 
         ld de, (v_currentMapNametableDestinationPointer)
         inc de
@@ -492,7 +492,7 @@ initMapState:
     call copyBytesToVRAM
 
     ; TODO
-    call _LABEL_24EC_
+    call copyPauseItemsToNametable
 
     ; Draw nametable
     ld de, $7800
@@ -707,47 +707,51 @@ _LABEL_24CF_:
     ld hl, $FE00
     ret
 
-_LABEL_24EC_:
+copyPauseItemsToNametable:
     ld hl, v_hasSunstoneMedallion
     set 0, (hl)
     ld hl, v_hasMagicCapsuleA
     ld b, $0A
--:
-    ld a, (hl)
-    or a
-    jr z, +
-    push hl
-    push bc
-    ld a, b
-    add a, a
-    ld e, a
-    ld d, $00
-    ld a, $86
-    ld (Mapper_Slot2), a
-    ld hl, _DATA_1BDB9_ - 2
-    add hl, de
-    ld a, (hl)
-    inc hl
-    ld h, (hl)
-    ld l, a
-    ld e, (hl)
-    inc hl
-    ld d, (hl)
-    inc hl
-    ld a, (hl)
-    inc hl
-    ld h, (hl)
-    ld l, a
-    ld bc, $0204
-    call _LABEL_2522_
-    pop bc
-    pop hl
-+:
-    inc hl
+    -:
+        ld a, (hl)
+        or a
+        jr z, +
+            push hl
+            push bc
+            ld a, b
+            add a, a
+            ld e, a
+            ld d, $00
+            ld a, $86
+            ld (Mapper_Slot2), a
+            ld hl, pauseItemsDrawEntries - 2
+            add hl, de
+            ld a, (hl)
+            inc hl
+            ld h, (hl)
+            ld l, a
+            ld e, (hl)
+            inc hl
+            ld d, (hl)
+            inc hl
+            ld a, (hl)
+            inc hl
+            ld h, (hl)
+            ld l, a
+            ld bc, $0204
+            call copyTileBlock
+            pop bc
+            pop hl
+        +:
+        inc hl
     djnz -
     ret
 
-_LABEL_2522_:
+; B: Number of rows
+; C: Bytes per row
+; HL: Source
+; DE: Destination
+copyTileBlock:
     -:
         push bc
         ld b, $00
@@ -781,7 +785,13 @@ _LABEL_2532_:
 
 ; Jump Table from 2544 to 2551 (7 entries, indexed by _RAM_C801_)
 _DATA_2544_:
-.dw _LABEL_255A_ _LABEL_2568_ _LABEL_2576_ _LABEL_2580_ _LABEL_2594_ _LABEL_25D3_ _LABEL_25A8_
+.dw _LABEL_255A_
+.dw _LABEL_2568_
+.dw _LABEL_2576_
+.dw _LABEL_2580_
+.dw _LABEL_2594_
+.dw _LABEL_25D3_
+.dw _LABEL_25A8_
 
 ; Data from 2552 to 2559 (8 bytes)
 .db $E4 $08 $E5 $08 $E6 $08 $E7 $08

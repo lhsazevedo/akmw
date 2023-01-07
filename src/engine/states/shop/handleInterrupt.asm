@@ -198,7 +198,7 @@ _LABEL_1D04_:
     ld de, _RAM_CB08_
     ld hl, _DATA_15800_
     ld bc, $0808
-    call _LABEL_2522_
+    call copyTileBlock
     ld hl, tiles_magicCapsules
     ld de, $5200
     ld bc, $01C0
@@ -281,7 +281,7 @@ _LABEL_1D04_:
     ld h, (hl)
     ld l, a
     ld bc, $0306
-    call _LABEL_2522_
+    call copyTileBlock
 +:
     pop hl
     ld bc, $0005
