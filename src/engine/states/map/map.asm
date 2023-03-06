@@ -501,7 +501,7 @@ initMapState:
     call copyBytesToVRAM
 
     ; Draw lives icon (Alex)
-    ld hl, _DATA_2429_
+    ld hl, pauseLivesIconNametableEntries
     ld de, $7D42
     ld bc, $0204
     call copyNameTableBlockToVram
@@ -513,7 +513,7 @@ initMapState:
     call drawBCDDigits
 
     ; Draw money bag
-    ld hl, _DATA_2431_
+    ld hl, pauseMoneyBagNametableEntries
     ld de, $7CC2
     ld bc, $0204
     call copyNameTableBlockToVram
@@ -529,7 +529,7 @@ initMapState:
     ; Draw "Score"
     ld a, $08
     ld (v_nametableCopyFlags), a
-    ld hl, _DATA_241D_
+    ld hl, pauseScoreTextNametableEntries
     ld de, $7D94
     ld b, $0C
     call copyNametableEntriesToVRAM
@@ -590,67 +590,77 @@ pauseMenuPalette:
 .db $00 $2F $0B $06 $01 $0C $08 $04 $3F $3E $38 $03 $30 $00 $0F $00
 .db $00 $3F $05 $0B $03 $02 $00 $30 $3C $0C $0F $08 $3A $36 $03 $0A
 
-; Data from 241D to 2428 (12 bytes)
-_DATA_241D_:
+pauseScoreTextNametableEntries:
 .db $FC $FD $FE $FF $00 $00 $00 $00 $00 $00 $00 $C0
 
-; Data from 2429 to 2430 (8 bytes)
-_DATA_2429_:
+pauseLivesIconNametableEntries:
 .db $E4 $08 $E5 $08 $E6 $08 $E7 $08
 
-; Data from 2431 to 2438 (8 bytes)
-_DATA_2431_:
+pauseMoneyBagNametableEntries:
 .db $BC $08 $BD $08 $BE $08 $BF $08
 
-; 33rd entry of Jump Table from 2892 (indexed by v_mapEntities)
 updateItemSelectArrow:
-    ld b, (ix+20)
-    ld (ix+7), <arrowSprite0Descriptor
-    ld (ix+8), >arrowSprite0Descriptor
+    ld b, (ix + Entity.unknown3)
+    ld (ix + Entity.spriteDescriptorPointer.low), <arrowSprite0Descriptor
+    ld (ix + Entity.spriteDescriptorPointer.high), >arrowSprite0Descriptor
     res 4, b
+
     ld a, (v_inputData)
     ld c, a
-    and $03
+    and JOY_UP | JOY_DOWN
     ld hl, $0000
-    call nz, _LABEL_24B6_
-    ld (ix+17), l
-    ld (ix+18), h
+    call nz, pauseStateOnUpOrDownPressed
+
+    ld (ix + Entity.ySpeed.low), l
+    ld (ix + Entity.ySpeed.high), h
     ld hl, $0000
     call _LABEL_24CF_
-    ld (ix+15), l
-    ld (ix+16), h
+
+    ld (ix + Entity.xSpeed.low), l
+    ld (ix + Entity.xSpeed.high), h
     set 1, b
-    ld (ix+20), b
+
+    ld (ix + Entity.unknown3), b
     ld a, (v_alex.state)
-    cp $10
+    cp ALEX_UKN_STATE_0x10
     ret z
+
     ld a, (v_alexActionState)
-    cp $07
+    cp ALEX_C054_RIDING_MOTORCYCLE
     ret nc
+
     ld a, (v_shouldSpawnRidingBoat_RAM_C051_)
     or a
     ret nz
+
     ld a, (v_inventoryItemSelectionState)
     or a
     ret nz
+
     ld de, $1404
     call getNearEntityTileAttrWithOffset
     and $E0
     ret z
+
     ld d, a
     exx
     ld hl, arrowAnimationDescriptor
     call handleEntityAnimation
+
     exx
     ld a, (v_inputData)
-    and $30
+    and JOY_FIREA | JOY_FIREB
     ret z
+
     ld a, SOUND_POWERUP
     ld (v_soundControl), a
+
     ld a, $81
     ld (v_inventoryItemSelectionState), a
+
     xor a
     ld (v_invincibilityTimer), a
+
     ld a, d
     rrca
     rrca
@@ -666,7 +676,7 @@ updateItemSelectArrow:
     ld l, a
     jp (hl)
 
-_LABEL_24B6_:
+pauseStateOnUpOrDownPressed:
     ret
 
 ; TODO: Unused?
@@ -689,19 +699,19 @@ _LABEL_24B7_:
 
 _LABEL_24CF_:
     ld a, c
-    and $0C
+    and JOY_LEFT | JOY_RIGHT
     res 2, b
     ret z
-    set 2, b
-    and $04
-    ld a, (ix+12)
-    jr nz, +
-    cp $E8
-    ret nc
-    ld hl, $0200
-    ret
 
-+:
+    set 2, b
+    and JOY_LEFT
+    ld a, (ix + Entity.xPos.high)
+    jr nz, +
+        cp $E8
+        ret nc
+        ld hl, $0200
+        ret
+    +:
     cp $70
     ret c
     ld hl, $FE00
@@ -766,105 +776,116 @@ copyTileBlock:
     djnz -
     ret
 
-_LABEL_2532_:
-    ld hl, $0040
-    push bc
-    push de
-    xor a
--:
-    ld (de), a
-    inc de
-    dec c
-    jr nz, -
-    pop de
-    add hl, de
-    ex de, hl
-    pop bc
-    djnz _LABEL_2532_
+clearRamNametableArea:
+    -:
+        ld hl, $0040
+        push bc
+        push de
+        xor a
+        --:
+            ld (de), a
+            inc de
+            dec c
+        jr nz, --
+        pop de
+        add hl, de
+        ex de, hl
+        pop bc
+    djnz -
     ret
 
 ; Jump Table from 2544 to 2551 (7 entries, indexed by _RAM_C801_)
 _DATA_2544_:
-.dw _LABEL_255A_
-.dw _LABEL_2568_
+.dw useMagicCapsuleA
+.dw useMagicCapsuleB
 .dw _LABEL_2576_
-.dw _LABEL_2580_
-.dw _LABEL_2594_
+.dw useCaneOfFlight
+.dw useTeleportPowder
 .dw _LABEL_25D3_
-.dw _LABEL_25A8_
+.dw usePowerBracelet
 
 ; Data from 2552 to 2559 (8 bytes)
 .db $E4 $08 $E5 $08 $E6 $08 $E7 $08
 
 ; 1st entry of Jump Table from 2544 (indexed by _RAM_C801_)
-_LABEL_255A_:
+useMagicCapsuleA:
     xor a
     ld (v_hasMagicCapsuleA), a
     ld hl, $7CF4
     ld de, _RAM_CCF4_
-    ld a, $03
+
+    ; Action state
+    ld a, ALEX_C054_MAGIC_CAPSULE_A
     jr _LABEL_25B4_
 
 ; 2nd entry of Jump Table from 2544 (indexed by _RAM_C801_)
-_LABEL_2568_:
+useMagicCapsuleB:
     xor a
     ld (v_hasMagicCapsuleB), a
     ld hl, $7CF8
     ld de, _RAM_CCF8_
-    ld a, $04
+    ld a, ALEX_C054_MAGIC_CAPSULE_B
     jr _LABEL_25B4_
 
 ; 3rd entry of Jump Table from 2544 (indexed by _RAM_C801_)
 _LABEL_2576_:
     ld hl, $7CE0
     ld de, _RAM_CCE0_
-    ld a, $06
+    ld a, ALEX_C054_UKN_0x06
     jr _LABEL_25B4_
 
 ; 4th entry of Jump Table from 2544 (indexed by _RAM_C801_)
-_LABEL_2580_:
+useCaneOfFlight:
     xor a
     ld (v_hasCaneOfFlight), a
     ld hl, $05FF
     ld (v_invincibilityTimer), hl
     ld hl, $7CF0
     ld de, _RAM_CCF0_
-    ld a, $01
+    ld a, ALEX_C054_STATE_1
     jr _LABEL_25B4_
 
 ; 5th entry of Jump Table from 2544 (indexed by _RAM_C801_)
-_LABEL_2594_:
+useTeleportPowder:
     xor a
     ld (v_hasTeleportPowder), a
     ld hl, $05FF
     ld (v_invincibilityTimer), hl
     ld hl, $7CEC
     ld de, _RAM_CCEC_
-    ld a, $02
+    ld a, ALEX_C054_INVINCIBLE
     jr _LABEL_25B4_
 
 ; 7th entry of Jump Table from 2544 (indexed by _RAM_C801_)
-_LABEL_25A8_:
+usePowerBracelet:
     xor a
     ld (v_hasPowerBracelet), a
     ld hl, $7CDC
     ld de, _RAM_CCDC_
-    ld a, $05
+    ld a, ALEX_C054_POWER_BRACELET
+
 _LABEL_25B4_:
     ld (v_alexActionState), a
+
     ld (v_selectedItemNametablePointer), hl
     ld bc, $0204
-    call _LABEL_2532_
+    call clearRamNametableArea
+
+    ; Clear entities 2, 3 and 4.
+    ; TODO: Why?
     ld hl, v_entities.2
     ld b, $03
--:
-    call clearEntity
-    inc hl
+    -:
+        call clearEntity
+        inc hl
     djnz -
+
+    ; TODO
     ld hl, v_alex.unknown8
     ld a, (hl)
     and $F4
     ld (hl), a
+
     ret
 
 ; 6th entry of Jump Table from 2544 (indexed by _RAM_C801_)

@@ -34,7 +34,7 @@ handleInterruptShopState:
     inc hl
     ld d, (hl)
     ld bc, $0306
-    call _LABEL_2532_
+    call clearRamNametableArea
 +:
     ld bc, $0005
     add hl, bc
