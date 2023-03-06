@@ -1,11 +1,11 @@
 FROM inutano/wget AS downloader
 
-RUN wget -O wla-dx.tar https://github.com/vhelin/wla-dx/tarball/master --progress=dot \
+RUN wget -O wla-dx.tar https://github.com/vhelin/wla-dx/tarball/v10.4 --progress=dot \
     && mkdir wla-dx \
     && tar -C wla-dx --strip-components=1 -xf wla-dx.tar
 
 
-FROM debian:buster AS builder
+FROM debian:buster-slim AS builder
 
 RUN apt-get update \
     && apt-get install --assume-yes build-essential cmake
@@ -18,7 +18,7 @@ RUN cd /usr/src/wla-dx \
     && cmake --build . --target wlalink -- -j$(nproc --all)
 
 
-FROM debian:buster
+FROM debian:buster-slim
 
 COPY --from=builder /usr/src/wla-dx/build/binaries/* /usr/local/bin/
 
