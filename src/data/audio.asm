@@ -1,79 +1,34 @@
-; 1st entry of Pointer Table from 98DD (indexed by v_soundControl)
-; Data from 9ECD to 9ED0 (4 bytes)
-songIntro:
-.db $04
-
-.db $80
-.db PSG_CONTROL_LATCH | PSG_CHANNEL_0
-.db $04
-.dw _DATA_9EF2_
-.db $EC $01 $04 $0B
-
-.db $80
-.db PSG_CONTROL_LATCH | PSG_CHANNEL_1
-.db $04
-.db $18 $9F
-.db $F8 $01 $03 $0A
-
-.db $80
-.db PSG_CONTROL_LATCH | PSG_CHANNEL_2
-.db $04
-.db $3F $9F
-.db $EC $01 $04 $0B
-
-.db $80
-.db PSG_CONTROL_LATCH | PSG_CHANNEL_3
-.db $04
-.db $67 $9F
-.db $00 $00 $00 $00
-
-; 1st entry of Pointer Table from 9ED1 (indexed by unknown)
-; Data from 9EF2 to 9F80 (143 bytes)
-_DATA_9EF2_:
-.db $A7 $02 $04 $AB $02 $E4 $05 $AE $06 $80 $02 $E4 $04 $A9 $02 $04
-.db $AC $02 $E4 $05 $B0 $06 $80 $02 $AE $04 $04 $B2 $AE $E4 $05 $B3
-.db $0C $80 $04 $E4 $04 $E2 $8F $04 $80 $02 $8F $04 $8A $02 $8F $8A
-.db $91 $04 $80 $02 $91 $04 $8C $02 $91 $8C $80 $04 $96 $02 $80 $02
-.db $9A $80 $96 $80 $80 $9B $02 $02 $02 $02 $80 $06 $E2 $E4 $04 $A2
-.db $02 $04 $A7 $02 $E4 $05 $AB $06 $80 $02 $E4 $04 $A4 $02 $04 $A9
-.db $02 $E4 $05 $AC $06 $80 $02 $E4 $04 $AB $04 $04 $AC $AB $E4 $05
-.db $B0 $0C $80 $04 $E2 $E3 $04 $EA $91 $A2 $EA $91 $A2 $EA $91 $A2
-.db $80 $02 $E1 $0B $E4 $02 $01 $80 $8D $80 $8D $80 $8D $08 $E2
-
-; 2nd entry of Pointer Table from 98DD (indexed by v_soundControl)
-; Data from 9F81 to 9F84 (4 bytes)
-songDefault:
-.db $04 $80 $80 $04
-
-; Pointer Table from 9F85 to 9F86 (1 entries, indexed by unknown)
-.dw _DATA_9FA6_
-
-; Data from 9F87 to 9FA5 (31 bytes)
-.db $EC $01 $04 $0B $80 $A0 $04 $6E $A0 $F8 $01 $03 $0A $80 $C0 $04
-.db $46 $A1 $EC $01 $04 $0B $80 $E0 $04 $1F $A2 $00 $00 $00 $00
-
-; 1st entry of Pointer Table from 9F85 (indexed by unknown)
-; Data from 9FA6 to 9FB8 (19 bytes)
-_DATA_9FA6_:
-.db $A7 $02 $02 $A2 $A2 $EC $00 $03 $A6 $9F $A7 $80 $A7 $80 $EC $01
-.db $02 $A6 $9F
-
-; 1st entry of Pointer Table from B1D8 (indexed by unknown)
-; Data from 9FB9 to A3BC (1028 bytes)
-_DATA_9FB9_:
-.incbin "src/data/soundData.bin"
+.INCLUDE "src/data/audio/songIntro.asm"
+.INCLUDE "src/data/audio/songDefault.asm"
 
 ; 3rd entry of Pointer Table from 98DD (indexed by v_soundControl)
 ; Data from A3BD to A3C0 (4 bytes)
 songUnderwater:
-.db $04 $80 $80 $08
+.db $04
 
-; Pointer Table from A3C1 to A3C2 (1 entries, indexed by unknown)
+.db $80
+.db $80
+.db $08
 .dw _DATA_A3E2_
+.db $FA $01 $05 $0B
 
-; Data from A3C3 to A3E1 (31 bytes)
-.db $FA $01 $05 $0B $80 $A0 $08 $6D $A4 $06 $00 $03 $0A $80 $C0 $08
-.db $01 $A5 $FA $01 $05 $0B $80 $E0 $08 $50 $A5 $00 $00 $00 $00
+.db $80
+.db $A0
+.db $08
+.db $6D $A4
+.db $06 $00 $03 $0A
+
+.db $80
+.db $C0
+.db $08
+.db $01 $A5
+.db $FA $01 $05 $0B
+
+.db $80
+.db $E0
+.db $08
+.db $50 $A5
+.db $00 $00 $00 $00
 
 ; 1st entry of Pointer Table from A3C1 (indexed by unknown)
 ; Data from A3E2 to A57C (411 bytes)
@@ -947,7 +902,8 @@ _DATA_B1D4_:
 .db $04 $80 $80 $06
 
 ; Pointer Table from B1D8 to B1D9 (1 entries, indexed by unknown)
-.dw _DATA_9FB9_
+.dw $9FB9
+; .dw _DATA_9FB9_
 
 ; Data from B1DA to B1F8 (31 bytes)
 .db $EC $01 $04 $0B $80 $A0 $06 $87 $A0 $F8 $01 $03 $0A $80 $C0 $06
