@@ -195,17 +195,16 @@ runChannel:
 
     ; @TODO: What bit 5 means?
     bit 5, (ix + SoftwareChannel.flags)
-    jr nz, +
+    jr nz, _LABEL_9B21
 
-    ld a, (ix + SoftwareChannel.vibrato)
+    ld a, (ix + SoftwareChannel.pitchEnvelope)
     or a
-    jr nz, applyVibratoThenEnvelope_LABEL_9B16_
+    jr nz, applyEnvelopes
     ld (ix + SoftwareChannel.frequencyToWrite.low), e
     ld (ix + SoftwareChannel.frequencyToWrite.high), d
-    jp envelopeOrVolume_LABEL_9B5E_
+    jp applyVolume
 
-; Calc address to word table entry a-1 
-tbl_addr_LABEL_9B0B_:
+loadAthPointer:
     dec a
     ld c, a
     ld b, $00
@@ -217,13 +216,13 @@ tbl_addr_LABEL_9B0B_:
     ld l, a
     ret
 
-applyVibratoThenEnvelope_LABEL_9B16_:
-    ld hl, vibratos
-    call tbl_addr_LABEL_9B0B_
-    call vibrato_LABEL_9BF8_
-    jr envelopeOrVolume_LABEL_9B5E_
+applyEnvelopes:
+    ld hl, pitchEnvelopes
+    call loadAthPointer
+    call applyPitchEnvelope
+    jr applyVolume
 
-+:
+_LABEL_9B21:
     ; @TODO
     push de
     ld l, (ix + SoftwareChannel.noteFrequency2.low)
@@ -238,7 +237,7 @@ applyVibratoThenEnvelope_LABEL_9B16_:
 
     ld h, a
     ld e, (ix + SoftwareChannel.currentPlayDuration.low)
-    call littleEndianMultiply_LABEL_9EAE_
+    call multiplyWord
 
     ld e, (ix + SoftwareChannel.noteDuration.low)
     dec e
@@ -248,38 +247,36 @@ applyVibratoThenEnvelope_LABEL_9B16_:
     pop af
     ld a, e
     jp p, +
-    neg
-    jr z, +
-    dec d
-    ld e, a
-+:
+        neg
+        jr z, +
+            dec d
+            ld e, a
+    +:
     pop hl
     add hl, de
     ex de, hl
     ld (ix + SoftwareChannel.frequencyToWrite.low), e
     ld (ix + SoftwareChannel.frequencyToWrite.high), d
-    ld a, (ix + SoftwareChannel.vibrato)
+    ld a, (ix + SoftwareChannel.pitchEnvelope)
     or a
-    jp nz, applyVibratoThenEnvelope_LABEL_9B16_
+    jp nz, applyEnvelopes
 
-envelopeOrVolume_LABEL_9B5E_:
-    ; If channel has an envelope, apply it. If not, just channel volume
-    ld a, (ix + SoftwareChannel.envelope)
+applyVolume:
+
+    ld a, (ix + SoftwareChannel.volumeEnvelope)
     or a
     jr nz, @envelope
+        ld a, (ix + SoftwareChannel.volume)
+        cpl
+        and $0F
+        ld (ix + SoftwareChannel.volumeToWrite), a
+        jr @done
+    @envelope:
+        ld hl, envelopes
+        call loadAthPointer
+        call applyVolumeEnvelope
+    @done:
 
-    ld a, (ix + SoftwareChannel.volume)
-    cpl
-    and $0F
-    ld (ix + SoftwareChannel.volumeToWrite), a
-    jr @done
-
-@envelope:
-    ld hl, envelopes
-    call tbl_addr_LABEL_9B0B_
-    call applyEnvelope_LABEL_9BB2_
-
-@done:
     bit 6, (ix + SoftwareChannel.flags)
     jr nz, writeChannelVolume
 
@@ -323,10 +320,10 @@ writeChannelVolume:
 .db $90 $B0 $D0 $F0
 
 -:
-    ld (ix + SoftwareChannel.envelopeCounter), a
-applyEnvelope_LABEL_9BB2_:
+    ld (ix + SoftwareChannel.volumeEnvelopeCounter), a
+applyVolumeEnvelope:
     push hl
-    ld a, (ix + SoftwareChannel.envelopeCounter)
+    ld a, (ix + SoftwareChannel.volumeEnvelopeCounter)
     srl a
     push af
     ld c, a
@@ -345,8 +342,8 @@ applyEnvelope_LABEL_9BB2_:
     jr z, -
     cp $10
     jr nz, +
-    dec (ix + SoftwareChannel.envelopeCounter)
-    jr applyEnvelope_LABEL_9BB2_
+    dec (ix + SoftwareChannel.volumeEnvelopeCounter)
+    jr applyVolumeEnvelope
 
 +:
     cp $20
@@ -355,11 +352,11 @@ applyEnvelope_LABEL_9BB2_:
     jr nz, ++
     inc de
     ld a, (de)
-    ld (ix + SoftwareChannel.envelopeCounter), a
-    jr applyEnvelope_LABEL_9BB2_
+    ld (ix + SoftwareChannel.volumeEnvelopeCounter), a
+    jr applyVolumeEnvelope
 
 ++:
-    inc (ix + SoftwareChannel.envelopeCounter)
+    inc (ix + SoftwareChannel.volumeEnvelopeCounter)
     or $F0
     add a, (ix + SoftwareChannel.volume)
     inc a
@@ -373,10 +370,10 @@ applyEnvelope_LABEL_9BB2_:
     ret
 
 -:
-    ld (ix + SoftwareChannel.vibratoCounter), a
-vibrato_LABEL_9BF8_:
+    ld (ix + SoftwareChannel.pitchEnvelopeCounter), a
+applyPitchEnvelope:
     push hl
-    ld a, (ix + SoftwareChannel.vibratoCounter)
+    ld a, (ix + SoftwareChannel.pitchEnvelopeCounter)
     srl a
     push af
     ld c, a
@@ -396,8 +393,8 @@ vibrato_LABEL_9BF8_:
     jp z, -
     cp $10
     jr nz, +
-    dec (ix + SoftwareChannel.vibratoCounter)
-    jr vibrato_LABEL_9BF8_
+    dec (ix + SoftwareChannel.pitchEnvelopeCounter)
+    jr applyPitchEnvelope
 
 +:
     cp $20
@@ -406,9 +403,9 @@ vibrato_LABEL_9BF8_:
     jr nz, ++
     inc bc
     ld a, (bc)
-    ld (ix + SoftwareChannel.vibratoCounter), a
+    ld (ix + SoftwareChannel.pitchEnvelopeCounter), a
 ++:
-    inc (ix + SoftwareChannel.vibratoCounter)
+    inc (ix + SoftwareChannel.pitchEnvelopeCounter)
     cpl
     and $0F
     ld l, a
@@ -433,26 +430,25 @@ readInstruction:
     ; Handle 0xEX commands
     inc de
     cp $E0
-    jp nc, handleEXCommands_LABEL_9CCD_
+    jp nc, handleCommand
 
     ; Jump to _LABEL_9CAC_ if flag 3 is set
     ; @TODO: What flag 3 controls?
     bit 3, (ix + SoftwareChannel.flags)
     jr nz, _LABEL_9CAC_
 
-    ; Jump to ++ if byte is even
+    ; Skip to loadDurationThenResetNote if bit 7 is reset
     or a
-    jp p, ++
+    jp p, loadDurationThenResetNote
 
     ; Remove control bit
     sub $80
 
-    ; Skip transpose if command is disable
+    ; Skip transpose for silence
     jr z, +
+        add a, (ix + SoftwareChannel.transpose)
+    +:
 
-    ; Transpose
-    add a, (ix + SoftwareChannel.transpose)
-+:
     ; Load note PSG frequency
     ld hl, noteFrequencies
     ld c, a
@@ -465,14 +461,16 @@ readInstruction:
     ld a, (hl)
     ld (ix + SoftwareChannel.noteFrequency.high), a
 
-    ; Jump to _LABEL_9CC6_ if bit 5 of flags is set
+    ; Jump to loadDurationAndResetNote if bit 5 of flags is set
     bit 5, (ix + SoftwareChannel.flags)
-    jr z, _LABEL_9CC6_
+    jr z, loadDurationAndResetNote
 
+    ; TODO Why load note again?
     ld a, (de)
     inc de
     sub $80
     add a, (ix + SoftwareChannel.transpose)
+
     ld hl, noteFrequencies
     ld c, a
     ld b, $00
@@ -486,33 +484,26 @@ readInstruction:
 --:
     ld a, (de)
 
-; Apply duration
-; Reset envelope and vibrato
-; Increment data pointer
-; Reset play duration 
-note_LABEL_9C87_:
+loadNextDurationThenResetNote:
     inc de
-++:
+loadDurationThenResetNote:
     push de
 
-    ; Load next duration into h,
-    ; duration multiplier into e
-    ; and call littleEndianMultiply_LABEL_9EAE_
+    ; Apply duration multiplier and save
     ld h, a
     ld e, (ix + SoftwareChannel.duration)
-    call littleEndianMultiply_LABEL_9EAE_
+    call multiplyWord
 
     pop de
 
-    ; Save the duration
     ld (ix + SoftwareChannel.noteDuration.low), l
     ld (ix + SoftwareChannel.noteDuration.high), h
 
--:
-    ; Reset envelope and vibrato counters
+resetNote:
+    ; Reset volume and pitch counters
     xor a
-    ld (ix + SoftwareChannel.envelopeCounter), a
-    ld (ix + SoftwareChannel.vibratoCounter), a
+    ld (ix + SoftwareChannel.volumeEnvelopeCounter), a
+    ld (ix + SoftwareChannel.pitchEnvelopeCounter), a
 
     ; Update data pointer
     ld (ix + SoftwareChannel.dataPointer.low), e
@@ -539,18 +530,19 @@ _LABEL_9CAC_:
     ld (ix + SoftwareChannel.noteFrequency2.low), a
     jr --
 
-_LABEL_9CC6_:
-    ; Jump to note_LABEL_9C87_ if byte pointed by DE is even
+loadDurationAndResetNote:
     ld a, (de)
     or a
-    jp p, note_LABEL_9C87_
-    jr -
+    jp p, loadNextDurationThenResetNote
+    jr resetNote
 
-handleEXCommands_LABEL_9CCD_:
-    ld hl, +    ; Overriding return address
+handleCommand:
+    ; Override return address
+    ld hl, +
     push hl
+
     and $1F
-    ld hl, eXCommandHandlers_DATA_9CE4_
+    ld hl, commandHandlers
     ld c, a
     ld b, $00
     add hl, bc
@@ -613,7 +605,7 @@ psgResetVolumeBytes:
 
 ; h = Next duration
 ; e = Channel duration multiplier
-littleEndianMultiply_LABEL_9EAE_:
+multiplyWord:
     ; hl = d $00
     ; for (i = 0; i < 8; i++) {
     ;   hl += hl
@@ -627,11 +619,11 @@ littleEndianMultiply_LABEL_9EAE_:
     ld l, d
 
     ld b, $08
--:
-    add hl, hl
-    jr nc, +
-    add hl, de
-+:
+    -:
+        add hl, hl
+        jr nc, +
+            add hl, de
+        +:
     djnz -
     ret
 

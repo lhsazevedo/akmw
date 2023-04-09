@@ -1006,9 +1006,22 @@ _DATA_B283_:
 .db $CA $A9 $88 $76 $65 $43 $01
 
 ; Pointer Table from B28A to B2A7 (15 entries, indexed by _RAM_C11E_)
-vibratos:
-.dw _DATA_B2A8_ _DATA_B2B3_ _DATA_B2C1_ _DATA_B2D0_ _DATA_B2DB_ _DATA_B2DE_ _DATA_B2E2_ _DATA_B2E7_
-.dw _DATA_B2EA_ _DATA_B2ED_ _DATA_B2F0_ _DATA_B2F4_ _DATA_B2F7_ _DATA_B2FB_ _DATA_B2FF_
+pitchEnvelopes:
+.dw _DATA_B2A8_
+.dw _DATA_B2B3_
+.dw _DATA_B2C1_
+.dw _DATA_B2D0_
+.dw _DATA_B2DB_
+.dw _DATA_B2DE_
+.dw _DATA_B2E2_
+.dw _DATA_B2E7_
+.dw _DATA_B2EA_
+.dw _DATA_B2ED_
+.dw _DATA_B2F0_
+.dw _DATA_B2F4_
+.dw _DATA_B2F7_
+.dw _DATA_B2FB_
+.dw _DATA_B2FF_
 
 ; 1st entry of Pointer Table from B28A (indexed by _RAM_C11E_)
 ; Data from B2A8 to B2B2 (11 bytes)

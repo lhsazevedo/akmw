@@ -71,34 +71,69 @@
 .ENDST
 
 .STRUCT SoftwareChannel
-    flags db                ; Flags of the software channel
-    hardwareChannel db      ; Hardware channel used by the software channel
-    duration db             ; Duration multiplier
-    dataPointer .dw         ; Pointer to sound data
+    ; Bit field with flags of the software channel.
+    ; Bit 0: TODO
+    ; Bit 1: TODO
+    ; Bit 2: TODO
+    ; Bit 3: TODO
+    ; Bit 4: TODO
+    ; Bit 5: TODO
+    ; Bit 6: TODO
+    ; Bit 7: TODO
+    flags db
+
+    ; Hardware channel used by the software channel
+    hardwareChannel db
+
+    ; Multipler for the note duration.
+    duration db
+
+    ; Play head pointer to sound data
+    dataPointer .dw
     dataPointer.low db
     dataPointer.high db
-    transpose db            ; Transposition Value
-    vibrato db              ; Vibrato Index
-    envelope db             ; Envelope Index
-    volume db               ; Volume of the software channel
-    unknown1 db             ; Unknown
-    noteDuration .dw         ; Note duration
+
+    ; Transposition value
+    transpose db
+
+    ; Index to the pitch envelope table.
+    ; Used for vibrato and other pitch effects.
+    pitchEnvelope db
+
+    ; Index to the volume envelope table.
+    ; Used for tremolo and other volume effects.
+    volumeEnvelope db
+
+    ; Volume of the software channel
+    volume db
+
+    unknown1 db
+
+    noteDuration .dw
     noteDuration.low db
     noteDuration.high db
-    currentPlayDuration .dw  ; Current play duration
+
+    currentPlayDuration .dw
     currentPlayDuration.low db
     currentPlayDuration.high db
-    envelopeCounter db      ; Envelope Counter
-    vibratoCounter db       ; Vibrato Counter
-    noteFrequency .dw        ; Note PSG Frequency Value
+
+    volumeEnvelopeCounter db
+    pitchEnvelopeCounter db
+
+    noteFrequency .dw
     noteFrequency.low db
     noteFrequency.high db
-    frequencyToWrite .dw     ; PSG Frequency Value to write to the hardware channel
+
+    frequencyToWrite .dw
     frequencyToWrite.low db
     frequencyToWrite.high db
-    noteFrequency2 .dw       ; Note PSG Frequency Value 2
+
+    ; TODO
+    noteFrequency2 .dw
     noteFrequency2.low db
     noteFrequency2.high db
-    volumeToWrite db        ; PSG Volume Value to write to the hardware channel
-    repetitionCouters dsb 9 ; bytes    Repetition Counters
+
+    volumeToWrite db 
+
+    repetitionCouters dsb 9
 .ENDST

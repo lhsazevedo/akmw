@@ -7,7 +7,7 @@ songDefault:
 .db $80
 .db $04
 .dw songDefaultCh0
-.db $EC
+.db -$14
 .db $01
 .db $04
 .db $0B
@@ -16,7 +16,7 @@ songDefault:
 .db $A0
 .db $04
 .dw songDefaultCh1
-.db $F8
+.db -$08
 .db $01
 .db $03
 .db $0A
@@ -25,7 +25,7 @@ songDefault:
 .db $C0
 .db $04
 .dw songDefaultCh2
-.db $EC
+.db -$14
 .db $01
 .db $04
 .db $0B
@@ -40,19 +40,19 @@ songDefault:
 .db $00
 
 songDefaultCh0:
-.db noteB5      $02 $02
-.db noteFSharp5
-.db noteFSharp5
-.db $EC $00 $03
-.db noteASharp5
-.db noteDSharp5
-.db noteB5     
-.db noteSilence
-.db noteB5     
-.db noteSilence
-.db $EC $01 $02
-.db noteASharp5
-.db noteDSharp5
+--:
+    -:
+        .db noteB5      $02 $02
+        .db noteFSharp5
+        .db noteFSharp5
+        .db $EC $00 $03
+    .dw -
+    .db noteB5     
+    .db noteSilence
+    .db noteB5     
+    .db noteSilence
+    .db $EC $01 $02
+.dw --
 .db noteB5      $02 $04
 .db noteDSharp6 $02
 .db $E4 $05

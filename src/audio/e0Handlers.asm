@@ -1,8 +1,23 @@
 ; Jump Table from 9CE4 to 9D07 (18 entries, indexed by unknown)
-eXCommandHandlers_DATA_9CE4_:
-.dw handleE0 handleE1 handleE2 handleE3 handleE4 handleE5 handleE6 handleE7
-.dw handleE8 handleE9 handleEA handleEB handleEC handleED handleEE handleEF
-.dw handleF0 handleF1
+commandHandlers:
+.dw handleE0
+.dw handleE1
+.dw handleE2
+.dw handleE3
+.dw handleE4VolumeEnvelope
+.dw handleE5
+.dw handleE6
+.dw handleE7
+.dw handleE8
+.dw handleE9
+.dw handleEA
+.dw handleEB
+.dw handleECLoop
+.dw handleEDPitchEnvelope
+.dw handleEE
+.dw handleEF
+.dw handleF0
+.dw handleF1
 
 ; 18th entry of Jump Table from 9CE4 (indexed by unknown)
 handleF1:
@@ -52,15 +67,15 @@ handleE3:
     ret
 
 ; 5th entry of Jump Table from 9CE4 (indexed by unknown)
-handleE4:
+handleE4VolumeEnvelope:
     ld a, (de)
-    ld (ix + SoftwareChannel.envelope), a
+    ld (ix + SoftwareChannel.volumeEnvelope), a
     ret
 
 ; 14th entry of Jump Table from 9CE4 (indexed by unknown)
-handleED:
+handleEDPitchEnvelope:
     ld a, (de)
-    ld (ix + SoftwareChannel.vibrato), a
+    ld (ix + SoftwareChannel.pitchEnvelope), a
     ret
 
 ; 6th entry of Jump Table from 9CE4 (indexed by unknown)
@@ -168,7 +183,7 @@ handleEB:
     ret
 
 ; 13th entry of Jump Table from 9CE4 (indexed by unknown)
-handleEC:
+handleECLoop:
     ld a, (de)
     inc de
     add a, $17
