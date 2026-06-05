@@ -26,7 +26,7 @@ entityTypeJumpTable:
 .dw return
 .dw updateEntity0x19
 .dw updateChokkinnaSpell
-.dw updateEntity0x1B
+.dw updateShockwave
 .dw updateJanken
 .dw updateGooseka
 .dw updateChokkinna

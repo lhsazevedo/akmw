@@ -24,7 +24,7 @@ entityPoints:
 .db SCORE_200  ; return
 .db SCORE_200  ; Entity0x19
 .db SCORE_200  ; ChokkinnaSpell
-.db SCORE_200  ; Entity0x1B
+.db SCORE_200  ; Shockwave
 .db SCORE_200  ; Janken
 .db SCORE_200  ; Gooseka
 .db SCORE_2000 ; Chokkinna
