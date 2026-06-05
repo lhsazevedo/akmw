@@ -1,18 +1,21 @@
-updateEntity0x1B:
+updateShockwave:
+    ; Bail if offscreen
     ld a, (v_entities.2.isOffScreenFlags)
     or (ix + Entity.isOffScreenFlags.high)
     jr nz, +
+    ; Bail if past either screen edge
     ld a, (v_entities.2.xPos.high)
     cp $0C
-    jr c, +
+    jr c, + ; x < 12 → destroy
     cp $F4
-    jr nc, +
+    jr nc, + ; x ≥ 244 → destroy
     ld de, $0404
     call getNearEntityTileAttrWithOffset
+    ; analyse tile attributes
     rlca
     ret nc
     rlca
-    jp c, _LABEL_4578_
+    jp c, _LABEL_4578_ ; bits 7+6 set → breakable, go break it
 +:
     ld hl, v_alex.unknown8
     ld a, (hl)

@@ -3036,7 +3036,7 @@ _LABEL_48C5_:
     ld (hl), a
     ret
 
-.INCLUDE "entities/entity0x1B.asm"
+.INCLUDE "entities/shockwave.asm"
 
 ; Shared
 _LABEL_4944_:
