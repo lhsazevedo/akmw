@@ -7,6 +7,7 @@ ENTITY_CHOKKINNA_HEAD           = $0E
 ENTITY_PARPLIN_HEAD             = $0F
 ENTITY_STATIC                   = $18
 ENTITY_CHOKKINNA_SPELL          = $1A
+ENTITY_SHOCKWAVE                = $1B
 ENTITY_JANKEN                   = $1C
 ENTITY_GOOSEKA                  = $1D
 ENTITY_CHOKKINNA                = $1E

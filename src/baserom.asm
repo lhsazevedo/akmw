@@ -3028,7 +3028,7 @@ _LABEL_48C5_:
     ld (v_entities.2.xSpeed), de
     ld hl, $0000
     ld (v_entities.2.ySpeed), hl
-    ld a, $1B
+    ld a, ENTITY_SHOCKWAVE
     ld (v_entities.2), a
     ld hl, v_alex.unknown8
     ld a, (hl)
